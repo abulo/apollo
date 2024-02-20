@@ -6,7 +6,7 @@
         Database = 10 #数据库序号
         Password = "" #密码
         PoolSize = 10
-        KeyPrefix = ""
+        KeyPrefix = "Apollo:"
         # 关闭指标采集
         DisableMetric = false
         # 关闭链路追踪
