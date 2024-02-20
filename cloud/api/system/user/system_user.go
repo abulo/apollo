@@ -429,8 +429,16 @@ func SystemUserLogin(ctx context.Context, newCtx *app.RequestContext) {
 	userInfo := res.GetData()
 	if userInfo.Id == nil {
 		newCtx.JSON(consts.StatusOK, utils.H{
-			"code": code.NotFound,
-			"msg":  code.StatusText(code.NotFound),
+			"code": code.LoginFail,
+			"msg":  code.StatusText(code.LoginFail),
+		})
+		return
+	}
+	// 比对密码
+	if req.Password != userInfo.GetPassword() {
+		newCtx.JSON(consts.StatusOK, utils.H{
+			"code": code.LoginFail,
+			"msg":  code.StatusText(code.LoginFail),
 		})
 		return
 	}

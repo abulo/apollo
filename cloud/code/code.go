@@ -22,6 +22,7 @@ var (
 	TokenNotValidYetError = int64(1014) // Token 未激活
 	TokenMalformedError   = int64(1015) // Token 错误
 	NotFound              = int64(1016) // 未找到
+	LoginFail             = int64(1017) // 登录失败
 	SqlError              = int64(2001) // SQL错误
 	RedisError            = int64(2002) // Redis错误
 	UnavailableError      = int64(2003) // 数据不可用
@@ -47,6 +48,7 @@ var (
 		TokenNotValidYetError: "Token未激活",
 		TokenMalformedError:   "Token错误",
 		NotFound:              "未找到",
+		LoginFail:             "登录失败",
 		UnavailableError:      "数据不可用",
 	}
 )
