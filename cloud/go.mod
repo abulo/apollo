@@ -8,6 +8,7 @@ require (
 	github.com/abulo/ratel/v3 v3.7.4
 	github.com/cloudwego/hertz v0.8.0
 	github.com/fsnotify/fsnotify v1.7.0
+	github.com/golang-jwt/jwt/v5 v5.2.0
 	github.com/sirupsen/logrus v1.9.3
 	github.com/spf13/cast v1.6.0
 	go.mongodb.org/mongo-driver v1.14.0
