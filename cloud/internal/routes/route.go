@@ -5,5 +5,6 @@ import (
 )
 
 func InitRoute(handle *xhertz.Server) {
-	SystemInitRoute(handle)
+	MissInitRoute(handle)
+	ManagerInitRoute(handle)
 }

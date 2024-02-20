@@ -1,6 +1,7 @@
 package service
 
 import (
+	"cloud/service/captcha"
 	"cloud/service/region"
 	"cloud/service/system"
 
@@ -9,6 +10,10 @@ import (
 
 // Registry 注册服务
 func Registry(server *xgrpc.Server) {
+	// 验证码服务->captcha
+	captcha.RegisterCaptchaServiceServer(server.Server, &captcha.SrvCaptchaServiceServer{
+		Server: server,
+	})
 	// 地区表->region
 	region.RegisterRegionServiceServer(server.Server, &region.SrvRegionServiceServer{
 		Server: server,

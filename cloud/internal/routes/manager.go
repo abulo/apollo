@@ -7,7 +7,7 @@ import (
 	"github.com/abulo/ratel/v3/server/xhertz"
 )
 
-func SystemInitRoute(handle *xhertz.Server) {
+func ManagerInitRoute(handle *xhertz.Server) {
 	auth := handle.Group("/admin")
 	{
 		// system_user->系统用户->创建

@@ -5,10 +5,10 @@ import (
 )
 
 type SystemUserLogin struct {
-	Username   string `json:"username,required"`   // 用户名
-	Password   string `json:"password,required"`   // 密码
-	VerifyCode string `json:"verifyCode,required"` // 验证码
-	VerifyId   string `json:"verifyId,required"`   // 验证码ID
+	Username    string `json:"username,required"`    // 用户名
+	Password    string `json:"password,required"`    // 密码
+	CaptchaCode string `json:"captchaCode,required"` // 验证码
+	CaptchaId   string `json:"captchaId,required"`   // 验证码ID
 }
 
 // SystemUserToken 用户令牌
