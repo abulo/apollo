@@ -22,5 +22,3 @@ export interface ReqPage {
   pageNum: number;
   pageSize: number;
 }
-
-

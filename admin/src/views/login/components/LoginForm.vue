@@ -15,7 +15,7 @@
       </el-input>
     </el-form-item>
     <el-form-item prop="verifyCode">
-      <el-input v-model="loginForm.verifyCode" placeholder="验证码">
+      <el-input v-model="loginForm.captchaCode" placeholder="验证码">
         <template #prefix>
           <el-icon class="el-input__icon"><Key /></el-icon>
         </template>
@@ -41,7 +41,7 @@ import { getTimeState } from "@/utils";
 import { SystemUser } from "@/api/interface/systemUser";
 import { Captcha } from "@/api/interface/captcha";
 import { ElNotification } from "element-plus";
-import { getSystemUserAuthApi } from "@/api/modules/systemUser";
+import { postSystemUserLoginApi } from "@/api/modules/systemUser";
 import { captchaGenerateApi } from "@/api/modules/captcha";
 import { useUserStore } from "@/stores/modules/user";
 import { useTabsStore } from "@/stores/modules/tabs";
@@ -61,15 +61,15 @@ const loginFormRef = ref<FormInstance>();
 const loginRules = reactive({
   username: [{ required: true, message: "请输入用户名", trigger: "blur" }],
   password: [{ required: true, message: "请输入密码", trigger: "blur" }],
-  verifyCode: [{ required: true, message: "请输入验证码", trigger: "blur" }]
+  captchaCode: [{ required: true, message: "请输入验证码", trigger: "blur" }]
 });
 
 const loading = ref(false);
-const loginForm = reactive<SystemUser.ReqLogin>({
+const loginForm = reactive<SystemUser.ReqSystemUserLogin>({
   username: "", // 用户名
   password: "", // 密码
-  verifyCode: "", // 验证码
-  verifyId: "" // 验证码id
+  captchaCode: "", // 验证码
+  captchaId: "" // 验证码id
 });
 
 //验证码
@@ -94,10 +94,10 @@ const login = (formEl: FormInstance | undefined) => {
     loading.value = true;
     try {
       // 1.执行登录接口
-      const { data } = await getSystemUserAuthApi({
+      const { data } = await postSystemUserLoginApi({
         ...loginForm,
         password: md5(loginForm.password),
-        verifyId: resCaptcha.captchaId
+        captchaId: resCaptcha.captchaId
       });
       userStore.setToken(data.accessToken);
       // 2.添加动态路由
