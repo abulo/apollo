@@ -1,0 +1,94 @@
+
+syntax = "proto3";
+// region 地区表
+package region;
+option go_package = "./region";
+import "google/protobuf/timestamp.proto";
+
+// RegionObject 数据对象
+message RegionObject {
+	// @inject_tag: db:"id" json:"id"
+	optional int64 id = 1; //区域编号
+	// @inject_tag: db:"name" json:"name"
+	optional string name = 2; //区域名称
+	// @inject_tag: db:"parent_id" json:"parentId"
+	optional int64 parent_id = 3; //父级编号
+	// @inject_tag: db:"weather_code" json:"weatherCode"
+	optional string weather_code = 4; //天气code
+	// @inject_tag: db:"creator" json:"creator"
+	optional string creator = 5; //创建人
+	// @inject_tag: db:"create_time" json:"createTime"
+	google.protobuf.Timestamp create_time = 6; //创建时间
+	// @inject_tag: db:"updater" json:"updater"
+	optional string updater = 7; //更新人
+	// @inject_tag: db:"update_time" json:"updateTime"
+	google.protobuf.Timestamp update_time = 8; //更新时间
+}
+// RegionCreateRequest 创建数据请求
+message RegionCreateRequest {
+	RegionObject data = 1;
+}
+// RegionCreateResponse 创建数据响应
+message RegionCreateResponse {
+	int64 code = 1;
+	string msg = 2;
+	int64 data = 3;
+}
+// RegionUpdateRequest 更新数据请求
+message RegionUpdateRequest {
+	// @inject_tag: db:"region_id" json:"regionId"
+	int64 region_id = 1; //区域编号
+	RegionObject data = 2;
+}
+// RegionUpdateResponse 更新数据响应
+message RegionUpdateResponse {
+	int64 code = 1;
+	string msg = 2;
+}
+// RegionDeleteRequest 删除数据请求
+message RegionDeleteRequest {
+	// @inject_tag: db:"region_id" json:"regionId"
+	int64 region_id = 1; //区域编号
+}
+// RegionDeleteResponse 删除数据响应
+message RegionDeleteResponse {
+	int64 code = 1;
+	string msg = 2;
+}
+// RegionRequest 查询单条数据请求
+message RegionRequest {
+	// @inject_tag: db:"region_id" json:"regionId"
+	int64 region_id = 1; //区域编号
+}
+// RegionResponse 查询单条数据响应
+message RegionResponse {
+	int64 code = 1;
+	string msg = 2;
+	RegionObject data = 3;
+}
+// RegionListRequest 列表数据
+message RegionListRequest {
+	
+	// @inject_tag: db:"name" json:"name"
+	optional string name = 1; // 区域名称
+	// @inject_tag: db:"parent_id" json:"parentId"
+	optional int64 parent_id = 2; // 父级编号
+
+}
+
+// RegionListResponse 数据响应
+message RegionListResponse {
+	int64 code = 1;
+  	string msg = 2;
+	repeated RegionObject data = 3;
+}
+
+
+// RegionService 服务
+service RegionService{
+	rpc RegionCreate(RegionCreateRequest) returns (RegionCreateResponse);
+	rpc RegionUpdate(RegionUpdateRequest) returns (RegionUpdateResponse);
+	rpc RegionDelete(RegionDeleteRequest) returns (RegionDeleteResponse);
+	rpc Region(RegionRequest) returns (RegionResponse);
+	rpc RegionList(RegionListRequest) returns (RegionListResponse);
+}

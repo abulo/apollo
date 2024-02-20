@@ -1,0 +1,67 @@
+[redis]
+    [redis.normal]#接口使用
+        #单节点
+        ClientType = "normal" #模式(normal => 单节点,cluster =>  集群,failover => 哨兵,ring => 分片)
+        Addr="172.18.1.4:6379"
+        Database = 10 #数据库序号
+        Password = "" #密码
+        PoolSize = 10
+        KeyPrefix = ""
+        # 关闭指标采集
+        DisableMetric = false
+        # 关闭链路追踪
+        DisableTrace = false
+    # [redis.cluster]
+    #     #集群
+    #     ClientType = "cluster" #模式(normal => 单节点,cluster =>  集群,failover => 哨兵,ring => 分片)
+    #     Hosts = ["172.18.1.4:6379","172.18.1.4:6379","172.18.1.4:6379"]
+    #     Password = "" #密码
+    #     PoolSize = 10
+    #     KeyPrefix = ""
+    #     # 关闭指标采集
+    #     DisableMetric = false
+    #     # 关闭链路追踪
+    #     DisableTrace = false
+    # [redis.failover]
+    #     #哨兵
+    #     ClientType = "failover" #模式(normal => 单节点,cluster =>  集群,failover => 哨兵,ring => 分片)
+    #     MasterName = "master-name"
+    #     Hosts = ["172.18.1.4:6379","172.18.1.4:6379","172.18.1.4:6379"]
+    #     Password = "" #密码
+    #     PoolSize = 10
+    #     KeyPrefix = ""
+    #     # 关闭指标采集
+    #     DisableMetric = false
+    #     # 关闭链路追踪
+    #     DisableTrace = false
+    # [redis.ring]
+    #     #分片
+    #     ClientType = "ring" #模式(normal => 单节点,cluster =>  集群,failover => 哨兵,ring => 分片)
+    #     Password = "" #密码
+    #     PoolSize = 10
+    #     KeyPrefix = ""
+    #     # 关闭指标采集
+    #     DisableMetric = false
+    #     # 关闭链路追踪
+    #     DisableTrace = false
+    #     [Addrs] #分片客户端  shardName => host:port
+    #         shardName = "172.18.1.4:6379"
+[[proxyredis]]
+Name = "redis"
+Node = ["redis.normal"]
+
+
+
+# type Client struct {
+# 	ClientType          string            // 模式(normal => 单节点,cluster =>  集群,failover => 哨兵,ring => 分片)
+# 	Hosts         []string          // 集群 哨兵 需要填写
+# 	Password      string            // 密码
+# 	Database      int               // 数据库
+# 	PoolSize      int               // 连接池大小
+# 	KeyPrefix     string            // 前缀标识
+# 	DisableMetric bool              // 关闭指标采集
+# 	DisableTrace  bool              // 关闭链路追踪
+# 	Addr          string            // 单节点客户端
+# 	Addrs         map[string]string // 分片客户端  shardName => host:port
+# 	MasterName    string            // 哨兵
+# }

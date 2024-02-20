@@ -1,0 +1,8 @@
+127.0.0.1	localhost
+127.0.0.1   sandbox.hortonworks.com
+172.18.1.2	mongodb
+172.18.1.3	mysql
+172.18.1.4	redis
+172.18.1.5	golang
+172.18.1.6	jaeger
+172.18.1.13 etcd

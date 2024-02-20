@@ -1,0 +1,141 @@
+
+syntax = "proto3";
+// system_menu 系统菜单
+package menu;
+option go_package = "./menu";
+import "google/protobuf/timestamp.proto";
+
+// SystemMenuObject 数据对象
+message SystemMenuObject {
+	// @inject_tag: db:"id" json:"id"
+	optional int64 id = 1; //菜单编号
+	// @inject_tag: db:"name" json:"name"
+	optional string name = 2; //菜单名称
+	// @inject_tag: db:"permission" json:"permission"
+	optional string permission = 3; //权限标识
+	// @inject_tag: db:"type" json:"type"
+	optional int32 type = 4; //菜单类型(1:目录/2: 菜单/3: 按钮)
+	// @inject_tag: db:"sort" json:"sort"
+	optional int32 sort = 5; //显示顺序
+	// @inject_tag: db:"parent_id" json:"parentId"
+	optional int64 parent_id = 6; //父菜单ID
+	// @inject_tag: db:"path" json:"path"
+	optional string path = 7; //路由地址
+	// @inject_tag: db:"icon" json:"icon"
+	optional string icon = 8; //菜单图标
+	// @inject_tag: db:"component" json:"component"
+	optional string component = 9; //组件路径
+	// @inject_tag: db:"component_name" json:"componentName"
+	optional string component_name = 10; //组件名
+	// @inject_tag: db:"status" json:"status"
+	optional int32 status = 11; //菜单状态(0开启/1关闭)
+	// @inject_tag: db:"hide" json:"hide"
+	optional int32 hide = 12; //是否隐藏(0:否/1是)
+	// @inject_tag: db:"link" json:"link"
+	optional string link = 13; //路由外链时填写的访问地址
+	// @inject_tag: db:"keep_alive" json:"keepAlive"
+	optional int32 keep_alive = 14; //是否缓存(0不/ 是)
+	// @inject_tag: db:"affix" json:"affix"
+	optional int32 affix = 15; //是否总是显示(0 不显示/1 显示)
+	// @inject_tag: db:"active_path" json:"activePath"
+	optional string active_path = 16; //激活链接
+	// @inject_tag: db:"full_screen" json:"fullScreen"
+	optional int32 full_screen = 17; //是否全屏
+	// @inject_tag: db:"redirect" json:"redirect"
+	optional string redirect = 18; //路由重定向地址
+	// @inject_tag: db:"creator" json:"creator"
+	optional string creator = 19; //创建者
+	// @inject_tag: db:"create_time" json:"createTime"
+	google.protobuf.Timestamp create_time = 20; //创建时间
+	// @inject_tag: db:"updater" json:"updater"
+	optional string updater = 21; //更新者
+	// @inject_tag: db:"update_time" json:"updateTime"
+	google.protobuf.Timestamp update_time = 22; //更新时间
+	// @inject_tag: db:"deleted" json:"deleted"
+	optional int32 deleted = 23; //是否删除
+}
+// SystemMenuCreateRequest 创建数据请求
+message SystemMenuCreateRequest {
+	SystemMenuObject data = 1;
+}
+// SystemMenuCreateResponse 创建数据响应
+message SystemMenuCreateResponse {
+	int64 code = 1;
+	string msg = 2;
+	int64 data = 3;
+}
+// SystemMenuUpdateRequest 更新数据请求
+message SystemMenuUpdateRequest {
+	// @inject_tag: db:"system_menu_id" json:"systemMenuId"
+	int64 system_menu_id = 1; //菜单编号
+	SystemMenuObject data = 2;
+}
+// SystemMenuUpdateResponse 更新数据响应
+message SystemMenuUpdateResponse {
+	int64 code = 1;
+	string msg = 2;
+}
+// SystemMenuDeleteRequest 删除数据请求
+message SystemMenuDeleteRequest {
+	// @inject_tag: db:"system_menu_id" json:"systemMenuId"
+	int64 system_menu_id = 1; //菜单编号
+}
+// SystemMenuDeleteResponse 删除数据响应
+message SystemMenuDeleteResponse {
+	int64 code = 1;
+	string msg = 2;
+}
+// SystemMenuRequest 查询单条数据请求
+message SystemMenuRequest {
+	// @inject_tag: db:"system_menu_id" json:"systemMenuId"
+	int64 system_menu_id = 1; //菜单编号
+}
+// SystemMenuResponse 查询单条数据响应
+message SystemMenuResponse {
+	int64 code = 1;
+	string msg = 2;
+	SystemMenuObject data = 3;
+}
+// SystemMenuRecoverRequest 恢复数据请求
+message SystemMenuRecoverRequest {
+	// @inject_tag: db:"system_menu_id" json:"systemMenuId"
+	int64 system_menu_id = 1; //菜单编号
+}
+// SystemMenuRecoverResponse 删除数据响应
+message SystemMenuRecoverResponse {
+	int64 code = 1;
+	string msg = 2;
+}
+// SystemMenuListRequest 列表数据
+message SystemMenuListRequest {
+	
+	// @inject_tag: db:"deleted" json:"deleted"
+	optional int32 deleted = 1; // 是否删除
+	// @inject_tag: db:"status" json:"status"
+	optional int32 status = 2; // 菜单状态(0开启/1关闭)
+	// @inject_tag: db:"type" json:"type"
+	optional int32 type = 3; // 菜单类型(1:目录/2: 菜单/3: 按钮)
+	// @inject_tag: db:"sort" json:"sort"
+	optional int32 sort = 4; // 显示顺序
+	// @inject_tag: db:"parent_id" json:"parentId"
+	optional int64 parent_id = 5; // 父菜单ID
+
+}
+
+// SystemMenuListResponse 数据响应
+message SystemMenuListResponse {
+	int64 code = 1;
+  	string msg = 2;
+	repeated SystemMenuObject data = 3;
+}
+
+
+// SystemMenuService 服务
+service SystemMenuService{
+	rpc SystemMenuCreate(SystemMenuCreateRequest) returns (SystemMenuCreateResponse);
+	rpc SystemMenuUpdate(SystemMenuUpdateRequest) returns (SystemMenuUpdateResponse);
+	rpc SystemMenuDelete(SystemMenuDeleteRequest) returns (SystemMenuDeleteResponse);
+	rpc SystemMenu(SystemMenuRequest) returns (SystemMenuResponse);
+	rpc SystemMenuRecover(SystemMenuRecoverRequest) returns (SystemMenuRecoverResponse);
+	rpc SystemMenuList(SystemMenuListRequest) returns (SystemMenuListResponse);
+}

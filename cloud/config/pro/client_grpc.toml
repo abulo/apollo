@@ -1,0 +1,23 @@
+[grpc]
+    [grpc.common]
+        Name="etcd"
+        # BalancerName = "round_robin"
+        BalancerName = "swr"
+        Address = "etcd:///grpc:srpc:v1:product"
+        # Address = "172.18.1.5:21000"
+        Block = false
+        DialTimeout = "1s"
+        ReadTimeout = "1s"
+        Direct = false
+        SlowThreshold = "600ms"
+        Debug = false
+        DisableTraceInterceptor = false
+        DisableAidInterceptor   = false
+        DisableTimeoutInterceptor = false
+        DisableMetricInterceptor  = false
+        DisableAccessInterceptor  = true
+        AccessInterceptorLevel = "info"
+        Etcd = "etcd" # 代理的地址 proxyetcd.Name
+[[proxygrpc]]
+Name = "grpc"
+Node = "grpc.common"

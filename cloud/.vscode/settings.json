@@ -1,0 +1,23 @@
+{
+    "cSpell.words": [
+        "abulo",
+        "assetfs",
+        "bindata",
+        "bson",
+        "clickhouse",
+        "elazarl",
+        "fsnotify",
+        "logrus",
+        "proxyclickhouse",
+        "proxydb",
+        "proxymongodb",
+        "proxymysql",
+        "proxyredis",
+        "sirupsen",
+        "xgin",
+        "xgrpc"
+    ],
+    "cSpell.ignoreWords": [
+        "xhertz"
+    ]
+}

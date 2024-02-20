@@ -1,0 +1,116 @@
+
+syntax = "proto3";
+// system_user 系统用户
+package user;
+option go_package = "./user";
+import "google/protobuf/timestamp.proto";
+
+// SystemUserObject 数据对象
+message SystemUserObject {
+	// @inject_tag: db:"id" json:"id"
+	optional int64 id = 1; //用户编号
+	// @inject_tag: db:"nickname" json:"nickname"
+	optional string nickname = 2; //昵称
+	// @inject_tag: db:"username" json:"username"
+	optional string username = 3; //用户名称
+	// @inject_tag: db:"password" json:"password"
+	optional string password = 4; //用户密码
+	// @inject_tag: db:"status" json:"status"
+	optional int32 status = 5; //用户状态（0正常 1停用）
+	// @inject_tag: db:"creator" json:"creator"
+	optional string creator = 6; //创建人
+	// @inject_tag: db:"create_time" json:"createTime"
+	google.protobuf.Timestamp create_time = 7; //创建时间
+	// @inject_tag: db:"updater" json:"updater"
+	optional string updater = 8; //更新人
+	// @inject_tag: db:"update_time" json:"updateTime"
+	google.protobuf.Timestamp update_time = 9; //更新时间
+}
+// SystemUserTotalResponse 列表数据总量
+message SystemUserTotalResponse {
+	int64 code = 1;
+	string msg = 2;
+	int64 data = 3;
+}
+// SystemUserCreateRequest 创建数据请求
+message SystemUserCreateRequest {
+	SystemUserObject data = 1;
+}
+// SystemUserCreateResponse 创建数据响应
+message SystemUserCreateResponse {
+	int64 code = 1;
+	string msg = 2;
+	int64 data = 3;
+}
+// SystemUserUpdateRequest 更新数据请求
+message SystemUserUpdateRequest {
+	// @inject_tag: db:"system_user_id" json:"systemUserId"
+	int64 system_user_id = 1; //用户编号
+	SystemUserObject data = 2;
+}
+// SystemUserUpdateResponse 更新数据响应
+message SystemUserUpdateResponse {
+	int64 code = 1;
+	string msg = 2;
+}
+// SystemUserDeleteRequest 删除数据请求
+message SystemUserDeleteRequest {
+	// @inject_tag: db:"system_user_id" json:"systemUserId"
+	int64 system_user_id = 1; //用户编号
+}
+// SystemUserDeleteResponse 删除数据响应
+message SystemUserDeleteResponse {
+	int64 code = 1;
+	string msg = 2;
+}
+// SystemUserRequest 查询单条数据请求
+message SystemUserRequest {
+	// @inject_tag: db:"system_user_id" json:"systemUserId"
+	int64 system_user_id = 1; //用户编号
+}
+// SystemUserResponse 查询单条数据响应
+message SystemUserResponse {
+	int64 code = 1;
+	string msg = 2;
+	SystemUserObject data = 3;
+}
+// SystemUserListRequest 列表数据
+message SystemUserListRequest {
+	
+	// @inject_tag: db:"username" json:"username"
+	optional string username = 1; // 用户名称
+	// @inject_tag: db:"status" json:"status"
+	optional int32 status = 2; // 用户状态（0正常 1停用）
+
+	// @inject_tag: db:"page_num" json:"pageNum"
+	optional int64 page_num = 3;
+	// @inject_tag: db:"page_size" json:"pageSize"
+	optional int64 page_size = 4;
+}
+
+// SystemUserListResponse 数据响应
+message SystemUserListResponse {
+	int64 code = 1;
+  	string msg = 2;
+	repeated SystemUserObject data = 3;
+}
+// SystemUserListTotalRequest 列表数据
+message SystemUserListTotalRequest {
+	
+	// @inject_tag: db:"username" json:"username"
+	optional string username = 1; // 用户名称
+	// @inject_tag: db:"status" json:"status"
+	optional int32 status = 2; // 用户状态（0正常 1停用）
+
+}
+
+
+// SystemUserService 服务
+service SystemUserService{
+	rpc SystemUserCreate(SystemUserCreateRequest) returns (SystemUserCreateResponse);
+	rpc SystemUserUpdate(SystemUserUpdateRequest) returns (SystemUserUpdateResponse);
+	rpc SystemUserDelete(SystemUserDeleteRequest) returns (SystemUserDeleteResponse);
+	rpc SystemUser(SystemUserRequest) returns (SystemUserResponse);
+	rpc SystemUserList(SystemUserListRequest) returns (SystemUserListResponse);
+	rpc SystemUserListTotal(SystemUserListTotalRequest) returns (SystemUserTotalResponse);
+}
