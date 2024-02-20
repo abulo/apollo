@@ -4,7 +4,7 @@
   "avatar": "data:image/png;base64,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",
   "version": "4.9.1",
   "createdTime": "2024-2-1 22:01:36",
-  "updatedTime": "2024-2-20 14:01:31",
+  "updatedTime": "2024-2-20 16:09:17",
   "dbConns": [],
   "profile": {
     "default": {
@@ -214,7 +214,7 @@
       {
         "applyFor": "29D1CE08-4C35-4D2D-AAA9-23D93305B52E",
         "type": "dbDDL",
-        "createTable": "DROP TABLE IF EXISTS {{=it.entity.defKey}};\nCREATE TABLE {{=it.entity.defKey}}(\n{{ pkList = [] ; }}\n{{~it.entity.fields:field:index}}\n    {{? field.primaryKey }}{{ pkList.push(field.defKey) }}{{?}}\n    `{{=field.defKey}}` {{?field.autoIncrement}}INT AUTO_INCREMENT{{??}}{{=field.type}}{{?field.len>0}}{{='('}}{{=field.len}}{{?field.scale>0}}{{=','}}{{=field.scale}}{{?}}{{=')'}}{{?}} {{= field.notNull ? 'NOT NULL' : '' }} {{= field.defaultValue ? it.func.join('DEFAULT',field.defaultValue,' ') : '' }}{{?}} COMMENT '{{=it.func.join(field.defName,field.comment,';')}}' {{= index < it.entity.fields.length-1 ? ',' : ( pkList.length>0 ? ',' :'' ) }}\n{{~}}\n{{? pkList.length >0 }}\n    PRIMARY KEY ({{~pkList:pkName:i}}{{= pkName }}{{= i<pkList.length-1 ? ',' : '' }}{{~}})\n{{?}}\n)  COMMENT = '{{=it.func.join(it.entity.defName,it.entity.comment,';') }}';\n$blankline\n",
+        "createTable": "DROP TABLE IF EXISTS {{=it.entity.defKey}};\nCREATE TABLE {{=it.entity.defKey}}(\n{{ pkList = [] ; }}\n{{~it.entity.fields:field:index}}\n    {{? field.primaryKey }}{{ pkList.push(field.defKey) }}{{?}}\n    `{{=field.defKey}}` {{?field.autoIncrement}}BIGINT AUTO_INCREMENT{{??}}{{=field.type}}{{?field.len>0}}{{='('}}{{=field.len}}{{?field.scale>0}}{{=','}}{{=field.scale}}{{?}}{{=')'}}{{?}} {{= field.notNull ? 'NOT NULL' : '' }} {{= field.defaultValue ? it.func.join('DEFAULT',field.defaultValue,' ') : '' }}{{?}} COMMENT '{{=it.func.join(field.defName,field.comment,';')}}' {{= index < it.entity.fields.length-1 ? ',' : ( pkList.length>0 ? ',' :'' ) }}\n{{~}}\n{{? pkList.length >0 }}\n    PRIMARY KEY ({{~pkList:pkName:i}}{{= pkName }}{{= i<pkList.length-1 ? ',' : '' }}{{~}})\n{{?}}\n)  COMMENT = '{{=it.func.join(it.entity.defName,it.entity.comment,';') }}';\n$blankline\n",
         "createView": "CREATE VIEW {{=it.view.defKey}} AS\nSELECT \n{{~it.view.fields:field:index}}\n    {{=field.refEntity}}.{{=field.refEntityField}} AS {{=field.defKey}}{{= index < it.view.fields.length-1 ? ',' : ''}}\n{{~}}\nFROM {{~it.view.refEntities:refEntity:index}}{{=refEntity}}{{= index < it.view.refEntities.length-1 ? ',' : ''}}{{~}};\n$blankline\n",
         "deleteTable": "DROP TABLE IF EXISTS {{=it.entity.defKey}};",
         "createIndex": "{{~ it.entity.indexes:index}}\nCREATE {{? index.unique}}UNIQUE {{?}}INDEX `{{=index.defKey}}` ON {{=it.entity.defKey}}({{ fieldsKeys = index.fields.map(function(field){return field.fieldDefKey}) ; }}{{=it.func.join(...fieldsKeys,',')}});\n{{~}}",
@@ -2638,7 +2638,24 @@
           "hideInGraph": true
         }
       ],
-      "correlations": [],
+      "correlations": [
+        {
+          "myField": "1485A2A9-3632-4D2D-9C42-AE95B514E178",
+          "refEntity": "8481799B-85E5-4871-8CA3-0F4A6EA7226C",
+          "refField": "F4AA6965-76C5-4ADD-91D6-1053940271BA",
+          "myRows": "1",
+          "refRows": "n",
+          "innerType": ""
+        },
+        {
+          "myField": "034C32FE-C703-4569-A50E-2D4298A9F2A0",
+          "refEntity": "192CF5EF-1AE8-45F7-B74C-9EFCC267C39D",
+          "refField": "DA8EF162-A478-46F7-A666-9CF800177CC9",
+          "myRows": "1",
+          "refRows": "n",
+          "innerType": ""
+        }
+      ],
       "notes": {}
     },
     {
@@ -3002,7 +3019,24 @@
           "hideInGraph": true
         }
       ],
-      "correlations": [],
+      "correlations": [
+        {
+          "myField": "EF903E59-C743-4236-A2AF-261E2C69D121",
+          "refEntity": "C1B9A9EC-B437-4D92-AB28-1BF5F351DE0F",
+          "refField": "DF9D3ECC-FF77-4902-9356-941E3363F949",
+          "myRows": "1",
+          "refRows": "n",
+          "innerType": ""
+        },
+        {
+          "myField": "AE4131CC-9715-496D-8B51-C919ADFF56FB",
+          "refEntity": "8481799B-85E5-4871-8CA3-0F4A6EA7226C",
+          "refField": "F4AA6965-76C5-4ADD-91D6-1053940271BA",
+          "myRows": "1",
+          "refRows": "n",
+          "innerType": ""
+        }
+      ],
       "notes": {}
     },
     {
@@ -4848,124 +4882,6 @@
       "canvasData": {
         "cells": [
           {
-            "id": "4749898f-3fba-4000-b9e6-42eb451b7373",
-            "shape": "erdRelation",
-            "source": {
-              "cell": "8ab3f388-4159-40c0-a950-539c5d35aafc",
-              "port": "1485A2A9-3632-4D2D-9C42-AE95B514E178%in"
-            },
-            "target": {
-              "cell": "e85bc10e-bcd3-4a98-8582-7ab28e05090a",
-              "port": "F4AA6965-76C5-4ADD-91D6-1053940271BA%in"
-            },
-            "relation": "1:n",
-            "fillColor": "#ACDAFC",
-            "router": {
-              "name": "manhattan"
-            },
-            "attrs": {
-              "line": {
-                "strokeDasharray": ""
-              }
-            }
-          },
-          {
-            "id": "cce57834-8bd5-4d02-b552-e5bb9e395c9c",
-            "shape": "erdRelation",
-            "source": {
-              "cell": "8ab3f388-4159-40c0-a950-539c5d35aafc",
-              "port": "034C32FE-C703-4569-A50E-2D4298A9F2A0%in"
-            },
-            "target": {
-              "cell": "ed2b4de8-0b68-4fdc-9995-9dc5e2598c53",
-              "port": "DA8EF162-A478-46F7-A666-9CF800177CC9%out"
-            },
-            "relation": "1:n",
-            "fillColor": "#ACDAFC",
-            "router": {
-              "name": "manhattan"
-            },
-            "attrs": {
-              "line": {
-                "strokeDasharray": ""
-              }
-            }
-          },
-          {
-            "id": "bb7335c7-6daf-4ee9-a1d8-01d5487e2baf",
-            "shape": "erdRelation",
-            "source": {
-              "cell": "22e0a8c4-ae09-4943-a4dd-7a73b214900d",
-              "port": "EF903E59-C743-4236-A2AF-261E2C69D121%in"
-            },
-            "target": {
-              "cell": "687c656b-e867-45f5-95cd-911d38c9a733",
-              "port": "DF9D3ECC-FF77-4902-9356-941E3363F949%in"
-            },
-            "relation": "1:n",
-            "fillColor": "#ACDAFC",
-            "router": {
-              "name": "manhattan"
-            },
-            "attrs": {
-              "line": {
-                "strokeDasharray": ""
-              }
-            }
-          },
-          {
-            "id": "bb3b054d-ffb5-41e8-9a70-43b43fe0a840",
-            "shape": "erdRelation",
-            "source": {
-              "cell": "22e0a8c4-ae09-4943-a4dd-7a73b214900d",
-              "port": "AE4131CC-9715-496D-8B51-C919ADFF56FB%out"
-            },
-            "target": {
-              "cell": "e85bc10e-bcd3-4a98-8582-7ab28e05090a",
-              "port": "F4AA6965-76C5-4ADD-91D6-1053940271BA%in"
-            },
-            "relation": "1:n",
-            "fillColor": "#ACDAFC",
-            "router": {
-              "name": "manhattan"
-            },
-            "attrs": {
-              "line": {
-                "strokeDasharray": ""
-              }
-            }
-          },
-          {
-            "id": "ed2b4de8-0b68-4fdc-9995-9dc5e2598c53",
-            "shape": "table",
-            "position": {
-              "x": -300,
-              "y": 300
-            },
-            "count": 0,
-            "originKey": "192CF5EF-1AE8-45F7-B74C-9EFCC267C39D",
-            "type": "P",
-            "size": {
-              "width": 529,
-              "height": 560
-            }
-          },
-          {
-            "id": "22e0a8c4-ae09-4943-a4dd-7a73b214900d",
-            "shape": "table",
-            "position": {
-              "x": -299.9999999999999,
-              "y": -30.0000000000001
-            },
-            "count": 0,
-            "originKey": "30326727-C7F5-4997-B18B-9292E0EE5257",
-            "type": "P",
-            "size": {
-              "width": 420,
-              "height": 240
-            }
-          },
-          {
             "id": "687c656b-e867-45f5-95cd-911d38c9a733",
             "shape": "table",
             "position": {
@@ -5008,6 +4924,112 @@
             "size": {
               "width": 438,
               "height": 307
+            }
+          },
+          {
+            "id": "4749898f-3fba-4000-b9e6-42eb451b7373",
+            "shape": "erdRelation",
+            "source": {
+              "cell": "8ab3f388-4159-40c0-a950-539c5d35aafc",
+              "port": "1485A2A9-3632-4D2D-9C42-AE95B514E178%in"
+            },
+            "target": {
+              "cell": "e85bc10e-bcd3-4a98-8582-7ab28e05090a",
+              "port": "F4AA6965-76C5-4ADD-91D6-1053940271BA%in"
+            },
+            "relation": "1:n",
+            "fillColor": "#ACDAFC",
+            "attrs": {
+              "line": {
+                "strokeDasharray": ""
+              }
+            }
+          },
+          {
+            "id": "cce57834-8bd5-4d02-b552-e5bb9e395c9c",
+            "shape": "erdRelation",
+            "source": {
+              "cell": "8ab3f388-4159-40c0-a950-539c5d35aafc",
+              "port": "034C32FE-C703-4569-A50E-2D4298A9F2A0%in"
+            },
+            "target": {
+              "cell": "ed2b4de8-0b68-4fdc-9995-9dc5e2598c53",
+              "port": "DA8EF162-A478-46F7-A666-9CF800177CC9%out"
+            },
+            "relation": "1:n",
+            "fillColor": "#ACDAFC",
+            "attrs": {
+              "line": {
+                "strokeDasharray": ""
+              }
+            }
+          },
+          {
+            "id": "bb7335c7-6daf-4ee9-a1d8-01d5487e2baf",
+            "shape": "erdRelation",
+            "source": {
+              "cell": "22e0a8c4-ae09-4943-a4dd-7a73b214900d",
+              "port": "EF903E59-C743-4236-A2AF-261E2C69D121%in"
+            },
+            "target": {
+              "cell": "687c656b-e867-45f5-95cd-911d38c9a733",
+              "port": "DF9D3ECC-FF77-4902-9356-941E3363F949%in"
+            },
+            "relation": "1:n",
+            "fillColor": "#ACDAFC",
+            "attrs": {
+              "line": {
+                "strokeDasharray": ""
+              }
+            }
+          },
+          {
+            "id": "bb3b054d-ffb5-41e8-9a70-43b43fe0a840",
+            "shape": "erdRelation",
+            "source": {
+              "cell": "22e0a8c4-ae09-4943-a4dd-7a73b214900d",
+              "port": "AE4131CC-9715-496D-8B51-C919ADFF56FB%out"
+            },
+            "target": {
+              "cell": "e85bc10e-bcd3-4a98-8582-7ab28e05090a",
+              "port": "F4AA6965-76C5-4ADD-91D6-1053940271BA%in"
+            },
+            "relation": "1:n",
+            "fillColor": "#ACDAFC",
+            "attrs": {
+              "line": {
+                "strokeDasharray": ""
+              }
+            }
+          },
+          {
+            "id": "ed2b4de8-0b68-4fdc-9995-9dc5e2598c53",
+            "shape": "table",
+            "position": {
+              "x": -300,
+              "y": 300
+            },
+            "count": 0,
+            "originKey": "192CF5EF-1AE8-45F7-B74C-9EFCC267C39D",
+            "type": "P",
+            "size": {
+              "width": 529,
+              "height": 560
+            }
+          },
+          {
+            "id": "22e0a8c4-ae09-4943-a4dd-7a73b214900d",
+            "shape": "table",
+            "position": {
+              "x": -299.9999999999999,
+              "y": -30.0000000000001
+            },
+            "count": 0,
+            "originKey": "30326727-C7F5-4997-B18B-9292E0EE5257",
+            "type": "P",
+            "size": {
+              "width": 420,
+              "height": 240
             }
           }
         ]
