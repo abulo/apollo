@@ -6,6 +6,8 @@ import (
 	"cloud/code"
 	"cloud/dao"
 	"cloud/initial"
+	"cloud/internal/tools"
+	"cloud/service/captcha"
 	"cloud/service/system/user"
 
 	globalLogger "github.com/abulo/ratel/v3/core/logger"
@@ -343,6 +345,107 @@ func SystemUserList(ctx context.Context, newCtx *app.RequestContext) {
 			"list":     list,
 			"pageNum":  request.PageNum,
 			"pageSize": request.PageSize,
+		},
+	})
+}
+
+// SystemUserLogin 查询单条数据
+func SystemUserLogin(ctx context.Context, newCtx *app.RequestContext) {
+	//1.验证参数必传
+	var req dao.SystemUserLogin
+	if err := newCtx.BindAndValidate(&req); err != nil {
+		newCtx.JSON(consts.StatusOK, utils.H{
+			"code": code.ParamInvalid,
+			"msg":  code.StatusText(code.ParamInvalid),
+		})
+		return
+	}
+
+	//2.判断这个服务能不能链接
+	grpcClient, err := initial.Core.Client.LoadGrpc("grpc").Singleton()
+	if err != nil {
+		globalLogger.Logger.WithFields(logrus.Fields{
+			"err": err,
+		}).Error("Grpc:用户信息表:system_user:SystemUserLogin")
+		newCtx.JSON(consts.StatusOK, utils.H{
+			"code": code.RPCError,
+			"msg":  code.StatusText(code.RPCError),
+		})
+		return
+	}
+
+	//链接验证码服务
+	clientCaptcha := captcha.NewCaptchaServiceClient(grpcClient)
+	requestCaptcha := &captcha.CaptchaVerifyRequest{}
+	requestCaptcha.CaptchaId = req.CaptchaId
+	requestCaptcha.CaptchaCode = req.CaptchaCode
+	// 执行服务
+	resCaptcha, err := clientCaptcha.CaptchaVerify(ctx, requestCaptcha)
+	if err != nil {
+		globalLogger.Logger.WithFields(logrus.Fields{
+			"req": requestCaptcha,
+			"err": err,
+		}).Error("GrpcCall:用户信息表:system_user:SystemUserLogin")
+		fromError := status.Convert(err)
+		newCtx.JSON(consts.StatusOK, utils.H{
+			"code": code.ConvertToHttp(fromError.Code()),
+			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
+		})
+		return
+	}
+	if resCaptcha.GetCode() != code.Success {
+		newCtx.JSON(consts.StatusOK, utils.H{
+			"code": resCaptcha.GetCode(),
+			"msg":  resCaptcha.GetMsg(),
+		})
+		return
+	}
+	if !resCaptcha.GetData().GetResult() {
+		newCtx.JSON(consts.StatusOK, utils.H{
+			"code": code.VerifyCodeError,
+			"msg":  code.StatusText(code.VerifyCodeError),
+		})
+		return
+	}
+	//3.链接用户信息表服务
+	clientSystemUser := user.NewSystemUserServiceClient(grpcClient)
+	requestSystemUser := &user.SystemUserLoginRequest{}
+	requestSystemUser.Username = proto.String(req.Username)
+	// 执行服务
+	res, err := clientSystemUser.SystemUserLogin(ctx, requestSystemUser)
+	if err != nil {
+		globalLogger.Logger.WithFields(logrus.Fields{
+			"req": requestSystemUser,
+			"err": err,
+		}).Error("GrpcCall:用户信息表:system_user:SystemUserLogin")
+		fromError := status.Convert(err)
+		newCtx.JSON(consts.StatusOK, utils.H{
+			"code": code.ConvertToHttp(fromError.Code()),
+			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
+		})
+		return
+	}
+	//4.生成 token
+	userInfo := res.GetData()
+	token, err := tools.GenerateToken(*userInfo.Id, *userInfo.Username, *userInfo.Nickname, "WEB")
+	if err != nil {
+		globalLogger.Logger.WithFields(logrus.Fields{
+			"req": requestCaptcha,
+			"err": err,
+		}).Error("GrpcCall:用户信息表:system_user:SystemUserLogin")
+		newCtx.JSON(consts.StatusOK, utils.H{
+			"code": code.TokenError,
+			"msg":  code.StatusText(code.TokenError),
+		})
+		return
+	}
+	// TODO 需要添加后台用户登录日志
+	newCtx.JSON(consts.StatusOK, utils.H{
+		"code": res.GetCode(),
+		"msg":  res.GetMsg(),
+		"data": utils.H{
+			"accessToken": token,
+			"nickname":    userInfo.GetNickname(),
 		},
 	})
 }

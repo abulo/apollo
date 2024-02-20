@@ -11,6 +11,7 @@ import (
 	"github.com/abulo/ratel/v3/stores/null"
 	"github.com/abulo/ratel/v3/stores/sql"
 	"github.com/abulo/ratel/v3/util"
+	"github.com/pkg/errors"
 	"github.com/sirupsen/logrus"
 	"google.golang.org/grpc/status"
 	"google.golang.org/protobuf/types/known/timestamppb"
@@ -165,6 +166,38 @@ func (srv SrvSystemUserServiceServer) SystemUser(ctx context.Context, request *S
 		return &SystemUserResponse{}, status.Error(code.ConvertToGrpc(code.SqlError), err.Error())
 	}
 	return &SystemUserResponse{
+		Code: code.Success,
+		Msg:  code.StatusText(code.Success),
+		Data: srv.SystemUserResult(res),
+	}, nil
+}
+
+// SystemUserLogin 查询单条数据
+func (srv SrvSystemUserServiceServer) SystemUserLogin(ctx context.Context, request *SystemUserLoginRequest) (*SystemUserLoginResponse, error) {
+	// 数据库查询条件
+	condition := make(map[string]any)
+	// 构造查询条件
+	if request.Username != nil {
+		condition["username"] = request.GetUsername()
+	}
+
+	if util.Empty(condition) {
+		err := errors.New("condition is empty")
+		globalLogger.Logger.WithFields(logrus.Fields{
+			"req": condition,
+			"err": err,
+		}).Error("Sql:系统用户:system_user:SystemUserLogin")
+		return &SystemUserLoginResponse{}, status.Error(code.ConvertToGrpc(code.SqlError), err.Error())
+	}
+	res, err := user.SystemUserLogin(ctx, condition)
+	if sql.ResultAccept(err) != nil {
+		globalLogger.Logger.WithFields(logrus.Fields{
+			"req": condition,
+			"err": err,
+		}).Error("Sql:系统用户:system_user:SystemUserLogin")
+		return &SystemUserLoginResponse{}, status.Error(code.ConvertToGrpc(code.SqlError), err.Error())
+	}
+	return &SystemUserLoginResponse{
 		Code: code.Success,
 		Msg:  code.StatusText(code.Success),
 		Data: srv.SystemUserResult(res),

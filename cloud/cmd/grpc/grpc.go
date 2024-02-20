@@ -7,6 +7,7 @@ import (
 	"cloud/crond"
 	"cloud/initial"
 	"cloud/server"
+
 	"github.com/abulo/ratel/v3/core/env"
 	"github.com/abulo/ratel/v3/core/logger"
 	"github.com/abulo/ratel/v3/core/logger/mongo"
@@ -35,7 +36,7 @@ func init() {
 
 // 程序主入口
 func main() {
-	env.SetName("srpc")
+	env.SetName("ApolloGrpc")
 	env.SetAppID("1")
 	env.SetAppRegion("sichuan")
 	env.SetAppZone("chengdu")

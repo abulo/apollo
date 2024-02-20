@@ -7,6 +7,7 @@ import (
 
 	"github.com/abulo/ratel/v3/stores/sql"
 	"github.com/abulo/ratel/v3/util"
+	"github.com/pkg/errors"
 	"github.com/spf13/cast"
 )
 
@@ -52,6 +53,27 @@ func SystemUser(ctx context.Context, systemUserId int64) (res dao.SystemUser, er
 	db := initial.Core.Store.LoadSQL("mysql").Read()
 	builder := sql.NewBuilder()
 	query, args, err := builder.Table("`system_user`").Where("`id`", systemUserId).Row()
+	if err != nil {
+		return
+	}
+	err = db.QueryRow(ctx, query, args...).ToStruct(&res)
+	return
+}
+
+// SystemUserLogin 查询单条数据
+func SystemUserLogin(ctx context.Context, condition map[string]any) (res dao.SystemUser, err error) {
+	if util.Empty(condition) {
+		err = errors.New("condition is empty")
+		return
+	}
+	db := initial.Core.Store.LoadSQL("mysql").Read()
+	builder := sql.NewBuilder()
+	builder.Table("`system_user`")
+	if val, ok := condition["username"]; ok {
+		builder.Where("`username`", val)
+	}
+
+	query, args, err := builder.Row()
 	if err != nil {
 		return
 	}

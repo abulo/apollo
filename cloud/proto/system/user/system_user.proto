@@ -74,6 +74,19 @@ message SystemUserResponse {
 	string msg = 2;
 	SystemUserObject data = 3;
 }
+// SystemUserLoginRequest 查询单条数据请求
+message SystemUserLoginRequest {
+	
+	// @inject_tag: db:"username" json:"username"
+	optional string username = 1; // 用户名称
+
+}
+// SystemUserLoginResponse 查询单条数据响应
+message SystemUserLoginResponse {
+	int64 code = 1;
+	string msg = 2;
+	SystemUserObject data = 3;
+}
 // SystemUserListRequest 列表数据
 message SystemUserListRequest {
 	
@@ -111,6 +124,7 @@ service SystemUserService{
 	rpc SystemUserUpdate(SystemUserUpdateRequest) returns (SystemUserUpdateResponse);
 	rpc SystemUserDelete(SystemUserDeleteRequest) returns (SystemUserDeleteResponse);
 	rpc SystemUser(SystemUserRequest) returns (SystemUserResponse);
+	rpc SystemUserLogin(SystemUserLoginRequest) returns (SystemUserLoginResponse);
 	rpc SystemUserList(SystemUserListRequest) returns (SystemUserListResponse);
 	rpc SystemUserListTotal(SystemUserListTotalRequest) returns (SystemUserTotalResponse);
 }

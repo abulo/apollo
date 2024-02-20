@@ -1,0 +1,4 @@
+[Cache]
+    [Cache.Captcha]
+        # 生成的验证码
+        Id ="Captcha::Id"

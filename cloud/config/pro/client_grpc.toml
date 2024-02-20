@@ -3,7 +3,7 @@
         Name="etcd"
         # BalancerName = "round_robin"
         BalancerName = "swr"
-        Address = "etcd:///grpc:srpc:v1:product"
+        Address = "etcd:///grpc:ApolloGrpc:v1:product"
         # Address = "172.18.1.5:21000"
         Block = false
         DialTimeout = "1s"
