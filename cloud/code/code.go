@@ -21,6 +21,7 @@ var (
 	TokenExpiredError     = int64(1013) // Token 已经过期
 	TokenNotValidYetError = int64(1014) // Token 未激活
 	TokenMalformedError   = int64(1015) // Token 错误
+	NotFound              = int64(1016) // 未找到
 	SqlError              = int64(2001) // SQL错误
 	RedisError            = int64(2002) // Redis错误
 	UnavailableError      = int64(2003) // 数据不可用
@@ -45,6 +46,7 @@ var (
 		TokenExpiredError:     "Token已经过期",
 		TokenNotValidYetError: "Token未激活",
 		TokenMalformedError:   "Token错误",
+		NotFound:              "未找到",
 		UnavailableError:      "数据不可用",
 	}
 )

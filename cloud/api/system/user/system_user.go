@@ -427,6 +427,13 @@ func SystemUserLogin(ctx context.Context, newCtx *app.RequestContext) {
 	}
 	//4.生成 token
 	userInfo := res.GetData()
+	if userInfo.Id == nil {
+		newCtx.JSON(consts.StatusOK, utils.H{
+			"code": code.NotFound,
+			"msg":  code.StatusText(code.NotFound),
+		})
+		return
+	}
 	token, err := tools.GenerateToken(*userInfo.Id, *userInfo.Username, *userInfo.Nickname, "WEB")
 	if err != nil {
 		globalLogger.Logger.WithFields(logrus.Fields{
