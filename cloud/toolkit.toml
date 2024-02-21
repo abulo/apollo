@@ -35,7 +35,7 @@
     OutputName = ["./bin/hertz","./bin/grpc"]
     # 指定监视的文件扩展名
     # 为空表示不监视任何文件，如果指定了 *，表示所有文件类型，包括没有扩展名的文件。
-    Exts = ["*"]
+    Exts = [".go",".json",".toml"]
     # 忽略的文件
     # 采用 [path.Match] 作为匹配方式。
     # glob 格式，高于 Exts 配置项
@@ -44,7 +44,7 @@
     # ./server  --path=/var/run/aa.config
     AppArgs = ""
     # 是否监视子目录
-    Recursive = false
+    Recursive = true
     # 表示需要监视的目录
     # 至少指定一个目录，第一个目录被当作主目录，将编译其下的文件作为执行主体。
     # 如果你在 go.mod 中设置了 replace 或是更高级的 workspace 中有相关设置，
