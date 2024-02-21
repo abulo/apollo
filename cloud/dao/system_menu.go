@@ -17,7 +17,7 @@ type SystemMenu struct {
 	Status        *int32        `db:"status" json:"status"`                //tinyint 菜单状态(0开启/1关闭)
 	Hide          *int32        `db:"hide" json:"hide"`                    //tinyint 是否隐藏(0:否/1是)
 	Link          null.String   `db:"link" json:"link"`                    //varchar 路由外链时填写的访问地址
-	KeepAlive     *int32        `db:"keep_alive" json:"keepAlive"`         //tinyint 是否缓存(0不/ 是)
+	KeepAlive     *int32        `db:"keep_alive" json:"keepAlive"`         //tinyint 是否缓存(0不/ 1是)
 	Affix         *int32        `db:"affix" json:"affix"`                  //tinyint 是否总是显示(0 不显示/1 显示)
 	ActivePath    null.String   `db:"active_path" json:"activePath"`       //varchar 激活链接
 	FullScreen    *int32        `db:"full_screen" json:"fullScreen"`       //tinyint 是否全屏

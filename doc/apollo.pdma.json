@@ -4,7 +4,7 @@
   "avatar": "data:image/png;base64,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",
   "version": "4.9.1",
   "createdTime": "2024-2-1 22:01:36",
-  "updatedTime": "2024-2-21 14:53:37",
+  "updatedTime": "2024-2-21 15:53:46",
   "dbConns": [],
   "profile": {
     "default": {
@@ -1420,7 +1420,7 @@
         },
         {
           "defKey": "keep_alive",
-          "defName": "是否缓存(0不/ 是)",
+          "defName": "是否缓存(0不/ 1是)",
           "comment": "",
           "domain": "",
           "type": "TINYINT",
@@ -1981,7 +1981,7 @@
           "primaryKey": false,
           "notNull": true,
           "autoIncrement": false,
-          "defaultValue": "",
+          "defaultValue": "1",
           "hideInGraph": false,
           "refDict": "",
           "attr1": "",
@@ -3031,127 +3031,229 @@
       "headers": [
         {
           "refKey": "hideInGraph",
-          "hideInGraph": true
+          "hideInGraph": true,
+          "code": "relationNoShow",
+          "value": "关系图",
+          "newCode": "hideInGraph",
+          "com": "Icon",
+          "relationNoShow": true,
+          "freeze": true
         },
         {
           "refKey": "defKey",
-          "freeze": false,
-          "hideInGraph": false
+          "freeze": true,
+          "hideInGraph": false,
+          "code": "name",
+          "value": "字段代码",
+          "newCode": "defKey",
+          "com": "Input",
+          "relationNoShow": false
         },
         {
           "refKey": "defName",
-          "freeze": false,
-          "hideInGraph": false
+          "freeze": true,
+          "hideInGraph": false,
+          "code": "chnname",
+          "value": "显示名称",
+          "newCode": "defName",
+          "com": "Input",
+          "relationNoShow": false
         },
         {
           "refKey": "primaryKey",
           "freeze": false,
-          "hideInGraph": false
+          "hideInGraph": false,
+          "code": "pk",
+          "value": "主键",
+          "newCode": "primaryKey",
+          "com": "Checkbox",
+          "relationNoShow": false
         },
         {
           "refKey": "notNull",
           "freeze": false,
-          "hideInGraph": true
+          "hideInGraph": true,
+          "code": "notNull",
+          "value": "不为空",
+          "newCode": "notNull",
+          "com": "Checkbox",
+          "relationNoShow": true
         },
         {
           "refKey": "autoIncrement",
           "freeze": false,
-          "hideInGraph": true
+          "hideInGraph": true,
+          "code": "autoIncrement",
+          "value": "自增",
+          "newCode": "autoIncrement",
+          "com": "Checkbox",
+          "relationNoShow": true
         },
         {
           "refKey": "domain",
           "freeze": false,
-          "hideInGraph": true
+          "hideInGraph": true,
+          "code": "type",
+          "value": "数据域",
+          "newCode": "domain",
+          "com": "Select",
+          "relationNoShow": true
         },
         {
           "refKey": "type",
           "freeze": false,
-          "hideInGraph": false
+          "hideInGraph": false,
+          "code": "dataType",
+          "value": "数据类型",
+          "newCode": "type",
+          "com": "Text",
+          "relationNoShow": false
         },
         {
           "refKey": "len",
           "freeze": false,
-          "hideInGraph": false
+          "hideInGraph": false,
+          "code": "len",
+          "value": "长度",
+          "newCode": "len",
+          "com": "Input",
+          "relationNoShow": false
         },
         {
           "refKey": "scale",
           "freeze": false,
-          "hideInGraph": false
+          "hideInGraph": false,
+          "code": "scale",
+          "value": "小数位数",
+          "newCode": "scale",
+          "com": "Input",
+          "relationNoShow": false
         },
         {
           "refKey": "comment",
           "freeze": false,
-          "hideInGraph": true
+          "hideInGraph": true,
+          "code": "remark",
+          "value": "说明",
+          "newCode": "comment",
+          "com": "Input",
+          "relationNoShow": true
         },
         {
           "refKey": "refDict",
           "freeze": false,
-          "hideInGraph": true
+          "hideInGraph": true,
+          "code": "refDict",
+          "value": "数据字典",
+          "newCode": "refDict",
+          "com": "SearchSelect",
+          "relationNoShow": true
         },
         {
           "refKey": "defaultValue",
           "freeze": false,
-          "hideInGraph": true
+          "hideInGraph": true,
+          "code": "defaultValue",
+          "value": "默认值",
+          "newCode": "defaultValue",
+          "com": "Input",
+          "relationNoShow": true
         },
         {
           "refKey": "isStandard",
           "freeze": false,
-          "hideInGraph": false
+          "hideInGraph": false,
+          "code": "isStandard",
+          "value": "标准字段",
+          "newCode": "isStandard",
+          "com": "label",
+          "relationNoShow": false,
+          "enable": false
         },
         {
           "refKey": "uiHint",
           "freeze": false,
-          "hideInGraph": true
+          "hideInGraph": true,
+          "code": "uiHint",
+          "value": "UI建议",
+          "newCode": "uiHint",
+          "com": "Select",
+          "relationNoShow": true,
+          "enable": true
         },
         {
           "refKey": "extProps",
           "freeze": false,
-          "hideInGraph": true
+          "hideInGraph": true,
+          "code": "extProps",
+          "value": "拓展属性",
+          "newCode": "extProps",
+          "com": "linkButton",
+          "relationNoShow": true,
+          "enable": true
         },
         {
           "refKey": "attr1",
           "freeze": false,
-          "hideInGraph": true
+          "hideInGraph": true,
+          "value": "属性1",
+          "enable": true
         },
         {
           "refKey": "attr2",
           "freeze": false,
-          "hideInGraph": true
+          "hideInGraph": true,
+          "value": "属性2",
+          "enable": false
         },
         {
           "refKey": "attr3",
           "freeze": false,
-          "hideInGraph": true
+          "hideInGraph": true,
+          "value": "属性3",
+          "enable": false
         },
         {
           "refKey": "attr4",
           "freeze": false,
-          "hideInGraph": true
+          "hideInGraph": true,
+          "value": "属性4",
+          "enable": false
         },
         {
           "refKey": "attr5",
           "freeze": false,
-          "hideInGraph": true
+          "hideInGraph": true,
+          "value": "属性5",
+          "enable": false
         },
         {
           "refKey": "attr6",
           "freeze": false,
-          "hideInGraph": true
+          "hideInGraph": true,
+          "value": "属性6",
+          "enable": false
         },
         {
           "refKey": "attr7",
           "freeze": false,
-          "hideInGraph": true
+          "hideInGraph": true,
+          "value": "属性7",
+          "enable": false
         },
         {
           "refKey": "attr8",
           "freeze": false,
-          "hideInGraph": true
+          "hideInGraph": true,
+          "value": "属性8",
+          "enable": false
         },
         {
           "refKey": "attr9",
           "freeze": false,
-          "hideInGraph": true
+          "hideInGraph": true,
+          "value": "属性9",
+          "enable": false
         }
       ],
       "fields": [
@@ -3237,7 +3339,7 @@
           "primaryKey": false,
           "notNull": false,
           "autoIncrement": false,
-          "defaultValue": "",
+          "defaultValue": "0",
           "hideInGraph": false,
           "refDict": "",
           "baseType": "42729642-DE0F-440D-8123-EA12B3444720",
@@ -3255,7 +3357,7 @@
           "primaryKey": false,
           "notNull": true,
           "autoIncrement": false,
-          "defaultValue": "",
+          "defaultValue": "0",
           "hideInGraph": false,
           "refDict": "",
           "baseType": "42729642-DE0F-440D-8123-EA12B3444720",
@@ -4545,127 +4647,229 @@
       "headers": [
         {
           "refKey": "hideInGraph",
-          "hideInGraph": true
+          "hideInGraph": true,
+          "code": "relationNoShow",
+          "value": "关系图",
+          "newCode": "hideInGraph",
+          "com": "Icon",
+          "relationNoShow": true,
+          "freeze": true
         },
         {
           "refKey": "defKey",
-          "freeze": false,
-          "hideInGraph": false
+          "freeze": true,
+          "hideInGraph": false,
+          "code": "name",
+          "value": "字段代码",
+          "newCode": "defKey",
+          "com": "Input",
+          "relationNoShow": false
         },
         {
           "refKey": "defName",
-          "freeze": false,
-          "hideInGraph": false
+          "freeze": true,
+          "hideInGraph": false,
+          "code": "chnname",
+          "value": "显示名称",
+          "newCode": "defName",
+          "com": "Input",
+          "relationNoShow": false
         },
         {
           "refKey": "primaryKey",
           "freeze": false,
-          "hideInGraph": false
+          "hideInGraph": false,
+          "code": "pk",
+          "value": "主键",
+          "newCode": "primaryKey",
+          "com": "Checkbox",
+          "relationNoShow": false
         },
         {
           "refKey": "notNull",
           "freeze": false,
-          "hideInGraph": true
+          "hideInGraph": true,
+          "code": "notNull",
+          "value": "不为空",
+          "newCode": "notNull",
+          "com": "Checkbox",
+          "relationNoShow": true
         },
         {
           "refKey": "autoIncrement",
           "freeze": false,
-          "hideInGraph": true
+          "hideInGraph": true,
+          "code": "autoIncrement",
+          "value": "自增",
+          "newCode": "autoIncrement",
+          "com": "Checkbox",
+          "relationNoShow": true
         },
         {
           "refKey": "domain",
           "freeze": false,
-          "hideInGraph": true
+          "hideInGraph": true,
+          "code": "type",
+          "value": "数据域",
+          "newCode": "domain",
+          "com": "Select",
+          "relationNoShow": true
         },
         {
           "refKey": "type",
           "freeze": false,
-          "hideInGraph": false
+          "hideInGraph": false,
+          "code": "dataType",
+          "value": "数据类型",
+          "newCode": "type",
+          "com": "Text",
+          "relationNoShow": false
         },
         {
           "refKey": "len",
           "freeze": false,
-          "hideInGraph": false
+          "hideInGraph": false,
+          "code": "len",
+          "value": "长度",
+          "newCode": "len",
+          "com": "Input",
+          "relationNoShow": false
         },
         {
           "refKey": "scale",
           "freeze": false,
-          "hideInGraph": false
+          "hideInGraph": false,
+          "code": "scale",
+          "value": "小数位数",
+          "newCode": "scale",
+          "com": "Input",
+          "relationNoShow": false
         },
         {
           "refKey": "comment",
           "freeze": false,
-          "hideInGraph": true
+          "hideInGraph": true,
+          "code": "remark",
+          "value": "说明",
+          "newCode": "comment",
+          "com": "Input",
+          "relationNoShow": true
         },
         {
           "refKey": "refDict",
           "freeze": false,
-          "hideInGraph": true
+          "hideInGraph": true,
+          "code": "refDict",
+          "value": "数据字典",
+          "newCode": "refDict",
+          "com": "SearchSelect",
+          "relationNoShow": true
         },
         {
           "refKey": "defaultValue",
           "freeze": false,
-          "hideInGraph": true
+          "hideInGraph": true,
+          "code": "defaultValue",
+          "value": "默认值",
+          "newCode": "defaultValue",
+          "com": "Input",
+          "relationNoShow": true
         },
         {
           "refKey": "isStandard",
           "freeze": false,
-          "hideInGraph": false
+          "hideInGraph": false,
+          "code": "isStandard",
+          "value": "标准字段",
+          "newCode": "isStandard",
+          "com": "label",
+          "relationNoShow": false,
+          "enable": false
         },
         {
           "refKey": "uiHint",
           "freeze": false,
-          "hideInGraph": true
+          "hideInGraph": true,
+          "code": "uiHint",
+          "value": "UI建议",
+          "newCode": "uiHint",
+          "com": "Select",
+          "relationNoShow": true,
+          "enable": true
         },
         {
           "refKey": "extProps",
           "freeze": false,
-          "hideInGraph": true
+          "hideInGraph": true,
+          "code": "extProps",
+          "value": "拓展属性",
+          "newCode": "extProps",
+          "com": "linkButton",
+          "relationNoShow": true,
+          "enable": true
         },
         {
           "refKey": "attr1",
           "freeze": false,
-          "hideInGraph": true
+          "hideInGraph": true,
+          "value": "属性1",
+          "enable": true
         },
         {
           "refKey": "attr2",
           "freeze": false,
-          "hideInGraph": true
+          "hideInGraph": true,
+          "value": "属性2",
+          "enable": false
         },
         {
           "refKey": "attr3",
           "freeze": false,
-          "hideInGraph": true
+          "hideInGraph": true,
+          "value": "属性3",
+          "enable": false
         },
         {
           "refKey": "attr4",
           "freeze": false,
-          "hideInGraph": true
+          "hideInGraph": true,
+          "value": "属性4",
+          "enable": false
         },
         {
           "refKey": "attr5",
           "freeze": false,
-          "hideInGraph": true
+          "hideInGraph": true,
+          "value": "属性5",
+          "enable": false
         },
         {
           "refKey": "attr6",
           "freeze": false,
-          "hideInGraph": true
+          "hideInGraph": true,
+          "value": "属性6",
+          "enable": false
         },
         {
           "refKey": "attr7",
           "freeze": false,
-          "hideInGraph": true
+          "hideInGraph": true,
+          "value": "属性7",
+          "enable": false
         },
         {
           "refKey": "attr8",
           "freeze": false,
-          "hideInGraph": true
+          "hideInGraph": true,
+          "value": "属性8",
+          "enable": false
         },
         {
           "refKey": "attr9",
           "freeze": false,
-          "hideInGraph": true
+          "hideInGraph": true,
+          "value": "属性9",
+          "enable": false
         }
       ],
       "fields": [
@@ -4733,7 +4937,7 @@
           "primaryKey": false,
           "notNull": true,
           "autoIncrement": false,
-          "defaultValue": "",
+          "defaultValue": "0",
           "hideInGraph": false,
           "refDict": "",
           "baseType": "42729642-DE0F-440D-8123-EA12B3444720",
@@ -4891,127 +5095,229 @@
       "headers": [
         {
           "refKey": "hideInGraph",
-          "hideInGraph": true
+          "hideInGraph": true,
+          "code": "relationNoShow",
+          "value": "关系图",
+          "newCode": "hideInGraph",
+          "com": "Icon",
+          "relationNoShow": true,
+          "freeze": true
         },
         {
           "refKey": "defKey",
-          "freeze": false,
-          "hideInGraph": false
+          "freeze": true,
+          "hideInGraph": false,
+          "code": "name",
+          "value": "字段代码",
+          "newCode": "defKey",
+          "com": "Input",
+          "relationNoShow": false
         },
         {
           "refKey": "defName",
-          "freeze": false,
-          "hideInGraph": false
+          "freeze": true,
+          "hideInGraph": false,
+          "code": "chnname",
+          "value": "显示名称",
+          "newCode": "defName",
+          "com": "Input",
+          "relationNoShow": false
         },
         {
           "refKey": "primaryKey",
           "freeze": false,
-          "hideInGraph": false
+          "hideInGraph": false,
+          "code": "pk",
+          "value": "主键",
+          "newCode": "primaryKey",
+          "com": "Checkbox",
+          "relationNoShow": false
         },
         {
           "refKey": "notNull",
           "freeze": false,
-          "hideInGraph": true
+          "hideInGraph": true,
+          "code": "notNull",
+          "value": "不为空",
+          "newCode": "notNull",
+          "com": "Checkbox",
+          "relationNoShow": true
         },
         {
           "refKey": "autoIncrement",
           "freeze": false,
-          "hideInGraph": true
+          "hideInGraph": true,
+          "code": "autoIncrement",
+          "value": "自增",
+          "newCode": "autoIncrement",
+          "com": "Checkbox",
+          "relationNoShow": true
         },
         {
           "refKey": "domain",
           "freeze": false,
-          "hideInGraph": true
+          "hideInGraph": true,
+          "code": "type",
+          "value": "数据域",
+          "newCode": "domain",
+          "com": "Select",
+          "relationNoShow": true
         },
         {
           "refKey": "type",
           "freeze": false,
-          "hideInGraph": false
+          "hideInGraph": false,
+          "code": "dataType",
+          "value": "数据类型",
+          "newCode": "type",
+          "com": "Text",
+          "relationNoShow": false
         },
         {
           "refKey": "len",
           "freeze": false,
-          "hideInGraph": false
+          "hideInGraph": false,
+          "code": "len",
+          "value": "长度",
+          "newCode": "len",
+          "com": "Input",
+          "relationNoShow": false
         },
         {
           "refKey": "scale",
           "freeze": false,
-          "hideInGraph": false
+          "hideInGraph": false,
+          "code": "scale",
+          "value": "小数位数",
+          "newCode": "scale",
+          "com": "Input",
+          "relationNoShow": false
         },
         {
           "refKey": "comment",
           "freeze": false,
-          "hideInGraph": true
+          "hideInGraph": true,
+          "code": "remark",
+          "value": "说明",
+          "newCode": "comment",
+          "com": "Input",
+          "relationNoShow": true
         },
         {
           "refKey": "refDict",
           "freeze": false,
-          "hideInGraph": true
+          "hideInGraph": true,
+          "code": "refDict",
+          "value": "数据字典",
+          "newCode": "refDict",
+          "com": "SearchSelect",
+          "relationNoShow": true
         },
         {
           "refKey": "defaultValue",
           "freeze": false,
-          "hideInGraph": true
+          "hideInGraph": true,
+          "code": "defaultValue",
+          "value": "默认值",
+          "newCode": "defaultValue",
+          "com": "Input",
+          "relationNoShow": true
         },
         {
           "refKey": "isStandard",
           "freeze": false,
-          "hideInGraph": false
+          "hideInGraph": false,
+          "code": "isStandard",
+          "value": "标准字段",
+          "newCode": "isStandard",
+          "com": "label",
+          "relationNoShow": false,
+          "enable": false
         },
         {
           "refKey": "uiHint",
           "freeze": false,
-          "hideInGraph": true
+          "hideInGraph": true,
+          "code": "uiHint",
+          "value": "UI建议",
+          "newCode": "uiHint",
+          "com": "Select",
+          "relationNoShow": true,
+          "enable": true
         },
         {
           "refKey": "extProps",
           "freeze": false,
-          "hideInGraph": true
+          "hideInGraph": true,
+          "code": "extProps",
+          "value": "拓展属性",
+          "newCode": "extProps",
+          "com": "linkButton",
+          "relationNoShow": true,
+          "enable": true
         },
         {
           "refKey": "attr1",
           "freeze": false,
-          "hideInGraph": true
+          "hideInGraph": true,
+          "value": "属性1",
+          "enable": true
         },
         {
           "refKey": "attr2",
           "freeze": false,
-          "hideInGraph": true
+          "hideInGraph": true,
+          "value": "属性2",
+          "enable": false
         },
         {
           "refKey": "attr3",
           "freeze": false,
-          "hideInGraph": true
+          "hideInGraph": true,
+          "value": "属性3",
+          "enable": false
         },
         {
           "refKey": "attr4",
           "freeze": false,
-          "hideInGraph": true
+          "hideInGraph": true,
+          "value": "属性4",
+          "enable": false
         },
         {
           "refKey": "attr5",
           "freeze": false,
-          "hideInGraph": true
+          "hideInGraph": true,
+          "value": "属性5",
+          "enable": false
         },
         {
           "refKey": "attr6",
           "freeze": false,
-          "hideInGraph": true
+          "hideInGraph": true,
+          "value": "属性6",
+          "enable": false
         },
         {
           "refKey": "attr7",
           "freeze": false,
-          "hideInGraph": true
+          "hideInGraph": true,
+          "value": "属性7",
+          "enable": false
         },
         {
           "refKey": "attr8",
           "freeze": false,
-          "hideInGraph": true
+          "hideInGraph": true,
+          "value": "属性8",
+          "enable": false
         },
         {
           "refKey": "attr9",
           "freeze": false,
-          "hideInGraph": true
+          "hideInGraph": true,
+          "value": "属性9",
+          "enable": false
         }
       ],
       "fields": [
@@ -5109,18 +5415,18 @@
           "defKey": "status",
           "defName": "状态（0正常 1停用）",
           "comment": "",
-          "type": "",
+          "type": "TINYINT",
           "len": "",
           "scale": "",
           "primaryKey": false,
           "notNull": true,
           "autoIncrement": false,
-          "defaultValue": "",
+          "defaultValue": "0",
           "hideInGraph": false,
           "refDict": "",
-          "baseType": "FC9790A7-36B8-4A48-8F9A-BC1042BCFE64",
+          "baseType": "42729642-DE0F-440D-8123-EA12B3444720",
           "extProps": {},
-          "domain": "9092C4E0-1A54-4859-ABBB-5B62DBC27573",
+          "domain": "",
           "id": "3A59FDA3-4E34-4200-859F-4273B02125C2"
         },
         {
@@ -5269,127 +5575,229 @@
       "headers": [
         {
           "refKey": "hideInGraph",
-          "hideInGraph": true
+          "hideInGraph": true,
+          "code": "relationNoShow",
+          "value": "关系图",
+          "newCode": "hideInGraph",
+          "com": "Icon",
+          "relationNoShow": true,
+          "freeze": true
         },
         {
           "refKey": "defKey",
-          "freeze": false,
-          "hideInGraph": false
+          "freeze": true,
+          "hideInGraph": false,
+          "code": "name",
+          "value": "字段代码",
+          "newCode": "defKey",
+          "com": "Input",
+          "relationNoShow": false
         },
         {
           "refKey": "defName",
-          "freeze": false,
-          "hideInGraph": false
+          "freeze": true,
+          "hideInGraph": false,
+          "code": "chnname",
+          "value": "显示名称",
+          "newCode": "defName",
+          "com": "Input",
+          "relationNoShow": false
         },
         {
           "refKey": "primaryKey",
           "freeze": false,
-          "hideInGraph": false
+          "hideInGraph": false,
+          "code": "pk",
+          "value": "主键",
+          "newCode": "primaryKey",
+          "com": "Checkbox",
+          "relationNoShow": false
         },
         {
           "refKey": "notNull",
           "freeze": false,
-          "hideInGraph": true
+          "hideInGraph": true,
+          "code": "notNull",
+          "value": "不为空",
+          "newCode": "notNull",
+          "com": "Checkbox",
+          "relationNoShow": true
         },
         {
           "refKey": "autoIncrement",
           "freeze": false,
-          "hideInGraph": true
+          "hideInGraph": true,
+          "code": "autoIncrement",
+          "value": "自增",
+          "newCode": "autoIncrement",
+          "com": "Checkbox",
+          "relationNoShow": true
         },
         {
           "refKey": "domain",
           "freeze": false,
-          "hideInGraph": true
+          "hideInGraph": true,
+          "code": "type",
+          "value": "数据域",
+          "newCode": "domain",
+          "com": "Select",
+          "relationNoShow": true
         },
         {
           "refKey": "type",
           "freeze": false,
-          "hideInGraph": false
+          "hideInGraph": false,
+          "code": "dataType",
+          "value": "数据类型",
+          "newCode": "type",
+          "com": "Text",
+          "relationNoShow": false
         },
         {
           "refKey": "len",
           "freeze": false,
-          "hideInGraph": false
+          "hideInGraph": false,
+          "code": "len",
+          "value": "长度",
+          "newCode": "len",
+          "com": "Input",
+          "relationNoShow": false
         },
         {
           "refKey": "scale",
           "freeze": false,
-          "hideInGraph": false
+          "hideInGraph": false,
+          "code": "scale",
+          "value": "小数位数",
+          "newCode": "scale",
+          "com": "Input",
+          "relationNoShow": false
         },
         {
           "refKey": "comment",
           "freeze": false,
-          "hideInGraph": true
+          "hideInGraph": true,
+          "code": "remark",
+          "value": "说明",
+          "newCode": "comment",
+          "com": "Input",
+          "relationNoShow": true
         },
         {
           "refKey": "refDict",
           "freeze": false,
-          "hideInGraph": true
+          "hideInGraph": true,
+          "code": "refDict",
+          "value": "数据字典",
+          "newCode": "refDict",
+          "com": "SearchSelect",
+          "relationNoShow": true
         },
         {
           "refKey": "defaultValue",
           "freeze": false,
-          "hideInGraph": true
+          "hideInGraph": true,
+          "code": "defaultValue",
+          "value": "默认值",
+          "newCode": "defaultValue",
+          "com": "Input",
+          "relationNoShow": true
         },
         {
           "refKey": "isStandard",
           "freeze": false,
-          "hideInGraph": false
+          "hideInGraph": false,
+          "code": "isStandard",
+          "value": "标准字段",
+          "newCode": "isStandard",
+          "com": "label",
+          "relationNoShow": false,
+          "enable": false
         },
         {
           "refKey": "uiHint",
           "freeze": false,
-          "hideInGraph": true
+          "hideInGraph": true,
+          "code": "uiHint",
+          "value": "UI建议",
+          "newCode": "uiHint",
+          "com": "Select",
+          "relationNoShow": true,
+          "enable": true
         },
         {
           "refKey": "extProps",
           "freeze": false,
-          "hideInGraph": true
+          "hideInGraph": true,
+          "code": "extProps",
+          "value": "拓展属性",
+          "newCode": "extProps",
+          "com": "linkButton",
+          "relationNoShow": true,
+          "enable": true
         },
         {
           "refKey": "attr1",
           "freeze": false,
-          "hideInGraph": true
+          "hideInGraph": true,
+          "value": "属性1",
+          "enable": true
         },
         {
           "refKey": "attr2",
           "freeze": false,
-          "hideInGraph": true
+          "hideInGraph": true,
+          "value": "属性2",
+          "enable": false
         },
         {
           "refKey": "attr3",
           "freeze": false,
-          "hideInGraph": true
+          "hideInGraph": true,
+          "value": "属性3",
+          "enable": false
         },
         {
           "refKey": "attr4",
           "freeze": false,
-          "hideInGraph": true
+          "hideInGraph": true,
+          "value": "属性4",
+          "enable": false
         },
         {
           "refKey": "attr5",
           "freeze": false,
-          "hideInGraph": true
+          "hideInGraph": true,
+          "value": "属性5",
+          "enable": false
         },
         {
           "refKey": "attr6",
           "freeze": false,
-          "hideInGraph": true
+          "hideInGraph": true,
+          "value": "属性6",
+          "enable": false
         },
         {
           "refKey": "attr7",
           "freeze": false,
-          "hideInGraph": true
+          "hideInGraph": true,
+          "value": "属性7",
+          "enable": false
         },
         {
           "refKey": "attr8",
           "freeze": false,
-          "hideInGraph": true
+          "hideInGraph": true,
+          "value": "属性8",
+          "enable": false
         },
         {
           "refKey": "attr9",
           "freeze": false,
-          "hideInGraph": true
+          "hideInGraph": true,
+          "value": "属性9",
+          "enable": false
         }
       ],
       "fields": [
@@ -5629,127 +6037,229 @@
       "headers": [
         {
           "refKey": "hideInGraph",
-          "hideInGraph": true
+          "hideInGraph": true,
+          "code": "relationNoShow",
+          "value": "关系图",
+          "newCode": "hideInGraph",
+          "com": "Icon",
+          "relationNoShow": true,
+          "freeze": true
         },
         {
           "refKey": "defKey",
-          "freeze": false,
-          "hideInGraph": false
+          "freeze": true,
+          "hideInGraph": false,
+          "code": "name",
+          "value": "字段代码",
+          "newCode": "defKey",
+          "com": "Input",
+          "relationNoShow": false
         },
         {
           "refKey": "defName",
-          "freeze": false,
-          "hideInGraph": false
+          "freeze": true,
+          "hideInGraph": false,
+          "code": "chnname",
+          "value": "显示名称",
+          "newCode": "defName",
+          "com": "Input",
+          "relationNoShow": false
         },
         {
           "refKey": "primaryKey",
           "freeze": false,
-          "hideInGraph": false
+          "hideInGraph": false,
+          "code": "pk",
+          "value": "主键",
+          "newCode": "primaryKey",
+          "com": "Checkbox",
+          "relationNoShow": false
         },
         {
           "refKey": "notNull",
           "freeze": false,
-          "hideInGraph": true
+          "hideInGraph": true,
+          "code": "notNull",
+          "value": "不为空",
+          "newCode": "notNull",
+          "com": "Checkbox",
+          "relationNoShow": true
         },
         {
           "refKey": "autoIncrement",
           "freeze": false,
-          "hideInGraph": true
+          "hideInGraph": true,
+          "code": "autoIncrement",
+          "value": "自增",
+          "newCode": "autoIncrement",
+          "com": "Checkbox",
+          "relationNoShow": true
         },
         {
           "refKey": "domain",
           "freeze": false,
-          "hideInGraph": true
+          "hideInGraph": true,
+          "code": "type",
+          "value": "数据域",
+          "newCode": "domain",
+          "com": "Select",
+          "relationNoShow": true
         },
         {
           "refKey": "type",
           "freeze": false,
-          "hideInGraph": false
+          "hideInGraph": false,
+          "code": "dataType",
+          "value": "数据类型",
+          "newCode": "type",
+          "com": "Text",
+          "relationNoShow": false
         },
         {
           "refKey": "len",
           "freeze": false,
-          "hideInGraph": false
+          "hideInGraph": false,
+          "code": "len",
+          "value": "长度",
+          "newCode": "len",
+          "com": "Input",
+          "relationNoShow": false
         },
         {
           "refKey": "scale",
           "freeze": false,
-          "hideInGraph": false
+          "hideInGraph": false,
+          "code": "scale",
+          "value": "小数位数",
+          "newCode": "scale",
+          "com": "Input",
+          "relationNoShow": false
         },
         {
           "refKey": "comment",
           "freeze": false,
-          "hideInGraph": true
+          "hideInGraph": true,
+          "code": "remark",
+          "value": "说明",
+          "newCode": "comment",
+          "com": "Input",
+          "relationNoShow": true
         },
         {
           "refKey": "refDict",
           "freeze": false,
-          "hideInGraph": true
+          "hideInGraph": true,
+          "code": "refDict",
+          "value": "数据字典",
+          "newCode": "refDict",
+          "com": "SearchSelect",
+          "relationNoShow": true
         },
         {
           "refKey": "defaultValue",
           "freeze": false,
-          "hideInGraph": true
+          "hideInGraph": true,
+          "code": "defaultValue",
+          "value": "默认值",
+          "newCode": "defaultValue",
+          "com": "Input",
+          "relationNoShow": true
         },
         {
           "refKey": "isStandard",
           "freeze": false,
-          "hideInGraph": false
+          "hideInGraph": false,
+          "code": "isStandard",
+          "value": "标准字段",
+          "newCode": "isStandard",
+          "com": "label",
+          "relationNoShow": false,
+          "enable": false
         },
         {
           "refKey": "uiHint",
           "freeze": false,
-          "hideInGraph": true
+          "hideInGraph": true,
+          "code": "uiHint",
+          "value": "UI建议",
+          "newCode": "uiHint",
+          "com": "Select",
+          "relationNoShow": true,
+          "enable": true
         },
         {
           "refKey": "extProps",
           "freeze": false,
-          "hideInGraph": true
+          "hideInGraph": true,
+          "code": "extProps",
+          "value": "拓展属性",
+          "newCode": "extProps",
+          "com": "linkButton",
+          "relationNoShow": true,
+          "enable": true
         },
         {
           "refKey": "attr1",
           "freeze": false,
-          "hideInGraph": true
+          "hideInGraph": true,
+          "value": "属性1",
+          "enable": true
         },
         {
           "refKey": "attr2",
           "freeze": false,
-          "hideInGraph": true
+          "hideInGraph": true,
+          "value": "属性2",
+          "enable": false
         },
         {
           "refKey": "attr3",
           "freeze": false,
-          "hideInGraph": true
+          "hideInGraph": true,
+          "value": "属性3",
+          "enable": false
         },
         {
           "refKey": "attr4",
           "freeze": false,
-          "hideInGraph": true
+          "hideInGraph": true,
+          "value": "属性4",
+          "enable": false
         },
         {
           "refKey": "attr5",
           "freeze": false,
-          "hideInGraph": true
+          "hideInGraph": true,
+          "value": "属性5",
+          "enable": false
         },
         {
           "refKey": "attr6",
           "freeze": false,
-          "hideInGraph": true
+          "hideInGraph": true,
+          "value": "属性6",
+          "enable": false
         },
         {
           "refKey": "attr7",
           "freeze": false,
-          "hideInGraph": true
+          "hideInGraph": true,
+          "value": "属性7",
+          "enable": false
         },
         {
           "refKey": "attr8",
           "freeze": false,
-          "hideInGraph": true
+          "hideInGraph": true,
+          "value": "属性8",
+          "enable": false
         },
         {
           "refKey": "attr9",
           "freeze": false,
-          "hideInGraph": true
+          "hideInGraph": true,
+          "value": "属性9",
+          "enable": false
         }
       ],
       "fields": [
@@ -5979,7 +6489,7 @@
           "primaryKey": false,
           "notNull": true,
           "autoIncrement": false,
-          "defaultValue": "",
+          "defaultValue": "0",
           "hideInGraph": false,
           "refDict": "",
           "baseType": "42729642-DE0F-440D-8123-EA12B3444720",
