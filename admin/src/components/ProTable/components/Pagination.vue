@@ -4,9 +4,9 @@
     :background="true"
     :current-page="pageable.pageNum"
     :page-size="pageable.pageSize"
-    :page-sizes="[5, 10, 25, 50, 100]"
+    :page-sizes="[10, 25, 50, 100]"
     :total="pageable.total"
-    :layout="layout"
+    layout="total, sizes, prev, pager, next, jumper"
     @size-change="handleSizeChange"
     @current-change="handleCurrentChange"></el-pagination>
 </template>
@@ -20,7 +20,6 @@ interface Pageable {
 
 interface PaginationProps {
   pageable: Pageable;
-  layout: string;
   handleSizeChange: (size: number) => void;
   handleCurrentChange: (currentPage: number) => void;
 }

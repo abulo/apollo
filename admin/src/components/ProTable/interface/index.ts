@@ -13,7 +13,7 @@ export interface EnumProps {
   [key: string]: any;
 }
 
-export type TypeProps = "index" | "selection" | "radio" | "expand" | "sort" | "";
+export type TypeProps = "index" | "selection" | "radio" | "expand" | "sort";
 
 export type SearchType =
   | "input"

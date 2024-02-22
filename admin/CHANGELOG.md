@@ -2,24 +2,32 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.2.0](https://github.com/HalseySpicy/Geeker-Admin/compare/v1.1.0...v1.2.0) (2023-09-15)
+
+
+### Features
+
+* 🚀 update and optimize project content ([17bc017](https://github.com/HalseySpicy/Geeker-Admin/commit/17bc017c5abbd2c87813d6c6f9d587ddf9d57da7))
+* 🚀 upgrade plugins and add tab functionality ([f21a41d](https://github.com/HalseySpicy/Geeker-Admin/commit/f21a41d8df44efe5216dec39bf4abf0ea86a7781))
+
 ## [1.1.0](https://github.com/HalseySpicy/Geeker-Admin/compare/v1.0.0...v1.1.0) (2023-07-09)
 
 ### Features
 
-- � add proTable instance type ([8262f04](https://github.com/HalseySpicy/Geeker-Admin/commit/8262f045734d055148720738a80fee0e0c779ceb))
-- � optimize code and add VitePWA ([523f676](https://github.com/HalseySpicy/Geeker-Admin/commit/523f676feee5105eae15d05b57063227be26d3df))
-- � optimize code and update plugins ([5cff3c7](https://github.com/HalseySpicy/Geeker-Admin/commit/5cff3c7e50331ede07d57613cc49658904e7cf1a))
-- � optimize irregular code ([d406ef2](https://github.com/HalseySpicy/Geeker-Admin/commit/d406ef2bb5e0d0522f5e0ce38c3b9d0aa47c7cd2))
-- � proTable radio selection example ([f58291f](https://github.com/HalseySpicy/Geeker-Admin/commit/f58291f96468b816607c31df87326ebd7d0a5c5a))
-- � proTable search component custom rendering ([#189](https://github.com/HalseySpicy/Geeker-Admin/issues/189)) ([89f03db](https://github.com/HalseySpicy/Geeker-Admin/commit/89f03db2db41160b9ac5398d64712fabff399c4c))
-- � proTable supports static table data ([9a3e85d](https://github.com/HalseySpicy/Geeker-Admin/commit/9a3e85d21d6c8872bbc915c42d48eb8658a1db63))
-- � update Gitee address ([0608be9](https://github.com/HalseySpicy/Geeker-Admin/commit/0608be9ba6a9f01f73ed67671d340cf0c1d99261))
-- � update stylelint configuration ([d62aae8](https://github.com/HalseySpicy/Geeker-Admin/commit/d62aae868e7d6aad87f0ba8706ab9744d5da04dd))
-- � update theme, modify bugs ([7a3a7a3](https://github.com/HalseySpicy/Geeker-Admin/commit/7a3a7a3d665c0356c0272947292de750dd0be8d8))
+- 🚀 add proTable instance type ([8262f04](https://github.com/HalseySpicy/Geeker-Admin/commit/8262f045734d055148720738a80fee0e0c779ceb))
+- 🚀 optimize code and add VitePWA ([523f676](https://github.com/HalseySpicy/Geeker-Admin/commit/523f676feee5105eae15d05b57063227be26d3df))
+- 🚀 optimize code and update plugins ([5cff3c7](https://github.com/HalseySpicy/Geeker-Admin/commit/5cff3c7e50331ede07d57613cc49658904e7cf1a))
+- 🚀 optimize irregular code ([d406ef2](https://github.com/HalseySpicy/Geeker-Admin/commit/d406ef2bb5e0d0522f5e0ce38c3b9d0aa47c7cd2))
+- 🚀 proTable radio selection example ([f58291f](https://github.com/HalseySpicy/Geeker-Admin/commit/f58291f96468b816607c31df87326ebd7d0a5c5a))
+- 🚀 proTable search component custom rendering ([#189](https://github.com/HalseySpicy/Geeker-Admin/issues/189)) ([89f03db](https://github.com/HalseySpicy/Geeker-Admin/commit/89f03db2db41160b9ac5398d64712fabff399c4c))
+- 🚀 proTable supports static table data ([9a3e85d](https://github.com/HalseySpicy/Geeker-Admin/commit/9a3e85d21d6c8872bbc915c42d48eb8658a1db63))
+- 🚀 update Gitee address ([0608be9](https://github.com/HalseySpicy/Geeker-Admin/commit/0608be9ba6a9f01f73ed67671d340cf0c1d99261))
+- 🚀 update stylelint configuration ([d62aae8](https://github.com/HalseySpicy/Geeker-Admin/commit/d62aae868e7d6aad87f0ba8706ab9744d5da04dd))
+- 🚀 update theme, modify bugs ([7a3a7a3](https://github.com/HalseySpicy/Geeker-Admin/commit/7a3a7a3d665c0356c0272947292de750dd0be8d8))
 
 ### Bug Fixes
 
-- � fix eslint error ([a980a1a](https://github.com/HalseySpicy/Geeker-Admin/commit/a980a1aa7808895af46c85e0e26a53f66d1119fa))
+- 🧩 fix eslint error ([a980a1a](https://github.com/HalseySpicy/Geeker-Admin/commit/a980a1aa7808895af46c85e0e26a53f66d1119fa))
 
 ## [1.0.0](https://github.com/HalseySpicy/Geeker-Admin/compare/v0.0.7...v1.0.0) (2023-04-15)
 

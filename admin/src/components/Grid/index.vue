@@ -1,4 +1,3 @@
-<!-- eslint-disable vue/v-on-event-hyphenation -->
 <template>
   <div :style="style">
     <slot></slot>

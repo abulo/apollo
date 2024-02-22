@@ -1,7 +1,8 @@
 import { isArray } from "@/utils/is";
 import { FieldNamesProps } from "@/components/ProTable/interface";
-import { SystemDept } from "@/api/interface/systemDept";
+
 const mode = import.meta.env.VITE_ROUTER_MODE;
+
 /**
  * @description 获取localStorage
  * @param {String} key Storage名称
@@ -156,16 +157,6 @@ export function getFlatMenuList(menuList: Menu.MenuOptions[]): Menu.MenuOptions[
 }
 
 /**
- * @description 使用递归扁平化菜单，方便添加动态路由
- * @param {Array} menuList 菜单列表
- * @returns {Array}
- */
-export function getFlatDeptList(menuList: SystemDept.ResSystemDeptList[]): SystemDept.ResSystemDeptList[] {
-  let newMenuList: SystemDept.ResSystemDeptList[] = JSON.parse(JSON.stringify(menuList));
-  return newMenuList.flatMap(item => [item, ...(item.children ? getFlatDeptList(item.children) : [])]);
-}
-
-/**
  * @description 使用递归过滤出需要渲染在左侧菜单的列表 (需剔除 isHide == true 的菜单)
  * @param {Array} menuList 菜单列表
  * @returns {Array}
@@ -306,20 +297,6 @@ export function filterEnum(callValue: any, enumData?: any, fieldNames?: FieldNam
   } else {
     return filterData ? filterData[label] : "--";
   }
-}
-
-/**
- * @description 根据枚举列表查询当需要的数据
- * @param {Array} enumData 字典列表
- * @param {any} fieldValue value  key 值
- * @returns {String}
- * */
-export function filterEnumItem(enumData: any, fieldValue: any) {
-  const result = enumData.reduce((obj: any, item: any) => {
-    obj[item.value] = item.label;
-    return obj;
-  }, {});
-  return result ? result[fieldValue] : "--";
 }
 
 /**

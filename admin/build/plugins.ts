@@ -1,22 +1,21 @@
 import { resolve } from "path";
 import { PluginOption } from "vite";
 import { VitePWA } from "vite-plugin-pwa";
+import { createHtmlPlugin } from "vite-plugin-html";
 import { visualizer } from "rollup-plugin-visualizer";
 import { createSvgIconsPlugin } from "vite-plugin-svg-icons";
 import vue from "@vitejs/plugin-vue";
 import vueJsx from "@vitejs/plugin-vue-jsx";
 import eslintPlugin from "vite-plugin-eslint";
 import viteCompression from "vite-plugin-compression";
-import simpleHtmlPlugin from "vite-plugin-simple-html";
 import vueSetupExtend from "unplugin-vue-setup-extend-plus/vite";
-import { cdn } from "./cdn";
-import { image } from "./image";
+
 /**
  * 创建 vite 插件
  * @param viteEnv
  */
 export const createVitePlugins = (viteEnv: ViteEnv): (PluginOption | PluginOption[])[] => {
-  const { VITE_GLOB_APP_TITLE, VITE_REPORT, VITE_PWA, VITE_CDN, VITE_IMAGE, VITE_CDN_WALL } = viteEnv;
+  const { VITE_GLOB_APP_TITLE, VITE_REPORT, VITE_PWA } = viteEnv;
   return [
     vue(),
     // vue 可以使用 jsx/tsx 语法
@@ -27,12 +26,10 @@ export const createVitePlugins = (viteEnv: ViteEnv): (PluginOption | PluginOptio
     vueSetupExtend({}),
     // 创建打包压缩配置
     createCompression(viteEnv),
-    VITE_CDN ? cdn(VITE_CDN_WALL) : null,
-    VITE_IMAGE ? image : null,
-    // 压缩图片
     // 注入变量到 html 文件
-    simpleHtmlPlugin({
+    createHtmlPlugin({
       minify: true,
+      // viteNext: true,
       inject: {
         data: { title: VITE_GLOB_APP_TITLE }
       }

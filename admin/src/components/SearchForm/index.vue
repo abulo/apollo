@@ -92,13 +92,3 @@ const showCollapse = computed(() => {
   return show;
 });
 </script>
-<style lang="scss" scoped>
-.table-search {
-  margin-bottom: unset;
-}
-.card {
-  border-bottom: unset;
-  border-radius: unset;
-  box-shadow: unset;
-}
-</style>

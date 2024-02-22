@@ -1,4 +1,3 @@
-import { SystemDict } from "@/api/interface/systemDict";
 export type LayoutType = "vertical" | "classic" | "transverse" | "columns";
 
 export type AssemblySizeType = "large" | "default" | "small";
@@ -59,8 +58,4 @@ export interface AuthState {
 /* KeepAliveState */
 export interface KeepAliveState {
   keepAliveName: string[];
-}
-
-export interface DictState {
-  dict: SystemDict.Dict;
 }

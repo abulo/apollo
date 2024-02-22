@@ -9,6 +9,7 @@
     :columns="searchColumns"
     :search-param="searchParam"
     :search-col="searchCol" />
+
   <!-- 表格主体 -->
   <div class="card table-main">
     <!-- 表格头部 操作按钮 -->
@@ -61,7 +62,6 @@
             </el-tag>
           </template>
         </el-table-column>
-
         <!-- other -->
         <TableColumn v-if="!item.type && item.prop && item.isShow" :column="item">
           <template v-for="slot in Object.keys($slots)" #[slot]="scope">
@@ -74,21 +74,20 @@
         <slot name="append" />
       </template>
       <!-- 无数据 -->
-      <!-- <template #empty>
+      <template #empty>
         <div class="table-empty">
           <slot name="empty">
             <img src="@/assets/images/notData.png" alt="notData" />
             <div>暂无数据</div>
           </slot>
         </div>
-      </template> -->
+      </template>
     </el-table>
     <!-- 分页组件 -->
     <slot name="pagination">
       <Pagination
         v-if="pagination"
         :pageable="pageable"
-        :layout="paginationLayout"
         :handle-size-change="handleSizeChange"
         :handle-current-change="handleCurrentChange" />
     </slot>
@@ -121,12 +120,10 @@ export interface ProTableProps {
   dataCallback?: (data: any) => any; // 返回数据的回调函数，可以对数据进行处理 ==> 非必传
   title?: string; // 表格标题 ==> 非必传
   pagination?: boolean; // 是否需要分页组件 ==> 非必传（默认为true）
-  paginationLayout?: string; // 分页组件布局 ==> 非必传（默认为 total, sizes, prev, pager, next, jumper）
   initParam?: any; // 初始化请求参数 ==> 非必传（默认为{}）
   border?: boolean; // 是否带有纵向边框 ==> 非必传（默认为true）
   toolButton?: ("refresh" | "setting" | "search")[] | boolean; // 是否显示表格功能按钮 ==> 非必传（默认为true）
   rowKey?: string; // 行数据的 Key，用来优化 Table 的渲染，当表格数据多选时，所指定的 id ==> 非必传（默认为 id）
-  padding: string; // 表格内边距 ==> 非必传（默认为 20px）
   searchCol?: number | Record<BreakPoint, number>; // 表格搜索项 每列占比配置 ==> 非必传 { xs: 1, sm: 2, md: 2, lg: 3, xl: 4 }
 }
 
@@ -138,9 +135,7 @@ const props = withDefaults(defineProps<ProTableProps>(), {
   initParam: {},
   border: true,
   toolButton: true,
-  paginationLayout: "total, sizes, prev, pager, next, jumper",
   rowKey: "id",
-  padding: "20px", // 上右下左
   searchCol: () => ({ xs: 1, sm: 2, md: 2, lg: 3, xl: 4 })
 });
 
@@ -292,7 +287,7 @@ const dragSort = () => {
   });
 };
 
-// 暴露给父组件的参数和方法(外部需要什么，都可以从这里暴露出去)
+// 暴露给父组件的参数和方法 (外部需要什么，都可以从这里暴露出去)
 defineExpose({
   element: tableRef,
   tableData: processTableData,
@@ -312,13 +307,3 @@ defineExpose({
   selectedListIds
 });
 </script>
-
-<style lang="scss" scoped>
-.card {
-  border-radius: unset;
-  box-shadow: unset;
-}
-.table-main {
-  padding: v-bind(padding);
-}
-</style>

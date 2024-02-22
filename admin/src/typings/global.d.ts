@@ -53,11 +53,7 @@ declare interface ViteEnv {
   VITE_PWA: boolean;
   VITE_PUBLIC_PATH: string;
   VITE_API_URL: string;
-  VITE_UPLOAD_URL: string;
   VITE_PROXY: [string, string][];
-  VITE_CDN: boolean;
-  VITE_IMAGE: boolean;
-  VITE_CDN_WALL: boolean;
 }
 
 interface ImportMetaEnv extends ViteEnv {
@@ -74,5 +70,3 @@ declare const __APP_INFO__: {
   };
   lastBuildTime: string;
 };
-
-declare module "zx-calendar-abulo/vue";

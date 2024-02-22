@@ -3,12 +3,6 @@
   "editor.codeActionsOnSave": {
     "source.fixAll.stylelint": "explicit"
   },
-  //vue自动补全
-  "files.associations": {
-    "*.vue": "vue"
-  },
-  "vue.inlayHints.missingProps": true,
-  "prettier.bracketSameLine": true,
   "stylelint.enable": true,
   "stylelint.validate": ["css", "less", "postcss", "scss", "vue", "sass", "html"],
   "files.eol": "\n",
@@ -53,8 +47,8 @@
     "commitlint",
     "contentleft",
     "contentright",
+    "CSDN",
     "daterange",
-    "datetime",
     "datetimerange",
     "echarts",
     "fangda",
@@ -83,18 +77,23 @@
     "stylelintignore",
     "stylelintrc",
     "suoxiao",
-    "tinyint",
     "truetype",
+    "tuichu",
     "unplugin",
+    "unref",
     "VITE",
     "vuedraggable",
     "vueuse",
     "Vuex",
     "wangeditor",
-    "WECHAT",
+    "xiala",
     "xiaoxi",
+    "Yahei",
+    "yiwen",
     "zhongyingwen",
     "zhuti"
   ],
-  "i18n-ally.localesPaths": ["src/languages"]
+  "i18n-ally.localesPaths": [
+    "src/languages"
+  ]
 }

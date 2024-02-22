@@ -102,16 +102,17 @@ const login = (formEl: FormInstance | undefined) => {
       userStore.setToken(data.accessToken);
       // 2.添加动态路由
       await initDynamicRouter();
-      // 3.保存用户信息
+      // 3.清空 tabs、keepAlive 数据
       userStore.setUserInfo({ name: data.nickname });
       // 4.清空 tabs、keepAlive 数据
-      tabsStore.closeMultipleTab();
-      keepAliveStore.setKeepAliveName();
+      tabsStore.setTabs([]);
+      keepAliveStore.setKeepAliveName([]);
+
       // 5.跳转到首页
       router.push(HOME_URL);
       ElNotification({
         title: getTimeState(),
-        message: "欢迎登录" + data.nickname,
+        message: "欢迎登录 Geeker-Admin",
         type: "success",
         duration: 3000
       });
