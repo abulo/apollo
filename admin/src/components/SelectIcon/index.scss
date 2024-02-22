@@ -1,39 +1,52 @@
-.icon-box {
-  width: 100%;
-  .el-button {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 18px;
-    color: var(--el-text-color-regular);
+.size-small {
+  height: 24px;
+}
+.size-large {
+  height: 40px;
+}
+.size-default {
+  height: 32px;
+}
+.icon-prepend {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  .name {
+    padding-left: 5px;
   }
-  :deep(.el-dialog__body) {
-    padding: 25px 20px 20px;
-    .el-input {
-      margin-bottom: 10px;
+}
+.selector-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 12px;
+}
+.selector-tab {
+  margin-left: auto;
+  span {
+    padding: 0 5px;
+    cursor: pointer;
+    user-select: none;
+    &.active,
+    &:hover {
+      color: var(--el-color-primary);
+      text-decoration: underline;
     }
-    .icon-list {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, 115px);
-      justify-content: space-evenly;
-      max-height: 70vh;
-      .icon-item {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        width: 42px;
-        padding: 20px 30px;
-        cursor: pointer;
-        transition: all 0.2s;
-        &:hover {
-          transform: scale(1.3);
-        }
-        span {
-          margin-top: 5px;
-          line-height: 20px;
-          text-align: center;
-        }
-      }
-    }
+  }
+}
+.selector-body {
+  max-height: 20vh;
+}
+.icon-selector-item {
+  display: inline-block;
+  grid-template-columns: repeat(auto-fill, 115px);
+  justify-content: space-evenly;
+  margin: 3px;
+  font-size: 18px;
+  cursor: pointer;
+  border: 1px solid var(--ba-border-color);
+  border-radius: var(--el-border-radius-base);
+  .icon {
+    width: 18px;
+    height: 18px;
   }
 }
