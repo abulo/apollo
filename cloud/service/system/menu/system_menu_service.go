@@ -287,12 +287,6 @@ func (srv SrvSystemMenuServiceServer) SystemMenuList(ctx context.Context, reques
 	if request.Type != nil {
 		condition["type"] = request.GetType()
 	}
-	if request.Sort != nil {
-		condition["sort"] = request.GetSort()
-	}
-	if request.ParentId != nil {
-		condition["parentId"] = request.GetParentId()
-	}
 
 	// 获取数据集合
 	list, err := menu.SystemMenuList(ctx, condition)

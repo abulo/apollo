@@ -405,9 +405,12 @@ func SystemMenuList(ctx context.Context, newCtx *app.RequestContext) {
 	client := menu.NewSystemMenuServiceClient(grpcClient)
 	// 构造查询条件
 	request := &menu.SystemMenuListRequest{}
-
+	// 构造查询条件
+	request.Deleted = proto.Int32(0)
 	if val, ok := newCtx.GetQuery("deleted"); ok {
-		request.Deleted = proto.Int32(cast.ToInt32(val)) // 是否删除
+		if cast.ToBool(val) {
+			request.Deleted = nil
+		}
 	}
 	if val, ok := newCtx.GetQuery("status"); ok {
 		request.Status = proto.Int32(cast.ToInt32(val)) // 菜单状态(0开启/1关闭)
@@ -415,13 +418,6 @@ func SystemMenuList(ctx context.Context, newCtx *app.RequestContext) {
 	if val, ok := newCtx.GetQuery("type"); ok {
 		request.Type = proto.Int32(cast.ToInt32(val)) // 菜单类型(1:目录/2: 菜单/3: 按钮)
 	}
-	if val, ok := newCtx.GetQuery("sort"); ok {
-		request.Sort = proto.Int32(cast.ToInt32(val)) // 显示顺序
-	}
-	if val, ok := newCtx.GetQuery("parentId"); ok {
-		request.ParentId = proto.Int64(cast.ToInt64(val)) // 父菜单ID
-	}
-
 	// 执行服务
 	res, err := client.SystemMenuList(ctx, request)
 	if err != nil {
@@ -443,9 +439,22 @@ func SystemMenuList(ctx context.Context, newCtx *app.RequestContext) {
 			list = append(list, SystemMenuDao(item))
 		}
 	}
+	newList := SystemMenuTree(list, 0)
 	newCtx.JSON(consts.StatusOK, utils.H{
 		"code": res.GetCode(),
 		"msg":  res.GetMsg(),
-		"data": list,
+		"data": newList,
 	})
+}
+
+// SystemMenuTree 树形菜单
+func SystemMenuTree(list []*dao.SystemMenu, pid int64) []*dao.SystemMenu {
+	var tree []*dao.SystemMenu
+	for _, item := range list {
+		if *item.ParentId == pid {
+			item.Children = SystemMenuTree(list, *item.Id)
+			tree = append(tree, item)
+		}
+	}
+	return tree
 }

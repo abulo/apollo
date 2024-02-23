@@ -115,10 +115,6 @@ message SystemMenuListRequest {
 	optional int32 status = 2; // 菜单状态(0开启/1关闭)
 	// @inject_tag: db:"type" json:"type"
 	optional int32 type = 3; // 菜单类型(1:目录/2: 菜单/3: 按钮)
-	// @inject_tag: db:"sort" json:"sort"
-	optional int32 sort = 4; // 显示顺序
-	// @inject_tag: db:"parent_id" json:"parentId"
-	optional int64 parent_id = 5; // 父菜单ID
 
 }
 

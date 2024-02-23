@@ -87,18 +87,22 @@ func SystemMenuList(ctx context.Context, condition map[string]any) (res []dao.Sy
 	if val, ok := condition["type"]; ok {
 		builder.Where("`type`", val)
 	}
-	if val, ok := condition["sort"]; ok {
-		builder.Where("`sort`", val)
-	}
-	if val, ok := condition["parentId"]; ok {
-		builder.Where("`parent_id`", val)
-	}
 
-	builder.OrderBy("`id`", sql.DESC)
+	builder.OrderBy("`parent_id`", sql.ASC)
+	builder.OrderBy("`sort`", sql.ASC)
+	builder.OrderBy("`id`", sql.ASC)
 	query, args, err := builder.Rows()
 	if err != nil {
 		return
 	}
 	err = db.QueryRows(ctx, query, args...).ToStruct(&res)
+	return
+}
+
+// SystemMenuListRecursive 递归查询向上查询, 用于在计划任务中使用
+func SystemMenuListRecursive(ctx context.Context, id int64) (res []dao.SystemMenu, err error) {
+	db := initial.Core.Store.LoadSQL("mysql").Read()
+	query := "WITH RECURSIVE filter_system_menu (id,name,permission,type,sort,parent_id,path,icon,component,component_name,status,hide,link,keep_alive,affix,active_path,full_screen,redirect,creator,create_time,updater,update_time,deleted) AS ( SELECT * FROM system_menu WHERE id=? UNION ALL SELECT t.* FROM system_menu t INNER JOIN filter_system_menu ON filter_system_menu.parent_id=t.id) SELECT DISTINCT * FROM filter_system_menu ORDER BY filter_system_menu.parent_id ASC,filter_system_menu.sort ASC,filter_system_menu.id ASC"
+	err = db.QueryRows(ctx, query, id).ToStruct(&res)
 	return
 }
