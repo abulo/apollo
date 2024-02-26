@@ -1,0 +1,13 @@
+.dialog-footer button:first-child {
+  margin-right: 10px;
+}
+.dialog-settings {
+  .el-dialog__body {
+    max-height: 600px;
+    overflow: auto;
+  }
+}
+.el-dropdown {
+  margin-left: 12px;
+  vertical-align: sub;
+}

@@ -35,4 +35,8 @@ export namespace SystemMenu {
   export interface ResSystemMenuList extends ResSystemMenuItem {
     children?: ResSystemMenuList[]; // 子菜单
   }
+  // 按钮权限
+  export interface ResSystemMenuButtons {
+    [key: string]: string[];
+  }
 }

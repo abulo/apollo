@@ -8,7 +8,7 @@ export const getSystemMenuListApi = (params?: SystemMenu.ReqSystemMenuList) => {
 };
 
 // 获取单个系统菜单
-export const getSystemUserItemApi = (id: number) => {
+export const getSystemMenuItemApi = (id: number) => {
   return http.get<SystemMenu.ResSystemMenuItem>(PORT + `/system/menu/${id}/item`);
 };
 

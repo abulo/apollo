@@ -1,6 +1,18 @@
 import { ElMessage } from "element-plus";
 
 /**
+ * 判断是否 十六进制颜色值.
+ * 输入形式可为 #fff000 #f00
+ *
+ * @param   String  color   十六进制颜色值
+ * @return  Boolean
+ */
+export const isHexColor = (color: string) => {
+  const reg = /^#([0-9a-fA-F]{3}|[0-9a-fA-f]{6})$/;
+  return reg.test(color);
+};
+
+/**
  * @description hex颜色转rgb颜色
  * @param {String} str 颜色值字符串
  * @returns {String} 返回处理后的颜色值

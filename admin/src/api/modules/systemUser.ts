@@ -1,4 +1,5 @@
 import { SystemUser } from "@/api/interface/systemUser";
+import { SystemMenu } from "@/api/interface/systemMenu";
 import { PORT } from "@/api/config/servicePort";
 // import { ResPage } from "@/api/interface/index";
 import http from "@/api";
@@ -54,3 +55,13 @@ export const postSystemUserLoginApi = (params: SystemUser.ReqSystemUserLogin) =>
 // export const setSystemUserPasswordApi = (id: number, params: SystemUser.ReqSystemUserPassword) => {
 //   return http.put(PORT + `/system/user/${id}/password`, params);
 // };
+
+// 获取用户菜单
+export const getSystemUserMenuApi = () => {
+  return http.get<Menu.MenuOptions[]>(PORT + `/system/user/menu`, {}, { loading: false });
+};
+
+// 获取用户按钮
+export const getSystemUserBtnApi = () => {
+  return http.get<SystemMenu.ResSystemMenuButtons>(PORT + `/system/user/btn`, {}, { loading: false });
+};
