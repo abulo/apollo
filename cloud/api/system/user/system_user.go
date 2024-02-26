@@ -2,6 +2,7 @@ package user
 
 import (
 	"context"
+	"encoding/json"
 
 	"cloud/code"
 	"cloud/dao"
@@ -120,6 +121,8 @@ func SystemUserCreate(ctx context.Context, newCtx *app.RequestContext) {
 		})
 		return
 	}
+	reqInfo.Creator = null.StringFrom(newCtx.GetString("systemUserName"))
+	reqInfo.CreateTime = null.DateTimeFrom(util.Now())
 	request.Data = SystemUserProto(reqInfo)
 	// 执行服务
 	res, err := client.SystemUserCreate(ctx, request)
@@ -169,6 +172,8 @@ func SystemUserUpdate(ctx context.Context, newCtx *app.RequestContext) {
 		})
 		return
 	}
+	reqInfo.Updater = null.StringFrom(newCtx.GetString("systemUserName"))
+	reqInfo.UpdateTime = null.DateTimeFrom(util.Now())
 	request.Data = SystemUserProto(reqInfo)
 	// 执行服务
 	res, err := client.SystemUserUpdate(ctx, request)
@@ -454,7 +459,24 @@ func SystemUserLogin(ctx context.Context, newCtx *app.RequestContext) {
 		})
 		return
 	}
-	// TODO 需要添加后台用户登录日志
+	nowTime := util.Now()
+	//这里需要将登录信息写入操作列队
+	var resSystemLoginLog dao.SystemLoginLog
+	resSystemLoginLog.Username = userInfo.Username
+	resSystemLoginLog.Channel = proto.String("WEB")
+	resSystemLoginLog.UserIp = proto.String(newCtx.ClientIP())
+	resSystemLoginLog.UserAgent = null.StringFrom(cast.ToString(newCtx.Request.Header.UserAgent()))
+	resSystemLoginLog.LoginTime = null.DateTimeFrom(nowTime)
+	resSystemLoginLog.Creator = null.StringFrom(*userInfo.Nickname) //创建者
+	resSystemLoginLog.CreateTime = null.DateTimeFrom(nowTime)       //创建时间
+	resSystemLoginLog.Updater = null.StringFrom(*userInfo.Nickname) //更新者
+	resSystemLoginLog.UpdateTime = null.DateTimeFrom(nowTime)       //更新时间
+	// 将这些数据需要全部存储在消息列队中,然后后台去执行消息列队
+	redisHandler := initial.Core.Store.LoadRedis("redis")
+	key := util.NewReplacer(initial.Core.Config.String("Cache.SystemLoginLog.Queue"))
+	bytes, _ := json.Marshal(resSystemLoginLog)
+	redisHandler.LPush(ctx, key, cast.ToString(bytes))
+
 	newCtx.JSON(consts.StatusOK, utils.H{
 		"code": res.GetCode(),
 		"msg":  res.GetMsg(),

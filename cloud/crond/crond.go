@@ -11,8 +11,12 @@ func CronJob() func() {
 	redisHandler := initial.Core.Store.LoadRedis("redis")
 	driverHandler := redis.NewDriver(redisHandler)
 	cron := task.NewTask("WorkerService", driverHandler, task.WithLazyPick(true), task.WithSeconds())
-	// 解析全局列队
-	// _ = cron.AddFunc("InitRegion", task.JobLocal, "*/10 * * * * *", InitRegion)
+	// 刷新菜单模块名称缓存数据
+	_ = cron.AddFunc("SystemMenuModule", task.JobLocal, "0 */1 * * * *", SystemMenuModule)
+	// 后台操作日志写入
+	_ = cron.AddFunc("SystemOperateLogQueue", task.JobLocal, "*/2 * * * * *", SystemOperateLogQueue)
+	// 后的登录日志写入
+	_ = cron.AddFunc("SystemLoginLogQueue", task.JobLocal, "*/2 * * * * *", SystemLoginLogQueue)
 	cron.Start()
 	return func() { cron.Stop() }
 }
