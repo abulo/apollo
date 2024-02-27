@@ -1,0 +1,100 @@
+
+syntax = "proto3";
+// system_role 系统角色
+package role;
+option go_package = "./role";
+import "google/protobuf/timestamp.proto";
+
+// SystemRoleObject 数据对象
+message SystemRoleObject {
+	// @inject_tag: db:"id" json:"id"
+	optional int64 id = 1; //角色编号
+	// @inject_tag: db:"name" json:"name"
+	optional string name = 2; //角色名称
+	// @inject_tag: db:"code" json:"code"
+	optional string code = 3; //角色权限字符串
+	// @inject_tag: db:"sort" json:"sort"
+	optional int32 sort = 4; //显示顺序
+	// @inject_tag: db:"status" json:"status"
+	optional int32 status = 5; //角色状态（0正常 1停用）
+	// @inject_tag: db:"type" json:"type"
+	optional int32 type = 6; //角色类型(1内置/2定义)
+	// @inject_tag: db:"remark" json:"remark"
+	optional string remark = 7; //备注
+	// @inject_tag: db:"creator" json:"creator"
+	optional string creator = 8; //创建者
+	// @inject_tag: db:"create_time" json:"createTime"
+	google.protobuf.Timestamp create_time = 9; //创建时间
+	// @inject_tag: db:"updater" json:"updater"
+	optional string updater = 10; //更新者
+	// @inject_tag: db:"update_time" json:"updateTime"
+	google.protobuf.Timestamp update_time = 11; //更新时间
+}
+// SystemRoleCreateRequest 创建数据请求
+message SystemRoleCreateRequest {
+	SystemRoleObject data = 1;
+}
+// SystemRoleCreateResponse 创建数据响应
+message SystemRoleCreateResponse {
+	int64 code = 1;
+	string msg = 2;
+	int64 data = 3;
+}
+// SystemRoleUpdateRequest 更新数据请求
+message SystemRoleUpdateRequest {
+	// @inject_tag: db:"system_role_id" json:"systemRoleId"
+	int64 system_role_id = 1; //角色编号
+	SystemRoleObject data = 2;
+}
+// SystemRoleUpdateResponse 更新数据响应
+message SystemRoleUpdateResponse {
+	int64 code = 1;
+	string msg = 2;
+}
+// SystemRoleDeleteRequest 删除数据请求
+message SystemRoleDeleteRequest {
+	// @inject_tag: db:"system_role_id" json:"systemRoleId"
+	int64 system_role_id = 1; //角色编号
+}
+// SystemRoleDeleteResponse 删除数据响应
+message SystemRoleDeleteResponse {
+	int64 code = 1;
+	string msg = 2;
+}
+// SystemRoleRequest 查询单条数据请求
+message SystemRoleRequest {
+	// @inject_tag: db:"system_role_id" json:"systemRoleId"
+	int64 system_role_id = 1; //角色编号
+}
+// SystemRoleResponse 查询单条数据响应
+message SystemRoleResponse {
+	int64 code = 1;
+	string msg = 2;
+	SystemRoleObject data = 3;
+}
+// SystemRoleListRequest 列表数据
+message SystemRoleListRequest {
+	
+	// @inject_tag: db:"type" json:"type"
+	optional int32 type = 1; // 角色类型(1内置/2定义)
+	// @inject_tag: db:"status" json:"status"
+	optional int32 status = 2; // 角色状态（0正常 1停用）
+
+}
+
+// SystemRoleListResponse 数据响应
+message SystemRoleListResponse {
+	int64 code = 1;
+  	string msg = 2;
+	repeated SystemRoleObject data = 3;
+}
+
+
+// SystemRoleService 服务
+service SystemRoleService{
+	rpc SystemRoleCreate(SystemRoleCreateRequest) returns (SystemRoleCreateResponse);
+	rpc SystemRoleUpdate(SystemRoleUpdateRequest) returns (SystemRoleUpdateResponse);
+	rpc SystemRoleDelete(SystemRoleDeleteRequest) returns (SystemRoleDeleteResponse);
+	rpc SystemRole(SystemRoleRequest) returns (SystemRoleResponse);
+	rpc SystemRoleList(SystemRoleListRequest) returns (SystemRoleListResponse);
+}
