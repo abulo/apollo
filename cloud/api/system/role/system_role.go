@@ -153,6 +153,8 @@ func SystemRoleCreate(ctx context.Context, newCtx *app.RequestContext) {
 		})
 		return
 	}
+	reqInfo.Creator = null.StringFrom(newCtx.GetString("systemUserName"))
+	reqInfo.CreateTime = null.DateTimeFrom(util.Now())
 	request.Data = SystemRoleProto(reqInfo)
 	// 执行服务
 	res, err := client.SystemRoleCreate(ctx, request)
@@ -210,6 +212,8 @@ func SystemRoleUpdate(ctx context.Context, newCtx *app.RequestContext) {
 		})
 		return
 	}
+	reqInfo.Updater = null.StringFrom(newCtx.GetString("systemUserName"))
+	reqInfo.UpdateTime = null.DateTimeFrom(util.Now())
 	request.Data = SystemRoleProto(reqInfo)
 	// 执行服务
 	res, err := client.SystemRoleUpdate(ctx, request)

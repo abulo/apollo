@@ -5,12 +5,13 @@ import (
 	"cloud/api/system/menu"
 	"cloud/api/system/role"
 	"cloud/api/system/user"
+	"cloud/internal/middleware"
 
 	"github.com/abulo/ratel/v3/server/xhertz"
 )
 
 func ManagerInitRoute(handle *xhertz.Server) {
-	auth := handle.Group("/admin")
+	auth := handle.Group("/admin").Use(middleware.AuthMiddleware())
 	{
 		// system_user->系统用户->创建
 		auth.POST("/system/user", user.SystemUserCreate)

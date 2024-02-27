@@ -275,3 +275,104 @@ func (srv SrvSystemUserServiceServer) SystemUserListTotal(ctx context.Context, r
 		Data: total,
 	}, nil
 }
+
+func (srv SrvSystemUserServiceServer) SystemMenuResult(item dao.SystemMenu) *SystemMenuObject {
+	res := &SystemMenuObject{}
+	if item.Id != nil {
+		res.Id = item.Id
+	}
+	if item.Name != nil {
+		res.Name = item.Name
+	}
+	if item.Permission.IsValid() {
+		res.Permission = item.Permission.Ptr()
+	}
+	if item.Type != nil {
+		res.Type = item.Type
+	}
+	if item.Sort != nil {
+		res.Sort = item.Sort
+	}
+	if item.ParentId != nil {
+		res.ParentId = item.ParentId
+	}
+	if item.Path.IsValid() {
+		res.Path = item.Path.Ptr()
+	}
+	if item.Icon.IsValid() {
+		res.Icon = item.Icon.Ptr()
+	}
+	if item.Component.IsValid() {
+		res.Component = item.Component.Ptr()
+	}
+	if item.ComponentName.IsValid() {
+		res.ComponentName = item.ComponentName.Ptr()
+	}
+	if item.Status != nil {
+		res.Status = item.Status
+	}
+	if item.Hide != nil {
+		res.Hide = item.Hide
+	}
+	if item.Link.IsValid() {
+		res.Link = item.Link.Ptr()
+	}
+	if item.KeepAlive != nil {
+		res.KeepAlive = item.KeepAlive
+	}
+	if item.Affix != nil {
+		res.Affix = item.Affix
+	}
+	if item.ActivePath.IsValid() {
+		res.ActivePath = item.ActivePath.Ptr()
+	}
+	if item.FullScreen != nil {
+		res.FullScreen = item.FullScreen
+	}
+	if item.Redirect.IsValid() {
+		res.Redirect = item.Redirect.Ptr()
+	}
+	if item.Creator.IsValid() {
+		res.Creator = item.Creator.Ptr()
+	}
+	if item.CreateTime.IsValid() {
+		res.CreateTime = timestamppb.New(*item.CreateTime.Ptr())
+	}
+	if item.Updater.IsValid() {
+		res.Updater = item.Updater.Ptr()
+	}
+	if item.UpdateTime.IsValid() {
+		res.UpdateTime = timestamppb.New(*item.UpdateTime.Ptr())
+	}
+	if item.Deleted != nil {
+		res.Deleted = item.Deleted
+	}
+
+	return res
+}
+
+// SystemUserMenuList 获取用户菜单
+func (srv *SrvSystemUserServiceServer) SystemUserMenuList(ctx context.Context, request *SystemUserMenuListRequest) (*SystemUserMenuListResponse, error) {
+	systemUserId := request.GetSystemUserId()
+	if systemUserId < 1 {
+		return &SystemUserMenuListResponse{}, status.Error(code.ConvertToGrpc(code.ParamInvalid), code.StatusText(code.ParamInvalid))
+	}
+	list, err := user.SystemUserMenuList(ctx, systemUserId)
+	if sql.ResultAccept(err) != nil {
+		globalLogger.Logger.WithFields(logrus.Fields{
+			"req": systemUserId,
+			"err": err,
+		}).Error("Sql:系统用户:system_user:SystemUserMenuList")
+		return &SystemUserMenuListResponse{}, status.Error(code.ConvertToGrpc(code.SqlError), err.Error())
+	}
+
+	var res []*SystemMenuObject
+	for _, item := range list {
+		res = append(res, srv.SystemMenuResult(item))
+	}
+	return &SystemUserMenuListResponse{
+		Code: code.Success,
+		Msg:  code.StatusText(code.Success),
+		Data: res,
+	}, nil
+}

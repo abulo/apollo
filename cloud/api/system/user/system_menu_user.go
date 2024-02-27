@@ -4,7 +4,7 @@ import (
 	"cloud/code"
 	"cloud/dao"
 	"cloud/initial"
-	"cloud/service/system/menu"
+	"cloud/service/system/user"
 	"context"
 	"strings"
 
@@ -16,11 +16,10 @@ import (
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/cast"
 	"google.golang.org/grpc/status"
-	"google.golang.org/protobuf/proto"
 )
 
 // SystemUserMenuDao 数据转换
-func SystemUserMenuDao(item *menu.SystemMenuObject) dao.SystemMenuTree {
+func SystemUserMenuDao(item *user.SystemMenuObject) dao.SystemMenuTree {
 	daoItem := dao.SystemMenuTree{}
 	if !util.Empty(item.Id) {
 		daoItem.Id = item.GetId() // 菜单ID
@@ -75,13 +74,12 @@ func SystemUserMenu(ctx context.Context, newCtx *app.RequestContext) {
 		return
 	}
 	//链接服务
-	client := menu.NewSystemMenuServiceClient(grpcClient)
-	request := &menu.SystemMenuListRequest{}
-	// 构造查询条件
-	request.Deleted = proto.Int32(0) // 是否删除
-	request.Status = proto.Int32(0)  // 菜单状态(0开启/1关闭)
+	client := user.NewSystemUserServiceClient(grpcClient)
+	request := &user.SystemUserMenuListRequest{}
+	systemUserId := newCtx.GetInt64("systemUserId")
+	request.SystemUserId = systemUserId
 	// 执行服务
-	res, err := client.SystemMenuList(ctx, request)
+	res, err := client.SystemUserMenuList(ctx, request)
 	if err != nil {
 		globalLogger.Logger.WithFields(logrus.Fields{
 			"req": request,
@@ -138,14 +136,12 @@ func SystemUserBtn(ctx context.Context, newCtx *app.RequestContext) {
 		return
 	}
 	//链接服务
-	client := menu.NewSystemMenuServiceClient(grpcClient)
-	request := &menu.SystemMenuListRequest{}
-	// 构造查询条件
-	request.Deleted = proto.Int32(0) // 是否删除
-	request.Status = proto.Int32(0)  // 菜单状态(0开启/1关闭)
-
+	client := user.NewSystemUserServiceClient(grpcClient)
+	request := &user.SystemUserMenuListRequest{}
+	systemUserId := newCtx.GetInt64("systemUserId")
+	request.SystemUserId = systemUserId
 	// 执行服务
-	res, err := client.SystemMenuList(ctx, request)
+	res, err := client.SystemUserMenuList(ctx, request)
 	if err != nil {
 		globalLogger.Logger.WithFields(logrus.Fields{
 			"req": request,

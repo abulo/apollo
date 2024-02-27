@@ -531,7 +531,7 @@ func SystemUserLogin(ctx context.Context, newCtx *app.RequestContext) {
 		})
 		return
 	}
-	token, err := tools.GenerateToken(*userInfo.Id, *userInfo.Username, *userInfo.Nickname, "WEB")
+	token, err := tools.GenerateToken(userInfo.GetId(), userInfo.GetUsername(), userInfo.GetNickname(), "WEB")
 	if err != nil {
 		globalLogger.Logger.WithFields(logrus.Fields{
 			"req": requestCaptcha,
@@ -551,10 +551,10 @@ func SystemUserLogin(ctx context.Context, newCtx *app.RequestContext) {
 	resSystemLoginLog.UserIp = proto.String(newCtx.ClientIP())
 	resSystemLoginLog.UserAgent = null.StringFrom(cast.ToString(newCtx.Request.Header.UserAgent()))
 	resSystemLoginLog.LoginTime = null.DateTimeFrom(nowTime)
-	resSystemLoginLog.Creator = null.StringFrom(*userInfo.Nickname) //创建者
-	resSystemLoginLog.CreateTime = null.DateTimeFrom(nowTime)       //创建时间
-	resSystemLoginLog.Updater = null.StringFrom(*userInfo.Nickname) //更新者
-	resSystemLoginLog.UpdateTime = null.DateTimeFrom(nowTime)       //更新时间
+	resSystemLoginLog.Creator = null.StringFrom(userInfo.GetUsername()) //创建者
+	resSystemLoginLog.CreateTime = null.DateTimeFrom(nowTime)           //创建时间
+	resSystemLoginLog.Updater = null.StringFrom(userInfo.GetUsername()) //更新者
+	resSystemLoginLog.UpdateTime = null.DateTimeFrom(nowTime)           //更新时间
 	// 将这些数据需要全部存储在消息列队中,然后后台去执行消息列队
 	redisHandler := initial.Core.Store.LoadRedis("redis")
 	key := util.NewReplacer(initial.Core.Config.String("Cache.SystemLoginLog.Queue"))

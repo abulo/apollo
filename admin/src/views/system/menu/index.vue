@@ -159,7 +159,7 @@
 </template>
 <script setup lang="tsx" name="systemMenu">
 import { ref, reactive, nextTick } from "vue";
-import { ProTableInstance, ColumnProps } from "@/components/ProTable/interface";
+import { ProTableInstance, ColumnProps, SearchProps } from "@/components/ProTable/interface";
 import { EditPen, CirclePlus, Sort, Delete, Refresh, DArrowRight } from "@element-plus/icons-vue";
 import ProTable from "@/components/ProTable/index.vue";
 import { SystemMenu } from "@/api/interface/systemMenu";
@@ -406,6 +406,12 @@ const submitForm = (formEl: FormInstance | undefined) => {
   });
 };
 
+// 表格配置项
+const deleteSearch = reactive<SearchProps>({
+  el: "switch",
+  span: 2
+});
+
 const columns: ColumnProps<SystemMenu.ResSystemMenuList>[] = [
   { prop: "id", type: "", label: "编号", width: 100 },
   { prop: "name", label: "名称", align: "left" },
@@ -416,12 +422,13 @@ const columns: ColumnProps<SystemMenu.ResSystemMenuList>[] = [
   { prop: "permission", label: "权限" },
   { prop: "component", label: "组件路径" },
   { prop: "componentName", label: "组件别名" },
-  { prop: "status", label: "状态", tag: true, enum: statusEnum },
+  { prop: "status", label: "状态", tag: true, enum: statusEnum, search: { el: "select", span: 2 } },
   {
     prop: "deleted",
     label: "删除",
     tag: true,
     enum: deletedEnum,
+    search: deleteSearch,
     width: 100
   },
   {

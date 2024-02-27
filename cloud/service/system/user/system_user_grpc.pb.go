@@ -28,6 +28,7 @@ const (
 	SystemUserService_SystemUserLogin_FullMethodName     = "/user.SystemUserService/SystemUserLogin"
 	SystemUserService_SystemUserList_FullMethodName      = "/user.SystemUserService/SystemUserList"
 	SystemUserService_SystemUserListTotal_FullMethodName = "/user.SystemUserService/SystemUserListTotal"
+	SystemUserService_SystemUserMenuList_FullMethodName  = "/user.SystemUserService/SystemUserMenuList"
 )
 
 // SystemUserServiceClient is the client API for SystemUserService service.
@@ -41,6 +42,7 @@ type SystemUserServiceClient interface {
 	SystemUserLogin(ctx context.Context, in *SystemUserLoginRequest, opts ...grpc.CallOption) (*SystemUserLoginResponse, error)
 	SystemUserList(ctx context.Context, in *SystemUserListRequest, opts ...grpc.CallOption) (*SystemUserListResponse, error)
 	SystemUserListTotal(ctx context.Context, in *SystemUserListTotalRequest, opts ...grpc.CallOption) (*SystemUserTotalResponse, error)
+	SystemUserMenuList(ctx context.Context, in *SystemUserMenuListRequest, opts ...grpc.CallOption) (*SystemUserMenuListResponse, error)
 }
 
 type systemUserServiceClient struct {
@@ -114,6 +116,15 @@ func (c *systemUserServiceClient) SystemUserListTotal(ctx context.Context, in *S
 	return out, nil
 }
 
+func (c *systemUserServiceClient) SystemUserMenuList(ctx context.Context, in *SystemUserMenuListRequest, opts ...grpc.CallOption) (*SystemUserMenuListResponse, error) {
+	out := new(SystemUserMenuListResponse)
+	err := c.cc.Invoke(ctx, SystemUserService_SystemUserMenuList_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // SystemUserServiceServer is the server API for SystemUserService service.
 // All implementations must embed UnimplementedSystemUserServiceServer
 // for forward compatibility
@@ -125,6 +136,7 @@ type SystemUserServiceServer interface {
 	SystemUserLogin(context.Context, *SystemUserLoginRequest) (*SystemUserLoginResponse, error)
 	SystemUserList(context.Context, *SystemUserListRequest) (*SystemUserListResponse, error)
 	SystemUserListTotal(context.Context, *SystemUserListTotalRequest) (*SystemUserTotalResponse, error)
+	SystemUserMenuList(context.Context, *SystemUserMenuListRequest) (*SystemUserMenuListResponse, error)
 	mustEmbedUnimplementedSystemUserServiceServer()
 }
 
@@ -152,6 +164,9 @@ func (UnimplementedSystemUserServiceServer) SystemUserList(context.Context, *Sys
 }
 func (UnimplementedSystemUserServiceServer) SystemUserListTotal(context.Context, *SystemUserListTotalRequest) (*SystemUserTotalResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SystemUserListTotal not implemented")
+}
+func (UnimplementedSystemUserServiceServer) SystemUserMenuList(context.Context, *SystemUserMenuListRequest) (*SystemUserMenuListResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SystemUserMenuList not implemented")
 }
 func (UnimplementedSystemUserServiceServer) mustEmbedUnimplementedSystemUserServiceServer() {}
 
@@ -292,6 +307,24 @@ func _SystemUserService_SystemUserListTotal_Handler(srv interface{}, ctx context
 	return interceptor(ctx, in, info, handler)
 }
 
+func _SystemUserService_SystemUserMenuList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SystemUserMenuListRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SystemUserServiceServer).SystemUserMenuList(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: SystemUserService_SystemUserMenuList_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SystemUserServiceServer).SystemUserMenuList(ctx, req.(*SystemUserMenuListRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // SystemUserService_ServiceDesc is the grpc.ServiceDesc for SystemUserService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -326,6 +359,10 @@ var SystemUserService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "SystemUserListTotal",
 			Handler:    _SystemUserService_SystemUserListTotal_Handler,
+		},
+		{
+			MethodName: "SystemUserMenuList",
+			Handler:    _SystemUserService_SystemUserMenuList_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
