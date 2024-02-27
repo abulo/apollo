@@ -3,6 +3,7 @@ package routes
 import (
 	"cloud/api/system/dict"
 	"cloud/api/system/menu"
+	"cloud/api/system/role"
 	"cloud/api/system/user"
 
 	"github.com/abulo/ratel/v3/server/xhertz"
@@ -61,6 +62,16 @@ func ManagerInitRoute(handle *xhertz.Server) {
 		auth.GET("/system/dict/data", dict.SystemDictList)
 		// system_dict->字典数据表->所有数据
 		auth.GET("/system/dict/all", dict.SystemDictAll)
+		// system_role->系统角色->创建
+		auth.POST("/system/role", role.SystemRoleCreate)
+		// system_role->系统角色->更新
+		auth.PUT("/system/role/:systemRoleId/update", role.SystemRoleUpdate)
+		// system_role->系统角色->删除
+		auth.DELETE("/system/role/:systemRoleId/delete", role.SystemRoleDelete)
+		// system_role->系统角色->单条数据信息查看
+		auth.GET("/system/role/:systemRoleId/item", role.SystemRole)
+		// system_role->系统角色->列表
+		auth.GET("/system/role", role.SystemRoleList)
 
 	}
 }
