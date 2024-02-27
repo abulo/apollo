@@ -40,4 +40,8 @@ func Registry(server *xgrpc.Server) {
 	role.RegisterSystemRoleMenuServiceServer(server.Server, &role.SrvSystemRoleMenuServiceServer{
 		Server: server,
 	})
+	// 系统用户和系统角色关联表->system_user_role
+	user.RegisterSystemUserRoleServiceServer(server.Server, &user.SrvSystemUserRoleServiceServer{
+		Server: server,
+	})
 }

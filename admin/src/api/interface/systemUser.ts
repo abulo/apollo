@@ -19,6 +19,19 @@ export namespace SystemUser {
 
   // 列表接口请求数据
   export interface ReqSystemUserList extends ReqPage {
+    username?: string; //用户名
     status?: number; // 帐号状态（0正常 1停用）
+  }
+  export interface ResSystemUserItem {
+    id: number | undefined; // 用户编号
+    nickname: string; // 昵称
+    username: string; // 用户名称
+    password: string | undefined; // 用户密码
+    status: number; // 用户状态（0正常 1停用）
+    creator: string; // 创建人
+    createTime: string; // 创建时间
+    updater: string; // 更新人
+    updateTime: string; // 更新时间
+    roleIds: number[]; // 角色ID
   }
 }

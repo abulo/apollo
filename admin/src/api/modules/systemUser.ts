@@ -1,7 +1,7 @@
 import { SystemUser } from "@/api/interface/systemUser";
 import { SystemMenu } from "@/api/interface/systemMenu";
 import { PORT } from "@/api/config/servicePort";
-// import { ResPage } from "@/api/interface/index";
+import { ResPage } from "@/api/interface/index";
 import http from "@/api";
 
 /**
@@ -16,40 +16,30 @@ export const postSystemUserLoginApi = (params: SystemUser.ReqSystemUserLogin) =>
   // return http.get<Login.ResLogin>(PORT1 + `/login?${qs.stringify(params, { arrayFormat: "repeat" })}`); // get 请求可以携带数组等复杂参数
 };
 
-// // 获取列表
-// export const getSystemUserListApi = (params?: SystemUser.ReqSystemUserList) => {
-//   return http.get<ResPage<SystemUser.ResSystemUserItem>>(PORT + `/system/user`, params);
-// };
+// 获取列表
+export const getSystemUserListApi = (params?: SystemUser.ReqSystemUserList) => {
+  return http.get<ResPage<SystemUser.ResSystemUserItem>>(PORT + `/system/user`, params);
+};
 
-// // 获取单个数据接口
-// export const getSystemUserItemApi = (id: number) => {
-//   return http.get<SystemUser.ResSystemUserItem>(PORT + `/system/user/${id}/item`);
-// };
+// 获取单个数据接口
+export const getSystemUserItemApi = (id: number) => {
+  return http.get<SystemUser.ResSystemUserItem>(PORT + `/system/user/${id}/item`);
+};
 
-// // 新增
-// export const addSystemUserApi = (params: SystemUser.ResSystemUserItem) => {
-//   return http.post(PORT + `/system/user`, params);
-// };
+// 新增
+export const addSystemUserApi = (params: SystemUser.ResSystemUserItem) => {
+  return http.post(PORT + `/system/user`, params);
+};
 
-// // 修改
-// export const updateSystemUserApi = (id: number, params: SystemUser.ResSystemUserItem) => {
-//   return http.put(PORT + `/system/user/${id}/update`, params);
-// };
+// 修改
+export const updateSystemUserApi = (id: number, params: SystemUser.ResSystemUserItem) => {
+  return http.put(PORT + `/system/user/${id}/update`, params);
+};
 
-// // 删除
-// export const deleteSystemUserApi = (id: number) => {
-//   return http.delete(PORT + `/system/user/${id}/delete`);
-// };
-
-// // 恢复
-// export const recoverSystemUserApi = (id: number) => {
-//   return http.put(PORT + `/system/user/${id}/recover`);
-// };
-
-// // 搜索
-// export const getSystemUserSearchApi = (params?: SystemUser.ReqSystemUserList) => {
-//   return http.get<ResPage<SystemUser.ResSystemUserItem>>(PORT + `/system/user/search`, params);
-// };
+// 删除
+export const deleteSystemUserApi = (id: number) => {
+  return http.delete(PORT + `/system/user/${id}/delete`);
+};
 
 // // 密码秀
 // export const setSystemUserPasswordApi = (id: number, params: SystemUser.ReqSystemUserPassword) => {

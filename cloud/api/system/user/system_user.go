@@ -95,6 +95,54 @@ func SystemUserProto(item dao.SystemUser) *user.SystemUserObject {
 	return res
 }
 
+// SystemUserRoleDao 数据转换
+func SystemUserRoleDao(item *user.SystemUserRoleObject) *dao.SystemUserRole {
+	daoItem := &dao.SystemUserRole{}
+	if item != nil && item.Id != nil {
+		daoItem.Id = item.Id // 自增编号
+	}
+	if item != nil && item.SystemUserId != nil {
+		daoItem.SystemUserId = item.SystemUserId // 用户ID
+	}
+	if item != nil && item.SystemRoleId != nil {
+		daoItem.SystemRoleId = item.SystemRoleId // 角色ID
+	}
+	if item != nil && item.Creator != nil {
+		daoItem.Creator = null.StringFrom(item.GetCreator()) // 创建者
+	}
+	if item != nil && item.CreateTime != nil {
+		daoItem.CreateTime = null.DateTimeFrom(util.GrpcTime(item.CreateTime)) // 创建时间
+	}
+	if item != nil && item.Updater != nil {
+		daoItem.Updater = null.StringFrom(item.GetUpdater()) // 更新者
+	}
+	if item != nil && item.UpdateTime != nil {
+		daoItem.UpdateTime = null.DateTimeFrom(util.GrpcTime(item.UpdateTime)) // 更新时间
+	}
+
+	return daoItem
+}
+
+func SystemUserRoleProto(item dao.SystemUser) *user.SystemUserRoleCreateRequest {
+	res := &user.SystemUserRoleCreateRequest{}
+	if item.RoleIds.IsValid() {
+		res.SystemRoleIds = *item.RoleIds.Ptr()
+	}
+	if item.Creator.IsValid() {
+		res.Creator = item.Creator.Ptr()
+	}
+	if item.CreateTime.IsValid() {
+		res.CreateTime = timestamppb.New(*item.CreateTime.Ptr())
+	}
+	if item.Updater.IsValid() {
+		res.Updater = item.Updater.Ptr()
+	}
+	if item.UpdateTime.IsValid() {
+		res.UpdateTime = timestamppb.New(*item.UpdateTime.Ptr())
+	}
+	return res
+}
+
 // SystemUserCreate 创建数据
 func SystemUserCreate(ctx context.Context, newCtx *app.RequestContext) {
 	//判断这个服务能不能链接
@@ -137,6 +185,14 @@ func SystemUserCreate(ctx context.Context, newCtx *app.RequestContext) {
 			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
 		})
 		return
+	}
+	// 绑定角色
+	if res.GetCode() == code.Success {
+		userId := res.GetData()
+		clientUserRole := user.NewSystemUserRoleServiceClient(grpcClient)
+		requestUserRole := SystemUserRoleProto(reqInfo)
+		requestUserRole.SystemUserId = proto.Int64(userId)
+		clientUserRole.SystemUserRoleCreate(ctx, requestUserRole)
 	}
 	newCtx.JSON(consts.StatusOK, utils.H{
 		"code": res.GetCode(),
@@ -188,6 +244,14 @@ func SystemUserUpdate(ctx context.Context, newCtx *app.RequestContext) {
 			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
 		})
 		return
+	}
+	// 绑定角色
+	if res.GetCode() == code.Success {
+		userId := systemUserId
+		clientUserRole := user.NewSystemUserRoleServiceClient(grpcClient)
+		requestUserRole := SystemUserRoleProto(reqInfo)
+		requestUserRole.SystemUserId = proto.Int64(userId)
+		clientUserRole.SystemUserRoleCreate(ctx, requestUserRole)
 	}
 	newCtx.JSON(consts.StatusOK, utils.H{
 		"code": res.GetCode(),
@@ -266,10 +330,28 @@ func SystemUser(ctx context.Context, newCtx *app.RequestContext) {
 		})
 		return
 	}
+	userInfo := SystemUserDao(res.GetData())
+	userInfo.Password = nil
+
+	var listRoleId []int64
+	// 获取角色
+	clientUserRole := user.NewSystemUserRoleServiceClient(grpcClient)
+	requestUserRole := &user.SystemUserRoleListRequest{}
+	requestUserRole.SystemUserId = proto.Int64(systemUserId)
+	if resUserRole, err := clientUserRole.SystemUserRoleList(ctx, requestUserRole); err == nil {
+		if resUserRole.GetCode() == code.Success {
+			rpcList := resUserRole.GetData()
+			for _, item := range rpcList {
+				listRoleId = append(listRoleId, *item.SystemRoleId)
+			}
+		}
+	}
+	byteRoleIds, _ := json.Marshal(listRoleId)
+	userInfo.RoleIds = null.JSONFrom(byteRoleIds)
 	newCtx.JSON(consts.StatusOK, utils.H{
 		"code": res.GetCode(),
 		"msg":  res.GetMsg(),
-		"data": SystemUserDao(res.GetData()),
+		"data": userInfo,
 	})
 }
 
@@ -339,7 +421,9 @@ func SystemUserList(ctx context.Context, newCtx *app.RequestContext) {
 	if res.GetCode() == code.Success {
 		rpcList := res.GetData()
 		for _, item := range rpcList {
-			list = append(list, SystemUserDao(item))
+			userInfo := SystemUserDao(item)
+			userInfo.Password = nil
+			list = append(list, userInfo)
 		}
 	}
 	newCtx.JSON(consts.StatusOK, utils.H{

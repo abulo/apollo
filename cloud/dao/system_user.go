@@ -13,4 +13,5 @@ type SystemUser struct {
 	CreateTime null.DateTime `db:"create_time" json:"createTime"` //datetime 创建时间
 	Updater    null.String   `db:"updater" json:"updater"`        //varchar 更新人
 	UpdateTime null.DateTime `db:"update_time" json:"updateTime"` //datetime 更新时间
+	RoleIds    null.JSON     `json:"roleIds"`                     //bigint 角色ID
 }

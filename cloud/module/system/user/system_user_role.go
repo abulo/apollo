@@ -1,4 +1,4 @@
-package role
+package user
 
 import (
 	"cloud/dao"
@@ -10,20 +10,20 @@ import (
 	"google.golang.org/protobuf/proto"
 )
 
-// system_role_menu 系统角色和系统菜单关联表
-// SystemRoleMenuCreate 创建数据
-func SystemRoleMenuCreate(ctx context.Context, data dao.SystemRoleMenuCustom) (res int64, err error) {
+// system_user_role 系统用户和系统角色关联表
+// SystemUserRoleCreate 创建数据
+func SystemUserRoleCreate(ctx context.Context, data dao.SystemUserRoleCustom) (res int64, err error) {
 	db := initial.Core.Store.LoadSQL("mysql").Write()
-	var menuIds []int64
-	err = json.Unmarshal(data.SystemMenuIds.JSON, &menuIds)
+	var roleIds []int64
+	err = json.Unmarshal(data.SystemRoleIds.JSON, &roleIds)
 	if err != nil {
 		return
 	}
 	var list []any
-	for _, menuId := range menuIds {
-		list = append(list, dao.SystemRoleMenu{
-			SystemRoleId: data.SystemRoleId,
-			SystemMenuId: proto.Int64(menuId),
+	for _, roleId := range roleIds {
+		list = append(list, dao.SystemUserRole{
+			SystemRoleId: proto.Int64(roleId),
+			SystemUserId: data.SystemUserId,
 			Creator:      data.Creator,
 			CreateTime:   data.CreateTime,
 			Updater:      data.Updater,
@@ -37,7 +37,7 @@ func SystemRoleMenuCreate(ctx context.Context, data dao.SystemRoleMenuCustom) (r
 		}
 		// 需要先将数据删除了在添加
 		delete := sql.NewBuilder()
-		queryDelete, argsDelete, err := delete.Table("`system_role_menu`").Where("system_role_id", data.SystemRoleId).Delete()
+		queryDelete, argsDelete, err := delete.Table("`system_user_role`").Where("system_user_id", data.SystemUserId).Delete()
 		if err != nil {
 			return err
 		}
@@ -46,7 +46,7 @@ func SystemRoleMenuCreate(ctx context.Context, data dao.SystemRoleMenuCustom) (r
 			return err
 		}
 		builder := sql.NewBuilder()
-		query, args, err := builder.Table("`system_role_menu`").MultiInsert(list...)
+		query, args, err := builder.Table("`system_user_role`").MultiInsert(list...)
 		if err != nil {
 			return err
 		}
@@ -60,16 +60,16 @@ func SystemRoleMenuCreate(ctx context.Context, data dao.SystemRoleMenuCustom) (r
 	return res, err
 }
 
-// SystemRoleMenuList 查询列表数据
-func SystemRoleMenuList(ctx context.Context, condition map[string]any) (res []dao.SystemRoleMenu, err error) {
+// SystemUserRoleList 查询列表数据
+func SystemUserRoleList(ctx context.Context, condition map[string]any) (res []dao.SystemUserRole, err error) {
 	db := initial.Core.Store.LoadSQL("mysql").Read()
 	builder := sql.NewBuilder()
-	builder.Table("`system_role_menu`")
-	if val, ok := condition["systemMenuId"]; ok {
-		builder.Where("`system_menu_id`", val)
-	}
+	builder.Table("`system_user_role`")
 	if val, ok := condition["systemRoleId"]; ok {
 		builder.Where("`system_role_id`", val)
+	}
+	if val, ok := condition["systemUserId"]; ok {
+		builder.Where("`system_user_id`", val)
 	}
 
 	builder.OrderBy("`id`", sql.DESC)
