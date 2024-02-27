@@ -1,0 +1,68 @@
+
+syntax = "proto3";
+// system_role_menu 系统角色和系统菜单关联表
+package role;
+option go_package = "./role";
+import "google/protobuf/timestamp.proto";
+
+// SystemRoleMenuObject 数据对象
+message SystemRoleMenuObject {
+	// @inject_tag: db:"id" json:"id"
+	optional int64 id = 1; //自增编号
+	// @inject_tag: db:"system_role_id" json:"systemRoleId"
+	optional int64 system_role_id = 2; //角色编号
+	// @inject_tag: db:"system_menu_id" json:"systemMenuId"
+	optional int64 system_menu_id = 3; //菜单编号
+	// @inject_tag: db:"creator" json:"creator"
+	optional string creator = 4; //创建者
+	// @inject_tag: db:"create_time" json:"createTime"
+	google.protobuf.Timestamp create_time = 5; //创建时间
+	// @inject_tag: db:"updater" json:"updater"
+	optional string updater = 6; //更新者
+	// @inject_tag: db:"update_time" json:"updateTime"
+	google.protobuf.Timestamp update_time = 7; //更新时间
+}
+// SystemRoleMenuCreateRequest 创建数据请求
+message SystemRoleMenuCreateRequest {
+	// @inject_tag: db:"system_role_id" json:"systemRoleId"
+	optional int64 system_role_id = 1; //角色ID
+	// @inject_tag: db:"system_menu_ids" json:"systemMenuIds"
+	optional bytes system_menu_ids = 2; //菜单ID
+	// @inject_tag: db:"creator" json:"creator"
+	optional string creator = 3; //创建者
+	// @inject_tag: db:"create_time" json:"createTime"
+	google.protobuf.Timestamp create_time = 4; //创建时间
+	// @inject_tag: db:"updater" json:"updater"
+	optional string updater = 5; //更新者
+	// @inject_tag: db:"update_time" json:"updateTime"
+	google.protobuf.Timestamp update_time = 6; //更新时间
+}
+// SystemRoleMenuCreateResponse 创建数据响应
+message SystemRoleMenuCreateResponse {
+	int64 code = 1;
+	string msg = 2;
+	int64 data = 3;
+}
+// SystemRoleMenuListRequest 列表数据
+message SystemRoleMenuListRequest {
+	
+	// @inject_tag: db:"system_menu_id" json:"systemMenuId"
+	optional int64 system_menu_id = 1; // 菜单编号
+	// @inject_tag: db:"system_role_id" json:"systemRoleId"
+	optional int64 system_role_id = 2; // 角色编号
+
+}
+
+// SystemRoleMenuListResponse 数据响应
+message SystemRoleMenuListResponse {
+	int64 code = 1;
+  	string msg = 2;
+	repeated SystemRoleMenuObject data = 3;
+}
+
+
+// SystemRoleMenuService 服务
+service SystemRoleMenuService{
+	rpc SystemRoleMenuCreate(SystemRoleMenuCreateRequest) returns (SystemRoleMenuCreateResponse);
+	rpc SystemRoleMenuList(SystemRoleMenuListRequest) returns (SystemRoleMenuListResponse);
+}

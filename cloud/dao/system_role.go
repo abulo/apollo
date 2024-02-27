@@ -15,5 +15,5 @@ type SystemRole struct {
 	CreateTime null.DateTime `db:"create_time" json:"createTime"` //datetime 创建时间
 	Updater    null.String   `db:"updater" json:"updater"`        //varchar 更新者
 	UpdateTime null.DateTime `db:"update_time" json:"updateTime"` //datetime 更新时间
-	Deleted    *int32        `db:"deleted" json:"deleted"`        //tinyint 是否删除
+	MenuIds    null.JSON     `json:"menuIds"`                     //json 关联的菜单编号
 }

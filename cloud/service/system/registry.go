@@ -4,6 +4,7 @@ import (
 	"cloud/service/system/dict"
 	"cloud/service/system/login"
 	"cloud/service/system/menu"
+	"cloud/service/system/role"
 	"cloud/service/system/user"
 
 	"github.com/abulo/ratel/v3/server/xgrpc"
@@ -29,6 +30,14 @@ func Registry(server *xgrpc.Server) {
 	})
 	// 字典数据表->system_dict
 	dict.RegisterSystemDictServiceServer(server.Server, &dict.SrvSystemDictServiceServer{
+		Server: server,
+	})
+	// 系统角色->system_role
+	role.RegisterSystemRoleServiceServer(server.Server, &role.SrvSystemRoleServiceServer{
+		Server: server,
+	})
+	// 系统角色和系统菜单关联表->system_role_menu
+	role.RegisterSystemRoleMenuServiceServer(server.Server, &role.SrvSystemRoleMenuServiceServer{
 		Server: server,
 	})
 }

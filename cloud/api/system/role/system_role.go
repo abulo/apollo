@@ -2,6 +2,7 @@ package role
 
 import (
 	"context"
+	"encoding/json"
 
 	"cloud/code"
 	"cloud/dao"
@@ -104,6 +105,28 @@ func SystemRoleProto(item dao.SystemRole) *role.SystemRoleObject {
 	return res
 }
 
+// SystemRoleMenuProto 数据绑定
+func SystemRoleMenuProto(item dao.SystemRole) *role.SystemRoleMenuCreateRequest {
+	res := &role.SystemRoleMenuCreateRequest{}
+	if item.MenuIds.IsValid() {
+		res.SystemMenuIds = *item.MenuIds.Ptr()
+	}
+	if item.Creator.IsValid() {
+		res.Creator = item.Creator.Ptr()
+	}
+	if item.CreateTime.IsValid() {
+		res.CreateTime = timestamppb.New(*item.CreateTime.Ptr())
+	}
+	if item.Updater.IsValid() {
+		res.Updater = item.Updater.Ptr()
+	}
+	if item.UpdateTime.IsValid() {
+		res.UpdateTime = timestamppb.New(*item.UpdateTime.Ptr())
+	}
+
+	return res
+}
+
 // SystemRoleCreate 创建数据
 func SystemRoleCreate(ctx context.Context, newCtx *app.RequestContext) {
 	//判断这个服务能不能链接
@@ -144,6 +167,14 @@ func SystemRoleCreate(ctx context.Context, newCtx *app.RequestContext) {
 			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
 		})
 		return
+	}
+	if res.GetCode() == code.Success {
+		// 获取角色ID
+		roleId := res.GetData()
+		clientRoleMenu := role.NewSystemRoleMenuServiceClient(grpcClient)
+		requestRoleMenu := SystemRoleMenuProto(reqInfo)
+		requestRoleMenu.SystemRoleId = proto.Int64(roleId)
+		clientRoleMenu.SystemRoleMenuCreate(ctx, requestRoleMenu)
 	}
 	newCtx.JSON(consts.StatusOK, utils.H{
 		"code": res.GetCode(),
@@ -193,6 +224,13 @@ func SystemRoleUpdate(ctx context.Context, newCtx *app.RequestContext) {
 			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
 		})
 		return
+	}
+	if res.GetCode() == code.Success {
+		// 获取角色ID
+		clientRoleMenu := role.NewSystemRoleMenuServiceClient(grpcClient)
+		requestRoleMenu := SystemRoleMenuProto(reqInfo)
+		requestRoleMenu.SystemRoleId = proto.Int64(systemRoleId)
+		clientRoleMenu.SystemRoleMenuCreate(ctx, requestRoleMenu)
 	}
 	newCtx.JSON(consts.StatusOK, utils.H{
 		"code": res.GetCode(),
@@ -271,10 +309,26 @@ func SystemRole(ctx context.Context, newCtx *app.RequestContext) {
 		})
 		return
 	}
+
+	clientRoleMenu := role.NewSystemRoleMenuServiceClient(grpcClient)
+	requestRoleMenu := &role.SystemRoleMenuListRequest{}
+	requestRoleMenu.SystemRoleId = proto.Int64(systemRoleId)
+	var listMenuId []int64
+	if resRoleMenu, err := clientRoleMenu.SystemRoleMenuList(ctx, requestRoleMenu); err == nil {
+		if resRoleMenu.GetCode() == code.Success {
+			rpcList := resRoleMenu.GetData()
+			for _, item := range rpcList {
+				listMenuId = append(listMenuId, *item.SystemMenuId)
+			}
+		}
+	}
+	byteMenuIds, _ := json.Marshal(listMenuId)
+	roleInfo := SystemRoleDao(res.GetData())
+	roleInfo.MenuIds = null.JSONFrom(byteMenuIds)
 	newCtx.JSON(consts.StatusOK, utils.H{
 		"code": res.GetCode(),
 		"msg":  res.GetMsg(),
-		"data": SystemRoleDao(res.GetData()),
+		"data": roleInfo,
 	})
 }
 
