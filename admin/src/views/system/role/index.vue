@@ -110,7 +110,7 @@ import { ProTableInstance, ColumnProps } from "@/components/ProTable/interface";
 import { EditPen, CirclePlus, Delete } from "@element-plus/icons-vue";
 import ProTable from "@/components/ProTable/index.vue";
 import { DictTag } from "@/components/DictTag";
-import { FormInstance, FormRules, ElMessage, ElMessageBox, ElTree } from "element-plus";
+import { FormInstance, FormRules, ElTree } from "element-plus";
 import type Node from "element-plus/es/components/tree/src/model/node";
 import { SystemRole } from "@/api/interface/systemRole";
 import {
@@ -123,6 +123,7 @@ import {
 import { SystemMenu } from "@/api/interface/systemMenu";
 import { getSystemMenuListApi } from "@/api/modules/systemMenu";
 import { getIntDictOptions } from "@/utils/dict";
+import { useHandleData, useHandleSet } from "@/hooks/useHandleData";
 //加载
 const loading = ref(false);
 //table数据
@@ -217,43 +218,25 @@ const submitForm = (formEl: FormInstance | undefined) => {
     if (!valid) return;
     loading.value = true;
     const data = systemRoleItemFrom.value as unknown as SystemRole.ResSystemRoleItem;
-    try {
-      data.menuIds = [
-        ...(menuRef.value!.getCheckedKeys(false) as unknown as Array<number>), // 获得当前选中节点
-        ...(menuRef.value!.getHalfCheckedKeys() as unknown as Array<number>) // 获得半选中的父节点
-      ];
-      if (data.id !== 0) {
-        await updateSystemRoleApi(data.id, data);
-      } else {
-        await addSystemRoleApi(data);
-      }
-      ElMessage.success({ message: `${data.name}操作成功！` });
-    } catch (error) {
-      ElMessage.error({ message: `${data.name}操作失败！` });
-    } finally {
-      resetForm(formEl);
-      loading.value = false;
-      await proTable.value?.getTableList();
+    data.menuIds = [
+      ...(menuRef.value!.getCheckedKeys(false) as unknown as Array<number>), // 获得当前选中节点
+      ...(menuRef.value!.getHalfCheckedKeys() as unknown as Array<number>) // 获得半选中的父节点
+    ];
+    if (data.id !== 0) {
+      await useHandleSet(updateSystemRoleApi, data.id, data, "修改角色");
+    } else {
+      await useHandleData(addSystemRoleApi, data, "添加角色");
     }
+    resetForm(formEl);
+    loading.value = false;
+    proTable.value?.getTableList();
   });
 };
 
 // 删除按钮
-const handleDelete = (row: SystemRole.ResSystemRoleItem) => {
-  ElMessageBox.confirm("此操作将删除该数据, 是否继续?", "提示", {
-    confirmButtonText: "确定",
-    cancelButtonText: "取消",
-    type: "warning"
-  })
-    .then(() => {
-      deleteSystemRoleApi(Number(row.id)).then(() => {
-        ElMessage.success({ message: `${row.name}删除成功！` });
-        proTable.value?.getTableList();
-      });
-    })
-    .catch(() => {
-      ElMessage.info({ message: "已取消删除" });
-    });
+const handleDelete = async (row: SystemRole.ResSystemRoleItem) => {
+  await useHandleData(deleteSystemRoleApi, Number(row.id), "删除角色");
+  proTable.value?.getTableList();
 };
 
 // 添加按钮

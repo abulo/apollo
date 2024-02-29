@@ -34,6 +34,8 @@ func init() {
 	global.InitTrace()
 }
 
+var BuildVersion string // 编译版本
+var BuildTime string    // 编译时间
 // 程序主入口
 func main() {
 	env.SetName("ApolloHertz")
@@ -42,6 +44,8 @@ func main() {
 	env.SetAppZone("chengdu")
 	env.SetAppMode("product")
 	env.SetAppHost("golang")
+	env.SetBuildTime(BuildTime)
+	env.SetBuildVersion(BuildVersion)
 	mgClient := initial.Core.Store.LoadMongoDB("mongodb")
 	loggerHook := mongo.DefaultWithURL(mgClient)
 	defer loggerHook.Flush()

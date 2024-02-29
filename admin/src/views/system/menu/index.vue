@@ -109,7 +109,7 @@
         <el-form-item v-if="systemMenuItemFrom.type === 2" label="激活链接" prop="activePath">
           <el-input v-model="systemMenuItemFrom.activePath" placeholder="请输入激活链接" />
         </el-form-item>
-        <el-form-item v-if="systemMenuItemFrom.type === 2" label="重定向" prop="redirect">
+        <el-form-item v-if="systemMenuItemFrom.type !== 3" label="重定向" prop="redirect">
           <el-input v-model="systemMenuItemFrom.redirect" placeholder="请输入重定向链接" />
         </el-form-item>
         <el-form-item label="菜单状态" prop="status">
@@ -171,10 +171,11 @@ import {
   deleteSystemMenuApi,
   recoverSystemMenuApi
 } from "@/api/modules/systemMenu";
-import { FormInstance, FormRules, ElMessage, ElMessageBox } from "element-plus";
+import { FormInstance, FormRules } from "element-plus";
 import SelectIcon from "@/components/SelectIcon/index.vue";
 import { getIntDictOptions } from "@/utils/dict";
 import { DictTag } from "@/components/DictTag";
+import { useHandleData, useHandleSet } from "@/hooks/useHandleData";
 
 //加载
 const loading = ref(false);
@@ -314,39 +315,15 @@ const handleUpdate = async (row: SystemMenu.ResSystemMenuItem) => {
 };
 
 // 删除按钮
-const handleDelete = (row: SystemMenu.ResSystemMenuItem) => {
-  ElMessageBox.confirm("此操作将删除该数据, 是否继续?", "提示", {
-    confirmButtonText: "确定",
-    cancelButtonText: "取消",
-    type: "warning"
-  })
-    .then(() => {
-      deleteSystemMenuApi(Number(row.id)).then(() => {
-        ElMessage.success({ message: `${row.name}删除成功！` });
-        proTable.value?.getTableList();
-      });
-    })
-    .catch(() => {
-      ElMessage.info({ message: "已取消删除" });
-    });
+const handleDelete = async (row: SystemMenu.ResSystemMenuItem) => {
+  await useHandleData(deleteSystemMenuApi, Number(row.id), "删除菜单");
+  proTable.value?.getTableList();
 };
 
 // 恢复按钮
-const handleRecover = (row: SystemMenu.ResSystemMenuItem) => {
-  ElMessageBox.confirm("此操作将恢复该数据, 是否继续?", "提示", {
-    confirmButtonText: "确定",
-    cancelButtonText: "取消",
-    type: "warning"
-  })
-    .then(() => {
-      recoverSystemMenuApi(Number(row.id)).then(() => {
-        ElMessage.success({ message: `${row.name}恢复成功！` });
-        proTable.value?.getTableList();
-      });
-    })
-    .catch(() => {
-      ElMessage.info({ message: "已取消删除" });
-    });
+const handleRecover = async (row: SystemMenu.ResSystemMenuItem) => {
+  await useHandleData(recoverSystemMenuApi, Number(row.id), "恢复菜单");
+  proTable.value?.getTableList();
 };
 
 // 获取菜单树选项
@@ -389,20 +366,14 @@ const submitForm = (formEl: FormInstance | undefined) => {
     if (!valid) return;
     loading.value = true;
     const data = systemMenuItemFrom.value as unknown as SystemMenu.ResSystemMenuItem;
-    try {
-      if (data.id !== 0) {
-        await updateSystemMenuApi(data.id, data);
-      } else {
-        await addSystemMenuApi(data);
-      }
-      ElMessage.success({ message: `${data.name}操作成功！` });
-    } catch (error) {
-      ElMessage.error({ message: `${data.name}操作失败！` });
-    } finally {
-      resetForm(formEl);
-      loading.value = false;
-      await proTable.value?.getTableList();
+    if (data.id !== 0) {
+      await useHandleSet(updateSystemMenuApi, data.id, data, "修改菜单");
+    } else {
+      await useHandleData(addSystemMenuApi, data, "添加菜单");
     }
+    resetForm(formEl);
+    loading.value = false;
+    proTable.value?.getTableList();
   });
 };
 

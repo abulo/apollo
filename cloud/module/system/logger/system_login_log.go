@@ -1,4 +1,4 @@
-package login
+package logger
 
 import (
 	"cloud/dao"
@@ -23,23 +23,15 @@ func SystemLoginLogCreate(ctx context.Context, data dao.SystemLoginLog) (res int
 	return
 }
 
-// SystemLoginLogUpdate 更新数据
-func SystemLoginLogUpdate(ctx context.Context, systemLoginLogId int64, data dao.SystemLoginLog) (res int64, err error) {
-	db := initial.Core.Store.LoadSQL("mysql").Write()
-	builder := sql.NewBuilder()
-	query, args, err := builder.Table("`system_login_log`").Where("`id`", systemLoginLogId).Update(data)
-	if err != nil {
-		return
-	}
-	res, err = db.Update(ctx, query, args...)
-	return
-}
-
 // SystemLoginLogDelete 删除数据
-func SystemLoginLogDelete(ctx context.Context, systemLoginLogId int64) (res int64, err error) {
+func SystemLoginLogDelete(ctx context.Context, systemLoginLogIds []int64) (res int64, err error) {
 	db := initial.Core.Store.LoadSQL("mysql").Write()
 	builder := sql.NewBuilder()
-	query, args, err := builder.Table("`system_login_log`").Where("`id`", systemLoginLogId).Delete()
+	id := make([]any, 0)
+	for _, v := range systemLoginLogIds {
+		id = append(id, v)
+	}
+	query, args, err := builder.Table("`system_login_log`").In("`id`", id...).Delete()
 	if err != nil {
 		return
 	}
@@ -67,8 +59,11 @@ func SystemLoginLogList(ctx context.Context, condition map[string]any) (res []da
 	if val, ok := condition["username"]; ok {
 		builder.Where("`username`", val)
 	}
-	if val, ok := condition["loginTime"]; ok {
-		builder.Where("`login_time`", val)
+	if val, ok := condition["beginLoginTime"]; ok {
+		builder.GreaterEqual("`login_time`", val)
+	}
+	if val, ok := condition["finishLoginTime"]; ok {
+		builder.LessEqual("`login_time`", val)
 	}
 	if val, ok := condition["channel"]; ok {
 		builder.Where("`channel`", val)
@@ -97,17 +92,44 @@ func SystemLoginLogListTotal(ctx context.Context, condition map[string]any) (res
 	if val, ok := condition["username"]; ok {
 		builder.Where("`username`", val)
 	}
-	if val, ok := condition["loginTime"]; ok {
-		builder.Where("`login_time`", val)
+	if val, ok := condition["beginLoginTime"]; ok {
+		builder.GreaterEqual("`login_time`", val)
+	}
+	if val, ok := condition["finishLoginTime"]; ok {
+		builder.LessEqual("`login_time`", val)
 	}
 	if val, ok := condition["channel"]; ok {
 		builder.Where("`channel`", val)
 	}
-
 	query, args, err := builder.Count()
 	if err != nil {
 		return
 	}
 	res, err = db.Count(ctx, query, args...)
+	return
+}
+
+// SystemLoginLogDrop 查询列表数据总量
+func SystemLoginLogDrop(ctx context.Context, condition map[string]any) (res int64, err error) {
+	db := initial.Core.Store.LoadSQL("mysql").Read()
+	builder := sql.NewBuilder()
+	builder.Table("`system_login_log`")
+	if val, ok := condition["username"]; ok {
+		builder.Where("`username`", val)
+	}
+	if val, ok := condition["beginLoginTime"]; ok {
+		builder.GreaterEqual("`login_time`", val)
+	}
+	if val, ok := condition["finishLoginTime"]; ok {
+		builder.LessEqual("`login_time`", val)
+	}
+	if val, ok := condition["channel"]; ok {
+		builder.Where("`channel`", val)
+	}
+	query, args, err := builder.Delete()
+	if err != nil {
+		return
+	}
+	res, err = db.Delete(ctx, query, args...)
 	return
 }

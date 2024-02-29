@@ -3,7 +3,7 @@ package crond
 import (
 	"cloud/dao"
 	"cloud/initial"
-	"cloud/module/system/login"
+	"cloud/module/system/logger"
 	"context"
 	"encoding/json"
 
@@ -35,6 +35,6 @@ func SystemLoginLogQueue() {
 		if err != nil {
 			continue
 		}
-		login.SystemLoginLogCreate(ctx, res)
+		logger.SystemLoginLogCreate(ctx, res)
 	}
 }

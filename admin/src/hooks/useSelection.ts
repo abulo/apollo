@@ -11,6 +11,8 @@ export const useSelection = (rowKey: string = "id") => {
   // 当前选中的所有 ids 数组
   const selectedListIds = computed((): string[] => {
     let ids: string[] = [];
+    // 判断selectedList.value数组的长度是否大于 0
+    if (selectedList.value.length === 0) return [];
     selectedList.value.forEach(item => ids.push(item[rowKey]));
     return ids;
   });

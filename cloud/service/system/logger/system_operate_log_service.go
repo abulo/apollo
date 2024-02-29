@@ -1,10 +1,11 @@
-package operate
+package logger
 
 import (
 	"cloud/code"
 	"cloud/dao"
-	"cloud/module/system/operate"
+	"cloud/module/system/logger"
 	"context"
+	"encoding/json"
 
 	globalLogger "github.com/abulo/ratel/v3/core/logger"
 	"github.com/abulo/ratel/v3/server/xgrpc"
@@ -142,7 +143,7 @@ func (srv SrvSystemOperateLogServiceServer) SystemOperateLogResult(item dao.Syst
 // SystemOperateLogCreate 创建数据
 func (srv SrvSystemOperateLogServiceServer) SystemOperateLogCreate(ctx context.Context, request *SystemOperateLogCreateRequest) (*SystemOperateLogCreateResponse, error) {
 	req := srv.SystemOperateLogConvert(request.GetData())
-	data, err := operate.SystemOperateLogCreate(ctx, req)
+	data, err := logger.SystemOperateLogCreate(ctx, req)
 	if sql.ResultAccept(err) != nil {
 		globalLogger.Logger.WithFields(logrus.Fields{
 			"req": req,
@@ -157,37 +158,18 @@ func (srv SrvSystemOperateLogServiceServer) SystemOperateLogCreate(ctx context.C
 	}, nil
 }
 
-// SystemOperateLogUpdate 更新数据
-func (srv SrvSystemOperateLogServiceServer) SystemOperateLogUpdate(ctx context.Context, request *SystemOperateLogUpdateRequest) (*SystemOperateLogUpdateResponse, error) {
-	systemOperateLogId := request.GetSystemOperateLogId()
-	if systemOperateLogId < 1 {
-		return &SystemOperateLogUpdateResponse{}, status.Error(code.ConvertToGrpc(code.ParamInvalid), code.StatusText(code.ParamInvalid))
+// SystemOperateLogDelete 删除数据
+func (srv SrvSystemOperateLogServiceServer) SystemOperateLogDelete(ctx context.Context, request *SystemOperateLogDeleteRequest) (*SystemOperateLogDeleteResponse, error) {
+	// systemOperateLogId := request.GetSystemOperateLogId()
+	req := request.GetSystemOperateLogIds()
+	var systemOperateLogIds []int64
+	if err := json.Unmarshal(req, &systemOperateLogIds); err != nil {
+		return &SystemOperateLogDeleteResponse{}, status.Error(code.ConvertToGrpc(code.ParamInvalid), code.StatusText(code.ParamInvalid))
 	}
-	req := srv.SystemOperateLogConvert(request.GetData())
-	_, err := operate.SystemOperateLogUpdate(ctx, systemOperateLogId, req)
+	_, err := logger.SystemOperateLogDelete(ctx, systemOperateLogIds)
 	if sql.ResultAccept(err) != nil {
 		globalLogger.Logger.WithFields(logrus.Fields{
 			"req": req,
-			"err": err,
-		}).Error("Sql:操作日志:system_operate_log:SystemOperateLogUpdate")
-		return &SystemOperateLogUpdateResponse{}, status.Error(code.ConvertToGrpc(code.SqlError), err.Error())
-	}
-	return &SystemOperateLogUpdateResponse{
-		Code: code.Success,
-		Msg:  code.StatusText(code.Success),
-	}, nil
-}
-
-// SystemOperateLogDelete 删除数据
-func (srv SrvSystemOperateLogServiceServer) SystemOperateLogDelete(ctx context.Context, request *SystemOperateLogDeleteRequest) (*SystemOperateLogDeleteResponse, error) {
-	systemOperateLogId := request.GetSystemOperateLogId()
-	if systemOperateLogId < 1 {
-		return &SystemOperateLogDeleteResponse{}, status.Error(code.ConvertToGrpc(code.ParamInvalid), code.StatusText(code.ParamInvalid))
-	}
-	_, err := operate.SystemOperateLogDelete(ctx, systemOperateLogId)
-	if sql.ResultAccept(err) != nil {
-		globalLogger.Logger.WithFields(logrus.Fields{
-			"req": systemOperateLogId,
 			"err": err,
 		}).Error("Sql:操作日志:system_operate_log:SystemOperateLogDelete")
 		return &SystemOperateLogDeleteResponse{}, status.Error(code.ConvertToGrpc(code.SqlError), err.Error())
@@ -204,7 +186,7 @@ func (srv SrvSystemOperateLogServiceServer) SystemOperateLog(ctx context.Context
 	if systemOperateLogId < 1 {
 		return &SystemOperateLogResponse{}, status.Error(code.ConvertToGrpc(code.ParamInvalid), code.StatusText(code.ParamInvalid))
 	}
-	res, err := operate.SystemOperateLog(ctx, systemOperateLogId)
+	res, err := logger.SystemOperateLog(ctx, systemOperateLogId)
 	if sql.ResultAccept(err) != nil {
 		globalLogger.Logger.WithFields(logrus.Fields{
 			"req": systemOperateLogId,
@@ -228,8 +210,11 @@ func (srv SrvSystemOperateLogServiceServer) SystemOperateLogList(ctx context.Con
 	if request.Module != nil {
 		condition["module"] = request.GetModule()
 	}
-	if request.StartTime != nil {
-		condition["startTime"] = request.GetStartTime()
+	if request.BeginStartTime != nil {
+		condition["beginStartTime"] = util.Date("Y-m-d H:i:s", util.GrpcTime(request.GetBeginStartTime()))
+	}
+	if request.FinishStartTime != nil {
+		condition["finishStartTime"] = util.Date("Y-m-d H:i:s", util.GrpcTime(request.GetFinishStartTime()))
 	}
 	if request.Result != nil {
 		condition["result"] = request.GetResult()
@@ -250,7 +235,7 @@ func (srv SrvSystemOperateLogServiceServer) SystemOperateLogList(ctx context.Con
 	condition["offset"] = offset
 	condition["limit"] = pageSize
 	// 获取数据集合
-	list, err := operate.SystemOperateLogList(ctx, condition)
+	list, err := logger.SystemOperateLogList(ctx, condition)
 	if sql.ResultAccept(err) != nil {
 		globalLogger.Logger.WithFields(logrus.Fields{
 			"req": condition,
@@ -280,15 +265,18 @@ func (srv SrvSystemOperateLogServiceServer) SystemOperateLogListTotal(ctx contex
 	if request.Module != nil {
 		condition["module"] = request.GetModule()
 	}
-	if request.StartTime != nil {
-		condition["startTime"] = request.GetStartTime()
+	if request.BeginStartTime != nil {
+		condition["beginStartTime"] = util.Date("Y-m-d H:i:s", util.GrpcTime(request.GetBeginStartTime()))
+	}
+	if request.FinishStartTime != nil {
+		condition["finishStartTime"] = util.Date("Y-m-d H:i:s", util.GrpcTime(request.GetFinishStartTime()))
 	}
 	if request.Result != nil {
 		condition["result"] = request.GetResult()
 	}
 
 	// 获取数据集合
-	total, err := operate.SystemOperateLogListTotal(ctx, condition)
+	total, err := logger.SystemOperateLogListTotal(ctx, condition)
 	if sql.ResultAccept(err) != nil {
 		globalLogger.Logger.WithFields(logrus.Fields{
 			"req": condition,
@@ -300,5 +288,41 @@ func (srv SrvSystemOperateLogServiceServer) SystemOperateLogListTotal(ctx contex
 		Code: code.Success,
 		Msg:  code.StatusText(code.Success),
 		Data: total,
+	}, nil
+}
+
+func (srv SrvSystemOperateLogServiceServer) SystemOperateLogDrop(ctx context.Context, request *SystemOperateLogDropRequest) (*SystemOperateLogDropResponse, error) {
+	// 数据库查询条件
+	condition := make(map[string]any)
+	// 构造查询条件
+	if request.Username != nil {
+		condition["username"] = request.GetUsername()
+	}
+	if request.Module != nil {
+		condition["module"] = request.GetModule()
+	}
+	if request.BeginStartTime != nil {
+		condition["beginStartTime"] = util.Date("Y-m-d H:i:s", util.GrpcTime(request.GetBeginStartTime()))
+	}
+	if request.FinishStartTime != nil {
+		condition["finishStartTime"] = util.Date("Y-m-d H:i:s", util.GrpcTime(request.GetFinishStartTime()))
+	}
+	if request.Result != nil {
+		condition["result"] = request.GetResult()
+	}
+
+	// 获取数据集合
+	_, err := logger.SystemOperateLogDrop(ctx, condition)
+	if sql.ResultAccept(err) != nil {
+		globalLogger.Logger.WithFields(logrus.Fields{
+			"req": condition,
+			"err": err,
+		}).Error("Sql:操作日志:system_operate_log:SystemOperateLogList")
+		return &SystemOperateLogDropResponse{}, status.Error(code.ConvertToGrpc(code.SqlError), err.Error())
+	}
+
+	return &SystemOperateLogDropResponse{
+		Code: code.Success,
+		Msg:  code.StatusText(code.Success),
 	}, nil
 }

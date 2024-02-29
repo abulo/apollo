@@ -1,8 +1,8 @@
 
 syntax = "proto3";
 // system_operate_log 操作日志
-package operate;
-option go_package = "./operate";
+package logger;
+option go_package = "./logger";
 import "google/protobuf/timestamp.proto";
 
 // SystemOperateLogObject 数据对象
@@ -58,21 +58,10 @@ message SystemOperateLogCreateResponse {
 	string msg = 2;
 	int64 data = 3;
 }
-// SystemOperateLogUpdateRequest 更新数据请求
-message SystemOperateLogUpdateRequest {
-	// @inject_tag: db:"system_operate_log_id" json:"systemOperateLogId"
-	int64 system_operate_log_id = 1; //主键
-	SystemOperateLogObject data = 2;
-}
-// SystemOperateLogUpdateResponse 更新数据响应
-message SystemOperateLogUpdateResponse {
-	int64 code = 1;
-	string msg = 2;
-}
 // SystemOperateLogDeleteRequest 删除数据请求
 message SystemOperateLogDeleteRequest {
-	// @inject_tag: db:"system_operate_log_id" json:"systemOperateLogId"
-	int64 system_operate_log_id = 1; //主键
+	// @inject_tag: db:"system_operate_log_ids" json:"systemOperateLogIds"
+	bytes system_operate_log_ids = 1; //主键
 }
 // SystemOperateLogDeleteResponse 删除数据响应
 message SystemOperateLogDeleteResponse {
@@ -97,15 +86,17 @@ message SystemOperateLogListRequest {
 	optional string username = 1; // 用户账号
 	// @inject_tag: db:"module" json:"module"
 	optional string module = 2; // 模块名称
-	// @inject_tag: db:"start_time" json:"startTime"
-	google.protobuf.Timestamp start_time = 3; // 操作开始时间
+	// @inject_tag: db:"begin_start_time" json:"beginStartTime"
+	google.protobuf.Timestamp begin_start_time = 3; // 操作开始时间
+	// @inject_tag: db:"finish_start_time" json:"finishStartTime"
+	google.protobuf.Timestamp finish_start_time = 4; // 操作开始时间
 	// @inject_tag: db:"result" json:"result"
-	optional int32 result = 4; // 结果(0 成功/1 失败)
+	optional int32 result = 5; // 结果(0 成功/1 失败)
 
 	// @inject_tag: db:"page_num" json:"pageNum"
-	optional int64 page_num = 5;
+	optional int64 page_num = 6;
 	// @inject_tag: db:"page_size" json:"pageSize"
-	optional int64 page_size = 6;
+	optional int64 page_size = 7;
 }
 
 // SystemOperateLogListResponse 数据响应
@@ -121,19 +112,40 @@ message SystemOperateLogListTotalRequest {
 	optional string username = 1; // 用户账号
 	// @inject_tag: db:"module" json:"module"
 	optional string module = 2; // 模块名称
-	// @inject_tag: db:"start_time" json:"startTime"
-	google.protobuf.Timestamp start_time = 3; // 操作开始时间
+	// @inject_tag: db:"begin_start_time" json:"beginStartTime"
+	google.protobuf.Timestamp begin_start_time = 3; // 操作开始时间
+	// @inject_tag: db:"finish_start_time" json:"finishStartTime"
+	google.protobuf.Timestamp finish_start_time = 4; // 操作开始时间
 	// @inject_tag: db:"result" json:"result"
-	optional int32 result = 4; // 结果(0 成功/1 失败)
+	optional int32 result = 5; // 结果(0 成功/1 失败)
 
+}
+
+// SystemOperateLogDropRequest 删除数据请求
+message SystemOperateLogDropRequest {
+	// @inject_tag: db:"username" json:"username"
+	optional string username = 1; // 用户账号
+	// @inject_tag: db:"module" json:"module"
+	optional string module = 2; // 模块名称
+	// @inject_tag: db:"begin_start_time" json:"beginStartTime"
+	google.protobuf.Timestamp begin_start_time = 3; // 操作开始时间
+	// @inject_tag: db:"finish_start_time" json:"finishStartTime"
+	google.protobuf.Timestamp finish_start_time = 4; // 操作开始时间
+	// @inject_tag: db:"result" json:"result"
+	optional int32 result = 5; // 结果(0 成功/1 失败)
+}
+// SystemOperateLogDropResponse 删除数据响应
+message SystemOperateLogDropResponse {
+	int64 code = 1;
+	string msg = 2;
 }
 
 
 // SystemOperateLogService 服务
 service SystemOperateLogService{
 	rpc SystemOperateLogCreate(SystemOperateLogCreateRequest) returns (SystemOperateLogCreateResponse);
-	rpc SystemOperateLogUpdate(SystemOperateLogUpdateRequest) returns (SystemOperateLogUpdateResponse);
 	rpc SystemOperateLogDelete(SystemOperateLogDeleteRequest) returns (SystemOperateLogDeleteResponse);
+	rpc SystemOperateLogDrop(SystemOperateLogDropRequest) returns (SystemOperateLogDropResponse);
 	rpc SystemOperateLog(SystemOperateLogRequest) returns (SystemOperateLogResponse);
 	rpc SystemOperateLogList(SystemOperateLogListRequest) returns (SystemOperateLogListResponse);
 	rpc SystemOperateLogListTotal(SystemOperateLogListTotalRequest) returns (SystemOperateLogTotalResponse);

@@ -3,7 +3,7 @@ package crond
 import (
 	"cloud/dao"
 	"cloud/initial"
-	"cloud/module/system/operate"
+	"cloud/module/system/logger"
 	"context"
 	"encoding/json"
 
@@ -48,6 +48,6 @@ func SystemOperateLogQueue() {
 			continue
 		}
 		res.Module = proto.String(moduleName)
-		operate.SystemOperateLogCreate(ctx, res)
+		logger.SystemOperateLogCreate(ctx, res)
 	}
 }

@@ -544,6 +544,7 @@ func SystemUserLogin(ctx context.Context, newCtx *app.RequestContext) {
 		return
 	}
 	nowTime := util.Now()
+	// nowTime = cast.ToTime(util.Date("Y-m-d H:i:s", nowTime))
 	//这里需要将登录信息写入操作列队
 	var resSystemLoginLog dao.SystemLoginLog
 	resSystemLoginLog.Username = userInfo.Username

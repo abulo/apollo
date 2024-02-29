@@ -2,11 +2,11 @@
 // versions:
 // - protoc-gen-go-grpc v1.3.0
 // - protoc             v3.20.3
-// source: login/system_login_log.proto
+// source: logger/system_login_log.proto
 
 // system_login_log 登录日志
 
-package login
+package logger
 
 import (
 	context "context"
@@ -21,12 +21,12 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	SystemLoginLogService_SystemLoginLogCreate_FullMethodName    = "/login.SystemLoginLogService/SystemLoginLogCreate"
-	SystemLoginLogService_SystemLoginLogUpdate_FullMethodName    = "/login.SystemLoginLogService/SystemLoginLogUpdate"
-	SystemLoginLogService_SystemLoginLogDelete_FullMethodName    = "/login.SystemLoginLogService/SystemLoginLogDelete"
-	SystemLoginLogService_SystemLoginLog_FullMethodName          = "/login.SystemLoginLogService/SystemLoginLog"
-	SystemLoginLogService_SystemLoginLogList_FullMethodName      = "/login.SystemLoginLogService/SystemLoginLogList"
-	SystemLoginLogService_SystemLoginLogListTotal_FullMethodName = "/login.SystemLoginLogService/SystemLoginLogListTotal"
+	SystemLoginLogService_SystemLoginLogCreate_FullMethodName    = "/logger.SystemLoginLogService/SystemLoginLogCreate"
+	SystemLoginLogService_SystemLoginLogDelete_FullMethodName    = "/logger.SystemLoginLogService/SystemLoginLogDelete"
+	SystemLoginLogService_SystemLoginLogDrop_FullMethodName      = "/logger.SystemLoginLogService/SystemLoginLogDrop"
+	SystemLoginLogService_SystemLoginLog_FullMethodName          = "/logger.SystemLoginLogService/SystemLoginLog"
+	SystemLoginLogService_SystemLoginLogList_FullMethodName      = "/logger.SystemLoginLogService/SystemLoginLogList"
+	SystemLoginLogService_SystemLoginLogListTotal_FullMethodName = "/logger.SystemLoginLogService/SystemLoginLogListTotal"
 )
 
 // SystemLoginLogServiceClient is the client API for SystemLoginLogService service.
@@ -34,8 +34,8 @@ const (
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type SystemLoginLogServiceClient interface {
 	SystemLoginLogCreate(ctx context.Context, in *SystemLoginLogCreateRequest, opts ...grpc.CallOption) (*SystemLoginLogCreateResponse, error)
-	SystemLoginLogUpdate(ctx context.Context, in *SystemLoginLogUpdateRequest, opts ...grpc.CallOption) (*SystemLoginLogUpdateResponse, error)
 	SystemLoginLogDelete(ctx context.Context, in *SystemLoginLogDeleteRequest, opts ...grpc.CallOption) (*SystemLoginLogDeleteResponse, error)
+	SystemLoginLogDrop(ctx context.Context, in *SystemLoginLogDropRequest, opts ...grpc.CallOption) (*SystemLoginLogDropResponse, error)
 	SystemLoginLog(ctx context.Context, in *SystemLoginLogRequest, opts ...grpc.CallOption) (*SystemLoginLogResponse, error)
 	SystemLoginLogList(ctx context.Context, in *SystemLoginLogListRequest, opts ...grpc.CallOption) (*SystemLoginLogListResponse, error)
 	SystemLoginLogListTotal(ctx context.Context, in *SystemLoginLogListTotalRequest, opts ...grpc.CallOption) (*SystemLoginLogTotalResponse, error)
@@ -58,18 +58,18 @@ func (c *systemLoginLogServiceClient) SystemLoginLogCreate(ctx context.Context, 
 	return out, nil
 }
 
-func (c *systemLoginLogServiceClient) SystemLoginLogUpdate(ctx context.Context, in *SystemLoginLogUpdateRequest, opts ...grpc.CallOption) (*SystemLoginLogUpdateResponse, error) {
-	out := new(SystemLoginLogUpdateResponse)
-	err := c.cc.Invoke(ctx, SystemLoginLogService_SystemLoginLogUpdate_FullMethodName, in, out, opts...)
+func (c *systemLoginLogServiceClient) SystemLoginLogDelete(ctx context.Context, in *SystemLoginLogDeleteRequest, opts ...grpc.CallOption) (*SystemLoginLogDeleteResponse, error) {
+	out := new(SystemLoginLogDeleteResponse)
+	err := c.cc.Invoke(ctx, SystemLoginLogService_SystemLoginLogDelete_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *systemLoginLogServiceClient) SystemLoginLogDelete(ctx context.Context, in *SystemLoginLogDeleteRequest, opts ...grpc.CallOption) (*SystemLoginLogDeleteResponse, error) {
-	out := new(SystemLoginLogDeleteResponse)
-	err := c.cc.Invoke(ctx, SystemLoginLogService_SystemLoginLogDelete_FullMethodName, in, out, opts...)
+func (c *systemLoginLogServiceClient) SystemLoginLogDrop(ctx context.Context, in *SystemLoginLogDropRequest, opts ...grpc.CallOption) (*SystemLoginLogDropResponse, error) {
+	out := new(SystemLoginLogDropResponse)
+	err := c.cc.Invoke(ctx, SystemLoginLogService_SystemLoginLogDrop_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -108,8 +108,8 @@ func (c *systemLoginLogServiceClient) SystemLoginLogListTotal(ctx context.Contex
 // for forward compatibility
 type SystemLoginLogServiceServer interface {
 	SystemLoginLogCreate(context.Context, *SystemLoginLogCreateRequest) (*SystemLoginLogCreateResponse, error)
-	SystemLoginLogUpdate(context.Context, *SystemLoginLogUpdateRequest) (*SystemLoginLogUpdateResponse, error)
 	SystemLoginLogDelete(context.Context, *SystemLoginLogDeleteRequest) (*SystemLoginLogDeleteResponse, error)
+	SystemLoginLogDrop(context.Context, *SystemLoginLogDropRequest) (*SystemLoginLogDropResponse, error)
 	SystemLoginLog(context.Context, *SystemLoginLogRequest) (*SystemLoginLogResponse, error)
 	SystemLoginLogList(context.Context, *SystemLoginLogListRequest) (*SystemLoginLogListResponse, error)
 	SystemLoginLogListTotal(context.Context, *SystemLoginLogListTotalRequest) (*SystemLoginLogTotalResponse, error)
@@ -123,11 +123,11 @@ type UnimplementedSystemLoginLogServiceServer struct {
 func (UnimplementedSystemLoginLogServiceServer) SystemLoginLogCreate(context.Context, *SystemLoginLogCreateRequest) (*SystemLoginLogCreateResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SystemLoginLogCreate not implemented")
 }
-func (UnimplementedSystemLoginLogServiceServer) SystemLoginLogUpdate(context.Context, *SystemLoginLogUpdateRequest) (*SystemLoginLogUpdateResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method SystemLoginLogUpdate not implemented")
-}
 func (UnimplementedSystemLoginLogServiceServer) SystemLoginLogDelete(context.Context, *SystemLoginLogDeleteRequest) (*SystemLoginLogDeleteResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SystemLoginLogDelete not implemented")
+}
+func (UnimplementedSystemLoginLogServiceServer) SystemLoginLogDrop(context.Context, *SystemLoginLogDropRequest) (*SystemLoginLogDropResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SystemLoginLogDrop not implemented")
 }
 func (UnimplementedSystemLoginLogServiceServer) SystemLoginLog(context.Context, *SystemLoginLogRequest) (*SystemLoginLogResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SystemLoginLog not implemented")
@@ -169,24 +169,6 @@ func _SystemLoginLogService_SystemLoginLogCreate_Handler(srv interface{}, ctx co
 	return interceptor(ctx, in, info, handler)
 }
 
-func _SystemLoginLogService_SystemLoginLogUpdate_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(SystemLoginLogUpdateRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(SystemLoginLogServiceServer).SystemLoginLogUpdate(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: SystemLoginLogService_SystemLoginLogUpdate_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(SystemLoginLogServiceServer).SystemLoginLogUpdate(ctx, req.(*SystemLoginLogUpdateRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 func _SystemLoginLogService_SystemLoginLogDelete_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(SystemLoginLogDeleteRequest)
 	if err := dec(in); err != nil {
@@ -201,6 +183,24 @@ func _SystemLoginLogService_SystemLoginLogDelete_Handler(srv interface{}, ctx co
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(SystemLoginLogServiceServer).SystemLoginLogDelete(ctx, req.(*SystemLoginLogDeleteRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _SystemLoginLogService_SystemLoginLogDrop_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SystemLoginLogDropRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SystemLoginLogServiceServer).SystemLoginLogDrop(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: SystemLoginLogService_SystemLoginLogDrop_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SystemLoginLogServiceServer).SystemLoginLogDrop(ctx, req.(*SystemLoginLogDropRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -263,7 +263,7 @@ func _SystemLoginLogService_SystemLoginLogListTotal_Handler(srv interface{}, ctx
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var SystemLoginLogService_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "login.SystemLoginLogService",
+	ServiceName: "logger.SystemLoginLogService",
 	HandlerType: (*SystemLoginLogServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
@@ -271,12 +271,12 @@ var SystemLoginLogService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _SystemLoginLogService_SystemLoginLogCreate_Handler,
 		},
 		{
-			MethodName: "SystemLoginLogUpdate",
-			Handler:    _SystemLoginLogService_SystemLoginLogUpdate_Handler,
-		},
-		{
 			MethodName: "SystemLoginLogDelete",
 			Handler:    _SystemLoginLogService_SystemLoginLogDelete_Handler,
+		},
+		{
+			MethodName: "SystemLoginLogDrop",
+			Handler:    _SystemLoginLogService_SystemLoginLogDrop_Handler,
 		},
 		{
 			MethodName: "SystemLoginLog",
@@ -292,5 +292,5 @@ var SystemLoginLogService_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "login/system_login_log.proto",
+	Metadata: "logger/system_login_log.proto",
 }

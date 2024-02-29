@@ -87,9 +87,10 @@ import {
   addSystemDictTypeApi,
   updateSystemDictTypeApi
 } from "@/api/modules/systemDictType";
-import { FormInstance, FormRules, ElMessage, ElMessageBox } from "element-plus";
+import { FormInstance, FormRules } from "element-plus";
 import { getIntDictOptions } from "@/utils/dict";
 import { DictTag } from "@/components/DictTag";
+import { useHandleData, useHandleSet } from "@/hooks/useHandleData";
 const router = useRouter();
 //加载
 const loading = ref(false);
@@ -166,39 +167,21 @@ const submitForm = (formEl: FormInstance | undefined) => {
     if (!valid) return;
     loading.value = true;
     const data = systemDictTypeItemFrom.value as unknown as SystemDictType.ResSystemDictTypeItem;
-    try {
-      if (data.id !== 0) {
-        await updateSystemDictTypeApi(data.id, data);
-      } else {
-        await addSystemDictTypeApi(data);
-      }
-      ElMessage.success({ message: `${data.name}操作成功！` });
-    } catch (error) {
-      ElMessage.error({ message: `${data.name}操作失败！` });
-    } finally {
-      resetForm(formEl);
-      loading.value = false;
-      await proTable.value?.getTableList();
+    if (data.id !== 0) {
+      await useHandleSet(updateSystemDictTypeApi, data.id, data, "修改字典");
+    } else {
+      await useHandleData(addSystemDictTypeApi, data, "新增字典");
     }
+    resetForm(formEl);
+    loading.value = false;
+    proTable.value?.getTableList();
   });
 };
 
 // 删除按钮
-const handleDelete = (row: SystemDictType.ResSystemDictTypeItem) => {
-  ElMessageBox.confirm("此操作将删除该数据, 是否继续?", "提示", {
-    confirmButtonText: "确定",
-    cancelButtonText: "取消",
-    type: "warning"
-  })
-    .then(() => {
-      deleteSystemDictTypeApi(Number(row.id)).then(() => {
-        ElMessage.success({ message: `${row.name}删除成功！` });
-        proTable.value?.getTableList();
-      });
-    })
-    .catch(() => {
-      ElMessage.info({ message: "已取消删除" });
-    });
+const handleDelete = async (row: SystemDictType.ResSystemDictTypeItem) => {
+  await useHandleData(deleteSystemDictTypeApi, row.id, "删除字典");
+  proTable.value?.getTableList();
 };
 
 // 添加按钮

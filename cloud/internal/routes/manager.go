@@ -2,6 +2,7 @@ package routes
 
 import (
 	"cloud/api/system/dict"
+	"cloud/api/system/logger"
 	"cloud/api/system/menu"
 	"cloud/api/system/role"
 	"cloud/api/system/user"
@@ -73,6 +74,29 @@ func ManagerInitRoute(handle *xhertz.Server) {
 		auth.GET("/system/role/:systemRoleId/item", role.SystemRole)
 		// system_role->系统角色->列表
 		auth.GET("/system/role", role.SystemRoleList)
-
+		// system_login_log->登录日志->删除
+		auth.POST("/system/logger/login/delete", logger.SystemLoginLogDelete)
+		// system_login_log->登录日志->清空
+		auth.POST("/system/logger/login/drop", logger.SystemLoginLogDrop)
+		// system_login_log->登录日志->单条数据信息查看
+		auth.GET("/system/logger/login/:systemLoginLogId/item", logger.SystemLoginLog)
+		// system_login_log->登录日志->列表
+		auth.GET("/system/logger/login", logger.SystemLoginLogList)
+		// system_operate_log->操作日志->删除
+		auth.POST("/system/logger/operate/delete", logger.SystemOperateLogDelete)
+		// system_operate_log->操作日志->清空
+		auth.POST("/system/logger/operate/drop", logger.SystemOperateLogDrop)
+		// system_operate_log->操作日志->单条数据信息查看
+		auth.GET("/system/logger/operate/:systemOperateLogId/item", logger.SystemOperateLog)
+		// system_operate_log->操作日志->列表
+		auth.GET("/system/logger/operate", logger.SystemOperateLogList)
+		// system_entry_log -> 访问日志 -> 删除
+		auth.POST("/system/logger/entry/delete", logger.SystemEntryLogDelete)
+		// system_entry_log -> 访问日志 -> 清空
+		auth.POST("/system/logger/entry/drop", logger.SystemEntryLogDrop)
+		// system_entry_log -> 访问日志 -> 单条数据信息查看
+		auth.GET("/system/logger/entry/:systemEntryLogId/item", logger.SystemEntryLog)
+		// system_entry_log -> 访问日志 -> 列表
+		auth.GET("/system/logger/entry", logger.SystemEntryLogList)
 	}
 }

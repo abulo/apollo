@@ -81,7 +81,7 @@
 import { useRoute } from "vue-router";
 import { onMounted, reactive, ref } from "vue";
 import { CirclePlus, EditPen, Delete, Remove } from "@element-plus/icons-vue";
-import { FormInstance, FormRules, ElMessage, ElMessageBox } from "element-plus";
+import { FormInstance, FormRules } from "element-plus";
 import { useTabsStore } from "@/stores/modules/tabs";
 import { useKeepAliveStore } from "@/stores/modules/keepAlive";
 import ProTable from "@/components/ProTable/index.vue";
@@ -97,6 +97,7 @@ import {
 import { getAllSystemDictTypeApi } from "@/api/modules/systemDictType";
 import { getIntDictOptions } from "@/utils/dict";
 import { DictTag } from "@/components/DictTag";
+import { useHandleData, useHandleSet } from "@/hooks/useHandleData";
 const route = useRoute();
 const tabStore = useTabsStore();
 const keepAliveStore = useKeepAliveStore();
@@ -238,21 +239,9 @@ const handleUpdate = async (row: SystemDict.ResSystemDictItem) => {
 };
 
 // 删除按钮
-const handleDelete = (row: SystemDict.ResSystemDictItem) => {
-  ElMessageBox.confirm("此操作将删除该数据, 是否继续?", "提示", {
-    confirmButtonText: "确定",
-    cancelButtonText: "取消",
-    type: "warning"
-  })
-    .then(() => {
-      deleteSystemDictApi(Number(row.id)).then(() => {
-        ElMessage.success({ message: `${row.label}删除成功！` });
-        proTable.value?.getTableList();
-      });
-    })
-    .catch(() => {
-      ElMessage.info({ message: "已取消删除" });
-    });
+const handleDelete = async (row: SystemDict.ResSystemDictItem) => {
+  await useHandleData(deleteSystemDictApi, row.id, "删除字典");
+  proTable.value?.getTableList();
 };
 
 // 提交数据
@@ -262,20 +251,14 @@ const submitForm = (formEl: FormInstance | undefined) => {
     if (!valid) return;
     loading.value = true;
     const data = systemDictItemFrom.value as unknown as SystemDict.ResSystemDictItem;
-    try {
-      if (data.id !== 0) {
-        await updateSystemDictApi(data.id, data);
-      } else {
-        await addSystemDictApi(data);
-      }
-      ElMessage.success({ message: `${data.label}操作成功！` });
-    } catch (error) {
-      ElMessage.error({ message: `${data.label}操作失败！` });
-    } finally {
-      resetForm(formEl);
-      loading.value = false;
-      await proTable.value?.getTableList();
+    if (data.id !== 0) {
+      await useHandleSet(updateSystemDictApi, data.id, data, "修改字典");
+    } else {
+      await useHandleData(addSystemDictApi, data, "新增字典");
     }
+    resetForm(formEl);
+    loading.value = false;
+    proTable.value?.getTableList();
   });
 };
 // 数据初始化时候需要去获取字典类型数据

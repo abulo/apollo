@@ -29,6 +29,7 @@ func AuthMiddleware() app.HandlerFunc {
 	return func(ctx context.Context, newCtx *app.RequestContext) {
 		//加入开始时间
 		startTime := util.Now()
+		// startTime = cast.ToTime(util.Date("Y-m-d H:i:s", startTime))
 		authHeader := newCtx.Request.Header.Get("X-Access-Token")
 		if util.Empty(authHeader) {
 			newCtx.JSON(consts.StatusUnauthorized, utils.H{
@@ -80,9 +81,9 @@ func AuthMiddleware() app.HandlerFunc {
 		resSystemOperateLog.UserAgent = null.StringFrom(cast.ToString(newCtx.Request.Header.UserAgent())) //浏览器UA
 		resSystemOperateLog.GoMethod = proto.String(newCtx.HandlerName())                                 //方法名
 		resSystemOperateLog.GoMethodArgs = null.JSONFrom(newCtx.Request.Body())                           //方法参数
-		resSystemOperateLog.StartTime = null.DateTimeFrom(startTime)                                      //开始时间
-		resSystemOperateLog.Channel = proto.String(channel[0])                                            //渠道
-		resSystemOperateLog.Duration = proto.Int32(cast.ToInt32(time.Since(startTime).Milliseconds()))    //执行时长
+		resSystemOperateLog.StartTime = null.DateTimeFrom(startTime)
+		resSystemOperateLog.Channel = proto.String(channel[0])                                         //渠道
+		resSystemOperateLog.Duration = proto.Int32(cast.ToInt32(time.Since(startTime).Milliseconds())) //执行时长
 		if response.Code == 200 {
 			resSystemOperateLog.Result = proto.Int32(0) //结果(0 成功/1 失败)
 		} else {

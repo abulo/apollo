@@ -143,7 +143,7 @@ const props = withDefaults(defineProps<ProTableProps>(), {
 const tableRef = ref<InstanceType<typeof ElTable>>();
 
 // column 列类型
-const columnTypes: TypeProps[] = ["selection", "radio", "index", "expand", "sort"];
+const columnTypes: TypeProps[] = ["selection", "radio", "index", "expand", "sort", ""];
 
 // 是否显示搜索模块
 const isShowSearch = ref(true);

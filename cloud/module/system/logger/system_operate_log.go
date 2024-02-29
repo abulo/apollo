@@ -1,4 +1,4 @@
-package operate
+package logger
 
 import (
 	"cloud/dao"
@@ -23,23 +23,15 @@ func SystemOperateLogCreate(ctx context.Context, data dao.SystemOperateLog) (res
 	return
 }
 
-// SystemOperateLogUpdate 更新数据
-func SystemOperateLogUpdate(ctx context.Context, systemOperateLogId int64, data dao.SystemOperateLog) (res int64, err error) {
-	db := initial.Core.Store.LoadSQL("mysql").Write()
-	builder := sql.NewBuilder()
-	query, args, err := builder.Table("`system_operate_log`").Where("`id`", systemOperateLogId).Update(data)
-	if err != nil {
-		return
-	}
-	res, err = db.Update(ctx, query, args...)
-	return
-}
-
 // SystemOperateLogDelete 删除数据
-func SystemOperateLogDelete(ctx context.Context, systemOperateLogId int64) (res int64, err error) {
+func SystemOperateLogDelete(ctx context.Context, systemOperateLogIds []int64) (res int64, err error) {
 	db := initial.Core.Store.LoadSQL("mysql").Write()
 	builder := sql.NewBuilder()
-	query, args, err := builder.Table("`system_operate_log`").Where("`id`", systemOperateLogId).Delete()
+	id := make([]any, 0)
+	for _, v := range systemOperateLogIds {
+		id = append(id, v)
+	}
+	query, args, err := builder.Table("`system_operate_log`").In("`id`", id...).Delete()
 	if err != nil {
 		return
 	}
@@ -70,8 +62,11 @@ func SystemOperateLogList(ctx context.Context, condition map[string]any) (res []
 	if val, ok := condition["module"]; ok {
 		builder.Where("`module`", val)
 	}
-	if val, ok := condition["startTime"]; ok {
-		builder.Where("`start_time`", val)
+	if val, ok := condition["beginStartTime"]; ok {
+		builder.GreaterEqual("`start_time`", val)
+	}
+	if val, ok := condition["finishStartTime"]; ok {
+		builder.LessEqual("`start_time`", val)
 	}
 	if val, ok := condition["result"]; ok {
 		builder.Where("`result`", val)
@@ -103,8 +98,11 @@ func SystemOperateLogListTotal(ctx context.Context, condition map[string]any) (r
 	if val, ok := condition["module"]; ok {
 		builder.Where("`module`", val)
 	}
-	if val, ok := condition["startTime"]; ok {
-		builder.Where("`start_time`", val)
+	if val, ok := condition["beginStartTime"]; ok {
+		builder.GreaterEqual("`start_time`", val)
+	}
+	if val, ok := condition["finishStartTime"]; ok {
+		builder.LessEqual("`start_time`", val)
 	}
 	if val, ok := condition["result"]; ok {
 		builder.Where("`result`", val)
@@ -115,5 +113,34 @@ func SystemOperateLogListTotal(ctx context.Context, condition map[string]any) (r
 		return
 	}
 	res, err = db.Count(ctx, query, args...)
+	return
+}
+
+// SystemOperateLogDrop 清理数据
+func SystemOperateLogDrop(ctx context.Context, condition map[string]any) (res int64, err error) {
+	db := initial.Core.Store.LoadSQL("mysql").Read()
+	builder := sql.NewBuilder()
+	builder.Table("`system_operate_log`")
+	if val, ok := condition["username"]; ok {
+		builder.Where("`username`", val)
+	}
+	if val, ok := condition["module"]; ok {
+		builder.Where("`module`", val)
+	}
+	if val, ok := condition["beginStartTime"]; ok {
+		builder.GreaterEqual("`start_time`", val)
+	}
+	if val, ok := condition["finishStartTime"]; ok {
+		builder.LessEqual("`start_time`", val)
+	}
+	if val, ok := condition["result"]; ok {
+		builder.Where("`result`", val)
+	}
+
+	query, args, err := builder.Delete()
+	if err != nil {
+		return
+	}
+	res, err = db.Delete(ctx, query, args...)
 	return
 }

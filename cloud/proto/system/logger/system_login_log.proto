@@ -1,8 +1,8 @@
 
 syntax = "proto3";
 // system_login_log 登录日志
-package login;
-option go_package = "./login";
+package logger;
+option go_package = "./logger";
 import "google/protobuf/timestamp.proto";
 
 // SystemLoginLogObject 数据对象
@@ -44,21 +44,10 @@ message SystemLoginLogCreateResponse {
 	string msg = 2;
 	int64 data = 3;
 }
-// SystemLoginLogUpdateRequest 更新数据请求
-message SystemLoginLogUpdateRequest {
-	// @inject_tag: db:"system_login_log_id" json:"systemLoginLogId"
-	int64 system_login_log_id = 1; //主键
-	SystemLoginLogObject data = 2;
-}
-// SystemLoginLogUpdateResponse 更新数据响应
-message SystemLoginLogUpdateResponse {
-	int64 code = 1;
-	string msg = 2;
-}
 // SystemLoginLogDeleteRequest 删除数据请求
 message SystemLoginLogDeleteRequest {
-	// @inject_tag: db:"system_login_log_id" json:"systemLoginLogId"
-	int64 system_login_log_id = 1; //主键
+	// @inject_tag: db:"system_login_log_ids" json:"systemLoginLogIds"
+	bytes system_login_log_ids = 1; //主键
 }
 // SystemLoginLogDeleteResponse 删除数据响应
 message SystemLoginLogDeleteResponse {
@@ -81,15 +70,17 @@ message SystemLoginLogListRequest {
 	
 	// @inject_tag: db:"username" json:"username"
 	optional string username = 1; // 用户账号
-	// @inject_tag: db:"login_time" json:"loginTime"
-	google.protobuf.Timestamp login_time = 2; // 登录时间
+	// @inject_tag: db:"begin_login_time" json:"beginLoginTime"
+	google.protobuf.Timestamp begin_login_time = 2; // 开始登录时间
+	// @inject_tag: db:"finish_login_time" json:"finishLoginTime"
+	google.protobuf.Timestamp finish_login_time = 3; // 结束登录时间
 	// @inject_tag: db:"channel" json:"channel"
-	optional string channel = 3; // 渠道
+	optional string channel = 4; // 渠道
 
 	// @inject_tag: db:"page_num" json:"pageNum"
-	optional int64 page_num = 4;
+	optional int64 page_num = 5;
 	// @inject_tag: db:"page_size" json:"pageSize"
-	optional int64 page_size = 5;
+	optional int64 page_size = 6;
 }
 
 // SystemLoginLogListResponse 数据响应
@@ -103,19 +94,38 @@ message SystemLoginLogListTotalRequest {
 	
 	// @inject_tag: db:"username" json:"username"
 	optional string username = 1; // 用户账号
-	// @inject_tag: db:"login_time" json:"loginTime"
-	google.protobuf.Timestamp login_time = 2; // 登录时间
+	// @inject_tag: db:"begin_login_time" json:"beginLoginTime"
+	google.protobuf.Timestamp begin_login_time = 2; // 开始登录时间
+	// @inject_tag: db:"finish_login_time" json:"finishLoginTime"
+	google.protobuf.Timestamp finish_login_time = 3; // 结束登录时间
 	// @inject_tag: db:"channel" json:"channel"
-	optional string channel = 3; // 渠道
+	optional string channel = 4; // 渠道
 
+}
+
+// SystemLoginLogDropRequest 全部删除数据
+message SystemLoginLogDropRequest {
+	// @inject_tag: db:"username" json:"username"
+	optional string username = 1; // 用户账号
+	// @inject_tag: db:"begin_login_time" json:"beginLoginTime"
+	google.protobuf.Timestamp begin_login_time = 2; // 开始登录时间
+	// @inject_tag: db:"finish_login_time" json:"finishLoginTime"
+	google.protobuf.Timestamp finish_login_time = 3; // 结束登录时间
+	// @inject_tag: db:"channel" json:"channel"
+	optional string channel = 4; // 渠道
+}
+// SystemLoginLogDeleteResponse 删除数据响应
+message SystemLoginLogDropResponse {
+	int64 code = 1;
+	string msg = 2;
 }
 
 
 // SystemLoginLogService 服务
 service SystemLoginLogService{
 	rpc SystemLoginLogCreate(SystemLoginLogCreateRequest) returns (SystemLoginLogCreateResponse);
-	rpc SystemLoginLogUpdate(SystemLoginLogUpdateRequest) returns (SystemLoginLogUpdateResponse);
 	rpc SystemLoginLogDelete(SystemLoginLogDeleteRequest) returns (SystemLoginLogDeleteResponse);
+	rpc SystemLoginLogDrop(SystemLoginLogDropRequest) returns (SystemLoginLogDropResponse);
 	rpc SystemLoginLog(SystemLoginLogRequest) returns (SystemLoginLogResponse);
 	rpc SystemLoginLogList(SystemLoginLogListRequest) returns (SystemLoginLogListResponse);
 	rpc SystemLoginLogListTotal(SystemLoginLogListTotalRequest) returns (SystemLoginLogTotalResponse);

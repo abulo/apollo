@@ -5,6 +5,7 @@ import (
 
 	"cloud/initial"
 	"cloud/internal/routes"
+
 	"github.com/abulo/ratel/v3/core/logger"
 	"github.com/abulo/ratel/v3/server/xhertz"
 	"github.com/cloudwego/hertz/pkg/app"

@@ -70,7 +70,7 @@ import { ref, reactive } from "vue";
 import { ColumnProps, ProTableInstance } from "@/components/ProTable/interface";
 import { DictTag } from "@/components/DictTag";
 import { EditPen, CirclePlus, Delete } from "@element-plus/icons-vue";
-import { FormInstance, FormRules, ElMessage, ElMessageBox } from "element-plus";
+import { FormInstance, FormRules } from "element-plus";
 import ProTable from "@/components/ProTable/index.vue";
 import { SystemUser } from "@/api/interface/systemUser";
 import {
@@ -83,6 +83,7 @@ import {
 import { getIntDictOptions } from "@/utils/dict";
 import { SystemRole } from "@/api/interface/systemRole";
 import { getSystemRoleListApi } from "@/api/modules/systemRole";
+import { useHandleData, useHandleSet } from "@/hooks/useHandleData";
 //加载
 const loading = ref(false);
 //弹出层标题
@@ -166,21 +167,9 @@ const handleUpdate = async (row: SystemUser.ResSystemUserItem) => {
 };
 
 // 删除按钮
-const handleDelete = (row: SystemUser.ResSystemUserItem) => {
-  ElMessageBox.confirm("此操作将删除该数据, 是否继续?", "提示", {
-    confirmButtonText: "确定",
-    cancelButtonText: "取消",
-    type: "warning"
-  })
-    .then(() => {
-      deleteSystemUserApi(Number(row.id)).then(() => {
-        ElMessage.success({ message: `${row.nickname}删除成功！` });
-        proTable.value?.getTableList();
-      });
-    })
-    .catch(() => {
-      ElMessage.info({ message: "已取消删除" });
-    });
+const handleDelete = async (row: SystemUser.ResSystemUserItem) => {
+  await useHandleData(deleteSystemUserApi, Number(row.id), "删除用户");
+  proTable.value?.getTableList();
 };
 
 // resetForm
@@ -197,21 +186,15 @@ const submitForm = (formEl: FormInstance | undefined) => {
     if (!valid) return;
     loading.value = true;
     const data = systemUserItemFrom.value as unknown as SystemUser.ResSystemUserItem;
-    try {
-      if (data.id !== undefined) {
-        delete data.password;
-        await updateSystemUserApi(data.id, data);
-      } else {
-        await addSystemUserApi(data);
-      }
-      ElMessage.success({ message: `${data.nickname}操作成功！` });
-    } catch (error) {
-      ElMessage.error({ message: `${data.nickname}操作失败！` });
-    } finally {
-      resetForm(formEl);
-      loading.value = false;
-      await proTable.value?.getTableList();
+    if (data.id !== undefined) {
+      delete data.password;
+      await useHandleSet(updateSystemUserApi, data.id, data, "修改用户");
+    } else {
+      await useHandleData(addSystemUserApi, data, "添加用户");
     }
+    resetForm(formEl);
+    loading.value = false;
+    proTable.value?.getTableList();
   });
 };
 </script>
