@@ -292,6 +292,6 @@ const handleMenuCheckedTreeExpand = () => {
 .cardHeight {
   width: 100%;
   max-height: 400px;
-  overflow-y: hidden;
+  overflow-y: auto;
 }
 </style>
