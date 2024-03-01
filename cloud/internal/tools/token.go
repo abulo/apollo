@@ -13,19 +13,19 @@ import (
 const signKey = "hezhian"
 
 // GenerateToken 生成token
-func GenerateToken(id int64, userName, nickName, Audience string) (string, error) {
+func GenerateToken(id int64, userName, nickName, Audience string, second int64) (string, error) {
 	claim := dao.SystemUserToken{
 		SystemUserId:   id,
 		SystemUserName: userName,
 		SystemNickName: nickName,
 		RegisteredClaims: jwt.RegisteredClaims{
-			Issuer:    "AuthServer",                                      // 签发者
-			Subject:   "Auth",                                            // 签发对象
-			Audience:  jwt.ClaimStrings{Audience},                        // 签发受众
-			ExpiresAt: jwt.NewNumericDate(time.Now().Add(2 * time.Hour)), // 过期时间
-			NotBefore: jwt.NewNumericDate(time.Now()),                    // 最早使用时间
-			IssuedAt:  jwt.NewNumericDate(time.Now()),                    // 签发时间
-			ID:        util.Random(),                                     // wt ID, 类似于盐值
+			Issuer:    "AuthServer",                                                            // 签发者
+			Subject:   "Auth",                                                                  // 签发对象
+			Audience:  jwt.ClaimStrings{Audience},                                              // 签发受众
+			ExpiresAt: jwt.NewNumericDate(time.Now().Add(time.Duration(second) * time.Second)), // 过期时间
+			NotBefore: jwt.NewNumericDate(time.Now()),                                          // 最早使用时间
+			IssuedAt:  jwt.NewNumericDate(time.Now()),                                          // 签发时间
+			ID:        util.Random(),                                                           // wt ID, 类似于盐值
 		},
 	}
 	token, err := jwt.NewWithClaims(jwt.SigningMethodHS256, claim).SignedString([]byte(signKey))

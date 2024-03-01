@@ -3,6 +3,7 @@ package user
 import (
 	"context"
 	"encoding/json"
+	"time"
 
 	"cloud/code"
 	"cloud/dao"
@@ -531,7 +532,8 @@ func SystemUserLogin(ctx context.Context, newCtx *app.RequestContext) {
 		})
 		return
 	}
-	token, err := tools.GenerateToken(userInfo.GetId(), userInfo.GetUsername(), userInfo.GetNickname(), "WEB")
+	second := initial.Core.Config.Int64("Cache.SystemUser.PermissionExpire")
+	token, err := tools.GenerateToken(userInfo.GetId(), userInfo.GetUsername(), userInfo.GetNickname(), "WEB", second)
 	if err != nil {
 		globalLogger.Logger.WithFields(logrus.Fields{
 			"req": requestCaptcha,
@@ -561,6 +563,38 @@ func SystemUserLogin(ctx context.Context, newCtx *app.RequestContext) {
 	key := util.NewReplacer(initial.Core.Config.String("Cache.SystemLoginLog.Queue"))
 	bytes, _ := json.Marshal(resSystemLoginLog)
 	redisHandler.LPush(ctx, key, cast.ToString(bytes))
+
+	requestMenu := &user.SystemUserMenuListRequest{}
+	systemUserId := userInfo.GetId()
+	requestMenu.SystemUserId = systemUserId
+
+	// 执行服务
+	resMenu, errMenu := clientSystemUser.SystemUserMenuList(ctx, requestMenu)
+	if errMenu != nil {
+		globalLogger.Logger.WithFields(logrus.Fields{
+			"req": requestMenu,
+			"err": errMenu,
+		}).Error("GrpcCall:菜单权限表:system_menu:SystemUserMenu")
+		fromError := status.Convert(errMenu)
+		newCtx.JSON(consts.StatusOK, utils.H{
+			"code": code.ConvertToHttp(fromError.Code()),
+			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
+		})
+		return
+	}
+	permissionList := make([]string, 0)
+	if resMenu.GetCode() == code.Success {
+		rpcMenuList := resMenu.GetData()
+		for _, item := range rpcMenuList {
+			if !util.Empty(item.GetPermission()) {
+				permissionList = append(permissionList, item.GetPermission())
+			}
+		}
+	}
+	// 保存权限信息
+	keyMenu := util.NewReplacer(initial.Core.Config.String("Cache.SystemUser.Permission"), ":UserId", systemUserId)
+	permission, _ := json.Marshal(permissionList)
+	redisHandler.Set(ctx, keyMenu, cast.ToString(permission), time.Duration(second)*time.Second)
 
 	newCtx.JSON(consts.StatusOK, utils.H{
 		"code": res.GetCode(),

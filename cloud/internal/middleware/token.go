@@ -61,8 +61,35 @@ func AuthMiddleware() app.HandlerFunc {
 		newCtx.Set("systemUserId", rsp.SystemUserId) // 用户ID
 		newCtx.Set("systemNickName", rsp.SystemNickName)
 		newCtx.Set("systemUserName", rsp.SystemUserName)
-		newCtx.Next(ctx)
-
+		handlerName := newCtx.HandlerName()
+		method := util.Explode("/", handlerName)
+		methodName := method[len(method)-1]
+		// 检查用户有没有该权限
+		redisHandler := initial.Core.Store.LoadRedis("redis")
+		menuKey := util.NewReplacer(initial.Core.Config.String("Cache.SystemMenu.Permission"))
+		if exist, err := redisHandler.SIsMember(ctx, menuKey, methodName); err == nil {
+			if !exist {
+				newCtx.Next(ctx)
+			} else {
+				// 判断一下这个用户的的权限
+				key := util.NewReplacer(initial.Core.Config.String("Cache.SystemUser.Permission"), ":UserId", rsp.SystemUserId)
+				// 获取用户的权限
+				if permission, err := redisHandler.Get(ctx, key); err == nil {
+					var permissionList []string
+					json.Unmarshal([]byte(permission), &permissionList)
+					if util.InArray(methodName, permissionList) {
+						newCtx.Next(ctx)
+					} else {
+						newCtx.JSON(consts.StatusForbidden, utils.H{
+							"code": code.TokenInvalidError,
+							"msg":  code.StatusText(code.TokenInvalidError),
+						})
+						newCtx.Abort()
+						return
+					}
+				}
+			}
+		}
 		//添加日志收集流程
 		var response Response
 		json.Unmarshal(newCtx.Response.Body(), &response)
@@ -94,7 +121,7 @@ func AuthMiddleware() app.HandlerFunc {
 		resSystemOperateLog.Updater = null.StringFrom(rsp.SystemUserName) //更新者
 		resSystemOperateLog.UpdateTime = null.DateTimeFrom(startTime)     //更新时间
 		// 将这些数据需要全部存储在消息列队中,然后后台去执行消息列队
-		redisHandler := initial.Core.Store.LoadRedis("redis")
+
 		key := util.NewReplacer(initial.Core.Config.String("Cache.SystemOperateLog.Queue"))
 		bytes, _ := json.Marshal(resSystemOperateLog)
 		redisHandler.LPush(ctx, key, cast.ToString(bytes))
