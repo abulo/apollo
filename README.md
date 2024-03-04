@@ -34,3 +34,4 @@ Apollo 的成长离不开大家的支持，如果你愿意为 Apollo 贡献代�
 
 - Link：https://apollo.abulo.net
 - 测试账号: test/test
+- 测试账号: admin/hezhian
