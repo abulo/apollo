@@ -5,6 +5,7 @@ import (
 	"cloud/service/system/logger"
 	"cloud/service/system/menu"
 	"cloud/service/system/role"
+	"cloud/service/system/tenant"
 	"cloud/service/system/user"
 
 	"github.com/abulo/ratel/v3/server/xgrpc"
@@ -46,6 +47,10 @@ func Registry(server *xgrpc.Server) {
 	})
 	// 操作日志->system_operate_log
 	logger.RegisterSystemOperateLogServiceServer(server.Server, &logger.SrvSystemOperateLogServiceServer{
+		Server: server,
+	})
+	// 租户->system_tenant
+	tenant.RegisterSystemTenantServiceServer(server.Server, &tenant.SrvSystemTenantServiceServer{
 		Server: server,
 	})
 }

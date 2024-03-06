@@ -5,6 +5,7 @@ import (
 	"cloud/api/system/logger"
 	"cloud/api/system/menu"
 	"cloud/api/system/role"
+	"cloud/api/system/tenant"
 	"cloud/api/system/user"
 	"cloud/internal/middleware"
 
@@ -98,5 +99,17 @@ func ManagerInitRoute(handle *xhertz.Server) {
 		auth.GET("/system/logger/entry/:systemEntryLogId/item", logger.SystemEntryLog)
 		// system_entry_log -> 访问日志 -> 列表
 		auth.GET("/system/logger/entry", logger.SystemEntryLogList)
+		// system_tenant->租户->创建
+		auth.POST("/system/tenant", tenant.SystemTenantCreate)
+		// system_tenant->租户->更新
+		auth.PUT("/system/tenant/:systemTenantId/update", tenant.SystemTenantUpdate)
+		// system_tenant->租户->删除
+		auth.DELETE("/system/tenant/:systemTenantId/delete", tenant.SystemTenantDelete)
+		// system_tenant->租户->单条数据信息查看
+		auth.GET("/system/tenant/:systemTenantId/item", tenant.SystemTenant)
+		// system_tenant->租户->恢复
+		auth.PUT("/system/tenant/:systemTenantId/recover", tenant.SystemTenantRecover)
+		// system_tenant->租户->列表
+		auth.GET("/system/tenant", tenant.SystemTenantList)
 	}
 }
