@@ -25,77 +25,6 @@ import (
 	"google.golang.org/protobuf/types/known/timestamppb"
 )
 
-// system_user 系统用户
-
-// SystemUserDao 数据转换
-func SystemUserDao(item *user.SystemUserObject) *dao.SystemUser {
-	daoItem := &dao.SystemUser{}
-
-	if item != nil && item.Id != nil {
-		daoItem.Id = item.Id // 用户编号
-	}
-	if item != nil && item.Nickname != nil {
-		daoItem.Nickname = null.StringFrom(item.GetNickname()) // 昵称
-	}
-	if item != nil && item.Username != nil {
-		daoItem.Username = item.Username // 用户名称
-	}
-	if item != nil && item.Password != nil {
-		daoItem.Password = item.Password // 用户密码
-	}
-	if item != nil && item.Status != nil {
-		daoItem.Status = item.Status // 用户状态（0正常 1停用）
-	}
-	if item != nil && item.Creator != nil {
-		daoItem.Creator = null.StringFrom(item.GetCreator()) // 创建人
-	}
-	if item != nil && item.CreateTime != nil {
-		daoItem.CreateTime = null.DateTimeFrom(util.GrpcTime(item.CreateTime)) // 创建时间
-	}
-	if item != nil && item.Updater != nil {
-		daoItem.Updater = null.StringFrom(item.GetUpdater()) // 更新人
-	}
-	if item != nil && item.UpdateTime != nil {
-		daoItem.UpdateTime = null.DateTimeFrom(util.GrpcTime(item.UpdateTime)) // 更新时间
-	}
-
-	return daoItem
-}
-
-// SystemUserProto 数据绑定
-func SystemUserProto(item dao.SystemUser) *user.SystemUserObject {
-	res := &user.SystemUserObject{}
-	if item.Id != nil {
-		res.Id = item.Id
-	}
-	if item.Nickname.IsValid() {
-		res.Nickname = item.Nickname.Ptr()
-	}
-	if item.Username != nil {
-		res.Username = item.Username
-	}
-	if item.Password != nil {
-		res.Password = item.Password
-	}
-	if item.Status != nil {
-		res.Status = item.Status
-	}
-	if item.Creator.IsValid() {
-		res.Creator = item.Creator.Ptr()
-	}
-	if item.CreateTime.IsValid() {
-		res.CreateTime = timestamppb.New(*item.CreateTime.Ptr())
-	}
-	if item.Updater.IsValid() {
-		res.Updater = item.Updater.Ptr()
-	}
-	if item.UpdateTime.IsValid() {
-		res.UpdateTime = timestamppb.New(*item.UpdateTime.Ptr())
-	}
-
-	return res
-}
-
 // SystemUserRoleDao 数据转换
 func SystemUserRoleDao(item *user.SystemUserRoleObject) *dao.SystemUserRole {
 	daoItem := &dao.SystemUserRole{}
@@ -126,8 +55,8 @@ func SystemUserRoleDao(item *user.SystemUserRoleObject) *dao.SystemUserRole {
 
 func SystemUserRoleProto(item dao.SystemUser) *user.SystemUserRoleCreateRequest {
 	res := &user.SystemUserRoleCreateRequest{}
-	if item.RoleIds.IsValid() {
-		res.SystemRoleIds = *item.RoleIds.Ptr()
+	if item.SystemRoleIds.IsValid() {
+		res.SystemRoleIds = *item.SystemRoleIds.Ptr()
 	}
 	if item.Creator.IsValid() {
 		res.Creator = item.Creator.Ptr()
@@ -172,7 +101,7 @@ func SystemUserCreate(ctx context.Context, newCtx *app.RequestContext) {
 	}
 	reqInfo.Creator = null.StringFrom(newCtx.GetString("systemUserName"))
 	reqInfo.CreateTime = null.DateTimeFrom(util.Now())
-	request.Data = SystemUserProto(reqInfo)
+	request.Data = user.SystemUserProto(reqInfo)
 	// 执行服务
 	res, err := client.SystemUserCreate(ctx, request)
 	if err != nil {
@@ -231,7 +160,7 @@ func SystemUserUpdate(ctx context.Context, newCtx *app.RequestContext) {
 	}
 	reqInfo.Updater = null.StringFrom(newCtx.GetString("systemUserName"))
 	reqInfo.UpdateTime = null.DateTimeFrom(util.Now())
-	request.Data = SystemUserProto(reqInfo)
+	request.Data = user.SystemUserProto(reqInfo)
 	// 执行服务
 	res, err := client.SystemUserUpdate(ctx, request)
 	if err != nil {
@@ -331,7 +260,7 @@ func SystemUser(ctx context.Context, newCtx *app.RequestContext) {
 		})
 		return
 	}
-	userInfo := SystemUserDao(res.GetData())
+	userInfo := user.SystemUserDao(res.GetData())
 	userInfo.Password = nil
 
 	var listRoleId []int64
@@ -348,7 +277,7 @@ func SystemUser(ctx context.Context, newCtx *app.RequestContext) {
 		}
 	}
 	byteRoleIds, _ := json.Marshal(listRoleId)
-	userInfo.RoleIds = null.JSONFrom(byteRoleIds)
+	userInfo.SystemRoleIds = null.JSONFrom(byteRoleIds)
 	newCtx.JSON(consts.StatusOK, utils.H{
 		"code": res.GetCode(),
 		"msg":  res.GetMsg(),
@@ -422,7 +351,7 @@ func SystemUserList(ctx context.Context, newCtx *app.RequestContext) {
 	if res.GetCode() == code.Success {
 		rpcList := res.GetData()
 		for _, item := range rpcList {
-			userInfo := SystemUserDao(item)
+			userInfo := user.SystemUserDao(item)
 			userInfo.Password = nil
 			list = append(list, userInfo)
 		}

@@ -2,18 +2,14 @@ package tenant
 
 import (
 	"cloud/code"
-	"cloud/dao"
 	"cloud/module/system/tenant"
 	"context"
 
 	globalLogger "github.com/abulo/ratel/v3/core/logger"
 	"github.com/abulo/ratel/v3/server/xgrpc"
-	"github.com/abulo/ratel/v3/stores/null"
 	"github.com/abulo/ratel/v3/stores/sql"
-	"github.com/abulo/ratel/v3/util"
 	"github.com/sirupsen/logrus"
 	"google.golang.org/grpc/status"
-	"google.golang.org/protobuf/types/known/timestamppb"
 )
 
 // system_tenant 租户
@@ -24,119 +20,10 @@ type SrvSystemTenantServiceServer struct {
 	Server *xgrpc.Server
 }
 
-func (srv SrvSystemTenantServiceServer) SystemTenantConvert(request *SystemTenantObject) dao.SystemTenant {
-	var res dao.SystemTenant
-
-	if request != nil && request.Id != nil {
-		res.Id = request.Id // 租户编号
-	}
-	if request != nil && request.Name != nil {
-		res.Name = request.Name // 租户名称
-	}
-	if request != nil && request.SystemUserId != nil {
-		res.SystemUserId = null.Int64From(request.GetSystemUserId()) // 联系人ID
-	}
-	if request != nil && request.ContactName != nil {
-		res.ContactName = request.ContactName // 联系人
-	}
-	if request != nil && request.ContactMobile != nil {
-		res.ContactMobile = request.ContactMobile // 租户联系电话
-	}
-	if request != nil && request.Status != nil {
-		res.Status = request.Status // 状态（0正常 1停用）
-	}
-	if request != nil && request.Domain != nil {
-		res.Domain = null.StringFrom(request.GetDomain()) // 域名
-	}
-	if request != nil && request.ExpireDate != nil {
-		res.ExpireDate = null.DateFrom(util.GrpcTime(request.ExpireDate)) // 过期时间
-	}
-	if request != nil && request.AccountCont != nil {
-		res.AccountCont = request.AccountCont // 账号数量
-	}
-	if request != nil && request.SystemTenantPackageId != nil {
-		res.SystemTenantPackageId = request.SystemTenantPackageId // 套餐编号
-	}
-	if request != nil && request.Deleted != nil {
-		res.Deleted = request.Deleted // 是否删除(0否 1是)
-	}
-	if request != nil && request.Creator != nil {
-		res.Creator = null.StringFrom(request.GetCreator()) // 创建人
-	}
-	if request != nil && request.CreateTime != nil {
-		res.CreateTime = null.DateTimeFrom(util.GrpcTime(request.CreateTime)) // 创建时间
-	}
-	if request != nil && request.Updater != nil {
-		res.Updater = null.StringFrom(request.GetUpdater()) // 更新人
-	}
-	if request != nil && request.UpdateTime != nil {
-		res.UpdateTime = null.DateTimeFrom(util.GrpcTime(request.UpdateTime)) // 更新时间
-	}
-	if request != nil && request.Username != nil {
-		res.Username = request.Username // 用户名称
-	}
-	if request != nil && request.Password != nil {
-		res.Password = request.Password // 用户密码
-	}
-
-	return res
-}
-
-func (srv SrvSystemTenantServiceServer) SystemTenantResult(item dao.SystemTenant) *SystemTenantObject {
-	res := &SystemTenantObject{}
-	if item.Id != nil {
-		res.Id = item.Id
-	}
-	if item.Name != nil {
-		res.Name = item.Name
-	}
-	if item.SystemUserId.IsValid() {
-		res.SystemUserId = item.SystemUserId.Ptr()
-	}
-	if item.ContactName != nil {
-		res.ContactName = item.ContactName
-	}
-	if item.ContactMobile != nil {
-		res.ContactMobile = item.ContactMobile
-	}
-	if item.Status != nil {
-		res.Status = item.Status
-	}
-	if item.Domain.IsValid() {
-		res.Domain = item.Domain.Ptr()
-	}
-	if item.ExpireDate.IsValid() {
-		res.ExpireDate = timestamppb.New(*item.ExpireDate.Ptr())
-	}
-	if item.AccountCont != nil {
-		res.AccountCont = item.AccountCont
-	}
-	if item.SystemTenantPackageId != nil {
-		res.SystemTenantPackageId = item.SystemTenantPackageId
-	}
-	if item.Deleted != nil {
-		res.Deleted = item.Deleted
-	}
-	if item.Creator.IsValid() {
-		res.Creator = item.Creator.Ptr()
-	}
-	if item.CreateTime.IsValid() {
-		res.CreateTime = timestamppb.New(*item.CreateTime.Ptr())
-	}
-	if item.Updater.IsValid() {
-		res.Updater = item.Updater.Ptr()
-	}
-	if item.UpdateTime.IsValid() {
-		res.UpdateTime = timestamppb.New(*item.UpdateTime.Ptr())
-	}
-
-	return res
-}
-
 // SystemTenantCreate 创建数据
 func (srv SrvSystemTenantServiceServer) SystemTenantCreate(ctx context.Context, request *SystemTenantCreateRequest) (*SystemTenantCreateResponse, error) {
-	req := srv.SystemTenantConvert(request.GetData())
-	data, err := tenant.SystemTenantCreate(ctx, req)
+	req := SystemTenantDao(request.GetData())
+	data, err := tenant.SystemTenantCreate(ctx, *req)
 	if sql.ResultAccept(err) != nil {
 		globalLogger.Logger.WithFields(logrus.Fields{
 			"req": req,
@@ -157,8 +44,8 @@ func (srv SrvSystemTenantServiceServer) SystemTenantUpdate(ctx context.Context, 
 	if systemTenantId < 1 {
 		return &SystemTenantUpdateResponse{}, status.Error(code.ConvertToGrpc(code.ParamInvalid), code.StatusText(code.ParamInvalid))
 	}
-	req := srv.SystemTenantConvert(request.GetData())
-	_, err := tenant.SystemTenantUpdate(ctx, systemTenantId, req)
+	req := SystemTenantDao(request.GetData())
+	_, err := tenant.SystemTenantUpdate(ctx, systemTenantId, *req)
 	if sql.ResultAccept(err) != nil {
 		globalLogger.Logger.WithFields(logrus.Fields{
 			"req": req,
@@ -209,7 +96,7 @@ func (srv SrvSystemTenantServiceServer) SystemTenant(ctx context.Context, reques
 	return &SystemTenantResponse{
 		Code: code.Success,
 		Msg:  code.StatusText(code.Success),
-		Data: srv.SystemTenantResult(res),
+		Data: SystemTenantProto(res),
 	}, nil
 }
 
@@ -280,7 +167,7 @@ func (srv SrvSystemTenantServiceServer) SystemTenantList(ctx context.Context, re
 	}
 	var res []*SystemTenantObject
 	for _, item := range list {
-		res = append(res, srv.SystemTenantResult(item))
+		res = append(res, SystemTenantProto(item))
 	}
 	return &SystemTenantListResponse{
 		Code: code.Success,

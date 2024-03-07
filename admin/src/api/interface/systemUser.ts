@@ -32,6 +32,6 @@ export namespace SystemUser {
     createTime: string; // 创建时间
     updater: string; // 更新人
     updateTime: string; // 更新时间
-    roleIds: number[]; // 角色ID
+    systemRoleIds: number[]; // 角色ID
   }
 }

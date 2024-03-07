@@ -2,18 +2,14 @@ package role
 
 import (
 	"cloud/code"
-	"cloud/dao"
 	"cloud/module/system/role"
 	"context"
 
 	globalLogger "github.com/abulo/ratel/v3/core/logger"
 	"github.com/abulo/ratel/v3/server/xgrpc"
-	"github.com/abulo/ratel/v3/stores/null"
 	"github.com/abulo/ratel/v3/stores/sql"
-	"github.com/abulo/ratel/v3/util"
 	"github.com/sirupsen/logrus"
 	"google.golang.org/grpc/status"
-	"google.golang.org/protobuf/types/known/timestamppb"
 )
 
 // system_role 系统角色
@@ -24,89 +20,10 @@ type SrvSystemRoleServiceServer struct {
 	Server *xgrpc.Server
 }
 
-func (srv SrvSystemRoleServiceServer) SystemRoleConvert(request *SystemRoleObject) dao.SystemRole {
-	var res dao.SystemRole
-
-	if request != nil && request.Id != nil {
-		res.Id = request.Id // 角色编号
-	}
-	if request != nil && request.Name != nil {
-		res.Name = request.Name // 角色名称
-	}
-	if request != nil && request.Code != nil {
-		res.Code = request.Code // 角色权限字符串
-	}
-	if request != nil && request.Sort != nil {
-		res.Sort = request.Sort // 显示顺序
-	}
-	if request != nil && request.Status != nil {
-		res.Status = request.Status // 角色状态（0正常 1停用）
-	}
-	if request != nil && request.Type != nil {
-		res.Type = request.Type // 角色类型(1内置/2定义)
-	}
-	if request != nil && request.Remark != nil {
-		res.Remark = null.StringFrom(request.GetRemark()) // 备注
-	}
-	if request != nil && request.Creator != nil {
-		res.Creator = null.StringFrom(request.GetCreator()) // 创建者
-	}
-	if request != nil && request.CreateTime != nil {
-		res.CreateTime = null.DateTimeFrom(util.GrpcTime(request.CreateTime)) // 创建时间
-	}
-	if request != nil && request.Updater != nil {
-		res.Updater = null.StringFrom(request.GetUpdater()) // 更新者
-	}
-	if request != nil && request.UpdateTime != nil {
-		res.UpdateTime = null.DateTimeFrom(util.GrpcTime(request.UpdateTime)) // 更新时间
-	}
-
-	return res
-}
-
-func (srv SrvSystemRoleServiceServer) SystemRoleResult(item dao.SystemRole) *SystemRoleObject {
-	res := &SystemRoleObject{}
-	if item.Id != nil {
-		res.Id = item.Id
-	}
-	if item.Name != nil {
-		res.Name = item.Name
-	}
-	if item.Code != nil {
-		res.Code = item.Code
-	}
-	if item.Sort != nil {
-		res.Sort = item.Sort
-	}
-	if item.Status != nil {
-		res.Status = item.Status
-	}
-	if item.Type != nil {
-		res.Type = item.Type
-	}
-	if item.Remark.IsValid() {
-		res.Remark = item.Remark.Ptr()
-	}
-	if item.Creator.IsValid() {
-		res.Creator = item.Creator.Ptr()
-	}
-	if item.CreateTime.IsValid() {
-		res.CreateTime = timestamppb.New(*item.CreateTime.Ptr())
-	}
-	if item.Updater.IsValid() {
-		res.Updater = item.Updater.Ptr()
-	}
-	if item.UpdateTime.IsValid() {
-		res.UpdateTime = timestamppb.New(*item.UpdateTime.Ptr())
-	}
-
-	return res
-}
-
 // SystemRoleCreate 创建数据
 func (srv SrvSystemRoleServiceServer) SystemRoleCreate(ctx context.Context, request *SystemRoleCreateRequest) (*SystemRoleCreateResponse, error) {
-	req := srv.SystemRoleConvert(request.GetData())
-	data, err := role.SystemRoleCreate(ctx, req)
+	req := SystemRoleDao(request.GetData())
+	data, err := role.SystemRoleCreate(ctx, *req)
 	if sql.ResultAccept(err) != nil {
 		globalLogger.Logger.WithFields(logrus.Fields{
 			"req": req,
@@ -127,8 +44,8 @@ func (srv SrvSystemRoleServiceServer) SystemRoleUpdate(ctx context.Context, requ
 	if systemRoleId < 1 {
 		return &SystemRoleUpdateResponse{}, status.Error(code.ConvertToGrpc(code.ParamInvalid), code.StatusText(code.ParamInvalid))
 	}
-	req := srv.SystemRoleConvert(request.GetData())
-	_, err := role.SystemRoleUpdate(ctx, systemRoleId, req)
+	req := SystemRoleDao(request.GetData())
+	_, err := role.SystemRoleUpdate(ctx, systemRoleId, *req)
 	if sql.ResultAccept(err) != nil {
 		globalLogger.Logger.WithFields(logrus.Fields{
 			"req": req,
@@ -179,7 +96,7 @@ func (srv SrvSystemRoleServiceServer) SystemRole(ctx context.Context, request *S
 	return &SystemRoleResponse{
 		Code: code.Success,
 		Msg:  code.StatusText(code.Success),
-		Data: srv.SystemRoleResult(res),
+		Data: SystemRoleProto(res),
 	}, nil
 }
 func (srv SrvSystemRoleServiceServer) SystemRoleList(ctx context.Context, request *SystemRoleListRequest) (*SystemRoleListResponse, error) {
@@ -204,7 +121,7 @@ func (srv SrvSystemRoleServiceServer) SystemRoleList(ctx context.Context, reques
 	}
 	var res []*SystemRoleObject
 	for _, item := range list {
-		res = append(res, srv.SystemRoleResult(item))
+		res = append(res, SystemRoleProto(item))
 	}
 	return &SystemRoleListResponse{
 		Code: code.Success,

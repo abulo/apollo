@@ -2,19 +2,16 @@ package logger
 
 import (
 	"cloud/code"
-	"cloud/dao"
 	"cloud/module/system/logger"
 	"context"
 	"encoding/json"
 
 	globalLogger "github.com/abulo/ratel/v3/core/logger"
 	"github.com/abulo/ratel/v3/server/xgrpc"
-	"github.com/abulo/ratel/v3/stores/null"
 	"github.com/abulo/ratel/v3/stores/sql"
 	"github.com/abulo/ratel/v3/util"
 	"github.com/sirupsen/logrus"
 	"google.golang.org/grpc/status"
-	"google.golang.org/protobuf/types/known/timestamppb"
 )
 
 // system_login_log 登录日志
@@ -25,83 +22,10 @@ type SrvSystemLoginLogServiceServer struct {
 	Server *xgrpc.Server
 }
 
-func (srv SrvSystemLoginLogServiceServer) SystemLoginLogConvert(request *SystemLoginLogObject) dao.SystemLoginLog {
-	var res dao.SystemLoginLog
-
-	if request != nil && request.Id != nil {
-		res.Id = request.Id // 主键
-	}
-	if request != nil && request.Username != nil {
-		res.Username = request.Username // 用户账号
-	}
-	if request != nil && request.UserIp != nil {
-		res.UserIp = request.UserIp // 用户ip
-	}
-	if request != nil && request.UserAgent != nil {
-		res.UserAgent = null.StringFrom(request.GetUserAgent()) // UA
-	}
-	if request != nil && request.LoginTime != nil {
-		res.LoginTime = null.DateTimeFrom(util.GrpcTime(request.LoginTime)) // 登录时间
-	}
-	if request != nil && request.Channel != nil {
-		res.Channel = request.Channel // 渠道
-	}
-	if request != nil && request.Creator != nil {
-		res.Creator = null.StringFrom(request.GetCreator()) // 创建人
-	}
-	if request != nil && request.CreateTime != nil {
-		res.CreateTime = null.DateTimeFrom(util.GrpcTime(request.CreateTime)) // 创建时间
-	}
-	if request != nil && request.Updater != nil {
-		res.Updater = null.StringFrom(request.GetUpdater()) // 更新人
-	}
-	if request != nil && request.UpdateTime != nil {
-		res.UpdateTime = null.DateTimeFrom(util.GrpcTime(request.UpdateTime)) // 更新时间
-	}
-
-	return res
-}
-
-func (srv SrvSystemLoginLogServiceServer) SystemLoginLogResult(item dao.SystemLoginLog) *SystemLoginLogObject {
-	res := &SystemLoginLogObject{}
-	if item.Id != nil {
-		res.Id = item.Id
-	}
-	if item.Username != nil {
-		res.Username = item.Username
-	}
-	if item.UserIp != nil {
-		res.UserIp = item.UserIp
-	}
-	if item.UserAgent.IsValid() {
-		res.UserAgent = item.UserAgent.Ptr()
-	}
-	if item.LoginTime.IsValid() {
-		res.LoginTime = timestamppb.New(*item.LoginTime.Ptr())
-	}
-	if item.Channel != nil {
-		res.Channel = item.Channel
-	}
-	if item.Creator.IsValid() {
-		res.Creator = item.Creator.Ptr()
-	}
-	if item.CreateTime.IsValid() {
-		res.CreateTime = timestamppb.New(*item.CreateTime.Ptr())
-	}
-	if item.Updater.IsValid() {
-		res.Updater = item.Updater.Ptr()
-	}
-	if item.UpdateTime.IsValid() {
-		res.UpdateTime = timestamppb.New(*item.UpdateTime.Ptr())
-	}
-
-	return res
-}
-
 // SystemLoginLogCreate 创建数据
 func (srv SrvSystemLoginLogServiceServer) SystemLoginLogCreate(ctx context.Context, request *SystemLoginLogCreateRequest) (*SystemLoginLogCreateResponse, error) {
-	req := srv.SystemLoginLogConvert(request.GetData())
-	data, err := logger.SystemLoginLogCreate(ctx, req)
+	req := SystemLoginLogDao(request.GetData())
+	data, err := logger.SystemLoginLogCreate(ctx, *req)
 	if sql.ResultAccept(err) != nil {
 		globalLogger.Logger.WithFields(logrus.Fields{
 			"req": req,
@@ -154,7 +78,7 @@ func (srv SrvSystemLoginLogServiceServer) SystemLoginLog(ctx context.Context, re
 	return &SystemLoginLogResponse{
 		Code: code.Success,
 		Msg:  code.StatusText(code.Success),
-		Data: srv.SystemLoginLogResult(res),
+		Data: SystemLoginLogProto(res),
 	}, nil
 }
 func (srv SrvSystemLoginLogServiceServer) SystemLoginLogList(ctx context.Context, request *SystemLoginLogListRequest) (*SystemLoginLogListResponse, error) {
@@ -199,7 +123,7 @@ func (srv SrvSystemLoginLogServiceServer) SystemLoginLogList(ctx context.Context
 	}
 	var res []*SystemLoginLogObject
 	for _, item := range list {
-		res = append(res, srv.SystemLoginLogResult(item))
+		res = append(res, SystemLoginLogProto(item))
 	}
 	return &SystemLoginLogListResponse{
 		Code: code.Success,

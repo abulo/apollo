@@ -15,6 +15,6 @@ export namespace SystemRole {
     createTime: string; //创建时间
     updater: string; //更新者
     updateTime: string; //更新时间
-    menuIds: Array<number>; //json 数据范围(指定菜单数组)
+    systemMenuIds: number[]; //json 数据范围(指定菜单数组)
   }
 }
