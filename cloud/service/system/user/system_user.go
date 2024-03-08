@@ -5,7 +5,7 @@ import (
 
 	"github.com/abulo/ratel/v3/stores/null"
 	"github.com/abulo/ratel/v3/util"
-	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
+	"google.golang.org/protobuf/types/known/timestamppb"
 )
 
 // system_user 系统用户
@@ -20,6 +20,9 @@ func SystemUserDao(item *SystemUserObject) *dao.SystemUser {
 	if item != nil && item.Nickname != nil {
 		daoItem.Nickname = null.StringFrom(item.GetNickname()) // 昵称
 	}
+	// if item != nil && item.Mobile != nil {
+	// 	daoItem.Mobile = null.StringFrom(item.GetMobile()) // 手机号码
+	// }
 	if item != nil && item.Username != nil {
 		daoItem.Username = item.Username // 用户名称
 	}
@@ -41,6 +44,12 @@ func SystemUserDao(item *SystemUserObject) *dao.SystemUser {
 	if item != nil && item.UpdateTime != nil {
 		daoItem.UpdateTime = null.DateTimeFrom(util.GrpcTime(item.UpdateTime)) // 更新时间
 	}
+	// if item != nil && item.Deleted != nil {
+	// 	daoItem.Deleted = item.Deleted // 是否删除(0否 1是)
+	// }
+	// if item != nil && item.SystemTenantId != nil {
+	// 	daoItem.SystemTenantId = item.SystemTenantId // 租户ID
+	// }
 
 	return daoItem
 }
@@ -54,6 +63,9 @@ func SystemUserProto(item dao.SystemUser) *SystemUserObject {
 	if item.Nickname.IsValid() {
 		res.Nickname = item.Nickname.Ptr()
 	}
+	// if item.Mobile.IsValid() {
+	// 	res.Mobile = item.Mobile.Ptr()
+	// }
 	if item.Username != nil {
 		res.Username = item.Username
 	}
@@ -75,6 +87,12 @@ func SystemUserProto(item dao.SystemUser) *SystemUserObject {
 	if item.UpdateTime.IsValid() {
 		res.UpdateTime = timestamppb.New(*item.UpdateTime.Ptr())
 	}
+	// if item.Deleted != nil {
+	// 	res.Deleted = item.Deleted
+	// }
+	// if item.SystemTenantId != nil {
+	// 	res.SystemTenantId = item.SystemTenantId
+	// }
 
 	return res
 }

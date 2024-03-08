@@ -5,7 +5,7 @@ import (
 
 	"github.com/abulo/ratel/v3/stores/null"
 	"github.com/abulo/ratel/v3/util"
-	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
+	"google.golang.org/protobuf/types/known/timestamppb"
 )
 
 // system_tenant 租户
@@ -110,12 +110,6 @@ func SystemTenantProto(item dao.SystemTenant) *SystemTenantObject {
 	}
 	if item.UpdateTime.IsValid() {
 		res.UpdateTime = timestamppb.New(*item.UpdateTime.Ptr())
-	}
-	if item.Username != nil {
-		res.Username = item.Username
-	}
-	if item.Password != nil {
-		res.Password = item.Password
 	}
 
 	return res

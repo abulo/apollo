@@ -5,7 +5,7 @@ import (
 
 	"github.com/abulo/ratel/v3/stores/null"
 	"github.com/abulo/ratel/v3/util"
-	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
+	"google.golang.org/protobuf/types/known/timestamppb"
 )
 
 // system_menu 系统菜单
@@ -54,7 +54,7 @@ func SystemMenuDao(item *SystemMenuObject) *dao.SystemMenu {
 		daoItem.Link = null.StringFrom(item.GetLink()) // 路由外链时填写的访问地址
 	}
 	if item != nil && item.KeepAlive != nil {
-		daoItem.KeepAlive = item.KeepAlive // 是否缓存(0不/ 是)
+		daoItem.KeepAlive = item.KeepAlive // 是否缓存(0不/ 1是)
 	}
 	if item != nil && item.Affix != nil {
 		daoItem.Affix = item.Affix // 是否总是显示(0 不显示/1 显示)
