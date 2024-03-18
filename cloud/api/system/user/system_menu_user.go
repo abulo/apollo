@@ -4,7 +4,7 @@ import (
 	"cloud/code"
 	"cloud/dao"
 	"cloud/initial"
-	"cloud/service/system/user"
+	"cloud/service/system/menu"
 	"context"
 	"strings"
 
@@ -16,10 +16,11 @@ import (
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/cast"
 	"google.golang.org/grpc/status"
+	"google.golang.org/protobuf/proto"
 )
 
 // SystemUserMenuDao 数据转换
-func SystemUserMenuDao(item *user.SystemMenuObject) dao.SystemMenuTree {
+func SystemUserMenuDao(item *menu.SystemMenuObject) dao.SystemMenuTree {
 	daoItem := dao.SystemMenuTree{}
 	if !util.Empty(item.Id) {
 		daoItem.Id = item.GetId() // 菜单ID
@@ -73,18 +74,19 @@ func SystemUserMenu(ctx context.Context, newCtx *app.RequestContext) {
 		})
 		return
 	}
-	//链接服务
-	client := user.NewSystemUserServiceClient(grpcClient)
-	request := &user.SystemUserMenuListRequest{}
-	systemUserId := newCtx.GetInt64("systemUserId")
-	request.SystemUserId = systemUserId
-	// 执行服务
-	res, err := client.SystemUserMenuList(ctx, request)
+
+	client := menu.NewSystemMenuServiceClient(grpcClient)
+	// 构造查询条件
+	request := &menu.SystemMenuListRequest{}
+	// 构造查询条件
+	request.Deleted = proto.Int32(0)
+
+	res, err := client.SystemMenuList(ctx, request)
 	if err != nil {
 		globalLogger.Logger.WithFields(logrus.Fields{
 			"req": request,
 			"err": err,
-		}).Error("GrpcCall:菜单权限表:system_menu:SystemUserMenu")
+		}).Error("GrpcCall:系统菜单:system_menu:SystemMenuList")
 		fromError := status.Convert(err)
 		newCtx.JSON(consts.StatusOK, utils.H{
 			"code": code.ConvertToHttp(fromError.Code()),
@@ -92,6 +94,7 @@ func SystemUserMenu(ctx context.Context, newCtx *app.RequestContext) {
 		})
 		return
 	}
+
 	var list []dao.SystemMenuTree
 	if res.GetCode() == code.Success {
 		rpcList := res.GetData()
@@ -135,18 +138,19 @@ func SystemUserBtn(ctx context.Context, newCtx *app.RequestContext) {
 		})
 		return
 	}
-	//链接服务
-	client := user.NewSystemUserServiceClient(grpcClient)
-	request := &user.SystemUserMenuListRequest{}
-	systemUserId := newCtx.GetInt64("systemUserId")
-	request.SystemUserId = systemUserId
-	// 执行服务
-	res, err := client.SystemUserMenuList(ctx, request)
+
+	client := menu.NewSystemMenuServiceClient(grpcClient)
+	// 构造查询条件
+	request := &menu.SystemMenuListRequest{}
+	// 构造查询条件
+	request.Deleted = proto.Int32(0)
+
+	res, err := client.SystemMenuList(ctx, request)
 	if err != nil {
 		globalLogger.Logger.WithFields(logrus.Fields{
 			"req": request,
 			"err": err,
-		}).Error("GrpcCall:菜单权限表:system_menu:SystemUserBtn")
+		}).Error("GrpcCall:系统菜单:system_menu:SystemMenuList")
 		fromError := status.Convert(err)
 		newCtx.JSON(consts.StatusOK, utils.H{
 			"code": code.ConvertToHttp(fromError.Code()),

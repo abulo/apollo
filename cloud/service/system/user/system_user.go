@@ -20,9 +20,9 @@ func SystemUserDao(item *SystemUserObject) *dao.SystemUser {
 	if item != nil && item.Nickname != nil {
 		daoItem.Nickname = null.StringFrom(item.GetNickname()) // 昵称
 	}
-	// if item != nil && item.Mobile != nil {
-	// 	daoItem.Mobile = null.StringFrom(item.GetMobile()) // 手机号码
-	// }
+	if item != nil && item.Mobile != nil {
+		daoItem.Mobile = null.StringFrom(item.GetMobile()) // 手机号码
+	}
 	if item != nil && item.Username != nil {
 		daoItem.Username = item.Username // 用户名称
 	}
@@ -31,6 +31,12 @@ func SystemUserDao(item *SystemUserObject) *dao.SystemUser {
 	}
 	if item != nil && item.Status != nil {
 		daoItem.Status = item.Status // 用户状态（0正常 1停用）
+	}
+	if item != nil && item.Deleted != nil {
+		daoItem.Deleted = item.Deleted // 是否删除(0否 1是)
+	}
+	if item != nil && item.SystemTenantId != nil {
+		daoItem.SystemTenantId = item.SystemTenantId // 租户ID
 	}
 	if item != nil && item.Creator != nil {
 		daoItem.Creator = null.StringFrom(item.GetCreator()) // 创建人
@@ -44,11 +50,14 @@ func SystemUserDao(item *SystemUserObject) *dao.SystemUser {
 	if item != nil && item.UpdateTime != nil {
 		daoItem.UpdateTime = null.DateTimeFrom(util.GrpcTime(item.UpdateTime)) // 更新时间
 	}
-	// if item != nil && item.Deleted != nil {
-	// 	daoItem.Deleted = item.Deleted // 是否删除(0否 1是)
+	// if item != nil && item.SystemDeptIds != nil {
+	// 	daoItem.SystemDeptIds = null.JSONFrom(item.GetSystemDeptIds())
 	// }
-	// if item != nil && item.SystemTenantId != nil {
-	// 	daoItem.SystemTenantId = item.SystemTenantId // 租户ID
+	// if item != nil && item.SystemPostIds != nil {
+	// 	daoItem.SystemPostIds = null.JSONFrom(item.GetSystemPostIds())
+	// }
+	// if item != nil && item.SystemRoleIds != nil {
+	// 	daoItem.SystemRoleIds = null.JSONFrom(item.GetSystemRoleIds())
 	// }
 
 	return daoItem
@@ -63,9 +72,9 @@ func SystemUserProto(item dao.SystemUser) *SystemUserObject {
 	if item.Nickname.IsValid() {
 		res.Nickname = item.Nickname.Ptr()
 	}
-	// if item.Mobile.IsValid() {
-	// 	res.Mobile = item.Mobile.Ptr()
-	// }
+	if item.Mobile.IsValid() {
+		res.Mobile = item.Mobile.Ptr()
+	}
 	if item.Username != nil {
 		res.Username = item.Username
 	}
@@ -74,6 +83,12 @@ func SystemUserProto(item dao.SystemUser) *SystemUserObject {
 	}
 	if item.Status != nil {
 		res.Status = item.Status
+	}
+	if item.Deleted != nil {
+		res.Deleted = item.Deleted
+	}
+	if item.SystemTenantId != nil {
+		res.SystemTenantId = item.SystemTenantId
 	}
 	if item.Creator.IsValid() {
 		res.Creator = item.Creator.Ptr()
@@ -87,11 +102,14 @@ func SystemUserProto(item dao.SystemUser) *SystemUserObject {
 	if item.UpdateTime.IsValid() {
 		res.UpdateTime = timestamppb.New(*item.UpdateTime.Ptr())
 	}
-	// if item.Deleted != nil {
-	// 	res.Deleted = item.Deleted
+	// if item.SystemDeptIds.IsValid() {
+	// 	res.SystemDeptIds = *item.SystemDeptIds.Ptr()
 	// }
-	// if item.SystemTenantId != nil {
-	// 	res.SystemTenantId = item.SystemTenantId
+	// if item.SystemPostIds.IsValid() {
+	// 	res.SystemPostIds = *item.SystemPostIds.Ptr()
+	// }
+	// if item.SystemRoleIds.IsValid() {
+	// 	res.SystemRoleIds = *item.SystemRoleIds.Ptr()
 	// }
 
 	return res

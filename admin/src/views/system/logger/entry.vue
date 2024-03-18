@@ -163,3 +163,6 @@ const handleItem = async (row: SystemEntryLog.ResSystemEntryLogItem) => {
   systemEntryLogItemFrom.value = data;
 };
 </script>
+<style lang="scss">
+@import "@/styles/custom.scss";
+</style>

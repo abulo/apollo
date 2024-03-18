@@ -2,7 +2,6 @@ package user
 
 import (
 	"cloud/code"
-	"cloud/dao"
 	"cloud/module/system/user"
 	"context"
 
@@ -13,7 +12,6 @@ import (
 	"github.com/pkg/errors"
 	"github.com/sirupsen/logrus"
 	"google.golang.org/grpc/status"
-	"google.golang.org/protobuf/types/known/timestamppb"
 )
 
 // system_user 系统用户
@@ -104,6 +102,26 @@ func (srv SrvSystemUserServiceServer) SystemUser(ctx context.Context, request *S
 	}, nil
 }
 
+// SystemUserRecover 恢复数据
+func (srv SrvSystemUserServiceServer) SystemUserRecover(ctx context.Context, request *SystemUserRecoverRequest) (*SystemUserRecoverResponse, error) {
+	systemUserId := request.GetSystemUserId()
+	if systemUserId < 1 {
+		return &SystemUserRecoverResponse{}, status.Error(code.ConvertToGrpc(code.ParamInvalid), code.StatusText(code.ParamInvalid))
+	}
+	_, err := user.SystemUserRecover(ctx, systemUserId)
+	if sql.ResultAccept(err) != nil {
+		globalLogger.Logger.WithFields(logrus.Fields{
+			"req": systemUserId,
+			"err": err,
+		}).Error("Sql:系统用户:system_user:SystemUserRecover")
+		return &SystemUserRecoverResponse{}, status.Error(code.ConvertToGrpc(code.SqlError), err.Error())
+	}
+	return &SystemUserRecoverResponse{
+		Code: code.Success,
+		Msg:  code.StatusText(code.Success),
+	}, nil
+}
+
 // SystemUserLogin 查询单条数据
 func (srv SrvSystemUserServiceServer) SystemUserLogin(ctx context.Context, request *SystemUserLoginRequest) (*SystemUserLoginResponse, error) {
 	// 数据库查询条件
@@ -142,8 +160,17 @@ func (srv SrvSystemUserServiceServer) SystemUserList(ctx context.Context, reques
 	if request.Username != nil {
 		condition["username"] = request.GetUsername()
 	}
+	if request.SystemTenantId != nil {
+		condition["systemTenantId"] = request.GetSystemTenantId()
+	}
+	if request.Deleted != nil {
+		condition["deleted"] = request.GetDeleted()
+	}
 	if request.Status != nil {
 		condition["status"] = request.GetStatus()
+	}
+	if request.SystemDeptId != nil {
+		condition["systemDeptId"] = request.GetSystemDeptId()
 	}
 
 	// 当前页面
@@ -188,8 +215,17 @@ func (srv SrvSystemUserServiceServer) SystemUserListTotal(ctx context.Context, r
 	if request.Username != nil {
 		condition["username"] = request.GetUsername()
 	}
+	if request.SystemTenantId != nil {
+		condition["systemTenantId"] = request.GetSystemTenantId()
+	}
+	if request.Deleted != nil {
+		condition["deleted"] = request.GetDeleted()
+	}
 	if request.Status != nil {
 		condition["status"] = request.GetStatus()
+	}
+	if request.SystemDeptId != nil {
+		condition["systemDeptId"] = request.GetSystemDeptId()
 	}
 
 	// 获取数据集合
@@ -208,103 +244,27 @@ func (srv SrvSystemUserServiceServer) SystemUserListTotal(ctx context.Context, r
 	}, nil
 }
 
-func (srv SrvSystemUserServiceServer) SystemMenuResult(item dao.SystemMenu) *SystemMenuObject {
-	res := &SystemMenuObject{}
-	if item.Id != nil {
-		res.Id = item.Id
-	}
-	if item.Name != nil {
-		res.Name = item.Name
-	}
-	if item.Permission.IsValid() {
-		res.Permission = item.Permission.Ptr()
-	}
-	if item.Type != nil {
-		res.Type = item.Type
-	}
-	if item.Sort != nil {
-		res.Sort = item.Sort
-	}
-	if item.ParentId != nil {
-		res.ParentId = item.ParentId
-	}
-	if item.Path.IsValid() {
-		res.Path = item.Path.Ptr()
-	}
-	if item.Icon.IsValid() {
-		res.Icon = item.Icon.Ptr()
-	}
-	if item.Component.IsValid() {
-		res.Component = item.Component.Ptr()
-	}
-	if item.ComponentName.IsValid() {
-		res.ComponentName = item.ComponentName.Ptr()
-	}
-	if item.Status != nil {
-		res.Status = item.Status
-	}
-	if item.Hide != nil {
-		res.Hide = item.Hide
-	}
-	if item.Link.IsValid() {
-		res.Link = item.Link.Ptr()
-	}
-	if item.KeepAlive != nil {
-		res.KeepAlive = item.KeepAlive
-	}
-	if item.Affix != nil {
-		res.Affix = item.Affix
-	}
-	if item.ActivePath.IsValid() {
-		res.ActivePath = item.ActivePath.Ptr()
-	}
-	if item.FullScreen != nil {
-		res.FullScreen = item.FullScreen
-	}
-	if item.Redirect.IsValid() {
-		res.Redirect = item.Redirect.Ptr()
-	}
-	if item.Creator.IsValid() {
-		res.Creator = item.Creator.Ptr()
-	}
-	if item.CreateTime.IsValid() {
-		res.CreateTime = timestamppb.New(*item.CreateTime.Ptr())
-	}
-	if item.Updater.IsValid() {
-		res.Updater = item.Updater.Ptr()
-	}
-	if item.UpdateTime.IsValid() {
-		res.UpdateTime = timestamppb.New(*item.UpdateTime.Ptr())
-	}
-	if item.Deleted != nil {
-		res.Deleted = item.Deleted
-	}
-
-	return res
-}
-
-// SystemUserMenuList 获取用户菜单
-func (srv *SrvSystemUserServiceServer) SystemUserMenuList(ctx context.Context, request *SystemUserMenuListRequest) (*SystemUserMenuListResponse, error) {
+// SystemUserUpdate 更新数据
+func (srv SrvSystemUserServiceServer) SystemUserPassword(ctx context.Context, request *SystemUserPasswordRequest) (*SystemUserPasswordResponse, error) {
 	systemUserId := request.GetSystemUserId()
+
 	if systemUserId < 1 {
-		return &SystemUserMenuListResponse{}, status.Error(code.ConvertToGrpc(code.ParamInvalid), code.StatusText(code.ParamInvalid))
+		return &SystemUserPasswordResponse{}, status.Error(code.ConvertToGrpc(code.ParamInvalid), code.StatusText(code.ParamInvalid))
 	}
-	list, err := user.SystemUserMenuList(ctx, systemUserId)
+	password := request.GetPassword()
+	if util.Empty(password) {
+		return &SystemUserPasswordResponse{}, status.Error(code.ConvertToGrpc(code.ParamInvalid), code.StatusText(code.ParamInvalid))
+	}
+	_, err := user.SystemUserPassword(ctx, systemUserId, password)
 	if sql.ResultAccept(err) != nil {
 		globalLogger.Logger.WithFields(logrus.Fields{
-			"req": systemUserId,
+			"req": request,
 			"err": err,
-		}).Error("Sql:系统用户:system_user:SystemUserMenuList")
-		return &SystemUserMenuListResponse{}, status.Error(code.ConvertToGrpc(code.SqlError), err.Error())
+		}).Error("Sql:用户信息表:system_user:SystemUserPassword")
+		return &SystemUserPasswordResponse{}, status.Error(code.ConvertToGrpc(code.SqlError), err.Error())
 	}
-
-	var res []*SystemMenuObject
-	for _, item := range list {
-		res = append(res, srv.SystemMenuResult(item))
-	}
-	return &SystemUserMenuListResponse{
+	return &SystemUserPasswordResponse{
 		Code: code.Success,
 		Msg:  code.StatusText(code.Success),
-		Data: res,
 	}, nil
 }

@@ -10,11 +10,10 @@ type SystemUser struct {
 	Username       *string       `db:"username" json:"username"`               //varchar 用户名称
 	Password       *string       `db:"password" json:"password"`               //varchar 用户密码
 	Status         *int32        `db:"status" json:"status"`                   //tinyint 用户状态（0正常 1停用）
+	Deleted        *int32        `db:"deleted" json:"deleted"`                 //tinyint 是否删除(0否 1是)
+	SystemTenantId *int64        `db:"system_tenant_id" json:"systemTenantId"` //bigint 租户ID
 	Creator        null.String   `db:"creator" json:"creator"`                 //varchar 创建人
 	CreateTime     null.DateTime `db:"create_time" json:"createTime"`          //datetime 创建时间
 	Updater        null.String   `db:"updater" json:"updater"`                 //varchar 更新人
 	UpdateTime     null.DateTime `db:"update_time" json:"updateTime"`          //datetime 更新时间
-	SystemRoleIds  null.JSON     `json:"systemRoleIds"`                        //bigint 角色ID
-	Deleted        *int32        `db:"deleted" json:"deleted"`                 //tinyint 是否删除(0否 1是)
-	SystemTenantId *int64        `db:"system_tenant_id" json:"systemTenantId"` //bigint 租户ID
 }

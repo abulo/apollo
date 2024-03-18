@@ -21,15 +21,48 @@ message SystemRoleObject {
 	optional int32 type = 6; //角色类型(1内置/2定义)
 	// @inject_tag: db:"remark" json:"remark"
 	optional string remark = 7; //备注
+	// @inject_tag: db:"deleted" json:"deleted"
+	optional int32 deleted = 8; //删除
+	// @inject_tag: db:"system_tenant_id" json:"systemTenantId"
+	optional int64 system_tenant_id = 9; //租户
 	// @inject_tag: db:"creator" json:"creator"
-	optional string creator = 8; //创建者
+	optional string creator = 10; //创建者
 	// @inject_tag: db:"create_time" json:"createTime"
-	google.protobuf.Timestamp create_time = 9; //创建时间
+	google.protobuf.Timestamp create_time = 11; //创建时间
 	// @inject_tag: db:"updater" json:"updater"
-	optional string updater = 10; //更新者
+	optional string updater = 12; //更新者
 	// @inject_tag: db:"update_time" json:"updateTime"
-	google.protobuf.Timestamp update_time = 11; //更新时间
+	google.protobuf.Timestamp update_time = 13; //更新时间
 }
+
+// SystemRoleDataScopeObject 数据对象
+message SystemRoleDataScopeObject {
+	// @inject_tag: db:"id" json:"id"
+	optional int64 id = 1; //角色编号
+	// @inject_tag: db:"data_scope" json:"dataScope"
+	optional int32 data_scope = 2; //数据范围（1：全部数据权限 2：自定数据权限 3：本部门数据权限 4：本部门及以下数据权限）
+	// @inject_tag: db:"data_scope_dept" json:"dataScopeDept"
+	optional bytes data_scope_dept = 3; //数据范围(指定部门数组)
+	// @inject_tag: db:"updater" json:"updater"
+	optional string updater = 4; //更新者
+	// @inject_tag: db:"update_time" json:"updateTime"
+	google.protobuf.Timestamp update_time = 5; //更新时间
+}
+
+// SystemRoleDataScopeCreateRequest 创建数据请求
+message SystemRoleDataScopeCreateRequest {
+	// @inject_tag: db:"system_role_id" json:"systemRoleId"
+	int64 system_role_id = 1; //角色编号
+	SystemRoleDataScopeObject data = 2;
+}
+
+// SystemRoleDataScopeCreateResponse 创建数据响应
+message SystemRoleDataScopeCreateResponse {
+	int64 code = 1;
+	string msg = 2;
+	int64 data = 3;
+}
+
 // SystemRoleCreateRequest 创建数据请求
 message SystemRoleCreateRequest {
 	SystemRoleObject data = 1;
@@ -72,14 +105,29 @@ message SystemRoleResponse {
 	string msg = 2;
 	SystemRoleObject data = 3;
 }
+// SystemRoleRecoverRequest 恢复数据请求
+message SystemRoleRecoverRequest {
+	// @inject_tag: db:"system_role_id" json:"systemRoleId"
+	int64 system_role_id = 1; //角色编号
+}
+// SystemRoleRecoverResponse 删除数据响应
+message SystemRoleRecoverResponse {
+	int64 code = 1;
+	string msg = 2;
+}
 // SystemRoleListRequest 列表数据
 message SystemRoleListRequest {
 	
+	// @inject_tag: db:"system_tenant_id" json:"systemTenantId"
+	optional int64 system_tenant_id = 1; // 租户
+	// @inject_tag: db:"deleted" json:"deleted"
+	optional int32 deleted = 2; // 删除
 	// @inject_tag: db:"type" json:"type"
-	optional int32 type = 1; // 角色类型(1内置/2定义)
+	optional int32 type = 3; // 角色类型(1内置/2定义)
 	// @inject_tag: db:"status" json:"status"
-	optional int32 status = 2; // 角色状态（0正常 1停用）
-
+	optional int32 status = 4; // 角色状态（0正常 1停用）
+	// @inject_tag: db:"name" json:"name"
+	optional string name = 5; // 角色名称
 }
 
 // SystemRoleListResponse 数据响应
@@ -90,11 +138,28 @@ message SystemRoleListResponse {
 }
 
 
+// SystemRoleDataScopeRequest 查询单条数据请求
+message SystemRoleDataScopeRequest {
+	// @inject_tag: db:"system_role_id" json:"systemRoleId"
+	int64 system_role_id = 1; //角色编号
+}
+// SystemRoleDataScopeResponse 查询单条数据响应
+message SystemRoleDataScopeResponse {
+	int64 code = 1;
+	string msg = 2;
+	SystemRoleDataScopeObject data = 3;
+}
+
+
 // SystemRoleService 服务
 service SystemRoleService{
 	rpc SystemRoleCreate(SystemRoleCreateRequest) returns (SystemRoleCreateResponse);
 	rpc SystemRoleUpdate(SystemRoleUpdateRequest) returns (SystemRoleUpdateResponse);
 	rpc SystemRoleDelete(SystemRoleDeleteRequest) returns (SystemRoleDeleteResponse);
 	rpc SystemRole(SystemRoleRequest) returns (SystemRoleResponse);
+	rpc SystemRoleRecover(SystemRoleRecoverRequest) returns (SystemRoleRecoverResponse);
 	rpc SystemRoleList(SystemRoleListRequest) returns (SystemRoleListResponse);
+	rpc SystemRoleDataScopeCreate(SystemRoleDataScopeCreateRequest) returns (SystemRoleDataScopeCreateResponse);
+	rpc SystemRoleDataScope(SystemRoleDataScopeRequest) returns (SystemRoleDataScopeResponse);
+
 }

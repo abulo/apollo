@@ -1,9 +1,11 @@
 package system
 
 import (
+	"cloud/service/system/dept"
 	"cloud/service/system/dict"
 	"cloud/service/system/logger"
 	"cloud/service/system/menu"
+	"cloud/service/system/post"
 	"cloud/service/system/role"
 	"cloud/service/system/tenant"
 	"cloud/service/system/user"
@@ -15,6 +17,18 @@ import (
 func Registry(server *xgrpc.Server) {
 	// 用户信息表->system_user
 	user.RegisterSystemUserServiceServer(server.Server, &user.SrvSystemUserServiceServer{
+		Server: server,
+	})
+	// 系统用户职位->system_user_post
+	user.RegisterSystemUserPostServiceServer(server.Server, &user.SrvSystemUserPostServiceServer{
+		Server: server,
+	})
+	// 系统用户和系统角色关联表->system_user_role
+	user.RegisterSystemUserRoleServiceServer(server.Server, &user.SrvSystemUserRoleServiceServer{
+		Server: server,
+	})
+	// 系统用户部门->system_user_dept
+	user.RegisterSystemUserDeptServiceServer(server.Server, &user.SrvSystemUserDeptServiceServer{
 		Server: server,
 	})
 	// 系统菜单->system_menu
@@ -37,10 +51,6 @@ func Registry(server *xgrpc.Server) {
 	role.RegisterSystemRoleMenuServiceServer(server.Server, &role.SrvSystemRoleMenuServiceServer{
 		Server: server,
 	})
-	// 系统用户和系统角色关联表->system_user_role
-	user.RegisterSystemUserRoleServiceServer(server.Server, &user.SrvSystemUserRoleServiceServer{
-		Server: server,
-	})
 	// 登录日志->system_login_log
 	logger.RegisterSystemLoginLogServiceServer(server.Server, &logger.SrvSystemLoginLogServiceServer{
 		Server: server,
@@ -53,4 +63,17 @@ func Registry(server *xgrpc.Server) {
 	tenant.RegisterSystemTenantServiceServer(server.Server, &tenant.SrvSystemTenantServiceServer{
 		Server: server,
 	})
+	// 租户套餐->system_tenant_package
+	tenant.RegisterSystemTenantPackageServiceServer(server.Server, &tenant.SrvSystemTenantPackageServiceServer{
+		Server: server,
+	})
+	// 部门->system_dept
+	dept.RegisterSystemDeptServiceServer(server.Server, &dept.SrvSystemDeptServiceServer{
+		Server: server,
+	})
+	// 职位->system_post
+	post.RegisterSystemPostServiceServer(server.Server, &post.SrvSystemPostServiceServer{
+		Server: server,
+	})
+
 }

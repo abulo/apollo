@@ -13,29 +13,43 @@ message SystemUserRoleObject {
 	optional int64 system_user_id = 2; //用户编号
 	// @inject_tag: db:"system_role_id" json:"systemRoleId"
 	optional int64 system_role_id = 3; //角色编号
+	// @inject_tag: db:"deleted" json:"deleted"
+	optional int32 deleted = 4; //删除
+	// @inject_tag: db:"system_tenant_id" json:"systemTenantId"
+	optional int64 system_tenant_id = 5; //租户
 	// @inject_tag: db:"creator" json:"creator"
-	optional string creator = 4; //创建者
+	optional string creator = 6; //创建者
 	// @inject_tag: db:"create_time" json:"createTime"
-	google.protobuf.Timestamp create_time = 5; //创建时间
+	google.protobuf.Timestamp create_time = 7; //创建时间
 	// @inject_tag: db:"updater" json:"updater"
-	optional string updater = 6; //更新者
+	optional string updater = 8; //更新者
 	// @inject_tag: db:"update_time" json:"updateTime"
-	google.protobuf.Timestamp update_time = 7; //更新时间
+	google.protobuf.Timestamp update_time = 9; //更新时间
 }
+
+// SystemUserRoleCustomObject 数据对象
+message SystemUserRoleCustomObject {
+	// @inject_tag: db:"system_user_id" json:"systemUserId"
+	optional int64 system_user_id = 1; //系统用户 id
+	// @inject_tag: db:"system_role_ids" json:"systemRoleIds"
+	optional bytes system_role_ids = 2; //角色编号 id
+	// @inject_tag: db:"deleted" json:"deleted"
+	optional int32 deleted = 3; //删除
+	// @inject_tag: db:"system_tenant_id" json:"systemTenantId"
+	optional int64 system_tenant_id = 4; //租户
+	// @inject_tag: db:"creator" json:"creator"
+	optional string creator = 5; //创建人
+	// @inject_tag: db:"create_time" json:"createTime"
+	google.protobuf.Timestamp create_time = 6; //创建时间
+	// @inject_tag: db:"updater" json:"updater"
+	optional string updater = 7; //更新人
+	// @inject_tag: db:"update_time" json:"updateTime"
+	google.protobuf.Timestamp update_time = 8; //更新时间
+}
+
 // SystemUserRoleCreateRequest 创建数据请求
 message SystemUserRoleCreateRequest {
-	// @inject_tag: db:"system_user_id" json:"systemUserId"
-	optional int64 system_user_id = 1; //用户编号
-	// @inject_tag: db:"system_role_ids" json:"systemRoleIds"
-	optional bytes system_role_ids = 2; //菜单ID
-	// @inject_tag: db:"creator" json:"creator"
-	optional string creator = 3; //创建者
-	// @inject_tag: db:"create_time" json:"createTime"
-	google.protobuf.Timestamp create_time = 4; //创建时间
-	// @inject_tag: db:"updater" json:"updater"
-	optional string updater = 5; //更新者
-	// @inject_tag: db:"update_time" json:"updateTime"
-	google.protobuf.Timestamp update_time = 6; //更新时间
+	SystemUserRoleCustomObject data = 1;
 }
 // SystemUserRoleCreateResponse 创建数据响应
 message SystemUserRoleCreateResponse {
@@ -45,12 +59,14 @@ message SystemUserRoleCreateResponse {
 }
 // SystemUserRoleListRequest 列表数据
 message SystemUserRoleListRequest {
-	
-	// @inject_tag: db:"system_role_id" json:"systemRoleId"
-	optional int64 system_role_id = 1; // 角色编号
 	// @inject_tag: db:"system_user_id" json:"systemUserId"
-	optional int64 system_user_id = 2; // 用户编号
-
+	optional int64 system_user_id = 1; // 用户编号
+	// @inject_tag: db:"system_role_id" json:"systemRoleId"
+	optional int64 system_role_id = 2; // 角色编号
+	// @inject_tag: db:"system_tenant_id" json:"systemTenantId"
+	optional int64 system_tenant_id = 3; // 租户
+	// @inject_tag: db:"deleted" json:"deleted"
+	optional int32 deleted = 4; // 删除
 }
 
 // SystemUserRoleListResponse 数据响应

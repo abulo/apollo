@@ -23,8 +23,8 @@ message SystemTenantObject {
 	optional string domain = 7; //域名
 	// @inject_tag: db:"expire_date" json:"expireDate"
 	google.protobuf.Timestamp expire_date = 8; //过期时间
-	// @inject_tag: db:"account_cont" json:"accountCont"
-	optional int64 account_cont = 9; //账号数量
+	// @inject_tag: db:"account_count" json:"accountCount"
+	optional int64 account_count = 9; //账号数量
 	// @inject_tag: db:"system_tenant_package_id" json:"systemTenantPackageId"
 	optional int64 system_tenant_package_id = 10; //套餐编号
 	// @inject_tag: db:"deleted" json:"deleted"

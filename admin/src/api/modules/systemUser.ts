@@ -21,6 +21,11 @@ export const getSystemUserListApi = (params?: SystemUser.ReqSystemUserList) => {
   return http.get<ResPage<SystemUser.ResSystemUserItem>>(PORT + `/system/user`, params);
 };
 
+// 搜索
+export const getSystemUserSearchApi = (params?: SystemUser.ReqSystemUserList) => {
+  return http.get<ResPage<SystemUser.ResSystemUserItem>>(PORT + `/system/user/search`, params);
+};
+
 // 获取单个数据接口
 export const getSystemUserItemApi = (id: number) => {
   return http.get<SystemUser.ResSystemUserItem>(PORT + `/system/user/${id}/item`);
@@ -41,10 +46,15 @@ export const deleteSystemUserApi = (id: number) => {
   return http.delete(PORT + `/system/user/${id}/delete`);
 };
 
-// // 密码秀
-// export const setSystemUserPasswordApi = (id: number, params: SystemUser.ReqSystemUserPassword) => {
-//   return http.put(PORT + `/system/user/${id}/password`, params);
-// };
+// 恢复
+export const recoverSystemUserApi = (id: number) => {
+  return http.put(PORT + `/system/user/${id}/recover`);
+};
+
+// 密码修改
+export const putSystemUserPasswordApi = (id: number, params: SystemUser.ReqSystemUserPassword) => {
+  return http.put(PORT + `/system/user/${id}/password`, params);
+};
 
 // 获取用户菜单
 export const getSystemUserMenuApi = () => {

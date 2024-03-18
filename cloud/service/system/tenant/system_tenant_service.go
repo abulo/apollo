@@ -8,6 +8,7 @@ import (
 	globalLogger "github.com/abulo/ratel/v3/core/logger"
 	"github.com/abulo/ratel/v3/server/xgrpc"
 	"github.com/abulo/ratel/v3/stores/sql"
+	"github.com/abulo/ratel/v3/util"
 	"github.com/sirupsen/logrus"
 	"google.golang.org/grpc/status"
 )
@@ -133,10 +134,10 @@ func (srv SrvSystemTenantServiceServer) SystemTenantList(ctx context.Context, re
 		condition["name"] = request.GetName()
 	}
 	if request.BeginExpireDate != nil {
-		condition["beginExpireDate"] = request.GetBeginExpireDate()
+		condition["beginExpireDate"] = util.Date("Y-m-d", util.GrpcTime(request.GetBeginExpireDate()))
 	}
 	if request.FinishExpireDate != nil {
-		condition["finishExpireDate"] = request.GetFinishExpireDate()
+		condition["finishExpireDate"] = util.Date("Y-m-d", util.GrpcTime(request.GetFinishExpireDate()))
 	}
 	if request.SystemTenantPackageId != nil {
 		condition["systemTenantPackageId"] = request.GetSystemTenantPackageId()
@@ -191,10 +192,10 @@ func (srv SrvSystemTenantServiceServer) SystemTenantListTotal(ctx context.Contex
 		condition["name"] = request.GetName()
 	}
 	if request.BeginExpireDate != nil {
-		condition["beginExpireDate"] = request.GetBeginExpireDate()
+		condition["beginExpireDate"] = util.Date("Y-m-d", util.GrpcTime(request.GetBeginExpireDate()))
 	}
 	if request.FinishExpireDate != nil {
-		condition["finishExpireDate"] = request.GetFinishExpireDate()
+		condition["finishExpireDate"] = util.Date("Y-m-d", util.GrpcTime(request.GetFinishExpireDate()))
 	}
 	if request.SystemTenantPackageId != nil {
 		condition["systemTenantPackageId"] = request.GetSystemTenantPackageId()

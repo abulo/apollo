@@ -58,9 +58,11 @@ func AuthMiddleware() app.HandlerFunc {
 			newCtx.Abort()
 			return
 		}
-		newCtx.Set("systemUserId", rsp.SystemUserId) // 用户ID
-		newCtx.Set("systemNickName", rsp.SystemNickName)
-		newCtx.Set("systemUserName", rsp.SystemUserName)
+		newCtx.Set("systemUserId", rsp.SystemUserId)     // 用户ID
+		newCtx.Set("systemNickName", rsp.SystemNickName) // 昵称
+		newCtx.Set("systemUserName", rsp.SystemUserName) // 用户名
+		newCtx.Set("systemTenantId", rsp.SystemTenantId) // 租户
+
 		handlerName := newCtx.HandlerName()
 		method := util.Explode("/", handlerName)
 		methodName := method[len(method)-1]
@@ -99,31 +101,34 @@ func AuthMiddleware() app.HandlerFunc {
 		if len(channel) < 1 {
 			channel = append(channel, "unknown")
 		}
-		var resSystemOperateLog dao.SystemOperateLog
-		resSystemOperateLog.Username = proto.String(rsp.SystemUserName)                                   //用户名称
-		resSystemOperateLog.Module = nil                                                                  //模块标题
-		resSystemOperateLog.RequestMethod = proto.String(cast.ToString(newCtx.Request.Method()))          //请求方法名
-		resSystemOperateLog.RequestUrl = proto.String(cast.ToString(newCtx.Request.URI().RequestURI()))   //请求地址
-		resSystemOperateLog.UserIp = proto.String(newCtx.ClientIP())                                      //用户IP
-		resSystemOperateLog.UserAgent = null.StringFrom(cast.ToString(newCtx.Request.Header.UserAgent())) //浏览器UA
-		resSystemOperateLog.GoMethod = proto.String(newCtx.HandlerName())                                 //方法名
-		resSystemOperateLog.GoMethodArgs = null.JSONFrom(newCtx.Request.Body())                           //方法参数
-		resSystemOperateLog.StartTime = null.DateTimeFrom(startTime)
-		resSystemOperateLog.Channel = proto.String(channel[0])                                         //渠道
-		resSystemOperateLog.Duration = proto.Int32(cast.ToInt32(time.Since(startTime).Milliseconds())) //执行时长
+		var systemOperateLog dao.SystemOperateLog
+		systemOperateLog.Username = proto.String(rsp.SystemUserName)                                   //用户名称
+		systemOperateLog.Module = nil                                                                  //模块标题
+		systemOperateLog.RequestMethod = proto.String(cast.ToString(newCtx.Request.Method()))          //请求方法名
+		systemOperateLog.RequestUrl = proto.String(cast.ToString(newCtx.Request.URI().RequestURI()))   //请求地址
+		systemOperateLog.UserIp = proto.String(newCtx.ClientIP())                                      //用户IP
+		systemOperateLog.UserAgent = null.StringFrom(cast.ToString(newCtx.Request.Header.UserAgent())) //浏览器UA
+		systemOperateLog.GoMethod = proto.String(newCtx.HandlerName())                                 //方法名
+		systemOperateLog.GoMethodArgs = null.JSONFrom(newCtx.Request.Body())                           //方法参数
+		systemOperateLog.StartTime = null.DateTimeFrom(startTime)
+		systemOperateLog.Channel = proto.String(channel[0])                                         //渠道
+		systemOperateLog.Duration = proto.Int32(cast.ToInt32(time.Since(startTime).Milliseconds())) //执行时长
 		if response.Code == 200 {
-			resSystemOperateLog.Result = proto.Int32(0) //结果(0 成功/1 失败)
+			systemOperateLog.Result = proto.Int32(0) //结果(0 成功/1 失败)
 		} else {
-			resSystemOperateLog.Result = proto.Int32(1) //结果(0 成功/1 失败)
+			systemOperateLog.Result = proto.Int32(1) //结果(0 成功/1 失败)
 		}
-		resSystemOperateLog.Creator = null.StringFrom(rsp.SystemUserName) //创建者
-		resSystemOperateLog.CreateTime = null.DateTimeFrom(startTime)     //创建时间
-		resSystemOperateLog.Updater = null.StringFrom(rsp.SystemUserName) //更新者
-		resSystemOperateLog.UpdateTime = null.DateTimeFrom(startTime)     //更新时间
+		systemOperateLog.Creator = null.StringFrom(rsp.SystemUserName)    //创建者
+		systemOperateLog.CreateTime = null.DateTimeFrom(startTime)        //创建时间
+		systemOperateLog.Updater = null.StringFrom(rsp.SystemUserName)    //更新者
+		systemOperateLog.UpdateTime = null.DateTimeFrom(startTime)        //更新时间
+		systemOperateLog.Deleted = proto.Int32(0)                         //删除状态
+		systemOperateLog.SystemTenantId = proto.Int64(rsp.SystemTenantId) //租户
+
 		// 将这些数据需要全部存储在消息列队中,然后后台去执行消息列队
 
 		key := util.NewReplacer(initial.Core.Config.String("Cache.SystemOperateLog.Queue"))
-		bytes, _ := json.Marshal(resSystemOperateLog)
+		bytes, _ := json.Marshal(systemOperateLog)
 		redisHandler.LPush(ctx, key, cast.ToString(bytes))
 	}
 }

@@ -25,10 +25,11 @@ const (
 	SystemUserService_SystemUserUpdate_FullMethodName    = "/user.SystemUserService/SystemUserUpdate"
 	SystemUserService_SystemUserDelete_FullMethodName    = "/user.SystemUserService/SystemUserDelete"
 	SystemUserService_SystemUser_FullMethodName          = "/user.SystemUserService/SystemUser"
+	SystemUserService_SystemUserRecover_FullMethodName   = "/user.SystemUserService/SystemUserRecover"
 	SystemUserService_SystemUserLogin_FullMethodName     = "/user.SystemUserService/SystemUserLogin"
 	SystemUserService_SystemUserList_FullMethodName      = "/user.SystemUserService/SystemUserList"
 	SystemUserService_SystemUserListTotal_FullMethodName = "/user.SystemUserService/SystemUserListTotal"
-	SystemUserService_SystemUserMenuList_FullMethodName  = "/user.SystemUserService/SystemUserMenuList"
+	SystemUserService_SystemUserPassword_FullMethodName  = "/user.SystemUserService/SystemUserPassword"
 )
 
 // SystemUserServiceClient is the client API for SystemUserService service.
@@ -39,10 +40,11 @@ type SystemUserServiceClient interface {
 	SystemUserUpdate(ctx context.Context, in *SystemUserUpdateRequest, opts ...grpc.CallOption) (*SystemUserUpdateResponse, error)
 	SystemUserDelete(ctx context.Context, in *SystemUserDeleteRequest, opts ...grpc.CallOption) (*SystemUserDeleteResponse, error)
 	SystemUser(ctx context.Context, in *SystemUserRequest, opts ...grpc.CallOption) (*SystemUserResponse, error)
+	SystemUserRecover(ctx context.Context, in *SystemUserRecoverRequest, opts ...grpc.CallOption) (*SystemUserRecoverResponse, error)
 	SystemUserLogin(ctx context.Context, in *SystemUserLoginRequest, opts ...grpc.CallOption) (*SystemUserLoginResponse, error)
 	SystemUserList(ctx context.Context, in *SystemUserListRequest, opts ...grpc.CallOption) (*SystemUserListResponse, error)
 	SystemUserListTotal(ctx context.Context, in *SystemUserListTotalRequest, opts ...grpc.CallOption) (*SystemUserTotalResponse, error)
-	SystemUserMenuList(ctx context.Context, in *SystemUserMenuListRequest, opts ...grpc.CallOption) (*SystemUserMenuListResponse, error)
+	SystemUserPassword(ctx context.Context, in *SystemUserPasswordRequest, opts ...grpc.CallOption) (*SystemUserPasswordResponse, error)
 }
 
 type systemUserServiceClient struct {
@@ -89,6 +91,15 @@ func (c *systemUserServiceClient) SystemUser(ctx context.Context, in *SystemUser
 	return out, nil
 }
 
+func (c *systemUserServiceClient) SystemUserRecover(ctx context.Context, in *SystemUserRecoverRequest, opts ...grpc.CallOption) (*SystemUserRecoverResponse, error) {
+	out := new(SystemUserRecoverResponse)
+	err := c.cc.Invoke(ctx, SystemUserService_SystemUserRecover_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *systemUserServiceClient) SystemUserLogin(ctx context.Context, in *SystemUserLoginRequest, opts ...grpc.CallOption) (*SystemUserLoginResponse, error) {
 	out := new(SystemUserLoginResponse)
 	err := c.cc.Invoke(ctx, SystemUserService_SystemUserLogin_FullMethodName, in, out, opts...)
@@ -116,9 +127,9 @@ func (c *systemUserServiceClient) SystemUserListTotal(ctx context.Context, in *S
 	return out, nil
 }
 
-func (c *systemUserServiceClient) SystemUserMenuList(ctx context.Context, in *SystemUserMenuListRequest, opts ...grpc.CallOption) (*SystemUserMenuListResponse, error) {
-	out := new(SystemUserMenuListResponse)
-	err := c.cc.Invoke(ctx, SystemUserService_SystemUserMenuList_FullMethodName, in, out, opts...)
+func (c *systemUserServiceClient) SystemUserPassword(ctx context.Context, in *SystemUserPasswordRequest, opts ...grpc.CallOption) (*SystemUserPasswordResponse, error) {
+	out := new(SystemUserPasswordResponse)
+	err := c.cc.Invoke(ctx, SystemUserService_SystemUserPassword_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -133,10 +144,11 @@ type SystemUserServiceServer interface {
 	SystemUserUpdate(context.Context, *SystemUserUpdateRequest) (*SystemUserUpdateResponse, error)
 	SystemUserDelete(context.Context, *SystemUserDeleteRequest) (*SystemUserDeleteResponse, error)
 	SystemUser(context.Context, *SystemUserRequest) (*SystemUserResponse, error)
+	SystemUserRecover(context.Context, *SystemUserRecoverRequest) (*SystemUserRecoverResponse, error)
 	SystemUserLogin(context.Context, *SystemUserLoginRequest) (*SystemUserLoginResponse, error)
 	SystemUserList(context.Context, *SystemUserListRequest) (*SystemUserListResponse, error)
 	SystemUserListTotal(context.Context, *SystemUserListTotalRequest) (*SystemUserTotalResponse, error)
-	SystemUserMenuList(context.Context, *SystemUserMenuListRequest) (*SystemUserMenuListResponse, error)
+	SystemUserPassword(context.Context, *SystemUserPasswordRequest) (*SystemUserPasswordResponse, error)
 	mustEmbedUnimplementedSystemUserServiceServer()
 }
 
@@ -156,6 +168,9 @@ func (UnimplementedSystemUserServiceServer) SystemUserDelete(context.Context, *S
 func (UnimplementedSystemUserServiceServer) SystemUser(context.Context, *SystemUserRequest) (*SystemUserResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SystemUser not implemented")
 }
+func (UnimplementedSystemUserServiceServer) SystemUserRecover(context.Context, *SystemUserRecoverRequest) (*SystemUserRecoverResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SystemUserRecover not implemented")
+}
 func (UnimplementedSystemUserServiceServer) SystemUserLogin(context.Context, *SystemUserLoginRequest) (*SystemUserLoginResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SystemUserLogin not implemented")
 }
@@ -165,8 +180,8 @@ func (UnimplementedSystemUserServiceServer) SystemUserList(context.Context, *Sys
 func (UnimplementedSystemUserServiceServer) SystemUserListTotal(context.Context, *SystemUserListTotalRequest) (*SystemUserTotalResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SystemUserListTotal not implemented")
 }
-func (UnimplementedSystemUserServiceServer) SystemUserMenuList(context.Context, *SystemUserMenuListRequest) (*SystemUserMenuListResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method SystemUserMenuList not implemented")
+func (UnimplementedSystemUserServiceServer) SystemUserPassword(context.Context, *SystemUserPasswordRequest) (*SystemUserPasswordResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SystemUserPassword not implemented")
 }
 func (UnimplementedSystemUserServiceServer) mustEmbedUnimplementedSystemUserServiceServer() {}
 
@@ -253,6 +268,24 @@ func _SystemUserService_SystemUser_Handler(srv interface{}, ctx context.Context,
 	return interceptor(ctx, in, info, handler)
 }
 
+func _SystemUserService_SystemUserRecover_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SystemUserRecoverRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SystemUserServiceServer).SystemUserRecover(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: SystemUserService_SystemUserRecover_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SystemUserServiceServer).SystemUserRecover(ctx, req.(*SystemUserRecoverRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _SystemUserService_SystemUserLogin_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(SystemUserLoginRequest)
 	if err := dec(in); err != nil {
@@ -307,20 +340,20 @@ func _SystemUserService_SystemUserListTotal_Handler(srv interface{}, ctx context
 	return interceptor(ctx, in, info, handler)
 }
 
-func _SystemUserService_SystemUserMenuList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(SystemUserMenuListRequest)
+func _SystemUserService_SystemUserPassword_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SystemUserPasswordRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(SystemUserServiceServer).SystemUserMenuList(ctx, in)
+		return srv.(SystemUserServiceServer).SystemUserPassword(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: SystemUserService_SystemUserMenuList_FullMethodName,
+		FullMethod: SystemUserService_SystemUserPassword_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(SystemUserServiceServer).SystemUserMenuList(ctx, req.(*SystemUserMenuListRequest))
+		return srv.(SystemUserServiceServer).SystemUserPassword(ctx, req.(*SystemUserPasswordRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -349,6 +382,10 @@ var SystemUserService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _SystemUserService_SystemUser_Handler,
 		},
 		{
+			MethodName: "SystemUserRecover",
+			Handler:    _SystemUserService_SystemUserRecover_Handler,
+		},
+		{
 			MethodName: "SystemUserLogin",
 			Handler:    _SystemUserService_SystemUserLogin_Handler,
 		},
@@ -361,8 +398,8 @@ var SystemUserService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _SystemUserService_SystemUserListTotal_Handler,
 		},
 		{
-			MethodName: "SystemUserMenuList",
-			Handler:    _SystemUserService_SystemUserMenuList_Handler,
+			MethodName: "SystemUserPassword",
+			Handler:    _SystemUserService_SystemUserPassword_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

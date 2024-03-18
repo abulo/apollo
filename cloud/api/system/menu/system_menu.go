@@ -236,6 +236,10 @@ func SystemMenuRecover(ctx context.Context, newCtx *app.RequestContext) {
 	})
 }
 
+func SystemMenuSearch(ctx context.Context, newCtx *app.RequestContext) {
+	SystemMenuList(ctx, newCtx)
+}
+
 // SystemMenuList 列表数据
 func SystemMenuList(ctx context.Context, newCtx *app.RequestContext) {
 	grpcClient, err := initial.Core.Client.LoadGrpc("grpc").Singleton()

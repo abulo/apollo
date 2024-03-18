@@ -2,14 +2,10 @@ package user
 
 import (
 	"context"
-	"encoding/json"
-	"time"
 
 	"cloud/code"
 	"cloud/dao"
 	"cloud/initial"
-	"cloud/internal/tools"
-	"cloud/service/captcha"
 	"cloud/service/system/user"
 
 	globalLogger "github.com/abulo/ratel/v3/core/logger"
@@ -22,57 +18,9 @@ import (
 	"github.com/spf13/cast"
 	"google.golang.org/grpc/status"
 	"google.golang.org/protobuf/proto"
-	"google.golang.org/protobuf/types/known/timestamppb"
 )
 
-// SystemUserRoleDao 数据转换
-func SystemUserRoleDao(item *user.SystemUserRoleObject) *dao.SystemUserRole {
-	daoItem := &dao.SystemUserRole{}
-	if item != nil && item.Id != nil {
-		daoItem.Id = item.Id // 自增编号
-	}
-	if item != nil && item.SystemUserId != nil {
-		daoItem.SystemUserId = item.SystemUserId // 用户ID
-	}
-	if item != nil && item.SystemRoleId != nil {
-		daoItem.SystemRoleId = item.SystemRoleId // 角色ID
-	}
-	if item != nil && item.Creator != nil {
-		daoItem.Creator = null.StringFrom(item.GetCreator()) // 创建者
-	}
-	if item != nil && item.CreateTime != nil {
-		daoItem.CreateTime = null.DateTimeFrom(util.GrpcTime(item.CreateTime)) // 创建时间
-	}
-	if item != nil && item.Updater != nil {
-		daoItem.Updater = null.StringFrom(item.GetUpdater()) // 更新者
-	}
-	if item != nil && item.UpdateTime != nil {
-		daoItem.UpdateTime = null.DateTimeFrom(util.GrpcTime(item.UpdateTime)) // 更新时间
-	}
-
-	return daoItem
-}
-
-func SystemUserRoleProto(item dao.SystemUser) *user.SystemUserRoleCreateRequest {
-	res := &user.SystemUserRoleCreateRequest{}
-	if item.SystemRoleIds.IsValid() {
-		res.SystemRoleIds = *item.SystemRoleIds.Ptr()
-	}
-	if item.Creator.IsValid() {
-		res.Creator = item.Creator.Ptr()
-	}
-	if item.CreateTime.IsValid() {
-		res.CreateTime = timestamppb.New(*item.CreateTime.Ptr())
-	}
-	if item.Updater.IsValid() {
-		res.Updater = item.Updater.Ptr()
-	}
-	if item.UpdateTime.IsValid() {
-		res.UpdateTime = timestamppb.New(*item.UpdateTime.Ptr())
-	}
-	return res
-}
-
+// system_user 系统用户
 // SystemUserCreate 创建数据
 func SystemUserCreate(ctx context.Context, newCtx *app.RequestContext) {
 	//判断这个服务能不能链接
@@ -99,8 +47,13 @@ func SystemUserCreate(ctx context.Context, newCtx *app.RequestContext) {
 		})
 		return
 	}
+	reqInfo.Deleted = proto.Int32(0)
+	reqInfo.SystemTenantId = proto.Int64(newCtx.GetInt64("systemTenantId")) // 租户
 	reqInfo.Creator = null.StringFrom(newCtx.GetString("systemUserName"))
 	reqInfo.CreateTime = null.DateTimeFrom(util.Now())
+	if reqInfo.Password != nil {
+		reqInfo.Password = proto.String(util.Md5(cast.ToString(reqInfo.Password)))
+	}
 	request.Data = user.SystemUserProto(reqInfo)
 	// 执行服务
 	res, err := client.SystemUserCreate(ctx, request)
@@ -115,14 +68,6 @@ func SystemUserCreate(ctx context.Context, newCtx *app.RequestContext) {
 			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
 		})
 		return
-	}
-	// 绑定角色
-	if res.GetCode() == code.Success {
-		userId := res.GetData()
-		clientUserRole := user.NewSystemUserRoleServiceClient(grpcClient)
-		requestUserRole := SystemUserRoleProto(reqInfo)
-		requestUserRole.SystemUserId = proto.Int64(userId)
-		clientUserRole.SystemUserRoleCreate(ctx, requestUserRole)
 	}
 	newCtx.JSON(consts.StatusOK, utils.H{
 		"code": res.GetCode(),
@@ -158,8 +103,12 @@ func SystemUserUpdate(ctx context.Context, newCtx *app.RequestContext) {
 		})
 		return
 	}
+	reqInfo.SystemTenantId = proto.Int64(newCtx.GetInt64("systemTenantId")) // 租户
 	reqInfo.Updater = null.StringFrom(newCtx.GetString("systemUserName"))
 	reqInfo.UpdateTime = null.DateTimeFrom(util.Now())
+	if reqInfo.Password != nil {
+		reqInfo.Password = proto.String(util.Md5(cast.ToString(reqInfo.Password)))
+	}
 	request.Data = user.SystemUserProto(reqInfo)
 	// 执行服务
 	res, err := client.SystemUserUpdate(ctx, request)
@@ -174,14 +123,6 @@ func SystemUserUpdate(ctx context.Context, newCtx *app.RequestContext) {
 			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
 		})
 		return
-	}
-	// 绑定角色
-	if res.GetCode() == code.Success {
-		userId := systemUserId
-		clientUserRole := user.NewSystemUserRoleServiceClient(grpcClient)
-		requestUserRole := SystemUserRoleProto(reqInfo)
-		requestUserRole.SystemUserId = proto.Int64(userId)
-		clientUserRole.SystemUserRoleCreate(ctx, requestUserRole)
 	}
 	newCtx.JSON(consts.StatusOK, utils.H{
 		"code": res.GetCode(),
@@ -260,29 +201,60 @@ func SystemUser(ctx context.Context, newCtx *app.RequestContext) {
 		})
 		return
 	}
-	userInfo := user.SystemUserDao(res.GetData())
-	userInfo.Password = nil
-
-	var listRoleId []int64
-	// 获取角色
-	clientUserRole := user.NewSystemUserRoleServiceClient(grpcClient)
-	requestUserRole := &user.SystemUserRoleListRequest{}
-	requestUserRole.SystemUserId = proto.Int64(systemUserId)
-	if resUserRole, err := clientUserRole.SystemUserRoleList(ctx, requestUserRole); err == nil {
-		if resUserRole.GetCode() == code.Success {
-			rpcList := resUserRole.GetData()
-			for _, item := range rpcList {
-				listRoleId = append(listRoleId, *item.SystemRoleId)
-			}
-		}
-	}
-	byteRoleIds, _ := json.Marshal(listRoleId)
-	userInfo.SystemRoleIds = null.JSONFrom(byteRoleIds)
 	newCtx.JSON(consts.StatusOK, utils.H{
 		"code": res.GetCode(),
 		"msg":  res.GetMsg(),
-		"data": userInfo,
+		"data": userInfo(res.GetData()),
 	})
+}
+
+func userInfo(item *user.SystemUserObject) *dao.SystemUser {
+	res := user.SystemUserDao(item)
+	res.Password = nil
+	return res
+}
+
+// SystemUserRecover 恢复数据
+func SystemUserRecover(ctx context.Context, newCtx *app.RequestContext) {
+	grpcClient, err := initial.Core.Client.LoadGrpc("grpc").Singleton()
+	if err != nil {
+		globalLogger.Logger.WithFields(logrus.Fields{
+			"err": err,
+		}).Error("Grpc:系统用户:system_user:SystemUserRecover")
+		newCtx.JSON(consts.StatusOK, utils.H{
+			"code": code.RPCError,
+			"msg":  code.StatusText(code.RPCError),
+		})
+		return
+	}
+	//链接服务
+	client := user.NewSystemUserServiceClient(grpcClient)
+	systemUserId := cast.ToInt64(newCtx.Param("systemUserId"))
+	request := &user.SystemUserRecoverRequest{}
+	request.SystemUserId = systemUserId
+	// 执行服务
+	res, err := client.SystemUserRecover(ctx, request)
+	if err != nil {
+		globalLogger.Logger.WithFields(logrus.Fields{
+			"req": request,
+			"err": err,
+		}).Error("GrpcCall:系统用户:system_user:SystemUserRecover")
+		fromError := status.Convert(err)
+		newCtx.JSON(consts.StatusOK, utils.H{
+			"code": code.ConvertToHttp(fromError.Code()),
+			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
+		})
+		return
+	}
+	newCtx.JSON(consts.StatusOK, utils.H{
+		"code": res.GetCode(),
+		"msg":  res.GetMsg(),
+	})
+}
+
+// SystemUserSearch 列表数据
+func SystemUserSearch(ctx context.Context, newCtx *app.RequestContext) {
+	SystemUserList(ctx, newCtx)
 }
 
 // SystemUserList 列表数据
@@ -308,9 +280,24 @@ func SystemUserList(ctx context.Context, newCtx *app.RequestContext) {
 		request.Username = proto.String(val)      // 用户名称
 		requestTotal.Username = proto.String(val) // 用户名称
 	}
+	request.SystemTenantId = proto.Int64(newCtx.GetInt64("systemTenantId"))      // 租户ID
+	requestTotal.SystemTenantId = proto.Int64(newCtx.GetInt64("systemTenantId")) // 租户ID
+	request.Deleted = proto.Int32(0)                                             // 删除状态
+	requestTotal.Deleted = proto.Int32(0)                                        // 删除状态
+	if val, ok := newCtx.GetQuery("deleted"); ok {
+		if cast.ToBool(val) {
+			request.Deleted = nil
+			requestTotal.Deleted = nil
+		}
+	}
 	if val, ok := newCtx.GetQuery("status"); ok {
 		request.Status = proto.Int32(cast.ToInt32(val))      // 用户状态（0正常 1停用）
 		requestTotal.Status = proto.Int32(cast.ToInt32(val)) // 用户状态（0正常 1停用）
+	}
+
+	if val, ok := newCtx.GetQuery("systemDeptId"); ok {
+		request.SystemDeptId = proto.Int64(cast.ToInt64(val))      // 用户状态（0正常 1停用）
+		requestTotal.SystemDeptId = proto.Int64(cast.ToInt64(val)) // 用户状态（0正常 1停用）
 	}
 
 	// 执行服务,获取数据量
@@ -368,43 +355,44 @@ func SystemUserList(ctx context.Context, newCtx *app.RequestContext) {
 	})
 }
 
-// SystemUserLogin 查询单条数据
-func SystemUserLogin(ctx context.Context, newCtx *app.RequestContext) {
-	//1.验证参数必传
-	var req dao.SystemUserLogin
-	if err := newCtx.BindAndValidate(&req); err != nil {
-		newCtx.JSON(consts.StatusOK, utils.H{
-			"code": code.ParamInvalid,
-			"msg":  code.StatusText(code.ParamInvalid),
-		})
-		return
-	}
-
-	//2.判断这个服务能不能链接
+// SystemUserPassword 更新密码
+func SystemUserPassword(ctx context.Context, newCtx *app.RequestContext) {
+	//判断这个服务能不能链接
 	grpcClient, err := initial.Core.Client.LoadGrpc("grpc").Singleton()
 	if err != nil {
 		globalLogger.Logger.WithFields(logrus.Fields{
 			"err": err,
-		}).Error("Grpc:用户信息表:system_user:SystemUserLogin")
+		}).Error("Grpc:用户信息表:system_user:SystemUserPassword")
 		newCtx.JSON(consts.StatusOK, utils.H{
 			"code": code.RPCError,
 			"msg":  code.StatusText(code.RPCError),
 		})
 		return
 	}
-
-	//链接验证码服务
-	clientCaptcha := captcha.NewCaptchaServiceClient(grpcClient)
-	requestCaptcha := &captcha.CaptchaVerifyRequest{}
-	requestCaptcha.CaptchaId = req.CaptchaId
-	requestCaptcha.CaptchaCode = req.CaptchaCode
+	//链接服务
+	client := user.NewSystemUserServiceClient(grpcClient)
+	systemUserId := cast.ToInt64(newCtx.Param("systemUserId"))
+	request := &user.SystemUserPasswordRequest{}
+	request.SystemUserId = systemUserId
+	// 数据绑定
+	var reqInfo dao.SystemUserPassword
+	if err := newCtx.BindAndValidate(&reqInfo); err != nil {
+		newCtx.JSON(consts.StatusOK, utils.H{
+			"code": code.ParamInvalid,
+			"msg":  code.StatusText(code.ParamInvalid),
+		})
+		return
+	}
+	if request.Password != nil {
+		request.Password = proto.String(util.Md5(cast.ToString(reqInfo.Password)))
+	}
 	// 执行服务
-	resCaptcha, err := clientCaptcha.CaptchaVerify(ctx, requestCaptcha)
+	res, err := client.SystemUserPassword(ctx, request)
 	if err != nil {
 		globalLogger.Logger.WithFields(logrus.Fields{
-			"req": requestCaptcha,
+			"req": request,
 			"err": err,
-		}).Error("GrpcCall:用户信息表:system_user:SystemUserLogin")
+		}).Error("GrpcCall:用户信息表:system_user:SystemUserPassword")
 		fromError := status.Convert(err)
 		newCtx.JSON(consts.StatusOK, utils.H{
 			"code": code.ConvertToHttp(fromError.Code()),
@@ -412,125 +400,8 @@ func SystemUserLogin(ctx context.Context, newCtx *app.RequestContext) {
 		})
 		return
 	}
-	if resCaptcha.GetCode() != code.Success {
-		newCtx.JSON(consts.StatusOK, utils.H{
-			"code": resCaptcha.GetCode(),
-			"msg":  resCaptcha.GetMsg(),
-		})
-		return
-	}
-	if !resCaptcha.GetData().GetResult() {
-		newCtx.JSON(consts.StatusOK, utils.H{
-			"code": code.VerifyCodeError,
-			"msg":  code.StatusText(code.VerifyCodeError),
-		})
-		return
-	}
-	//3.链接用户信息表服务
-	clientSystemUser := user.NewSystemUserServiceClient(grpcClient)
-	requestSystemUser := &user.SystemUserLoginRequest{}
-	requestSystemUser.Username = proto.String(req.Username)
-	// 执行服务
-	res, err := clientSystemUser.SystemUserLogin(ctx, requestSystemUser)
-	if err != nil {
-		globalLogger.Logger.WithFields(logrus.Fields{
-			"req": requestSystemUser,
-			"err": err,
-		}).Error("GrpcCall:用户信息表:system_user:SystemUserLogin")
-		fromError := status.Convert(err)
-		newCtx.JSON(consts.StatusOK, utils.H{
-			"code": code.ConvertToHttp(fromError.Code()),
-			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
-		})
-		return
-	}
-	//4.生成 token
-	userInfo := res.GetData()
-	if userInfo.Id == nil {
-		newCtx.JSON(consts.StatusOK, utils.H{
-			"code": code.LoginFail,
-			"msg":  code.StatusText(code.LoginFail),
-		})
-		return
-	}
-	// 比对密码
-	if req.Password != userInfo.GetPassword() {
-		newCtx.JSON(consts.StatusOK, utils.H{
-			"code": code.LoginFail,
-			"msg":  code.StatusText(code.LoginFail),
-		})
-		return
-	}
-	second := initial.Core.Config.Int64("Cache.SystemUser.PermissionExpire")
-	token, err := tools.GenerateToken(userInfo.GetId(), userInfo.GetUsername(), userInfo.GetNickname(), "WEB", second)
-	if err != nil {
-		globalLogger.Logger.WithFields(logrus.Fields{
-			"req": requestCaptcha,
-			"err": err,
-		}).Error("GrpcCall:用户信息表:system_user:SystemUserLogin")
-		newCtx.JSON(consts.StatusOK, utils.H{
-			"code": code.TokenError,
-			"msg":  code.StatusText(code.TokenError),
-		})
-		return
-	}
-	nowTime := util.Now()
-	// nowTime = cast.ToTime(util.Date("Y-m-d H:i:s", nowTime))
-	//这里需要将登录信息写入操作列队
-	var resSystemLoginLog dao.SystemLoginLog
-	resSystemLoginLog.Username = userInfo.Username
-	resSystemLoginLog.Channel = proto.String("WEB")
-	resSystemLoginLog.UserIp = proto.String(newCtx.ClientIP())
-	resSystemLoginLog.UserAgent = null.StringFrom(cast.ToString(newCtx.Request.Header.UserAgent()))
-	resSystemLoginLog.LoginTime = null.DateTimeFrom(nowTime)
-	resSystemLoginLog.Creator = null.StringFrom(userInfo.GetUsername()) //创建者
-	resSystemLoginLog.CreateTime = null.DateTimeFrom(nowTime)           //创建时间
-	resSystemLoginLog.Updater = null.StringFrom(userInfo.GetUsername()) //更新者
-	resSystemLoginLog.UpdateTime = null.DateTimeFrom(nowTime)           //更新时间
-	// 将这些数据需要全部存储在消息列队中,然后后台去执行消息列队
-	redisHandler := initial.Core.Store.LoadRedis("redis")
-	key := util.NewReplacer(initial.Core.Config.String("Cache.SystemLoginLog.Queue"))
-	bytes, _ := json.Marshal(resSystemLoginLog)
-	redisHandler.LPush(ctx, key, cast.ToString(bytes))
-
-	requestMenu := &user.SystemUserMenuListRequest{}
-	systemUserId := userInfo.GetId()
-	requestMenu.SystemUserId = systemUserId
-
-	// 执行服务
-	resMenu, errMenu := clientSystemUser.SystemUserMenuList(ctx, requestMenu)
-	if errMenu != nil {
-		globalLogger.Logger.WithFields(logrus.Fields{
-			"req": requestMenu,
-			"err": errMenu,
-		}).Error("GrpcCall:菜单权限表:system_menu:SystemUserMenu")
-		fromError := status.Convert(errMenu)
-		newCtx.JSON(consts.StatusOK, utils.H{
-			"code": code.ConvertToHttp(fromError.Code()),
-			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
-		})
-		return
-	}
-	permissionList := make([]string, 0)
-	if resMenu.GetCode() == code.Success {
-		rpcMenuList := resMenu.GetData()
-		for _, item := range rpcMenuList {
-			if !util.Empty(item.GetPermission()) {
-				permissionList = append(permissionList, item.GetPermission())
-			}
-		}
-	}
-	// 保存权限信息
-	keyMenu := util.NewReplacer(initial.Core.Config.String("Cache.SystemUser.Permission"), ":UserId", systemUserId)
-	permission, _ := json.Marshal(permissionList)
-	redisHandler.Set(ctx, keyMenu, cast.ToString(permission), time.Duration(second)*time.Second)
-
 	newCtx.JSON(consts.StatusOK, utils.H{
 		"code": res.GetCode(),
 		"msg":  res.GetMsg(),
-		"data": utils.H{
-			"accessToken": token,
-			"nickname":    userInfo.GetNickname(),
-		},
 	})
 }

@@ -9,6 +9,8 @@ import (
 	"cloud/service/system/tenant"
 
 	globalLogger "github.com/abulo/ratel/v3/core/logger"
+	"github.com/abulo/ratel/v3/stores/null"
+	"github.com/abulo/ratel/v3/util"
 	"github.com/cloudwego/hertz/pkg/app"
 	"github.com/cloudwego/hertz/pkg/common/utils"
 	"github.com/cloudwego/hertz/pkg/protocol/consts"
@@ -19,6 +21,7 @@ import (
 	"google.golang.org/protobuf/types/known/timestamppb"
 )
 
+// system_tenant 租户
 // SystemTenantCreate 创建数据
 func SystemTenantCreate(ctx context.Context, newCtx *app.RequestContext) {
 	//判断这个服务能不能链接
@@ -44,6 +47,12 @@ func SystemTenantCreate(ctx context.Context, newCtx *app.RequestContext) {
 			"msg":  code.StatusText(code.ParamInvalid),
 		})
 		return
+	}
+	reqInfo.Deleted = proto.Int32(0)
+	reqInfo.Creator = null.StringFrom(newCtx.GetString("systemUserName"))
+	reqInfo.CreateTime = null.DateTimeFrom(util.Now())
+	if reqInfo.Password != nil {
+		reqInfo.Password = proto.String(util.Md5(cast.ToString(reqInfo.Password)))
 	}
 	request.Data = tenant.SystemTenantProto(reqInfo)
 	// 执行服务
@@ -94,6 +103,8 @@ func SystemTenantUpdate(ctx context.Context, newCtx *app.RequestContext) {
 		})
 		return
 	}
+	reqInfo.Updater = null.StringFrom(newCtx.GetString("systemUserName"))
+	reqInfo.UpdateTime = null.DateTimeFrom(util.Now())
 	request.Data = tenant.SystemTenantProto(reqInfo)
 	// 执行服务
 	res, err := client.SystemTenantUpdate(ctx, request)
@@ -232,6 +243,11 @@ func SystemTenantRecover(ctx context.Context, newCtx *app.RequestContext) {
 }
 
 // SystemTenantList 列表数据
+func SystemTenantSearch(ctx context.Context, newCtx *app.RequestContext) {
+	SystemTenantList(ctx, newCtx)
+}
+
+// SystemTenantList 列表数据
 func SystemTenantList(ctx context.Context, newCtx *app.RequestContext) {
 	grpcClient, err := initial.Core.Client.LoadGrpc("grpc").Singleton()
 	if err != nil {
@@ -249,22 +265,26 @@ func SystemTenantList(ctx context.Context, newCtx *app.RequestContext) {
 	// 构造查询条件
 	request := &tenant.SystemTenantListRequest{}
 	requestTotal := &tenant.SystemTenantListTotalRequest{}
-	// 是否删除(0否 1是)
-	request.Deleted = proto.Int32(0)
-	requestTotal.Deleted = proto.Int32(0)
+
+	request.Deleted = proto.Int32(0)      // 删除状态
+	requestTotal.Deleted = proto.Int32(0) // 删除状态
 	if val, ok := newCtx.GetQuery("deleted"); ok {
 		if cast.ToBool(val) {
 			request.Deleted = nil
 			requestTotal.Deleted = nil
 		}
 	}
+	if val, ok := newCtx.GetQuery("systemTenantPackageId"); ok {
+		request.SystemTenantPackageId = proto.Int64(cast.ToInt64(val))      // 套餐编号
+		requestTotal.SystemTenantPackageId = proto.Int64(cast.ToInt64(val)) // 套餐编号
+	}
+	if val, ok := newCtx.GetQuery("deleted"); ok {
+		request.Deleted = proto.Int32(cast.ToInt32(val))      // 是否删除(0否 1是)
+		requestTotal.Deleted = proto.Int32(cast.ToInt32(val)) // 是否删除(0否 1是)
+	}
 	if val, ok := newCtx.GetQuery("status"); ok {
 		request.Status = proto.Int32(cast.ToInt32(val))      // 状态（0正常 1停用）
 		requestTotal.Status = proto.Int32(cast.ToInt32(val)) // 状态（0正常 1停用）
-	}
-	if val, ok := newCtx.GetQuery("name"); ok {
-		request.Name = proto.String(val)      // 租户名称
-		requestTotal.Name = proto.String(val) // 租户名称
 	}
 	if val, ok := newCtx.GetQuery("beginExpireDate"); ok {
 		request.BeginExpireDate = timestamppb.New(cast.ToTime(val))      // 过期时间
@@ -274,10 +294,7 @@ func SystemTenantList(ctx context.Context, newCtx *app.RequestContext) {
 		request.FinishExpireDate = timestamppb.New(cast.ToTime(val))      // 过期时间
 		requestTotal.FinishExpireDate = timestamppb.New(cast.ToTime(val)) // 过期时间
 	}
-	if val, ok := newCtx.GetQuery("systemTenantPackageId"); ok {
-		request.SystemTenantPackageId = proto.Int64(cast.ToInt64(val))      // 套餐编号
-		requestTotal.SystemTenantPackageId = proto.Int64(cast.ToInt64(val)) // 套餐编号
-	}
+
 	// 执行服务,获取数据量
 	resTotal, err := client.SystemTenantListTotal(ctx, requestTotal)
 	if err != nil {

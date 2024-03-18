@@ -6,6 +6,7 @@ import (
 	"context"
 
 	"github.com/abulo/ratel/v3/stores/sql"
+	"github.com/spf13/cast"
 )
 
 // system_tenant_package 租户套餐包
@@ -85,7 +86,7 @@ func SystemTenantPackageList(ctx context.Context, condition map[string]any) (res
 		builder.Where("`status`", val)
 	}
 	if val, ok := condition["name"]; ok {
-		builder.Where("`name`", val)
+		builder.Like("`name`", "%"+cast.ToString(val)+"%")
 	}
 
 	builder.OrderBy("`id`", sql.DESC)

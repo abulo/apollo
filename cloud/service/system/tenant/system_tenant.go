@@ -38,8 +38,8 @@ func SystemTenantDao(item *SystemTenantObject) *dao.SystemTenant {
 	if item != nil && item.ExpireDate != nil {
 		daoItem.ExpireDate = null.DateFrom(util.GrpcTime(item.ExpireDate)) // 过期时间
 	}
-	if item != nil && item.AccountCont != nil {
-		daoItem.AccountCont = item.AccountCont // 账号数量
+	if item != nil && item.AccountCount != nil {
+		daoItem.AccountCount = item.AccountCount // 账号数量
 	}
 	if item != nil && item.SystemTenantPackageId != nil {
 		daoItem.SystemTenantPackageId = item.SystemTenantPackageId // 套餐编号
@@ -59,7 +59,12 @@ func SystemTenantDao(item *SystemTenantObject) *dao.SystemTenant {
 	if item != nil && item.UpdateTime != nil {
 		daoItem.UpdateTime = null.DateTimeFrom(util.GrpcTime(item.UpdateTime)) // 更新时间
 	}
-
+	if item != nil && item.Username != nil {
+		daoItem.Username = item.Username
+	}
+	if item != nil && item.Password != nil {
+		daoItem.Password = item.Password
+	}
 	return daoItem
 }
 
@@ -90,8 +95,8 @@ func SystemTenantProto(item dao.SystemTenant) *SystemTenantObject {
 	if item.ExpireDate.IsValid() {
 		res.ExpireDate = timestamppb.New(*item.ExpireDate.Ptr())
 	}
-	if item.AccountCont != nil {
-		res.AccountCont = item.AccountCont
+	if item.AccountCount != nil {
+		res.AccountCount = item.AccountCount
 	}
 	if item.SystemTenantPackageId != nil {
 		res.SystemTenantPackageId = item.SystemTenantPackageId
@@ -111,6 +116,11 @@ func SystemTenantProto(item dao.SystemTenant) *SystemTenantObject {
 	if item.UpdateTime.IsValid() {
 		res.UpdateTime = timestamppb.New(*item.UpdateTime.Ptr())
 	}
-
+	if item.Username != nil {
+		res.Username = item.Username
+	}
+	if item.Password != nil {
+		res.Password = item.Password
+	}
 	return res
 }

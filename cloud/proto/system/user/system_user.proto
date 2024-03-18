@@ -11,73 +11,33 @@ message SystemUserObject {
 	optional int64 id = 1; //用户编号
 	// @inject_tag: db:"nickname" json:"nickname"
 	optional string nickname = 2; //昵称
+	// @inject_tag: db:"mobile" json:"mobile"
+	optional string mobile = 3; //手机号码
 	// @inject_tag: db:"username" json:"username"
-	optional string username = 3; //用户名称
+	optional string username = 4; //用户名称
 	// @inject_tag: db:"password" json:"password"
-	optional string password = 4; //用户密码
+	optional string password = 5; //用户密码
 	// @inject_tag: db:"status" json:"status"
-	optional int32 status = 5; //用户状态（0正常 1停用）
-	// @inject_tag: db:"creator" json:"creator"
-	optional string creator = 6; //创建人
-	// @inject_tag: db:"create_time" json:"createTime"
-	google.protobuf.Timestamp create_time = 7; //创建时间
-	// @inject_tag: db:"updater" json:"updater"
-	optional string updater = 8; //更新人
-	// @inject_tag: db:"update_time" json:"updateTime"
-	google.protobuf.Timestamp update_time = 9; //更新时间
-}
-
-
-// SystemMenuObject 数据对象
-message SystemMenuObject {
-	// @inject_tag: db:"id" json:"id"
-	optional int64 id = 1; //菜单编号
-	// @inject_tag: db:"name" json:"name"
-	optional string name = 2; //菜单名称
-	// @inject_tag: db:"permission" json:"permission"
-	optional string permission = 3; //权限标识
-	// @inject_tag: db:"type" json:"type"
-	optional int32 type = 4; //菜单类型(1:目录/2: 菜单/3: 按钮)
-	// @inject_tag: db:"sort" json:"sort"
-	optional int32 sort = 5; //显示顺序
-	// @inject_tag: db:"parent_id" json:"parentId"
-	optional int64 parent_id = 6; //父菜单ID
-	// @inject_tag: db:"path" json:"path"
-	optional string path = 7; //路由地址
-	// @inject_tag: db:"icon" json:"icon"
-	optional string icon = 8; //菜单图标
-	// @inject_tag: db:"component" json:"component"
-	optional string component = 9; //组件路径
-	// @inject_tag: db:"component_name" json:"componentName"
-	optional string component_name = 10; //组件名
-	// @inject_tag: db:"status" json:"status"
-	optional int32 status = 11; //菜单状态(0开启/1关闭)
-	// @inject_tag: db:"hide" json:"hide"
-	optional int32 hide = 12; //是否隐藏(0:否/1是)
-	// @inject_tag: db:"link" json:"link"
-	optional string link = 13; //路由外链时填写的访问地址
-	// @inject_tag: db:"keep_alive" json:"keepAlive"
-	optional int32 keep_alive = 14; //是否缓存(0不/ 是)
-	// @inject_tag: db:"affix" json:"affix"
-	optional int32 affix = 15; //是否总是显示(0 不显示/1 显示)
-	// @inject_tag: db:"active_path" json:"activePath"
-	optional string active_path = 16; //激活链接
-	// @inject_tag: db:"full_screen" json:"fullScreen"
-	optional int32 full_screen = 17; //是否全屏
-	// @inject_tag: db:"redirect" json:"redirect"
-	optional string redirect = 18; //路由重定向地址
-	// @inject_tag: db:"creator" json:"creator"
-	optional string creator = 19; //创建者
-	// @inject_tag: db:"create_time" json:"createTime"
-	google.protobuf.Timestamp create_time = 20; //创建时间
-	// @inject_tag: db:"updater" json:"updater"
-	optional string updater = 21; //更新者
-	// @inject_tag: db:"update_time" json:"updateTime"
-	google.protobuf.Timestamp update_time = 22; //更新时间
+	optional int32 status = 6; //用户状态（0正常 1停用）
 	// @inject_tag: db:"deleted" json:"deleted"
-	optional int32 deleted = 23; //是否删除
+	optional int32 deleted = 7; //是否删除(0否 1是)
+	// @inject_tag: db:"system_tenant_id" json:"systemTenantId"
+	optional int64 system_tenant_id = 8; //租户ID
+	// @inject_tag: db:"creator" json:"creator"
+	optional string creator = 9; //创建人
+	// @inject_tag: db:"create_time" json:"createTime"
+	google.protobuf.Timestamp create_time = 10; //创建时间
+	// @inject_tag: db:"updater" json:"updater"
+	optional string updater = 11; //更新人
+	// @inject_tag: db:"update_time" json:"updateTime"
+	google.protobuf.Timestamp update_time = 12; //更新时间
+	// @inject_tag: db:"system_role_ids" json:"systemRoleIds"
+	optional bytes system_role_ids = 13; //角色ID
+	// @inject_tag: db:"system_post_ids" json:"systemPostIds"
+	optional bytes system_post_ids = 14; //岗位ID
+	// @inject_tag: db:"system_dept_ids" json:"systemDeptIds"
+	optional bytes system_dept_ids = 15; //租户ID
 }
-
 // SystemUserTotalResponse 列表数据总量
 message SystemUserTotalResponse {
 	int64 code = 1;
@@ -126,9 +86,18 @@ message SystemUserResponse {
 	string msg = 2;
 	SystemUserObject data = 3;
 }
+// SystemUserRecoverRequest 恢复数据请求
+message SystemUserRecoverRequest {
+	// @inject_tag: db:"system_user_id" json:"systemUserId"
+	int64 system_user_id = 1; //用户编号
+}
+// SystemUserRecoverResponse 删除数据响应
+message SystemUserRecoverResponse {
+	int64 code = 1;
+	string msg = 2;
+}
 // SystemUserLoginRequest 查询单条数据请求
 message SystemUserLoginRequest {
-	
 	// @inject_tag: db:"username" json:"username"
 	optional string username = 1; // 用户名称
 
@@ -141,16 +110,21 @@ message SystemUserLoginResponse {
 }
 // SystemUserListRequest 列表数据
 message SystemUserListRequest {
-	
 	// @inject_tag: db:"username" json:"username"
 	optional string username = 1; // 用户名称
+	// @inject_tag: db:"system_tenant_id" json:"systemTenantId"
+	optional int64 system_tenant_id = 2; // 租户ID
+	// @inject_tag: db:"deleted" json:"deleted"
+	optional int32 deleted = 3; // 是否删除(0否 1是)
 	// @inject_tag: db:"status" json:"status"
-	optional int32 status = 2; // 用户状态（0正常 1停用）
+	optional int32 status = 4; // 用户状态（0正常 1停用）
+	// @inject_tag: db:"system_dept_id" json:"systemDeptId"
+	optional int64 system_dept_id = 5; // 租户ID
 
 	// @inject_tag: db:"page_num" json:"pageNum"
-	optional int64 page_num = 3;
+	optional int64 page_num = 6;
 	// @inject_tag: db:"page_size" json:"pageSize"
-	optional int64 page_size = 4;
+	optional int64 page_size = 7;
 }
 
 // SystemUserListResponse 数据响应
@@ -161,26 +135,33 @@ message SystemUserListResponse {
 }
 // SystemUserListTotalRequest 列表数据
 message SystemUserListTotalRequest {
-	
 	// @inject_tag: db:"username" json:"username"
 	optional string username = 1; // 用户名称
+	// @inject_tag: db:"system_tenant_id" json:"systemTenantId"
+	optional int64 system_tenant_id = 2; // 租户ID
+	// @inject_tag: db:"deleted" json:"deleted"
+	optional int32 deleted = 3; // 是否删除(0否 1是)
 	// @inject_tag: db:"status" json:"status"
-	optional int32 status = 2; // 用户状态（0正常 1停用）
-
+	optional int32 status = 4; // 用户状态（0正常 1停用）
+	// @inject_tag: db:"system_dept_id" json:"systemDeptId"
+	optional int64 system_dept_id = 5; // 租户ID
 }
 
-// SystemUserMenuListRequest 列表数据
-message SystemUserMenuListRequest {
+
+// SystemUserPasswordRequest  修改密码
+message SystemUserPasswordRequest {
 	// @inject_tag: db:"system_user_id" json:"systemUserId"
-	int64 system_user_id = 1; //用户编号
+	int64 system_user_id = 1; //用户ID
+	// @inject_tag: db:"password" json:"password"
+	optional string password = 2; //密码
 }
 
-// SystemUserMenuListResponse 数据响应
-message SystemUserMenuListResponse {
+// SystemUserPasswordrResponse 修改密码响应
+message SystemUserPasswordResponse {
 	int64 code = 1;
-  	string msg = 2;
-	repeated SystemMenuObject data = 3;
+	string msg = 2;
 }
+
 
 // SystemUserService 服务
 service SystemUserService{
@@ -188,9 +169,9 @@ service SystemUserService{
 	rpc SystemUserUpdate(SystemUserUpdateRequest) returns (SystemUserUpdateResponse);
 	rpc SystemUserDelete(SystemUserDeleteRequest) returns (SystemUserDeleteResponse);
 	rpc SystemUser(SystemUserRequest) returns (SystemUserResponse);
+	rpc SystemUserRecover(SystemUserRecoverRequest) returns (SystemUserRecoverResponse);
 	rpc SystemUserLogin(SystemUserLoginRequest) returns (SystemUserLoginResponse);
 	rpc SystemUserList(SystemUserListRequest) returns (SystemUserListResponse);
 	rpc SystemUserListTotal(SystemUserListTotalRequest) returns (SystemUserTotalResponse);
-	rpc SystemUserMenuList(SystemUserMenuListRequest) returns (SystemUserMenuListResponse);
-
+	rpc SystemUserPassword(SystemUserPasswordRequest) returns (SystemUserPasswordResponse);
 }

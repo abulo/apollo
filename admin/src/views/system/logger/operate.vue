@@ -206,3 +206,6 @@ const handleItem = async (row: SystemOperateLog.ResSystemOperateLogItem) => {
   systemOperateLogItemFrom.value = data;
 };
 </script>
+<style lang="scss">
+@import "@/styles/custom.scss";
+</style>

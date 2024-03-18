@@ -30,7 +30,7 @@ func SystemTenantPackageDao(item *SystemTenantPackageObject) *dao.SystemTenantPa
 		daoItem.Remark = null.StringFrom(item.GetRemark()) // 备注
 	}
 	if item != nil && item.Deleted != nil {
-		daoItem.Deleted = null.Int32From(item.GetDeleted()) // 是否删除(0否 1是)
+		daoItem.Deleted = item.Deleted // 是否删除(0否 1是)
 	}
 	if item != nil && item.Creator != nil {
 		daoItem.Creator = null.StringFrom(item.GetCreator()) // 创建人
@@ -66,8 +66,8 @@ func SystemTenantPackageProto(item dao.SystemTenantPackage) *SystemTenantPackage
 	if item.Remark.IsValid() {
 		res.Remark = item.Remark.Ptr()
 	}
-	if item.Deleted.IsValid() {
-		res.Deleted = item.Deleted.Ptr()
+	if item.Deleted != nil {
+		res.Deleted = item.Deleted
 	}
 	if item.Creator.IsValid() {
 		res.Creator = item.Creator.Ptr()

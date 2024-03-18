@@ -5,6 +5,7 @@ import (
 	"cloud/initial"
 	"context"
 
+	"github.com/abulo/ratel/v3/core/logger"
 	"github.com/abulo/ratel/v3/stores/null"
 	"github.com/abulo/ratel/v3/stores/sql"
 	"github.com/abulo/ratel/v3/util"
@@ -19,6 +20,7 @@ func SystemTenantCreate(ctx context.Context, data dao.SystemTenant) (res int64, 
 	res = 0
 	err = db.Transact(ctx, func(ctx context.Context, session sql.Session) error {
 		builder := sql.NewBuilder()
+		data.SystemUserId = null.Int64From(0)
 		query, args, err := builder.Table("`system_tenant`").Insert(data)
 		if err != nil {
 			return err
@@ -40,19 +42,22 @@ func SystemTenantCreate(ctx context.Context, data dao.SystemTenant) (res int64, 
 		user.UpdateTime = data.UpdateTime
 		user.SystemTenantId = proto.Int64(tenantId)
 		user.Status = proto.Int32(0)
-		user.Deleted = proto.Int32(1)
+		user.Deleted = proto.Int32(0)
+		builder = sql.NewBuilder()
 		query, args, err = builder.Table("`system_user`").Insert(user)
 		if err != nil {
 			return err
 		}
 		// 插入用户信息
 		userId, err := session.Insert(ctx, query, args...)
+		logger.Logger.Info(err)
 		if err != nil {
 			return err
 		}
 		// 更新租户管理员信息
 		var updateTenant dao.SystemTenant
 		updateTenant.SystemUserId = null.Int64From(userId)
+		builder = sql.NewBuilder()
 		query, args, err = builder.Table("`system_tenant`").Where("`id`", tenantId).Update(updateTenant)
 		if err != nil {
 			return err
