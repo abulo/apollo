@@ -138,6 +138,10 @@ func ManagerInitRoute(handle *xhertz.Server) {
 		auth.GET("/system/tenant/search", tenant.SystemTenantSearch)
 		// system_tenant->租户->租户用户
 		auth.GET("/system/tenant/:systemTenantId/user", tenant.SystemUserList)
+		// system_tenant->租户->租户菜单
+		auth.GET("/system/tenant/menu", tenant.SystemMenuList)
+		// system_tenant->租户->登录
+		auth.GET("/system/tenant/:systemTenantId/login", tenant.SystemTenantLogin)
 
 		// system_tenant_package->租户套餐包->创建
 		auth.POST("/system/tenant/package", tenant.SystemTenantPackageCreate)
@@ -153,6 +157,7 @@ func ManagerInitRoute(handle *xhertz.Server) {
 		auth.GET("/system/tenant/package", tenant.SystemTenantPackageList)
 		// system_tenant_package->租户套餐包->搜索
 		auth.GET("/system/tenant/package/search", tenant.SystemTenantPackageSearch)
+		//
 
 		// system_dept->部门->创建
 		auth.POST("/system/dept", dept.SystemDeptCreate)

@@ -3,6 +3,7 @@ import { PORT } from "@/api/config/servicePort";
 import http from "@/api";
 import { SystemTenant } from "@/api/interface/systemTenant";
 import { SystemUser } from "@/api/interface/systemUser";
+import { SystemMenu } from "@/api/interface/systemMenu";
 
 // 获取租户列表
 export const getSystemTenantListApi = (params?: SystemTenant.ReqSystemTenantList) => {
@@ -36,4 +37,12 @@ export const getSystemTenantSearchApi = (params?: SystemTenant.ReqSystemTenantLi
 // 获取租户用户列表
 export const getSystemTenantUserSearchApi = (id: number, params?: SystemUser.ReqSystemUserList) => {
   return http.get<ResPage<SystemUser.ResSystemUserItem>>(PORT + `/system/tenant/${id}/user`, params);
+};
+// 获取租户菜单树
+export const getSystemTenantMenuListApi = (params?: SystemMenu.ReqSystemMenuList) => {
+  return http.get<SystemMenu.ResSystemMenuList[]>(PORT + `/system/tenant/menu`, params);
+};
+// 快捷登录
+export const getSystemTenantLogin = (id: number) => {
+  return http.get<SystemUser.ResSystemUserLogin>(PORT + `/system/tenant/${id}/login`);
 };

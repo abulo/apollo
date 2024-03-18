@@ -24,6 +24,7 @@
       <!-- 菜单操作 -->
       <template #operation="scope">
         <el-button type="primary" link :icon="EditPen" @click="handleUpdate(scope.row)"> 编辑 </el-button>
+        <el-button type="primary" link :icon="Connection" @click="handleLogin(scope.row)"> 登录 </el-button>
         <el-button v-if="scope.row.deleted === 0" type="primary" link :icon="Delete" @click="handleDelete(scope.row)">
           删除
         </el-button>
@@ -124,7 +125,7 @@
 <script setup lang="tsx" name="systemTenant">
 import { ref, reactive, onMounted } from "vue";
 import { ProTableInstance, ColumnProps, SearchProps } from "@/components/ProTable/interface";
-import { EditPen, CirclePlus, Delete, Refresh } from "@element-plus/icons-vue";
+import { EditPen, CirclePlus, Delete, Refresh, Connection } from "@element-plus/icons-vue";
 import ProTable from "@/components/ProTable/index.vue";
 import { SystemTenant } from "@/api/interface/systemTenant";
 import {
@@ -134,9 +135,10 @@ import {
   getSystemTenantItemApi,
   addSystemTenantApi,
   updateSystemTenantApi,
-  getSystemTenantUserSearchApi
+  getSystemTenantUserSearchApi,
+  getSystemTenantLogin
 } from "@/api/modules/systemTenant";
-import { FormInstance, FormRules } from "element-plus";
+import { FormInstance, FormRules, ElMessage } from "element-plus";
 import { getIntDictOptions } from "@/utils/dict";
 import { DictTag } from "@/components/DictTag";
 import { useHandleData, useHandleSet } from "@/hooks/useHandleData";
@@ -144,6 +146,19 @@ import { SystemUser } from "@/api/interface/systemUser";
 import { getSystemUserItemApi } from "@/api/modules/systemUser";
 import { SystemTenantPackage } from "@/api/interface/systemTenantPackage";
 import { getSystemTenantPackageSearchApi } from "@/api/modules/systemTenantPackage";
+import { useRouter } from "vue-router";
+import { HOME_URL } from "@/config";
+import { getTimeState } from "@/utils";
+import { ElNotification } from "element-plus";
+import { useUserStore } from "@/stores/modules/user";
+import { useTabsStore } from "@/stores/modules/tabs";
+import { useKeepAliveStore } from "@/stores/modules/keepAlive";
+import { initDynamicRouter } from "@/routers/modules/dynamicRouter";
+
+const router = useRouter();
+const userStore = useUserStore();
+const tabsStore = useTabsStore();
+const keepAliveStore = useKeepAliveStore();
 //加载
 const loading = ref(false);
 //弹出层标题
@@ -163,7 +178,7 @@ const systemTenantItemFrom = ref<SystemTenant.ResSystemTenantItem>({
   domain: "", // varchar 绑定域名
   expireDate: "", // datetime 过期时间
   accountCount: 0, // int 账号数量
-  systemTenantPackageId: undefined, // bigint 套餐 ID
+  systemTenantPackageId: 0, // bigint 套餐 ID
   deleted: 0, // tinyint 是否删除
   username: undefined, // varchar 用户名
   password: undefined // varchar 密码
@@ -231,7 +246,7 @@ const columns: ColumnProps<SystemTenant.ResSystemTenantItem>[] = [
   {
     prop: "operation",
     label: "操作",
-    width: 160,
+    width: 240,
     fixed: "right"
   }
 ];
@@ -267,7 +282,7 @@ const reset = () => {
     domain: "", // varchar 绑定域名
     expireDate: "", // datetime 过期时间
     accountCount: 0, // int 账号数量
-    systemTenantPackageId: undefined, // bigint 套餐 ID
+    systemTenantPackageId: 0, // bigint 套餐 ID
     deleted: 0, // tinyint 是否删除
     username: undefined, // varchar 用户名
     password: undefined // varchar 密码
@@ -306,6 +321,31 @@ const submitForm = (formEl: FormInstance | undefined) => {
 const handleDelete = async (row: SystemTenant.ResSystemTenantItem) => {
   await useHandleData(deleteSystemTenantApi, Number(row.id), "删除租户");
   proTable.value?.getTableList();
+};
+
+const handleLogin = async (row: SystemTenant.ResSystemTenantItem) => {
+  try {
+    const { data } = await getSystemTenantLogin(Number(row.id));
+    userStore.setToken(data.accessToken);
+    // 2.添加动态路由
+    await initDynamicRouter();
+    // 3.清空 tabs、keepAlive 数据
+    userStore.setUserInfo({ name: data.nickname });
+    // 4.清空 tabs、keepAlive 数据
+    tabsStore.setTabs([]);
+    keepAliveStore.setKeepAliveName([]);
+
+    // 5.跳转到首页
+    router.push(HOME_URL);
+    ElNotification({
+      title: getTimeState(),
+      message: "欢迎登录 Geeker-Admin",
+      type: "success",
+      duration: 3000
+    });
+  } catch {
+    ElMessage.error({ message: "登录失败" });
+  }
 };
 
 // 恢复按钮
@@ -354,6 +394,14 @@ const handleUser = (row: SystemUser.ResSystemUserItem) => {
 onMounted(async () => {
   // 获取接口数据
   const { data } = await getSystemTenantPackageSearchApi();
+  data.push({
+    id: 0, //bigint 套餐编号,PRI
+    name: "内置套餐", //varchar 套餐名称
+    status: 0, //tinyint 状态（0正常 1停用）
+    systemMenuIds: [], //json 目录编号
+    remark: "", //varchar 备注
+    deleted: 0
+  });
   tenantPackageEnum.value = data;
 });
 </script>

@@ -17,10 +17,6 @@
       <template #status="scope">
         <DictTag type="status" :value="scope.row.status" />
       </template>
-      <!-- 角色类型 -->
-      <template #type="scope">
-        <DictTag type="role.type" :value="scope.row.type" />
-      </template>
       <template #operation="scope">
         <el-button type="primary" link :icon="EditPen" @click="handleUpdate(scope.row)"> 编辑 </el-button>
         <el-dropdown trigger="click">
@@ -54,13 +50,6 @@
         </el-form-item>
         <el-form-item label="角色编码" prop="code">
           <el-input v-model="systemRoleItemFrom.code" placeholder="请输入角色编码" />
-        </el-form-item>
-        <el-form-item label="角色类型" prop="type">
-          <el-radio-group v-model="systemRoleItemFrom.type">
-            <el-radio-button v-for="dict in typeEnum" :key="Number(dict.value)" :label="dict.value">
-              {{ dict.label }}
-            </el-radio-button>
-          </el-radio-group>
         </el-form-item>
         <el-form-item label="角色顺序" prop="sort">
           <el-input-number v-model="systemRoleItemFrom.sort" controls-position="right" :min="0" />
@@ -211,7 +200,7 @@ import {
   addSystemRoleScopeApi
 } from "@/api/modules/systemRole";
 import { SystemMenu } from "@/api/interface/systemMenu";
-import { getSystemMenuSearchApi } from "@/api/modules/systemMenu";
+import { getSystemTenantMenuListApi } from "@/api/modules/systemTenant";
 import { SystemDept } from "@/api/interface/systemDept";
 import { getSystemDeptSearchApi } from "@/api/modules/systemDept";
 import { getIntDictOptions } from "@/utils/dict";
@@ -293,8 +282,6 @@ const rulesSystemRoleScopeItemFrom = reactive<FormRules>({
 
 // 状态
 const statusEnum = getIntDictOptions("status");
-// 角色类型
-const typeEnum = getIntDictOptions("role.type");
 // 数据权限
 const dataScopeEnum = getIntDictOptions("role.scope");
 
@@ -302,7 +289,6 @@ const columns: ColumnProps<SystemRole.ResSystemRoleItem>[] = [
   { prop: "id", label: "编号", width: 100 },
   { prop: "name", label: "角色名称" },
   { prop: "code", label: "角色编码" },
-  { prop: "type", label: "角色类型", tag: true, enum: typeEnum, search: { el: "select", span: 2 }, width: 100 },
   { prop: "sort", label: "角色顺序" },
   { prop: "remark", label: "角色备注" },
   { prop: "status", label: "状态", tag: true, enum: statusEnum, search: { el: "select", span: 2 }, width: 100 },
@@ -377,7 +363,7 @@ const handleUpdate = async (row: SystemRole.ResSystemRoleItem) => {
 // 获取菜单树选项
 const getMenuTreeSelect = async () => {
   menuOptions.value = [];
-  const { data } = await getSystemMenuSearchApi();
+  const { data } = await getSystemTenantMenuListApi();
   menuOptions.value = data;
 };
 

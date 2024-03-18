@@ -1,11 +1,10 @@
-package user
+package tenant
 
 import (
 	"cloud/code"
 	"cloud/dao"
 	"cloud/initial"
 	"cloud/internal/tools"
-	"cloud/service/captcha"
 	"cloud/service/system/menu"
 	"cloud/service/system/role"
 	"cloud/service/system/tenant"
@@ -26,75 +25,60 @@ import (
 	"google.golang.org/protobuf/proto"
 )
 
-// SystemUserLogin 查询单条数据
-func SystemUserLogin(ctx context.Context, newCtx *app.RequestContext) {
-	//1.验证参数必传
-	var req dao.SystemUserLogin
-	if err := newCtx.BindAndValidate(&req); err != nil {
-		newCtx.JSON(consts.StatusOK, utils.H{
-			"code": code.ParamInvalid,
-			"msg":  code.StatusText(code.ParamInvalid),
-		})
-		return
-	}
-
-	//2.判断这个服务能不能链接
+// SystemTenantLogin 登录
+func SystemTenantLogin(ctx context.Context, newCtx *app.RequestContext) {
 	grpcClient, err := initial.Core.Client.LoadGrpc("grpc").Singleton()
 	if err != nil {
 		globalLogger.Logger.WithFields(logrus.Fields{
 			"err": err,
-		}).Error("Grpc:用户信息表:system_user:SystemUserLogin")
+		}).Error("Grpc:租户:system_tenant:SystemTenant")
 		newCtx.JSON(consts.StatusOK, utils.H{
 			"code": code.RPCError,
 			"msg":  code.StatusText(code.RPCError),
 		})
 		return
 	}
-
-	//链接验证码服务
-	clientCaptcha := captcha.NewCaptchaServiceClient(grpcClient)
-	requestCaptcha := &captcha.CaptchaVerifyRequest{}
-	requestCaptcha.CaptchaId = req.CaptchaId
-	requestCaptcha.CaptchaCode = req.CaptchaCode
+	//链接服务
+	tenantClient := tenant.NewSystemTenantServiceClient(grpcClient)
+	systemTenantId := cast.ToInt64(newCtx.Param("systemTenantId"))
+	tenantRequest := &tenant.SystemTenantRequest{}
+	tenantRequest.SystemTenantId = systemTenantId
 	// 执行服务
-	resCaptcha, err := clientCaptcha.CaptchaVerify(ctx, requestCaptcha)
-	if err != nil {
+	tenantRes, tenantErr := tenantClient.SystemTenant(ctx, tenantRequest)
+	if tenantErr != nil {
 		globalLogger.Logger.WithFields(logrus.Fields{
-			"req": requestCaptcha,
-			"err": err,
-		}).Error("GrpcCall:用户信息表:system_user:SystemUserLogin")
-		fromError := status.Convert(err)
+			"req": tenantRequest,
+			"err": tenantErr,
+		}).Error("GrpcCall:租户:system_tenant:SystemTenant")
+		fromError := status.Convert(tenantErr)
 		newCtx.JSON(consts.StatusOK, utils.H{
 			"code": code.ConvertToHttp(fromError.Code()),
 			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
 		})
 		return
 	}
-	if resCaptcha.GetCode() != code.Success {
+	// 判断这个有没有值
+	if tenantRes.GetCode() != code.Success {
 		newCtx.JSON(consts.StatusOK, utils.H{
-			"code": resCaptcha.GetCode(),
-			"msg":  resCaptcha.GetMsg(),
+			"code": code.RPCError,
+			"msg":  code.StatusText(code.RPCError),
 		})
 		return
 	}
-	if !resCaptcha.GetData().GetResult() {
-		newCtx.JSON(consts.StatusOK, utils.H{
-			"code": code.VerifyCodeError,
-			"msg":  code.StatusText(code.VerifyCodeError),
-		})
-		return
-	}
-	//3.链接用户信息表服务
+	// 这是租户的信息
+	tenantItem := tenant.SystemTenantDao(tenantRes.GetData()) // 租户信息
+	// 获取用户信息
 	clientSystemUser := user.NewSystemUserServiceClient(grpcClient)
-	requestSystemUser := &user.SystemUserLoginRequest{}
-	requestSystemUser.Username = proto.String(req.Username)
+	requestSystemUser := &user.SystemUserRequest{}
+	requestSystemUser.SystemUserId = *tenantItem.SystemUserId.Ptr()
+
 	// 执行服务
-	res, err := clientSystemUser.SystemUserLogin(ctx, requestSystemUser)
+	res, err := clientSystemUser.SystemUser(ctx, requestSystemUser)
 	if err != nil {
 		globalLogger.Logger.WithFields(logrus.Fields{
 			"req": requestSystemUser,
 			"err": err,
-		}).Error("GrpcCall:用户信息表:system_user:SystemUserLogin")
+		}).Error("GrpcCall:用户信息表:system_user:SystemUser")
 		fromError := status.Convert(err)
 		newCtx.JSON(consts.StatusOK, utils.H{
 			"code": code.ConvertToHttp(fromError.Code()),
@@ -104,21 +88,7 @@ func SystemUserLogin(ctx context.Context, newCtx *app.RequestContext) {
 	}
 	//4.生成 token
 	userInfo := res.GetData()
-	if userInfo.Id == nil {
-		newCtx.JSON(consts.StatusOK, utils.H{
-			"code": code.LoginFail,
-			"msg":  code.StatusText(code.LoginFail),
-		})
-		return
-	}
-	// 比对密码
-	if req.Password != userInfo.GetPassword() {
-		newCtx.JSON(consts.StatusOK, utils.H{
-			"code": code.LoginFail,
-			"msg":  code.StatusText(code.LoginFail),
-		})
-		return
-	}
+
 	second := initial.Core.Config.Int64("Cache.SystemUser.PermissionExpire")
 	var systemUserToken dao.SystemUserToken
 	systemUserToken.SystemUserId = userInfo.GetId()
@@ -128,7 +98,7 @@ func SystemUserLogin(ctx context.Context, newCtx *app.RequestContext) {
 	token, err := tools.GenerateToken(systemUserToken, "WEB", second)
 	if err != nil {
 		globalLogger.Logger.WithFields(logrus.Fields{
-			"req": requestCaptcha,
+			"req": requestSystemUser,
 			"err": err,
 		}).Error("GrpcCall:用户信息表:system_user:SystemUserLogin")
 		newCtx.JSON(consts.StatusOK, utils.H{
@@ -157,37 +127,9 @@ func SystemUserLogin(ctx context.Context, newCtx *app.RequestContext) {
 	bytes, _ := json.Marshal(systemLoginLog)
 	redisHandler.LPush(ctx, key, cast.ToString(bytes))
 
-	systemTenantId := userInfo.GetSystemTenantId() // 租户 Id
-	systemUserId := userInfo.GetId()               // 用户 Id
+	systemTenantId = userInfo.GetSystemTenantId() // 租户 Id
+	systemUserId := userInfo.GetId()              // 用户 Id
 
-	//链接服务
-	tenantClient := tenant.NewSystemTenantServiceClient(grpcClient)
-	tenantRequest := &tenant.SystemTenantRequest{}
-	tenantRequest.SystemTenantId = systemTenantId
-	// 执行服务
-	tenantRes, tenantErr := tenantClient.SystemTenant(ctx, tenantRequest)
-	if tenantErr != nil {
-		globalLogger.Logger.WithFields(logrus.Fields{
-			"req": tenantRequest,
-			"err": tenantErr,
-		}).Error("GrpcCall:租户:system_tenant:SystemTenant")
-		fromError := status.Convert(tenantErr)
-		newCtx.JSON(consts.StatusOK, utils.H{
-			"code": code.ConvertToHttp(fromError.Code()),
-			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
-		})
-		return
-	}
-	// 判断这个有没有值
-	if tenantRes.GetCode() != code.Success {
-		newCtx.JSON(consts.StatusOK, utils.H{
-			"code": code.RPCError,
-			"msg":  code.StatusText(code.RPCError),
-		})
-		return
-	}
-	// 这是租户的信息
-	tenantItem := tenant.SystemTenantDao(tenantRes.GetData())
 	// 获取套餐服务
 	tenantPackageId := tenantItem.SystemTenantPackageId
 	//链接服务
@@ -239,7 +181,6 @@ func SystemUserLogin(ctx context.Context, newCtx *app.RequestContext) {
 					continue
 				}
 			}
-			// listMenu = append(listMenu, menu.SystemMenuDao(item))
 			listMenu = append(listMenu, item)
 		}
 	}
@@ -297,4 +238,5 @@ func SystemUserLogin(ctx context.Context, newCtx *app.RequestContext) {
 			"nickname":    userInfo.GetNickname(),
 		},
 	})
+
 }

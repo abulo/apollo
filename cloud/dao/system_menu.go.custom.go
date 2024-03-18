@@ -14,12 +14,13 @@ type SystemMenuTreeMeta struct {
 
 // SystemMenuTreeRes 菜单数据
 type SystemMenuTree struct {
-	Id        int64              `json:"-"`                   // 菜单ID
-	ParentId  int64              `json:"-"`                   // 父菜单ID
-	Path      string             `json:"path"`                // 路由地址
-	Name      string             `json:"name"`                // 路由名称
-	Component string             `json:"component,omitempty"` // 组件路径
-	Redirect  string             `json:"redirect,omitempty"`  // 重定向地址
-	Meta      SystemMenuTreeMeta `json:"meta"`                // 菜单元信息
-	Children  []SystemMenuTree   `json:"children,omitempty"`  // 子菜单
+	Id        int64               `json:"-"`                   // 菜单ID
+	ParentId  int64               `json:"-"`                   // 父菜单ID
+	Type      int32               `json:"-"`                   // 菜单类型
+	Path      string              `json:"path"`                // 路由地址
+	Name      string              `json:"name"`                // 路由名称
+	Component string              `json:"component,omitempty"` // 组件路径
+	Redirect  string              `json:"redirect,omitempty"`  // 重定向地址
+	Meta      *SystemMenuTreeMeta `json:"meta"`                // 菜单元信息
+	Children  []*SystemMenuTree   `json:"children,omitempty"`  // 子菜单
 }
