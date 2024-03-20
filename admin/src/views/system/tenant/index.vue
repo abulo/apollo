@@ -393,7 +393,10 @@ const handleUser = (row: SystemUser.ResSystemUserItem) => {
 
 onMounted(async () => {
   // 获取接口数据
-  const { data } = await getSystemTenantPackageSearchApi();
+  let { data } = await getSystemTenantPackageSearchApi();
+  if (data === null) {
+    data = [] as SystemTenantPackage.ResSystemTenantPackageItem[];
+  }
   data.push({
     id: 0, //bigint 套餐编号,PRI
     name: "内置套餐", //varchar 套餐名称
