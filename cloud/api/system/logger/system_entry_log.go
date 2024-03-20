@@ -6,6 +6,7 @@ import (
 	"cloud/module/system/logger"
 	"context"
 	"encoding/json"
+	"time"
 
 	"github.com/abulo/ratel/v3/util"
 	"github.com/cloudwego/hertz/pkg/app"
@@ -96,10 +97,26 @@ func SystemEntryLogDrop(ctx context.Context, newCtx *app.RequestContext) {
 func SystemEntryLogList(ctx context.Context, newCtx *app.RequestContext) {
 	request := make(bson.D, 0)
 	if val, ok := newCtx.GetQuery("startTime"); ok {
-		request = util.ConvertBson(request, bson.E{Key: "timestamp", Value: bson.D{{Key: "$gte", Value: cast.ToTime(val)}}})
+		request = util.ConvertBson(request, bson.E{
+			Key: "timestamp",
+			Value: bson.D{
+				{
+					Key:   "$gte",
+					Value: cast.ToTimeInDefaultLocation(val, time.Local),
+				},
+			},
+		})
 	}
 	if val, ok := newCtx.GetQuery("endTime"); ok {
-		request = util.ConvertBson(request, bson.E{Key: "timestamp", Value: bson.D{{Key: "$lte", Value: cast.ToTime(val)}}})
+		request = util.ConvertBson(request, bson.E{
+			Key: "timestamp",
+			Value: bson.D{
+				{
+					Key:   "$lte",
+					Value: cast.ToTimeInDefaultLocation(val, time.Local),
+				},
+			},
+		})
 	}
 	pageNum := cast.ToInt64(newCtx.Query("pageNum"))
 	pageSize := cast.ToInt64(newCtx.Query("pageSize"))

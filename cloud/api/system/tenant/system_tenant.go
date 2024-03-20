@@ -2,6 +2,7 @@ package tenant
 
 import (
 	"context"
+	"time"
 
 	"cloud/code"
 	"cloud/dao"
@@ -287,12 +288,12 @@ func SystemTenantList(ctx context.Context, newCtx *app.RequestContext) {
 		requestTotal.Status = proto.Int32(cast.ToInt32(val)) // 状态（0正常 1停用）
 	}
 	if val, ok := newCtx.GetQuery("beginExpireDate"); ok {
-		request.BeginExpireDate = timestamppb.New(cast.ToTime(val))      // 过期时间
-		requestTotal.BeginExpireDate = timestamppb.New(cast.ToTime(val)) // 过期时间
+		request.BeginExpireDate = timestamppb.New(cast.ToTimeInDefaultLocation(val, time.Local))      // 过期时间
+		requestTotal.BeginExpireDate = timestamppb.New(cast.ToTimeInDefaultLocation(val, time.Local)) // 过期时间
 	}
 	if val, ok := newCtx.GetQuery("finishExpireDate"); ok {
-		request.FinishExpireDate = timestamppb.New(cast.ToTime(val))      // 过期时间
-		requestTotal.FinishExpireDate = timestamppb.New(cast.ToTime(val)) // 过期时间
+		request.FinishExpireDate = timestamppb.New(cast.ToTimeInDefaultLocation(val, time.Local))      // 过期时间
+		requestTotal.FinishExpireDate = timestamppb.New(cast.ToTimeInDefaultLocation(val, time.Local)) // 过期时间
 	}
 
 	// 执行服务,获取数据量

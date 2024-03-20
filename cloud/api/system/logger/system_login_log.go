@@ -2,6 +2,7 @@ package logger
 
 import (
 	"context"
+	"time"
 
 	"cloud/code"
 	"cloud/dao"
@@ -130,12 +131,12 @@ func SystemLoginLogList(ctx context.Context, newCtx *app.RequestContext) {
 		requestTotal.Username = proto.String(val) // 用户账号
 	}
 	if val, ok := newCtx.GetQuery("beginLoginTime"); ok {
-		request.BeginLoginTime = timestamppb.New(cast.ToTime(val))      // 登录时间
-		requestTotal.BeginLoginTime = timestamppb.New(cast.ToTime(val)) // 登录时间
+		request.BeginLoginTime = timestamppb.New(cast.ToTimeInDefaultLocation(val, time.Local))      // 登录时间
+		requestTotal.BeginLoginTime = timestamppb.New(cast.ToTimeInDefaultLocation(val, time.Local)) // 登录时间
 	}
 	if val, ok := newCtx.GetQuery("finishLoginTime"); ok {
-		request.FinishLoginTime = timestamppb.New(cast.ToTime(val))      // 登录时间
-		requestTotal.FinishLoginTime = timestamppb.New(cast.ToTime(val)) // 登录时间
+		request.FinishLoginTime = timestamppb.New(cast.ToTimeInDefaultLocation(val, time.Local))      // 登录时间
+		requestTotal.FinishLoginTime = timestamppb.New(cast.ToTimeInDefaultLocation(val, time.Local)) // 登录时间
 	}
 	if val, ok := newCtx.GetQuery("channel"); ok {
 		request.Channel = proto.String(val)      // 渠道

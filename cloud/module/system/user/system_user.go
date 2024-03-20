@@ -4,6 +4,7 @@ import (
 	"cloud/dao"
 	"cloud/initial"
 	"context"
+	"strconv"
 
 	"github.com/abulo/ratel/v3/stores/sql"
 	"github.com/abulo/ratel/v3/util"
@@ -102,6 +103,7 @@ func SystemUserList(ctx context.Context, condition map[string]any) (res []dao.Sy
 	db := initial.Core.Store.LoadSQL("mysql").Read()
 	builder := sql.NewBuilder()
 	builder.Table("`system_user`")
+	builder.Select("`system_user`.*")
 	if val, ok := condition["systemTenantId"]; ok {
 		builder.Where("`system_user`.`system_tenant_id`", val)
 	}
@@ -138,6 +140,7 @@ func SystemUserList(ctx context.Context, condition map[string]any) (res []dao.Sy
 	if !util.Empty(condition["limit"]) {
 		builder.Limit(cast.ToInt64(condition["limit"]))
 	}
+	builder.GroupBy("`system_user`.`id`")
 	builder.OrderBy("`system_user`.`id`", sql.DESC)
 	query, args, err := builder.Rows()
 	if err != nil {
@@ -152,6 +155,7 @@ func SystemUserListTotal(ctx context.Context, condition map[string]any) (res int
 	db := initial.Core.Store.LoadSQL("mysql").Read()
 	builder := sql.NewBuilder()
 	builder.Table("`system_user`")
+	builder.Select("`system_user`.`id`")
 	if val, ok := condition["systemTenantId"]; ok {
 		builder.Where("`system_user`.`system_tenant_id`", val)
 	}
@@ -182,11 +186,21 @@ func SystemUserListTotal(ctx context.Context, condition map[string]any) (res int
 		builder.OrLike("`system_user`.`mobile`", "%"+cast.ToString(val)+"%")
 		builder.RightBracket()
 	}
-	query, args, err := builder.Count()
+	builder.GroupBy("`system_user`.`id`")
+	query, args, err := builder.Rows()
 	if err != nil {
 		return
 	}
-	res, err = db.Count(ctx, query, args...)
+	newSql := "SELECT COUNT(1) AS C FROM(" + query + ") AS newTable"
+	resMap, err := db.QueryRow(ctx, newSql, args...).ToMap()
+	if err != nil {
+		return 0, err
+	}
+	if len(resMap) < 1 {
+		return 0, nil
+	}
+	v := resMap["C"]
+	res, err = strconv.ParseInt(v, 10, 0)
 	return
 }
 

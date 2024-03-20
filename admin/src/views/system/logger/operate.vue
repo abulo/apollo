@@ -123,9 +123,9 @@ const columns: ColumnProps<SystemOperateLog.ResSystemOperateLogItem>[] = [
 ];
 const getTableList = (params: any) => {
   let newParams = JSON.parse(JSON.stringify(params));
-  newParams.timestamp && (newParams.beginStartTime = newParams.timestamp[0]);
-  newParams.timestamp && (newParams.finishStartTime = newParams.timestamp[1]);
-  delete newParams.timestamp;
+  newParams.startTime && (newParams.beginStartTime = newParams.startTime[0]);
+  newParams.startTime && (newParams.finishStartTime = newParams.startTime[1]);
+  delete newParams.startTime;
   return getSystemOperateLogListApi(newParams);
 };
 
