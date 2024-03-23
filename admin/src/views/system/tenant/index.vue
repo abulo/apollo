@@ -11,7 +11,7 @@
       :search-col="12">
       <!-- 表格 header 按钮 -->
       <template #tableHeader>
-        <el-button type="primary" :icon="CirclePlus" @click="handleAdd">新增</el-button>
+        <el-button type="primary" :icon="CirclePlus" @click="handleAdd" v-auth="'tenant.SystemTenantCreate'">新增</el-button>
       </template>
       <!-- 状态-->
       <template #status="scope">
@@ -23,12 +23,28 @@
       </template>
       <!-- 菜单操作 -->
       <template #operation="scope">
-        <el-button type="primary" link :icon="EditPen" @click="handleUpdate(scope.row)"> 编辑 </el-button>
-        <el-button type="primary" link :icon="Connection" @click="handleLogin(scope.row)"> 登录 </el-button>
-        <el-button v-if="scope.row.deleted === 0" type="primary" link :icon="Delete" @click="handleDelete(scope.row)">
+        <el-button type="primary" link :icon="EditPen" @click="handleUpdate(scope.row)" v-auth="'tenant.SystemTenantUpdate'">
+          编辑
+        </el-button>
+        <el-button type="primary" link :icon="Connection" @click="handleLogin(scope.row)" v-auth="'tenant.SystemTenantLogin'">
+          登录
+        </el-button>
+        <el-button
+          v-if="scope.row.deleted === 0"
+          type="primary"
+          link
+          :icon="Delete"
+          @click="handleDelete(scope.row)"
+          v-auth="'tenant.SystemTenantDelete'">
           删除
         </el-button>
-        <el-button v-if="scope.row.deleted === 1" type="primary" link :icon="Refresh" @click="handleRecover(scope.row)">
+        <el-button
+          v-if="scope.row.deleted === 1"
+          type="primary"
+          link
+          :icon="Refresh"
+          @click="handleRecover(scope.row)"
+          v-auth="'tenant.SystemTenantRecover'">
           恢复
         </el-button>
       </template>
@@ -154,6 +170,7 @@ import { useUserStore } from "@/stores/modules/user";
 import { useTabsStore } from "@/stores/modules/tabs";
 import { useKeepAliveStore } from "@/stores/modules/keepAlive";
 import { initDynamicRouter } from "@/routers/modules/dynamicRouter";
+import { HasPermission } from "@/utils/permission";
 
 const router = useRouter();
 const userStore = useUserStore();
@@ -207,10 +224,14 @@ const statusEnum = getIntDictOptions("status");
 const deletedEnum = getIntDictOptions("delete");
 const tenantPackageEnum = ref<SystemTenantPackage.ResSystemTenantPackageItem[]>([]);
 // 表格配置项
-const deleteSearch = reactive<SearchProps>({
-  el: "switch",
-  span: 2
-});
+const deleteSearch = reactive<SearchProps>(
+  HasPermission("tenant.SystemTenantDelete")
+    ? {
+        el: "switch",
+        span: 2
+      }
+    : {}
+);
 const columns: ColumnProps<SystemTenant.ResSystemTenantItem>[] = [
   { prop: "id", label: "编号", width: 100 },
   { prop: "name", label: "租户名", search: { el: "input", span: 2 } },
@@ -247,7 +268,13 @@ const columns: ColumnProps<SystemTenant.ResSystemTenantItem>[] = [
     prop: "operation",
     label: "操作",
     width: 240,
-    fixed: "right"
+    fixed: "right",
+    isShow: HasPermission(
+      "tenant.SystemTenantLogin",
+      "tenant.SystemTenantRecover",
+      "tenant.SystemTenantDelete",
+      "tenant.SystemTenantUpdate"
+    )
   }
 ];
 

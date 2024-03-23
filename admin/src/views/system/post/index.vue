@@ -11,7 +11,7 @@
       :search-col="12">
       <!-- 表格 header 按钮 -->
       <template #tableHeader>
-        <el-button type="primary" :icon="CirclePlus" @click="handleAdd">新增</el-button>
+        <el-button type="primary" :icon="CirclePlus" @click="handleAdd" v-auth="'dept.SystemPostCreate'">新增</el-button>
       </template>
       <!-- 状态-->
       <template #status="scope">
@@ -23,11 +23,25 @@
       </template>
       <!-- 菜单操作 -->
       <template #operation="scope">
-        <el-button type="primary" link :icon="EditPen" @click="handleUpdate(scope.row)"> 编辑 </el-button>
-        <el-button v-if="scope.row.deleted === 0" type="primary" link :icon="Delete" @click="handleDelete(scope.row)">
+        <el-button type="primary" link :icon="EditPen" @click="handleUpdate(scope.row)" v-auth="'dept.SystemPostUpdate'">
+          编辑
+        </el-button>
+        <el-button
+          v-if="scope.row.deleted === 0"
+          type="primary"
+          link
+          :icon="Delete"
+          @click="handleDelete(scope.row)"
+          v-auth="'dept.SystemPostDelete'">
           删除
         </el-button>
-        <el-button v-if="scope.row.deleted === 1" type="primary" link :icon="Refresh" @click="handleRecover(scope.row)">
+        <el-button
+          v-if="scope.row.deleted === 1"
+          type="primary"
+          link
+          :icon="Refresh"
+          @click="handleRecover(scope.row)"
+          v-auth="'dept.SystemPostRecover'">
           恢复
         </el-button>
       </template>
@@ -85,6 +99,7 @@ import { FormInstance, FormRules } from "element-plus";
 import { getIntDictOptions } from "@/utils/dict";
 import { DictTag } from "@/components/DictTag";
 import { useHandleData, useHandleSet } from "@/hooks/useHandleData";
+import { HasPermission } from "@/utils/permission";
 //加载
 const loading = ref(false);
 //弹出层标题
@@ -114,10 +129,14 @@ const statusEnum = getIntDictOptions("status");
 //删除状态
 const deletedEnum = getIntDictOptions("delete");
 // 表格配置项
-const deleteSearch = reactive<SearchProps>({
-  el: "switch",
-  span: 2
-});
+const deleteSearch = reactive<SearchProps>(
+  HasPermission("dept.SystemPostDelete")
+    ? {
+        el: "switch",
+        span: 2
+      }
+    : {}
+);
 const columns: ColumnProps<SystemPost.ResSystemPostItem>[] = [
   { prop: "id", label: "编号", width: 100 },
   { prop: "name", label: "岗位名称", search: { el: "input", span: 2, props: { placeholder: "请输入名称" } } },
@@ -134,7 +153,8 @@ const columns: ColumnProps<SystemPost.ResSystemPostItem>[] = [
     prop: "operation",
     label: "操作",
     width: 150,
-    fixed: "right"
+    fixed: "right",
+    isShow: HasPermission("dept.SystemPostUpdate", "dept.SystemPostDelete", "dept.SystemPostRecover")
   }
 ];
 // 重置数据

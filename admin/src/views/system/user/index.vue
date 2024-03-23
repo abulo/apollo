@@ -14,26 +14,60 @@
         :search-col="12">
         <!-- 表格 header 按钮 -->
         <template #tableHeader>
-          <el-button type="primary" :icon="CirclePlus" @click="handleAdd">新增</el-button>
+          <el-button type="primary" :icon="CirclePlus" @click="handleAdd" v-auth="'user.SystemUserCreate'">新增</el-button>
         </template>
         <template #status="scope">
           <DictTag type="status" :value="scope.row.status" />
         </template>
+        <template #deleted="scope">
+          <DictTag type="delete" :value="scope.row.deleted" />
+        </template>
         <!-- 菜单操作 -->
         <template #operation="scope">
-          <el-button type="primary" link :icon="EditPen" @click="handleUpdate(scope.row)">编辑</el-button>
+          <el-button type="primary" link :icon="EditPen" @click="handleUpdate(scope.row)" v-auth="'user.SystemUserUpdate'">
+            编辑
+          </el-button>
           <el-dropdown trigger="click">
-            <el-button type="primary" link :icon="DArrowRight">更多</el-button>
+            <el-button
+              type="primary"
+              link
+              :icon="DArrowRight"
+              v-auth="[
+                'user.SystemUserRoleList',
+                'user.SystemUserDeptList',
+                'user.SystemUserPostList',
+                'user.SystemUserPassword',
+                'user.SystemUserDelete',
+                'user.SystemUserRecover'
+              ]"
+              >更多</el-button
+            >
             <template #dropdown>
               <el-dropdown-menu>
-                <el-dropdown-item :icon="CircleCheck" @click="handleRole(scope.row)"> 分配角色 </el-dropdown-item>
-                <el-dropdown-item :icon="CircleCheck" @click="handleDept(scope.row)"> 分配部门 </el-dropdown-item>
-                <el-dropdown-item :icon="CircleCheck" @click="handlePost(scope.row)"> 分配职位 </el-dropdown-item>
-                <el-dropdown-item :icon="Key" @click="handlePassword(scope.row)">重置密码</el-dropdown-item>
-                <el-dropdown-item :icon="Delete" v-if="scope.row.deleted === 0" @click="handleDelete(scope.row)">
+                <el-dropdown-item :icon="CircleCheck" @click="handleRole(scope.row)" v-auth="'user.SystemUserRoleList'">
+                  分配角色
+                </el-dropdown-item>
+                <el-dropdown-item :icon="CircleCheck" @click="handleDept(scope.row)" v-auth="'user.SystemUserDeptList'">
+                  分配部门
+                </el-dropdown-item>
+                <el-dropdown-item :icon="CircleCheck" @click="handlePost(scope.row)" v-auth="'user.SystemUserPostList'">
+                  分配职位
+                </el-dropdown-item>
+                <el-dropdown-item :icon="Key" @click="handlePassword(scope.row)" v-auth="'user.SystemUserPassword'">
+                  重置密码
+                </el-dropdown-item>
+                <el-dropdown-item
+                  :icon="Delete"
+                  v-if="scope.row.deleted === 0"
+                  @click="handleDelete(scope.row)"
+                  v-auth="'user.SystemUserDelete'">
                   删除
                 </el-dropdown-item>
-                <el-dropdown-item :icon="Refresh" v-if="scope.row.deleted === 1" @click="handleRecover(scope.row)">
+                <el-dropdown-item
+                  :icon="Refresh"
+                  v-if="scope.row.deleted === 1"
+                  @click="handleRecover(scope.row)"
+                  v-auth="'user.SystemUserRecover'">
                   恢复
                 </el-dropdown-item>
               </el-dropdown-menu>
@@ -196,7 +230,7 @@
 </template>
 <script setup lang="ts" name="systemUser">
 import { onMounted, ref, reactive } from "vue";
-import { ColumnProps, ProTableInstance } from "@/components/ProTable/interface";
+import { ColumnProps, ProTableInstance, SearchProps } from "@/components/ProTable/interface";
 import { DictTag } from "@/components/DictTag";
 import { EditPen, CirclePlus, Delete, DArrowRight, Refresh, CircleCheck, Key } from "@element-plus/icons-vue";
 import { FormInstance, FormRules, ElMessage, ElMessageBox } from "element-plus";
@@ -226,6 +260,7 @@ import { SystemUserPost } from "@/api/interface/systemUserPost";
 import { getSystemUserPostListApi, addSystemUserPostApi } from "@/api/modules/systemUserPost";
 import { SystemUserDept } from "@/api/interface/systemUserDept";
 import { getSystemUserDeptListApi, addSystemUserDeptApi } from "@/api/modules/systemUserDept";
+import { HasPermission } from "@/utils/permission";
 
 const initParam = reactive({ systemDeptId: "" });
 //加载
@@ -238,6 +273,7 @@ const proTable = ref<ProTableInstance>();
 const centerDialogVisible = ref(false);
 // 状态
 const statusEnum = getIntDictOptions("status");
+const deletedEnum = getIntDictOptions("delete");
 
 //数据接口
 const systemUserItemFrom = ref<SystemUser.ResSystemUserItem>({
@@ -261,13 +297,44 @@ const rulesSystemUserItemFrom = reactive<FormRules>({
   password: [{ required: true, message: "用户密码不能为空", trigger: "blur" }]
 });
 
+// 表格配置项
+const deleteSearch = reactive<SearchProps>(
+  HasPermission("user.SystemUserDelete")
+    ? {
+        el: "switch",
+        span: 2
+      }
+    : {}
+);
 // 定义列表
 const columns: ColumnProps<SystemUser.ResSystemUserItem>[] = [
   { prop: "id", label: "编号" },
   { prop: "username", label: "用户名", search: { el: "input", span: 2 } },
   { prop: "nickname", label: "用户昵称" },
   { prop: "status", label: "状态", tag: true, enum: statusEnum, search: { el: "select", span: 2 } },
-  { prop: "operation", label: "操作", width: 160, fixed: "right" }
+  {
+    prop: "deleted",
+    label: "删除",
+    tag: true,
+    enum: deletedEnum,
+    search: deleteSearch,
+    width: 100
+  },
+  {
+    prop: "operation",
+    label: "操作",
+    width: 160,
+    fixed: "right",
+    isShow: HasPermission(
+      "user.SystemUserRoleList",
+      "user.SystemUserDeptList",
+      "user.SystemUserPostList",
+      "user.SystemUserPassword",
+      "user.SystemUserDelete",
+      "user.SystemUserUpdate",
+      "user.SystemUserRecover"
+    )
+  }
 ];
 
 // 重置数据

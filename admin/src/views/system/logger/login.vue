@@ -11,13 +11,21 @@
       :search-col="12">
       <!-- 表格 header 按钮 -->
       <template #tableHeader="scope">
-        <el-button type="danger" :icon="Delete" plain :disabled="!scope.isSelected" @click="handleDelete(scope.selectedListIds)">
+        <el-button
+          type="danger"
+          :icon="Delete"
+          plain
+          :disabled="!scope.isSelected"
+          @click="handleDelete(scope.selectedListIds)"
+          v-auth="'logger.SystemLoginLogDelete'">
           删除
         </el-button>
-        <el-button type="danger" :icon="Delete" @click="handleDrop"> 清空 </el-button>
+        <el-button type="danger" :icon="Delete" @click="handleDrop" v-auth="'logger.SystemLoginLogDrop'"> 清空 </el-button>
       </template>
       <template #operation="scope">
-        <el-button type="primary" link :icon="View" @click="handleItem(scope.row)">查看</el-button>
+        <el-button type="primary" link :icon="View" @click="handleItem(scope.row)" v-auth="'logger.SystemLoginLog'">
+          查看
+        </el-button>
       </template>
     </ProTable>
     <el-dialog
@@ -67,6 +75,7 @@ import {
   getSystemLoginLogItemApi
 } from "@/api/modules/systemLoginLog";
 import { useHandleData } from "@/hooks/useHandleData";
+import { HasPermission } from "@/utils/permission";
 // 表格配置项
 const columns: ColumnProps<SystemLoginLog.ResSystemLoginLogItem>[] = [
   { type: "selection", fixed: "left", width: 70 },
@@ -88,7 +97,8 @@ const columns: ColumnProps<SystemLoginLog.ResSystemLoginLogItem>[] = [
     prop: "operation",
     label: "操作",
     width: 150,
-    fixed: "right"
+    fixed: "right",
+    isShow: HasPermission("logger.SystemLoginLog")
   }
 ];
 

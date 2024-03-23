@@ -14,7 +14,7 @@
       :search-col="12">
       <!-- 表格 header 按钮 -->
       <template #tableHeader>
-        <el-button type="primary" :icon="CirclePlus" @click="handleAdd()">新增</el-button>
+        <el-button type="primary" :icon="CirclePlus" @click="handleAdd()" v-auth="'menu.SystemMenuCreate'">新增</el-button>
         <el-button type="primary" :icon="Sort" @click="toggleExpandAll">展开/折叠</el-button>
       </template>
       <!-- 菜单图标 -->
@@ -37,16 +37,34 @@
       </template>
       <!-- 菜单操作 -->
       <template #operation="scope">
-        <el-button type="primary" link :icon="CirclePlus" @click="handleAdd(scope.row)"> 新增 </el-button>
+        <el-button type="primary" link :icon="CirclePlus" @click="handleAdd(scope.row)" v-auth="'menu.SystemMenuCreate'">
+          新增
+        </el-button>
         <el-dropdown trigger="click">
-          <el-button type="primary" link :icon="DArrowRight">更多</el-button>
+          <el-button
+            type="primary"
+            link
+            :icon="DArrowRight"
+            v-auth="['menu.SystemMenuUpdate', 'menu.SystemMenuDelete', 'menu.SystemMenuRecover']">
+            更多
+          </el-button>
           <template #dropdown>
             <el-dropdown-menu>
-              <el-dropdown-item :icon="EditPen" @click="handleUpdate(scope.row)"> 编辑 </el-dropdown-item>
-              <el-dropdown-item :icon="Delete" v-if="scope.row.deleted === 0" @click="handleDelete(scope.row)">
+              <el-dropdown-item :icon="EditPen" @click="handleUpdate(scope.row)" v-auth="'menu.SystemMenuUpdate'">
+                编辑
+              </el-dropdown-item>
+              <el-dropdown-item
+                :icon="Delete"
+                v-if="scope.row.deleted === 0"
+                @click="handleDelete(scope.row)"
+                v-auth="'menu.SystemMenuDelete'">
                 删除
               </el-dropdown-item>
-              <el-dropdown-item :icon="Refresh" v-if="scope.row.deleted === 1" @click="handleRecover(scope.row)">
+              <el-dropdown-item
+                :icon="Refresh"
+                v-if="scope.row.deleted === 1"
+                @click="handleRecover(scope.row)"
+                v-auth="'menu.SystemMenuRecover'">
                 恢复
               </el-dropdown-item>
             </el-dropdown-menu>
@@ -176,6 +194,7 @@ import SelectIcon from "@/components/SelectIcon/index.vue";
 import { getIntDictOptions } from "@/utils/dict";
 import { DictTag } from "@/components/DictTag";
 import { useHandleData, useHandleSet } from "@/hooks/useHandleData";
+import { HasPermission } from "@/utils/permission";
 
 //加载
 const loading = ref(false);
@@ -378,10 +397,14 @@ const submitForm = (formEl: FormInstance | undefined) => {
 };
 
 // 表格配置项
-const deleteSearch = reactive<SearchProps>({
-  el: "switch",
-  span: 2
-});
+const deleteSearch = reactive<SearchProps>(
+  HasPermission("menu.SystemMenuDelete")
+    ? {
+        el: "switch",
+        span: 2
+      }
+    : {}
+);
 
 const columns: ColumnProps<SystemMenu.ResSystemMenuList>[] = [
   { prop: "id", type: "", label: "编号", width: 100 },
@@ -406,7 +429,8 @@ const columns: ColumnProps<SystemMenu.ResSystemMenuList>[] = [
     prop: "operation",
     label: "操作",
     width: 160,
-    fixed: "right"
+    fixed: "right",
+    isShow: HasPermission("menu.SystemMenuUpdate", "menu.SystemMenuDelete", "menu.SystemMenuRecover", "menu.SystemMenuCreate")
   }
 ];
 </script>

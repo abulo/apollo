@@ -11,22 +11,50 @@
       :search-col="12">
       <!-- 表格 header 按钮 -->
       <template #tableHeader>
-        <el-button type="primary" :icon="CirclePlus" @click="handleAdd">新增</el-button>
+        <el-button type="primary" :icon="CirclePlus" @click="handleAdd" v-auth="'role.SystemRoleCreate'">新增</el-button>
       </template>
       <!-- 状态-->
       <template #status="scope">
         <DictTag type="status" :value="scope.row.status" />
       </template>
+      <!-- 删除状态 -->
+      <template #deleted="scope">
+        <DictTag type="delete" :value="scope.row.deleted" />
+      </template>
       <template #operation="scope">
-        <el-button type="primary" link :icon="EditPen" @click="handleUpdate(scope.row)"> 编辑 </el-button>
+        <el-button type="primary" link :icon="EditPen" @click="handleUpdate(scope.row)" v-auth="'role.SystemRoleUpdate'">
+          编辑
+        </el-button>
         <el-dropdown trigger="click">
-          <el-button type="primary" link :icon="DArrowRight">更多</el-button>
+          <el-button
+            type="primary"
+            link
+            :icon="DArrowRight"
+            v-auth="['role.SystemRoleMenuList', 'role.SystemRoleDataScope', 'role.SystemRoleRecover', 'role.SystemRoleDelete']">
+            更多
+          </el-button>
           <template #dropdown>
             <el-dropdown-menu>
-              <el-dropdown-item :icon="Menu" @click="handleMenu(scope.row)"> 菜单权限 </el-dropdown-item>
-              <el-dropdown-item :icon="DataBoard" @click="handleScope(scope.row)"> 数据权限 </el-dropdown-item>
-              <el-dropdown-item :icon="Delete" @click="handleDelete(scope.row)"> 删除 </el-dropdown-item>
-              <el-dropdown-item :icon="Refresh" @click="handleDelete(scope.row)"> 恢复 </el-dropdown-item>
+              <el-dropdown-item :icon="Menu" @click="handleMenu(scope.row)" v-auth="'role.SystemRoleMenuList'">
+                菜单权限
+              </el-dropdown-item>
+              <el-dropdown-item :icon="DataBoard" @click="handleScope(scope.row)" v-auth="'role.SystemRoleDataScope'">
+                数据权限
+              </el-dropdown-item>
+              <el-dropdown-item
+                :icon="Delete"
+                v-if="scope.row.deleted === 0"
+                @click="handleDelete(scope.row)"
+                v-auth="'role.SystemRoleDelete'">
+                删除
+              </el-dropdown-item>
+              <el-dropdown-item
+                :icon="Refresh"
+                v-if="scope.row.deleted === 1"
+                @click="handleDelete(scope.row)"
+                v-auth="'role.SystemRoleRecover'">
+                恢复
+              </el-dropdown-item>
             </el-dropdown-menu>
           </template>
         </el-dropdown>
@@ -181,7 +209,7 @@
 <script setup lang="ts" name="systemRole">
 import { ref, reactive } from "vue";
 import { useTimeoutFn } from "@vueuse/core";
-import { ProTableInstance, ColumnProps } from "@/components/ProTable/interface";
+import { ProTableInstance, ColumnProps, SearchProps } from "@/components/ProTable/interface";
 import { EditPen, CirclePlus, Delete, DataBoard, DArrowRight, Menu, Refresh } from "@element-plus/icons-vue";
 import ProTable from "@/components/ProTable/index.vue";
 import { DictTag } from "@/components/DictTag";
@@ -205,6 +233,7 @@ import { SystemDept } from "@/api/interface/systemDept";
 import { getSystemDeptSearchApi } from "@/api/modules/systemDept";
 import { getIntDictOptions } from "@/utils/dict";
 import { useHandleData, useHandleSet } from "@/hooks/useHandleData";
+import { HasPermission } from "@/utils/permission";
 //加载
 const loading = ref(false);
 //table数据
@@ -284,7 +313,18 @@ const rulesSystemRoleScopeItemFrom = reactive<FormRules>({
 const statusEnum = getIntDictOptions("status");
 // 数据权限
 const dataScopeEnum = getIntDictOptions("role.scope");
+// 删除状态
+const deletedEnum = getIntDictOptions("delete");
 
+// 表格配置项
+const deleteSearch = reactive<SearchProps>(
+  HasPermission("role.SystemRoleDelete")
+    ? {
+        el: "switch",
+        span: 2
+      }
+    : {}
+);
 const columns: ColumnProps<SystemRole.ResSystemRoleItem>[] = [
   { prop: "id", label: "编号", width: 100 },
   { prop: "name", label: "角色名称" },
@@ -292,7 +332,27 @@ const columns: ColumnProps<SystemRole.ResSystemRoleItem>[] = [
   { prop: "sort", label: "角色顺序" },
   { prop: "remark", label: "角色备注" },
   { prop: "status", label: "状态", tag: true, enum: statusEnum, search: { el: "select", span: 2 }, width: 100 },
-  { prop: "operation", label: "操作", width: 160, fixed: "right" }
+  {
+    prop: "deleted",
+    label: "删除",
+    tag: true,
+    enum: deletedEnum,
+    search: deleteSearch,
+    width: 100
+  },
+  {
+    prop: "operation",
+    label: "操作",
+    width: 160,
+    fixed: "right",
+    isShow: HasPermission(
+      "role.SystemRoleMenuList",
+      "role.SystemRoleDataScope",
+      "role.SystemRoleRecover",
+      "role.SystemRoleDelete",
+      "role.SystemRoleUpdate"
+    )
+  }
 ];
 // 重置数据
 const reset = () => {

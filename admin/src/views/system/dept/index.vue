@@ -14,7 +14,7 @@
       :search-col="12">
       <!-- 表格 header 按钮 -->
       <template #tableHeader>
-        <el-button type="primary" :icon="CirclePlus" @click="handleAdd()">新增</el-button>
+        <el-button type="primary" :icon="CirclePlus" @click="handleAdd()" v-auth="'dept.SystemDeptCreate'">新增</el-button>
         <el-button type="primary" :icon="Sort" @click="toggleExpandAll">展开/折叠</el-button>
       </template>
       <!-- 状态-->
@@ -26,16 +26,34 @@
         <DictTag type="delete" :value="scope.row.deleted" />
       </template>
       <template #operation="scope">
-        <el-button type="primary" link :icon="CirclePlus" @click="handleAdd(scope.row)"> 新增 </el-button>
+        <el-button type="primary" link :icon="CirclePlus" @click="handleAdd(scope.row)" v-auth="'dept.SystemDeptCreate'">
+          新增
+        </el-button>
         <el-dropdown trigger="click">
-          <el-button type="primary" link :icon="DArrowRight">更多</el-button>
+          <el-button
+            type="primary"
+            link
+            :icon="DArrowRight"
+            v-auth="['dept.SystemDeptUpdate', 'dept.SystemDeptDelete', 'dept.SystemDeptRecover']"
+            >更多</el-button
+          >
           <template #dropdown>
             <el-dropdown-menu>
-              <el-dropdown-item :icon="EditPen" @click="handleUpdate(scope.row)"> 编辑 </el-dropdown-item>
-              <el-dropdown-item :icon="Delete" v-if="scope.row.deleted === 0" @click="handleDelete(scope.row)">
+              <el-dropdown-item :icon="EditPen" @click="handleUpdate(scope.row)" v-auth="'dept.SystemDeptUpdate'">
+                编辑
+              </el-dropdown-item>
+              <el-dropdown-item
+                :icon="Delete"
+                v-if="scope.row.deleted === 0"
+                @click="handleDelete(scope.row)"
+                v-auth="'dept.SystemDeptDelete'">
                 删除
               </el-dropdown-item>
-              <el-dropdown-item :icon="Refresh" v-if="scope.row.deleted === 1" @click="handleRecover(scope.row)">
+              <el-dropdown-item
+                :icon="Refresh"
+                v-if="scope.row.deleted === 1"
+                @click="handleRecover(scope.row)"
+                v-auth="'dept.SystemDeptRecover'">
                 恢复
               </el-dropdown-item>
             </el-dropdown-menu>
@@ -142,6 +160,7 @@ import { FormInstance, FormRules } from "element-plus";
 import { getIntDictOptions } from "@/utils/dict";
 import { DictTag } from "@/components/DictTag";
 import { useHandleData, useHandleSet } from "@/hooks/useHandleData";
+import { HasPermission } from "@/utils/permission";
 
 //菜单状态
 const statusEnum = getIntDictOptions("status");
@@ -292,19 +311,15 @@ const submitForm = (formEl: FormInstance | undefined) => {
   });
 };
 // 表格配置项
-// const deleteSearch = reactive<SearchProps>(
-//   HasPermission("dept.SystemDeptDelete")
-//     ? {
-//         el: "switch",
-//         span: 2
-//       }
-//     : {}
-// );
+const deleteSearch = reactive<SearchProps>(
+  HasPermission("dept.SystemDeptDelete")
+    ? {
+        el: "switch",
+        span: 2
+      }
+    : {}
+);
 // 表格配置项
-const deleteSearch = reactive<SearchProps>({
-  el: "switch",
-  span: 2
-});
 const columns: ColumnProps<SystemDept.ResSystemDeptList>[] = [
   { prop: "id", type: "", label: "编号", width: 100 },
   { prop: "name", label: "部门名称", align: "left" },
@@ -321,7 +336,8 @@ const columns: ColumnProps<SystemDept.ResSystemDeptList>[] = [
     prop: "operation",
     label: "操作",
     width: 160,
-    fixed: "right"
+    fixed: "right",
+    isShow: HasPermission("dept.SystemDeptUpdate", "dept.SystemDeptDelete", "dept.SystemDeptRecover", "dept.SystemDeptCreate")
   }
 ];
 

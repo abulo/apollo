@@ -11,7 +11,7 @@
       :search-col="12">
       <!-- 表格 header 按钮 -->
       <template #tableHeader>
-        <el-button type="primary" :icon="CirclePlus" @click="handleAdd">新增</el-button>
+        <el-button type="primary" :icon="CirclePlus" @click="handleAdd" v-auth="'dict.SystemDictCreate'">新增</el-button>
         <el-button type="primary" :icon="Remove" @click="closeCurrentTab">关闭</el-button>
       </template>
       <!-- 状态-->
@@ -20,8 +20,12 @@
       </template>
       <!-- 菜单操作 -->
       <template #operation="scope">
-        <el-button type="primary" link :icon="EditPen" @click="handleUpdate(scope.row)"> 编辑 </el-button>
-        <el-button type="primary" link :icon="Delete" @click="handleDelete(scope.row)"> 删除 </el-button>
+        <el-button type="primary" link :icon="EditPen" @click="handleUpdate(scope.row)" v-auth="'dict.SystemDictUpdate'">
+          编辑
+        </el-button>
+        <el-button type="primary" link :icon="Delete" @click="handleDelete(scope.row)" v-auth="'dict.SystemDictDelete'">
+          删除
+        </el-button>
       </template>
     </ProTable>
     <el-dialog
@@ -98,6 +102,7 @@ import { getAllSystemDictTypeApi } from "@/api/modules/systemDictType";
 import { getIntDictOptions } from "@/utils/dict";
 import { DictTag } from "@/components/DictTag";
 import { useHandleData, useHandleSet } from "@/hooks/useHandleData";
+import { HasPermission } from "@/utils/permission";
 const route = useRoute();
 const tabStore = useTabsStore();
 const keepAliveStore = useKeepAliveStore();
@@ -193,7 +198,13 @@ const columns: ColumnProps<SystemDict.ResSystemDictItem>[] = [
   { prop: "sort", label: "字典排序" },
   { prop: "remark", label: "备注" },
   { prop: "status", label: "状态", tag: true, enum: statusEnum, search: { el: "select", span: 2 }, width: 100 },
-  { prop: "operation", label: "操作", width: 160, fixed: "right" }
+  {
+    prop: "operation",
+    label: "操作",
+    width: 160,
+    fixed: "right",
+    isShow: HasPermission("dict.SystemDictDelete", "dict.SystemDictUpdate")
+  }
 ];
 
 // 重置数据

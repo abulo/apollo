@@ -11,7 +11,7 @@
       :search-col="12">
       <!-- 表格 header 按钮 -->
       <template #tableHeader>
-        <el-button type="primary" :icon="CirclePlus" @click="handleAdd">新增</el-button>
+        <el-button type="primary" :icon="CirclePlus" @click="handleAdd" v-auth="'dict.SystemDictTypeCreate'">新增</el-button>
       </template>
       <!-- 状态-->
       <template #status="scope">
@@ -19,13 +19,21 @@
       </template>
       <!-- 菜单操作 -->
       <template #operation="scope">
-        <el-button type="primary" link :icon="EditPen" @click="handleUpdate(scope.row)"> 编辑 </el-button>
+        <el-button type="primary" link :icon="EditPen" @click="handleUpdate(scope.row)" v-auth="'dict.SystemDictTypeUpdate'">
+          编辑
+        </el-button>
         <el-dropdown trigger="click">
-          <el-button type="primary" link :icon="DArrowRight">更多</el-button>
+          <el-button type="primary" link :icon="DArrowRight" v-auth="['dict.SystemDictTypeDelete', 'dict.SystemDictList']"
+            >更多</el-button
+          >
           <template #dropdown>
             <el-dropdown-menu>
-              <el-dropdown-item :icon="DataBoard" @click="toRouteLabel(scope.row)"> 数据 </el-dropdown-item>
-              <el-dropdown-item :icon="Delete" @click="handleDelete(scope.row)"> 删除 </el-dropdown-item>
+              <el-dropdown-item :icon="DataBoard" @click="toRouteLabel(scope.row)" v-auth="'dict.SystemDictList'">
+                数据
+              </el-dropdown-item>
+              <el-dropdown-item :icon="Delete" @click="handleDelete(scope.row)" v-auth="'dict.SystemDictTypeDelete'">
+                删除
+              </el-dropdown-item>
             </el-dropdown-menu>
           </template>
         </el-dropdown>
@@ -91,6 +99,7 @@ import { FormInstance, FormRules } from "element-plus";
 import { getIntDictOptions } from "@/utils/dict";
 import { DictTag } from "@/components/DictTag";
 import { useHandleData, useHandleSet } from "@/hooks/useHandleData";
+import { HasPermission } from "@/utils/permission";
 const router = useRouter();
 //加载
 const loading = ref(false);
@@ -134,7 +143,8 @@ const columns: ColumnProps<SystemDictType.ResSystemDictTypeItem>[] = [
     prop: "operation",
     label: "操作",
     width: 160,
-    fixed: "right"
+    fixed: "right",
+    isShow: HasPermission("dict.SystemDictTypeDelete", "dict.SystemDictList", "dict.SystemDictTypeUpdate")
   }
 ];
 

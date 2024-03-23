@@ -11,13 +11,21 @@
       :search-col="12">
       <!-- 表格 header 按钮 -->
       <template #tableHeader="scope">
-        <el-button type="danger" :icon="Delete" plain :disabled="!scope.isSelected" @click="handleDelete(scope.selectedListIds)">
+        <el-button
+          type="danger"
+          :icon="Delete"
+          plain
+          :disabled="!scope.isSelected"
+          @click="handleDelete(scope.selectedListIds)"
+          v-auth="'logger.SystemEntryLogDelete'">
           删除
         </el-button>
-        <el-button type="danger" :icon="Delete" @click="handleDrop"> 清空 </el-button>
+        <el-button type="danger" :icon="Delete" @click="handleDrop" v-auth="'logger.SystemEntryLogDrop'"> 清空 </el-button>
       </template>
       <template #operation="scope">
-        <el-button type="primary" link :icon="View" @click="handleItem(scope.row)">查看</el-button>
+        <el-button type="primary" link :icon="View" @click="handleItem(scope.row)" v-auth="'logger.SystemEntryLog'">
+          查看
+        </el-button>
       </template>
     </ProTable>
     <el-dialog
@@ -70,6 +78,7 @@ import {
   getSystemEntryLogItemApi
 } from "@/api/modules/systemEntryLog";
 import { useHandleData } from "@/hooks/useHandleData";
+import { HasPermission } from "@/utils/permission";
 //table数据
 const proTable = ref<ProTableInstance>();
 
@@ -93,7 +102,8 @@ const columns: ColumnProps<SystemEntryLog.ResSystemEntryLogItem>[] = [
     prop: "operation",
     label: "操作",
     width: 150,
-    fixed: "right"
+    fixed: "right",
+    isShow: HasPermission("logger.SystemEntryLog")
   }
 ];
 const getTableList = (params: any) => {
