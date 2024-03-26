@@ -408,12 +408,12 @@ const deleteSearch = reactive<SearchProps>(
 
 const columns: ColumnProps<SystemMenu.ResSystemMenuList>[] = [
   { prop: "id", type: "", label: "编号", width: 100 },
-  { prop: "name", label: "名称", align: "left" },
-  { prop: "type", label: "类别", tag: true, enum: typeEnum, width: 100 },
-  { prop: "icon", label: "图标", width: 100 },
+  { prop: "name", label: "菜单名称", align: "left" },
+  { prop: "type", label: "菜单类别", tag: true, enum: typeEnum, width: 100 },
+  { prop: "icon", label: "菜单图标", width: 100 },
   { prop: "sort", label: "排序", width: 100 },
-  { prop: "path", label: "路径" },
-  { prop: "permission", label: "权限" },
+  { prop: "path", label: "路由地址" },
+  { prop: "permission", label: "权限标识" },
   { prop: "component", label: "组件路径" },
   { prop: "componentName", label: "组件别名" },
   { prop: "status", label: "状态", tag: true, enum: statusEnum, search: { el: "select", span: 2 } },
