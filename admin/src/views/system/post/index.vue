@@ -11,7 +11,7 @@
       :search-col="12">
       <!-- 表格 header 按钮 -->
       <template #tableHeader>
-        <el-button type="primary" :icon="CirclePlus" @click="handleAdd" v-auth="'dept.SystemPostCreate'">新增</el-button>
+        <el-button type="primary" :icon="CirclePlus" @click="handleAdd" v-auth="'post.SystemPostCreate'">新增</el-button>
       </template>
       <!-- 状态-->
       <template #status="scope">
@@ -23,7 +23,7 @@
       </template>
       <!-- 菜单操作 -->
       <template #operation="scope">
-        <el-button type="primary" link :icon="EditPen" @click="handleUpdate(scope.row)" v-auth="'dept.SystemPostUpdate'">
+        <el-button type="primary" link :icon="EditPen" @click="handleUpdate(scope.row)" v-auth="'post.SystemPostUpdate'">
           编辑
         </el-button>
         <el-button
@@ -32,7 +32,7 @@
           link
           :icon="Delete"
           @click="handleDelete(scope.row)"
-          v-auth="'dept.SystemPostDelete'">
+          v-auth="'post.SystemPostDelete'">
           删除
         </el-button>
         <el-button
@@ -41,7 +41,7 @@
           link
           :icon="Refresh"
           @click="handleRecover(scope.row)"
-          v-auth="'dept.SystemPostRecover'">
+          v-auth="'post.SystemPostRecover'">
           恢复
         </el-button>
       </template>
@@ -130,7 +130,7 @@ const statusEnum = getIntDictOptions("status");
 const deletedEnum = getIntDictOptions("delete");
 // 表格配置项
 const deleteSearch = reactive<SearchProps>(
-  HasPermission("dept.SystemPostDelete")
+  HasPermission("post.SystemPostDelete")
     ? {
         el: "switch",
         span: 2
@@ -154,7 +154,7 @@ const columns: ColumnProps<SystemPost.ResSystemPostItem>[] = [
     label: "操作",
     width: 150,
     fixed: "right",
-    isShow: HasPermission("dept.SystemPostUpdate", "dept.SystemPostDelete", "dept.SystemPostRecover")
+    isShow: HasPermission("post.SystemPostUpdate", "post.SystemPostDelete", "post.SystemPostRecover")
   }
 ];
 // 重置数据

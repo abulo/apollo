@@ -7,6 +7,10 @@
     overflow: auto;
   }
 }
+.el-dialog .el-dialog__header{
+  // border-bottom: unset;
+  margin-bottom: 18px;
+}
 .el-dropdown {
   margin-left: 12px;
   vertical-align: sub;
