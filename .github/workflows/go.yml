@@ -17,12 +17,12 @@ jobs:
     runs-on: ubuntu-20.04   # 使用ubuntu系统镜像运行脚本
     # steps定义job的步骤，具体执行，运行xxx，-字符开头的一块则为一个步骤，可以配置多个步骤
     steps:
-      - uses: actions/checkout@v4   # 下载git仓库中的代码，使用官方提供，使用库用uses关键字
+      - uses: actions/checkout@v4     # 下载git仓库中的代码，使用官方提供，使用库用uses关键字
         with:
           clean: false
 
-      - name: SetUp Go              # 下载go代码
-        uses: actions/setup-go@v5   # 使用官方提供
+      - name: SetUp Go                # 下载go代码
+        uses: actions/setup-go@v5     # 使用官方提供
         with:
           go-version: 1.22.1          # 指定go版本1.22.1
           check-latest: true
@@ -31,28 +31,28 @@ jobs:
         run: |
             sudo apt-get -y install libvips-dev
 
-      - name: Build Go              # 编译仓库中的代码
+      - name: Build Go                # 编译仓库中的代码
         run: |
           cd cloud
           ./build.sh
 
-      - name: Install Node.js       # 下载指定的 Node 版本
+      - name: Install Node.js         # 下载指定的 Node 版本
         uses: actions/setup-node@v4
         with:
           node-version: 16
 
-      - name: Install pnpm          # 下载 pnpm 包
+      - name: Install pnpm            # 下载 pnpm 包
         uses: pnpm/action-setup@v3
         with:
           version: 8
 
-      - name: Build Vue         # 编译前端代码
+      - name: Build Vue               # 编译前端代码
         run: |
           cd admin
           pnpm i
           pnpm build:pro
 
-      - name: Generate Build Artifacts
+      - name: Generate Build Artifacts  # 打包编译文件
         uses: actions/upload-artifact@v4
         with:
           name: compiled
@@ -64,7 +64,6 @@ jobs:
   stop:
     runs-on: ubuntu-20.04
     steps:
-      # - uses: actions/checkout@v4
       - name: SSH Remote Commands
         uses: appleboy/ssh-action@v1.0.3
         with:
@@ -92,7 +91,7 @@ jobs:
           name: compiled
           path: ./
 
-      - name: FTP Deployer
+      - name: Ftp Vue
         uses: sand4rt/ftp-deployer@v1.8
         with:
           sftp: false # optional
@@ -109,7 +108,7 @@ jobs:
     needs:
       - stop
 
-  go:
+  golang:
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v4   # 下载git仓库中的代码，使用官方提供，使用库用uses关键字
@@ -122,7 +121,7 @@ jobs:
           name: compiled
           path: ./
 
-      - name: FTP Deployer
+      - name: FTP bin
         uses: sand4rt/ftp-deployer@v1.8
         with:
           sftp: false # optional
@@ -136,23 +135,8 @@ jobs:
           # include: '[]' # optional, e.g. '['dist']'
           # exclude: '[]' # optional, e.g. '['node_modules/**', '.git/**', '*.env']'
           passive: true # optional
-    needs:
-     - stop
 
-  config:
-    runs-on: ubuntu-20.04
-    steps:
-      - uses: actions/checkout@v4   # 下载git仓库中的代码，使用官方提供，使用库用uses关键字
-        with:
-          clean: false
-
-      - name: Download Build Artifacts
-        uses: actions/download-artifact@v4
-        with:
-          name: compiled
-          path: ./
-
-      - name: FTP Deployer
+      - name: FTP config
         uses: sand4rt/ftp-deployer@v1.8
         with:
           sftp: false # optional
@@ -167,12 +151,11 @@ jobs:
           # exclude: '[]' # optional, e.g. '['node_modules/**', '.git/**', '*.env']'
           passive: true # optional
     needs:
-      - stop
+     - stop
 
   start:
     runs-on: ubuntu-20.04
     steps:
-      # - uses: actions/checkout@v4
       - name: SSH Remote Commands
         uses: appleboy/ssh-action@v1.0.3
         with:
@@ -185,6 +168,5 @@ jobs:
             supervisorctl start ApolloGrpc
             supervisorctl start ApolloHertz
     needs:
-      - config
-      - go
+      - golang
       - vue
