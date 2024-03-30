@@ -14,11 +14,9 @@ jobs:
     runs-on: ubuntu-20.04   # 使用ubuntu系统镜像运行脚本
     # steps定义job的步骤，具体执行，运行xxx，-字符开头的一块则为一个步骤，可以配置多个步骤
     steps:
-      - name: Clone
-        uses: actions/checkout@v4   # 下载git仓库中的代码，使用官方提供，使用库用uses关键字
+      - uses: actions/checkout@v4   # 下载git仓库中的代码，使用官方提供，使用库用uses关键字
         with:
           clean: false
-          set-safe-directory: /home/www/golang/src
 
       - name: SetUp Go              # 下载go代码
         uses: actions/setup-go@v5   # 使用官方提供
@@ -30,7 +28,7 @@ jobs:
         run: |
             sudo apt-get -y install libvips-dev
 
-      - name: Build Go              # 步骤3：编译仓库中的代码
+      - name: Build Go              # 编译仓库中的代码
         run: |
           cd cloud;
           ./build.sh;
@@ -45,7 +43,7 @@ jobs:
         with:
           version: 8
 
-      - name: Build Node.js         # 编译前端代码
+      - name: Build Vue         # 编译前端代码
         run: |
           cd admin;
           pnpm i;
@@ -54,5 +52,100 @@ jobs:
       - name: Check File            # 检查编译代码
         run: |
           pwd;
+          ls;
           ls cloud/bin;
           ls admin/dist;
+
+  stop:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: SSH Remote Commands
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          password: ${{ secrets.PASSWORD }}
+          port: ${{ secrets.PORT }}
+          script: |
+            supervisorctl stop ApolloHertz;
+            supervisorctl stop ApolloGrpc;
+            supervisorctl status;
+    needs: build # 等到 build 执行完成之后在停止服务
+
+  vue:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: FTP Deployer
+        uses: sand4rt/ftp-deployer@v1.8
+        with:
+          sftp: false # optional
+          host: ${{ secrets.HOST }} # e.g. ftp.host.com or sftp.host.com (without ftp:// or ftps://)
+          port: 21 # optional, default is: 21
+          username: ${{ secrets.FTP_USERNAME }} # FTP username
+          password: ${{ secrets.FTP_PASSWORD }} # FTP password
+          remote_folder: apollo/admin # optional, remote path of your FTP server
+          local_folder: admin/dist # optional, local path, default is: dist
+          cleanup: false # optional, remove existing files inside FTP remote folder
+          # include: '[]' # optional, e.g. '['dist']'
+          # exclude: '[]' # optional, e.g. '['node_modules/**', '.git/**', '*.env']'
+          passive: true # optional
+    needs: stop
+
+  go:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: FTP Deployer
+        uses: sand4rt/ftp-deployer@v1.8
+        with:
+          sftp: false # optional
+          host: ${{ secrets.HOST }} # e.g. ftp.host.com or sftp.host.com (without ftp:// or ftps://)
+          port: 21 # optional, default is: 21
+          username: ${{ secrets.FTP_USERNAME }} # FTP username
+          password: ${{ secrets.FTP_PASSWORD }} # FTP password
+          remote_folder: apollo/cloud/bin # optional, remote path of your FTP server
+          local_folder: cloud/bin # optional, local path, default is: dist
+          cleanup: false # optional, remove existing files inside FTP remote folder
+          # include: '[]' # optional, e.g. '['dist']'
+          # exclude: '[]' # optional, e.g. '['node_modules/**', '.git/**', '*.env']'
+          passive: true # optional
+    needs: stop
+
+  config:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: FTP Deployer
+        uses: sand4rt/ftp-deployer@v1.8
+        with:
+          sftp: false # optional
+          host: ${{ secrets.HOST }} # e.g. ftp.host.com or sftp.host.com (without ftp:// or ftps://)
+          port: 21 # optional, default is: 21
+          username: ${{ secrets.FTP_USERNAME }} # FTP username
+          password: ${{ secrets.FTP_PASSWORD }} # FTP password
+          remote_folder: apollo/cloud/config/pro # optional, remote path of your FTP server
+          local_folder: cloud/config/pro # optional, local path, default is: dist
+          cleanup: false # optional, remove existing files inside FTP remote folder
+          # include: '[]' # optional, e.g. '['dist']'
+          # exclude: '[]' # optional, e.g. '['node_modules/**', '.git/**', '*.env']'
+          passive: true # optional
+    needs: go
+
+  start:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: SSH Remote Commands
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          password: ${{ secrets.PASSWORD }}
+          port: ${{ secrets.PORT }}
+          script: |
+            supervisorctl start ApolloGrpc;
+            supervisorctl start ApolloHertz;
+            supervisorctl status;
+    needs: config
