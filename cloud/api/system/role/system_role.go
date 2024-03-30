@@ -261,11 +261,12 @@ func SystemRoleList(ctx context.Context, newCtx *app.RequestContext) {
 	// 构造查询条件
 	request := &role.SystemRoleListRequest{}
 
-	if val, ok := newCtx.GetQuery("systemTenantId"); ok {
-		request.SystemTenantId = proto.Int64(cast.ToInt64(val)) // 租户
-	}
+	request.SystemTenantId = proto.Int64(newCtx.GetInt64("systemTenantId")) // 租户ID
+	request.Deleted = proto.Int32(0)                                        // 删除状态
 	if val, ok := newCtx.GetQuery("deleted"); ok {
-		request.Deleted = proto.Int32(cast.ToInt32(val)) // 删除
+		if cast.ToBool(val) {
+			request.Deleted = nil
+		}
 	}
 	if val, ok := newCtx.GetQuery("type"); ok {
 		request.Type = proto.Int32(cast.ToInt32(val)) // 角色类型(1内置/2定义)

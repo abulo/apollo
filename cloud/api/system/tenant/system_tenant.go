@@ -279,10 +279,6 @@ func SystemTenantList(ctx context.Context, newCtx *app.RequestContext) {
 		request.SystemTenantPackageId = proto.Int64(cast.ToInt64(val))      // 套餐编号
 		requestTotal.SystemTenantPackageId = proto.Int64(cast.ToInt64(val)) // 套餐编号
 	}
-	if val, ok := newCtx.GetQuery("deleted"); ok {
-		request.Deleted = proto.Int32(cast.ToInt32(val))      // 是否删除(0否 1是)
-		requestTotal.Deleted = proto.Int32(cast.ToInt32(val)) // 是否删除(0否 1是)
-	}
 	if val, ok := newCtx.GetQuery("status"); ok {
 		request.Status = proto.Int32(cast.ToInt32(val))      // 状态（0正常 1停用）
 		requestTotal.Status = proto.Int32(cast.ToInt32(val)) // 状态（0正常 1停用）
