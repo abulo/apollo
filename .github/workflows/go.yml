@@ -22,7 +22,7 @@ jobs:
         - ./apollo:/home/www/golang/src/apollo
         - ./run.sh:/home/www/golang/src/run.sh
       options: --cpus 1
-    # steps:
+    steps:
       # - name: 
       # - name: Check for dockerenv file
         # run: (ls /.dockerenv && echo Found dockerenv) || (echo No dockerenv)
@@ -36,5 +36,5 @@ jobs:
     # - name: Build
     #   run: go build -v ./...
 
-    # - name: Test
-    #   run: go test -v ./...
+    - name: Test
+      run: go test -v ./...
