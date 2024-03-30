@@ -9,6 +9,9 @@ on:
   pull_request:
     branches: [ "tenant" ]
 
+env:
+  TZ: Asia/Shanghai
+
 jobs:
   build: # 声明job的名字
     runs-on: ubuntu-20.04   # 使用ubuntu系统镜像运行脚本
