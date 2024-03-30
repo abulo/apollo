@@ -49,15 +49,8 @@ jobs:
           pnpm i;
           pnpm build:pro;
 
-      - name: Check File            # 检查编译代码
-        run: |
-          pwd;
-          ls;
-          ls cloud/bin;
-          ls admin/dist;
-
   stop:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     steps:
       # - uses: actions/checkout@v4
       - name: SSH Remote Commands
@@ -74,9 +67,9 @@ jobs:
     needs: build # 等到 build 执行完成之后在停止服务
 
   vue:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     steps:
-      # - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
       - name: FTP Deployer
         uses: sand4rt/ftp-deployer@v1.8
         with:
@@ -94,9 +87,9 @@ jobs:
     needs: stop
 
   go:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     steps:
-      # - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
       - name: FTP Deployer
         uses: sand4rt/ftp-deployer@v1.8
         with:
@@ -114,9 +107,9 @@ jobs:
     needs: stop
 
   config:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     steps:
-      # - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
       - name: FTP Deployer
         uses: sand4rt/ftp-deployer@v1.8
         with:
@@ -131,10 +124,10 @@ jobs:
           # include: '[]' # optional, e.g. '['dist']'
           # exclude: '[]' # optional, e.g. '['node_modules/**', '.git/**', '*.env']'
           passive: true # optional
-    needs: go
+    needs: stop
 
   start:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     steps:
       # - uses: actions/checkout@v4
       - name: SSH Remote Commands
@@ -149,4 +142,7 @@ jobs:
             supervisorctl start ApolloGrpc;
             supervisorctl start ApolloHertz;
             supervisorctl status;
-    needs: config
+    needs:
+      - config
+      - go
+      - vue
