@@ -14,41 +14,18 @@ jobs:
     runs-on: ubuntu-20.04   # 使用ubuntu系统镜像运行脚本
     # steps定义job的步骤，具体执行，运行xxx，-字符开头的一块则为一个步骤，可以配置多个步骤
     steps:
-      - name: Clone
-        uses: actions/checkout@v4   # 下载git仓库中的代码，使用官方提供，使用库用uses关键字
+      - uses: actions/checkout@v4   # 步骤1：下载git仓库中的代码，使用官方提供，使用库用uses关键字
         with:
           clean: false
 
-      - name: SetUp Go              # 下载go代码
+      - name: SetUp Go              # 步骤2：下载go代码
         uses: actions/setup-go@v5   # 使用官方提供
         with:
-          go-version: 1.22.1          # 指定go版本1.22.1
-          check-latest: true
+          go-version: 1.22.1          # 指定go版本1.22
 
-      - name: Install linux deps    # 安装扩展
+      - name: Install linux deps
         run: |
             sudo apt-get -y install libvips-dev
 
-      - name: Build Go              # 编译仓库中的代码
+      - name: Build Go              # 步骤3：编译仓库中的代码
         run: cloud/build.sh
-
-      - name: Install Node.js       # 下载指定的 Node 版本
-        uses: actions/setup-node@v4
-        with:
-          node-version: 16
-
-      - name: Install pnpm          # 下载 pnpm 包
-        uses: pnpm/action-setup@v3
-        with:
-          version: 8
-
-      - name: Build Node.js         # 编译前端代码
-        run: |
-          cd admin
-          pnpm i
-          pnpm build:pro
-      
-      - name: Check File            # 检查编译代码
-        run: |
-          ls cloud/bin;
-          ls admin/dist;
