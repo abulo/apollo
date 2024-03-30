@@ -1,0 +1,4 @@
+[admin]
+    username = "admin"
+    password = "admin"
+    group = "超级管理员"

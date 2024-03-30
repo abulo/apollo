@@ -1,0 +1,20 @@
+[Cache]
+    [Cache.Captcha]
+        # 生成的验证码
+        Id ="Captcha::Id"
+    [Cache.SystemOperateLog]
+        # 后台操作日志队列
+        Queue = "SystemOperateLog:Queue"
+    [Cache.SystemMenu]
+        # 后台菜单模块名称
+        Module = "SystemMenu:Module"
+        # 后台菜单权限
+        Permission = "SystemMenu:Permission"
+    [Cache.SystemLoginLog]
+        # 后台登录日志队列
+        Queue = "SystemLoginLog:Queue"
+    [Cache.SystemUser]
+        # 后台用户权限
+        Permission = "SystemUser:Permission::UserId"
+        # 设置过期时间
+        PermissionExpire = 3600

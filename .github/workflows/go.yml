@@ -13,16 +13,28 @@ jobs:
 
   build:
     runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v3
+    container:
+      image: abulo/docker-golang:latest
+      volumes:
+        - ./docker/config/openresty/nginx/nginx.conf:/usr/local/openresty/nginx/conf/nginx.conf
+        - ./docker/config/openresty/nginx/vhost:/usr/local/openresty/nginx/conf/vhost
+        - ./docker/config/hosts:/etc/hosts
+        - ./apollo:/home/www/golang/src/apollo
+        - ./run.sh:/home/www/golang/src/run.sh
+      options: --cpus 1
+    # steps:
+      # - name: 
+      # - name: Check for dockerenv file
+        # run: (ls /.dockerenv && echo Found dockerenv) || (echo No dockerenv)
+    # - uses: actions/checkout@v3
 
-    - name: Set up Go
-      uses: actions/setup-go@v4
-      with:
-        go-version: '1.20'
+    # - name: Set up Go
+    #   uses: actions/setup-go@v4
+    #   with:
+    #     go-version: '1.20'
 
-    - name: Build
-      run: go build -v ./...
+    # - name: Build
+    #   run: go build -v ./...
 
-    - name: Test
-      run: go test -v ./...
+    # - name: Test
+    #   run: go test -v ./...
