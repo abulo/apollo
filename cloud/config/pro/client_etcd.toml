@@ -1,7 +1,7 @@
 [etcd]
     [etcd.common]
         Name="etcd"
-        Endpoints = ["172.18.1.13:2379"]  # grpc注册到目标etcd中
+        Endpoints = ["127.0.0.1:2379"]  # grpc注册到目标etcd中
         CertFile = ""
         KeyFile = ""
         CaCert = ""
