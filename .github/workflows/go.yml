@@ -11,7 +11,7 @@ on:
 
 jobs:
   build: # 声明job的名字(这个job主要用来介绍，可以用做测试go test流程)
-    runs-on: ubuntu-latest   # 使用ubuntu系统镜像运行脚本
+    runs-on: ubuntu-20.04   # 使用ubuntu系统镜像运行脚本
     # steps定义job的步骤，具体执行，运行xxx，-字符开头的一块则为一个步骤，可以配置多个步骤
     steps:
       - uses: actions/checkout@v2   # 步骤1：下载git仓库中的代码，使用官方提供，使用库用uses关键字
@@ -33,7 +33,7 @@ jobs:
             sudo apt-get -y install libvips-dev
 
       - name: Build Go              # 步骤3：编译仓库中的代码
-        run: go version
+        run: pwd
 
 
 # jobs:
