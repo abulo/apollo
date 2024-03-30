@@ -17,8 +17,6 @@ jobs:
       - uses: actions/checkout@v2   # 步骤1：下载git仓库中的代码，使用官方提供，使用库用uses关键字
         with:
           clean: false
-          GITHUB_RUNNER_HOME: /home/www/golang/src/apollo
-          # path: /home/www/golang/src/apollo       # 代码地址
 
       - name: SetUp Go              # 步骤2：下载go代码
         uses: actions/setup-go@v3   # 使用官方提供
@@ -33,7 +31,14 @@ jobs:
             sudo apt-get -y install libvips-dev
 
       - name: Build Go              # 步骤3：编译仓库中的代码
-        run: pwd  &&  ls
+        run: |
+          cd cloud;
+          ./build.sh;
+
+      - name: Check Files
+        run: |
+          cd cloud/bin;
+          ls
 
 
 # jobs:
