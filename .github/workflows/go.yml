@@ -67,10 +67,10 @@ jobs:
           username: ${{ secrets.USERNAME }}
           password: ${{ secrets.PASSWORD }}
           port: ${{ secrets.PORT }}
+          script_stop: true
           script: |
             supervisorctl stop ApolloHertz;
             supervisorctl stop ApolloGrpc;
-            supervisorctl status;
     needs: build # 等到 build 执行完成之后在停止服务
 
   vue:
@@ -144,6 +144,7 @@ jobs:
           username: ${{ secrets.USERNAME }}
           password: ${{ secrets.PASSWORD }}
           port: ${{ secrets.PORT }}
+          script_stop: true
           script: |
             supervisorctl start ApolloGrpc;
             supervisorctl start ApolloHertz;
