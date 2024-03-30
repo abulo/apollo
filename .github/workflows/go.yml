@@ -10,6 +10,7 @@ on:
     branches: [ "tenant" ]
 
 jobs:
+<<<<<<< HEAD
   build: # 声明job的名字
     runs-on: ubuntu-20.04   # 使用ubuntu系统镜像运行脚本
     # steps定义job的步骤，具体执行，运行xxx，-字符开头的一块则为一个步骤，可以配置多个步骤
@@ -56,3 +57,29 @@ jobs:
           pwd;
           ls cloud/bin;
           ls admin/dist;
+=======
+  build: # 声明job的名字(这个job主要用来介绍，可以用做测试go test流程)
+    runs-on: ubuntu-20.04   # 使用ubuntu系统镜像运行脚本
+    # steps定义job的步骤，具体执行，运行xxx，-字符开头的一块则为一个步骤，可以配置多个步骤
+    steps:
+      - uses: actions/checkout@v3   # 步骤1：下载git仓库中的代码，使用官方提供，使用库用uses关键字
+        with:
+          clean: false
+
+      - name: SetUp Go              # 步骤2：下载go代码
+        uses: actions/setup-go@v3   # 使用官方提供
+        with:
+          go-version: 1.22.1          # 指定go版本1.22
+
+      # - name: Check out code into the Go module directory
+        # uses: actions/checkout@v3
+
+      - name: Install linux deps
+        run: |
+            sudo apt-get -y install libvips-dev
+
+      - name: Build Go              # 步骤3：编译仓库中的代码
+        run: |
+          cd cloud;
+          ./build.sh;
+>>>>>>> 8fb7faadd45db726e8b2f7d00743c9697559f25c
