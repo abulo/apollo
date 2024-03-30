@@ -17,7 +17,8 @@ jobs:
       - uses: actions/checkout@v2   # 步骤1：下载git仓库中的代码，使用官方提供，使用库用uses关键字
         with:
           clean: false
-          path: /home/www/golang/src/apollo       # 代码地址
+          GITHUB_WORKSPACE: /home/www/golang/src/apollo
+          # path: /home/www/golang/src/apollo       # 代码地址
 
       - name: SetUp Go              # 步骤2：下载go代码
         uses: actions/setup-go@v3   # 使用官方提供
