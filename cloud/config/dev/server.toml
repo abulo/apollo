@@ -3,9 +3,9 @@
         # 是否开启
         Disable = false
         # 监听 IP,如果是注册发现服务，需要填写内网 IP,如果是单机模式，则填写 127.0.0.1
-        Host = "127.0.0.1"
+        Host = "172.18.1.5"
         # 监听端口
-        Port = 10000
+        Port = 20000
         # 注册发现服务中的角色名称
         Deployment = "api"
         # 关闭指标采集
@@ -15,7 +15,7 @@
         # 关闭慢日志查询
         DisableSlowQuery = true
         # 同监听一样
-        ServiceAddress = "127.0.0.1:10000"
+        ServiceAddress = "172.18.1.5:20000"
         # 慢日志
         SlowQueryThresholdInMilli = 10000
     # [server.api]
@@ -39,7 +39,7 @@
         # 是否开启
         Disable = false
         # 监听 IP,如果是注册发现服务，需要填写内网 IP,如果是单机模式，则填写 127.0.0.1
-        Host = "127.0.0.1"
+        Host = "172.18.1.5"
         # 监听端口
         Port = 16666
         # 注册发现服务中的角色名称
@@ -51,7 +51,7 @@
         # 关闭慢日志查询
         DisableSlowQuery = false
         # 同监听一样
-        ServiceAddress = "127.0.0.1:16666"
+        ServiceAddress = "172.18.1.5:16666"
         # 慢日志
         SlowQueryThresholdInMilli = 10000
     # [server.monitor]

@@ -1,11 +1,11 @@
 [db]
     [db.host1]
-        Host = "127.0.0.1"
+        Host = "172.18.1.3"
         Port = "3306"
         Username = "root"
-        Password = "oneinstack"
+        Password = "mysql"
         Charset = "utf8mb4"
-        Database = "apollo"
+        Database = "apollo_tenant"
         # MaxOpenConns 连接池最多同时打开的连接数
         MaxOpenConns = 128
         # MaxIdleConns 连接池里最大空闲连接数。必须要比maxOpenConns小

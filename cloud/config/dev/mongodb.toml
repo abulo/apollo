@@ -1,6 +1,6 @@
 [mongodb]
     [mongodb.common]
-        URI="mongodb://apollo:apollo@127.0.0.1:27017/apollo?authSource=admin&authMechanism=SCRAM-SHA-256"
+        URI="mongodb://root:654321@172.18.1.2:27017/apollo?authSource=admin&authMechanism=SCRAM-SHA-256"
         MaxConnIdleTime = 1
         MaxPoolSize = 64
         MinPoolSize = 10
