@@ -30,8 +30,8 @@ jobs:
 
       - name: Build Go              # 编译仓库中的代码
         run: |
-          cd cloud;
-          ./build.sh;
+          cd cloud
+          ./build.sh
 
       - name: Install Node.js       # 下载指定的 Node 版本
         uses: actions/setup-node@v4
@@ -45,9 +45,15 @@ jobs:
 
       - name: Build Vue         # 编译前端代码
         run: |
-          cd admin;
-          pnpm i;
-          pnpm build:pro;
+          cd admin
+          pnpm i
+          pnpm build:pro
+
+      - name: Generate Build Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: compiled
+          path: ./
 
   stop:
     runs-on: ubuntu-20.04
@@ -62,14 +68,24 @@ jobs:
           port: ${{ secrets.PORT }}
           script_stop: true
           script: |
-            supervisorctl stop ApolloHertz;
-            supervisorctl stop ApolloGrpc;
-    needs: build # 等到 build 执行完成之后在停止服务
+            supervisorctl stop ApolloHertz
+            supervisorctl stop ApolloGrpc
+    needs:
+      - build
 
   vue:
     runs-on: ubuntu-20.04
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4   # 下载git仓库中的代码，使用官方提供，使用库用uses关键字
+        with:
+          clean: false
+
+      - name: Download Build Artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: compiled
+          path: ./
+
       - name: FTP Deployer
         uses: sand4rt/ftp-deployer@v1.8
         with:
@@ -84,12 +100,22 @@ jobs:
           # include: '[]' # optional, e.g. '['dist']'
           # exclude: '[]' # optional, e.g. '['node_modules/**', '.git/**', '*.env']'
           passive: true # optional
-    needs: stop
+    needs:
+      - stop
 
   go:
     runs-on: ubuntu-20.04
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4   # 下载git仓库中的代码，使用官方提供，使用库用uses关键字
+        with:
+          clean: false
+
+      - name: Download Build Artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: compiled
+          path: ./
+
       - name: FTP Deployer
         uses: sand4rt/ftp-deployer@v1.8
         with:
@@ -104,12 +130,22 @@ jobs:
           # include: '[]' # optional, e.g. '['dist']'
           # exclude: '[]' # optional, e.g. '['node_modules/**', '.git/**', '*.env']'
           passive: true # optional
-    needs: stop
+    needs:
+     - stop
 
   config:
     runs-on: ubuntu-20.04
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4   # 下载git仓库中的代码，使用官方提供，使用库用uses关键字
+        with:
+          clean: false
+
+      - name: Download Build Artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: compiled
+          path: ./
+
       - name: FTP Deployer
         uses: sand4rt/ftp-deployer@v1.8
         with:
@@ -124,7 +160,8 @@ jobs:
           # include: '[]' # optional, e.g. '['dist']'
           # exclude: '[]' # optional, e.g. '['node_modules/**', '.git/**', '*.env']'
           passive: true # optional
-    needs: stop
+    needs:
+      - stop
 
   start:
     runs-on: ubuntu-20.04
@@ -139,9 +176,8 @@ jobs:
           port: ${{ secrets.PORT }}
           script_stop: true
           script: |
-            supervisorctl start ApolloGrpc;
-            supervisorctl start ApolloHertz;
-            supervisorctl status;
+            supervisorctl start ApolloGrpc
+            supervisorctl start ApolloHertz
     needs:
       - config
       - go
