@@ -59,7 +59,7 @@ jobs:
   stop:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      # - uses: actions/checkout@v4
       - name: SSH Remote Commands
         uses: appleboy/ssh-action@v1.0.3
         with:
@@ -76,7 +76,7 @@ jobs:
   vue:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      # - uses: actions/checkout@v4
       - name: FTP Deployer
         uses: sand4rt/ftp-deployer@v1.8
         with:
@@ -96,7 +96,7 @@ jobs:
   go:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      # - uses: actions/checkout@v4
       - name: FTP Deployer
         uses: sand4rt/ftp-deployer@v1.8
         with:
@@ -116,7 +116,7 @@ jobs:
   config:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      # - uses: actions/checkout@v4
       - name: FTP Deployer
         uses: sand4rt/ftp-deployer@v1.8
         with:
@@ -136,7 +136,7 @@ jobs:
   start:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      # - uses: actions/checkout@v4
       - name: SSH Remote Commands
         uses: appleboy/ssh-action@v1.0.3
         with:
