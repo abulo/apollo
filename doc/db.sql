@@ -11,7 +11,7 @@
  Target Server Version : 80300 (8.3.0)
  File Encoding         : 65001
 
- Date: 23/03/2024 14:48:36
+ Date: 31/03/2024 20:34:27
 */
 
 SET NAMES utf8mb4;
@@ -23,22 +23,3452 @@ SET FOREIGN_KEY_CHECKS = 0;
 DROP TABLE IF EXISTS `region`;
 CREATE TABLE `region` (
   `id` bigint NOT NULL AUTO_INCREMENT COMMENT '区域编号',
-  `name` varchar(255) NOT NULL COMMENT '区域名称',
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '区域名称',
   `parent_id` bigint NOT NULL DEFAULT '0' COMMENT '父级编号',
-  `weather_code` varchar(255) DEFAULT NULL COMMENT '天气code',
-  `creator` varchar(64) DEFAULT NULL COMMENT '创建人',
+  `weather_code` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '天气code',
+  `creator` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '创建人',
   `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `updater` varchar(64) DEFAULT NULL COMMENT '更新人',
+  `updater` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '更新人',
   `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-  PRIMARY KEY (`id`),
-  KEY `idx:parent` (`parent_id`),
-  KEY `idx:name` (`name`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='地区表';
+  PRIMARY KEY (`id`) USING BTREE,
+  KEY `idx:parent` (`parent_id`) USING BTREE,
+  KEY `idx:name` (`name`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=839014 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=DYNAMIC COMMENT='地区表';
 
 -- ----------------------------
 -- Records of region
 -- ----------------------------
 BEGIN;
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (110000, '北京市', 0, '101010100', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (110101, '东城区', 110000, NULL, NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (110102, '西城区', 110000, NULL, NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (110105, '朝阳区', 110000, '101010300', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (110106, '丰台区', 110000, '101010900', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (110107, '石景山区', 110000, '101011000', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (110108, '海淀区', 110000, '101010200', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (110109, '门头沟区', 110000, '101011400', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (110111, '房山区', 110000, '101011200', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (110112, '通州区', 110000, '101010600', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (110113, '顺义区', 110000, '101010400', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (110114, '昌平区', 110000, '101010700', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (110115, '大兴区', 110000, '101011100', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (110116, '怀柔区', 110000, '101010500', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (110117, '平谷区', 110000, '101011500', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (110118, '密云区', 110000, '101011300', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (110119, '延庆区', 110000, '101010800', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (120000, '天津市', 0, '101030100', NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (120101, '和平区', 120000, NULL, NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (120102, '河东区', 120000, NULL, NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (120103, '河西区', 120000, NULL, NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (120104, '南开区', 120000, NULL, NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (120105, '河北区', 120000, NULL, NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (120106, '红桥区', 120000, NULL, NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (120110, '东丽区', 120000, '101030400', NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (120111, '西青区', 120000, '101030500', NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (120112, '津南区', 120000, '101031000', NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (120113, '北辰区', 120000, '101030600', NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (120114, '武清区', 120000, '101030200', NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (120115, '宝坻区', 120000, '101030300', NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (120116, '滨海新区', 120000, '101031100', NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (120117, '宁河区', 120000, '101030700', NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (120118, '静海区', 120000, '101030900', NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (120119, '蓟州区', 120000, NULL, NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (130000, '河北省', 0, NULL, NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (130100, '石家庄市', 130000, '101090101', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (130102, '长安区', 130100, '101090119', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (130104, '桥西区', 130100, '101090120', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (130105, '新华区', 130100, '101090121', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (130107, '井陉矿区', 130100, '101090102', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (130108, '裕华区', 130100, '101090123', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (130109, '藁城区', 130100, '101090115', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (130110, '鹿泉区', 130100, '101090118', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (130111, '栾城区', 130100, '101090104', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (130121, '井陉县', 130100, '101090102', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (130123, '正定县', 130100, '101090103', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (130125, '行唐县', 130100, '101090105', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (130126, '灵寿县', 130100, '101090106', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (130127, '高邑县', 130100, '101090107', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (130128, '深泽县', 130100, '101090108', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (130129, '赞皇县', 130100, '101090109', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (130130, '无极县', 130100, '101090110', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (130131, '平山县', 130100, '101090111', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (130132, '元氏县', 130100, '101090112', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (130133, '赵县', 130100, '101090113', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (130181, '辛集市', 130100, '101090114', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (130183, '晋州市', 130100, '101090116', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (130184, '新乐市', 130100, '101090117', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (130200, '唐山市', 130000, '101090501', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (130202, '路南区', 130200, '101090513', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (130203, '路北区', 130200, '101090514', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (130204, '古冶区', 130200, '101090515', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (130205, '开平区', 130200, '101090516', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (130207, '丰南区', 130200, '101090502', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (130208, '丰润区', 130200, '101090503', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (130209, '曹妃甸区', 130200, '101090509', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (130224, '滦南县', 130200, '101090505', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (130225, '乐亭县', 130200, '101090506', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (130227, '迁西县', 130200, '101090507', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (130229, '玉田县', 130200, '101090508', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (130281, '遵化市', 130200, '101090510', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (130283, '迁安市', 130200, '101090511', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (130284, '滦州市', 130200, NULL, NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (130300, '秦皇岛市', 130000, '101091101', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (130302, '海港区', 130300, '101091107', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (130303, '山海关区', 130300, '101091108', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (130304, '北戴河区', 130300, '101091106', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (130306, '抚宁区', 130300, '101091104', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (130321, '青龙满族自治县', 130300, '101091102', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (130322, '昌黎县', 130300, '101091103', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (130324, '卢龙县', 130300, '101091105', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (130400, '邯郸市', 130000, '101091001', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (130402, '邯山区', 130400, '101091017', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (130403, '丛台区', 130400, '101091018', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (130404, '复兴区', 130400, '101091019', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (130406, '峰峰矿区', 130400, '101091002', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (130407, '肥乡区', 130400, '101091008', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (130408, '永年区', 130400, '101091009', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (130423, '临漳县', 130400, '101091003', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (130424, '成安县', 130400, '101091004', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (130425, '大名县', 130400, '101091005', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (130426, '涉县', 130400, '101091006', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (130427, '磁县', 130400, '101091007', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (130430, '邱县', 130400, '101091010', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (130431, '鸡泽县', 130400, '101091011', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (130432, '广平县', 130400, '101091012', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (130433, '馆陶县', 130400, '101091013', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (130434, '魏县', 130400, '101091014', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (130435, '曲周县', 130400, '101091015', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (130481, '武安市', 130400, '101091016', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (130500, '邢台市', 130000, '101090901', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (130502, '襄都区', 130500, NULL, NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (130503, '信都区', 130500, NULL, NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (130505, '任泽区', 130500, NULL, NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (130506, '南和区', 130500, '101090907', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (130522, '临城县', 130500, '101090902', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (130523, '内丘县', 130500, '101090904', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (130524, '柏乡县', 130500, '101090905', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (130525, '隆尧县', 130500, '101090906', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (130528, '宁晋县', 130500, '101090908', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (130529, '巨鹿县', 130500, '101090909', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (130530, '新河县', 130500, '101090910', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (130531, '广宗县', 130500, '101090911', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (130532, '平乡县', 130500, '101090912', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (130533, '威县', 130500, '101090913', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (130534, '清河县', 130500, '101090914', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (130535, '临西县', 130500, '101090915', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (130581, '南宫市', 130500, '101090916', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (130582, '沙河市', 130500, '101090917', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (130600, '保定市', 130000, '101090201', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (130602, '竞秀区', 130600, '101090208', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (130606, '莲池区', 130600, '101090213', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (130607, '满城区', 130600, '101090202', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (130608, '清苑区', 130600, '101090224', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (130609, '徐水区', 130600, '101090204', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (130623, '涞水县', 130600, '101090222', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (130624, '阜平县', 130600, '101090203', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (130626, '定兴县', 130600, '101090223', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (130627, '唐县', 130600, '101090205', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (130628, '高阳县', 130600, '101090206', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (130630, '涞源县', 130600, '101090209', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (130631, '望都县', 130600, '101090210', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (130633, '易县', 130600, '101090212', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (130634, '曲阳县', 130600, '101090214', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (130635, '蠡县', 130600, '101090215', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (130636, '顺平县', 130600, '101090216', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (130637, '博野县', 130600, '101090225', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (130681, '涿州市', 130600, '101090218', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (130682, '定州市', 130600, '101090219', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (130683, '安国市', 130600, '101090220', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (130684, '高碑店市', 130600, '101090221', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (130700, '张家口市', 130000, '101090301', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (130702, '桥东区', 130700, '101090315', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (130703, '桥西区', 130700, '101090316', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (130705, '宣化区', 130700, '101090302', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (130706, '下花园区', 130700, '101090317', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (130708, '万全区', 130700, '101090310', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (130709, '崇礼区', 130700, '101090314', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (130722, '张北县', 130700, '101090303', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (130723, '康保县', 130700, '101090304', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (130724, '沽源县', 130700, '101090305', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (130725, '尚义县', 130700, '101090306', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (130726, '蔚县', 130700, '101090307', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (130727, '阳原县', 130700, '101090308', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (130728, '怀安县', 130700, '101090309', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (130730, '怀来县', 130700, '101090311', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (130731, '涿鹿县', 130700, '101090312', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (130732, '赤城县', 130700, '101090313', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (130800, '承德市', 130000, '101090402', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (130802, '双桥区', 130800, '101090401', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (130803, '双滦区', 130800, '101090411', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (130804, '鹰手营子矿区', 130800, '101090412', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (130821, '承德县', 130800, '101090403', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (130822, '兴隆县', 130800, '101090404', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (130824, '滦平县', 130800, '101090406', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (130825, '隆化县', 130800, '101090407', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (130826, '丰宁满族自治县', 130800, '101090408', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (130827, '宽城满族自治县', 130800, '101090409', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (130828, '围场满族蒙古族自治县', 130800, '101090410', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (130881, '平泉市', 130800, '101090405', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (130900, '沧州市', 130000, '101090701', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (130902, '新华区', 130900, '101090715', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (130903, '运河区', 130900, '101090717', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (130921, '沧县', 130900, '101090716', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (130922, '青县', 130900, '101090702', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (130923, '东光县', 130900, '101090703', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (130924, '海兴县', 130900, '101090704', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (130925, '盐山县', 130900, '101090705', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (130926, '肃宁县', 130900, '101090706', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (130927, '南皮县', 130900, '101090707', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (130928, '吴桥县', 130900, '101090708', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (130929, '献县', 130900, '101090709', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (130930, '孟村回族自治县', 130900, '101090710', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (130981, '泊头市', 130900, '101090711', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (130982, '任丘市', 130900, '101090712', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (130983, '黄骅市', 130900, '101090713', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (130984, '河间市', 130900, '101090714', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (131000, '廊坊市', 130000, '101090601', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (131002, '安次区', 131000, '101090610', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (131003, '广阳区', 131000, '101090611', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (131022, '固安县', 131000, '101090602', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (131023, '永清县', 131000, '101090603', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (131024, '香河县', 131000, '101090604', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (131025, '大城县', 131000, '101090605', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (131026, '文安县', 131000, '101090606', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (131028, '大厂回族自治县', 131000, '101090607', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (131081, '霸州市', 131000, '101090608', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (131082, '三河市', 131000, '101090609', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (131100, '衡水市', 130000, '101090801', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (131102, '桃城区', 131100, '101090812', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (131103, '冀州区', 131100, '101090810', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (131121, '枣强县', 131100, '101090802', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (131122, '武邑县', 131100, '101090803', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (131123, '武强县', 131100, '101090804', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (131124, '饶阳县', 131100, '101090805', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (131125, '安平县', 131100, '101090806', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (131126, '故城县', 131100, '101090807', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (131127, '景县', 131100, '101090808', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (131128, '阜城县', 131100, '101090809', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (131182, '深州市', 131100, '101090811', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (133100, '雄安新区', 130000, '101091201', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (140000, '山西省', 0, NULL, NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (140100, '太原市', 140000, '101100101', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (140105, '小店区', 140100, '101100107', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (140106, '迎泽区', 140100, '101100108', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (140107, '杏花岭区', 140100, '101100109', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (140108, '尖草坪区', 140100, '101100106', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (140109, '万柏林区', 140100, '101100110', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (140110, '晋源区', 140100, '101100111', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (140121, '清徐县', 140100, '101100102', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (140122, '阳曲县', 140100, '101100103', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (140123, '娄烦县', 140100, '101100104', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (140181, '古交市', 140100, '101100105', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (140200, '大同市', 140000, '101100201', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (140212, '新荣区', 140200, '101100211', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (140213, '平城区', 140200, NULL, NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (140214, '云冈区', 140200, NULL, NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (140215, '云州区', 140200, NULL, NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (140221, '阳高县', 140200, '101100202', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (140222, '天镇县', 140200, '101100204', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (140223, '广灵县', 140200, '101100205', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (140224, '灵丘县', 140200, '101100206', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (140225, '浑源县', 140200, '101100207', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (140226, '左云县', 140200, '101100208', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (140300, '阳泉市', 140000, '101100301', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (140302, '城区', 140300, NULL, NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (140303, '矿区', 140300, '101100304', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (140311, '郊区', 140300, '101100305', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (140321, '平定县', 140300, '101100303', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (140322, '盂县', 140300, '101100302', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (140400, '长治市', 140000, '101100501', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (140403, '潞州区', 140400, NULL, NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (140404, '上党区', 140400, NULL, NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (140405, '屯留区', 140400, '101100503', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (140406, '潞城区', 140400, '101100504', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (140423, '襄垣县', 140400, '101100505', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (140425, '平顺县', 140400, '101100506', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (140426, '黎城县', 140400, '101100502', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (140427, '壶关县', 140400, '101100511', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (140428, '长子县', 140400, '101100509', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (140429, '武乡县', 140400, '101100507', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (140430, '沁县', 140400, '101100508', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (140431, '沁源县', 140400, '101100510', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (140500, '晋城市', 140000, '101100601', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (140502, '城区', 140500, NULL, NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (140521, '沁水县', 140500, '101100602', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (140522, '阳城县', 140500, '101100603', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (140524, '陵川县', 140500, '101100604', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (140525, '泽州县', 140500, '101100606', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (140581, '高平市', 140500, '101100605', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (140600, '朔州市', 140000, '101100901', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (140602, '朔城区', 140600, '101100907', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (140603, '平鲁区', 140600, '101100902', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (140621, '山阴县', 140600, '101100903', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (140622, '应县', 140600, '101100905', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (140623, '右玉县', 140600, '101100904', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (140681, '怀仁市', 140600, '101100906', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (140700, '晋中市', 140000, '101100401', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (140702, '榆次区', 140700, '101100402', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (140703, '太谷区', 140700, '101100408', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (140721, '榆社县', 140700, '101100403', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (140722, '左权县', 140700, '101100404', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (140723, '和顺县', 140700, '101100405', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (140724, '昔阳县', 140700, '101100406', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (140725, '寿阳县', 140700, '101100407', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (140727, '祁县', 140700, '101100409', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (140728, '平遥县', 140700, '101100410', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (140729, '灵石县', 140700, '101100411', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (140781, '介休市', 140700, '101100412', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (140800, '运城市', 140000, '101100801', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (140802, '盐湖区', 140800, '101100814', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (140821, '临猗县', 140800, '101100802', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (140822, '万荣县', 140800, '101100804', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (140823, '闻喜县', 140800, '101100808', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (140824, '稷山县', 140800, '101100803', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (140825, '新绛县', 140800, '101100806', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (140826, '绛县', 140800, '101100807', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (140827, '垣曲县', 140800, '101100809', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (140828, '夏县', 140800, '101100812', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (140829, '平陆县', 140800, '101100813', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (140830, '芮城县', 140800, '101100811', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (140881, '永济市', 140800, '101100810', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (140882, '河津市', 140800, '101100805', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (140900, '忻州市', 140000, '101101001', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (140902, '忻府区', 140900, '101101016', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (140921, '定襄县', 140900, '101101002', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (140922, '五台县', 140900, '101101003', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (140923, '代县', 140900, '101101008', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (140924, '繁峙县', 140900, '101101009', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (140925, '宁武县', 140900, '101101007', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (140926, '静乐县', 140900, '101101012', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (140927, '神池县', 140900, '101101006', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (140928, '五寨县', 140900, '101101014', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (140929, '岢岚县', 140900, '101101013', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (140930, '河曲县', 140900, '101101004', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (140931, '保德县', 140900, '101101011', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (140932, '偏关县', 140900, '101101005', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (140981, '原平市', 140900, '101101015', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (141000, '临汾市', 140000, '101100701', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (141002, '尧都区', 141000, '101100718', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (141021, '曲沃县', 141000, '101100702', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (141022, '翼城县', 141000, '101100713', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (141023, '襄汾县', 141000, '101100707', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (141024, '洪洞县', 141000, '101100710', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (141025, '古县', 141000, '101100717', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (141026, '安泽县', 141000, '101100716', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (141027, '浮山县', 141000, '101100715', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (141028, '吉县', 141000, '101100706', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (141029, '乡宁县', 141000, '101100712', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (141030, '大宁县', 141000, '101100705', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (141031, '隰县', 141000, '101100704', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (141032, '永和县', 141000, '101100703', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (141033, '蒲县', 141000, '101100708', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (141034, '汾西县', 141000, '101100709', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (141081, '侯马市', 141000, '101100714', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (141082, '霍州市', 141000, '101100711', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (141100, '吕梁市', 140000, '101101100', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (141102, '离石区', 141100, '101101101', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (141121, '文水县', 141100, '101101112', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (141122, '交城县', 141100, '101101113', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (141123, '兴县', 141100, '101101103', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (141124, '临县', 141100, '101101102', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (141125, '柳林县', 141100, '101101105', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (141126, '石楼县', 141100, '101101106', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (141127, '岚县', 141100, '101101104', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (141128, '方山县', 141100, '101101107', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (141129, '中阳县', 141100, '101101109', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (141130, '交口县', 141100, '101101108', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (141181, '孝义市', 141100, '101101110', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (141182, '汾阳市', 141100, '101101111', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (150000, '内蒙古自治区', 0, NULL, NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (150100, '呼和浩特市', 150000, '101080101', NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (150102, '新城区', 150100, '101080108', NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (150103, '回民区', 150100, '101080109', NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (150104, '玉泉区', 150100, '101080110', NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (150105, '赛罕区', 150100, '101080106', NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (150121, '土默特左旗', 150100, NULL, NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (150122, '托克托县', 150100, '101080103', NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (150123, '和林格尔县', 150100, '101080104', NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (150124, '清水河县', 150100, '101080105', NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (150125, '武川县', 150100, '101080107', NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (150200, '包头市', 150000, '101080201', NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (150202, '东河区', 150200, '101080208', NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (150203, '昆都仑区', 150200, '101080209', NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (150204, '青山区', 150200, '101080210', NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (150205, '石拐区', 150200, '101080211', NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (150206, '白云鄂博矿区', 150200, '101080202', NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (150207, '九原区', 150200, '101080212', NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (150221, '土默特右旗', 150200, NULL, NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (150222, '固阳县', 150200, '101080205', NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (150223, '达尔罕茂明安联合旗', 150200, NULL, NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (150300, '乌海市', 150000, '101080301', NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (150302, '海勃湾区', 150300, '101080302', NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (150303, '海南区', 150300, '101080303', NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (150304, '乌达区', 150300, '101080304', NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (150400, '赤峰市', 150000, '101080601', NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (150402, '红山区', 150400, '101080602', NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (150403, '元宝山区', 150400, '101080616', NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (150404, '松山区', 150400, '101080617', NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (150421, '阿鲁科尔沁旗', 150400, NULL, NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (150422, '巴林左旗', 150400, '101080605', NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (150423, '巴林右旗', 150400, '101080606', NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (150424, '林西县', 150400, '101080607', NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (150425, '克什克腾旗', 150400, '101080608', NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (150426, '翁牛特旗', 150400, '101080609', NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (150428, '喀喇沁旗', 150400, '101080611', NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (150429, '宁城县', 150400, '101080613', NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (150430, '敖汉旗', 150400, '101080614', NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (150500, '通辽市', 150000, '101080501', NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (150502, '科尔沁区', 150500, '101080510', NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (150521, '科尔沁左翼中旗', 150500, '101080510', NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (150522, '科尔沁左翼后旗', 150500, '101080510', NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (150523, '开鲁县', 150500, '101080506', NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (150524, '库伦旗', 150500, '101080507', NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (150525, '奈曼旗', 150500, '101080508', NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (150526, '扎鲁特旗', 150500, '101080509', NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (150581, '霍林郭勒市', 150500, '101080512', NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (150600, '鄂尔多斯市', 150000, '101080701', NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (150602, '东胜区', 150600, '101080713', NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (150603, '康巴什区', 150600, '101080714', NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (150621, '达拉特旗', 150600, '101080703', NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (150622, '准格尔旗', 150600, '101080704', NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (150623, '鄂托克前旗', 150600, '101080708', NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (150624, '鄂托克旗', 150600, '101080708', NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (150625, '杭锦旗', 150600, '101080709', NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (150626, '乌审旗', 150600, '101080710', NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (150627, '伊金霍洛旗', 150600, '101080711', NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (150700, '呼伦贝尔市', 150000, '101081013', NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (150702, '海拉尔区', 150700, '101081001', NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (150703, '扎赉诺尔区', 150700, '101081017', NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (150721, '阿荣旗', 150700, '101081003', NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (150722, '莫力达瓦达斡尔族自治旗', 150700, '101081004', NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (150723, '鄂伦春自治旗', 150700, NULL, NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (150724, '鄂温克族自治旗', 150700, NULL, NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (150725, '陈巴尔虎旗', 150700, NULL, NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (150726, '新巴尔虎左旗', 150700, NULL, NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (150727, '新巴尔虎右旗', 150700, NULL, NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (150781, '满洲里市', 150700, '101081010', NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (150782, '牙克石市', 150700, '101081011', NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (150783, '扎兰屯市', 150700, '101081012', NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (150784, '额尔古纳市', 150700, '101081014', NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (150785, '根河市', 150700, '101081015', NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (150800, '巴彦淖尔市', 150000, '101080811', NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (150802, '临河区', 150800, '101080801', NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (150821, '五原县', 150800, '101080802', NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (150822, '磴口县', 150800, '101080803', NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (150823, '乌拉特前旗', 150800, NULL, NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (150824, '乌拉特中旗', 150800, NULL, NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (150825, '乌拉特后旗', 150800, NULL, NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (150826, '杭锦后旗', 150800, '101080810', NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (150900, '乌兰察布市', 150000, '101080405', NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (150902, '集宁区', 150900, '101080401', NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (150921, '卓资县', 150900, '101080402', NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (150922, '化德县', 150900, '101080403', NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (150923, '商都县', 150900, '101080404', NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (150924, '兴和县', 150900, '101080406', NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (150925, '凉城县', 150900, '101080407', NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (150926, '察哈尔右翼前旗', 150900, NULL, NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (150927, '察哈尔右翼中旗', 150900, NULL, NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (150928, '察哈尔右翼后旗', 150900, NULL, NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (150929, '四子王旗', 150900, '101080411', NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (150981, '丰镇市', 150900, '101080412', NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (152200, '兴安盟', 150000, '101081108', NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (152201, '乌兰浩特市', 152200, '101081101', NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (152202, '阿尔山市', 152200, '101081102', NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (152221, '科尔沁右翼前旗', 152200, NULL, NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (152222, '科尔沁右翼中旗', 152200, NULL, NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (152223, '扎赉特旗', 152200, '101081105', NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (152224, '突泉县', 152200, '101081107', NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (152500, '锡林郭勒盟', 150000, '101080902', NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (152501, '二连浩特市', 152500, '101080903', NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (152502, '锡林浩特市', 152500, '101080901', NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (152522, '阿巴嘎旗', 152500, '101080904', NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (152523, '苏尼特左旗', 152500, NULL, NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (152524, '苏尼特右旗', 152500, NULL, NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (152525, '东乌珠穆沁旗', 152500, NULL, NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (152526, '西乌珠穆沁旗', 152500, NULL, NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (152527, '太仆寺旗', 152500, '101080911', NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (152528, '镶黄旗', 152500, '101080912', NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (152529, '正镶白旗', 152500, '101080913', NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (152530, '正蓝旗', 152500, '101080914', NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (152531, '多伦县', 152500, '101080915', NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (152900, '阿拉善盟', 150000, '101081213', NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (152921, '阿拉善左旗', 152900, NULL, NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (152922, '阿拉善右旗', 152900, NULL, NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (152923, '额济纳旗', 152900, '101081203', NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (210000, '辽宁省', 0, NULL, NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (210100, '沈阳市', 210000, '101070101', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (210102, '和平区', 210100, '101070107', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (210103, '沈河区', 210100, '101070108', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (210104, '大东区', 210100, '101070109', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (210105, '皇姑区', 210100, '101070110', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (210106, '铁西区', 210100, '101070111', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (210111, '苏家屯区', 210100, '101070112', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (210112, '浑南区', 210100, '101070102', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (210113, '沈北新区', 210100, '101070113', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (210114, '于洪区', 210100, '101070114', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (210115, '辽中区', 210100, '101070103', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (210123, '康平县', 210100, '101070104', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (210124, '法库县', 210100, '101070105', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (210181, '新民市', 210100, '101070106', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (210200, '大连市', 210000, '101070201', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (210202, '中山区', 210200, '101070208', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (210203, '西岗区', 210200, '101070209', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (210204, '沙河口区', 210200, '101070210', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (210211, '甘井子区', 210200, '101070211', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (210212, '旅顺口区', 210200, '101070205', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (210213, '金州区', 210200, '101070203', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (210214, '普兰店区', 210200, '101070204', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (210224, '长海县', 210200, '101070206', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (210281, '瓦房店市', 210200, '101070202', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (210283, '庄河市', 210200, '101070207', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (210300, '鞍山市', 210000, '101070301', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (210302, '铁东区', 210300, '101070305', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (210303, '铁西区', 210300, '101070306', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (210304, '立山区', 210300, '101070307', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (210311, '千山区', 210300, '101070308', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (210321, '台安县', 210300, '101070302', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (210323, '岫岩满族自治县', 210300, '101070303', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (210381, '海城市', 210300, '101070304', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (210400, '抚顺市', 210000, '101070401', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (210402, '新抚区', 210400, '101070405', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (210403, '东洲区', 210400, '101070406', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (210404, '望花区', 210400, '101070407', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (210411, '顺城区', 210400, '101070408', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (210421, '抚顺县', 210400, '101070401', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (210422, '新宾满族自治县', 210400, '101070402', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (210423, '清原满族自治县', 210400, '101070403', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (210500, '本溪市', 210000, '101070501', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (210502, '平山区', 210500, '101070503', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (210503, '溪湖区', 210500, '101070505', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (210504, '明山区', 210500, '101070506', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (210505, '南芬区', 210500, '101070507', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (210521, '本溪满族自治县', 210500, '101070501', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (210522, '桓仁满族自治县', 210500, '101070504', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (210600, '丹东市', 210000, '101070601', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (210602, '元宝区', 210600, '101070605', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (210603, '振兴区', 210600, '101070606', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (210604, '振安区', 210600, '101070607', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (210624, '宽甸满族自治县', 210600, '101070603', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (210681, '东港市', 210600, '101070604', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (210682, '凤城市', 210600, '101070602', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (210700, '锦州市', 210000, '101070701', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (210702, '古塔区', 210700, '101070703', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (210703, '凌河区', 210700, '101070707', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (210711, '太和区', 210700, '101070708', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (210726, '黑山县', 210700, '101070705', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (210727, '义县', 210700, '101070704', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (210781, '凌海市', 210700, '101070702', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (210782, '北镇市', 210700, '101070706', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (210800, '营口市', 210000, '101070801', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (210802, '站前区', 210800, '101070804', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (210803, '西市区', 210800, '101070805', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (210804, '鲅鱼圈区', 210800, '101070806', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (210811, '老边区', 210800, '101070807', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (210881, '盖州市', 210800, '101070803', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (210882, '大石桥市', 210800, '101070802', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (210900, '阜新市', 210000, '101070901', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (210902, '海州区', 210900, '101070903', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (210903, '新邱区', 210900, '101070904', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (210904, '太平区', 210900, '101070905', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (210905, '清河门区', 210900, '101070906', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (210911, '细河区', 210900, '101070907', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (210921, '阜新蒙古族自治县', 210900, '101070901', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (210922, '彰武县', 210900, '101070902', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (211000, '辽阳市', 210000, '101071001', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (211002, '白塔区', 211000, '101071005', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (211003, '文圣区', 211000, '101071006', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (211004, '宏伟区', 211000, '101071007', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (211005, '弓长岭区', 211000, '101071004', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (211011, '太子河区', 211000, '101071008', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (211021, '辽阳县', 211000, '101071002', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (211081, '灯塔市', 211000, '101071003', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (211100, '盘锦市', 210000, '101071301', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (211102, '双台子区', 211100, '101071304', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (211103, '兴隆台区', 211100, '101071305', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (211104, '大洼区', 211100, '101071302', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (211122, '盘山县', 211100, '101071303', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (211200, '铁岭市', 210000, '101071101', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (211202, '银州区', 211200, '101071106', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (211204, '清河区', 211200, '101071107', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (211221, '铁岭县', 211200, '101071101', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (211223, '西丰县', 211200, '101071104', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (211224, '昌图县', 211200, '101071103', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (211281, '调兵山市', 211200, '101071105', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (211282, '开原市', 211200, '101071102', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (211300, '朝阳市', 210000, '101071201', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (211302, '双塔区', 211300, '101071202', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (211303, '龙城区', 211300, '101071206', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (211321, '朝阳县', 211300, '101071201', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (211322, '建平县', 211300, '101071207', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (211324, '喀喇沁左翼蒙古族自治县', 211300, NULL, NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (211381, '北票市', 211300, '101071205', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (211382, '凌源市', 211300, '101071203', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (211400, '葫芦岛市', 210000, '101071401', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (211402, '连山区', 211400, '101071405', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (211403, '龙港区', 211400, '101071406', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (211404, '南票区', 211400, '101071407', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (211421, '绥中县', 211400, '101071403', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (211422, '建昌县', 211400, '101071402', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (211481, '兴城市', 211400, '101071404', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (220000, '吉林省', 0, NULL, NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (220100, '长春市', 220000, '101060101', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (220102, '南关区', 220100, '101060108', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (220103, '宽城区', 220100, '101060109', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (220104, '朝阳区', 220100, '101060110', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (220105, '二道区', 220100, '101060107', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (220106, '绿园区', 220100, '101060111', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (220112, '双阳区', 220100, '101060106', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (220113, '九台区', 220100, '101060104', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (220122, '农安县', 220100, '101060102', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (220182, '榆树市', 220100, '101060105', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (220183, '德惠市', 220100, '101060103', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (220184, '公主岭市', 220100, NULL, NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (220200, '吉林市', 220000, '101060201', NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (220202, '昌邑区', 220200, '101060207', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (220203, '龙潭区', 220200, '101060208', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (220204, '船营区', 220200, '101060209', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (220211, '丰满区', 220200, '101060210', NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (220221, '永吉县', 220200, '101060203', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (220281, '蛟河市', 220200, '101060204', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (220282, '桦甸市', 220200, '101060206', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (220283, '舒兰市', 220200, '101060202', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (220284, '磐石市', 220200, '101060205', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (220300, '四平市', 220000, '101060401', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (220302, '铁西区', 220300, '101060406', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (220303, '铁东区', 220300, '101060407', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (220322, '梨树县', 220300, '101060403', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (220323, '伊通满族自治县', 220300, '101060405', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (220382, '双辽市', 220300, '101060402', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (220400, '辽源市', 220000, '101060701', NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (220402, '龙山区', 220400, '101060704', NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (220403, '西安区', 220400, '101060705', NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (220421, '东丰县', 220400, '101060702', NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (220422, '东辽县', 220400, '101060703', NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (220500, '通化市', 220000, '101060501', NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (220502, '东昌区', 220500, '101060507', NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (220503, '二道江区', 220500, '101060508', NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (220521, '通化县', 220500, '101060501', NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (220523, '辉南县', 220500, '101060504', NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (220524, '柳河县', 220500, '101060503', NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (220581, '梅河口市', 220500, '101060502', NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (220582, '集安市', 220500, '101060505', NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (220600, '白山市', 220000, '101060901', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (220602, '浑江区', 220600, '101060908', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (220605, '江源区', 220600, '101060907', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (220621, '抚松县', 220600, '101060906', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (220622, '靖宇县', 220600, '101060902', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (220623, '长白朝鲜族自治县', 220600, '101060905', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (220681, '临江市', 220600, '101060903', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (220700, '松原市', 220000, '101060801', NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (220702, '宁江区', 220700, '101060806', NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (220721, '前郭尔罗斯蒙古族自治县', 220700, '101060803', NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (220722, '长岭县', 220700, '101060804', NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (220723, '乾安县', 220700, '101060802', NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (220781, '扶余市', 220700, '101060805', NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (220800, '白城市', 220000, '101060601', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (220802, '洮北区', 220800, '101060606', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (220821, '镇赉县', 220800, '101060604', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (220822, '通榆县', 220800, '101060605', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (220881, '洮南市', 220800, '101060602', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (220882, '大安市', 220800, '101060603', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (222400, '延边朝鲜族自治州', 220000, '101060306', NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (222401, '延吉市', 222400, '101060301', NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (222402, '图们市', 222400, '101060309', NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (222403, '敦化市', 222400, '101060302', NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (222404, '珲春市', 222400, '101060308', NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (222405, '龙井市', 222400, '101060307', NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (222406, '和龙市', 222400, '101060305', NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (222424, '汪清县', 222400, '101060304', NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (222426, '安图县', 222400, '101060303', NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (230000, '黑龙江省', 0, NULL, NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (230100, '哈尔滨市', 230000, '101050101', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (230102, '道里区', 230100, '101050114', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (230103, '南岗区', 230100, '101050115', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (230104, '道外区', 230100, '101050116', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (230108, '平房区', 230100, '101050117', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (230109, '松北区', 230100, '101050118', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (230110, '香坊区', 230100, '101050119', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (230111, '呼兰区', 230100, '101050103', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (230112, '阿城区', 230100, '101050104', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (230113, '双城区', 230100, '101050102', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (230123, '依兰县', 230100, '101050106', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (230124, '方正县', 230100, '101050109', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (230125, '宾县', 230100, '101050105', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (230126, '巴彦县', 230100, '101050107', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (230127, '木兰县', 230100, '101050113', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (230128, '通河县', 230100, '101050108', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (230129, '延寿县', 230100, '101050110', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (230183, '尚志市', 230100, '101050111', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (230184, '五常市', 230100, '101050112', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (230200, '齐齐哈尔市', 230000, '101050201', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (230202, '龙沙区', 230200, '101050211', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (230203, '建华区', 230200, '101050212', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (230204, '铁锋区', 230200, '101050213', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (230205, '昂昂溪区', 230200, '101050214', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (230206, '富拉尔基区', 230200, '101050215', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (230207, '碾子山区', 230200, '101050216', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (230208, '梅里斯达斡尔族区', 230200, '101050217', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (230221, '龙江县', 230200, '101050203', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (230223, '依安县', 230200, '101050206', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (230224, '泰来县', 230200, '101050210', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (230225, '甘南县', 230200, '101050204', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (230227, '富裕县', 230200, '101050205', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (230229, '克山县', 230200, '101050208', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (230230, '克东县', 230200, '101050209', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (230231, '拜泉县', 230200, '101050207', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (230281, '讷河市', 230200, '101050202', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (230300, '鸡西市', 230000, '101051101', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (230302, '鸡冠区', 230300, '101051105', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (230303, '恒山区', 230300, '101051106', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (230304, '滴道区', 230300, '101051107', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (230305, '梨树区', 230300, '101051108', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (230306, '城子河区', 230300, '101051109', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (230307, '麻山区', 230300, '101051110', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (230321, '鸡东县', 230300, '101051104', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (230381, '虎林市', 230300, '101051102', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (230382, '密山市', 230300, '101051103', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (230400, '鹤岗市', 230000, '101051201', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (230402, '向阳区', 230400, '101051204', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (230403, '工农区', 230400, '101051205', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (230404, '南山区', 230400, '101051206', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (230405, '兴安区', 230400, '101051207', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (230406, '东山区', 230400, '101051208', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (230407, '兴山区', 230400, '101051209', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (230421, '萝北县', 230400, '101051203', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (230422, '绥滨县', 230400, '101051202', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (230500, '双鸭山市', 230000, '101051301', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (230502, '尖山区', 230500, '101051306', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (230503, '岭东区', 230500, '101051307', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (230505, '四方台区', 230500, '101051308', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (230506, '宝山区', 230500, '101051309', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (230521, '集贤县', 230500, '101051302', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (230522, '友谊县', 230500, '101051305', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (230523, '宝清县', 230500, '101051303', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (230524, '饶河县', 230500, '101051304', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (230600, '大庆市', 230000, '101050901', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (230602, '萨尔图区', 230600, '101050906', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (230603, '龙凤区', 230600, '101050907', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (230604, '让胡路区', 230600, '101050908', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (230605, '红岗区', 230600, '101050909', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (230606, '大同区', 230600, '101050910', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (230621, '肇州县', 230600, '101050903', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (230622, '肇源县', 230600, '101050904', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (230623, '林甸县', 230600, '101050902', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (230624, '杜尔伯特蒙古族自治县', 230600, '101050905', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (230700, '伊春市', 230000, '101050801', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (230717, '伊美区', 230700, NULL, NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (230718, '乌翠区', 230700, NULL, NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (230719, '友好区', 230700, '101050807', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (230722, '嘉荫县', 230700, '101050805', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (230723, '汤旺县', 230700, NULL, NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (230724, '丰林县', 230700, NULL, NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (230725, '大箐山县', 230700, NULL, NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (230726, '南岔县', 230700, '101050806', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (230751, '金林区', 230700, NULL, NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (230781, '铁力市', 230700, '101050804', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (230800, '佳木斯市', 230000, '101050401', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (230803, '向阳区', 230800, '101050408', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (230804, '前进区', 230800, '101050409', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (230805, '东风区', 230800, '101050410', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (230811, '郊区', 230800, '101050411', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (230822, '桦南县', 230800, '101050405', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (230826, '桦川县', 230800, '101050404', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (230828, '汤原县', 230800, '101050402', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (230881, '同江市', 230800, '101050406', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (230882, '富锦市', 230800, '101050407', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (230883, '抚远市', 230800, '101050403', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (230900, '七台河市', 230000, '101051002', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (230902, '新兴区', 230900, '101051001', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (230903, '桃山区', 230900, '101051004', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (230904, '茄子河区', 230900, '101051005', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (230921, '勃利县', 230900, '101051003', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (231000, '牡丹江市', 230000, '101050301', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (231002, '东安区', 231000, '101050308', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (231003, '阳明区', 231000, '101050309', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (231004, '爱民区', 231000, '101050310', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (231005, '西安区', 231000, '101050311', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (231025, '林口县', 231000, '101050304', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (231081, '绥芬河市', 231000, '101050305', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (231083, '海林市', 231000, '101050302', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (231084, '宁安市', 231000, '101050306', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (231085, '穆棱市', 231000, '101050303', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (231086, '东宁市', 231000, '101050307', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (231100, '黑河市', 230000, '101050601', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (231102, '爱辉区', 231100, '101050607', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (231123, '逊克县', 231100, '101050604', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (231124, '孙吴县', 231100, '101050603', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (231181, '北安市', 231100, '101050606', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (231182, '五大连池市', 231100, '101050605', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (231183, '嫩江市', 231100, '101050602', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (231200, '绥化市', 230000, '101050501', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (231202, '北林区', 231200, '101050511', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (231221, '望奎县', 231200, '101050506', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (231222, '兰西县', 231200, '101050507', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (231223, '青冈县', 231200, '101050508', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (231224, '庆安县', 231200, '101050509', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (231225, '明水县', 231200, '101050505', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (231226, '绥棱县', 231200, '101050510', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (231281, '安达市', 231200, '101050503', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (231282, '肇东市', 231200, '101050502', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (231283, '海伦市', 231200, '101050504', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (232700, '大兴安岭地区', 230000, '101050701', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (232701, '漠河市', 232700, '101050703', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (232721, '呼玛县', 232700, '101050704', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (232722, '塔河县', 232700, '101050702', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (310000, '上海市', 0, '101020100', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (310101, '黄浦区', 310000, NULL, NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (310104, '徐汇区', 310000, '101021200', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (310105, '长宁区', 310000, NULL, NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (310106, '静安区', 310000, NULL, NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (310107, '普陀区', 310000, NULL, NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (310109, '虹口区', 310000, NULL, NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (310110, '杨浦区', 310000, NULL, NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (310112, '闵行区', 310000, '101020200', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (310113, '宝山区', 310000, '101020300', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (310114, '嘉定区', 310000, '101020500', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (310115, '浦东新区', 310000, '101020600', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (310116, '金山区', 310000, '101020700', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (310117, '松江区', 310000, '101020900', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (310118, '青浦区', 310000, '101020800', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (310120, '奉贤区', 310000, '101021000', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (310151, '崇明区', 310000, '101021100', NULL, '2024-03-27 23:31:30', NULL, '2024-03-27 23:31:30');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (320000, '江苏省', 0, NULL, NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (320100, '南京市', 320000, '101190101', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (320102, '玄武区', 320100, '101190108', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (320104, '秦淮区', 320100, '101190109', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (320105, '建邺区', 320100, '101190110', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (320106, '鼓楼区', 320100, '101190111', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (320111, '浦口区', 320100, '101190107', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (320113, '栖霞区', 320100, '101190112', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (320114, '雨花台区', 320100, '101190113', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (320115, '江宁区', 320100, '101190104', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (320116, '六合区', 320100, '101190105', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (320117, '溧水区', 320100, '101190102', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (320118, '高淳区', 320100, '101190103', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (320200, '无锡市', 320000, '101190201', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (320205, '锡山区', 320200, '101190204', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (320206, '惠山区', 320200, '101190205', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (320211, '滨湖区', 320200, '101190206', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (320213, '梁溪区', 320200, '101190207', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (320214, '新吴区', 320200, '101190208', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (320281, '江阴市', 320200, '101190202', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (320282, '宜兴市', 320200, '101190203', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (320300, '徐州市', 320000, '101190801', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (320302, '鼓楼区', 320300, '101190808', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (320303, '云龙区', 320300, '101190809', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (320305, '贾汪区', 320300, '101190810', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (320311, '泉山区', 320300, '101190811', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (320312, '铜山区', 320300, '101190802', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (320321, '丰县', 320300, '101190803', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (320322, '沛县', 320300, '101190804', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (320324, '睢宁县', 320300, '101190806', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (320381, '新沂市', 320300, '101190807', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (320382, '邳州市', 320300, '101190805', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (320400, '常州市', 320000, '101191101', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (320402, '天宁区', 320400, '101191105', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (320404, '钟楼区', 320400, '101191106', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (320411, '新北区', 320400, '101191107', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (320412, '武进区', 320400, '101191104', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (320413, '金坛区', 320400, '101191103', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (320481, '溧阳市', 320400, '101191102', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (320500, '苏州市', 320000, '101190401', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (320505, '虎丘区', 320500, '101190406', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (320506, '吴中区', 320500, '101190405', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (320507, '相城区', 320500, '101190409', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (320508, '姑苏区', 320500, '101190410', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (320509, '吴江区', 320500, '101190407', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (320581, '常熟市', 320500, '101190402', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (320582, '张家港市', 320500, '101190403', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (320583, '昆山市', 320500, '101190404', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (320585, '太仓市', 320500, '101190408', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (320600, '南通市', 320000, '101190501', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (320612, '通州区', 320600, '101190509', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (320613, '崇川区', 320600, '101190505', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (320614, '海门区', 320600, '101190508', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (320623, '如东县', 320600, '101190504', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (320681, '启东市', 320600, '101190507', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (320682, '如皋市', 320600, '101190503', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (320685, '海安市', 320600, '101190502', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (320700, '连云港市', 320000, '101191001', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (320703, '连云区', 320700, '101191007', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (320706, '海州区', 320700, '101191006', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (320707, '赣榆区', 320700, '101191003', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (320722, '东海县', 320700, '101191002', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (320723, '灌云县', 320700, '101191004', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (320724, '灌南县', 320700, '101191005', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (320800, '淮安市', 320000, '101190901', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (320803, '淮安区', 320800, '101190901', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (320804, '淮阴区', 320800, '101190906', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (320812, '清江浦区', 320800, '101190907', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (320813, '洪泽区', 320800, '101190904', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (320826, '涟水县', 320800, '101190905', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (320830, '盱眙县', 320800, '101190903', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (320831, '金湖县', 320800, '101190902', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (320900, '盐城市', 320000, '101190701', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (320902, '亭湖区', 320900, '101190710', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (320903, '盐都区', 320900, '101190709', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (320904, '大丰区', 320900, '101190708', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (320921, '响水县', 320900, '101190702', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (320922, '滨海县', 320900, '101190703', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (320923, '阜宁县', 320900, '101190704', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (320924, '射阳县', 320900, '101190705', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (320925, '建湖县', 320900, '101190706', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (320981, '东台市', 320900, '101190707', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (321000, '扬州市', 320000, '101190601', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (321002, '广陵区', 321000, '101190607', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (321003, '邗江区', 321000, '101190606', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (321012, '江都区', 321000, '101190605', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (321023, '宝应县', 321000, '101190602', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (321081, '仪征市', 321000, '101190603', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (321084, '高邮市', 321000, '101190604', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (321100, '镇江市', 320000, '101190301', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (321102, '京口区', 321100, '101190306', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (321111, '润州区', 321100, '101190307', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (321112, '丹徒区', 321100, '101190305', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (321181, '丹阳市', 321100, '101190302', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (321182, '扬中市', 321100, '101190303', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (321183, '句容市', 321100, '101190304', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (321200, '泰州市', 320000, '101191201', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (321202, '海陵区', 321200, '101191206', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (321203, '高港区', 321200, '101191207', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (321204, '姜堰区', 321200, '101191204', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (321281, '兴化市', 321200, '101191202', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (321282, '靖江市', 321200, '101191205', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (321283, '泰兴市', 321200, '101191203', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (321300, '宿迁市', 320000, '101191301', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (321302, '宿城区', 321300, '101191306', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (321311, '宿豫区', 321300, '101191305', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (321322, '沭阳县', 321300, '101191302', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (321323, '泗阳县', 321300, '101191303', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (321324, '泗洪县', 321300, '101191304', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (330000, '浙江省', 0, NULL, NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (330100, '杭州市', 330000, '101210101', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (330102, '上城区', 330100, '101210109', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (330105, '拱墅区', 330100, '101210112', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (330106, '西湖区', 330100, '101210113', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (330108, '滨江区', 330100, '101210114', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (330109, '萧山区', 330100, '101210102', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (330110, '余杭区', 330100, '101210106', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (330111, '富阳区', 330100, '101210108', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (330112, '临安区', 330100, '101210107', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (330113, '临平区', 330100, NULL, NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (330114, '钱塘区', 330100, NULL, NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (330122, '桐庐县', 330100, '101210103', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (330127, '淳安县', 330100, '101210104', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (330182, '建德市', 330100, '101210105', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (330200, '宁波市', 330000, '101210401', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (330203, '海曙区', 330200, '101210402', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (330205, '江北区', 330200, '101210409', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (330206, '北仑区', 330200, '101210410', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (330211, '镇海区', 330200, '101210412', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (330212, '鄞州区', 330200, '101210411', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (330213, '奉化区', 330200, '101210405', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (330225, '象山县', 330200, '101210406', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (330226, '宁海县', 330200, '101210408', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (330281, '余姚市', 330200, '101210404', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (330282, '慈溪市', 330200, '101210403', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (330300, '温州市', 330000, '101210701', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (330302, '鹿城区', 330300, '101210710', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (330303, '龙湾区', 330300, '101210711', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (330304, '瓯海区', 330300, '101210712', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (330305, '洞头区', 330300, '101210706', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (330324, '永嘉县', 330300, '101210708', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (330326, '平阳县', 330300, '101210704', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (330327, '苍南县', 330300, '101210709', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (330328, '文成县', 330300, '101210703', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (330329, '泰顺县', 330300, '101210702', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (330381, '瑞安市', 330300, '101210705', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (330382, '乐清市', 330300, '101210707', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (330383, '龙港市', 330300, NULL, NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (330400, '嘉兴市', 330000, '101210301', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (330402, '南湖区', 330400, '101210307', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (330411, '秀洲区', 330400, '101210308', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (330421, '嘉善县', 330400, '101210302', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (330424, '海盐县', 330400, '101210306', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (330481, '海宁市', 330400, '101210303', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (330482, '平湖市', 330400, '101210305', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (330483, '桐乡市', 330400, '101210304', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (330500, '湖州市', 330000, '101210201', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (330502, '吴兴区', 330500, '101210205', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (330503, '南浔区', 330500, '101210206', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (330521, '德清县', 330500, '101210204', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (330522, '长兴县', 330500, '101210202', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (330523, '安吉县', 330500, '101210203', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (330600, '绍兴市', 330000, '101210507', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (330602, '越城区', 330600, '101210501', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (330603, '柯桥区', 330600, '101210506', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (330604, '上虞区', 330600, '101210503', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (330624, '新昌县', 330600, '101210504', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (330681, '诸暨市', 330600, '101210502', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (330683, '嵊州市', 330600, '101210505', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (330700, '金华市', 330000, '101210901', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (330702, '婺城区', 330700, '101210909', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (330703, '金东区', 330700, '101210910', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (330723, '武义县', 330700, '101210906', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (330726, '浦江县', 330700, '101210902', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (330727, '磐安县', 330700, '101210908', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (330781, '兰溪市', 330700, '101210903', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (330782, '义乌市', 330700, '101210904', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (330783, '东阳市', 330700, '101210905', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (330784, '永康市', 330700, '101210907', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (330800, '衢州市', 330000, '101211001', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (330802, '柯城区', 330800, '101211007', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (330803, '衢江区', 330800, '101211006', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (330822, '常山县', 330800, '101211002', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (330824, '开化县', 330800, '101211003', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (330825, '龙游县', 330800, '101211004', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (330881, '江山市', 330800, '101211005', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (330900, '舟山市', 330000, '101211101', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (330902, '定海区', 330900, '101211106', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (330903, '普陀区', 330900, '101211105', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (330921, '岱山县', 330900, '101211104', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (330922, '嵊泗县', 330900, '101211102', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (331000, '台州市', 330000, '101210601', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (331002, '椒江区', 331000, '101210611', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (331003, '黄岩区', 331000, '101210612', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (331004, '路桥区', 331000, '101210613', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (331022, '三门县', 331000, '101210604', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (331023, '天台县', 331000, '101210605', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (331024, '仙居县', 331000, '101210606', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (331081, '温岭市', 331000, '101210607', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (331082, '临海市', 331000, '101210610', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (331083, '玉环市', 331000, '101210603', NULL, '2024-03-27 23:31:33', NULL, '2024-03-27 23:31:33');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (331100, '丽水市', 330000, '101210801', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (331102, '莲都区', 331100, '101210810', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (331121, '青田县', 331100, '101210805', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (331122, '缙云县', 331100, '101210804', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (331123, '遂昌县', 331100, '101210802', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (331124, '松阳县', 331100, '101210808', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (331125, '云和县', 331100, '101210806', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (331126, '庆元县', 331100, '101210807', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (331127, '景宁畲族自治县', 331100, '101210809', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (331181, '龙泉市', 331100, '101210803', NULL, '2024-03-27 23:31:34', NULL, '2024-03-27 23:31:34');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (340000, '安徽省', 0, NULL, NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (340100, '合肥市', 340000, '101220101', NULL, '2024-03-27 23:31:37', NULL, '2024-03-27 23:31:37');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (340102, '瑶海区', 340100, '101220107', NULL, '2024-03-27 23:31:37', NULL, '2024-03-27 23:31:37');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (340103, '庐阳区', 340100, '101220108', NULL, '2024-03-27 23:31:37', NULL, '2024-03-27 23:31:37');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (340104, '蜀山区', 340100, '101220109', NULL, '2024-03-27 23:31:37', NULL, '2024-03-27 23:31:37');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (340111, '包河区', 340100, '101220110', NULL, '2024-03-27 23:31:37', NULL, '2024-03-27 23:31:37');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (340121, '长丰县', 340100, '101220102', NULL, '2024-03-27 23:31:37', NULL, '2024-03-27 23:31:37');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (340122, '肥东县', 340100, '101220103', NULL, '2024-03-27 23:31:37', NULL, '2024-03-27 23:31:37');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (340123, '肥西县', 340100, '101220104', NULL, '2024-03-27 23:31:37', NULL, '2024-03-27 23:31:37');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (340124, '庐江县', 340100, '101220106', NULL, '2024-03-27 23:31:37', NULL, '2024-03-27 23:31:37');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (340181, '巢湖市', 340100, '101220105', NULL, '2024-03-27 23:31:37', NULL, '2024-03-27 23:31:37');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (340200, '芜湖市', 340000, '101220301', NULL, '2024-03-27 23:31:37', NULL, '2024-03-27 23:31:37');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (340202, '镜湖区', 340200, '101220306', NULL, '2024-03-27 23:31:37', NULL, '2024-03-27 23:31:37');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (340207, '鸠江区', 340200, '101220308', NULL, '2024-03-27 23:31:37', NULL, '2024-03-27 23:31:37');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (340209, '弋江区', 340200, '101220307', NULL, '2024-03-27 23:31:37', NULL, '2024-03-27 23:31:37');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (340210, '湾沚区', 340200, NULL, NULL, '2024-03-27 23:31:37', NULL, '2024-03-27 23:31:37');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (340212, '繁昌区', 340200, '101220302', NULL, '2024-03-27 23:31:37', NULL, '2024-03-27 23:31:37');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (340223, '南陵县', 340200, '101220304', NULL, '2024-03-27 23:31:37', NULL, '2024-03-27 23:31:37');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (340281, '无为市', 340200, '101220305', NULL, '2024-03-27 23:31:37', NULL, '2024-03-27 23:31:37');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (340300, '蚌埠市', 340000, '101220201', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (340302, '龙子湖区', 340300, '101220205', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (340303, '蚌山区', 340300, '101220206', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (340304, '禹会区', 340300, '101220207', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (340311, '淮上区', 340300, '101220208', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (340321, '怀远县', 340300, '101220202', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (340322, '五河县', 340300, '101220204', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (340323, '固镇县', 340300, '101220203', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (340400, '淮南市', 340000, '101220401', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (340402, '大通区', 340400, '101220404', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (340403, '田家庵区', 340400, '101220405', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (340404, '谢家集区', 340400, '101220406', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (340405, '八公山区', 340400, '101220407', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (340406, '潘集区', 340400, '101220403', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (340421, '凤台县', 340400, '101220402', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (340422, '寿县', 340400, '101220408', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (340500, '马鞍山市', 340000, '101220501', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (340503, '花山区', 340500, '101220505', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (340504, '雨山区', 340500, '101220506', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (340506, '博望区', 340500, '101220507', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (340521, '当涂县', 340500, '101220502', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (340522, '含山县', 340500, '101220503', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (340523, '和县', 340500, '101220504', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (340600, '淮北市', 340000, '101221201', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (340602, '杜集区', 340600, '101221203', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (340603, '相山区', 340600, '101221204', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (340604, '烈山区', 340600, '101221205', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (340621, '濉溪县', 340600, '101221202', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (340700, '铜陵市', 340000, '101221301', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (340705, '铜官区', 340700, '101221302', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (340706, '义安区', 340700, '101221303', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (340711, '郊区', 340700, '101221304', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (340722, '枞阳县', 340700, '101221305', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (340800, '安庆市', 340000, '101220601', NULL, '2024-03-27 23:31:37', NULL, '2024-03-27 23:31:37');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (340802, '迎江区', 340800, '101220610', NULL, '2024-03-27 23:31:37', NULL, '2024-03-27 23:31:37');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (340803, '大观区', 340800, '101220611', NULL, '2024-03-27 23:31:37', NULL, '2024-03-27 23:31:37');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (340811, '宜秀区', 340800, '101220612', NULL, '2024-03-27 23:31:37', NULL, '2024-03-27 23:31:37');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (340822, '怀宁县', 340800, '101220605', NULL, '2024-03-27 23:31:37', NULL, '2024-03-27 23:31:37');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (340825, '太湖县', 340800, '101220603', NULL, '2024-03-27 23:31:37', NULL, '2024-03-27 23:31:37');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (340826, '宿松县', 340800, '101220606', NULL, '2024-03-27 23:31:37', NULL, '2024-03-27 23:31:37');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (340827, '望江县', 340800, '101220607', NULL, '2024-03-27 23:31:37', NULL, '2024-03-27 23:31:37');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (340828, '岳西县', 340800, '101220608', NULL, '2024-03-27 23:31:37', NULL, '2024-03-27 23:31:37');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (340881, '桐城市', 340800, '101220609', NULL, '2024-03-27 23:31:37', NULL, '2024-03-27 23:31:37');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (340882, '潜山市', 340800, '101220604', NULL, '2024-03-27 23:31:37', NULL, '2024-03-27 23:31:37');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (341000, '黄山市', 340000, '101221001', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (341002, '屯溪区', 341000, '101221003', NULL, '2024-03-27 23:31:37', NULL, '2024-03-27 23:31:37');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (341003, '黄山区', 341000, '101221002', NULL, '2024-03-27 23:31:37', NULL, '2024-03-27 23:31:37');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (341004, '徽州区', 341000, '101221009', NULL, '2024-03-27 23:31:37', NULL, '2024-03-27 23:31:37');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (341021, '歙县', 341000, '101221006', NULL, '2024-03-27 23:31:37', NULL, '2024-03-27 23:31:37');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (341022, '休宁县', 341000, '101221007', NULL, '2024-03-27 23:31:37', NULL, '2024-03-27 23:31:37');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (341023, '黟县', 341000, '101221005', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (341024, '祁门县', 341000, '101221004', NULL, '2024-03-27 23:31:37', NULL, '2024-03-27 23:31:37');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (341100, '滁州市', 340000, '101221101', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (341102, '琅琊区', 341100, '101221108', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (341103, '南谯区', 341100, '101221109', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (341122, '来安县', 341100, '101221106', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (341124, '全椒县', 341100, '101221105', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (341125, '定远县', 341100, '101221104', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (341126, '凤阳县', 341100, '101221102', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (341181, '天长市', 341100, '101221107', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (341182, '明光市', 341100, '101221103', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (341200, '阜阳市', 340000, '101220801', NULL, '2024-03-27 23:31:37', NULL, '2024-03-27 23:31:37');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (341202, '颍州区', 341200, '101220807', NULL, '2024-03-27 23:31:37', NULL, '2024-03-27 23:31:37');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (341203, '颍东区', 341200, '101220808', NULL, '2024-03-27 23:31:37', NULL, '2024-03-27 23:31:37');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (341204, '颍泉区', 341200, '101220809', NULL, '2024-03-27 23:31:37', NULL, '2024-03-27 23:31:37');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (341221, '临泉县', 341200, '101220804', NULL, '2024-03-27 23:31:37', NULL, '2024-03-27 23:31:37');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (341222, '太和县', 341200, '101220806', NULL, '2024-03-27 23:31:37', NULL, '2024-03-27 23:31:37');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (341225, '阜南县', 341200, '101220802', NULL, '2024-03-27 23:31:37', NULL, '2024-03-27 23:31:37');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (341226, '颍上县', 341200, '101220803', NULL, '2024-03-27 23:31:37', NULL, '2024-03-27 23:31:37');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (341282, '界首市', 341200, '101220805', NULL, '2024-03-27 23:31:37', NULL, '2024-03-27 23:31:37');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (341300, '宿州市', 340000, '101220701', NULL, '2024-03-27 23:31:37', NULL, '2024-03-27 23:31:37');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (341302, '埇桥区', 341300, '101220706', NULL, '2024-03-27 23:31:37', NULL, '2024-03-27 23:31:37');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (341321, '砀山县', 341300, '101220702', NULL, '2024-03-27 23:31:37', NULL, '2024-03-27 23:31:37');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (341322, '萧县', 341300, '101220705', NULL, '2024-03-27 23:31:37', NULL, '2024-03-27 23:31:37');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (341323, '灵璧县', 341300, '101220703', NULL, '2024-03-27 23:31:37', NULL, '2024-03-27 23:31:37');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (341324, '泗县', 341300, '101220704', NULL, '2024-03-27 23:31:37', NULL, '2024-03-27 23:31:37');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (341500, '六安市', 340000, '101221501', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (341502, '金安区', 341500, '101221504', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (341503, '裕安区', 341500, '101221508', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (341504, '叶集区', 341500, '101221509', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (341522, '霍邱县', 341500, '101221502', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (341523, '舒城县', 341500, '101221507', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (341524, '金寨县', 341500, '101221505', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (341525, '霍山县', 341500, '101221506', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (341600, '亳州市', 340000, '101220901', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (341602, '谯城区', 341600, '101220905', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (341621, '涡阳县', 341600, '101220902', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (341622, '蒙城县', 341600, '101220904', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (341623, '利辛县', 341600, '101220903', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (341700, '池州市', 340000, '101221701', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (341702, '贵池区', 341700, '101221706', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (341721, '东至县', 341700, '101221702', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (341722, '石台县', 341700, '101221705', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (341723, '青阳县', 341700, '101221703', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (341800, '宣城市', 340000, '101221401', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (341802, '宣州区', 341800, '101221408', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (341821, '郎溪县', 341800, '101221407', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (341823, '泾县', 341800, '101221402', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (341824, '绩溪县', 341800, '101221405', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (341825, '旌德县', 341800, '101221403', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (341881, '宁国市', 341800, '101221404', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (341882, '广德市', 341800, '101221406', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (350000, '福建省', 0, NULL, NULL, '2024-03-27 23:31:44', NULL, '2024-03-27 23:31:44');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (350100, '福州市', 350000, '101230101', NULL, '2024-03-27 23:31:44', NULL, '2024-03-27 23:31:44');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (350102, '鼓楼区', 350100, '101230106', NULL, '2024-03-27 23:31:44', NULL, '2024-03-27 23:31:44');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (350103, '台江区', 350100, '101230109', NULL, '2024-03-27 23:31:44', NULL, '2024-03-27 23:31:44');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (350104, '仓山区', 350100, '101230112', NULL, '2024-03-27 23:31:44', NULL, '2024-03-27 23:31:44');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (350105, '马尾区', 350100, '101230113', NULL, '2024-03-27 23:31:44', NULL, '2024-03-27 23:31:44');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (350111, '晋安区', 350100, '101230114', NULL, '2024-03-27 23:31:44', NULL, '2024-03-27 23:31:44');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (350112, '长乐区', 350100, '101230110', NULL, '2024-03-27 23:31:45', NULL, '2024-03-27 23:31:45');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (350121, '闽侯县', 350100, '101230103', NULL, '2024-03-27 23:31:44', NULL, '2024-03-27 23:31:44');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (350122, '连江县', 350100, '101230105', NULL, '2024-03-27 23:31:44', NULL, '2024-03-27 23:31:44');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (350123, '罗源县', 350100, '101230104', NULL, '2024-03-27 23:31:44', NULL, '2024-03-27 23:31:44');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (350124, '闽清县', 350100, '101230102', NULL, '2024-03-27 23:31:44', NULL, '2024-03-27 23:31:44');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (350125, '永泰县', 350100, '101230107', NULL, '2024-03-27 23:31:44', NULL, '2024-03-27 23:31:44');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (350128, '平潭县', 350100, '101230108', NULL, '2024-03-27 23:31:44', NULL, '2024-03-27 23:31:44');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (350181, '福清市', 350100, '101230111', NULL, '2024-03-27 23:31:45', NULL, '2024-03-27 23:31:45');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (350200, '厦门市', 350000, '101230201', NULL, '2024-03-27 23:31:44', NULL, '2024-03-27 23:31:44');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (350203, '思明区', 350200, '101230203', NULL, '2024-03-27 23:31:44', NULL, '2024-03-27 23:31:44');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (350205, '海沧区', 350200, '101230204', NULL, '2024-03-27 23:31:44', NULL, '2024-03-27 23:31:44');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (350206, '湖里区', 350200, '101230205', NULL, '2024-03-27 23:31:44', NULL, '2024-03-27 23:31:44');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (350211, '集美区', 350200, '101230206', NULL, '2024-03-27 23:31:44', NULL, '2024-03-27 23:31:44');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (350212, '同安区', 350200, '101230202', NULL, '2024-03-27 23:31:44', NULL, '2024-03-27 23:31:44');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (350213, '翔安区', 350200, '101230207', NULL, '2024-03-27 23:31:44', NULL, '2024-03-27 23:31:44');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (350300, '莆田市', 350000, '101230401', NULL, '2024-03-27 23:31:44', NULL, '2024-03-27 23:31:44');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (350302, '城厢区', 350300, '101230407', NULL, '2024-03-27 23:31:44', NULL, '2024-03-27 23:31:44');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (350303, '涵江区', 350300, '101230404', NULL, '2024-03-27 23:31:44', NULL, '2024-03-27 23:31:44');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (350304, '荔城区', 350300, '101230406', NULL, '2024-03-27 23:31:44', NULL, '2024-03-27 23:31:44');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (350305, '秀屿区', 350300, '101230405', NULL, '2024-03-27 23:31:44', NULL, '2024-03-27 23:31:44');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (350322, '仙游县', 350300, '101230402', NULL, '2024-03-27 23:31:44', NULL, '2024-03-27 23:31:44');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (350400, '三明市', 350000, '101230801', NULL, '2024-03-27 23:31:44', NULL, '2024-03-27 23:31:44');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (350404, '三元区', 350400, '101230813', NULL, '2024-03-27 23:31:44', NULL, '2024-03-27 23:31:44');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (350405, '沙县区', 350400, '101230808', NULL, '2024-03-27 23:31:44', NULL, '2024-03-27 23:31:44');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (350421, '明溪县', 350400, '101230807', NULL, '2024-03-27 23:31:44', NULL, '2024-03-27 23:31:44');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (350423, '清流县', 350400, '101230803', NULL, '2024-03-27 23:31:44', NULL, '2024-03-27 23:31:44');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (350424, '宁化县', 350400, '101230802', NULL, '2024-03-27 23:31:44', NULL, '2024-03-27 23:31:44');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (350425, '大田县', 350400, '101230811', NULL, '2024-03-27 23:31:44', NULL, '2024-03-27 23:31:44');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (350426, '尤溪县', 350400, '101230809', NULL, '2024-03-27 23:31:44', NULL, '2024-03-27 23:31:44');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (350428, '将乐县', 350400, '101230805', NULL, '2024-03-27 23:31:44', NULL, '2024-03-27 23:31:44');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (350429, '泰宁县', 350400, '101230804', NULL, '2024-03-27 23:31:44', NULL, '2024-03-27 23:31:44');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (350430, '建宁县', 350400, '101230806', NULL, '2024-03-27 23:31:44', NULL, '2024-03-27 23:31:44');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (350481, '永安市', 350400, '101230810', NULL, '2024-03-27 23:31:44', NULL, '2024-03-27 23:31:44');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (350500, '泉州市', 350000, '101230501', NULL, '2024-03-27 23:31:44', NULL, '2024-03-27 23:31:44');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (350502, '鲤城区', 350500, '101230511', NULL, '2024-03-27 23:31:44', NULL, '2024-03-27 23:31:44');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (350503, '丰泽区', 350500, '101230512', NULL, '2024-03-27 23:31:44', NULL, '2024-03-27 23:31:44');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (350504, '洛江区', 350500, '101230513', NULL, '2024-03-27 23:31:44', NULL, '2024-03-27 23:31:44');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (350505, '泉港区', 350500, '101230514', NULL, '2024-03-27 23:31:44', NULL, '2024-03-27 23:31:44');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (350521, '惠安县', 350500, '101230508', NULL, '2024-03-27 23:31:44', NULL, '2024-03-27 23:31:44');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (350524, '安溪县', 350500, '101230502', NULL, '2024-03-27 23:31:44', NULL, '2024-03-27 23:31:44');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (350525, '永春县', 350500, '101230504', NULL, '2024-03-27 23:31:44', NULL, '2024-03-27 23:31:44');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (350526, '德化县', 350500, '101230505', NULL, '2024-03-27 23:31:44', NULL, '2024-03-27 23:31:44');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (350527, '金门县', 350500, '101230503', NULL, '2024-03-27 23:31:44', NULL, '2024-03-27 23:31:44');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (350581, '石狮市', 350500, '101230510', NULL, '2024-03-27 23:31:44', NULL, '2024-03-27 23:31:44');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (350582, '晋江市', 350500, '101230509', NULL, '2024-03-27 23:31:44', NULL, '2024-03-27 23:31:44');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (350583, '南安市', 350500, '101230506', NULL, '2024-03-27 23:31:44', NULL, '2024-03-27 23:31:44');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (350600, '漳州市', 350000, '101230601', NULL, '2024-03-27 23:31:44', NULL, '2024-03-27 23:31:44');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (350602, '芗城区', 350600, '101230611', NULL, '2024-03-27 23:31:44', NULL, '2024-03-27 23:31:44');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (350603, '龙文区', 350600, '101230612', NULL, '2024-03-27 23:31:44', NULL, '2024-03-27 23:31:44');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (350604, '龙海区', 350600, '101230605', NULL, '2024-03-27 23:31:44', NULL, '2024-03-27 23:31:44');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (350605, '长泰区', 350600, '101230602', NULL, '2024-03-27 23:31:44', NULL, '2024-03-27 23:31:44');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (350622, '云霄县', 350600, '101230609', NULL, '2024-03-27 23:31:44', NULL, '2024-03-27 23:31:44');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (350623, '漳浦县', 350600, '101230606', NULL, '2024-03-27 23:31:44', NULL, '2024-03-27 23:31:44');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (350624, '诏安县', 350600, '101230607', NULL, '2024-03-27 23:31:44', NULL, '2024-03-27 23:31:44');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (350626, '东山县', 350600, '101230608', NULL, '2024-03-27 23:31:44', NULL, '2024-03-27 23:31:44');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (350627, '南靖县', 350600, '101230603', NULL, '2024-03-27 23:31:44', NULL, '2024-03-27 23:31:44');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (350628, '平和县', 350600, '101230604', NULL, '2024-03-27 23:31:44', NULL, '2024-03-27 23:31:44');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (350629, '华安县', 350600, '101230610', NULL, '2024-03-27 23:31:44', NULL, '2024-03-27 23:31:44');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (350700, '南平市', 350000, '101230901', NULL, '2024-03-27 23:31:44', NULL, '2024-03-27 23:31:44');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (350702, '延平区', 350700, '101230911', NULL, '2024-03-27 23:31:44', NULL, '2024-03-27 23:31:44');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (350703, '建阳区', 350700, '101230907', NULL, '2024-03-27 23:31:44', NULL, '2024-03-27 23:31:44');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (350721, '顺昌县', 350700, '101230902', NULL, '2024-03-27 23:31:44', NULL, '2024-03-27 23:31:44');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (350722, '浦城县', 350700, '101230906', NULL, '2024-03-27 23:31:44', NULL, '2024-03-27 23:31:44');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (350723, '光泽县', 350700, '101230903', NULL, '2024-03-27 23:31:44', NULL, '2024-03-27 23:31:44');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (350724, '松溪县', 350700, '101230908', NULL, '2024-03-27 23:31:44', NULL, '2024-03-27 23:31:44');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (350725, '政和县', 350700, '101230909', NULL, '2024-03-27 23:31:44', NULL, '2024-03-27 23:31:44');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (350781, '邵武市', 350700, '101230904', NULL, '2024-03-27 23:31:44', NULL, '2024-03-27 23:31:44');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (350782, '武夷山市', 350700, '101230905', NULL, '2024-03-27 23:31:44', NULL, '2024-03-27 23:31:44');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (350783, '建瓯市', 350700, '101230910', NULL, '2024-03-27 23:31:44', NULL, '2024-03-27 23:31:44');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (350800, '龙岩市', 350000, '101230701', NULL, '2024-03-27 23:31:44', NULL, '2024-03-27 23:31:44');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (350802, '新罗区', 350800, '101230708', NULL, '2024-03-27 23:31:44', NULL, '2024-03-27 23:31:44');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (350803, '永定区', 350800, '101230706', NULL, '2024-03-27 23:31:44', NULL, '2024-03-27 23:31:44');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (350821, '长汀县', 350800, '101230702', NULL, '2024-03-27 23:31:44', NULL, '2024-03-27 23:31:44');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (350823, '上杭县', 350800, '101230705', NULL, '2024-03-27 23:31:44', NULL, '2024-03-27 23:31:44');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (350824, '武平县', 350800, '101230704', NULL, '2024-03-27 23:31:44', NULL, '2024-03-27 23:31:44');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (350825, '连城县', 350800, '101230703', NULL, '2024-03-27 23:31:44', NULL, '2024-03-27 23:31:44');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (350881, '漳平市', 350800, '101230707', NULL, '2024-03-27 23:31:44', NULL, '2024-03-27 23:31:44');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (350900, '宁德市', 350000, '101230301', NULL, '2024-03-27 23:31:44', NULL, '2024-03-27 23:31:44');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (350902, '蕉城区', 350900, '101230310', NULL, '2024-03-27 23:31:44', NULL, '2024-03-27 23:31:44');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (350921, '霞浦县', 350900, '101230303', NULL, '2024-03-27 23:31:44', NULL, '2024-03-27 23:31:44');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (350922, '古田县', 350900, '101230302', NULL, '2024-03-27 23:31:44', NULL, '2024-03-27 23:31:44');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (350923, '屏南县', 350900, '101230309', NULL, '2024-03-27 23:31:44', NULL, '2024-03-27 23:31:44');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (350924, '寿宁县', 350900, '101230304', NULL, '2024-03-27 23:31:44', NULL, '2024-03-27 23:31:44');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (350925, '周宁县', 350900, '101230305', NULL, '2024-03-27 23:31:44', NULL, '2024-03-27 23:31:44');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (350926, '柘荣县', 350900, '101230307', NULL, '2024-03-27 23:31:44', NULL, '2024-03-27 23:31:44');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (350981, '福安市', 350900, '101230306', NULL, '2024-03-27 23:31:44', NULL, '2024-03-27 23:31:44');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (350982, '福鼎市', 350900, '101230308', NULL, '2024-03-27 23:31:44', NULL, '2024-03-27 23:31:44');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (360000, '江西省', 0, NULL, NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (360100, '南昌市', 360000, '101240101', NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (360102, '东湖区', 360100, '101240106', NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (360103, '西湖区', 360100, '101240107', NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (360104, '青云谱区', 360100, '101240108', NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (360111, '青山湖区', 360100, '101240110', NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (360112, '新建区', 360100, '101240102', NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (360113, '红谷滩区', 360100, NULL, NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (360121, '南昌县', 360100, '101240103', NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (360123, '安义县', 360100, '101240104', NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (360124, '进贤县', 360100, '101240105', NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (360200, '景德镇市', 360000, '101240801', NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (360202, '昌江区', 360200, '101240804', NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (360203, '珠山区', 360200, '101240805', NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (360222, '浮梁县', 360200, '101240803', NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (360281, '乐平市', 360200, '101240802', NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (360300, '萍乡市', 360000, '101240901', NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (360302, '安源区', 360300, '101240904', NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (360313, '湘东区', 360300, '101240906', NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (360321, '莲花县', 360300, '101240902', NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (360322, '上栗县', 360300, '101240903', NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (360323, '芦溪县', 360300, '101240905', NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (360400, '九江市', 360000, '101240201', NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (360402, '濂溪区', 360400, '101240214', NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (360403, '浔阳区', 360400, '101240211', NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (360404, '柴桑区', 360400, '101240215', NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (360423, '武宁县', 360400, '101240204', NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (360424, '修水县', 360400, '101240212', NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (360425, '永修县', 360400, '101240206', NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (360426, '德安县', 360400, '101240205', NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (360428, '都昌县', 360400, '101240210', NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (360429, '湖口县', 360400, '101240207', NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (360430, '彭泽县', 360400, '101240208', NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (360481, '瑞昌市', 360400, '101240202', NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (360482, '共青城市', 360400, '101240213', NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (360483, '庐山市', 360400, '101240203', NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (360500, '新余市', 360000, '101241001', NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (360502, '渝水区', 360500, '101241003', NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (360521, '分宜县', 360500, '101241002', NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (360600, '鹰潭市', 360000, '101241101', NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (360602, '月湖区', 360600, '101241104', NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (360603, '余江区', 360600, '101241102', NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (360681, '贵溪市', 360600, '101241103', NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (360700, '赣州市', 360000, '101240701', NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (360702, '章贡区', 360700, '101240719', NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (360703, '南康区', 360700, '101240704', NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (360704, '赣县区', 360700, '101240718', NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (360722, '信丰县', 360700, '101240706', NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (360723, '大余县', 360700, '101240705', NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (360724, '上犹县', 360700, '101240703', NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (360725, '崇义县', 360700, '101240702', NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (360726, '安远县', 360700, '101240712', NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (360728, '定南县', 360700, '101240715', NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (360729, '全南县', 360700, '101240713', NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (360730, '宁都县', 360700, '101240707', NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (360731, '于都县', 360700, '101240710', NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (360732, '兴国县', 360700, '101240717', NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (360733, '会昌县', 360700, '101240711', NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (360734, '寻乌县', 360700, '101240716', NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (360735, '石城县', 360700, '101240708', NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (360781, '瑞金市', 360700, '101240709', NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (360783, '龙南市', 360700, '101240714', NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (360800, '吉安市', 360000, '101240601', NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (360802, '吉州区', 360800, '101240614', NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (360803, '青原区', 360800, '101240615', NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (360821, '吉安县', 360800, '101240601', NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (360822, '吉水县', 360800, '101240603', NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (360823, '峡江县', 360800, '101240605', NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (360824, '新干县', 360800, '101240604', NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (360825, '永丰县', 360800, '101240606', NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (360826, '泰和县', 360800, '101240611', NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (360827, '遂川县', 360800, '101240610', NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (360828, '万安县', 360800, '101240609', NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (360829, '安福县', 360800, '101240612', NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (360830, '永新县', 360800, '101240607', NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (360881, '井冈山市', 360800, '101240608', NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (360900, '宜春市', 360000, '101240501', NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (360902, '袁州区', 360900, '101240511', NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (360921, '奉新县', 360900, '101240507', NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (360922, '万载县', 360900, '101240504', NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (360923, '上高县', 360900, '101240505', NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (360924, '宜丰县', 360900, '101240503', NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (360925, '靖安县', 360900, '101240506', NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (360926, '铜鼓县', 360900, '101240502', NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (360981, '丰城市', 360900, '101240510', NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (360982, '樟树市', 360900, '101240509', NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (360983, '高安市', 360900, '101240508', NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (361000, '抚州市', 360000, '101240401', NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (361002, '临川区', 361000, '101240412', NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (361003, '东乡区', 361000, '101240411', NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (361021, '南城县', 361000, '101240408', NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (361022, '黎川县', 361000, '101240410', NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (361023, '南丰县', 361000, '101240409', NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (361024, '崇仁县', 361000, '101240404', NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (361025, '乐安县', 361000, '101240403', NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (361026, '宜黄县', 361000, '101240407', NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (361027, '金溪县', 361000, '101240405', NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (361028, '资溪县', 361000, '101240406', NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (361030, '广昌县', 361000, '101240402', NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (361100, '上饶市', 360000, '101240301', NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (361102, '信州区', 361100, '101240304', NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (361103, '广丰区', 361100, '101240313', NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (361104, '广信区', 361100, NULL, NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (361123, '玉山县', 361100, '101240312', NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (361124, '铅山县', 361100, '101240311', NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (361125, '横峰县', 361100, '101240310', NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (361126, '弋阳县', 361100, '101240309', NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (361127, '余干县', 361100, '101240305', NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (361128, '鄱阳县', 361100, '101240302', NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (361129, '万年县', 361100, '101240306', NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (361130, '婺源县', 361100, '101240303', NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (361181, '德兴市', 361100, '101240307', NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (370000, '山东省', 0, NULL, NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (370100, '济南市', 370000, '101120101', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (370102, '历下区', 370100, '101120107', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (370103, '市中区', 370100, '101120108', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (370104, '槐荫区', 370100, '101120109', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (370105, '天桥区', 370100, '101120110', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (370112, '历城区', 370100, '101120111', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (370113, '长清区', 370100, '101120102', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (370114, '章丘区', 370100, '101120104', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (370115, '济阳区', 370100, '101120106', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (370116, '莱芜区', 370100, NULL, NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (370117, '钢城区', 370100, NULL, NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (370124, '平阴县', 370100, '101120105', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (370126, '商河县', 370100, '101120103', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (370200, '青岛市', 370000, '101120201', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (370202, '市南区', 370200, '101120203', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (370203, '市北区', 370200, '101120209', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (370211, '黄岛区', 370200, '101120206', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (370212, '崂山区', 370200, '101120202', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (370213, '李沧区', 370200, '101120210', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (370214, '城阳区', 370200, '101120211', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (370215, '即墨区', 370200, '101120204', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (370281, '胶州市', 370200, '101120205', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (370283, '平度市', 370200, '101120208', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (370285, '莱西市', 370200, '101120207', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (370300, '淄博市', 370000, '101120301', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (370302, '淄川区', 370300, '101120302', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (370303, '张店区', 370300, '101120309', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (370304, '博山区', 370300, '101120303', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (370305, '临淄区', 370300, '101120308', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (370306, '周村区', 370300, '101120305', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (370321, '桓台县', 370300, '101120307', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (370322, '高青县', 370300, '101120304', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (370323, '沂源县', 370300, '101120306', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (370400, '枣庄市', 370000, '101121401', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (370402, '市中区', 370400, '101121406', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (370403, '薛城区', 370400, '101121402', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (370404, '峄城区', 370400, '101121403', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (370405, '台儿庄区', 370400, '101121404', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (370406, '山亭区', 370400, '101121407', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (370481, '滕州市', 370400, '101121405', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (370500, '东营市', 370000, '101121201', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (370502, '东营区', 370500, '101121201', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (370503, '河口区', 370500, '101121202', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (370505, '垦利区', 370500, '101121203', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (370522, '利津县', 370500, '101121204', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (370523, '广饶县', 370500, '101121205', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (370600, '烟台市', 370000, '101120501', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (370602, '芝罘区', 370600, '101120512', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (370611, '福山区', 370600, '101120508', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (370612, '牟平区', 370600, '101120509', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (370613, '莱山区', 370600, '101120513', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (370614, '蓬莱区', 370600, '101120504', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (370681, '龙口市', 370600, '101120505', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (370682, '莱阳市', 370600, '101120510', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (370683, '莱州市', 370600, '101120502', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (370685, '招远市', 370600, '101120506', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (370686, '栖霞市', 370600, '101120507', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (370687, '海阳市', 370600, '101120511', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (370700, '潍坊市', 370000, '101120601', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (370702, '潍城区', 370700, '101120610', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (370703, '寒亭区', 370700, '101120611', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (370704, '坊子区', 370700, '101120612', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (370705, '奎文区', 370700, '101120613', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (370724, '临朐县', 370700, '101120604', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (370725, '昌乐县', 370700, '101120605', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (370781, '青州市', 370700, '101120602', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (370782, '诸城市', 370700, '101120609', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (370783, '寿光市', 370700, '101120603', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (370784, '安丘市', 370700, '101120607', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (370785, '高密市', 370700, '101120608', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (370786, '昌邑市', 370700, '101120606', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (370800, '济宁市', 370000, '101120701', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (370811, '任城区', 370800, '101120712', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (370812, '兖州区', 370800, '101120705', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (370826, '微山县', 370800, '101120703', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (370827, '鱼台县', 370800, '101120704', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (370828, '金乡县', 370800, '101120706', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (370829, '嘉祥县', 370800, '101120702', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (370830, '汶上县', 370800, '101120707', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (370831, '泗水县', 370800, '101120708', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (370832, '梁山县', 370800, '101120709', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (370881, '曲阜市', 370800, '101120710', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (370883, '邹城市', 370800, '101120711', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (370900, '泰安市', 370000, '101120801', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (370902, '泰山区', 370900, '101120803', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (370911, '岱岳区', 370900, '101120807', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (370921, '宁阳县', 370900, '101120806', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (370923, '东平县', 370900, '101120805', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (370982, '新泰市', 370900, '101120802', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (370983, '肥城市', 370900, '101120804', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (371000, '威海市', 370000, '101121301', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (371002, '环翠区', 371000, '101121307', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (371003, '文登区', 371000, '101121302', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (371082, '荣成市', 371000, '101121303', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (371083, '乳山市', 371000, '101121304', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (371100, '日照市', 370000, '101121501', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (371102, '东港区', 371100, '101121504', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (371103, '岚山区', 371100, '101121505', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (371121, '五莲县', 371100, '101121502', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (371122, '莒县', 371100, '101121503', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (371300, '临沂市', 370000, '101120901', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (371302, '兰山区', 371300, '101120911', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (371311, '罗庄区', 371300, '101120912', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (371312, '河东区', 371300, '101120913', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (371321, '沂南县', 371300, '101120903', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (371322, '郯城县', 371300, '101120906', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (371323, '沂水县', 371300, '101120910', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (371324, '兰陵县', 371300, '101120904', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (371325, '费县', 371300, '101120909', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (371326, '平邑县', 371300, '101120908', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (371327, '莒南县', 371300, '101120902', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (371328, '蒙阴县', 371300, '101120907', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (371329, '临沭县', 371300, '101120905', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (371400, '德州市', 370000, '101120401', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (371402, '德城区', 371400, '101120412', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (371403, '陵城区', 371400, '101120413', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (371422, '宁津县', 371400, '101120409', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (371423, '庆云县', 371400, '101120407', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (371424, '临邑县', 371400, '101120403', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (371425, '齐河县', 371400, '101120405', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (371426, '平原县', 371400, '101120408', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (371427, '夏津县', 371400, '101120410', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (371428, '武城县', 371400, '101120402', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (371481, '乐陵市', 371400, '101120406', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (371482, '禹城市', 371400, '101120411', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (371500, '聊城市', 370000, '101121701', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (371502, '东昌府区', 371500, '101121708', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (371503, '茌平区', 371500, '101121705', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (371521, '阳谷县', 371500, '101121703', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (371522, '莘县', 371500, '101121709', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (371524, '东阿县', 371500, '101121706', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (371525, '冠县', 371500, '101121702', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (371526, '高唐县', 371500, '101121704', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (371581, '临清市', 371500, '101121707', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (371600, '滨州市', 370000, '101121101', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (371602, '滨城区', 371600, '101121108', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (371603, '沾化区', 371600, '101121106', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (371621, '惠民县', 371600, '101121105', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (371622, '阳信县', 371600, '101121104', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (371623, '无棣县', 371600, '101121103', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (371625, '博兴县', 371600, '101121102', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (371681, '邹平市', 371600, '101121107', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (371700, '菏泽市', 370000, '101121001', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (371702, '牡丹区', 371700, '101121010', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (371703, '定陶区', 371700, '101121005', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (371721, '曹县', 371700, '101121007', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (371722, '单县', 371700, '101121009', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (371723, '成武县', 371700, '101121008', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (371724, '巨野县', 371700, '101121006', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (371725, '郓城县', 371700, '101121003', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (371726, '鄄城县', 371700, '101121002', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (371728, '东明县', 371700, '101121004', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (410000, '河南省', 0, NULL, NULL, '2024-03-27 23:31:45', NULL, '2024-03-27 23:31:45');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (410100, '郑州市', 410000, '101180101', NULL, '2024-03-27 23:31:45', NULL, '2024-03-27 23:31:45');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (410102, '中原区', 410100, '101180109', NULL, '2024-03-27 23:31:45', NULL, '2024-03-27 23:31:45');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (410103, '二七区', 410100, '101180110', NULL, '2024-03-27 23:31:45', NULL, '2024-03-27 23:31:45');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (410104, '管城回族区', 410100, '101180111', NULL, '2024-03-27 23:31:45', NULL, '2024-03-27 23:31:45');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (410105, '金水区', 410100, '101180112', NULL, '2024-03-27 23:31:45', NULL, '2024-03-27 23:31:45');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (410106, '上街区', 410100, '101180108', NULL, '2024-03-27 23:31:45', NULL, '2024-03-27 23:31:45');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (410108, '惠济区', 410100, '101180113', NULL, '2024-03-27 23:31:45', NULL, '2024-03-27 23:31:45');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (410122, '中牟县', 410100, '101180107', NULL, '2024-03-27 23:31:45', NULL, '2024-03-27 23:31:45');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (410181, '巩义市', 410100, '101180102', NULL, '2024-03-27 23:31:45', NULL, '2024-03-27 23:31:45');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (410182, '荥阳市', 410100, '101180103', NULL, '2024-03-27 23:31:45', NULL, '2024-03-27 23:31:45');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (410183, '新密市', 410100, '101180105', NULL, '2024-03-27 23:31:45', NULL, '2024-03-27 23:31:45');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (410184, '新郑市', 410100, '101180106', NULL, '2024-03-27 23:31:45', NULL, '2024-03-27 23:31:45');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (410185, '登封市', 410100, '101180104', NULL, '2024-03-27 23:31:45', NULL, '2024-03-27 23:31:45');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (410200, '开封市', 410000, '101180801', NULL, '2024-03-27 23:31:45', NULL, '2024-03-27 23:31:45');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (410202, '龙亭区', 410200, '101180806', NULL, '2024-03-27 23:31:45', NULL, '2024-03-27 23:31:45');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (410203, '顺河回族区', 410200, '101180807', NULL, '2024-03-27 23:31:45', NULL, '2024-03-27 23:31:45');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (410204, '鼓楼区', 410200, '101180808', NULL, '2024-03-27 23:31:45', NULL, '2024-03-27 23:31:45');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (410205, '禹王台区', 410200, '101180809', NULL, '2024-03-27 23:31:45', NULL, '2024-03-27 23:31:45');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (410212, '祥符区', 410200, '101180810', NULL, '2024-03-27 23:31:45', NULL, '2024-03-27 23:31:45');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (410221, '杞县', 410200, '101180802', NULL, '2024-03-27 23:31:45', NULL, '2024-03-27 23:31:45');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (410222, '通许县', 410200, '101180804', NULL, '2024-03-27 23:31:45', NULL, '2024-03-27 23:31:45');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (410223, '尉氏县', 410200, '101180803', NULL, '2024-03-27 23:31:45', NULL, '2024-03-27 23:31:45');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (410225, '兰考县', 410200, '101180805', NULL, '2024-03-27 23:31:45', NULL, '2024-03-27 23:31:45');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (410300, '洛阳市', 410000, '101180901', NULL, '2024-03-27 23:31:45', NULL, '2024-03-27 23:31:45');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (410302, '老城区', 410300, '101180912', NULL, '2024-03-27 23:31:45', NULL, '2024-03-27 23:31:45');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (410303, '西工区', 410300, '101180913', NULL, '2024-03-27 23:31:45', NULL, '2024-03-27 23:31:45');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (410304, '瀍河回族区', 410300, '101180914', NULL, '2024-03-27 23:31:45', NULL, '2024-03-27 23:31:45');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (410305, '涧西区', 410300, '101180915', NULL, '2024-03-27 23:31:45', NULL, '2024-03-27 23:31:45');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (410307, '偃师区', 410300, '101180908', NULL, '2024-03-27 23:31:45', NULL, '2024-03-27 23:31:45');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (410308, '孟津区', 410300, '101180903', NULL, '2024-03-27 23:31:45', NULL, '2024-03-27 23:31:45');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (410311, '洛龙区', 410300, '101180916', NULL, '2024-03-27 23:31:45', NULL, '2024-03-27 23:31:45');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (410323, '新安县', 410300, '101180902', NULL, '2024-03-27 23:31:45', NULL, '2024-03-27 23:31:45');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (410324, '栾川县', 410300, '101180909', NULL, '2024-03-27 23:31:45', NULL, '2024-03-27 23:31:45');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (410325, '嵩县', 410300, '101180907', NULL, '2024-03-27 23:31:45', NULL, '2024-03-27 23:31:45');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (410326, '汝阳县', 410300, '101180910', NULL, '2024-03-27 23:31:45', NULL, '2024-03-27 23:31:45');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (410327, '宜阳县', 410300, '101180904', NULL, '2024-03-27 23:31:45', NULL, '2024-03-27 23:31:45');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (410328, '洛宁县', 410300, '101180905', NULL, '2024-03-27 23:31:45', NULL, '2024-03-27 23:31:45');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (410329, '伊川县', 410300, '101180906', NULL, '2024-03-27 23:31:45', NULL, '2024-03-27 23:31:45');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (410400, '平顶山市', 410000, '101180501', NULL, '2024-03-27 23:31:46', NULL, '2024-03-27 23:31:46');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (410402, '新华区', 410400, '101180509', NULL, '2024-03-27 23:31:46', NULL, '2024-03-27 23:31:46');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (410403, '卫东区', 410400, '101180510', NULL, '2024-03-27 23:31:46', NULL, '2024-03-27 23:31:46');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (410404, '石龙区', 410400, '101180508', NULL, '2024-03-27 23:31:46', NULL, '2024-03-27 23:31:46');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (410411, '湛河区', 410400, '101180511', NULL, '2024-03-27 23:31:46', NULL, '2024-03-27 23:31:46');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (410421, '宝丰县', 410400, '101180503', NULL, '2024-03-27 23:31:46', NULL, '2024-03-27 23:31:46');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (410422, '叶县', 410400, '101180505', NULL, '2024-03-27 23:31:46', NULL, '2024-03-27 23:31:46');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (410423, '鲁山县', 410400, '101180507', NULL, '2024-03-27 23:31:46', NULL, '2024-03-27 23:31:46');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (410425, '郏县', 410400, '101180502', NULL, '2024-03-27 23:31:46', NULL, '2024-03-27 23:31:46');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (410481, '舞钢市', 410400, '101180506', NULL, '2024-03-27 23:31:46', NULL, '2024-03-27 23:31:46');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (410482, '汝州市', 410400, '101180504', NULL, '2024-03-27 23:31:46', NULL, '2024-03-27 23:31:46');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (410500, '安阳市', 410000, '101180201', NULL, '2024-03-27 23:31:45', NULL, '2024-03-27 23:31:45');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (410502, '文峰区', 410500, '101180206', NULL, '2024-03-27 23:31:45', NULL, '2024-03-27 23:31:45');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (410503, '北关区', 410500, '101180207', NULL, '2024-03-27 23:31:45', NULL, '2024-03-27 23:31:45');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (410505, '殷都区', 410500, '101180208', NULL, '2024-03-27 23:31:45', NULL, '2024-03-27 23:31:45');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (410506, '龙安区', 410500, '101180209', NULL, '2024-03-27 23:31:45', NULL, '2024-03-27 23:31:45');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (410522, '安阳县', 410500, '101180201', NULL, '2024-03-27 23:31:45', NULL, '2024-03-27 23:31:45');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (410523, '汤阴县', 410500, '101180202', NULL, '2024-03-27 23:31:45', NULL, '2024-03-27 23:31:45');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (410526, '滑县', 410500, '101180203', NULL, '2024-03-27 23:31:45', NULL, '2024-03-27 23:31:45');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (410527, '内黄县', 410500, '101180204', NULL, '2024-03-27 23:31:45', NULL, '2024-03-27 23:31:45');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (410581, '林州市', 410500, '101180205', NULL, '2024-03-27 23:31:45', NULL, '2024-03-27 23:31:45');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (410600, '鹤壁市', 410000, '101181201', NULL, '2024-03-27 23:31:45', NULL, '2024-03-27 23:31:45');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (410602, '鹤山区', 410600, '101181204', NULL, '2024-03-27 23:31:45', NULL, '2024-03-27 23:31:45');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (410603, '山城区', 410600, '101181205', NULL, '2024-03-27 23:31:45', NULL, '2024-03-27 23:31:45');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (410611, '淇滨区', 410600, '101181206', NULL, '2024-03-27 23:31:45', NULL, '2024-03-27 23:31:45');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (410621, '浚县', 410600, '101181202', NULL, '2024-03-27 23:31:45', NULL, '2024-03-27 23:31:45');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (410622, '淇县', 410600, '101181203', NULL, '2024-03-27 23:31:45', NULL, '2024-03-27 23:31:45');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (410700, '新乡市', 410000, '101180301', NULL, '2024-03-27 23:31:45', NULL, '2024-03-27 23:31:45');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (410702, '红旗区', 410700, '101180309', NULL, '2024-03-27 23:31:45', NULL, '2024-03-27 23:31:45');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (410703, '卫滨区', 410700, '101180310', NULL, '2024-03-27 23:31:45', NULL, '2024-03-27 23:31:45');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (410704, '凤泉区', 410700, '101180311', NULL, '2024-03-27 23:31:45', NULL, '2024-03-27 23:31:45');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (410711, '牧野区', 410700, '101180312', NULL, '2024-03-27 23:31:45', NULL, '2024-03-27 23:31:45');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (410721, '新乡县', 410700, '101180301', NULL, '2024-03-27 23:31:45', NULL, '2024-03-27 23:31:45');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (410724, '获嘉县', 410700, '101180302', NULL, '2024-03-27 23:31:45', NULL, '2024-03-27 23:31:45');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (410725, '原阳县', 410700, '101180303', NULL, '2024-03-27 23:31:45', NULL, '2024-03-27 23:31:45');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (410726, '延津县', 410700, '101180306', NULL, '2024-03-27 23:31:45', NULL, '2024-03-27 23:31:45');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (410727, '封丘县', 410700, '101180307', NULL, '2024-03-27 23:31:45', NULL, '2024-03-27 23:31:45');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (410781, '卫辉市', 410700, '101180305', NULL, '2024-03-27 23:31:45', NULL, '2024-03-27 23:31:45');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (410782, '辉县市', 410700, '101180304', NULL, '2024-03-27 23:31:45', NULL, '2024-03-27 23:31:45');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (410783, '长垣市', 410700, '101180308', NULL, '2024-03-27 23:31:45', NULL, '2024-03-27 23:31:45');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (410800, '焦作市', 410000, '101181101', NULL, '2024-03-27 23:31:45', NULL, '2024-03-27 23:31:45');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (410802, '解放区', 410800, '101181105', NULL, '2024-03-27 23:31:45', NULL, '2024-03-27 23:31:45');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (410803, '中站区', 410800, '101181109', NULL, '2024-03-27 23:31:45', NULL, '2024-03-27 23:31:45');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (410804, '马村区', 410800, '101181110', NULL, '2024-03-27 23:31:45', NULL, '2024-03-27 23:31:45');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (410811, '山阳区', 410800, '101181111', NULL, '2024-03-27 23:31:45', NULL, '2024-03-27 23:31:45');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (410821, '修武县', 410800, '101181102', NULL, '2024-03-27 23:31:45', NULL, '2024-03-27 23:31:45');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (410822, '博爱县', 410800, '101181106', NULL, '2024-03-27 23:31:45', NULL, '2024-03-27 23:31:45');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (410823, '武陟县', 410800, '101181103', NULL, '2024-03-27 23:31:45', NULL, '2024-03-27 23:31:45');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (410825, '温县', 410800, '101181107', NULL, '2024-03-27 23:31:45', NULL, '2024-03-27 23:31:45');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (410882, '沁阳市', 410800, '101181104', NULL, '2024-03-27 23:31:45', NULL, '2024-03-27 23:31:45');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (410883, '孟州市', 410800, '101181108', NULL, '2024-03-27 23:31:45', NULL, '2024-03-27 23:31:45');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (410900, '濮阳市', 410000, '101181301', NULL, '2024-03-27 23:31:45', NULL, '2024-03-27 23:31:45');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (410902, '华龙区', 410900, '101181306', NULL, '2024-03-27 23:31:45', NULL, '2024-03-27 23:31:45');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (410922, '清丰县', 410900, '101181304', NULL, '2024-03-27 23:31:45', NULL, '2024-03-27 23:31:45');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (410923, '南乐县', 410900, '101181303', NULL, '2024-03-27 23:31:45', NULL, '2024-03-27 23:31:45');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (410926, '范县', 410900, '101181305', NULL, '2024-03-27 23:31:45', NULL, '2024-03-27 23:31:45');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (410927, '台前县', 410900, '101181302', NULL, '2024-03-27 23:31:45', NULL, '2024-03-27 23:31:45');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (410928, '濮阳县', 410900, '101181301', NULL, '2024-03-27 23:31:45', NULL, '2024-03-27 23:31:45');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (411000, '许昌市', 410000, '101180401', NULL, '2024-03-27 23:31:45', NULL, '2024-03-27 23:31:45');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (411002, '魏都区', 411000, '101180406', NULL, '2024-03-27 23:31:45', NULL, '2024-03-27 23:31:45');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (411003, '建安区', 411000, '101180407', NULL, '2024-03-27 23:31:45', NULL, '2024-03-27 23:31:45');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (411024, '鄢陵县', 411000, '101180402', NULL, '2024-03-27 23:31:45', NULL, '2024-03-27 23:31:45');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (411025, '襄城县', 411000, '101180403', NULL, '2024-03-27 23:31:45', NULL, '2024-03-27 23:31:45');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (411081, '禹州市', 411000, '101180405', NULL, '2024-03-27 23:31:45', NULL, '2024-03-27 23:31:45');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (411082, '长葛市', 411000, '101180404', NULL, '2024-03-27 23:31:45', NULL, '2024-03-27 23:31:45');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (411100, '漯河市', 410000, '101181501', NULL, '2024-03-27 23:31:45', NULL, '2024-03-27 23:31:45');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (411102, '源汇区', 411100, '101181504', NULL, '2024-03-27 23:31:45', NULL, '2024-03-27 23:31:45');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (411103, '郾城区', 411100, '101181505', NULL, '2024-03-27 23:31:45', NULL, '2024-03-27 23:31:45');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (411104, '召陵区', 411100, '101181506', NULL, '2024-03-27 23:31:45', NULL, '2024-03-27 23:31:45');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (411121, '舞阳县', 411100, '101181503', NULL, '2024-03-27 23:31:45', NULL, '2024-03-27 23:31:45');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (411122, '临颍县', 411100, '101181502', NULL, '2024-03-27 23:31:45', NULL, '2024-03-27 23:31:45');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (411200, '三门峡市', 410000, '101181701', NULL, '2024-03-27 23:31:45', NULL, '2024-03-27 23:31:45');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (411202, '湖滨区', 411200, '101181707', NULL, '2024-03-27 23:31:45', NULL, '2024-03-27 23:31:45');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (411203, '陕州区', 411200, '101181708', NULL, '2024-03-27 23:31:45', NULL, '2024-03-27 23:31:45');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (411221, '渑池县', 411200, '101181703', NULL, '2024-03-27 23:31:45', NULL, '2024-03-27 23:31:45');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (411224, '卢氏县', 411200, '101181704', NULL, '2024-03-27 23:31:45', NULL, '2024-03-27 23:31:45');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (411281, '义马市', 411200, '101181705', NULL, '2024-03-27 23:31:45', NULL, '2024-03-27 23:31:45');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (411282, '灵宝市', 411200, '101181702', NULL, '2024-03-27 23:31:45', NULL, '2024-03-27 23:31:45');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (411300, '南阳市', 410000, '101180701', NULL, '2024-03-27 23:31:45', NULL, '2024-03-27 23:31:45');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (411302, '宛城区', 411300, '101180713', NULL, '2024-03-27 23:31:45', NULL, '2024-03-27 23:31:45');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (411303, '卧龙区', 411300, '101180714', NULL, '2024-03-27 23:31:45', NULL, '2024-03-27 23:31:45');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (411321, '南召县', 411300, '101180702', NULL, '2024-03-27 23:31:45', NULL, '2024-03-27 23:31:45');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (411322, '方城县', 411300, '101180703', NULL, '2024-03-27 23:31:45', NULL, '2024-03-27 23:31:45');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (411323, '西峡县', 411300, '101180705', NULL, '2024-03-27 23:31:45', NULL, '2024-03-27 23:31:45');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (411324, '镇平县', 411300, '101180707', NULL, '2024-03-27 23:31:45', NULL, '2024-03-27 23:31:45');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (411325, '内乡县', 411300, '101180706', NULL, '2024-03-27 23:31:45', NULL, '2024-03-27 23:31:45');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (411326, '淅川县', 411300, '101180708', NULL, '2024-03-27 23:31:45', NULL, '2024-03-27 23:31:45');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (411327, '社旗县', 411300, '101180704', NULL, '2024-03-27 23:31:45', NULL, '2024-03-27 23:31:45');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (411328, '唐河县', 411300, '101180710', NULL, '2024-03-27 23:31:45', NULL, '2024-03-27 23:31:45');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (411329, '新野县', 411300, '101180709', NULL, '2024-03-27 23:31:45', NULL, '2024-03-27 23:31:45');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (411330, '桐柏县', 411300, '101180712', NULL, '2024-03-27 23:31:45', NULL, '2024-03-27 23:31:45');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (411381, '邓州市', 411300, '101180711', NULL, '2024-03-27 23:31:45', NULL, '2024-03-27 23:31:45');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (411400, '商丘市', 410000, '101181001', NULL, '2024-03-27 23:31:45', NULL, '2024-03-27 23:31:45');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (411402, '梁园区', 411400, '101181002', NULL, '2024-03-27 23:31:45', NULL, '2024-03-27 23:31:45');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (411403, '睢阳区', 411400, '101181010', NULL, '2024-03-27 23:31:45', NULL, '2024-03-27 23:31:45');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (411421, '民权县', 411400, '101181004', NULL, '2024-03-27 23:31:45', NULL, '2024-03-27 23:31:45');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (411422, '睢县', 411400, '101181003', NULL, '2024-03-27 23:31:45', NULL, '2024-03-27 23:31:45');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (411423, '宁陵县', 411400, '101181007', NULL, '2024-03-27 23:31:45', NULL, '2024-03-27 23:31:45');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (411424, '柘城县', 411400, '101181006', NULL, '2024-03-27 23:31:45', NULL, '2024-03-27 23:31:45');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (411425, '虞城县', 411400, '101181005', NULL, '2024-03-27 23:31:45', NULL, '2024-03-27 23:31:45');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (411426, '夏邑县', 411400, '101181008', NULL, '2024-03-27 23:31:45', NULL, '2024-03-27 23:31:45');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (411481, '永城市', 411400, '101181009', NULL, '2024-03-27 23:31:45', NULL, '2024-03-27 23:31:45');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (411500, '信阳市', 410000, '101180601', NULL, '2024-03-27 23:31:45', NULL, '2024-03-27 23:31:45');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (411502, '浉河区', 411500, '101180610', NULL, '2024-03-27 23:31:45', NULL, '2024-03-27 23:31:45');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (411503, '平桥区', 411500, '101180611', NULL, '2024-03-27 23:31:45', NULL, '2024-03-27 23:31:45');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (411521, '罗山县', 411500, '101180603', NULL, '2024-03-27 23:31:45', NULL, '2024-03-27 23:31:45');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (411522, '光山县', 411500, '101180604', NULL, '2024-03-27 23:31:46', NULL, '2024-03-27 23:31:46');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (411523, '新县', 411500, '101180605', NULL, '2024-03-27 23:31:45', NULL, '2024-03-27 23:31:45');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (411524, '商城县', 411500, '101180609', NULL, '2024-03-27 23:31:45', NULL, '2024-03-27 23:31:45');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (411525, '固始县', 411500, '101180608', NULL, '2024-03-27 23:31:45', NULL, '2024-03-27 23:31:45');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (411526, '潢川县', 411500, '101180607', NULL, '2024-03-27 23:31:46', NULL, '2024-03-27 23:31:46');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (411527, '淮滨县', 411500, '101180606', NULL, '2024-03-27 23:31:45', NULL, '2024-03-27 23:31:45');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (411528, '息县', 411500, '101180602', NULL, '2024-03-27 23:31:46', NULL, '2024-03-27 23:31:46');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (411600, '周口市', 410000, '101181401', NULL, '2024-03-27 23:31:45', NULL, '2024-03-27 23:31:45');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (411602, '川汇区', 411600, '101181411', NULL, '2024-03-27 23:31:45', NULL, '2024-03-27 23:31:45');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (411603, '淮阳区', 411600, '101181404', NULL, '2024-03-27 23:31:45', NULL, '2024-03-27 23:31:45');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (411621, '扶沟县', 411600, '101181402', NULL, '2024-03-27 23:31:45', NULL, '2024-03-27 23:31:45');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (411622, '西华县', 411600, '101181405', NULL, '2024-03-27 23:31:45', NULL, '2024-03-27 23:31:45');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (411623, '商水县', 411600, '101181406', NULL, '2024-03-27 23:31:45', NULL, '2024-03-27 23:31:45');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (411624, '沈丘县', 411600, '101181410', NULL, '2024-03-27 23:31:45', NULL, '2024-03-27 23:31:45');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (411625, '郸城县', 411600, '101181408', NULL, '2024-03-27 23:31:45', NULL, '2024-03-27 23:31:45');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (411627, '太康县', 411600, '101181403', NULL, '2024-03-27 23:31:45', NULL, '2024-03-27 23:31:45');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (411628, '鹿邑县', 411600, '101181409', NULL, '2024-03-27 23:31:45', NULL, '2024-03-27 23:31:45');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (411681, '项城市', 411600, '101181407', NULL, '2024-03-27 23:31:45', NULL, '2024-03-27 23:31:45');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (411700, '驻马店市', 410000, '101181601', NULL, '2024-03-27 23:31:46', NULL, '2024-03-27 23:31:46');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (411702, '驿城区', 411700, '101181611', NULL, '2024-03-27 23:31:46', NULL, '2024-03-27 23:31:46');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (411721, '西平县', 411700, '101181602', NULL, '2024-03-27 23:31:46', NULL, '2024-03-27 23:31:46');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (411722, '上蔡县', 411700, '101181604', NULL, '2024-03-27 23:31:46', NULL, '2024-03-27 23:31:46');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (411723, '平舆县', 411700, '101181607', NULL, '2024-03-27 23:31:46', NULL, '2024-03-27 23:31:46');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (411724, '正阳县', 411700, '101181610', NULL, '2024-03-27 23:31:46', NULL, '2024-03-27 23:31:46');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (411725, '确山县', 411700, '101181609', NULL, '2024-03-27 23:31:46', NULL, '2024-03-27 23:31:46');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (411726, '泌阳县', 411700, '101181606', NULL, '2024-03-27 23:31:46', NULL, '2024-03-27 23:31:46');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (411727, '汝南县', 411700, '101181605', NULL, '2024-03-27 23:31:46', NULL, '2024-03-27 23:31:46');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (411728, '遂平县', 411700, '101181603', NULL, '2024-03-27 23:31:46', NULL, '2024-03-27 23:31:46');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (411729, '新蔡县', 411700, '101181608', NULL, '2024-03-27 23:31:46', NULL, '2024-03-27 23:31:46');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (419001, '济源市', 410000, '101181801', NULL, '2024-03-27 23:31:45', NULL, '2024-03-27 23:31:45');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (420000, '湖北省', 0, NULL, NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (420100, '武汉市', 420000, '101200101', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (420102, '江岸区', 420100, '101200107', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (420103, '江汉区', 420100, '101200108', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (420104, '硚口区', 420100, '101200109', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (420105, '汉阳区', 420100, '101200110', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (420106, '武昌区', 420100, '101200111', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (420107, '青山区', 420100, '101200112', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (420111, '洪山区', 420100, '101200113', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (420112, '东西湖区', 420100, '101200106', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (420113, '汉南区', 420100, '101200114', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (420114, '蔡甸区', 420100, '101200102', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (420115, '江夏区', 420100, '101200105', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (420116, '黄陂区', 420100, '101200103', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (420117, '新洲区', 420100, '101200104', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (420200, '黄石市', 420000, '101200601', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (420202, '黄石港区', 420200, '101200601', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (420203, '西塞山区', 420200, '101200606', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (420204, '下陆区', 420200, '101200605', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (420205, '铁山区', 420200, '101200604', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (420222, '阳新县', 420200, '101200603', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (420281, '大冶市', 420200, '101200602', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (420300, '十堰市', 420000, '101201101', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (420302, '茅箭区', 420300, '101201108', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (420303, '张湾区', 420300, '101201109', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (420304, '郧阳区', 420300, '101201104', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (420322, '郧西县', 420300, '101201103', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (420323, '竹山县', 420300, '101201105', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (420324, '竹溪县', 420300, '101201102', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (420325, '房县', 420300, '101201106', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (420381, '丹江口市', 420300, '101201107', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (420500, '宜昌市', 420000, '101200901', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (420502, '西陵区', 420500, '101200905', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (420503, '伍家岗区', 420500, '101200913', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (420504, '点军区', 420500, '101200914', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (420505, '猇亭区', 420500, '101200915', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (420506, '夷陵区', 420500, '101200912', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (420525, '远安县', 420500, '101200902', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (420526, '兴山县', 420500, '101200904', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (420527, '秭归县', 420500, '101200903', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (420528, '长阳土家族自治县', 420500, '101200908', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (420529, '五峰土家族自治县', 420500, '101200906', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (420581, '宜都市', 420500, '101200909', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (420582, '当阳市', 420500, '101200907', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (420583, '枝江市', 420500, '101200910', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (420600, '襄阳市', 420000, '101200201', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (420602, '襄城区', 420600, '101200209', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (420606, '樊城区', 420600, '101200210', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (420607, '襄州区', 420600, '101200202', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (420624, '南漳县', 420600, '101200204', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (420625, '谷城县', 420600, '101200207', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (420626, '保康县', 420600, '101200203', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (420682, '老河口市', 420600, '101200206', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (420683, '枣阳市', 420600, '101200208', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (420684, '宜城市', 420600, '101200205', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (420700, '鄂州市', 420000, '101200301', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (420702, '梁子湖区', 420700, '101200302', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (420703, '华容区', 420700, '101200303', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (420704, '鄂城区', 420700, '101200304', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (420800, '荆门市', 420000, '101201401', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (420802, '东宝区', 420800, '101201406', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (420804, '掇刀区', 420800, '101201404', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (420822, '沙洋县', 420800, '101201405', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (420881, '钟祥市', 420800, '101201402', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (420882, '京山市', 420800, '101201403', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (420900, '孝感市', 420000, '101200401', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (420902, '孝南区', 420900, '101200408', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (420921, '孝昌县', 420900, '101200407', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (420922, '大悟县', 420900, '101200404', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (420923, '云梦县', 420900, '101200403', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (420981, '应城市', 420900, '101200405', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (420982, '安陆市', 420900, '101200402', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (420984, '汉川市', 420900, '101200406', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (421000, '荆州市', 420000, '101200801', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (421002, '沙市区', 421000, '101200808', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (421003, '荆州区', 421000, '101200801', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (421022, '公安县', 421000, '101200803', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (421024, '江陵县', 421000, '101200802', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (421081, '石首市', 421000, '101200804', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (421083, '洪湖市', 421000, '101200806', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (421087, '松滋市', 421000, '101200807', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (421088, '监利市', 421000, '101200805', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (421100, '黄冈市', 420000, '101200501', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (421102, '黄州区', 421100, '101200511', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (421121, '团风县', 421100, '101200510', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (421122, '红安县', 421100, '101200502', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (421123, '罗田县', 421100, '101200504', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (421124, '英山县', 421100, '101200505', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (421125, '浠水县', 421100, '101200506', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (421126, '蕲春县', 421100, '101200507', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (421127, '黄梅县', 421100, '101200508', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (421181, '麻城市', 421100, '101200503', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (421182, '武穴市', 421100, '101200509', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (421200, '咸宁市', 420000, '101200701', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (421202, '咸安区', 421200, '101200707', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (421221, '嘉鱼县', 421200, '101200703', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (421222, '通城县', 421200, '101200705', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (421223, '崇阳县', 421200, '101200704', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (421224, '通山县', 421200, '101200706', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (421281, '赤壁市', 421200, '101200702', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (421300, '随州市', 420000, '101201301', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (421303, '曾都区', 421300, '101201303', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (421321, '随县', 421300, '101201304', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (421381, '广水市', 421300, '101201302', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (422800, '恩施土家族苗族自治州', 420000, '101201001', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (422801, '恩施市', 422800, '101201001', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (422802, '利川市', 422800, '101201002', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (422822, '建始县', 422800, '101201003', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (422823, '巴东县', 422800, '101201008', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (422825, '宣恩县', 422800, '101201005', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (422826, '咸丰县', 422800, '101201004', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (422827, '来凤县', 422800, '101201007', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (422828, '鹤峰县', 422800, '101201006', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (429004, '仙桃市', 420000, '101201601', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (429005, '潜江市', 420000, '101201701', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (429006, '天门市', 420000, '101201501', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (429021, '神农架林区', 420000, '101201201', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (430000, '湖南省', 0, NULL, NULL, '2024-03-27 23:31:43', NULL, '2024-03-27 23:31:43');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (430100, '长沙市', 430000, '101250101', NULL, '2024-03-27 23:31:43', NULL, '2024-03-27 23:31:43');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (430102, '芙蓉区', 430100, '101250107', NULL, '2024-03-27 23:31:43', NULL, '2024-03-27 23:31:43');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (430103, '天心区', 430100, '101250108', NULL, '2024-03-27 23:31:43', NULL, '2024-03-27 23:31:43');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (430104, '岳麓区', 430100, '101250109', NULL, '2024-03-27 23:31:43', NULL, '2024-03-27 23:31:43');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (430105, '开福区', 430100, '101250110', NULL, '2024-03-27 23:31:43', NULL, '2024-03-27 23:31:43');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (430111, '雨花区', 430100, '101250111', NULL, '2024-03-27 23:31:43', NULL, '2024-03-27 23:31:43');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (430112, '望城区', 430100, '101250105', NULL, '2024-03-27 23:31:43', NULL, '2024-03-27 23:31:43');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (430121, '长沙县', 430100, '101250101', NULL, '2024-03-27 23:31:43', NULL, '2024-03-27 23:31:43');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (430181, '浏阳市', 430100, '101250103', NULL, '2024-03-27 23:31:43', NULL, '2024-03-27 23:31:43');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (430182, '宁乡市', 430100, '101250102', NULL, '2024-03-27 23:31:43', NULL, '2024-03-27 23:31:43');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (430200, '株洲市', 430000, '101250301', NULL, '2024-03-27 23:31:43', NULL, '2024-03-27 23:31:43');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (430202, '荷塘区', 430200, '101250304', NULL, '2024-03-27 23:31:43', NULL, '2024-03-27 23:31:43');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (430203, '芦淞区', 430200, '101250307', NULL, '2024-03-27 23:31:43', NULL, '2024-03-27 23:31:43');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (430204, '石峰区', 430200, '101250308', NULL, '2024-03-27 23:31:43', NULL, '2024-03-27 23:31:43');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (430211, '天元区', 430200, '101250309', NULL, '2024-03-27 23:31:43', NULL, '2024-03-27 23:31:43');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (430212, '渌口区', 430200, NULL, NULL, '2024-03-27 23:31:43', NULL, '2024-03-27 23:31:43');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (430223, '攸县', 430200, '101250302', NULL, '2024-03-27 23:31:43', NULL, '2024-03-27 23:31:43');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (430224, '茶陵县', 430200, '101250305', NULL, '2024-03-27 23:31:43', NULL, '2024-03-27 23:31:43');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (430225, '炎陵县', 430200, '101250306', NULL, '2024-03-27 23:31:43', NULL, '2024-03-27 23:31:43');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (430281, '醴陵市', 430200, '101250303', NULL, '2024-03-27 23:31:43', NULL, '2024-03-27 23:31:43');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (430300, '湘潭市', 430000, '101250201', NULL, '2024-03-27 23:31:43', NULL, '2024-03-27 23:31:43');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (430302, '雨湖区', 430300, '101250204', NULL, '2024-03-27 23:31:43', NULL, '2024-03-27 23:31:43');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (430304, '岳塘区', 430300, '101250205', NULL, '2024-03-27 23:31:43', NULL, '2024-03-27 23:31:43');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (430321, '湘潭县', 430300, '101250201', NULL, '2024-03-27 23:31:43', NULL, '2024-03-27 23:31:43');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (430381, '湘乡市', 430300, '101250203', NULL, '2024-03-27 23:31:43', NULL, '2024-03-27 23:31:43');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (430382, '韶山市', 430300, '101250202', NULL, '2024-03-27 23:31:43', NULL, '2024-03-27 23:31:43');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (430400, '衡阳市', 430000, '101250401', NULL, '2024-03-27 23:31:43', NULL, '2024-03-27 23:31:43');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (430405, '珠晖区', 430400, '101250410', NULL, '2024-03-27 23:31:43', NULL, '2024-03-27 23:31:43');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (430406, '雁峰区', 430400, '101250411', NULL, '2024-03-27 23:31:43', NULL, '2024-03-27 23:31:43');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (430407, '石鼓区', 430400, '101250412', NULL, '2024-03-27 23:31:43', NULL, '2024-03-27 23:31:43');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (430408, '蒸湘区', 430400, '101250413', NULL, '2024-03-27 23:31:43', NULL, '2024-03-27 23:31:43');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (430412, '南岳区', 430400, '101250409', NULL, '2024-03-27 23:31:43', NULL, '2024-03-27 23:31:43');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (430421, '衡阳县', 430400, '101250405', NULL, '2024-03-27 23:31:43', NULL, '2024-03-27 23:31:43');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (430422, '衡南县', 430400, '101250407', NULL, '2024-03-27 23:31:43', NULL, '2024-03-27 23:31:43');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (430423, '衡山县', 430400, '101250402', NULL, '2024-03-27 23:31:43', NULL, '2024-03-27 23:31:43');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (430424, '衡东县', 430400, '101250403', NULL, '2024-03-27 23:31:43', NULL, '2024-03-27 23:31:43');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (430426, '祁东县', 430400, '101250404', NULL, '2024-03-27 23:31:43', NULL, '2024-03-27 23:31:43');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (430481, '耒阳市', 430400, '101250408', NULL, '2024-03-27 23:31:43', NULL, '2024-03-27 23:31:43');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (430482, '常宁市', 430400, '101250406', NULL, '2024-03-27 23:31:43', NULL, '2024-03-27 23:31:43');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (430500, '邵阳市', 430000, '101250901', NULL, '2024-03-27 23:31:43', NULL, '2024-03-27 23:31:43');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (430502, '双清区', 430500, '101250911', NULL, '2024-03-27 23:31:43', NULL, '2024-03-27 23:31:43');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (430503, '大祥区', 430500, '101250912', NULL, '2024-03-27 23:31:43', NULL, '2024-03-27 23:31:43');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (430511, '北塔区', 430500, '101250913', NULL, '2024-03-27 23:31:43', NULL, '2024-03-27 23:31:43');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (430522, '新邵县', 430500, '101250904', NULL, '2024-03-27 23:31:43', NULL, '2024-03-27 23:31:43');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (430523, '邵阳县', 430500, '101250910', NULL, '2024-03-27 23:31:43', NULL, '2024-03-27 23:31:43');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (430524, '隆回县', 430500, '101250902', NULL, '2024-03-27 23:31:43', NULL, '2024-03-27 23:31:43');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (430525, '洞口县', 430500, '101250903', NULL, '2024-03-27 23:31:43', NULL, '2024-03-27 23:31:43');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (430527, '绥宁县', 430500, '101250906', NULL, '2024-03-27 23:31:43', NULL, '2024-03-27 23:31:43');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (430528, '新宁县', 430500, '101250907', NULL, '2024-03-27 23:31:43', NULL, '2024-03-27 23:31:43');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (430529, '城步苗族自治县', 430500, '101250909', NULL, '2024-03-27 23:31:43', NULL, '2024-03-27 23:31:43');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (430581, '武冈市', 430500, '101250908', NULL, '2024-03-27 23:31:43', NULL, '2024-03-27 23:31:43');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (430582, '邵东市', 430500, '101250905', NULL, '2024-03-27 23:31:43', NULL, '2024-03-27 23:31:43');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (430600, '岳阳市', 430000, '101251001', NULL, '2024-03-27 23:31:43', NULL, '2024-03-27 23:31:43');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (430602, '岳阳楼区', 430600, '101251007', NULL, '2024-03-27 23:31:43', NULL, '2024-03-27 23:31:43');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (430603, '云溪区', 430600, '101251008', NULL, '2024-03-27 23:31:43', NULL, '2024-03-27 23:31:43');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (430611, '君山区', 430600, '101251009', NULL, '2024-03-27 23:31:43', NULL, '2024-03-27 23:31:43');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (430621, '岳阳县', 430600, '101251001', NULL, '2024-03-27 23:31:43', NULL, '2024-03-27 23:31:43');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (430623, '华容县', 430600, '101251002', NULL, '2024-03-27 23:31:43', NULL, '2024-03-27 23:31:43');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (430624, '湘阴县', 430600, '101251003', NULL, '2024-03-27 23:31:43', NULL, '2024-03-27 23:31:43');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (430626, '平江县', 430600, '101251005', NULL, '2024-03-27 23:31:43', NULL, '2024-03-27 23:31:43');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (430681, '汨罗市', 430600, '101251004', NULL, '2024-03-27 23:31:43', NULL, '2024-03-27 23:31:43');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (430682, '临湘市', 430600, '101251006', NULL, '2024-03-27 23:31:43', NULL, '2024-03-27 23:31:43');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (430700, '常德市', 430000, '101250601', NULL, '2024-03-27 23:31:43', NULL, '2024-03-27 23:31:43');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (430702, '武陵区', 430700, '101250609', NULL, '2024-03-27 23:31:43', NULL, '2024-03-27 23:31:43');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (430703, '鼎城区', 430700, '101250610', NULL, '2024-03-27 23:31:43', NULL, '2024-03-27 23:31:43');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (430721, '安乡县', 430700, '101250602', NULL, '2024-03-27 23:31:43', NULL, '2024-03-27 23:31:43');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (430722, '汉寿县', 430700, '101250604', NULL, '2024-03-27 23:31:43', NULL, '2024-03-27 23:31:43');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (430723, '澧县', 430700, '101250605', NULL, '2024-03-27 23:31:43', NULL, '2024-03-27 23:31:43');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (430724, '临澧县', 430700, '101250605', NULL, '2024-03-27 23:31:43', NULL, '2024-03-27 23:31:43');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (430725, '桃源县', 430700, '101250603', NULL, '2024-03-27 23:31:43', NULL, '2024-03-27 23:31:43');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (430726, '石门县', 430700, '101250607', NULL, '2024-03-27 23:31:43', NULL, '2024-03-27 23:31:43');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (430781, '津市市', 430700, '101250608', NULL, '2024-03-27 23:31:43', NULL, '2024-03-27 23:31:43');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (430800, '张家界市', 430000, '101251101', NULL, '2024-03-27 23:31:43', NULL, '2024-03-27 23:31:43');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (430802, '永定区', 430800, '101251105', NULL, '2024-03-27 23:31:43', NULL, '2024-03-27 23:31:43');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (430811, '武陵源区', 430800, '101251104', NULL, '2024-03-27 23:31:43', NULL, '2024-03-27 23:31:43');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (430821, '慈利县', 430800, '101251103', NULL, '2024-03-27 23:31:43', NULL, '2024-03-27 23:31:43');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (430822, '桑植县', 430800, '101251102', NULL, '2024-03-27 23:31:43', NULL, '2024-03-27 23:31:43');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (430900, '益阳市', 430000, '101250700', NULL, '2024-03-27 23:31:44', NULL, '2024-03-27 23:31:44');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (430902, '资阳区', 430900, '101250706', NULL, '2024-03-27 23:31:44', NULL, '2024-03-27 23:31:44');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (430903, '赫山区', 430900, '101250701', NULL, '2024-03-27 23:31:44', NULL, '2024-03-27 23:31:44');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (430921, '南县', 430900, '101250702', NULL, '2024-03-27 23:31:44', NULL, '2024-03-27 23:31:44');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (430922, '桃江县', 430900, '101250703', NULL, '2024-03-27 23:31:44', NULL, '2024-03-27 23:31:44');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (430923, '安化县', 430900, '101250704', NULL, '2024-03-27 23:31:44', NULL, '2024-03-27 23:31:44');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (430981, '沅江市', 430900, '101250705', NULL, '2024-03-27 23:31:44', NULL, '2024-03-27 23:31:44');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (431000, '郴州市', 430000, '101250501', NULL, '2024-03-27 23:31:43', NULL, '2024-03-27 23:31:43');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (431002, '北湖区', 431000, '101250506', NULL, '2024-03-27 23:31:43', NULL, '2024-03-27 23:31:43');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (431003, '苏仙区', 431000, '101250512', NULL, '2024-03-27 23:31:43', NULL, '2024-03-27 23:31:43');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (431021, '桂阳县', 431000, '101250502', NULL, '2024-03-27 23:31:43', NULL, '2024-03-27 23:31:43');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (431022, '宜章县', 431000, '101250504', NULL, '2024-03-27 23:31:43', NULL, '2024-03-27 23:31:43');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (431023, '永兴县', 431000, '101250510', NULL, '2024-03-27 23:31:43', NULL, '2024-03-27 23:31:43');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (431024, '嘉禾县', 431000, '101250503', NULL, '2024-03-27 23:31:43', NULL, '2024-03-27 23:31:43');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (431025, '临武县', 431000, '101250505', NULL, '2024-03-27 23:31:43', NULL, '2024-03-27 23:31:43');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (431026, '汝城县', 431000, '101250508', NULL, '2024-03-27 23:31:43', NULL, '2024-03-27 23:31:43');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (431027, '桂东县', 431000, '101250511', NULL, '2024-03-27 23:31:43', NULL, '2024-03-27 23:31:43');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (431028, '安仁县', 431000, '101250509', NULL, '2024-03-27 23:31:43', NULL, '2024-03-27 23:31:43');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (431081, '资兴市', 431000, '101250507', NULL, '2024-03-27 23:31:43', NULL, '2024-03-27 23:31:43');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (431100, '永州市', 430000, '101251401', NULL, '2024-03-27 23:31:44', NULL, '2024-03-27 23:31:44');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (431102, '零陵区', 431100, '101251412', NULL, '2024-03-27 23:31:44', NULL, '2024-03-27 23:31:44');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (431103, '冷水滩区', 431100, '101251411', NULL, '2024-03-27 23:31:44', NULL, '2024-03-27 23:31:44');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (431122, '东安县', 431100, '101251403', NULL, '2024-03-27 23:31:44', NULL, '2024-03-27 23:31:44');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (431123, '双牌县', 431100, '101251404', NULL, '2024-03-27 23:31:44', NULL, '2024-03-27 23:31:44');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (431124, '道县', 431100, '101251405', NULL, '2024-03-27 23:31:44', NULL, '2024-03-27 23:31:44');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (431125, '江永县', 431100, '101251407', NULL, '2024-03-27 23:31:44', NULL, '2024-03-27 23:31:44');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (431126, '宁远县', 431100, '101251406', NULL, '2024-03-27 23:31:44', NULL, '2024-03-27 23:31:44');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (431127, '蓝山县', 431100, '101251408', NULL, '2024-03-27 23:31:44', NULL, '2024-03-27 23:31:44');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (431128, '新田县', 431100, '101251409', NULL, '2024-03-27 23:31:44', NULL, '2024-03-27 23:31:44');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (431129, '江华瑶族自治县', 431100, '101251410', NULL, '2024-03-27 23:31:44', NULL, '2024-03-27 23:31:44');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (431181, '祁阳市', 431100, '101251402', NULL, '2024-03-27 23:31:44', NULL, '2024-03-27 23:31:44');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (431200, '怀化市', 430000, '101251201', NULL, '2024-03-27 23:31:43', NULL, '2024-03-27 23:31:43');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (431202, '鹤城区', 431200, '101251202', NULL, '2024-03-27 23:31:43', NULL, '2024-03-27 23:31:43');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (431221, '中方县', 431200, '101251212', NULL, '2024-03-27 23:31:43', NULL, '2024-03-27 23:31:43');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (431222, '沅陵县', 431200, '101251203', NULL, '2024-03-27 23:31:43', NULL, '2024-03-27 23:31:43');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (431223, '辰溪县', 431200, '101251204', NULL, '2024-03-27 23:31:43', NULL, '2024-03-27 23:31:43');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (431224, '溆浦县', 431200, '101251211', NULL, '2024-03-27 23:31:43', NULL, '2024-03-27 23:31:43');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (431225, '会同县', 431200, '101251206', NULL, '2024-03-27 23:31:43', NULL, '2024-03-27 23:31:43');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (431226, '麻阳苗族自治县', 431200, '101251208', NULL, '2024-03-27 23:31:43', NULL, '2024-03-27 23:31:43');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (431227, '新晃侗族自治县', 431200, '101251209', NULL, '2024-03-27 23:31:43', NULL, '2024-03-27 23:31:43');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (431228, '芷江侗族自治县', 431200, '101251210', NULL, '2024-03-27 23:31:43', NULL, '2024-03-27 23:31:43');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (431229, '靖州苗族侗族自治县', 431200, '101251205', NULL, '2024-03-27 23:31:43', NULL, '2024-03-27 23:31:43');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (431230, '通道侗族自治县', 431200, '101251207', NULL, '2024-03-27 23:31:43', NULL, '2024-03-27 23:31:43');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (431281, '洪江市', 431200, '101251213', NULL, '2024-03-27 23:31:43', NULL, '2024-03-27 23:31:43');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (431300, '娄底市', 430000, '101250801', NULL, '2024-03-27 23:31:43', NULL, '2024-03-27 23:31:43');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (431302, '娄星区', 431300, '101250804', NULL, '2024-03-27 23:31:43', NULL, '2024-03-27 23:31:43');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (431321, '双峰县', 431300, '101250802', NULL, '2024-03-27 23:31:43', NULL, '2024-03-27 23:31:43');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (431322, '新化县', 431300, '101250805', NULL, '2024-03-27 23:31:43', NULL, '2024-03-27 23:31:43');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (431381, '冷水江市', 431300, '101250803', NULL, '2024-03-27 23:31:43', NULL, '2024-03-27 23:31:43');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (431382, '涟源市', 431300, '101250806', NULL, '2024-03-27 23:31:43', NULL, '2024-03-27 23:31:43');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (433100, '湘西土家族苗族自治州', 430000, '101251509', NULL, '2024-03-27 23:31:43', NULL, '2024-03-27 23:31:43');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (433101, '吉首市', 433100, '101251501', NULL, '2024-03-27 23:31:44', NULL, '2024-03-27 23:31:44');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (433122, '泸溪县', 433100, '101251506', NULL, '2024-03-27 23:31:44', NULL, '2024-03-27 23:31:44');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (433123, '凤凰县', 433100, '101251505', NULL, '2024-03-27 23:31:44', NULL, '2024-03-27 23:31:44');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (433124, '花垣县', 433100, '101251508', NULL, '2024-03-27 23:31:44', NULL, '2024-03-27 23:31:44');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (433125, '保靖县', 433100, '101251502', NULL, '2024-03-27 23:31:44', NULL, '2024-03-27 23:31:44');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (433126, '古丈县', 433100, '101251504', NULL, '2024-03-27 23:31:44', NULL, '2024-03-27 23:31:44');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (433127, '永顺县', 433100, '101251503', NULL, '2024-03-27 23:31:44', NULL, '2024-03-27 23:31:44');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (433130, '龙山县', 433100, '101251507', NULL, '2024-03-27 23:31:43', NULL, '2024-03-27 23:31:43');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (440000, '广东省', 0, NULL, NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (440100, '广州市', 440000, '101280101', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (440103, '荔湾区', 440100, '101280106', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (440104, '越秀区', 440100, '101280107', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (440105, '海珠区', 440100, '101280108', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (440106, '天河区', 440100, '101280109', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (440111, '白云区', 440100, '101280110', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (440112, '黄埔区', 440100, '101280111', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (440113, '番禺区', 440100, '101280102', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (440114, '花都区', 440100, '101280105', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (440115, '南沙区', 440100, '101280112', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (440117, '从化区', 440100, '101280103', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (440118, '增城区', 440100, '101280104', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (440200, '韶关市', 440000, '101280201', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (440203, '武江区', 440200, '101280211', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (440204, '浈江区', 440200, '101280210', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (440205, '曲江区', 440200, '101280209', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (440222, '始兴县', 440200, '101280203', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (440224, '仁化县', 440200, '101280206', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (440229, '翁源县', 440200, '101280204', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (440232, '乳源瑶族自治县', 440200, '101280202', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (440233, '新丰县', 440200, '101280208', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (440281, '乐昌市', 440200, '101280205', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (440282, '南雄市', 440200, '101280207', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (440300, '深圳市', 440000, '101280601', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (440303, '罗湖区', 440300, '101280602', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (440304, '福田区', 440300, '101280603', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (440305, '南山区', 440300, '101280604', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (440306, '宝安区', 440300, '101280605', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (440307, '龙岗区', 440300, '101280606', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (440308, '盐田区', 440300, '101280607', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (440309, '龙华区', 440300, '101280608', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (440310, '坪山区', 440300, '101280609', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (440311, '光明区', 440300, NULL, NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (440400, '珠海市', 440000, '101280701', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (440402, '香洲区', 440400, '101280704', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (440403, '斗门区', 440400, '101280702', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (440404, '金湾区', 440400, '101280703', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (440500, '汕头市', 440000, '101280501', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (440507, '龙湖区', 440500, '101280505', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (440511, '金平区', 440500, '101280506', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (440512, '濠江区', 440500, '101280507', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (440513, '潮阳区', 440500, '101280502', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (440514, '潮南区', 440500, '101280508', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (440515, '澄海区', 440500, '101280503', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (440523, '南澳县', 440500, '101280504', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (440600, '佛山市', 440000, '101280800', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (440604, '禅城区', 440600, '101280805', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (440605, '南海区', 440600, '101280803', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (440606, '顺德区', 440600, '101280801', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (440607, '三水区', 440600, '101280802', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (440608, '高明区', 440600, '101280804', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (440700, '江门市', 440000, '101281101', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (440703, '蓬江区', 440700, '101281107', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (440704, '江海区', 440700, '101281109', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (440705, '新会区', 440700, '101281104', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (440781, '台山市', 440700, '101281106', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (440783, '开平市', 440700, '101281103', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (440784, '鹤山市', 440700, '101281108', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (440785, '恩平市', 440700, '101281105', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (440800, '湛江市', 440000, '101281001', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (440802, '赤坎区', 440800, '101281006', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (440803, '霞山区', 440800, '101281009', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (440804, '坡头区', 440800, '101281008', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (440811, '麻章区', 440800, '101281010', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (440823, '遂溪县', 440800, '101281007', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (440825, '徐闻县', 440800, '101281004', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (440881, '廉江市', 440800, '101281005', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (440882, '雷州市', 440800, '101281003', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (440883, '吴川市', 440800, '101281002', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (440900, '茂名市', 440000, '101282001', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (440902, '茂南区', 440900, '101282007', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (440904, '电白区', 440900, '101282004', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (440981, '高州市', 440900, '101282002', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (440982, '化州市', 440900, '101282003', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (440983, '信宜市', 440900, '101282005', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (441200, '肇庆市', 440000, '101280901', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (441202, '端州区', 441200, '101280904', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (441203, '鼎湖区', 441200, '101280909', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (441204, '高要区', 441200, '101280908', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (441223, '广宁县', 441200, '101280902', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (441224, '怀集县', 441200, '101280906', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (441225, '封开县', 441200, '101280907', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (441226, '德庆县', 441200, '101280905', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (441284, '四会市', 441200, '101280903', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (441300, '惠州市', 440000, '101280301', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (441302, '惠城区', 441300, '101280306', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (441303, '惠阳区', 441300, '101280303', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (441322, '博罗县', 441300, '101280302', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (441323, '惠东县', 441300, '101280304', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (441324, '龙门县', 441300, '101280305', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (441400, '梅州市', 440000, '101280401', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (441402, '梅江区', 441400, '101280405', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (441403, '梅县区', 441400, '101280409', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (441422, '大埔县', 441400, '101280404', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (441423, '丰顺县', 441400, '101280406', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (441424, '五华县', 441400, '101280408', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (441426, '平远县', 441400, '101280407', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (441427, '蕉岭县', 441400, '101280403', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (441481, '兴宁市', 441400, '101280402', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (441500, '汕尾市', 440000, '101282101', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (441502, '城区', 441500, NULL, NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (441521, '海丰县', 441500, '101282102', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (441523, '陆河县', 441500, '101282104', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (441581, '陆丰市', 441500, '101282103', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (441600, '河源市', 440000, '101281201', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (441602, '源城区', 441600, '101281207', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (441621, '紫金县', 441600, '101281202', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (441622, '龙川县', 441600, '101281205', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (441623, '连平县', 441600, '101281203', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (441624, '和平县', 441600, '101281204', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (441625, '东源县', 441600, '101281206', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (441700, '阳江市', 440000, '101281801', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (441702, '江城区', 441700, '101281805', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (441704, '阳东区', 441700, '101281803', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (441721, '阳西县', 441700, '101281804', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (441781, '阳春市', 441700, '101281802', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (441800, '清远市', 440000, '101281301', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (441802, '清城区', 441800, '101281309', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (441803, '清新区', 441800, '101281308', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (441821, '佛冈县', 441800, '101281306', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (441823, '阳山县', 441800, '101281305', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (441825, '连山壮族瑶族自治县', 441800, '101281304', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (441826, '连南瑶族自治县', 441800, '101281302', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (441881, '英德市', 441800, '101281307', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (441882, '连州市', 441800, '101281303', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (441900, '东莞市', 440000, '101281601', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (442000, '中山市', 440000, '101281701', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (445100, '潮州市', 440000, '101281501', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (445102, '湘桥区', 445100, '101281504', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (445103, '潮安区', 445100, '101281503', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (445122, '饶平县', 445100, '101281502', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (445200, '揭阳市', 440000, '101281901', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (445202, '榕城区', 445200, '101281906', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (445203, '揭东区', 445200, '101281905', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (445222, '揭西县', 445200, '101281902', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (445224, '惠来县', 445200, '101281904', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (445281, '普宁市', 445200, '101281903', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (445300, '云浮市', 440000, '101281401', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (445302, '云城区', 445300, '101281405', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (445303, '云安区', 445300, '101281406', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (445321, '新兴县', 445300, '101281403', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (445322, '郁南县', 445300, '101281404', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (445381, '罗定市', 445300, '101281402', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (450000, '广西壮族自治区', 0, NULL, NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (450100, '南宁市', 450000, '101300101', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (450102, '兴宁区', 450100, '101300102', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (450103, '青秀区', 450100, '101300110', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (450105, '江南区', 450100, '101300111', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (450107, '西乡塘区', 450100, '101300112', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (450108, '良庆区', 450100, '101300113', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (450109, '邕宁区', 450100, '101300103', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (450110, '武鸣区', 450100, '101300108', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (450123, '隆安县', 450100, '101300105', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (450124, '马山县', 450100, '101300106', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (450125, '上林县', 450100, '101300107', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (450126, '宾阳县', 450100, '101300109', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (450181, '横州市', 450100, NULL, NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (450200, '柳州市', 450000, '101300301', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (450202, '城中区', 450200, '101300303', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (450203, '鱼峰区', 450200, '101300309', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (450204, '柳南区', 450200, '101300310', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (450205, '柳北区', 450200, '101300311', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (450206, '柳江区', 450200, '101300305', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (450222, '柳城县', 450200, '101300302', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (450223, '鹿寨县', 450200, '101300304', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (450224, '融安县', 450200, '101300306', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (450225, '融水苗族自治县', 450200, '101300307', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (450226, '三江侗族自治县', 450200, '101300308', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (450300, '桂林市', 450000, '101300501', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (450302, '秀峰区', 450300, '101300502', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (450303, '叠彩区', 450300, '101300515', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (450304, '象山区', 450300, '101300516', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (450305, '七星区', 450300, '101300517', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (450311, '雁山区', 450300, '101300518', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (450312, '临桂区', 450300, '101300505', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (450321, '阳朔县', 450300, '101300510', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (450323, '灵川县', 450300, '101300507', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (450324, '全州县', 450300, '101300508', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (450325, '兴安县', 450300, '101300506', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (450326, '永福县', 450300, '101300504', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (450327, '灌阳县', 450300, '101300509', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (450328, '龙胜各族自治县', 450300, '101300503', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (450329, '资源县', 450300, '101300514', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (450330, '平乐县', 450300, '101300512', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (450332, '恭城瑶族自治县', 450300, '101300511', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (450381, '荔浦市', 450300, '101300513', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (450400, '梧州市', 450000, '101300601', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (450403, '万秀区', 450400, '101300603', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (450405, '长洲区', 450400, '101300607', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (450406, '龙圩区', 450400, '101300608', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (450421, '苍梧县', 450400, '101300604', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (450422, '藤县', 450400, '101300602', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (450423, '蒙山县', 450400, '101300605', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (450481, '岑溪市', 450400, '101300606', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (450500, '北海市', 450000, '101301301', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (450502, '海城区', 450500, '101301304', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (450503, '银海区', 450500, '101301305', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (450512, '铁山港区', 450500, '101301306', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (450521, '合浦县', 450500, '101301302', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (450600, '防城港市', 450000, '101301401', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (450602, '港口区', 450600, '101301404', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (450603, '防城区', 450600, '101301405', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (450621, '上思县', 450600, '101301402', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (450681, '东兴市', 450600, '101301403', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (450700, '钦州市', 450000, '101301101', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (450702, '钦南区', 450700, '101301104', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (450703, '钦北区', 450700, '101301105', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (450721, '灵山县', 450700, '101301103', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (450722, '浦北县', 450700, '101301102', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (450800, '贵港市', 450000, '101300801', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (450802, '港北区', 450800, '101300804', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (450803, '港南区', 450800, '101300805', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (450804, '覃塘区', 450800, '101300806', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (450821, '平南县', 450800, '101300803', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (450881, '桂平市', 450800, '101300802', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (450900, '玉林市', 450000, '101300901', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (450902, '玉州区', 450900, '101300907', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (450903, '福绵区', 450900, '101300908', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (450921, '容县', 450900, '101300904', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (450922, '陆川县', 450900, '101300905', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (450923, '博白县', 450900, '101300902', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (450924, '兴业县', 450900, '101300906', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (450981, '北流市', 450900, '101300903', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (451000, '百色市', 450000, '101301001', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (451002, '右江区', 451000, '101301013', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (451003, '田阳区', 451000, '101301003', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (451022, '田东县', 451000, '101301006', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (451024, '德保县', 451000, '101301004', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (451026, '那坡县', 451000, '101301002', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (451027, '凌云县', 451000, '101301011', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (451028, '乐业县', 451000, '101301010', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (451029, '田林县', 451000, '101301012', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (451030, '西林县', 451000, '101301009', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (451031, '隆林各族自治县', 451000, '101301008', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (451081, '靖西市', 451000, '101301005', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (451082, '平果市', 451000, '101301007', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (451100, '贺州市', 450000, '101300701', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (451102, '八步区', 451100, '101300705', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (451103, '平桂区', 451100, '101300706', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (451121, '昭平县', 451100, '101300702', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (451122, '钟山县', 451100, '101300704', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (451123, '富川瑶族自治县', 451100, '101300703', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (451200, '河池市', 450000, '101301201', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (451202, '金城江区', 451200, '101301212', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (451203, '宜州区', 451200, '101301207', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (451221, '南丹县', 451200, '101301209', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (451222, '天峨县', 451200, '101301202', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (451223, '凤山县', 451200, '101301208', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (451224, '东兰县', 451200, '101301203', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (451225, '罗城仫佬族自治县', 451200, '101301206', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (451226, '环江毛南族自治县', 451200, '101301205', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (451227, '巴马瑶族自治县', 451200, '101301204', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (451228, '都安瑶族自治县', 451200, '101301210', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (451229, '大化瑶族自治县', 451200, '101301211', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (451300, '来宾市', 450000, '101300401', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (451302, '兴宾区', 451300, '101300407', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (451321, '忻城县', 451300, '101300402', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (451322, '象州县', 451300, '101300404', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (451323, '武宣县', 451300, '101300405', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (451324, '金秀瑶族自治县', 451300, '101300403', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (451381, '合山市', 451300, '101300406', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (451400, '崇左市', 450000, '101300201', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (451402, '江州区', 451400, '101300208', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (451421, '扶绥县', 451400, '101300206', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (451422, '宁明县', 451400, '101300207', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (451423, '龙州县', 451400, '101300203', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (451424, '大新县', 451400, '101300205', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (451425, '天等县', 451400, '101300202', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (451481, '凭祥市', 451400, '101300204', NULL, '2024-03-27 23:31:36', NULL, '2024-03-27 23:31:36');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (460000, '海南省', 0, NULL, NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (460100, '海口市', 460000, '101310101', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (460105, '秀英区', 460100, '101310102', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (460106, '龙华区', 460100, '101310103', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (460107, '琼山区', 460100, '101310104', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (460108, '美兰区', 460100, '101310105', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (460200, '三亚市', 460000, '101310201', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (460202, '海棠区', 460200, '101310213', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (460203, '吉阳区', 460200, '101310218', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (460204, '天涯区', 460200, '101310219', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (460205, '崖州区', 460200, '101310223', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (460300, '三沙市', 460000, '101310301', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (460321, '西沙区', 460300, '101310302', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (460322, '南沙区', 460300, '101310304', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (460323, '中沙群岛的岛礁及其海域', 460300, '101310303', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (460324, '永乐群岛的岛礁及其海域', 460300, NULL, NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (460400, '儋州市', 460000, '101310205', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (469001, '五指山市', 460000, '101310222', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (469002, '琼海市', 460000, '101310211', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (469005, '文昌市', 460000, '101310212', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (469006, '万宁市', 460000, '101310215', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (469007, '东方市', 460000, '101310202', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (469021, '定安县', 460000, '101310209', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (469022, '屯昌县', 460000, '101310210', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (469023, '澄迈县', 460000, '101310204', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (469024, '临高县', 460000, '101310203', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (469025, '白沙黎族自治县', 460000, '101310207', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (469026, '昌江黎族自治县', 460000, '101310206', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (469027, '乐东黎族自治县', 460000, '101310221', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (469028, '陵水黎族自治县', 460000, '101310216', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (469029, '保亭黎族苗族自治县', 460000, '101310214', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (469030, '琼中黎族苗族自治县', 460000, '101310208', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (500000, '重庆市', 0, '101040100', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (500101, '万州区', 500000, '101041300', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (500102, '涪陵区', 500000, '101041400', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (500103, '渝中区', 500000, NULL, NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (500104, '大渡口区', 500000, NULL, NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (500105, '江北区', 500000, NULL, NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (500106, '沙坪坝区', 500000, NULL, NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (500107, '九龙坡区', 500000, NULL, NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (500108, '南岸区', 500000, NULL, NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (500109, '北碚区', 500000, '101040800', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (500110, '綦江区', 500000, '101043300', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (500111, '大足区', 500000, '101042600', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (500112, '渝北区', 500000, '101040700', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (500113, '巴南区', 500000, '101040900', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (500114, '黔江区', 500000, '101041100', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (500115, '长寿区', 500000, '101041000', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (500116, '江津区', 500000, '101040500', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (500117, '合川区', 500000, '101040300', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (500118, '永川区', 500000, '101040200', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (500119, '南川区', 500000, '101040400', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (500120, '璧山区', 500000, '101042900', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (500151, '铜梁区', 500000, '101042800', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (500152, '潼南区', 500000, '101042100', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (500153, '荣昌区', 500000, '101042700', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (500154, '开州区', 500000, NULL, NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (500155, '梁平区', 500000, '101042300', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (500156, '武隆区', 500000, '101043100', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (500229, '城口县', 500000, '101041600', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (500230, '丰都县', 500000, '101043000', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (500231, '垫江县', 500000, '101042200', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (500233, '忠县', 500000, '101042400', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (500235, '云阳县', 500000, '101041700', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (500236, '奉节县', 500000, '101041900', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (500237, '巫山县', 500000, '101042000', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (500238, '巫溪县', 500000, '101041800', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (500240, '石柱土家族自治县', 500000, '101042500', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (500241, '秀山土家族苗族自治县', 500000, '101043600', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (500242, '酉阳土家族苗族自治县', 500000, '101043400', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (500243, '彭水苗族土家族自治县', 500000, '101043200', NULL, '2024-03-27 23:31:29', NULL, '2024-03-27 23:31:29');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (510000, '四川省', 0, NULL, NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (510100, '成都市', 510000, '101270101', NULL, '2024-03-27 23:31:41', NULL, '2024-03-27 23:31:41');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (510104, '锦江区', 510100, '101270116', NULL, '2024-03-27 23:31:41', NULL, '2024-03-27 23:31:41');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (510105, '青羊区', 510100, '101270117', NULL, '2024-03-27 23:31:42', NULL, '2024-03-27 23:31:42');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (510106, '金牛区', 510100, '101270118', NULL, '2024-03-27 23:31:41', NULL, '2024-03-27 23:31:41');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (510107, '武侯区', 510100, '101270119', NULL, '2024-03-27 23:31:41', NULL, '2024-03-27 23:31:41');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (510108, '成华区', 510100, '101270120', NULL, '2024-03-27 23:31:42', NULL, '2024-03-27 23:31:42');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (510112, '龙泉驿区', 510100, '101270102', NULL, '2024-03-27 23:31:41', NULL, '2024-03-27 23:31:41');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (510113, '青白江区', 510100, '101270115', NULL, '2024-03-27 23:31:41', NULL, '2024-03-27 23:31:41');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (510114, '新都区', 510100, '101270103', NULL, '2024-03-27 23:31:42', NULL, '2024-03-27 23:31:42');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (510115, '温江区', 510100, '101270104', NULL, '2024-03-27 23:31:42', NULL, '2024-03-27 23:31:42');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (510116, '双流区', 510100, '101270106', NULL, '2024-03-27 23:31:42', NULL, '2024-03-27 23:31:42');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (510117, '郫都区', 510100, '101270107', NULL, '2024-03-27 23:31:42', NULL, '2024-03-27 23:31:42');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (510118, '新津区', 510100, '101270110', NULL, '2024-03-27 23:31:41', NULL, '2024-03-27 23:31:41');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (510121, '金堂县', 510100, '101270105', NULL, '2024-03-27 23:31:42', NULL, '2024-03-27 23:31:42');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (510129, '大邑县', 510100, '101270108', NULL, '2024-03-27 23:31:41', NULL, '2024-03-27 23:31:41');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (510131, '蒲江县', 510100, '101270109', NULL, '2024-03-27 23:31:42', NULL, '2024-03-27 23:31:42');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (510181, '都江堰市', 510100, '101270111', NULL, '2024-03-27 23:31:42', NULL, '2024-03-27 23:31:42');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (510182, '彭州市', 510100, '101270112', NULL, '2024-03-27 23:31:41', NULL, '2024-03-27 23:31:41');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (510183, '邛崃市', 510100, '101270113', NULL, '2024-03-27 23:31:42', NULL, '2024-03-27 23:31:42');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (510184, '崇州市', 510100, '101270114', NULL, '2024-03-27 23:31:42', NULL, '2024-03-27 23:31:42');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (510185, '简阳市', 510100, '101270121', NULL, '2024-03-27 23:31:42', NULL, '2024-03-27 23:31:42');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (510300, '自贡市', 510000, '101270301', NULL, '2024-03-27 23:31:41', NULL, '2024-03-27 23:31:41');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (510302, '自流井区', 510300, '101270304', NULL, '2024-03-27 23:31:41', NULL, '2024-03-27 23:31:41');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (510303, '贡井区', 510300, '101270305', NULL, '2024-03-27 23:31:41', NULL, '2024-03-27 23:31:41');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (510304, '大安区', 510300, '101270306', NULL, '2024-03-27 23:31:41', NULL, '2024-03-27 23:31:41');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (510311, '沿滩区', 510300, '101270307', NULL, '2024-03-27 23:31:41', NULL, '2024-03-27 23:31:41');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (510321, '荣县', 510300, '101270303', NULL, '2024-03-27 23:31:41', NULL, '2024-03-27 23:31:41');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (510322, '富顺县', 510300, '101270302', NULL, '2024-03-27 23:31:41', NULL, '2024-03-27 23:31:41');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (510400, '攀枝花市', 510000, '101270201', NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (510402, '东区', 510400, '101270205', NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (510403, '西区', 510400, '101270206', NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (510411, '仁和区', 510400, '101270202', NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (510421, '米易县', 510400, '101270203', NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (510422, '盐边县', 510400, '101270204', NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (510500, '泸州市', 510000, '101271001', NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (510502, '江阳区', 510500, '101271002', NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (510503, '纳溪区', 510500, '101271007', NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (510504, '龙马潭区', 510500, '101271008', NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (510521, '泸县', 510500, '101271003', NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (510522, '合江县', 510500, '101271004', NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (510524, '叙永县', 510500, '101271005', NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (510525, '古蔺县', 510500, '101271006', NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (510600, '德阳市', 510000, '101272001', NULL, '2024-03-27 23:31:41', NULL, '2024-03-27 23:31:41');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (510603, '旌阳区', 510600, '101272007', NULL, '2024-03-27 23:31:41', NULL, '2024-03-27 23:31:41');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (510604, '罗江区', 510600, '101272006', NULL, '2024-03-27 23:31:41', NULL, '2024-03-27 23:31:41');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (510623, '中江县', 510600, '101272002', NULL, '2024-03-27 23:31:41', NULL, '2024-03-27 23:31:41');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (510681, '广汉市', 510600, '101272003', NULL, '2024-03-27 23:31:41', NULL, '2024-03-27 23:31:41');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (510682, '什邡市', 510600, '101272004', NULL, '2024-03-27 23:31:41', NULL, '2024-03-27 23:31:41');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (510683, '绵竹市', 510600, '101272005', NULL, '2024-03-27 23:31:41', NULL, '2024-03-27 23:31:41');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (510700, '绵阳市', 510000, '101270401', NULL, '2024-03-27 23:31:41', NULL, '2024-03-27 23:31:41');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (510703, '涪城区', 510700, '101270409', NULL, '2024-03-27 23:31:41', NULL, '2024-03-27 23:31:41');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (510704, '游仙区', 510700, '101270410', NULL, '2024-03-27 23:31:41', NULL, '2024-03-27 23:31:41');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (510705, '安州区', 510700, '101270411', NULL, '2024-03-27 23:31:41', NULL, '2024-03-27 23:31:41');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (510722, '三台县', 510700, '101270402', NULL, '2024-03-27 23:31:41', NULL, '2024-03-27 23:31:41');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (510723, '盐亭县', 510700, '101270403', NULL, '2024-03-27 23:31:41', NULL, '2024-03-27 23:31:41');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (510725, '梓潼县', 510700, '101270405', NULL, '2024-03-27 23:31:41', NULL, '2024-03-27 23:31:41');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (510726, '北川羌族自治县', 510700, '101270406', NULL, '2024-03-27 23:31:41', NULL, '2024-03-27 23:31:41');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (510727, '平武县', 510700, '101270407', NULL, '2024-03-27 23:31:41', NULL, '2024-03-27 23:31:41');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (510781, '江油市', 510700, '101270408', NULL, '2024-03-27 23:31:41', NULL, '2024-03-27 23:31:41');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (510800, '广元市', 510000, '101272101', NULL, '2024-03-27 23:31:41', NULL, '2024-03-27 23:31:41');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (510802, '利州区', 510800, '101272106', NULL, '2024-03-27 23:31:41', NULL, '2024-03-27 23:31:41');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (510811, '昭化区', 510800, '101272107', NULL, '2024-03-27 23:31:41', NULL, '2024-03-27 23:31:41');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (510812, '朝天区', 510800, '101272108', NULL, '2024-03-27 23:31:41', NULL, '2024-03-27 23:31:41');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (510821, '旺苍县', 510800, '101272102', NULL, '2024-03-27 23:31:41', NULL, '2024-03-27 23:31:41');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (510822, '青川县', 510800, '101272103', NULL, '2024-03-27 23:31:41', NULL, '2024-03-27 23:31:41');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (510823, '剑阁县', 510800, '101272104', NULL, '2024-03-27 23:31:41', NULL, '2024-03-27 23:31:41');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (510824, '苍溪县', 510800, '101272105', NULL, '2024-03-27 23:31:41', NULL, '2024-03-27 23:31:41');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (510900, '遂宁市', 510000, '101270701', NULL, '2024-03-27 23:31:41', NULL, '2024-03-27 23:31:41');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (510903, '船山区', 510900, '101270704', NULL, '2024-03-27 23:31:41', NULL, '2024-03-27 23:31:41');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (510904, '安居区', 510900, '101270705', NULL, '2024-03-27 23:31:41', NULL, '2024-03-27 23:31:41');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (510921, '蓬溪县', 510900, '101270702', NULL, '2024-03-27 23:31:41', NULL, '2024-03-27 23:31:41');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (510923, '大英县', 510900, '101270706', NULL, '2024-03-27 23:31:41', NULL, '2024-03-27 23:31:41');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (510981, '射洪市', 510900, '101270703', NULL, '2024-03-27 23:31:41', NULL, '2024-03-27 23:31:41');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (511000, '内江市', 510000, '101271201', NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (511002, '市中区', 511000, '101271206', NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (511011, '东兴区', 511000, '101271202', NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (511024, '威远县', 511000, '101271203', NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (511025, '资中县', 511000, '101271204', NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (511083, '隆昌市', 511000, '101271205', NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (511100, '乐山市', 510000, '101271401', NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (511102, '市中区', 511100, '101271410', NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (511111, '沙湾区', 511100, '101271411', NULL, '2024-03-27 23:31:41', NULL, '2024-03-27 23:31:41');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (511112, '五通桥区', 511100, '101271412', NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (511113, '金口河区', 511100, '101271413', NULL, '2024-03-27 23:31:41', NULL, '2024-03-27 23:31:41');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (511123, '犍为县', 511100, '101271402', NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (511124, '井研县', 511100, '101271403', NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (511126, '夹江县', 511100, '101271404', NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (511129, '沐川县', 511100, '101271405', NULL, '2024-03-27 23:31:41', NULL, '2024-03-27 23:31:41');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (511132, '峨边彝族自治县', 511100, '101271406', NULL, '2024-03-27 23:31:41', NULL, '2024-03-27 23:31:41');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (511133, '马边彝族自治县', 511100, '101271407', NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (511181, '峨眉山市', 511100, '101271414', NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (511300, '南充市', 510000, '101270501', NULL, '2024-03-27 23:31:41', NULL, '2024-03-27 23:31:41');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (511302, '顺庆区', 511300, '101270508', NULL, '2024-03-27 23:31:41', NULL, '2024-03-27 23:31:41');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (511303, '高坪区', 511300, '101270509', NULL, '2024-03-27 23:31:41', NULL, '2024-03-27 23:31:41');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (511304, '嘉陵区', 511300, '101270510', NULL, '2024-03-27 23:31:41', NULL, '2024-03-27 23:31:41');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (511321, '南部县', 511300, '101270502', NULL, '2024-03-27 23:31:41', NULL, '2024-03-27 23:31:41');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (511322, '营山县', 511300, '101270503', NULL, '2024-03-27 23:31:41', NULL, '2024-03-27 23:31:41');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (511323, '蓬安县', 511300, '101270504', NULL, '2024-03-27 23:31:41', NULL, '2024-03-27 23:31:41');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (511324, '仪陇县', 511300, '101270505', NULL, '2024-03-27 23:31:41', NULL, '2024-03-27 23:31:41');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (511325, '西充县', 511300, '101270506', NULL, '2024-03-27 23:31:41', NULL, '2024-03-27 23:31:41');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (511381, '阆中市', 511300, '101270507', NULL, '2024-03-27 23:31:41', NULL, '2024-03-27 23:31:41');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (511400, '眉山市', 510000, '101271501', NULL, '2024-03-27 23:31:41', NULL, '2024-03-27 23:31:41');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (511402, '东坡区', 511400, '101271507', NULL, '2024-03-27 23:31:41', NULL, '2024-03-27 23:31:41');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (511403, '彭山区', 511400, '101271503', NULL, '2024-03-27 23:31:41', NULL, '2024-03-27 23:31:41');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (511421, '仁寿县', 511400, '101271502', NULL, '2024-03-27 23:31:41', NULL, '2024-03-27 23:31:41');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (511423, '洪雅县', 511400, '101271504', NULL, '2024-03-27 23:31:41', NULL, '2024-03-27 23:31:41');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (511424, '丹棱县', 511400, '101271505', NULL, '2024-03-27 23:31:41', NULL, '2024-03-27 23:31:41');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (511425, '青神县', 511400, '101271506', NULL, '2024-03-27 23:31:41', NULL, '2024-03-27 23:31:41');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (511500, '宜宾市', 510000, '101271101', NULL, '2024-03-27 23:31:41', NULL, '2024-03-27 23:31:41');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (511502, '翠屏区', 511500, '101271102', NULL, '2024-03-27 23:31:41', NULL, '2024-03-27 23:31:41');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (511503, '南溪区', 511500, '101271104', NULL, '2024-03-27 23:31:41', NULL, '2024-03-27 23:31:41');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (511504, '叙州区', 511500, NULL, NULL, '2024-03-27 23:31:41', NULL, '2024-03-27 23:31:41');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (511523, '江安县', 511500, '101271105', NULL, '2024-03-27 23:31:41', NULL, '2024-03-27 23:31:41');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (511524, '长宁县', 511500, '101271106', NULL, '2024-03-27 23:31:41', NULL, '2024-03-27 23:31:41');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (511525, '高县', 511500, '101271107', NULL, '2024-03-27 23:31:41', NULL, '2024-03-27 23:31:41');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (511526, '珙县', 511500, '101271108', NULL, '2024-03-27 23:31:41', NULL, '2024-03-27 23:31:41');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (511527, '筠连县', 511500, '101271109', NULL, '2024-03-27 23:31:41', NULL, '2024-03-27 23:31:41');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (511528, '兴文县', 511500, '101271110', NULL, '2024-03-27 23:31:41', NULL, '2024-03-27 23:31:41');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (511529, '屏山县', 511500, '101271111', NULL, '2024-03-27 23:31:41', NULL, '2024-03-27 23:31:41');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (511600, '广安市', 510000, '101270801', NULL, '2024-03-27 23:31:41', NULL, '2024-03-27 23:31:41');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (511602, '广安区', 511600, '101270801', NULL, '2024-03-27 23:31:41', NULL, '2024-03-27 23:31:41');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (511603, '前锋区', 511600, '101270806', NULL, '2024-03-27 23:31:41', NULL, '2024-03-27 23:31:41');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (511621, '岳池县', 511600, '101270802', NULL, '2024-03-27 23:31:41', NULL, '2024-03-27 23:31:41');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (511622, '武胜县', 511600, '101270803', NULL, '2024-03-27 23:31:41', NULL, '2024-03-27 23:31:41');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (511623, '邻水县', 511600, '101270804', NULL, '2024-03-27 23:31:41', NULL, '2024-03-27 23:31:41');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (511681, '华蓥市', 511600, '101270805', NULL, '2024-03-27 23:31:41', NULL, '2024-03-27 23:31:41');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (511700, '达州市', 510000, '101270601', NULL, '2024-03-27 23:31:41', NULL, '2024-03-27 23:31:41');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (511702, '通川区', 511700, '101270607', NULL, '2024-03-27 23:31:41', NULL, '2024-03-27 23:31:41');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (511703, '达川区', 511700, '101270608', NULL, '2024-03-27 23:31:41', NULL, '2024-03-27 23:31:41');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (511722, '宣汉县', 511700, '101270602', NULL, '2024-03-27 23:31:41', NULL, '2024-03-27 23:31:41');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (511723, '开江县', 511700, '101270603', NULL, '2024-03-27 23:31:41', NULL, '2024-03-27 23:31:41');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (511724, '大竹县', 511700, '101270604', NULL, '2024-03-27 23:31:41', NULL, '2024-03-27 23:31:41');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (511725, '渠县', 511700, '101270605', NULL, '2024-03-27 23:31:41', NULL, '2024-03-27 23:31:41');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (511781, '万源市', 511700, '101270606', NULL, '2024-03-27 23:31:41', NULL, '2024-03-27 23:31:41');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (511800, '雅安市', 510000, '101271701', NULL, '2024-03-27 23:31:41', NULL, '2024-03-27 23:31:41');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (511802, '雨城区', 511800, '101271709', NULL, '2024-03-27 23:31:41', NULL, '2024-03-27 23:31:41');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (511803, '名山区', 511800, '101271702', NULL, '2024-03-27 23:31:41', NULL, '2024-03-27 23:31:41');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (511822, '荥经县', 511800, '101271703', NULL, '2024-03-27 23:31:41', NULL, '2024-03-27 23:31:41');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (511823, '汉源县', 511800, '101271704', NULL, '2024-03-27 23:31:41', NULL, '2024-03-27 23:31:41');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (511824, '石棉县', 511800, '101271705', NULL, '2024-03-27 23:31:41', NULL, '2024-03-27 23:31:41');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (511825, '天全县', 511800, '101271706', NULL, '2024-03-27 23:31:41', NULL, '2024-03-27 23:31:41');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (511826, '芦山县', 511800, '101271707', NULL, '2024-03-27 23:31:41', NULL, '2024-03-27 23:31:41');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (511827, '宝兴县', 511800, '101271708', NULL, '2024-03-27 23:31:41', NULL, '2024-03-27 23:31:41');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (511900, '巴中市', 510000, '101270901', NULL, '2024-03-27 23:31:41', NULL, '2024-03-27 23:31:41');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (511902, '巴州区', 511900, '101270905', NULL, '2024-03-27 23:31:41', NULL, '2024-03-27 23:31:41');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (511903, '恩阳区', 511900, '101270906', NULL, '2024-03-27 23:31:41', NULL, '2024-03-27 23:31:41');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (511921, '通江县', 511900, '101270902', NULL, '2024-03-27 23:31:41', NULL, '2024-03-27 23:31:41');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (511922, '南江县', 511900, '101270903', NULL, '2024-03-27 23:31:41', NULL, '2024-03-27 23:31:41');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (511923, '平昌县', 511900, '101270904', NULL, '2024-03-27 23:31:41', NULL, '2024-03-27 23:31:41');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (512000, '资阳市', 510000, '101271301', NULL, '2024-03-27 23:31:41', NULL, '2024-03-27 23:31:41');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (512002, '雁江区', 512000, '101271305', NULL, '2024-03-27 23:31:41', NULL, '2024-03-27 23:31:41');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (512021, '安岳县', 512000, '101271302', NULL, '2024-03-27 23:31:41', NULL, '2024-03-27 23:31:41');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (512022, '乐至县', 512000, '101271303', NULL, '2024-03-27 23:31:41', NULL, '2024-03-27 23:31:41');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (513200, '阿坝藏族羌族自治州', 510000, '101271901', NULL, '2024-03-27 23:31:41', NULL, '2024-03-27 23:31:41');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (513201, '马尔康市', 513200, '101271910', NULL, '2024-03-27 23:31:41', NULL, '2024-03-27 23:31:41');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (513221, '汶川县', 513200, '101271902', NULL, '2024-03-27 23:31:41', NULL, '2024-03-27 23:31:41');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (513222, '理县', 513200, '101271903', NULL, '2024-03-27 23:31:41', NULL, '2024-03-27 23:31:41');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (513223, '茂县', 513200, '101271904', NULL, '2024-03-27 23:31:41', NULL, '2024-03-27 23:31:41');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (513224, '松潘县', 513200, '101271905', NULL, '2024-03-27 23:31:41', NULL, '2024-03-27 23:31:41');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (513225, '九寨沟县', 513200, '101271906', NULL, '2024-03-27 23:31:41', NULL, '2024-03-27 23:31:41');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (513226, '金川县', 513200, '101271907', NULL, '2024-03-27 23:31:41', NULL, '2024-03-27 23:31:41');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (513227, '小金县', 513200, '101271908', NULL, '2024-03-27 23:31:41', NULL, '2024-03-27 23:31:41');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (513228, '黑水县', 513200, '101271909', NULL, '2024-03-27 23:31:41', NULL, '2024-03-27 23:31:41');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (513230, '壤塘县', 513200, '101271911', NULL, '2024-03-27 23:31:41', NULL, '2024-03-27 23:31:41');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (513231, '阿坝县', 513200, '101271901', NULL, '2024-03-27 23:31:41', NULL, '2024-03-27 23:31:41');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (513232, '若尔盖县', 513200, '101271912', NULL, '2024-03-27 23:31:41', NULL, '2024-03-27 23:31:41');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (513233, '红原县', 513200, '101271913', NULL, '2024-03-27 23:31:41', NULL, '2024-03-27 23:31:41');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (513300, '甘孜藏族自治州', 510000, '101271801', NULL, '2024-03-27 23:31:41', NULL, '2024-03-27 23:31:41');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (513301, '康定市', 513300, '101271802', NULL, '2024-03-27 23:31:41', NULL, '2024-03-27 23:31:41');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (513322, '泸定县', 513300, '101271803', NULL, '2024-03-27 23:31:41', NULL, '2024-03-27 23:31:41');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (513323, '丹巴县', 513300, '101271804', NULL, '2024-03-27 23:31:41', NULL, '2024-03-27 23:31:41');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (513324, '九龙县', 513300, '101271805', NULL, '2024-03-27 23:31:41', NULL, '2024-03-27 23:31:41');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (513325, '雅江县', 513300, '101271806', NULL, '2024-03-27 23:31:41', NULL, '2024-03-27 23:31:41');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (513326, '道孚县', 513300, '101271807', NULL, '2024-03-27 23:31:41', NULL, '2024-03-27 23:31:41');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (513327, '炉霍县', 513300, '101271808', NULL, '2024-03-27 23:31:41', NULL, '2024-03-27 23:31:41');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (513328, '甘孜县', 513300, '101271801', NULL, '2024-03-27 23:31:41', NULL, '2024-03-27 23:31:41');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (513329, '新龙县', 513300, '101271809', NULL, '2024-03-27 23:31:41', NULL, '2024-03-27 23:31:41');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (513330, '德格县', 513300, '101271810', NULL, '2024-03-27 23:31:41', NULL, '2024-03-27 23:31:41');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (513331, '白玉县', 513300, '101271811', NULL, '2024-03-27 23:31:41', NULL, '2024-03-27 23:31:41');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (513332, '石渠县', 513300, '101271812', NULL, '2024-03-27 23:31:41', NULL, '2024-03-27 23:31:41');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (513333, '色达县', 513300, '101271813', NULL, '2024-03-27 23:31:41', NULL, '2024-03-27 23:31:41');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (513334, '理塘县', 513300, '101271814', NULL, '2024-03-27 23:31:41', NULL, '2024-03-27 23:31:41');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (513335, '巴塘县', 513300, '101271815', NULL, '2024-03-27 23:31:41', NULL, '2024-03-27 23:31:41');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (513336, '乡城县', 513300, '101271816', NULL, '2024-03-27 23:31:41', NULL, '2024-03-27 23:31:41');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (513337, '稻城县', 513300, '101271817', NULL, '2024-03-27 23:31:41', NULL, '2024-03-27 23:31:41');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (513338, '得荣县', 513300, '101271818', NULL, '2024-03-27 23:31:41', NULL, '2024-03-27 23:31:41');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (513400, '凉山彝族自治州', 510000, '101271601', NULL, '2024-03-27 23:31:41', NULL, '2024-03-27 23:31:41');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (513401, '西昌市', 513400, '101271610', NULL, '2024-03-27 23:31:41', NULL, '2024-03-27 23:31:41');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (513402, '会理市', 513400, '101271606', NULL, '2024-03-27 23:31:41', NULL, '2024-03-27 23:31:41');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (513422, '木里藏族自治县', 513400, '101271603', NULL, '2024-03-27 23:31:41', NULL, '2024-03-27 23:31:41');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (513423, '盐源县', 513400, '101271604', NULL, '2024-03-27 23:31:41', NULL, '2024-03-27 23:31:41');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (513424, '德昌县', 513400, '101271605', NULL, '2024-03-27 23:31:41', NULL, '2024-03-27 23:31:41');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (513426, '会东县', 513400, '101271607', NULL, '2024-03-27 23:31:41', NULL, '2024-03-27 23:31:41');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (513427, '宁南县', 513400, '101271608', NULL, '2024-03-27 23:31:41', NULL, '2024-03-27 23:31:41');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (513428, '普格县', 513400, '101271609', NULL, '2024-03-27 23:31:41', NULL, '2024-03-27 23:31:41');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (513429, '布拖县', 513400, '101271619', NULL, '2024-03-27 23:31:41', NULL, '2024-03-27 23:31:41');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (513430, '金阳县', 513400, '101271611', NULL, '2024-03-27 23:31:41', NULL, '2024-03-27 23:31:41');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (513431, '昭觉县', 513400, '101271612', NULL, '2024-03-27 23:31:41', NULL, '2024-03-27 23:31:41');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (513432, '喜德县', 513400, '101271613', NULL, '2024-03-27 23:31:41', NULL, '2024-03-27 23:31:41');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (513433, '冕宁县', 513400, '101271614', NULL, '2024-03-27 23:31:41', NULL, '2024-03-27 23:31:41');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (513434, '越西县', 513400, '101271615', NULL, '2024-03-27 23:31:41', NULL, '2024-03-27 23:31:41');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (513435, '甘洛县', 513400, '101271616', NULL, '2024-03-27 23:31:41', NULL, '2024-03-27 23:31:41');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (513436, '美姑县', 513400, '101271618', NULL, '2024-03-27 23:31:41', NULL, '2024-03-27 23:31:41');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (513437, '雷波县', 513400, '101271617', NULL, '2024-03-27 23:31:41', NULL, '2024-03-27 23:31:41');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (520000, '贵州省', 0, NULL, NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (520100, '贵阳市', 520000, '101260101', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (520102, '南明区', 520100, '101260111', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (520103, '云岩区', 520100, '101260110', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (520111, '花溪区', 520100, '101260103', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (520112, '乌当区', 520100, '101260104', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (520113, '白云区', 520100, '101260102', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (520115, '观山湖区', 520100, '101260112', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (520121, '开阳县', 520100, '101260106', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (520122, '息烽县', 520100, '101260105', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (520123, '修文县', 520100, '101260107', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (520181, '清镇市', 520100, '101260108', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (520200, '六盘水市', 520000, '101260803', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (520201, '钟山区', 520200, '101260805', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (520203, '六枝特区', 520200, '101260802', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (520204, '水城区', 520200, '101260801', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (520281, '盘州市', 520200, '101260804', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (520300, '遵义市', 520000, '101260201', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (520302, '红花岗区', 520300, '101260215', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (520303, '汇川区', 520300, '101260214', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (520304, '播州区', 520300, '101260216', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (520322, '桐梓县', 520300, '101260207', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (520323, '绥阳县', 520300, '101260204', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (520324, '正安县', 520300, '101260211', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (520325, '道真仡佬族苗族自治县', 520300, '101260210', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (520326, '务川仡佬族苗族自治县', 520300, '101260212', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (520327, '凤冈县', 520300, '101260206', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (520328, '湄潭县', 520300, '101260205', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (520329, '余庆县', 520300, '101260213', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (520330, '习水县', 520300, '101260209', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (520381, '赤水市', 520300, '101260208', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (520382, '仁怀市', 520300, '101260203', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (520400, '安顺市', 520000, '101260301', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (520402, '西秀区', 520400, '101260307', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (520403, '平坝区', 520400, '101260304', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (520422, '普定县', 520400, '101260302', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (520423, '镇宁布依族苗族自治县', 520400, '101260303', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (520424, '关岭布依族苗族自治县', 520400, '101260306', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (520425, '紫云苗族布依族自治县', 520400, '101260305', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (520500, '毕节市', 520000, '101260701', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (520502, '七星关区', 520500, '101260709', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (520521, '大方县', 520500, '101260705', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (520523, '金沙县', 520500, '101260703', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (520524, '织金县', 520500, '101260707', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (520525, '纳雍县', 520500, '101260706', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (520526, '威宁彝族回族苗族自治县', 520500, '101260704', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (520527, '赫章县', 520500, '101260702', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (520581, '黔西市', 520500, '101260708', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (520600, '铜仁市', 520000, '101260601', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (520602, '碧江区', 520600, '101260606', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (520603, '万山区', 520600, '101260604', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (520621, '江口县', 520600, '101260602', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (520622, '玉屏侗族自治县', 520600, '101260603', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (520623, '石阡县', 520600, '101260608', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (520624, '思南县', 520600, '101260605', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (520625, '印江土家族苗族自治县', 520600, '101260607', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (520626, '德江县', 520600, '101260610', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (520627, '沿河土家族自治县', 520600, '101260609', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (520628, '松桃苗族自治县', 520600, '101260611', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (522300, '黔西南布依族苗族自治州', 520000, '101260906', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (522301, '兴义市', 522300, '101260901', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (522302, '兴仁市', 522300, '101260903', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (522323, '普安县', 522300, '101260909', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (522324, '晴隆县', 522300, '101260902', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (522325, '贞丰县', 522300, '101260904', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (522326, '望谟县', 522300, '101260905', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (522327, '册亨县', 522300, '101260908', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (522328, '安龙县', 522300, '101260907', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (522600, '黔东南苗族侗族自治州', 520000, '101260506', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (522601, '凯里市', 522600, '101260501', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (522622, '黄平县', 522600, '101260505', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (522623, '施秉县', 522600, '101260503', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (522624, '三穗县', 522600, '101260509', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (522625, '镇远县', 522600, '101260504', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (522626, '岑巩县', 522600, '101260502', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (522627, '天柱县', 522600, '101260514', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (522628, '锦屏县', 522600, '101260515', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (522629, '剑河县', 522600, '101260511', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (522630, '台江县', 522600, '101260510', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (522631, '黎平县', 522600, '101260513', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (522632, '榕江县', 522600, '101260516', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (522633, '从江县', 522600, '101260517', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (522634, '雷山县', 522600, '101260512', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (522635, '麻江县', 522600, '101260507', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (522636, '丹寨县', 522600, '101260508', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (522700, '黔南布依族苗族自治州', 520000, '101260413', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (522701, '都匀市', 522700, '101260401', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (522702, '福泉市', 522700, '101260405', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (522722, '荔波县', 522700, '101260412', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (522723, '贵定县', 522700, '101260402', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (522725, '瓮安县', 522700, '101260403', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (522726, '独山县', 522700, '101260410', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (522727, '平塘县', 522700, '101260409', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (522728, '罗甸县', 522700, '101260408', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (522729, '长顺县', 522700, '101260404', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (522730, '龙里县', 522700, '101260407', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (522731, '惠水县', 522700, '101260406', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (522732, '三都水族自治县', 522700, '101260411', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (530000, '云南省', 0, NULL, NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (530100, '昆明市', 530000, '101290101', NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (530102, '五华区', 530100, '101290102', NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (530103, '盘龙区', 530100, '101290114', NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (530111, '官渡区', 530100, '101290115', NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (530112, '西山区', 530100, '101290116', NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (530113, '东川区', 530100, '101290103', NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (530114, '呈贡区', 530100, '101290108', NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (530115, '晋宁区', 530100, '101290105', NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (530124, '富民县', 530100, '101290109', NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (530125, '宜良县', 530100, '101290106', NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (530126, '石林彝族自治县', 530100, '101290107', NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (530127, '嵩明县', 530100, '101290110', NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (530128, '禄劝彝族苗族自治县', 530100, '101290111', NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (530129, '寻甸回族彝族自治县', 530100, '101290104', NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (530181, '安宁市', 530100, '101290112', NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (530300, '曲靖市', 530000, '101290401', NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (530302, '麒麟区', 530300, '101290410', NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (530303, '沾益区', 530300, '101290402', NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (530304, '马龙区', 530300, '101290405', NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (530322, '陆良县', 530300, '101290403', NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (530323, '师宗县', 530300, '101290406', NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (530324, '罗平县', 530300, '101290407', NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (530325, '富源县', 530300, '101290404', NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (530326, '会泽县', 530300, '101290408', NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (530381, '宣威市', 530300, '101290409', NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (530400, '玉溪市', 530000, '101290701', NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (530402, '红塔区', 530400, '101290710', NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (530403, '江川区', 530400, '101290703', NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (530423, '通海县', 530400, '101290704', NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (530424, '华宁县', 530400, '101290705', NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (530425, '易门县', 530400, '101290707', NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (530426, '峨山彝族自治县', 530400, '101290708', NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (530427, '新平彝族傣族自治县', 530400, '101290706', NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (530428, '元江哈尼族彝族傣族自治县', 530400, '101290709', NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (530481, '澄江市', 530400, '101290702', NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (530500, '保山市', 530000, '101290501', NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (530502, '隆阳区', 530500, '101290502', NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (530521, '施甸县', 530500, '101290504', NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (530523, '龙陵县', 530500, '101290503', NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (530524, '昌宁县', 530500, '101290505', NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (530581, '腾冲市', 530500, '101290506', NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (530600, '昭通市', 530000, '101291001', NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (530602, '昭阳区', 530600, '101291012', NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (530621, '鲁甸县', 530600, '101291002', NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (530622, '巧家县', 530600, '101291006', NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (530623, '盐津县', 530600, '101291009', NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (530624, '大关县', 530600, '101291010', NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (530625, '永善县', 530600, '101291008', NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (530626, '绥江县', 530600, '101291007', NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (530627, '镇雄县', 530600, '101291004', NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (530628, '彝良县', 530600, '101291003', NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (530629, '威信县', 530600, '101291005', NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (530681, '水富市', 530600, '101291011', NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (530700, '丽江市', 530000, '101291401', NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (530702, '古城区', 530700, '101291405', NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (530721, '玉龙纳西族自治县', 530700, '101291406', NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (530722, '永胜县', 530700, '101291402', NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (530723, '华坪县', 530700, '101291403', NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (530724, '宁蒗彝族自治县', 530700, '101291404', NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (530800, '普洱市', 530000, '101290901', NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (530802, '思茅区', 530800, '101290905', NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (530821, '宁洱哈尼族彝族自治县', 530800, '101290912', NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (530822, '墨江哈尼族自治县', 530800, '101290906', NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (530823, '景东彝族自治县', 530800, '101290903', NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (530824, '景谷傣族彝族自治县', 530800, '101290902', NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (530825, '镇沅彝族哈尼族拉祜族自治县', 530800, '101290911', NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (530826, '江城哈尼族彝族自治县', 530800, '101290907', NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (530827, '孟连傣族拉祜族佤族自治县', 530800, '101290908', NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (530828, '澜沧拉祜族自治县', 530800, '101290904', NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (530829, '西盟佤族自治县', 530800, '101290909', NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (530900, '临沧市', 530000, '101291101', NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (530902, '临翔区', 530900, '101291109', NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (530921, '凤庆县', 530900, '101291105', NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (530922, '云县', 530900, '101291107', NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (530923, '永德县', 530900, '101291106', NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (530924, '镇康县', 530900, '101291108', NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (530925, '双江拉祜族佤族布朗族傣族自治县', 530900, '101291104', NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (530926, '耿马傣族佤族自治县', 530900, '101291103', NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (530927, '沧源佤族自治县', 530900, '101291102', NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (532300, '楚雄彝族自治州', 530000, '101290801', NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (532301, '楚雄市', 532300, '101290801', NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (532302, '禄丰市', 532300, '101290808', NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (532322, '双柏县', 532300, '101290809', NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (532323, '牟定县', 532300, '101290805', NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (532324, '南华县', 532300, '101290806', NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (532325, '姚安县', 532300, '101290804', NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (532326, '大姚县', 532300, '101290802', NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (532327, '永仁县', 532300, '101290810', NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (532328, '元谋县', 532300, '101290803', NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (532329, '武定县', 532300, '101290807', NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (532500, '红河哈尼族彝族自治州', 530000, '101290301', NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (532501, '个旧市', 532500, '101290308', NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (532502, '开远市', 532500, '101290307', NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (532503, '蒙自市', 532500, '101290309', NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (532504, '弥勒市', 532500, '101290304', NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (532523, '屏边苗族自治县', 532500, '101290310', NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (532524, '建水县', 532500, '101290303', NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (532525, '石屏县', 532500, '101290302', NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (532527, '泸西县', 532500, '101290311', NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (532528, '元阳县', 532500, '101290305', NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (532529, '红河县', 532500, '101290301', NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (532530, '金平苗族瑶族傣族自治县', 532500, '101290312', NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (532531, '绿春县', 532500, '101290306', NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (532532, '河口瑶族自治县', 532500, '101290313', NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (532600, '文山壮族苗族自治州', 530000, '101290601', NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (532601, '文山市', 532600, '101290601', NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (532622, '砚山县', 532600, '101290605', NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (532623, '西畴县', 532600, '101290602', NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (532624, '麻栗坡县', 532600, '101290604', NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (532625, '马关县', 532600, '101290603', NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (532626, '丘北县', 532600, '101290606', NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (532627, '广南县', 532600, '101290607', NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (532628, '富宁县', 532600, '101290608', NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (532800, '西双版纳傣族自治州', 530000, '101291602', NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (532801, '景洪市', 532800, '101291601', NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (532822, '勐海县', 532800, '101291603', NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (532823, '勐腊县', 532800, '101291605', NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (532900, '大理白族自治州', 530000, '101290201', NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (532901, '大理市', 532900, '101290201', NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (532922, '漾濞彝族自治县', 532900, '101290203', NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (532923, '祥云县', 532900, '101290207', NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (532924, '宾川县', 532900, '101290205', NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (532925, '弥渡县', 532900, '101290206', NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (532926, '南涧彝族自治县', 532900, '101290212', NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (532927, '巍山彝族回族自治县', 532900, '101290208', NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (532928, '永平县', 532900, '101290204', NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (532929, '云龙县', 532900, '101290202', NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (532930, '洱源县', 532900, '101290210', NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (532931, '剑川县', 532900, '101290209', NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (532932, '鹤庆县', 532900, '101290211', NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (533100, '德宏傣族景颇族自治州', 530000, '101291501', NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (533102, '瑞丽市', 533100, '101291506', NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (533103, '芒市', 533100, '101291508', NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (533122, '梁河县', 533100, '101291507', NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (533123, '盈江县', 533100, '101291504', NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (533124, '陇川县', 533100, '101291503', NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (533300, '怒江傈僳族自治州', 530000, '101291201', NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (533301, '泸水市', 533300, '101291205', NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (533323, '福贡县', 533300, '101291203', NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (533324, '贡山独龙族怒族自治县', 533300, '101291207', NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (533325, '兰坪白族普米族自治县', 533300, '101291204', NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (533400, '迪庆藏族自治州', 530000, '101291305', NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (533401, '香格里拉市', 533400, '101291301', NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (533422, '德钦县', 533400, '101291302', NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (533423, '维西傈僳族自治县', 533400, '101291303', NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (540000, '西藏自治区', 0, NULL, NULL, '2024-03-27 23:31:42', NULL, '2024-03-27 23:31:42');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (540100, '拉萨市', 540000, '101140101', NULL, '2024-03-27 23:31:42', NULL, '2024-03-27 23:31:42');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (540102, '城关区', 540100, '101140109', NULL, '2024-03-27 23:31:42', NULL, '2024-03-27 23:31:42');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (540103, '堆龙德庆区', 540100, '101140105', NULL, '2024-03-27 23:31:42', NULL, '2024-03-27 23:31:42');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (540104, '达孜区', 540100, '101140107', NULL, '2024-03-27 23:31:42', NULL, '2024-03-27 23:31:42');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (540121, '林周县', 540100, '101140104', NULL, '2024-03-27 23:31:42', NULL, '2024-03-27 23:31:42');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (540122, '当雄县', 540100, '101140102', NULL, '2024-03-27 23:31:42', NULL, '2024-03-27 23:31:42');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (540123, '尼木县', 540100, '101140103', NULL, '2024-03-27 23:31:42', NULL, '2024-03-27 23:31:42');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (540124, '曲水县', 540100, '101140106', NULL, '2024-03-27 23:31:42', NULL, '2024-03-27 23:31:42');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (540127, '墨竹工卡县', 540100, '101140108', NULL, '2024-03-27 23:31:42', NULL, '2024-03-27 23:31:42');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (540200, '日喀则市', 540000, '101140201', NULL, '2024-03-27 23:31:42', NULL, '2024-03-27 23:31:42');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (540202, '桑珠孜区', 540200, '101140215', NULL, '2024-03-27 23:31:42', NULL, '2024-03-27 23:31:42');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (540221, '南木林县', 540200, '101140203', NULL, '2024-03-27 23:31:42', NULL, '2024-03-27 23:31:42');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (540222, '江孜县', 540200, '101140206', NULL, '2024-03-27 23:31:42', NULL, '2024-03-27 23:31:42');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (540223, '定日县', 540200, '101140205', NULL, '2024-03-27 23:31:42', NULL, '2024-03-27 23:31:42');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (540224, '萨迦县', 540200, '101140213', NULL, '2024-03-27 23:31:42', NULL, '2024-03-27 23:31:42');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (540225, '拉孜县', 540200, '101140202', NULL, '2024-03-27 23:31:42', NULL, '2024-03-27 23:31:42');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (540226, '昂仁县', 540200, '101140211', NULL, '2024-03-27 23:31:42', NULL, '2024-03-27 23:31:42');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (540227, '谢通门县', 540200, '101140214', NULL, '2024-03-27 23:31:42', NULL, '2024-03-27 23:31:42');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (540228, '白朗县', 540200, '101140217', NULL, '2024-03-27 23:31:42', NULL, '2024-03-27 23:31:42');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (540229, '仁布县', 540200, '101140220', NULL, '2024-03-27 23:31:42', NULL, '2024-03-27 23:31:42');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (540230, '康马县', 540200, '101140219', NULL, '2024-03-27 23:31:42', NULL, '2024-03-27 23:31:42');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (540231, '定结县', 540200, '101140212', NULL, '2024-03-27 23:31:42', NULL, '2024-03-27 23:31:42');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (540232, '仲巴县', 540200, '101140208', NULL, '2024-03-27 23:31:42', NULL, '2024-03-27 23:31:42');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (540233, '亚东县', 540200, '101140218', NULL, '2024-03-27 23:31:42', NULL, '2024-03-27 23:31:42');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (540234, '吉隆县', 540200, '101140210', NULL, '2024-03-27 23:31:42', NULL, '2024-03-27 23:31:42');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (540235, '聂拉木县', 540200, '101140204', NULL, '2024-03-27 23:31:42', NULL, '2024-03-27 23:31:42');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (540236, '萨嘎县', 540200, '101140209', NULL, '2024-03-27 23:31:42', NULL, '2024-03-27 23:31:42');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (540237, '岗巴县', 540200, '101140216', NULL, '2024-03-27 23:31:42', NULL, '2024-03-27 23:31:42');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (540300, '昌都市', 540000, '101140501', NULL, '2024-03-27 23:31:42', NULL, '2024-03-27 23:31:42');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (540302, '卡若区', 540300, '101140512', NULL, '2024-03-27 23:31:42', NULL, '2024-03-27 23:31:42');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (540321, '江达县', 540300, '101140509', NULL, '2024-03-27 23:31:42', NULL, '2024-03-27 23:31:42');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (540322, '贡觉县', 540300, '101140511', NULL, '2024-03-27 23:31:42', NULL, '2024-03-27 23:31:42');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (540323, '类乌齐县', 540300, '101140507', NULL, '2024-03-27 23:31:42', NULL, '2024-03-27 23:31:42');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (540324, '丁青县', 540300, '101140502', NULL, '2024-03-27 23:31:42', NULL, '2024-03-27 23:31:42');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (540325, '察雅县', 540300, '101140510', NULL, '2024-03-27 23:31:42', NULL, '2024-03-27 23:31:42');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (540326, '八宿县', 540300, '101140508', NULL, '2024-03-27 23:31:42', NULL, '2024-03-27 23:31:42');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (540327, '左贡县', 540300, '101140505', NULL, '2024-03-27 23:31:42', NULL, '2024-03-27 23:31:42');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (540328, '芒康县', 540300, '101140506', NULL, '2024-03-27 23:31:42', NULL, '2024-03-27 23:31:42');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (540329, '洛隆县', 540300, '101140504', NULL, '2024-03-27 23:31:42', NULL, '2024-03-27 23:31:42');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (540330, '边坝县', 540300, '101140503', NULL, '2024-03-27 23:31:42', NULL, '2024-03-27 23:31:42');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (540400, '林芝市', 540000, '101140401', NULL, '2024-03-27 23:31:42', NULL, '2024-03-27 23:31:42');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (540402, '巴宜区', 540400, '101140408', NULL, '2024-03-27 23:31:42', NULL, '2024-03-27 23:31:42');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (540421, '工布江达县', 540400, '101140405', NULL, '2024-03-27 23:31:42', NULL, '2024-03-27 23:31:42');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (540423, '墨脱县', 540400, '101140407', NULL, '2024-03-27 23:31:42', NULL, '2024-03-27 23:31:42');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (540424, '波密县', 540400, '101140402', NULL, '2024-03-27 23:31:42', NULL, '2024-03-27 23:31:42');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (540425, '察隅县', 540400, '101140404', NULL, '2024-03-27 23:31:42', NULL, '2024-03-27 23:31:42');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (540426, '朗县', 540400, '101140406', NULL, '2024-03-27 23:31:42', NULL, '2024-03-27 23:31:42');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (540481, '米林市', 540400, '101140403', NULL, '2024-03-27 23:31:42', NULL, '2024-03-27 23:31:42');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (540500, '山南市', 540000, '101140301', NULL, '2024-03-27 23:31:42', NULL, '2024-03-27 23:31:42');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (540502, '乃东区', 540500, '101140309', NULL, '2024-03-27 23:31:42', NULL, '2024-03-27 23:31:42');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (540521, '扎囊县', 540500, '101140303', NULL, '2024-03-27 23:31:42', NULL, '2024-03-27 23:31:42');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (540522, '贡嘎县', 540500, '101140302', NULL, '2024-03-27 23:31:42', NULL, '2024-03-27 23:31:42');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (540523, '桑日县', 540500, '101140310', NULL, '2024-03-27 23:31:42', NULL, '2024-03-27 23:31:42');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (540524, '琼结县', 540500, '101140313', NULL, '2024-03-27 23:31:42', NULL, '2024-03-27 23:31:42');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (540525, '曲松县', 540500, '101140314', NULL, '2024-03-27 23:31:42', NULL, '2024-03-27 23:31:42');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (540526, '措美县', 540500, '101140312', NULL, '2024-03-27 23:31:42', NULL, '2024-03-27 23:31:42');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (540527, '洛扎县', 540500, '101140311', NULL, '2024-03-27 23:31:42', NULL, '2024-03-27 23:31:42');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (540528, '加查县', 540500, '101140304', NULL, '2024-03-27 23:31:42', NULL, '2024-03-27 23:31:42');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (540529, '隆子县', 540500, '101140307', NULL, '2024-03-27 23:31:42', NULL, '2024-03-27 23:31:42');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (540531, '浪卡子县', 540500, '101140305', NULL, '2024-03-27 23:31:42', NULL, '2024-03-27 23:31:42');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (540581, '错那市', 540500, '101140306', NULL, '2024-03-27 23:31:42', NULL, '2024-03-27 23:31:42');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (540600, '那曲市', 540000, '101140601', NULL, '2024-03-27 23:31:42', NULL, '2024-03-27 23:31:42');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (540602, '色尼区', 540600, '101140612', NULL, '2024-03-27 23:31:42', NULL, '2024-03-27 23:31:42');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (540621, '嘉黎县', 540600, '101140603', NULL, '2024-03-27 23:31:42', NULL, '2024-03-27 23:31:42');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (540622, '比如县', 540600, '101140609', NULL, '2024-03-27 23:31:42', NULL, '2024-03-27 23:31:42');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (540623, '聂荣县', 540600, '101140607', NULL, '2024-03-27 23:31:42', NULL, '2024-03-27 23:31:42');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (540624, '安多县', 540600, '101140605', NULL, '2024-03-27 23:31:42', NULL, '2024-03-27 23:31:42');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (540625, '申扎县', 540600, '101140611', NULL, '2024-03-27 23:31:42', NULL, '2024-03-27 23:31:42');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (540626, '索县', 540600, '101140606', NULL, '2024-03-27 23:31:42', NULL, '2024-03-27 23:31:42');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (540627, '班戈县', 540600, '101140604', NULL, '2024-03-27 23:31:42', NULL, '2024-03-27 23:31:42');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (540628, '巴青县', 540600, '101140608', NULL, '2024-03-27 23:31:42', NULL, '2024-03-27 23:31:42');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (540629, '尼玛县', 540600, '101140602', NULL, '2024-03-27 23:31:42', NULL, '2024-03-27 23:31:42');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (540630, '双湖县', 540600, '101140610', NULL, '2024-03-27 23:31:42', NULL, '2024-03-27 23:31:42');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (542500, '阿里地区', 540000, '101140701', NULL, '2024-03-27 23:31:42', NULL, '2024-03-27 23:31:42');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (542521, '普兰县', 542500, '101140705', NULL, '2024-03-27 23:31:42', NULL, '2024-03-27 23:31:42');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (542522, '札达县', 542500, '101140706', NULL, '2024-03-27 23:31:42', NULL, '2024-03-27 23:31:42');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (542523, '噶尔县', 542500, '101140707', NULL, '2024-03-27 23:31:42', NULL, '2024-03-27 23:31:42');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (542524, '日土县', 542500, '101140708', NULL, '2024-03-27 23:31:42', NULL, '2024-03-27 23:31:42');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (542525, '革吉县', 542500, '101140709', NULL, '2024-03-27 23:31:42', NULL, '2024-03-27 23:31:42');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (542526, '改则县', 542500, '101140702', NULL, '2024-03-27 23:31:42', NULL, '2024-03-27 23:31:42');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (542527, '措勤县', 542500, '101140710', NULL, '2024-03-27 23:31:42', NULL, '2024-03-27 23:31:42');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (610000, '陕西省', 0, NULL, NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (610100, '西安市', 610000, '101110101', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (610102, '新城区', 610100, '101110108', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (610103, '碑林区', 610100, '101110109', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (610104, '莲湖区', 610100, '101110110', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (610111, '灞桥区', 610100, '101110111', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (610112, '未央区', 610100, '101110112', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (610113, '雁塔区', 610100, '101110113', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (610114, '阎良区', 610100, '101110114', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (610115, '临潼区', 610100, '101110103', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (610116, '长安区', 610100, '101110102', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (610117, '高陵区', 610100, '101110107', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (610118, '鄠邑区', 610100, '101110106', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (610122, '蓝田县', 610100, '101110104', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (610124, '周至县', 610100, '101110105', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (610200, '铜川市', 610000, '101111001', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (610202, '王益区', 610200, '101111005', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (610203, '印台区', 610200, '101111006', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (610204, '耀州区', 610200, '101111004', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (610222, '宜君县', 610200, '101111003', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (610300, '宝鸡市', 610000, '101110901', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (610302, '渭滨区', 610300, '101110902', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (610303, '金台区', 610300, '101110913', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (610304, '陈仓区', 610300, '101110912', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (610305, '凤翔区', 610300, '101110906', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (610323, '岐山县', 610300, '101110905', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (610324, '扶风县', 610300, '101110907', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (610326, '眉县', 610300, '101110908', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (610327, '陇县', 610300, '101110911', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (610328, '千阳县', 610300, '101110903', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (610329, '麟游县', 610300, '101110904', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (610330, '凤县', 610300, '101110910', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (610331, '太白县', 610300, '101110909', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (610400, '咸阳市', 610000, '101110200', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (610402, '秦都区', 610400, '101110212', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (610403, '杨陵区', 610400, NULL, NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (610404, '渭城区', 610400, '101110213', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (610422, '三原县', 610400, '101110201', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (610423, '泾阳县', 610400, '101110205', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (610424, '乾县', 610400, '101110207', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (610425, '礼泉县', 610400, '101110202', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (610426, '永寿县', 610400, '101110203', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (610428, '长武县', 610400, '101110209', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (610429, '旬邑县', 610400, '101110210', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (610430, '淳化县', 610400, '101110204', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (610431, '武功县', 610400, '101110206', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (610481, '兴平市', 610400, '101110211', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (610482, '彬州市', 610400, NULL, NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (610500, '渭南市', 610000, '101110501', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (610502, '临渭区', 610500, '101110512', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (610503, '华州区', 610500, '101110513', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (610522, '潼关县', 610500, '101110503', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (610523, '大荔县', 610500, '101110504', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (610524, '合阳县', 610500, '101110509', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (610525, '澄城县', 610500, '101110508', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (610526, '蒲城县', 610500, '101110507', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (610527, '白水县', 610500, '101110505', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (610528, '富平县', 610500, '101110506', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (610581, '韩城市', 610500, '101110510', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (610582, '华阴市', 610500, '101110511', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (610600, '延安市', 610000, '101110300', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (610602, '宝塔区', 610600, '101110313', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (610603, '安塞区', 610600, '101110307', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (610621, '延长县', 610600, '101110301', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (610622, '延川县', 610600, '101110302', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (610625, '志丹县', 610600, '101110306', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (610626, '吴起县', 610600, '101110312', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (610627, '甘泉县', 610600, '101110308', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (610628, '富县', 610600, '101110305', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (610629, '洛川县', 610600, '101110309', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (610630, '宜川县', 610600, '101110304', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (610631, '黄龙县', 610600, '101110311', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (610632, '黄陵县', 610600, '101110310', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (610681, '子长市', 610600, '101110303', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (610700, '汉中市', 610000, '101110801', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (610702, '汉台区', 610700, '101110812', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (610703, '南郑区', 610700, '101110810', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (610722, '城固县', 610700, '101110806', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (610723, '洋县', 610700, '101110805', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (610724, '西乡县', 610700, '101110807', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (610725, '勉县', 610700, '101110803', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (610726, '宁强县', 610700, '101110809', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (610727, '略阳县', 610700, '101110802', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (610728, '镇巴县', 610700, '101110811', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (610729, '留坝县', 610700, '101110804', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (610730, '佛坪县', 610700, '101110808', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (610800, '榆林市', 610000, '101110401', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (610802, '榆阳区', 610800, '101110413', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (610803, '横山区', 610800, '101110407', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (610822, '府谷县', 610800, '101110402', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (610824, '靖边县', 610800, '101110406', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (610825, '定边县', 610800, '101110405', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (610826, '绥德县', 610800, '101110410', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (610827, '米脂县', 610800, '101110408', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (610828, '佳县', 610800, '101110404', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (610829, '吴堡县', 610800, '101110411', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (610830, '清涧县', 610800, '101110412', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (610831, '子洲县', 610800, '101110409', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (610881, '神木市', 610800, '101110403', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (610900, '安康市', 610000, '101110701', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (610902, '汉滨区', 610900, '101110711', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (610921, '汉阴县', 610900, '101110704', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (610922, '石泉县', 610900, '101110703', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (610923, '宁陕县', 610900, '101110710', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (610924, '紫阳县', 610900, '101110702', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (610925, '岚皋县', 610900, '101110706', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (610926, '平利县', 610900, '101110707', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (610927, '镇坪县', 610900, '101110709', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (610929, '白河县', 610900, '101110708', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (610981, '旬阳市', 610900, '101110705', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (611000, '商洛市', 610000, '101110601', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (611002, '商州区', 611000, '101110604', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (611021, '洛南县', 611000, '101110602', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (611022, '丹凤县', 611000, '101110606', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (611023, '商南县', 611000, '101110607', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (611024, '山阳县', 611000, '101110608', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (611025, '镇安县', 611000, '101110605', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (611026, '柞水县', 611000, '101110603', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (620000, '甘肃省', 0, NULL, NULL, '2024-03-27 23:31:42', NULL, '2024-03-27 23:31:42');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (620100, '兰州市', 620000, '101160101', NULL, '2024-03-27 23:31:43', NULL, '2024-03-27 23:31:43');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (620102, '城关区', 620100, '101160105', NULL, '2024-03-27 23:31:43', NULL, '2024-03-27 23:31:43');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (620103, '七里河区', 620100, '101160106', NULL, '2024-03-27 23:31:43', NULL, '2024-03-27 23:31:43');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (620104, '西固区', 620100, '101160107', NULL, '2024-03-27 23:31:43', NULL, '2024-03-27 23:31:43');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (620105, '安宁区', 620100, '101160108', NULL, '2024-03-27 23:31:43', NULL, '2024-03-27 23:31:43');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (620111, '红古区', 620100, '101160109', NULL, '2024-03-27 23:31:43', NULL, '2024-03-27 23:31:43');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (620121, '永登县', 620100, '101160103', NULL, '2024-03-27 23:31:43', NULL, '2024-03-27 23:31:43');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (620122, '皋兰县', 620100, '101160102', NULL, '2024-03-27 23:31:43', NULL, '2024-03-27 23:31:43');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (620123, '榆中县', 620100, '101160104', NULL, '2024-03-27 23:31:43', NULL, '2024-03-27 23:31:43');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (620200, '嘉峪关市', 620000, '101161401', NULL, '2024-03-27 23:31:43', NULL, '2024-03-27 23:31:43');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (620300, '金昌市', 620000, '101160601', NULL, '2024-03-27 23:31:42', NULL, '2024-03-27 23:31:42');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (620302, '金川区', 620300, '101160603', NULL, '2024-03-27 23:31:42', NULL, '2024-03-27 23:31:42');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (620321, '永昌县', 620300, '101160602', NULL, '2024-03-27 23:31:42', NULL, '2024-03-27 23:31:42');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (620400, '白银市', 620000, '101161301', NULL, '2024-03-27 23:31:43', NULL, '2024-03-27 23:31:43');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (620402, '白银区', 620400, '101161301', NULL, '2024-03-27 23:31:43', NULL, '2024-03-27 23:31:43');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (620403, '平川区', 620400, '101161304', NULL, '2024-03-27 23:31:43', NULL, '2024-03-27 23:31:43');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (620421, '靖远县', 620400, '101161302', NULL, '2024-03-27 23:31:43', NULL, '2024-03-27 23:31:43');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (620422, '会宁县', 620400, '101161303', NULL, '2024-03-27 23:31:43', NULL, '2024-03-27 23:31:43');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (620423, '景泰县', 620400, '101161305', NULL, '2024-03-27 23:31:43', NULL, '2024-03-27 23:31:43');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (620500, '天水市', 620000, '101160901', NULL, '2024-03-27 23:31:43', NULL, '2024-03-27 23:31:43');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (620502, '秦州区', 620500, '101160902', NULL, '2024-03-27 23:31:43', NULL, '2024-03-27 23:31:43');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (620503, '麦积区', 620500, '101160908', NULL, '2024-03-27 23:31:43', NULL, '2024-03-27 23:31:43');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (620521, '清水县', 620500, '101160903', NULL, '2024-03-27 23:31:43', NULL, '2024-03-27 23:31:43');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (620522, '秦安县', 620500, '101160904', NULL, '2024-03-27 23:31:43', NULL, '2024-03-27 23:31:43');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (620523, '甘谷县', 620500, '101160905', NULL, '2024-03-27 23:31:43', NULL, '2024-03-27 23:31:43');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (620524, '武山县', 620500, '101160906', NULL, '2024-03-27 23:31:43', NULL, '2024-03-27 23:31:43');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (620525, '张家川回族自治县', 620500, '101160907', NULL, '2024-03-27 23:31:43', NULL, '2024-03-27 23:31:43');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (620600, '武威市', 620000, '101160501', NULL, '2024-03-27 23:31:43', NULL, '2024-03-27 23:31:43');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (620602, '凉州区', 620600, '101160504', NULL, '2024-03-27 23:31:43', NULL, '2024-03-27 23:31:43');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (620621, '民勤县', 620600, '101160502', NULL, '2024-03-27 23:31:43', NULL, '2024-03-27 23:31:43');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (620622, '古浪县', 620600, '101160503', NULL, '2024-03-27 23:31:43', NULL, '2024-03-27 23:31:43');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (620623, '天祝藏族自治县', 620600, '101160505', NULL, '2024-03-27 23:31:43', NULL, '2024-03-27 23:31:43');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (620700, '张掖市', 620000, '101160701', NULL, '2024-03-27 23:31:42', NULL, '2024-03-27 23:31:42');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (620702, '甘州区', 620700, '101160707', NULL, '2024-03-27 23:31:42', NULL, '2024-03-27 23:31:42');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (620721, '肃南裕固族自治县', 620700, '101160702', NULL, '2024-03-27 23:31:42', NULL, '2024-03-27 23:31:42');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (620722, '民乐县', 620700, '101160703', NULL, '2024-03-27 23:31:42', NULL, '2024-03-27 23:31:42');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (620723, '临泽县', 620700, '101160704', NULL, '2024-03-27 23:31:42', NULL, '2024-03-27 23:31:42');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (620724, '高台县', 620700, '101160705', NULL, '2024-03-27 23:31:42', NULL, '2024-03-27 23:31:42');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (620725, '山丹县', 620700, '101160706', NULL, '2024-03-27 23:31:42', NULL, '2024-03-27 23:31:42');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (620800, '平凉市', 620000, '101160301', NULL, '2024-03-27 23:31:43', NULL, '2024-03-27 23:31:43');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (620802, '崆峒区', 620800, '101160308', NULL, '2024-03-27 23:31:43', NULL, '2024-03-27 23:31:43');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (620821, '泾川县', 620800, '101160302', NULL, '2024-03-27 23:31:43', NULL, '2024-03-27 23:31:43');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (620822, '灵台县', 620800, '101160303', NULL, '2024-03-27 23:31:43', NULL, '2024-03-27 23:31:43');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (620823, '崇信县', 620800, '101160304', NULL, '2024-03-27 23:31:43', NULL, '2024-03-27 23:31:43');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (620825, '庄浪县', 620800, '101160306', NULL, '2024-03-27 23:31:43', NULL, '2024-03-27 23:31:43');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (620826, '静宁县', 620800, '101160307', NULL, '2024-03-27 23:31:43', NULL, '2024-03-27 23:31:43');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (620881, '华亭市', 620800, '101160305', NULL, '2024-03-27 23:31:43', NULL, '2024-03-27 23:31:43');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (620900, '酒泉市', 620000, '101160801', NULL, '2024-03-27 23:31:42', NULL, '2024-03-27 23:31:42');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (620902, '肃州区', 620900, '101160802', NULL, '2024-03-27 23:31:42', NULL, '2024-03-27 23:31:42');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (620921, '金塔县', 620900, '101160803', NULL, '2024-03-27 23:31:42', NULL, '2024-03-27 23:31:42');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (620922, '瓜州县', 620900, '101160805', NULL, '2024-03-27 23:31:42', NULL, '2024-03-27 23:31:42');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (620923, '肃北蒙古族自治县', 620900, '101160806', NULL, '2024-03-27 23:31:42', NULL, '2024-03-27 23:31:42');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (620924, '阿克塞哈萨克族自治县', 620900, '101160804', NULL, '2024-03-27 23:31:42', NULL, '2024-03-27 23:31:42');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (620981, '玉门市', 620900, '101160807', NULL, '2024-03-27 23:31:42', NULL, '2024-03-27 23:31:42');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (620982, '敦煌市', 620900, '101160808', NULL, '2024-03-27 23:31:42', NULL, '2024-03-27 23:31:42');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (621000, '庆阳市', 620000, '101160401', NULL, '2024-03-27 23:31:43', NULL, '2024-03-27 23:31:43');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (621002, '西峰区', 621000, '101160402', NULL, '2024-03-27 23:31:43', NULL, '2024-03-27 23:31:43');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (621021, '庆城县', 621000, '101160409', NULL, '2024-03-27 23:31:43', NULL, '2024-03-27 23:31:43');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (621022, '环县', 621000, '101160403', NULL, '2024-03-27 23:31:43', NULL, '2024-03-27 23:31:43');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (621023, '华池县', 621000, '101160404', NULL, '2024-03-27 23:31:43', NULL, '2024-03-27 23:31:43');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (621024, '合水县', 621000, '101160405', NULL, '2024-03-27 23:31:43', NULL, '2024-03-27 23:31:43');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (621025, '正宁县', 621000, '101160407', NULL, '2024-03-27 23:31:43', NULL, '2024-03-27 23:31:43');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (621026, '宁县', 621000, '101160407', NULL, '2024-03-27 23:31:43', NULL, '2024-03-27 23:31:43');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (621027, '镇原县', 621000, '101160408', NULL, '2024-03-27 23:31:43', NULL, '2024-03-27 23:31:43');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (621100, '定西市', 620000, '101160201', NULL, '2024-03-27 23:31:42', NULL, '2024-03-27 23:31:42');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (621102, '安定区', 621100, '101160208', NULL, '2024-03-27 23:31:42', NULL, '2024-03-27 23:31:42');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (621121, '通渭县', 621100, '101160202', NULL, '2024-03-27 23:31:42', NULL, '2024-03-27 23:31:42');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (621122, '陇西县', 621100, '101160203', NULL, '2024-03-27 23:31:42', NULL, '2024-03-27 23:31:42');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (621123, '渭源县', 621100, '101160204', NULL, '2024-03-27 23:31:42', NULL, '2024-03-27 23:31:42');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (621124, '临洮县', 621100, '101160205', NULL, '2024-03-27 23:31:42', NULL, '2024-03-27 23:31:42');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (621125, '漳县', 621100, '101160206', NULL, '2024-03-27 23:31:42', NULL, '2024-03-27 23:31:42');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (621126, '岷县', 621100, '101160207', NULL, '2024-03-27 23:31:42', NULL, '2024-03-27 23:31:42');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (621200, '陇南市', 620000, '101161010', NULL, '2024-03-27 23:31:42', NULL, '2024-03-27 23:31:42');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (621202, '武都区', 621200, '101161001', NULL, '2024-03-27 23:31:42', NULL, '2024-03-27 23:31:42');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (621221, '成县', 621200, '101161002', NULL, '2024-03-27 23:31:42', NULL, '2024-03-27 23:31:42');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (621222, '文县', 621200, '101161003', NULL, '2024-03-27 23:31:42', NULL, '2024-03-27 23:31:42');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (621223, '宕昌县', 621200, '101161004', NULL, '2024-03-27 23:31:42', NULL, '2024-03-27 23:31:42');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (621224, '康县', 621200, '101161005', NULL, '2024-03-27 23:31:42', NULL, '2024-03-27 23:31:42');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (621225, '西和县', 621200, '101161006', NULL, '2024-03-27 23:31:42', NULL, '2024-03-27 23:31:42');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (621226, '礼县', 621200, '101161007', NULL, '2024-03-27 23:31:42', NULL, '2024-03-27 23:31:42');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (621227, '徽县', 621200, '101161008', NULL, '2024-03-27 23:31:42', NULL, '2024-03-27 23:31:42');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (621228, '两当县', 621200, '101161009', NULL, '2024-03-27 23:31:42', NULL, '2024-03-27 23:31:42');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (622900, '临夏回族自治州', 620000, '101161101', NULL, '2024-03-27 23:31:42', NULL, '2024-03-27 23:31:42');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (622901, '临夏市', 622900, '101161101', NULL, '2024-03-27 23:31:42', NULL, '2024-03-27 23:31:42');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (622921, '临夏县', 622900, '101161101', NULL, '2024-03-27 23:31:42', NULL, '2024-03-27 23:31:42');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (622922, '康乐县', 622900, '101161102', NULL, '2024-03-27 23:31:42', NULL, '2024-03-27 23:31:42');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (622923, '永靖县', 622900, '101161103', NULL, '2024-03-27 23:31:42', NULL, '2024-03-27 23:31:42');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (622924, '广河县', 622900, '101161104', NULL, '2024-03-27 23:31:42', NULL, '2024-03-27 23:31:42');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (622925, '和政县', 622900, '101161105', NULL, '2024-03-27 23:31:42', NULL, '2024-03-27 23:31:42');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (622926, '东乡族自治县', 622900, '101161106', NULL, '2024-03-27 23:31:42', NULL, '2024-03-27 23:31:42');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (622927, '积石山保安族东乡族撒拉族自治县', 622900, '101161106', NULL, '2024-03-27 23:31:42', NULL, '2024-03-27 23:31:42');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (623000, '甘南藏族自治州', 620000, '101161209', NULL, '2024-03-27 23:31:42', NULL, '2024-03-27 23:31:42');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (623001, '合作市', 623000, '101161201', NULL, '2024-03-27 23:31:42', NULL, '2024-03-27 23:31:42');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (623021, '临潭县', 623000, '101161202', NULL, '2024-03-27 23:31:42', NULL, '2024-03-27 23:31:42');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (623022, '卓尼县', 623000, '101161203', NULL, '2024-03-27 23:31:42', NULL, '2024-03-27 23:31:42');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (623023, '舟曲县', 623000, '101161204', NULL, '2024-03-27 23:31:43', NULL, '2024-03-27 23:31:43');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (623024, '迭部县', 623000, '101161205', NULL, '2024-03-27 23:31:43', NULL, '2024-03-27 23:31:43');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (623025, '玛曲县', 623000, '101161206', NULL, '2024-03-27 23:31:42', NULL, '2024-03-27 23:31:42');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (623026, '碌曲县', 623000, '101161207', NULL, '2024-03-27 23:31:42', NULL, '2024-03-27 23:31:42');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (623027, '夏河县', 623000, '101161208', NULL, '2024-03-27 23:31:42', NULL, '2024-03-27 23:31:42');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (630000, '青海省', 0, NULL, NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (630100, '西宁市', 630000, '101150101', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (630102, '城东区', 630100, '101150105', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (630103, '城中区', 630100, '101150106', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (630104, '城西区', 630100, '101150107', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (630105, '城北区', 630100, '101150108', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (630106, '湟中区', 630100, '101150104', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (630121, '大通回族土族自治县', 630100, '101150102', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (630123, '湟源县', 630100, '101150103', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (630200, '海东市', 630000, '101150207', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (630202, '乐都区', 630200, '101150202', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (630203, '平安区', 630200, '101150201', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (630222, '民和回族土族自治县', 630200, '101150203', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (630223, '互助土族自治县', 630200, '101150204', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (630224, '化隆回族自治县', 630200, '101150205', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (630225, '循化撒拉族自治县', 630200, '101150206', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (632200, '海北藏族自治州', 630000, '101150804', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (632221, '门源回族自治县', 632200, '101150802', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (632222, '祁连县', 632200, '101150803', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (632223, '海晏县', 632200, '101150801', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (632224, '刚察县', 632200, '101150806', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (632300, '黄南藏族自治州', 630000, '101150305', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (632301, '同仁市', 632300, '101150301', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (632322, '尖扎县', 632300, '101150302', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (632323, '泽库县', 632300, '101150303', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (632324, '河南蒙古族自治县', 632300, '101150304', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (632500, '海南藏族自治州', 630000, '101150402', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (632521, '共和县', 632500, '101150401', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (632522, '同德县', 632500, '101150408', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (632523, '贵德县', 632500, '101150404', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (632524, '兴海县', 632500, '101150406', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (632525, '贵南县', 632500, '101150407', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (632600, '果洛藏族自治州', 630000, '101150507', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (632621, '玛沁县', 632600, '101150501', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (632622, '班玛县', 632600, '101150502', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (632623, '甘德县', 632600, '101150503', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (632624, '达日县', 632600, '101150504', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (632625, '久治县', 632600, '101150505', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (632626, '玛多县', 632600, '101150506', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (632700, '玉树藏族自治州', 630000, '101150601', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (632701, '玉树市', 632700, '101150601', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (632722, '杂多县', 632700, '101150604', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (632723, '称多县', 632700, '101150602', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (632724, '治多县', 632700, '101150603', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (632725, '囊谦县', 632700, '101150605', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (632726, '曲麻莱县', 632700, '101150606', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (632800, '海西蒙古族藏族自治州', 630000, '101150702', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (632801, '格尔木市', 632800, '101150714', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (632802, '德令哈市', 632800, '101150701', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (632803, '茫崖市', 632800, '101150712', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (632821, '乌兰县', 632800, '101150709', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (632822, '都兰县', 632800, '101150715', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (632823, '天峻县', 632800, '101150708', NULL, '2024-03-27 23:31:35', NULL, '2024-03-27 23:31:35');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (640000, '宁夏回族自治区', 0, NULL, NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (640100, '银川市', 640000, '101170101', NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (640104, '兴庆区', 640100, '101170105', NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (640105, '西夏区', 640100, '101170106', NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (640106, '金凤区', 640100, '101170107', NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (640121, '永宁县', 640100, '101170102', NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (640122, '贺兰县', 640100, '101170104', NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (640181, '灵武市', 640100, '101170103', NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (640200, '石嘴山市', 640000, '101170201', NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (640202, '大武口区', 640200, '101170205', NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (640205, '惠农区', 640200, '101170202', NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (640221, '平罗县', 640200, '101170203', NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (640300, '吴忠市', 640000, '101170301', NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (640302, '利通区', 640300, '101170304', NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (640303, '红寺堡区', 640300, '101170305', NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (640323, '盐池县', 640300, '101170303', NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (640324, '同心县', 640300, '101170302', NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (640381, '青铜峡市', 640300, '101170306', NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (640400, '固原市', 640000, '101170401', NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (640402, '原州区', 640400, '101170405', NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (640422, '西吉县', 640400, '101170402', NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (640423, '隆德县', 640400, '101170403', NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (640424, '泾源县', 640400, '101170404', NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (640425, '彭阳县', 640400, '101170406', NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (640500, '中卫市', 640000, '101170501', NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (640502, '沙坡头区', 640500, '101170503', NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (640521, '中宁县', 640500, '101170502', NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (640522, '海原县', 640500, '101170504', NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (650000, '新疆维吾尔自治区', 0, NULL, NULL, '2024-03-27 23:31:37', NULL, '2024-03-27 23:31:37');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (650100, '乌鲁木齐市', 650000, '101130101', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (650102, '天山区', 650100, '101130102', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (650103, '沙依巴克区', 650100, '101130104', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (650104, '新市区', 650100, '101130106', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (650105, '水磨沟区', 650100, '101130107', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (650106, '头屯河区', 650100, '101130111', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (650107, '达坂城区', 650100, '101130105', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (650109, '米东区', 650100, '101130112', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (650121, '乌鲁木齐县', 650100, '101130101', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (650200, '克拉玛依市', 650000, '101130201', NULL, '2024-03-27 23:31:37', NULL, '2024-03-27 23:31:37');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (650202, '独山子区', 650200, '101130204', NULL, '2024-03-27 23:31:37', NULL, '2024-03-27 23:31:37');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (650203, '克拉玛依区', 650200, '101130201', NULL, '2024-03-27 23:31:37', NULL, '2024-03-27 23:31:37');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (650204, '白碱滩区', 650200, '101130203', NULL, '2024-03-27 23:31:37', NULL, '2024-03-27 23:31:37');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (650205, '乌尔禾区', 650200, '101130202', NULL, '2024-03-27 23:31:37', NULL, '2024-03-27 23:31:37');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (650400, '吐鲁番市', 650000, '101130501', NULL, '2024-03-27 23:31:37', NULL, '2024-03-27 23:31:37');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (650402, '高昌区', 650400, '101130503', NULL, '2024-03-27 23:31:37', NULL, '2024-03-27 23:31:37');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (650421, '鄯善县', 650400, '101130504', NULL, '2024-03-27 23:31:37', NULL, '2024-03-27 23:31:37');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (650422, '托克逊县', 650400, '101130502', NULL, '2024-03-27 23:31:37', NULL, '2024-03-27 23:31:37');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (650500, '哈密市', 650000, '101131201', NULL, '2024-03-27 23:31:37', NULL, '2024-03-27 23:31:37');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (650502, '伊州区', 650500, '101131202', NULL, '2024-03-27 23:31:37', NULL, '2024-03-27 23:31:37');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (650521, '巴里坤哈萨克自治县', 650500, '101131203', NULL, '2024-03-27 23:31:37', NULL, '2024-03-27 23:31:37');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (650522, '伊吾县', 650500, '101131204', NULL, '2024-03-27 23:31:37', NULL, '2024-03-27 23:31:37');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (652300, '昌吉回族自治州', 650000, '101130401', NULL, '2024-03-27 23:31:37', NULL, '2024-03-27 23:31:37');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (652301, '昌吉市', 652300, '101130401', NULL, '2024-03-27 23:31:37', NULL, '2024-03-27 23:31:37');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (652302, '阜康市', 652300, '101130404', NULL, '2024-03-27 23:31:37', NULL, '2024-03-27 23:31:37');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (652323, '呼图壁县', 652300, '101130402', NULL, '2024-03-27 23:31:37', NULL, '2024-03-27 23:31:37');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (652324, '玛纳斯县', 652300, '101130407', NULL, '2024-03-27 23:31:37', NULL, '2024-03-27 23:31:37');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (652325, '奇台县', 652300, '101130406', NULL, '2024-03-27 23:31:37', NULL, '2024-03-27 23:31:37');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (652327, '吉木萨尔县', 652300, '101130405', NULL, '2024-03-27 23:31:37', NULL, '2024-03-27 23:31:37');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (652328, '木垒哈萨克自治县', 652300, '101130408', NULL, '2024-03-27 23:31:37', NULL, '2024-03-27 23:31:37');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (652700, '博尔塔拉蒙古自治州', 650000, '101131604', NULL, '2024-03-27 23:31:37', NULL, '2024-03-27 23:31:37');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (652701, '博乐市', 652700, '101131601', NULL, '2024-03-27 23:31:37', NULL, '2024-03-27 23:31:37');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (652702, '阿拉山口市', 652700, '101131606', NULL, '2024-03-27 23:31:37', NULL, '2024-03-27 23:31:37');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (652722, '精河县', 652700, '101131603', NULL, '2024-03-27 23:31:37', NULL, '2024-03-27 23:31:37');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (652723, '温泉县', 652700, '101131602', NULL, '2024-03-27 23:31:37', NULL, '2024-03-27 23:31:37');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (652800, '巴音郭楞蒙古自治州', 650000, '101130609', NULL, '2024-03-27 23:31:37', NULL, '2024-03-27 23:31:37');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (652801, '库尔勒市', 652800, '101130601', NULL, '2024-03-27 23:31:37', NULL, '2024-03-27 23:31:37');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (652822, '轮台县', 652800, '101130602', NULL, '2024-03-27 23:31:37', NULL, '2024-03-27 23:31:37');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (652823, '尉犁县', 652800, '101130603', NULL, '2024-03-27 23:31:37', NULL, '2024-03-27 23:31:37');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (652824, '若羌县', 652800, '101130604', NULL, '2024-03-27 23:31:37', NULL, '2024-03-27 23:31:37');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (652825, '且末县', 652800, '101130605', NULL, '2024-03-27 23:31:37', NULL, '2024-03-27 23:31:37');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (652826, '焉耆回族自治县', 652800, '101130607', NULL, '2024-03-27 23:31:37', NULL, '2024-03-27 23:31:37');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (652827, '和静县', 652800, '101130606', NULL, '2024-03-27 23:31:37', NULL, '2024-03-27 23:31:37');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (652828, '和硕县', 652800, '101130608', NULL, '2024-03-27 23:31:37', NULL, '2024-03-27 23:31:37');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (652829, '博湖县', 652800, '101130612', NULL, '2024-03-27 23:31:37', NULL, '2024-03-27 23:31:37');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (652900, '阿克苏地区', 650000, '101130801', NULL, '2024-03-27 23:31:37', NULL, '2024-03-27 23:31:37');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (652901, '阿克苏市', 652900, '101130801', NULL, '2024-03-27 23:31:37', NULL, '2024-03-27 23:31:37');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (652902, '库车市', 652900, '101130807', NULL, '2024-03-27 23:31:37', NULL, '2024-03-27 23:31:37');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (652922, '温宿县', 652900, '101130803', NULL, '2024-03-27 23:31:37', NULL, '2024-03-27 23:31:37');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (652924, '沙雅县', 652900, '101130806', NULL, '2024-03-27 23:31:37', NULL, '2024-03-27 23:31:37');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (652925, '新和县', 652900, '101130805', NULL, '2024-03-27 23:31:37', NULL, '2024-03-27 23:31:37');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (652926, '拜城县', 652900, '101130804', NULL, '2024-03-27 23:31:37', NULL, '2024-03-27 23:31:37');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (652927, '乌什县', 652900, '101130802', NULL, '2024-03-27 23:31:37', NULL, '2024-03-27 23:31:37');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (652928, '阿瓦提县', 652900, '101130809', NULL, '2024-03-27 23:31:37', NULL, '2024-03-27 23:31:37');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (652929, '柯坪县', 652900, '101130808', NULL, '2024-03-27 23:31:37', NULL, '2024-03-27 23:31:37');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (653000, '克孜勒苏柯尔克孜自治州', 650000, NULL, NULL, '2024-03-27 23:31:37', NULL, '2024-03-27 23:31:37');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (653001, '阿图什市', 653000, NULL, NULL, '2024-03-27 23:31:37', NULL, '2024-03-27 23:31:37');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (653022, '阿克陶县', 653000, NULL, NULL, '2024-03-27 23:31:37', NULL, '2024-03-27 23:31:37');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (653023, '阿合奇县', 653000, NULL, NULL, '2024-03-27 23:31:37', NULL, '2024-03-27 23:31:37');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (653024, '乌恰县', 653000, NULL, NULL, '2024-03-27 23:31:37', NULL, '2024-03-27 23:31:37');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (653100, '喀什地区', 650000, '101130901', NULL, '2024-03-27 23:31:37', NULL, '2024-03-27 23:31:37');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (653101, '喀什市', 653100, '101130901', NULL, '2024-03-27 23:31:37', NULL, '2024-03-27 23:31:37');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (653121, '疏附县', 653100, '101130911', NULL, '2024-03-27 23:31:37', NULL, '2024-03-27 23:31:37');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (653122, '疏勒县', 653100, '101130912', NULL, '2024-03-27 23:31:37', NULL, '2024-03-27 23:31:37');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (653123, '英吉沙县', 653100, '101130902', NULL, '2024-03-27 23:31:37', NULL, '2024-03-27 23:31:37');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (653124, '泽普县', 653100, '101130907', NULL, '2024-03-27 23:31:37', NULL, '2024-03-27 23:31:37');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (653125, '莎车县', 653100, '101130905', NULL, '2024-03-27 23:31:37', NULL, '2024-03-27 23:31:37');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (653126, '叶城县', 653100, '101130906', NULL, '2024-03-27 23:31:37', NULL, '2024-03-27 23:31:37');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (653127, '麦盖提县', 653100, '101130904', NULL, '2024-03-27 23:31:37', NULL, '2024-03-27 23:31:37');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (653128, '岳普湖县', 653100, '101130909', NULL, '2024-03-27 23:31:37', NULL, '2024-03-27 23:31:37');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (653129, '伽师县', 653100, '101130910', NULL, '2024-03-27 23:31:37', NULL, '2024-03-27 23:31:37');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (653130, '巴楚县', 653100, '101130908', NULL, '2024-03-27 23:31:37', NULL, '2024-03-27 23:31:37');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (653131, '塔什库尔干塔吉克自治县', 653100, '101130903', NULL, '2024-03-27 23:31:37', NULL, '2024-03-27 23:31:37');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (653200, '和田地区', 650000, '101131301', NULL, '2024-03-27 23:31:37', NULL, '2024-03-27 23:31:37');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (653201, '和田市', 653200, '101131301', NULL, '2024-03-27 23:31:37', NULL, '2024-03-27 23:31:37');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (653221, '和田县', 653200, '101131301', NULL, '2024-03-27 23:31:37', NULL, '2024-03-27 23:31:37');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (653222, '墨玉县', 653200, '101131304', NULL, '2024-03-27 23:31:37', NULL, '2024-03-27 23:31:37');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (653223, '皮山县', 653200, '101131302', NULL, '2024-03-27 23:31:37', NULL, '2024-03-27 23:31:37');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (653224, '洛浦县', 653200, '101131305', NULL, '2024-03-27 23:31:37', NULL, '2024-03-27 23:31:37');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (653225, '策勒县', 653200, '101131303', NULL, '2024-03-27 23:31:37', NULL, '2024-03-27 23:31:37');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (653226, '于田县', 653200, '101131307', NULL, '2024-03-27 23:31:37', NULL, '2024-03-27 23:31:37');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (653227, '民丰县', 653200, '101131306', NULL, '2024-03-27 23:31:37', NULL, '2024-03-27 23:31:37');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (654000, '伊犁哈萨克自治州', 650000, '101131012', NULL, '2024-03-27 23:31:37', NULL, '2024-03-27 23:31:37');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (654002, '伊宁市', 654000, '101131001', NULL, '2024-03-27 23:31:37', NULL, '2024-03-27 23:31:37');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (654003, '奎屯市', 654000, '101131011', NULL, '2024-03-27 23:31:37', NULL, '2024-03-27 23:31:37');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (654004, '霍尔果斯市', 654000, '101131010', NULL, '2024-03-27 23:31:37', NULL, '2024-03-27 23:31:37');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (654021, '伊宁县', 654000, '101131004', NULL, '2024-03-27 23:31:37', NULL, '2024-03-27 23:31:37');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (654022, '察布查尔锡伯自治县', 654000, '101131002', NULL, '2024-03-27 23:31:37', NULL, '2024-03-27 23:31:37');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (654023, '霍城县', 654000, '101131009', NULL, '2024-03-27 23:31:37', NULL, '2024-03-27 23:31:37');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (654024, '巩留县', 654000, '101131005', NULL, '2024-03-27 23:31:37', NULL, '2024-03-27 23:31:37');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (654025, '新源县', 654000, '101131006', NULL, '2024-03-27 23:31:37', NULL, '2024-03-27 23:31:37');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (654026, '昭苏县', 654000, '101131007', NULL, '2024-03-27 23:31:37', NULL, '2024-03-27 23:31:37');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (654027, '特克斯县', 654000, '101131008', NULL, '2024-03-27 23:31:37', NULL, '2024-03-27 23:31:37');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (654028, '尼勒克县', 654000, '101131003', NULL, '2024-03-27 23:31:37', NULL, '2024-03-27 23:31:37');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (654200, '塔城地区', 650000, '101131101', NULL, '2024-03-27 23:31:37', NULL, '2024-03-27 23:31:37');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (654201, '塔城市', 654200, '101131101', NULL, '2024-03-27 23:31:37', NULL, '2024-03-27 23:31:37');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (654202, '乌苏市', 654200, '101131106', NULL, '2024-03-27 23:31:37', NULL, '2024-03-27 23:31:37');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (654203, '沙湾市', 654200, '101131107', NULL, '2024-03-27 23:31:37', NULL, '2024-03-27 23:31:37');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (654221, '额敏县', 654200, '101131103', NULL, '2024-03-27 23:31:37', NULL, '2024-03-27 23:31:37');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (654224, '托里县', 654200, '101131105', NULL, '2024-03-27 23:31:37', NULL, '2024-03-27 23:31:37');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (654225, '裕民县', 654200, '101131102', NULL, '2024-03-27 23:31:37', NULL, '2024-03-27 23:31:37');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (654226, '和布克赛尔蒙古自治县', 654200, '101131104', NULL, '2024-03-27 23:31:37', NULL, '2024-03-27 23:31:37');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (654300, '阿勒泰地区', 650000, '101131401', NULL, '2024-03-27 23:31:37', NULL, '2024-03-27 23:31:37');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (654301, '阿勒泰市', 654300, '101131401', NULL, '2024-03-27 23:31:37', NULL, '2024-03-27 23:31:37');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (654321, '布尔津县', 654300, '101131406', NULL, '2024-03-27 23:31:37', NULL, '2024-03-27 23:31:37');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (654322, '富蕴县', 654300, '101131408', NULL, '2024-03-27 23:31:37', NULL, '2024-03-27 23:31:37');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (654323, '福海县', 654300, '101131407', NULL, '2024-03-27 23:31:37', NULL, '2024-03-27 23:31:37');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (654324, '哈巴河县', 654300, '101131402', NULL, '2024-03-27 23:31:37', NULL, '2024-03-27 23:31:37');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (654325, '青河县', 654300, '101131409', NULL, '2024-03-27 23:31:37', NULL, '2024-03-27 23:31:37');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (654326, '吉木乃县', 654300, '101131405', NULL, '2024-03-27 23:31:37', NULL, '2024-03-27 23:31:37');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (659001, '石河子市', 650000, '101130301', NULL, '2024-03-27 23:31:37', NULL, '2024-03-27 23:31:37');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (659002, '阿拉尔市', 650000, '101130701', NULL, '2024-03-27 23:31:37', NULL, '2024-03-27 23:31:37');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (659003, '图木舒克市', 650000, '101131701', NULL, '2024-03-27 23:31:37', NULL, '2024-03-27 23:31:37');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (659004, '五家渠市', 650000, '101131801', NULL, '2024-03-27 23:31:37', NULL, '2024-03-27 23:31:37');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (659005, '北屯市', 650000, '101132101', NULL, '2024-03-27 23:31:37', NULL, '2024-03-27 23:31:37');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (659006, '铁门关市', 650000, '101131901', NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (659007, '双河市', 650000, '101132201', NULL, '2024-03-27 23:31:37', NULL, '2024-03-27 23:31:37');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (659008, '可克达拉市', 650000, '101132301', NULL, '2024-03-27 23:31:37', NULL, '2024-03-27 23:31:37');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (659009, '昆玉市', 650000, '101131920', NULL, '2024-03-27 23:31:37', NULL, '2024-03-27 23:31:37');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (659010, '胡杨河市', 650000, NULL, NULL, '2024-03-27 23:31:37', NULL, '2024-03-27 23:31:37');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (659011, '新星市', 650000, NULL, NULL, '2024-03-27 23:31:37', NULL, '2024-03-27 23:31:37');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (659012, '白杨市', 650000, NULL, NULL, '2024-03-27 23:31:38', NULL, '2024-03-27 23:31:38');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (810000, '香港特别行政区', 0, '101320101', NULL, '2024-03-27 23:31:42', NULL, '2024-03-27 23:31:42');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (810101, '中西区', 810000, NULL, NULL, '2024-03-27 23:31:42', NULL, '2024-03-27 23:31:42');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (810102, '湾仔区', 810000, NULL, NULL, '2024-03-27 23:31:42', NULL, '2024-03-27 23:31:42');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (810103, '东区', 810000, NULL, NULL, '2024-03-27 23:31:42', NULL, '2024-03-27 23:31:42');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (810104, '南区', 810000, NULL, NULL, '2024-03-27 23:31:42', NULL, '2024-03-27 23:31:42');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (810105, '油尖旺区', 810000, NULL, NULL, '2024-03-27 23:31:42', NULL, '2024-03-27 23:31:42');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (810106, '深水埗区', 810000, NULL, NULL, '2024-03-27 23:31:42', NULL, '2024-03-27 23:31:42');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (810107, '九龙城区', 810000, '101320102', NULL, '2024-03-27 23:31:42', NULL, '2024-03-27 23:31:42');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (810108, '黄大仙区', 810000, NULL, NULL, '2024-03-27 23:31:42', NULL, '2024-03-27 23:31:42');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (810109, '观塘区', 810000, NULL, NULL, '2024-03-27 23:31:42', NULL, '2024-03-27 23:31:42');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (810110, '北区', 810000, NULL, NULL, '2024-03-27 23:31:42', NULL, '2024-03-27 23:31:42');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (810111, '大埔区', 810000, NULL, NULL, '2024-03-27 23:31:42', NULL, '2024-03-27 23:31:42');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (810112, '沙田区', 810000, NULL, NULL, '2024-03-27 23:31:42', NULL, '2024-03-27 23:31:42');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (810113, '西贡区', 810000, NULL, NULL, '2024-03-27 23:31:42', NULL, '2024-03-27 23:31:42');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (810114, '荃湾区', 810000, NULL, NULL, '2024-03-27 23:31:42', NULL, '2024-03-27 23:31:42');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (810115, '屯门区', 810000, NULL, NULL, '2024-03-27 23:31:42', NULL, '2024-03-27 23:31:42');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (810116, '元朗区', 810000, NULL, NULL, '2024-03-27 23:31:42', NULL, '2024-03-27 23:31:42');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (810117, '葵青区', 810000, NULL, NULL, '2024-03-27 23:31:42', NULL, '2024-03-27 23:31:42');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (810118, '离岛区', 810000, NULL, NULL, '2024-03-27 23:31:42', NULL, '2024-03-27 23:31:42');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (820000, '澳门特别行政区', 0, '101330101', NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (820101, '花地玛堂区', 820000, NULL, NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (820102, '圣安多尼堂区', 820000, NULL, NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (820103, '大堂区', 820000, NULL, NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (820104, '望德堂区', 820000, NULL, NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (820105, '风顺堂区', 820000, NULL, NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (820106, '嘉模堂区', 820000, NULL, NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (820107, '圣方济各堂区', 820000, NULL, NULL, '2024-03-27 23:31:39', NULL, '2024-03-27 23:31:39');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (820108, '路氹城', 820000, NULL, NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (820109, '澳门新城', 820000, '101330101', NULL, '2024-03-27 23:31:40', NULL, '2024-03-27 23:31:40');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (830000, '台湾省', 0, NULL, NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (830100, '台北市', 830000, '101340101', NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (830101, '中正区', 830100, NULL, NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (830102, '大同区', 830100, NULL, NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (830103, '中山区', 830100, NULL, NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (830104, '万华区', 830100, NULL, NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (830105, '信义区', 830100, NULL, NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (830106, '松山区', 830100, NULL, NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (830107, '大安区', 830100, NULL, NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (830108, '南港区', 830100, NULL, NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (830109, '北投区', 830100, NULL, NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (830110, '内湖区', 830100, NULL, NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (830111, '士林区', 830100, NULL, NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (830112, '文山区', 830100, NULL, NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (830200, '新北市', 830000, NULL, NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (830201, '板桥区', 830200, NULL, NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (830202, '土城区', 830200, NULL, NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (830203, '新庄区', 830200, NULL, NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (830204, '新店区', 830200, NULL, NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (830205, '深坑区', 830200, NULL, NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (830206, '石碇区', 830200, NULL, NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (830207, '坪林区', 830200, NULL, NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (830208, '乌来区', 830200, NULL, NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (830209, '五股区', 830200, NULL, NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (830210, '八里区', 830200, NULL, NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (830211, '林口区', 830200, NULL, NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (830212, '淡水区', 830200, NULL, NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (830213, '中和区', 830200, NULL, NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (830214, '永和区', 830200, NULL, NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (830215, '三重区', 830200, NULL, NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (830216, '芦洲区', 830200, NULL, NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (830217, '泰山区', 830200, NULL, NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (830218, '树林区', 830200, NULL, NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (830219, '莺歌区', 830200, NULL, NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (830220, '三峡区', 830200, NULL, NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (830221, '汐止区', 830200, NULL, NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (830222, '金山区', 830200, NULL, NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (830223, '万里区', 830200, NULL, NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (830224, '三芝区', 830200, NULL, NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (830225, '石门区', 830200, NULL, NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (830226, '瑞芳区', 830200, NULL, NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (830227, '贡寮区', 830200, NULL, NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (830228, '双溪区', 830200, NULL, NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (830229, '平溪区', 830200, NULL, NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (830300, '桃园市', 830000, NULL, NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (830301, '桃园区', 830300, NULL, NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (830302, '中坜区', 830300, NULL, NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (830303, '平镇区', 830300, NULL, NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (830304, '八德区', 830300, NULL, NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (830305, '杨梅区', 830300, NULL, NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (830306, '芦竹区', 830300, NULL, NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (830307, '大溪区', 830300, NULL, NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (830308, '龙潭区', 830300, NULL, NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (830309, '龟山区', 830300, NULL, NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (830310, '大园区', 830300, NULL, NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (830311, '观音区', 830300, NULL, NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (830312, '新屋区', 830300, NULL, NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (830313, '复兴区', 830300, NULL, NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (830400, '台中市', 830000, '101340401', NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (830401, '中区', 830400, NULL, NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (830402, '东区', 830400, NULL, NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (830403, '西区', 830400, NULL, NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (830404, '南区', 830400, NULL, NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (830405, '北区', 830400, NULL, NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (830406, '西屯区', 830400, NULL, NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (830407, '南屯区', 830400, NULL, NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (830408, '北屯区', 830400, NULL, NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (830409, '丰原区', 830400, NULL, NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (830410, '大里区', 830400, NULL, NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (830411, '太平区', 830400, NULL, NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (830412, '东势区', 830400, NULL, NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (830413, '大甲区', 830400, NULL, NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (830414, '清水区', 830400, NULL, NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (830415, '沙鹿区', 830400, NULL, NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (830416, '梧栖区', 830400, NULL, NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (830417, '后里区', 830400, NULL, NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (830418, '神冈区', 830400, NULL, NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (830419, '潭子区', 830400, NULL, NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (830420, '大雅区', 830400, NULL, NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (830421, '新小区', 830400, NULL, NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (830422, '石冈区', 830400, NULL, NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (830423, '外埔区', 830400, NULL, NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (830424, '大安区', 830400, NULL, NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (830425, '乌日区', 830400, NULL, NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (830426, '大肚区', 830400, NULL, NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (830427, '龙井区', 830400, NULL, NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (830428, '雾峰区', 830400, NULL, NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (830429, '和平区', 830400, NULL, NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (830500, '台南市', 830000, NULL, NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (830501, '中西区', 830500, NULL, NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (830502, '东区', 830500, NULL, NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (830503, '南区', 830500, NULL, NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (830504, '北区', 830500, NULL, NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (830505, '安平区', 830500, NULL, NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (830506, '安南区', 830500, NULL, NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (830507, '永康区', 830500, NULL, NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (830508, '归仁区', 830500, NULL, NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (830509, '新化区', 830500, NULL, NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (830510, '左镇区', 830500, NULL, NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (830511, '玉井区', 830500, NULL, NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (830512, '楠西区', 830500, NULL, NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (830513, '南化区', 830500, NULL, NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (830514, '仁德区', 830500, NULL, NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (830515, '关庙区', 830500, NULL, NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (830516, '龙崎区', 830500, NULL, NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (830517, '官田区', 830500, NULL, NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (830518, '麻豆区', 830500, NULL, NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (830519, '佳里区', 830500, NULL, NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (830520, '西港区', 830500, NULL, NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (830521, '七股区', 830500, NULL, NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (830522, '将军区', 830500, NULL, NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (830523, '学甲区', 830500, NULL, NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (830524, '北门区', 830500, NULL, NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (830525, '新营区', 830500, NULL, NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (830526, '后壁区', 830500, NULL, NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (830527, '白河区', 830500, NULL, NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (830528, '东山区', 830500, NULL, NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (830529, '六甲区', 830500, NULL, NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (830530, '下营区', 830500, NULL, NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (830531, '柳营区', 830500, NULL, NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (830532, '盐水区', 830500, NULL, NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (830533, '善化区', 830500, NULL, NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (830534, '大内区', 830500, NULL, NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (830535, '山上区', 830500, NULL, NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (830536, '新市区', 830500, NULL, NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (830537, '安定区', 830500, NULL, NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (830600, '高雄市', 830000, '101340201', NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (830601, '楠梓区', 830600, NULL, NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (830602, '左营区', 830600, NULL, NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (830603, '鼓山区', 830600, NULL, NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (830604, '三民区', 830600, NULL, NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (830605, '盐埕区', 830600, NULL, NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (830606, '前金区', 830600, NULL, NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (830607, '新兴区', 830600, NULL, NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (830608, '苓雅区', 830600, NULL, NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (830609, '前镇区', 830600, NULL, NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (830610, '旗津区', 830600, NULL, NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (830611, '小港区', 830600, NULL, NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (830612, '凤山区', 830600, NULL, NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (830613, '大寮区', 830600, NULL, NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (830614, '鸟松区', 830600, NULL, NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (830615, '林园区', 830600, NULL, NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (830616, '仁武区', 830600, NULL, NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (830617, '大树区', 830600, NULL, NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (830618, '大社区', 830600, NULL, NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (830619, '冈山区', 830600, NULL, NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (830620, '路竹区', 830600, NULL, NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (830621, '桥头区', 830600, NULL, NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (830622, '梓官区', 830600, NULL, NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (830623, '弥陀区', 830600, NULL, NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (830624, '永安区', 830600, NULL, NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (830625, '燕巢区', 830600, NULL, NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (830626, '阿莲区', 830600, NULL, NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (830627, '茄萣区', 830600, NULL, NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (830628, '湖内区', 830600, NULL, NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (830629, '田寮区', 830600, NULL, NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (830630, '旗山区', 830600, NULL, NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (830631, '美浓区', 830600, NULL, NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (830632, '内门区', 830600, NULL, NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (830633, '杉林区', 830600, NULL, NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (830634, '甲仙区', 830600, NULL, NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (830635, '六龟区', 830600, NULL, NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (830636, '茂林区', 830600, NULL, NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (830637, '桃源区', 830600, NULL, NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (830638, '那玛夏区', 830600, NULL, NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (830700, '基隆市', 830000, NULL, NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (830701, '中正区', 830700, NULL, NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (830702, '七堵区', 830700, NULL, NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (830703, '暖暖区', 830700, NULL, NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (830704, '仁爱区', 830700, NULL, NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (830705, '中山区', 830700, NULL, NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (830706, '安乐区', 830700, NULL, NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (830707, '信义区', 830700, NULL, NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (830800, '新竹市', 830000, NULL, NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (830801, '东区', 830800, NULL, NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (830802, '北区', 830800, NULL, NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (830803, '香山区', 830800, NULL, NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (830900, '嘉义市', 830000, NULL, NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (830901, '东区', 830900, NULL, NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (830902, '西区', 830900, NULL, NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (839001, '宜兰县', 830000, NULL, NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (839002, '新竹县', 830000, NULL, NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (839003, '苗栗县', 830000, NULL, NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (839004, '彰化县', 830000, NULL, NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (839005, '南投县', 830000, NULL, NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (839006, '嘉义县', 830000, NULL, NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (839007, '云林县', 830000, NULL, NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (839008, '屏东县', 830000, NULL, NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (839009, '台东县', 830000, NULL, NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (839010, '花莲县', 830000, NULL, NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (839011, '澎湖县', 830000, NULL, NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (839012, '金门县', 830000, NULL, NULL, '2024-03-27 23:31:31', NULL, '2024-03-27 23:31:31');
+INSERT INTO `region` (`id`, `name`, `parent_id`, `weather_code`, `creator`, `create_time`, `updater`, `update_time`) VALUES (839013, '连江县', 830000, NULL, NULL, '2024-03-27 23:31:32', NULL, '2024-03-27 23:31:32');
 COMMIT;
 
 -- ----------------------------
@@ -47,22 +3477,22 @@ COMMIT;
 DROP TABLE IF EXISTS `system_dept`;
 CREATE TABLE `system_dept` (
   `id` bigint NOT NULL AUTO_INCREMENT COMMENT '部门ID',
-  `name` varchar(255) NOT NULL COMMENT '部门名称',
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '部门名称',
   `parent_id` bigint NOT NULL DEFAULT '0' COMMENT '父部门ID',
   `sort` int NOT NULL COMMENT '显示顺序',
   `system_user_id` bigint DEFAULT '0' COMMENT '负责人',
-  `phone` varchar(255) DEFAULT NULL COMMENT '联系电话',
-  `email` varchar(255) DEFAULT NULL COMMENT '邮件',
+  `phone` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '联系电话',
+  `email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '邮件',
   `status` tinyint NOT NULL COMMENT '部门状态',
   `deleted` tinyint NOT NULL DEFAULT '0' COMMENT '是否删除',
   `system_tenant_id` bigint NOT NULL DEFAULT '0' COMMENT '租户ID',
-  `creator` varchar(64) DEFAULT NULL COMMENT '创建人',
+  `creator` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '创建人',
   `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `updater` varchar(64) DEFAULT NULL COMMENT '更新人',
+  `updater` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '更新人',
   `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-  PRIMARY KEY (`id`),
-  KEY `idx:list` (`system_tenant_id`,`deleted`,`status`,`parent_id`,`name`,`sort`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='部门';
+  PRIMARY KEY (`id`) USING BTREE,
+  KEY `idx:list` (`system_tenant_id`,`deleted`,`status`,`parent_id`,`name`,`sort`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=DYNAMIC COMMENT='部门';
 
 -- ----------------------------
 -- Records of system_dept
@@ -77,20 +3507,20 @@ DROP TABLE IF EXISTS `system_dict`;
 CREATE TABLE `system_dict` (
   `id` bigint NOT NULL AUTO_INCREMENT COMMENT '字典编码',
   `sort` int NOT NULL DEFAULT '0' COMMENT '字典排序',
-  `label` varchar(64) NOT NULL COMMENT '字典标签',
-  `value` varchar(64) NOT NULL COMMENT '字典键值',
-  `dict_type` varchar(64) NOT NULL COMMENT '字典类型',
+  `label` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '字典标签',
+  `value` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '字典键值',
+  `dict_type` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '字典类型',
   `status` tinyint NOT NULL DEFAULT '0' COMMENT '状态（0正常 1停用）',
-  `color_type` varchar(255) DEFAULT NULL COMMENT '颜色类型',
-  `css_class` varchar(255) DEFAULT NULL COMMENT 'css 样式',
-  `remark` varchar(255) DEFAULT NULL COMMENT '备注',
-  `creator` varchar(64) DEFAULT NULL COMMENT '创建人',
+  `color_type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '颜色类型',
+  `css_class` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT 'css 样式',
+  `remark` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '备注',
+  `creator` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '创建人',
   `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `updater` varchar(64) DEFAULT NULL COMMENT '更新人',
+  `updater` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '更新人',
   `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-  PRIMARY KEY (`id`),
-  KEY `list:data` (`dict_type`,`status`,`sort`)
-) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='字典数据表';
+  PRIMARY KEY (`id`) USING BTREE,
+  KEY `list:data` (`dict_type`,`status`,`sort`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=DYNAMIC COMMENT='字典数据表';
 
 -- ----------------------------
 -- Records of system_dict
@@ -126,18 +3556,18 @@ COMMIT;
 DROP TABLE IF EXISTS `system_dict_type`;
 CREATE TABLE `system_dict_type` (
   `id` bigint NOT NULL AUTO_INCREMENT COMMENT '字典主键',
-  `name` varchar(64) NOT NULL COMMENT '字典名称',
-  `type` varchar(64) NOT NULL COMMENT '字典类型',
+  `name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '字典名称',
+  `type` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '字典类型',
   `status` tinyint NOT NULL DEFAULT '0' COMMENT '状态（0正常 1停用）',
-  `remark` varchar(255) DEFAULT NULL COMMENT '备注',
-  `creator` varchar(64) DEFAULT NULL COMMENT '创建人',
+  `remark` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '备注',
+  `creator` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '创建人',
   `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `updater` varchar(64) DEFAULT NULL COMMENT '更新人',
+  `updater` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '更新人',
   `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `uniq:type` (`type`),
-  KEY `idx:list` (`status`,`type`,`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='字典类型';
+  PRIMARY KEY (`id`) USING BTREE,
+  UNIQUE KEY `uniq:type` (`type`) USING BTREE,
+  KEY `idx:list` (`status`,`type`,`name`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=DYNAMIC COMMENT='字典类型';
 
 -- ----------------------------
 -- Records of system_dict_type
@@ -160,20 +3590,20 @@ COMMIT;
 DROP TABLE IF EXISTS `system_login_log`;
 CREATE TABLE `system_login_log` (
   `id` bigint NOT NULL AUTO_INCREMENT COMMENT '主键',
-  `username` varchar(64) NOT NULL COMMENT '用户账号',
-  `user_ip` varchar(64) NOT NULL COMMENT '用户ip',
-  `user_agent` varchar(255) DEFAULT NULL COMMENT 'UA',
+  `username` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '用户账号',
+  `user_ip` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '用户ip',
+  `user_agent` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT 'UA',
   `login_time` datetime NOT NULL COMMENT '登录时间',
-  `channel` varchar(64) NOT NULL COMMENT '渠道',
+  `channel` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '渠道',
   `deleted` tinyint NOT NULL COMMENT '删除',
   `system_tenant_id` bigint NOT NULL COMMENT '租户',
-  `creator` varchar(64) DEFAULT NULL COMMENT '创建人',
+  `creator` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '创建人',
   `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `updater` varchar(64) DEFAULT NULL COMMENT '更新人',
+  `updater` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '更新人',
   `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-  PRIMARY KEY (`id`),
-  KEY `idx:list` (`system_tenant_id`,`deleted`,`username`,`login_time`,`channel`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='登录日志';
+  PRIMARY KEY (`id`) USING BTREE,
+  KEY `idx:list` (`system_tenant_id`,`deleted`,`username`,`login_time`,`channel`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=311 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=DYNAMIC COMMENT='登录日志';
 
 -- ----------------------------
 -- Records of system_login_log
@@ -187,31 +3617,31 @@ COMMIT;
 DROP TABLE IF EXISTS `system_menu`;
 CREATE TABLE `system_menu` (
   `id` bigint NOT NULL AUTO_INCREMENT COMMENT '菜单编号',
-  `name` varchar(64) NOT NULL COMMENT '菜单名称',
-  `permission` varchar(128) DEFAULT NULL COMMENT '权限标识',
+  `name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '菜单名称',
+  `permission` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '权限标识',
   `type` tinyint NOT NULL DEFAULT '1' COMMENT '菜单类型(1:目录/2: 菜单/3: 按钮)',
   `sort` int NOT NULL DEFAULT '1' COMMENT '显示顺序',
   `parent_id` bigint NOT NULL DEFAULT '0' COMMENT '父菜单ID',
-  `path` varchar(255) DEFAULT NULL COMMENT '路由地址',
-  `icon` varchar(128) DEFAULT NULL COMMENT '菜单图标',
-  `component` varchar(255) DEFAULT NULL COMMENT '组件路径',
-  `component_name` varchar(255) DEFAULT NULL COMMENT '组件名',
+  `path` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '路由地址',
+  `icon` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '菜单图标',
+  `component` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '组件路径',
+  `component_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '组件名',
   `status` tinyint NOT NULL DEFAULT '0' COMMENT '菜单状态(0开启/1关闭)',
   `hide` tinyint NOT NULL DEFAULT '0' COMMENT '是否隐藏(0:否/1是)',
-  `link` varchar(255) DEFAULT NULL COMMENT '路由外链时填写的访问地址',
+  `link` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '路由外链时填写的访问地址',
   `keep_alive` tinyint NOT NULL DEFAULT '1' COMMENT '是否缓存(0不/ 1是)',
   `affix` tinyint NOT NULL DEFAULT '0' COMMENT '是否总是显示(0 不显示/1 显示)',
-  `active_path` varchar(255) DEFAULT NULL COMMENT '激活链接',
+  `active_path` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '激活链接',
   `full_screen` tinyint NOT NULL DEFAULT '0' COMMENT '是否全屏',
-  `redirect` varchar(255) DEFAULT NULL COMMENT '路由重定向地址',
-  `creator` varchar(64) DEFAULT NULL COMMENT '创建者',
+  `redirect` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '路由重定向地址',
+  `creator` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '创建者',
   `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `updater` varchar(64) DEFAULT NULL COMMENT '更新者',
+  `updater` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '更新者',
   `update_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间',
   `deleted` tinyint NOT NULL DEFAULT '0' COMMENT '是否删除',
-  PRIMARY KEY (`id`),
-  KEY `list:parent` (`deleted`,`status`,`type`,`sort`,`parent_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=127 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='系统菜单';
+  PRIMARY KEY (`id`) USING BTREE,
+  KEY `list:parent` (`deleted`,`status`,`type`,`sort`,`parent_id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=128 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=DYNAMIC COMMENT='系统菜单';
 
 -- ----------------------------
 -- Records of system_menu
@@ -299,6 +3729,7 @@ INSERT INTO `system_menu` (`id`, `name`, `permission`, `type`, `sort`, `parent_i
 INSERT INTO `system_menu` (`id`, `name`, `permission`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `status`, `hide`, `link`, `keep_alive`, `affix`, `active_path`, `full_screen`, `redirect`, `creator`, `create_time`, `updater`, `update_time`, `deleted`) VALUES (124, '菜单权限处理', 'role.SystemRoleMenuCreate', 3, 0, 123, '', '', '', '', 0, 0, '', 0, 0, '', 0, '', 'admin', '2024-03-23 14:01:23', '', '2024-03-23 14:01:23', 0);
 INSERT INTO `system_menu` (`id`, `name`, `permission`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `status`, `hide`, `link`, `keep_alive`, `affix`, `active_path`, `full_screen`, `redirect`, `creator`, `create_time`, `updater`, `update_time`, `deleted`) VALUES (125, '数据权限', 'role.SystemRoleDataScope', 3, 0, 17, '', '', '', '', 0, 0, '', 0, 0, '', 0, '', 'admin', '2024-03-23 14:01:50', '', '2024-03-23 14:01:50', 0);
 INSERT INTO `system_menu` (`id`, `name`, `permission`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `status`, `hide`, `link`, `keep_alive`, `affix`, `active_path`, `full_screen`, `redirect`, `creator`, `create_time`, `updater`, `update_time`, `deleted`) VALUES (126, '数据权限处理', 'role.SystemRoleDataScopeCreate', 3, 0, 125, '', '', '', '', 0, 0, '', 0, 0, '', 0, '', 'admin', '2024-03-23 14:02:11', '', '2024-03-23 14:02:11', 0);
+INSERT INTO `system_menu` (`id`, `name`, `permission`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `status`, `hide`, `link`, `keep_alive`, `affix`, `active_path`, `full_screen`, `redirect`, `creator`, `create_time`, `updater`, `update_time`, `deleted`) VALUES (127, '文件管理', '', 2, 26, 2, '/system/file', 'Files', '/system/file/index', '', 0, 0, '', 0, 0, '', 0, '', 'admin', '2024-03-23 15:44:21', '', '2024-03-23 15:44:21', 1);
 COMMIT;
 
 -- ----------------------------
@@ -307,27 +3738,27 @@ COMMIT;
 DROP TABLE IF EXISTS `system_operate_log`;
 CREATE TABLE `system_operate_log` (
   `id` bigint NOT NULL AUTO_INCREMENT COMMENT '主键',
-  `username` varchar(64) NOT NULL COMMENT '用户账号',
-  `module` varchar(64) NOT NULL COMMENT '模块名称',
-  `request_method` varchar(64) NOT NULL COMMENT '请求方法名',
-  `request_url` varchar(255) NOT NULL COMMENT '请求地址',
-  `user_ip` varchar(64) NOT NULL COMMENT '用户 ip',
-  `user_agent` varchar(255) DEFAULT NULL COMMENT 'UA',
-  `go_method` varchar(64) NOT NULL COMMENT '方法名',
+  `username` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '用户账号',
+  `module` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '模块名称',
+  `request_method` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '请求方法名',
+  `request_url` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '请求地址',
+  `user_ip` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '用户 ip',
+  `user_agent` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT 'UA',
+  `go_method` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '方法名',
   `go_method_args` json DEFAULT NULL COMMENT '方法的参数',
   `start_time` datetime NOT NULL COMMENT '操作开始时间',
   `duration` int NOT NULL COMMENT '执行时长',
-  `channel` varchar(64) NOT NULL COMMENT '渠道',
+  `channel` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '渠道',
   `result` tinyint NOT NULL DEFAULT '0' COMMENT '结果(0 成功/1 失败)',
   `deleted` tinyint NOT NULL COMMENT '删除',
   `system_tenant_id` bigint NOT NULL COMMENT '租户',
-  `creator` varchar(64) DEFAULT NULL COMMENT '创建人',
+  `creator` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '创建人',
   `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `updater` varchar(64) DEFAULT NULL COMMENT '更新人',
+  `updater` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '更新人',
   `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-  PRIMARY KEY (`id`),
-  KEY `idx:list` (`system_tenant_id`,`deleted`,`username`,`module`,`start_time`,`result`)
-) ENGINE=InnoDB AUTO_INCREMENT=121 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='操作日志';
+  PRIMARY KEY (`id`) USING BTREE,
+  KEY `idx:list` (`system_tenant_id`,`deleted`,`username`,`module`,`start_time`,`result`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=2646 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=DYNAMIC COMMENT='操作日志';
 
 -- ----------------------------
 -- Records of system_operate_log
@@ -341,18 +3772,18 @@ COMMIT;
 DROP TABLE IF EXISTS `system_post`;
 CREATE TABLE `system_post` (
   `id` bigint NOT NULL AUTO_INCREMENT COMMENT '职位ID',
-  `name` varchar(255) NOT NULL COMMENT '职位名称',
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '职位名称',
   `sort` int NOT NULL COMMENT '显示顺序',
   `status` tinyint NOT NULL COMMENT '状态',
   `deleted` tinyint NOT NULL DEFAULT '0' COMMENT '是否删除',
   `system_tenant_id` bigint NOT NULL COMMENT '租户ID',
-  `creator` varchar(64) DEFAULT NULL COMMENT '创建人',
+  `creator` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '创建人',
   `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `updater` varchar(64) DEFAULT NULL COMMENT '更新人',
+  `updater` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '更新人',
   `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-  PRIMARY KEY (`id`),
-  KEY `idx:list` (`system_tenant_id`,`deleted`,`status`,`name`,`sort`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='职位';
+  PRIMARY KEY (`id`) USING BTREE,
+  KEY `idx:list` (`system_tenant_id`,`deleted`,`status`,`name`,`sort`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=DYNAMIC COMMENT='职位';
 
 -- ----------------------------
 -- Records of system_post
@@ -366,29 +3797,30 @@ COMMIT;
 DROP TABLE IF EXISTS `system_role`;
 CREATE TABLE `system_role` (
   `id` bigint NOT NULL AUTO_INCREMENT COMMENT '角色编号',
-  `name` varchar(64) NOT NULL COMMENT '角色名称',
-  `code` varchar(64) NOT NULL COMMENT '角色权限字符串',
+  `name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '角色名称',
+  `code` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '角色权限字符串',
   `sort` int NOT NULL DEFAULT '0' COMMENT '显示顺序',
   `data_scope` tinyint DEFAULT NULL COMMENT '数据范围（1：全部数据权限 2：自定数据权限 3：本部门数据权限 4：本部门及以下数据权限）',
   `data_scope_dept` json DEFAULT NULL COMMENT '数据范围(指定部门数组)',
   `status` tinyint NOT NULL DEFAULT '0' COMMENT '角色状态（0正常 1停用）',
   `type` tinyint NOT NULL DEFAULT '1' COMMENT '角色类型(1内置/2定义)',
-  `remark` varchar(255) DEFAULT NULL COMMENT '备注',
+  `remark` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '备注',
   `deleted` tinyint NOT NULL COMMENT '删除',
   `system_tenant_id` bigint NOT NULL COMMENT '租户',
-  `creator` varchar(64) DEFAULT NULL COMMENT '创建者',
+  `creator` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '创建者',
   `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `updater` varchar(64) DEFAULT NULL COMMENT '更新者',
+  `updater` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '更新者',
   `update_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间',
-  PRIMARY KEY (`id`),
-  KEY `idx:list` (`system_tenant_id`,`deleted`,`type`,`status`,`sort`,`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='系统角色';
+  PRIMARY KEY (`id`) USING BTREE,
+  KEY `idx:list` (`system_tenant_id`,`deleted`,`type`,`status`,`sort`,`name`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=DYNAMIC COMMENT='系统角色';
 
 -- ----------------------------
 -- Records of system_role
 -- ----------------------------
 BEGIN;
-INSERT INTO `system_role` (`id`, `name`, `code`, `sort`, `data_scope`, `data_scope_dept`, `status`, `type`, `remark`, `deleted`, `system_tenant_id`, `creator`, `create_time`, `updater`, `update_time`) VALUES (1, '超级管理员', 'super', 0, NULL, NULL, 0, 2, '', 0, 1, 'admin', '2024-03-23 14:02:42', NULL, '2024-03-23 14:02:42');
+INSERT INTO `system_role` (`id`, `name`, `code`, `sort`, `data_scope`, `data_scope_dept`, `status`, `type`, `remark`, `deleted`, `system_tenant_id`, `creator`, `create_time`, `updater`, `update_time`) VALUES (1, '超级管理员', 'super', 0, NULL, NULL, 0, 2, '', 1, 1, 'admin', '2024-03-23 14:02:42', NULL, '2024-03-23 14:02:42');
+INSERT INTO `system_role` (`id`, `name`, `code`, `sort`, `data_scope`, `data_scope_dept`, `status`, `type`, `remark`, `deleted`, `system_tenant_id`, `creator`, `create_time`, `updater`, `update_time`) VALUES (5, '测试', 'test', 1, NULL, NULL, 0, 2, '', 0, 1, 'admin', '2024-03-30 20:41:48', NULL, '2024-03-30 20:41:48');
 COMMIT;
 
 -- ----------------------------
@@ -401,14 +3833,14 @@ CREATE TABLE `system_role_menu` (
   `system_menu_id` bigint NOT NULL COMMENT '菜单编号',
   `deleted` tinyint NOT NULL COMMENT '删除',
   `system_tenant_id` bigint NOT NULL COMMENT '租户',
-  `creator` varchar(64) DEFAULT NULL COMMENT '创建者',
+  `creator` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '创建者',
   `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `updater` varchar(64) DEFAULT NULL COMMENT '更新者',
+  `updater` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '更新者',
   `update_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间',
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `uniq:role_menu` (`system_role_id`,`system_menu_id`),
-  KEY `idx:list` (`system_tenant_id`,`deleted`,`system_menu_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='系统角色和系统菜单关联表';
+  PRIMARY KEY (`id`) USING BTREE,
+  UNIQUE KEY `uniq:role_menu` (`system_role_id`,`system_menu_id`) USING BTREE,
+  KEY `idx:list` (`system_tenant_id`,`deleted`,`system_menu_id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=443 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=DYNAMIC COMMENT='系统角色和系统菜单关联表';
 
 -- ----------------------------
 -- Records of system_role_menu
@@ -422,24 +3854,24 @@ COMMIT;
 DROP TABLE IF EXISTS `system_tenant`;
 CREATE TABLE `system_tenant` (
   `id` bigint NOT NULL AUTO_INCREMENT COMMENT '租户编号',
-  `name` varchar(255) NOT NULL COMMENT '租户名称',
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '租户名称',
   `system_user_id` bigint DEFAULT NULL COMMENT '联系人ID',
-  `contact_name` varchar(255) NOT NULL COMMENT '联系人',
-  `contact_mobile` varchar(255) NOT NULL COMMENT '租户联系电话',
+  `contact_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '联系人',
+  `contact_mobile` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '租户联系电话',
   `status` tinyint NOT NULL COMMENT '状态（0正常 1停用）',
-  `domain` varchar(255) DEFAULT NULL COMMENT '域名',
+  `domain` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '域名',
   `expire_date` date NOT NULL COMMENT '过期时间',
   `account_count` bigint NOT NULL COMMENT '账号数量',
   `system_tenant_package_id` bigint NOT NULL COMMENT '套餐编号',
   `deleted` tinyint NOT NULL COMMENT '是否删除(0否 1是)',
-  `creator` varchar(64) DEFAULT NULL COMMENT '创建人',
+  `creator` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '创建人',
   `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `updater` varchar(64) DEFAULT NULL COMMENT '更新人',
+  `updater` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '更新人',
   `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-  PRIMARY KEY (`id`),
-  KEY `idx:package` (`system_tenant_package_id`),
-  KEY `idx:list` (`deleted`,`status`,`name`,`expire_date`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='租户';
+  PRIMARY KEY (`id`) USING BTREE,
+  KEY `idx:package` (`system_tenant_package_id`) USING BTREE,
+  KEY `idx:list` (`deleted`,`status`,`name`,`expire_date`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=DYNAMIC COMMENT='租户';
 
 -- ----------------------------
 -- Records of system_tenant
@@ -454,18 +3886,18 @@ COMMIT;
 DROP TABLE IF EXISTS `system_tenant_package`;
 CREATE TABLE `system_tenant_package` (
   `id` bigint NOT NULL AUTO_INCREMENT COMMENT '套餐编号',
-  `name` varchar(255) NOT NULL COMMENT '套餐名称',
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '套餐名称',
   `status` tinyint NOT NULL DEFAULT '0' COMMENT '状态（0正常 1停用）',
   `system_menu_ids` json NOT NULL COMMENT '目录编号',
-  `remark` varchar(255) DEFAULT NULL COMMENT '备注',
+  `remark` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '备注',
   `deleted` tinyint NOT NULL COMMENT '是否删除(0否 1是)',
-  `creator` varchar(64) DEFAULT NULL COMMENT '创建人',
+  `creator` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '创建人',
   `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `updater` varchar(64) DEFAULT NULL COMMENT '更新人',
+  `updater` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '更新人',
   `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-  PRIMARY KEY (`id`),
-  KEY `idx:list` (`deleted`,`status`,`name`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='租户套餐包';
+  PRIMARY KEY (`id`) USING BTREE,
+  KEY `idx:list` (`deleted`,`status`,`name`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=DYNAMIC COMMENT='租户套餐包';
 
 -- ----------------------------
 -- Records of system_tenant_package
@@ -479,21 +3911,21 @@ COMMIT;
 DROP TABLE IF EXISTS `system_user`;
 CREATE TABLE `system_user` (
   `id` bigint NOT NULL AUTO_INCREMENT COMMENT '用户编号',
-  `nickname` varchar(255) DEFAULT NULL COMMENT '昵称',
-  `mobile` varchar(255) DEFAULT NULL COMMENT '手机号码',
-  `username` varchar(64) NOT NULL COMMENT '用户名称',
-  `password` varchar(64) NOT NULL COMMENT '用户密码',
+  `nickname` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '昵称',
+  `mobile` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '手机号码',
+  `username` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '用户名称',
+  `password` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '用户密码',
   `status` tinyint NOT NULL DEFAULT '0' COMMENT '用户状态（0正常 1停用）',
   `deleted` tinyint NOT NULL DEFAULT '0' COMMENT '是否删除(0否 1是)',
   `system_tenant_id` bigint NOT NULL DEFAULT '0' COMMENT '租户ID',
-  `creator` varchar(64) DEFAULT NULL COMMENT '创建人',
+  `creator` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '创建人',
   `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `updater` varchar(64) DEFAULT NULL COMMENT '更新人',
+  `updater` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '更新人',
   `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `item:login` (`username`),
-  KEY `idx:list` (`system_tenant_id`,`deleted`,`status`,`nickname`,`mobile`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='系统用户';
+  PRIMARY KEY (`id`) USING BTREE,
+  UNIQUE KEY `item:login` (`username`) USING BTREE,
+  KEY `idx:list` (`system_tenant_id`,`deleted`,`status`,`nickname`,`mobile`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=DYNAMIC COMMENT='系统用户';
 
 -- ----------------------------
 -- Records of system_user
@@ -512,14 +3944,14 @@ CREATE TABLE `system_user_dept` (
   `system_dept_id` bigint NOT NULL COMMENT '部门 id',
   `deleted` tinyint NOT NULL COMMENT '删除',
   `system_tenant_id` bigint NOT NULL COMMENT '租户',
-  `creator` varchar(64) DEFAULT NULL COMMENT '创建人',
+  `creator` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '创建人',
   `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `updater` varchar(64) DEFAULT NULL COMMENT '更新人',
+  `updater` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '更新人',
   `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-  PRIMARY KEY (`id`),
-  KEY `uniq:user_dept` (`system_user_id`,`system_dept_id`),
-  KEY `idx:list` (`system_tenant_id`,`deleted`,`system_dept_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='系统用户部门';
+  PRIMARY KEY (`id`) USING BTREE,
+  KEY `uniq:user_dept` (`system_user_id`,`system_dept_id`) USING BTREE,
+  KEY `idx:list` (`system_tenant_id`,`deleted`,`system_dept_id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=DYNAMIC COMMENT='系统用户部门';
 
 -- ----------------------------
 -- Records of system_user_dept
@@ -537,14 +3969,14 @@ CREATE TABLE `system_user_post` (
   `system_post_id` bigint NOT NULL COMMENT '职位 id',
   `deleted` tinyint NOT NULL COMMENT '删除',
   `system_tenant_id` bigint NOT NULL COMMENT '租户',
-  `creator` varchar(64) DEFAULT NULL COMMENT '创建人',
+  `creator` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '创建人',
   `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `updater` varchar(64) DEFAULT NULL COMMENT '更新人',
+  `updater` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '更新人',
   `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `uniq:user_post` (`system_user_id`,`system_post_id`),
-  KEY `idx:list` (`system_tenant_id`,`deleted`,`system_post_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='系统用户职位';
+  PRIMARY KEY (`id`) USING BTREE,
+  UNIQUE KEY `uniq:user_post` (`system_user_id`,`system_post_id`) USING BTREE,
+  KEY `idx:list` (`system_tenant_id`,`deleted`,`system_post_id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=DYNAMIC COMMENT='系统用户职位';
 
 -- ----------------------------
 -- Records of system_user_post
@@ -562,14 +3994,14 @@ CREATE TABLE `system_user_role` (
   `system_role_id` bigint NOT NULL COMMENT '角色编号',
   `deleted` tinyint NOT NULL COMMENT '删除',
   `system_tenant_id` bigint NOT NULL COMMENT '租户',
-  `creator` varchar(64) DEFAULT NULL COMMENT '创建者',
+  `creator` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '创建者',
   `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `updater` varchar(64) DEFAULT NULL COMMENT '更新者',
+  `updater` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '更新者',
   `update_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间',
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `uniq:user_role` (`system_user_id`,`system_role_id`),
-  KEY `idx:list` (`system_tenant_id`,`deleted`,`system_role_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='系统用户和系统角色关联表';
+  PRIMARY KEY (`id`) USING BTREE,
+  UNIQUE KEY `uniq:user_role` (`system_user_id`,`system_role_id`) USING BTREE,
+  KEY `idx:list` (`system_tenant_id`,`deleted`,`system_role_id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=DYNAMIC COMMENT='系统用户和系统角色关联表';
 
 -- ----------------------------
 -- Records of system_user_role
@@ -578,22 +4010,47 @@ BEGIN;
 COMMIT;
 
 -- ----------------------------
+-- Table structure for system_user_tenant
+-- ----------------------------
+DROP TABLE IF EXISTS `system_user_tenant`;
+CREATE TABLE `system_user_tenant` (
+  `id` bigint NOT NULL AUTO_INCREMENT COMMENT '编号',
+  `system_user_id` bigint NOT NULL COMMENT '系统用户 ID',
+  `system_tenant_id` bigint NOT NULL COMMENT '租户 id',
+  `deleted` tinyint NOT NULL COMMENT '删除',
+  `creator` varchar(64) DEFAULT NULL COMMENT '创建人',
+  `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `updater` varchar(64) DEFAULT NULL COMMENT '更新人',
+  `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  PRIMARY KEY (`id`),
+  KEY `uniq:user_tenant` (`system_user_id`,`system_tenant_id`),
+  KEY `idx:tenant` (`system_tenant_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='系统租户用户';
+
+-- ----------------------------
+-- Records of system_user_tenant
+-- ----------------------------
+BEGIN;
+INSERT INTO `system_user_tenant` (`id`, `system_user_id`, `system_tenant_id`, `deleted`, `creator`, `create_time`, `updater`, `update_time`) VALUES (1, 1, 1, 0, NULL, '2024-03-31 20:33:48', NULL, '2024-03-31 20:33:48');
+COMMIT;
+
+-- ----------------------------
 -- Table structure for user
 -- ----------------------------
 DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user` (
   `id` bigint NOT NULL AUTO_INCREMENT COMMENT '用户编号',
-  `nickname` varchar(128) DEFAULT NULL COMMENT '用户昵称',
-  `avatar` varchar(255) DEFAULT NULL COMMENT '用户头像',
+  `nickname` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '用户昵称',
+  `avatar` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '用户头像',
   `birthday` date DEFAULT NULL COMMENT '用户生日',
   `gender` tinyint DEFAULT '0' COMMENT '用户性别(0女/1男)',
   `status` tinyint NOT NULL DEFAULT '0' COMMENT '用户状态(0正常/1锁定)',
-  `creator` varchar(64) DEFAULT NULL COMMENT '创建人',
+  `creator` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '创建人',
   `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `updater` varchar(64) DEFAULT NULL COMMENT '更新人',
+  `updater` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '更新人',
   `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='用户';
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=DYNAMIC COMMENT='用户';
 
 -- ----------------------------
 -- Records of user
@@ -608,17 +4065,17 @@ DROP TABLE IF EXISTS `user_auth`;
 CREATE TABLE `user_auth` (
   `id` bigint NOT NULL AUTO_INCREMENT COMMENT '编号',
   `user_id` bigint NOT NULL COMMENT '用户编号',
-  `identity_type` varchar(128) DEFAULT NULL COMMENT '登录类型(手机号/邮箱) 或第三方应用名称 (微信/微博等)',
-  `identifier` varchar(128) DEFAULT NULL COMMENT '手机号/邮箱/第三方的唯一标识',
-  `credential` varchar(255) DEFAULT NULL COMMENT '密码凭证 (自建账号的保存密码, 第三方的保存 token)',
-  `creator` varchar(64) DEFAULT NULL COMMENT '创建人',
+  `identity_type` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '登录类型(手机号/邮箱) 或第三方应用名称 (微信/微博等)',
+  `identifier` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '手机号/邮箱/第三方的唯一标识',
+  `credential` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '密码凭证 (自建账号的保存密码, 第三方的保存 token)',
+  `creator` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '创建人',
   `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `updater` varchar(64) DEFAULT NULL COMMENT '更新人',
+  `updater` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '更新人',
   `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `item:identity` (`identity_type`,`identifier`),
-  KEY `idx:user` (`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='用户三方登录授权';
+  PRIMARY KEY (`id`) USING BTREE,
+  UNIQUE KEY `item:identity` (`identity_type`,`identifier`) USING BTREE,
+  KEY `idx:user` (`user_id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=DYNAMIC COMMENT='用户三方登录授权';
 
 -- ----------------------------
 -- Records of user_auth
@@ -633,14 +4090,14 @@ DROP TABLE IF EXISTS `user_secret`;
 CREATE TABLE `user_secret` (
   `id` bigint NOT NULL AUTO_INCREMENT COMMENT '编号',
   `user_id` bigint NOT NULL COMMENT '用户编号',
-  `password` varchar(255) DEFAULT NULL COMMENT '用户密码',
-  `creator` varchar(64) DEFAULT NULL COMMENT '创建人',
+  `password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '用户密码',
+  `creator` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '创建人',
   `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `updater` varchar(64) DEFAULT NULL COMMENT '更新人',
+  `updater` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '更新人',
   `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `uniq:user` (`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='用户密码';
+  PRIMARY KEY (`id`) USING BTREE,
+  UNIQUE KEY `uniq:user` (`user_id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=DYNAMIC COMMENT='用户密码';
 
 -- ----------------------------
 -- Records of user_secret

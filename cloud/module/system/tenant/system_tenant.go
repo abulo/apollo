@@ -5,7 +5,6 @@ import (
 	"cloud/initial"
 	"context"
 
-	"github.com/abulo/ratel/v3/core/logger"
 	"github.com/abulo/ratel/v3/stores/null"
 	"github.com/abulo/ratel/v3/stores/sql"
 	"github.com/abulo/ratel/v3/util"
@@ -48,12 +47,33 @@ func SystemTenantCreate(ctx context.Context, data dao.SystemTenant) (res int64, 
 		if err != nil {
 			return err
 		}
-		// 插入用户信息
+		// 插入用户和租户的绑定信息
 		userId, err := session.Insert(ctx, query, args...)
-		logger.Logger.Info(err)
 		if err != nil {
 			return err
 		}
+
+		// 绑定用户和租户的关系
+
+		var userTenant dao.SystemUserTenant
+		userTenant.SystemUserId = proto.Int64(userId)
+		userTenant.SystemTenantId = proto.Int64(tenantId)
+		userTenant.Deleted = proto.Int32(0)
+		userTenant.Creator = data.Creator
+		userTenant.CreateTime = data.CreateTime
+		userTenant.Updater = data.Updater
+		userTenant.UpdateTime = data.UpdateTime
+		builder = sql.NewBuilder()
+		query, args, err = builder.Table("`system_user_tenant`").Insert(user)
+		if err != nil {
+			return err
+		}
+		// 插入用户信息
+		_, err = session.Insert(ctx, query, args...)
+		if err != nil {
+			return err
+		}
+
 		// 更新租户管理员信息
 		var updateTenant dao.SystemTenant
 		updateTenant.SystemUserId = null.Int64From(userId)
