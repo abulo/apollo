@@ -379,4 +379,5 @@ const handleUser = (row: SystemUser.ResSystemUserItem) => {
 
 <style lang="scss">
 @import "@/styles/custom.scss";
+@import "@/styles/popover.scss";
 </style>
