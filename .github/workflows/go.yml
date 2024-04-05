@@ -24,7 +24,7 @@ jobs:
       - name: SetUp Go                # 下载go代码
         uses: actions/setup-go@v5     # 使用官方提供
         with:
-          go-version: 1.22.1          # 指定go版本1.22.1
+          go-version: 1.22.2          # 指定go版本1.22.1
           check-latest: true
 
       - name: Install linux deps
