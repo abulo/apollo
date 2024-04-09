@@ -7,10 +7,8 @@ import (
 	"context"
 	"encoding/json"
 	"regexp"
-	"strings"
 
 	"github.com/abulo/ratel/v3/core/logger"
-	"github.com/abulo/ratel/v3/stores/null"
 	"github.com/abulo/ratel/v3/util"
 	"github.com/spf13/cast"
 	"google.golang.org/protobuf/proto"
@@ -52,15 +50,15 @@ func InitRegion() {
 	}
 
 	regionList := InitProvince()
-	for _, regionInfo := range regionList {
-		// 判断直辖市和想过澳门地区
-		if *regionInfo.Id == 110000 || *regionInfo.Id == 120000 || *regionInfo.Id == 310000 || *regionInfo.Id == 500000 || *regionInfo.Id == 810000 || *regionInfo.Id == 820000 {
-			ZhiXiaShiWeather(regionInfo)
-		} else {
+	// for _, regionInfo := range regionList {
+	// 	// 判断直辖市和想过澳门地区
+	// 	if *regionInfo.Id == 110000 || *regionInfo.Id == 120000 || *regionInfo.Id == 310000 || *regionInfo.Id == 500000 || *regionInfo.Id == 810000 || *regionInfo.Id == 820000 {
+	// 		ZhiXiaShiWeather(regionInfo)
+	// 	} else {
 
-			ProvinceWeather(regionInfo)
-		}
-	}
+	// 		ProvinceWeather(regionInfo)
+	// 	}
+	// }
 	ctx := context.Background()
 	// 插入数据库
 	InsertRegion(ctx, regionList)
@@ -139,63 +137,63 @@ func getName(name string) string {
 	return name
 }
 
-// 处理省市区的天气
-func ProvinceWeather(regionInfo *dao.Region) {
-	// 遍历省级地区
-	for provinceName, weatherItem := range weatherMap {
-		// 判断字符串中知否包含指定的字符串
-		if strings.Contains(*regionInfo.Name, provinceName) {
-			cityMap := cast.ToStringMap(weatherItem)
-			cityChildren := regionInfo.Children
-			for cityName, cityItem := range cityMap {
-				// 遍历children信息
-				for _, districtItem := range cityChildren {
-					if strings.Contains(*districtItem.Name, cityName) {
-						cityWeather := cast.ToStringMap(cityItem)
-						cityWeatherInfo := cast.ToStringMap(cityWeather[cityName])
-						districtItem.WeatherCode = null.StringFrom(cast.ToString(cityWeatherInfo["AREAID"]))
-						// 县级
-						xianChildren := districtItem.Children
-						for xianName, xianItem := range cityWeather {
-							for _, xianVal := range xianChildren {
-								if strings.Contains(*xianVal.Name, xianName) {
-									xianWeather := cast.ToStringMap(xianItem)
-									xianVal.WeatherCode = null.StringFrom(cast.ToString(xianWeather["AREAID"]))
-								}
-							}
-						}
-					}
-				}
-			}
-		}
-	}
-}
+// // 处理省市区的天气
+// func ProvinceWeather(regionInfo *dao.Region) {
+// 	// 遍历省级地区
+// 	for provinceName, weatherItem := range weatherMap {
+// 		// 判断字符串中知否包含指定的字符串
+// 		if strings.Contains(*regionInfo.Name, provinceName) {
+// 			cityMap := cast.ToStringMap(weatherItem)
+// 			cityChildren := regionInfo.Children
+// 			for cityName, cityItem := range cityMap {
+// 				// 遍历children信息
+// 				for _, districtItem := range cityChildren {
+// 					if strings.Contains(*districtItem.Name, cityName) {
+// 						cityWeather := cast.ToStringMap(cityItem)
+// 						cityWeatherInfo := cast.ToStringMap(cityWeather[cityName])
+// 						districtItem.WeatherCode = null.StringFrom(cast.ToString(cityWeatherInfo["AREAID"]))
+// 						// 县级
+// 						xianChildren := districtItem.Children
+// 						for xianName, xianItem := range cityWeather {
+// 							for _, xianVal := range xianChildren {
+// 								if strings.Contains(*xianVal.Name, xianName) {
+// 									xianWeather := cast.ToStringMap(xianItem)
+// 									xianVal.WeatherCode = null.StringFrom(cast.ToString(xianWeather["AREAID"]))
+// 								}
+// 							}
+// 						}
+// 					}
+// 				}
+// 			}
+// 		}
+// 	}
+// }
 
-// ZhiXiaShiWeather 处理直辖市的天气
-func ZhiXiaShiWeather(regionInfo *dao.Region) {
-	for provinceName, weatherItem := range weatherMap {
-		// 判断字符串中知否包含指定的字符串
-		if strings.Contains(*regionInfo.Name, provinceName) {
-			// 因为直辖市只有一个层级
-			cityList := cast.ToStringMap(cast.ToStringMap(weatherItem)[provinceName])
-			// 需要将第一个层级的WeatherCode替换掉
-			childrenList := regionInfo.Children
-			for cityName, cityItem := range cityList {
-				if provinceName == cityName {
-					// 第一个层级, 北京,天津
-					provinceWeather := cast.ToStringMap(cityItem)
-					regionInfo.WeatherCode = null.StringFrom(cast.ToString(provinceWeather["AREAID"]))
-				}
-				// 遍历children信息
-				for _, districtItem := range childrenList {
-					if strings.Contains(*districtItem.Name, cityName) {
-						// districtItem.Name = proto.String(cityName)
-						provinceWeather := cast.ToStringMap(cityItem)
-						districtItem.WeatherCode = null.StringFrom(cast.ToString(provinceWeather["AREAID"]))
-					}
-				}
-			}
-		}
-	}
+// // ZhiXiaShiWeather 处理直辖市的天气
+// func ZhiXiaShiWeather(regionInfo *dao.Region) {
+// 	for provinceName, weatherItem := range weatherMap {
+// 		// 判断字符串中知否包含指定的字符串
+// 		if strings.Contains(*regionInfo.Name, provinceName) {
+// 			// 因为直辖市只有一个层级
+// 			cityList := cast.ToStringMap(cast.ToStringMap(weatherItem)[provinceName])
+// 			// 需要将第一个层级的WeatherCode替换掉
+// 			childrenList := regionInfo.Children
+// 			for cityName, cityItem := range cityList {
+// 				if provinceName == cityName {
+// 					// 第一个层级, 北京,天津
+// 					provinceWeather := cast.ToStringMap(cityItem)
+// 					regionInfo.WeatherCode = null.StringFrom(cast.ToString(provinceWeather["AREAID"]))
+// 				}
+// 				// 遍历children信息
+// 				for _, districtItem := range childrenList {
+// 					if strings.Contains(*districtItem.Name, cityName) {
+// 						// districtItem.Name = proto.String(cityName)
+// 						provinceWeather := cast.ToStringMap(cityItem)
+// 						districtItem.WeatherCode = null.StringFrom(cast.ToString(provinceWeather["AREAID"]))
+// 					}
+// 				}
+// 			}
+// 		}
+// 	}
 
-}
+// }

@@ -21,11 +21,12 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	RegionService_RegionCreate_FullMethodName = "/region.RegionService/RegionCreate"
-	RegionService_RegionUpdate_FullMethodName = "/region.RegionService/RegionUpdate"
-	RegionService_RegionDelete_FullMethodName = "/region.RegionService/RegionDelete"
-	RegionService_Region_FullMethodName       = "/region.RegionService/Region"
-	RegionService_RegionList_FullMethodName   = "/region.RegionService/RegionList"
+	RegionService_RegionCreate_FullMethodName  = "/region.RegionService/RegionCreate"
+	RegionService_RegionUpdate_FullMethodName  = "/region.RegionService/RegionUpdate"
+	RegionService_RegionDelete_FullMethodName  = "/region.RegionService/RegionDelete"
+	RegionService_Region_FullMethodName        = "/region.RegionService/Region"
+	RegionService_RegionRecover_FullMethodName = "/region.RegionService/RegionRecover"
+	RegionService_RegionList_FullMethodName    = "/region.RegionService/RegionList"
 )
 
 // RegionServiceClient is the client API for RegionService service.
@@ -36,6 +37,7 @@ type RegionServiceClient interface {
 	RegionUpdate(ctx context.Context, in *RegionUpdateRequest, opts ...grpc.CallOption) (*RegionUpdateResponse, error)
 	RegionDelete(ctx context.Context, in *RegionDeleteRequest, opts ...grpc.CallOption) (*RegionDeleteResponse, error)
 	Region(ctx context.Context, in *RegionRequest, opts ...grpc.CallOption) (*RegionResponse, error)
+	RegionRecover(ctx context.Context, in *RegionRecoverRequest, opts ...grpc.CallOption) (*RegionRecoverResponse, error)
 	RegionList(ctx context.Context, in *RegionListRequest, opts ...grpc.CallOption) (*RegionListResponse, error)
 }
 
@@ -83,6 +85,15 @@ func (c *regionServiceClient) Region(ctx context.Context, in *RegionRequest, opt
 	return out, nil
 }
 
+func (c *regionServiceClient) RegionRecover(ctx context.Context, in *RegionRecoverRequest, opts ...grpc.CallOption) (*RegionRecoverResponse, error) {
+	out := new(RegionRecoverResponse)
+	err := c.cc.Invoke(ctx, RegionService_RegionRecover_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *regionServiceClient) RegionList(ctx context.Context, in *RegionListRequest, opts ...grpc.CallOption) (*RegionListResponse, error) {
 	out := new(RegionListResponse)
 	err := c.cc.Invoke(ctx, RegionService_RegionList_FullMethodName, in, out, opts...)
@@ -100,6 +111,7 @@ type RegionServiceServer interface {
 	RegionUpdate(context.Context, *RegionUpdateRequest) (*RegionUpdateResponse, error)
 	RegionDelete(context.Context, *RegionDeleteRequest) (*RegionDeleteResponse, error)
 	Region(context.Context, *RegionRequest) (*RegionResponse, error)
+	RegionRecover(context.Context, *RegionRecoverRequest) (*RegionRecoverResponse, error)
 	RegionList(context.Context, *RegionListRequest) (*RegionListResponse, error)
 	mustEmbedUnimplementedRegionServiceServer()
 }
@@ -119,6 +131,9 @@ func (UnimplementedRegionServiceServer) RegionDelete(context.Context, *RegionDel
 }
 func (UnimplementedRegionServiceServer) Region(context.Context, *RegionRequest) (*RegionResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Region not implemented")
+}
+func (UnimplementedRegionServiceServer) RegionRecover(context.Context, *RegionRecoverRequest) (*RegionRecoverResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method RegionRecover not implemented")
 }
 func (UnimplementedRegionServiceServer) RegionList(context.Context, *RegionListRequest) (*RegionListResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method RegionList not implemented")
@@ -208,6 +223,24 @@ func _RegionService_Region_Handler(srv interface{}, ctx context.Context, dec fun
 	return interceptor(ctx, in, info, handler)
 }
 
+func _RegionService_RegionRecover_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RegionRecoverRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(RegionServiceServer).RegionRecover(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: RegionService_RegionRecover_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(RegionServiceServer).RegionRecover(ctx, req.(*RegionRecoverRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _RegionService_RegionList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(RegionListRequest)
 	if err := dec(in); err != nil {
@@ -248,6 +281,10 @@ var RegionService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "Region",
 			Handler:    _RegionService_Region_Handler,
+		},
+		{
+			MethodName: "RegionRecover",
+			Handler:    _RegionService_RegionRecover_Handler,
 		},
 		{
 			MethodName: "RegionList",

@@ -4,7 +4,7 @@
   "avatar": "data:image/png;base64,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",
   "version": "4.9.2",
   "createdTime": "2024-2-1 22:01:36",
-  "updatedTime": "2024-4-5 15:38:03",
+  "updatedTime": "2024-4-5 16:25:48",
   "dbConns": [],
   "profile": {
     "default": {
@@ -4643,7 +4643,7 @@
           "scale": "",
           "primaryKey": true,
           "notNull": true,
-          "autoIncrement": true,
+          "autoIncrement": false,
           "defaultValue": "",
           "hideInGraph": false,
           "refDict": "",
@@ -4687,6 +4687,60 @@
           "extProps": {},
           "domain": "",
           "id": "6EAE08EF-AEE6-42E5-AF80-E34C4F76DC3C"
+        },
+        {
+          "defKey": "status",
+          "defName": "状态",
+          "comment": "",
+          "type": "TINYINT",
+          "len": "",
+          "scale": "",
+          "primaryKey": false,
+          "notNull": true,
+          "autoIncrement": false,
+          "defaultValue": "0",
+          "hideInGraph": false,
+          "refDict": "",
+          "baseType": "42729642-DE0F-440D-8123-EA12B3444720",
+          "extProps": {},
+          "domain": "",
+          "id": "81EDBF24-6B59-43A7-A27B-AD4B441D0C35"
+        },
+        {
+          "defKey": "deleted",
+          "defName": "是否删除",
+          "comment": "",
+          "type": "TINYINT",
+          "len": "",
+          "scale": "",
+          "primaryKey": false,
+          "notNull": true,
+          "autoIncrement": false,
+          "defaultValue": "0",
+          "hideInGraph": false,
+          "refDict": "",
+          "baseType": "42729642-DE0F-440D-8123-EA12B3444720",
+          "extProps": {},
+          "domain": "",
+          "id": "BFF09A18-5AC7-4E33-A047-CA7A4B328A0A"
+        },
+        {
+          "defKey": "sort",
+          "defName": "排序",
+          "comment": "",
+          "type": "INT",
+          "len": "",
+          "scale": "",
+          "primaryKey": false,
+          "notNull": true,
+          "autoIncrement": false,
+          "defaultValue": "0",
+          "hideInGraph": false,
+          "refDict": "",
+          "baseType": "1D764C4A-6F9F-421E-B11A-6F3E23B51811",
+          "extProps": {},
+          "domain": "",
+          "id": "D9F06DAC-325A-4F7A-8C37-5E881E86D45D"
         },
         {
           "defKey": "creator",
@@ -4764,32 +4818,38 @@
       "correlations": [],
       "indexes": [
         {
-          "defKey": "idx:parent",
+          "defKey": "idx:list",
           "defName": null,
           "unique": false,
           "comment": "",
           "fields": [
             {
-              "fieldDefKey": "6EAE08EF-AEE6-42E5-AF80-E34C4F76DC3C",
+              "fieldDefKey": "BFF09A18-5AC7-4E33-A047-CA7A4B328A0A",
               "ascOrDesc": "A",
-              "id": "7F7FE3AA-DB63-4DBC-AC8C-D9779605F239"
-            }
-          ],
-          "id": "741C00C4-A635-4BE5-AA8B-1C230EBF1732"
-        },
-        {
-          "defKey": "idx:name",
-          "defName": null,
-          "unique": false,
-          "comment": "",
-          "fields": [
+              "id": "A42AFF10-A176-4BDA-BC7F-C6A3AC936775"
+            },
+            {
+              "fieldDefKey": "81EDBF24-6B59-43A7-A27B-AD4B441D0C35",
+              "ascOrDesc": "A",
+              "id": "A2233953-CB3F-49A9-B2A1-467505DDACFE"
+            },
             {
               "fieldDefKey": "6AC7E255-F6B4-4C9B-92F9-25C6BD9803A2",
               "ascOrDesc": "A",
-              "id": "24650705-6F2B-49B4-B915-167D00794CEB"
+              "id": "59FCD2C1-3757-4E12-A065-68D5AB8539E9"
+            },
+            {
+              "fieldDefKey": "6EAE08EF-AEE6-42E5-AF80-E34C4F76DC3C",
+              "ascOrDesc": "A",
+              "id": "4C5D8659-1F72-4E00-A8F6-79562DDDCBE1"
+            },
+            {
+              "fieldDefKey": "D9F06DAC-325A-4F7A-8C37-5E881E86D45D",
+              "ascOrDesc": "A",
+              "id": "3919077C-6CE8-454F-9FB8-5443564AA0F4"
             }
           ],
-          "id": "D969A977-F638-4543-9F60-7737EBC8115F"
+          "id": "741C00C4-A635-4BE5-AA8B-1C230EBF1732"
         }
       ],
       "type": "P"

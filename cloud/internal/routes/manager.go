@@ -1,6 +1,7 @@
 package routes
 
 import (
+	"cloud/api/region"
 	"cloud/api/system/dept"
 	"cloud/api/system/dict"
 	"cloud/api/system/logger"
@@ -212,5 +213,20 @@ func ManagerInitRoute(handle *xhertz.Server) {
 		auth.GET("/system/role/:systemRoleId/scope", role.SystemRoleDataScope)
 		// system_role->系统角色->数据范围
 		auth.POST("/system/role/:systemRoleId/scope", role.SystemRoleDataScopeCreate)
+
+		// region->地区表->创建
+		auth.POST("/region", region.RegionCreate)
+		// region->地区表->更新
+		auth.PUT("/region/:regionId/update", region.RegionUpdate)
+		// region->地区表->删除
+		auth.DELETE("/region/:regionId/delete", region.RegionDelete)
+		// region->地区表->单条数据信息查看
+		auth.GET("/region/:regionId/item", region.Region)
+		// region->地区表->恢复
+		auth.PUT("/region/:regionId/recover", region.RegionRecover)
+		// region->地区表->列表
+		auth.GET("/region", region.RegionList)
+		// region->地区表->搜索
+		auth.GET("/region/search", region.RegionSearch)
 	}
 }

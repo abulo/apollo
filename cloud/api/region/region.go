@@ -1,4 +1,4 @@
-package menu
+package region
 
 import (
 	"context"
@@ -6,11 +6,9 @@ import (
 	"cloud/code"
 	"cloud/dao"
 	"cloud/initial"
-	"cloud/service/system/menu"
+	"cloud/service/region"
 
 	globalLogger "github.com/abulo/ratel/v3/core/logger"
-	"github.com/abulo/ratel/v3/stores/null"
-	"github.com/abulo/ratel/v3/util"
 	"github.com/cloudwego/hertz/pkg/app"
 	"github.com/cloudwego/hertz/pkg/common/utils"
 	"github.com/cloudwego/hertz/pkg/protocol/consts"
@@ -20,14 +18,15 @@ import (
 	"google.golang.org/protobuf/proto"
 )
 
-// SystemMenuCreate 创建数据
-func SystemMenuCreate(ctx context.Context, newCtx *app.RequestContext) {
+// region 地区表
+// RegionCreate 创建数据
+func RegionCreate(ctx context.Context, newCtx *app.RequestContext) {
 	//判断这个服务能不能链接
 	grpcClient, err := initial.Core.Client.LoadGrpc("grpc").Singleton()
 	if err != nil {
 		globalLogger.Logger.WithFields(logrus.Fields{
 			"err": err,
-		}).Error("Grpc:系统菜单:system_menu:SystemMenuCreate")
+		}).Error("Grpc:地区表:region:RegionCreate")
 		newCtx.JSON(consts.StatusOK, utils.H{
 			"code": code.RPCError,
 			"msg":  code.StatusText(code.RPCError),
@@ -35,10 +34,10 @@ func SystemMenuCreate(ctx context.Context, newCtx *app.RequestContext) {
 		return
 	}
 	//链接服务
-	client := menu.NewSystemMenuServiceClient(grpcClient)
-	request := &menu.SystemMenuCreateRequest{}
+	client := region.NewRegionServiceClient(grpcClient)
+	request := &region.RegionCreateRequest{}
 	// 数据绑定
-	var reqInfo dao.SystemMenu
+	var reqInfo dao.Region
 	if err := newCtx.BindAndValidate(&reqInfo); err != nil {
 		newCtx.JSON(consts.StatusOK, utils.H{
 			"code": code.ParamInvalid,
@@ -46,16 +45,14 @@ func SystemMenuCreate(ctx context.Context, newCtx *app.RequestContext) {
 		})
 		return
 	}
-	reqInfo.Creator = null.StringFrom(newCtx.GetString("systemUserName"))
-	reqInfo.CreateTime = null.DateTimeFrom(util.Now())
-	request.Data = menu.SystemMenuProto(reqInfo)
+	request.Data = region.RegionProto(reqInfo)
 	// 执行服务
-	res, err := client.SystemMenuCreate(ctx, request)
+	res, err := client.RegionCreate(ctx, request)
 	if err != nil {
 		globalLogger.Logger.WithFields(logrus.Fields{
 			"req": request,
 			"err": err,
-		}).Error("GrpcCall:系统菜单:system_menu:SystemMenuCreate")
+		}).Error("GrpcCall:地区表:region:RegionCreate")
 		fromError := status.Convert(err)
 		newCtx.JSON(consts.StatusOK, utils.H{
 			"code": code.ConvertToHttp(fromError.Code()),
@@ -69,14 +66,14 @@ func SystemMenuCreate(ctx context.Context, newCtx *app.RequestContext) {
 	})
 }
 
-// SystemMenuUpdate 更新数据
-func SystemMenuUpdate(ctx context.Context, newCtx *app.RequestContext) {
+// RegionUpdate 更新数据
+func RegionUpdate(ctx context.Context, newCtx *app.RequestContext) {
 	//判断这个服务能不能链接
 	grpcClient, err := initial.Core.Client.LoadGrpc("grpc").Singleton()
 	if err != nil {
 		globalLogger.Logger.WithFields(logrus.Fields{
 			"err": err,
-		}).Error("Grpc:系统菜单:system_menu:SystemMenuUpdate")
+		}).Error("Grpc:地区表:region:RegionUpdate")
 		newCtx.JSON(consts.StatusOK, utils.H{
 			"code": code.RPCError,
 			"msg":  code.StatusText(code.RPCError),
@@ -84,12 +81,12 @@ func SystemMenuUpdate(ctx context.Context, newCtx *app.RequestContext) {
 		return
 	}
 	//链接服务
-	client := menu.NewSystemMenuServiceClient(grpcClient)
-	systemMenuId := cast.ToInt64(newCtx.Param("systemMenuId"))
-	request := &menu.SystemMenuUpdateRequest{}
-	request.SystemMenuId = systemMenuId
+	client := region.NewRegionServiceClient(grpcClient)
+	regionId := cast.ToInt64(newCtx.Param("regionId"))
+	request := &region.RegionUpdateRequest{}
+	request.RegionId = regionId
 	// 数据绑定
-	var reqInfo dao.SystemMenu
+	var reqInfo dao.Region
 	if err := newCtx.BindAndValidate(&reqInfo); err != nil {
 		newCtx.JSON(consts.StatusOK, utils.H{
 			"code": code.ParamInvalid,
@@ -97,16 +94,14 @@ func SystemMenuUpdate(ctx context.Context, newCtx *app.RequestContext) {
 		})
 		return
 	}
-	reqInfo.Updater = null.StringFrom(newCtx.GetString("systemUserName"))
-	reqInfo.UpdateTime = null.DateTimeFrom(util.Now())
-	request.Data = menu.SystemMenuProto(reqInfo)
+	request.Data = region.RegionProto(reqInfo)
 	// 执行服务
-	res, err := client.SystemMenuUpdate(ctx, request)
+	res, err := client.RegionUpdate(ctx, request)
 	if err != nil {
 		globalLogger.Logger.WithFields(logrus.Fields{
 			"req": request,
 			"err": err,
-		}).Error("GrpcCall:系统菜单:system_menu:SystemMenuUpdate")
+		}).Error("GrpcCall:地区表:region:RegionUpdate")
 		fromError := status.Convert(err)
 		newCtx.JSON(consts.StatusOK, utils.H{
 			"code": code.ConvertToHttp(fromError.Code()),
@@ -120,13 +115,13 @@ func SystemMenuUpdate(ctx context.Context, newCtx *app.RequestContext) {
 	})
 }
 
-// SystemMenuDelete 删除数据
-func SystemMenuDelete(ctx context.Context, newCtx *app.RequestContext) {
+// RegionDelete 删除数据
+func RegionDelete(ctx context.Context, newCtx *app.RequestContext) {
 	grpcClient, err := initial.Core.Client.LoadGrpc("grpc").Singleton()
 	if err != nil {
 		globalLogger.Logger.WithFields(logrus.Fields{
 			"err": err,
-		}).Error("Grpc:系统菜单:system_menu:SystemMenuDelete")
+		}).Error("Grpc:地区表:region:RegionDelete")
 		newCtx.JSON(consts.StatusOK, utils.H{
 			"code": code.RPCError,
 			"msg":  code.StatusText(code.RPCError),
@@ -134,17 +129,17 @@ func SystemMenuDelete(ctx context.Context, newCtx *app.RequestContext) {
 		return
 	}
 	//链接服务
-	client := menu.NewSystemMenuServiceClient(grpcClient)
-	systemMenuId := cast.ToInt64(newCtx.Param("systemMenuId"))
-	request := &menu.SystemMenuDeleteRequest{}
-	request.SystemMenuId = systemMenuId
+	client := region.NewRegionServiceClient(grpcClient)
+	regionId := cast.ToInt64(newCtx.Param("regionId"))
+	request := &region.RegionDeleteRequest{}
+	request.RegionId = regionId
 	// 执行服务
-	res, err := client.SystemMenuDelete(ctx, request)
+	res, err := client.RegionDelete(ctx, request)
 	if err != nil {
 		globalLogger.Logger.WithFields(logrus.Fields{
 			"req": request,
 			"err": err,
-		}).Error("GrpcCall:系统菜单:system_menu:SystemMenuDelete")
+		}).Error("GrpcCall:地区表:region:RegionDelete")
 		fromError := status.Convert(err)
 		newCtx.JSON(consts.StatusOK, utils.H{
 			"code": code.ConvertToHttp(fromError.Code()),
@@ -158,14 +153,14 @@ func SystemMenuDelete(ctx context.Context, newCtx *app.RequestContext) {
 	})
 }
 
-// SystemMenu 查询单条数据
-func SystemMenu(ctx context.Context, newCtx *app.RequestContext) {
+// Region 查询单条数据
+func Region(ctx context.Context, newCtx *app.RequestContext) {
 	//判断这个服务能不能链接
 	grpcClient, err := initial.Core.Client.LoadGrpc("grpc").Singleton()
 	if err != nil {
 		globalLogger.Logger.WithFields(logrus.Fields{
 			"err": err,
-		}).Error("Grpc:系统菜单:system_menu:SystemMenu")
+		}).Error("Grpc:地区表:region:Region")
 		newCtx.JSON(consts.StatusOK, utils.H{
 			"code": code.RPCError,
 			"msg":  code.StatusText(code.RPCError),
@@ -173,17 +168,17 @@ func SystemMenu(ctx context.Context, newCtx *app.RequestContext) {
 		return
 	}
 	//链接服务
-	client := menu.NewSystemMenuServiceClient(grpcClient)
-	systemMenuId := cast.ToInt64(newCtx.Param("systemMenuId"))
-	request := &menu.SystemMenuRequest{}
-	request.SystemMenuId = systemMenuId
+	client := region.NewRegionServiceClient(grpcClient)
+	regionId := cast.ToInt64(newCtx.Param("regionId"))
+	request := &region.RegionRequest{}
+	request.RegionId = regionId
 	// 执行服务
-	res, err := client.SystemMenu(ctx, request)
+	res, err := client.Region(ctx, request)
 	if err != nil {
 		globalLogger.Logger.WithFields(logrus.Fields{
 			"req": request,
 			"err": err,
-		}).Error("GrpcCall:系统菜单:system_menu:SystemMenu")
+		}).Error("GrpcCall:地区表:region:Region")
 		fromError := status.Convert(err)
 		newCtx.JSON(consts.StatusOK, utils.H{
 			"code": code.ConvertToHttp(fromError.Code()),
@@ -194,17 +189,17 @@ func SystemMenu(ctx context.Context, newCtx *app.RequestContext) {
 	newCtx.JSON(consts.StatusOK, utils.H{
 		"code": res.GetCode(),
 		"msg":  res.GetMsg(),
-		"data": menu.SystemMenuDao(res.GetData()),
+		"data": region.RegionDao(res.GetData()),
 	})
 }
 
-// SystemMenuRecover 恢复数据
-func SystemMenuRecover(ctx context.Context, newCtx *app.RequestContext) {
+// RegionRecover 恢复数据
+func RegionRecover(ctx context.Context, newCtx *app.RequestContext) {
 	grpcClient, err := initial.Core.Client.LoadGrpc("grpc").Singleton()
 	if err != nil {
 		globalLogger.Logger.WithFields(logrus.Fields{
 			"err": err,
-		}).Error("Grpc:系统菜单:system_menu:SystemMenuRecover")
+		}).Error("Grpc:地区表:region:RegionRecover")
 		newCtx.JSON(consts.StatusOK, utils.H{
 			"code": code.RPCError,
 			"msg":  code.StatusText(code.RPCError),
@@ -212,17 +207,17 @@ func SystemMenuRecover(ctx context.Context, newCtx *app.RequestContext) {
 		return
 	}
 	//链接服务
-	client := menu.NewSystemMenuServiceClient(grpcClient)
-	systemMenuId := cast.ToInt64(newCtx.Param("systemMenuId"))
-	request := &menu.SystemMenuRecoverRequest{}
-	request.SystemMenuId = systemMenuId
+	client := region.NewRegionServiceClient(grpcClient)
+	regionId := cast.ToInt64(newCtx.Param("regionId"))
+	request := &region.RegionRecoverRequest{}
+	request.RegionId = regionId
 	// 执行服务
-	res, err := client.SystemMenuRecover(ctx, request)
+	res, err := client.RegionRecover(ctx, request)
 	if err != nil {
 		globalLogger.Logger.WithFields(logrus.Fields{
 			"req": request,
 			"err": err,
-		}).Error("GrpcCall:系统菜单:system_menu:SystemMenuRecover")
+		}).Error("GrpcCall:地区表:region:RegionRecover")
 		fromError := status.Convert(err)
 		newCtx.JSON(consts.StatusOK, utils.H{
 			"code": code.ConvertToHttp(fromError.Code()),
@@ -235,18 +230,17 @@ func SystemMenuRecover(ctx context.Context, newCtx *app.RequestContext) {
 		"msg":  res.GetMsg(),
 	})
 }
-
-func SystemMenuSearch(ctx context.Context, newCtx *app.RequestContext) {
-	SystemMenuList(ctx, newCtx)
+func RegionSearch(ctx context.Context, newCtx *app.RequestContext) {
+	RegionList(ctx, newCtx)
 }
 
-// SystemMenuList 列表数据
-func SystemMenuList(ctx context.Context, newCtx *app.RequestContext) {
+// RegionList 列表数据
+func RegionList(ctx context.Context, newCtx *app.RequestContext) {
 	grpcClient, err := initial.Core.Client.LoadGrpc("grpc").Singleton()
 	if err != nil {
 		globalLogger.Logger.WithFields(logrus.Fields{
 			"err": err,
-		}).Error("Grpc:系统菜单:system_menu:SystemMenuList")
+		}).Error("Grpc:地区表:region:RegionList")
 		newCtx.JSON(consts.StatusOK, utils.H{
 			"code": code.RPCError,
 			"msg":  code.StatusText(code.RPCError),
@@ -254,10 +248,10 @@ func SystemMenuList(ctx context.Context, newCtx *app.RequestContext) {
 		return
 	}
 	//链接服务
-	client := menu.NewSystemMenuServiceClient(grpcClient)
+	client := region.NewRegionServiceClient(grpcClient)
 	// 构造查询条件
-	request := &menu.SystemMenuListRequest{}
-	// 构造查询条件
+	request := &region.RegionListRequest{}
+
 	request.Deleted = proto.Int32(0)
 	if val, ok := newCtx.GetQuery("deleted"); ok {
 		if cast.ToBool(val) {
@@ -265,18 +259,19 @@ func SystemMenuList(ctx context.Context, newCtx *app.RequestContext) {
 		}
 	}
 	if val, ok := newCtx.GetQuery("status"); ok {
-		request.Status = proto.Int32(cast.ToInt32(val)) // 菜单状态(0开启/1关闭)
+		request.Status = proto.Int32(cast.ToInt32(val)) // 状态;
 	}
-	if val, ok := newCtx.GetQuery("type"); ok {
-		request.Type = proto.Int32(cast.ToInt32(val)) // 菜单类型(1:目录/2: 菜单/3: 按钮)
+	if val, ok := newCtx.GetQuery("name"); ok {
+		request.Name = proto.String(val) // 区域名称
 	}
+
 	// 执行服务
-	res, err := client.SystemMenuList(ctx, request)
+	res, err := client.RegionList(ctx, request)
 	if err != nil {
 		globalLogger.Logger.WithFields(logrus.Fields{
 			"req": request,
 			"err": err,
-		}).Error("GrpcCall:系统菜单:system_menu:SystemMenuList")
+		}).Error("GrpcCall:地区表:region:RegionList")
 		fromError := status.Convert(err)
 		newCtx.JSON(consts.StatusOK, utils.H{
 			"code": code.ConvertToHttp(fromError.Code()),
@@ -284,22 +279,21 @@ func SystemMenuList(ctx context.Context, newCtx *app.RequestContext) {
 		})
 		return
 	}
-	var list []*dao.SystemMenu
+	var list []*dao.Region
 	if res.GetCode() == code.Success {
 		rpcList := res.GetData()
 		for _, item := range rpcList {
-			list = append(list, menu.SystemMenuDao(item))
+			list = append(list, region.RegionDao(item))
 		}
 	}
-	var newList []*dao.SystemMenu
-
+	var newList []*dao.Region
 	newList = list
 	tree := false
 	if val, ok := newCtx.GetQuery("tree"); ok {
 		tree = cast.ToBool(val)
 	}
 	if tree {
-		newList = SystemMenuTree(list, 0)
+		newList = RegionTree(list, 0)
 	}
 	newCtx.JSON(consts.StatusOK, utils.H{
 		"code": res.GetCode(),
@@ -308,12 +302,12 @@ func SystemMenuList(ctx context.Context, newCtx *app.RequestContext) {
 	})
 }
 
-// SystemMenuTree 树形菜单
-func SystemMenuTree(list []*dao.SystemMenu, pid int64) []*dao.SystemMenu {
-	var tree []*dao.SystemMenu
+// RegionTree 树形菜单
+func RegionTree(list []*dao.Region, pid int64) []*dao.Region {
+	var tree []*dao.Region
 	for _, item := range list {
 		if *item.ParentId == pid {
-			item.Children = SystemMenuTree(list, *item.Id)
+			item.Children = RegionTree(list, *item.Id)
 			tree = append(tree, item)
 		}
 	}

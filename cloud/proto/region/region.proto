@@ -13,16 +13,20 @@ message RegionObject {
 	optional string name = 2; //区域名称
 	// @inject_tag: db:"parent_id" json:"parentId"
 	optional int64 parent_id = 3; //父级编号
-	// @inject_tag: db:"weather_code" json:"weatherCode"
-	optional string weather_code = 4; //天气code
+	// @inject_tag: db:"status" json:"status"
+	optional int32 status = 4; //状态;
+	// @inject_tag: db:"deleted" json:"deleted"
+	optional int32 deleted = 5; //是否删除;
+	// @inject_tag: db:"sort" json:"sort"
+	optional int32 sort = 6; //排序;
 	// @inject_tag: db:"creator" json:"creator"
-	optional string creator = 5; //创建人
+	optional string creator = 7; //创建人
 	// @inject_tag: db:"create_time" json:"createTime"
-	google.protobuf.Timestamp create_time = 6; //创建时间
+	google.protobuf.Timestamp create_time = 8; //创建时间
 	// @inject_tag: db:"updater" json:"updater"
-	optional string updater = 7; //更新人
+	optional string updater = 9; //更新人
 	// @inject_tag: db:"update_time" json:"updateTime"
-	google.protobuf.Timestamp update_time = 8; //更新时间
+	google.protobuf.Timestamp update_time = 10; //更新时间
 }
 // RegionCreateRequest 创建数据请求
 message RegionCreateRequest {
@@ -66,13 +70,27 @@ message RegionResponse {
 	string msg = 2;
 	RegionObject data = 3;
 }
+// RegionRecoverRequest 恢复数据请求
+message RegionRecoverRequest {
+	// @inject_tag: db:"region_id" json:"regionId"
+	int64 region_id = 1; //区域编号
+}
+// RegionRecoverResponse 删除数据响应
+message RegionRecoverResponse {
+	int64 code = 1;
+	string msg = 2;
+}
 // RegionListRequest 列表数据
 message RegionListRequest {
 	
+	// @inject_tag: db:"deleted" json:"deleted"
+	optional int32 deleted = 1; // 是否删除;
+	// @inject_tag: db:"status" json:"status"
+	optional int32 status = 2; // 状态;
 	// @inject_tag: db:"name" json:"name"
-	optional string name = 1; // 区域名称
+	optional string name = 3; // 区域名称
 	// @inject_tag: db:"parent_id" json:"parentId"
-	optional int64 parent_id = 2; // 父级编号
+	optional int64 parent_id = 4; // 父级编号
 
 }
 
@@ -90,5 +108,6 @@ service RegionService{
 	rpc RegionUpdate(RegionUpdateRequest) returns (RegionUpdateResponse);
 	rpc RegionDelete(RegionDeleteRequest) returns (RegionDeleteResponse);
 	rpc Region(RegionRequest) returns (RegionResponse);
+	rpc RegionRecover(RegionRecoverRequest) returns (RegionRecoverResponse);
 	rpc RegionList(RegionListRequest) returns (RegionListResponse);
 }
