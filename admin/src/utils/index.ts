@@ -309,3 +309,7 @@ export function findItemNested(enumData: any, callValue: any, value: string, chi
     if (current[children]) return findItemNested(current[children], callValue, value, children);
   }, null);
 }
+
+export function getOffsetHeight(elem: HTMLElement) {
+  return elem ? elem.offsetHeight : 0;
+}

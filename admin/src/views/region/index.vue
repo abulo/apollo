@@ -8,11 +8,10 @@
       :request-api="getRegionListApi"
       :request-auto="true"
       :pagination="false"
-      height="auto"
-      :column-config="{ resizable: true }"
       :tree-config="{ transform: true, iconOpen: 'vxe-icon-arrow-down', iconClose: 'vxe-icon-arrow-right' }"
-      :scroll-y="{ enabled: true, gt: 20 }"
+      :scroll-y="{ enabled: true, gt: 100 }"
       :init-param="initParam"
+      height="600"
       :search-col="12">
       <!-- 表格 header 按钮 -->
       <template #tableHeader>
@@ -275,7 +274,7 @@ const deleteSearch = reactive<SearchProps>(
 
 const columns: ColumnProps<Region.ResRegionList>[] = [
   { field: "id", title: "地区编号", width: 100 },
-  { field: "name", title: "地区名称", align: "left" },
+  { field: "name", title: "地区名称", align: "left", treeNode: true },
   { field: "sort", title: "排序", width: 100 },
   { field: "status", title: "状态", width: 100, tag: true, enum: statusEnum, search: { el: "select", span: 2 } },
   {

@@ -8,11 +8,10 @@
       :request-api="getSystemMenuListApi"
       :request-auto="true"
       :pagination="false"
-      height="auto"
-      :column-config="{ resizable: true }"
       :tree-config="{ transform: true, iconOpen: 'vxe-icon-arrow-down', iconClose: 'vxe-icon-arrow-right' }"
-      :scroll-y="{ enabled: true, gt: 20 }"
+      :scroll-y="{ enabled: true, gt: 100 }"
       :init-param="initParam"
+      height="600"
       :search-col="12">
       <!-- 表格 header 按钮 -->
       <template #tableHeader>

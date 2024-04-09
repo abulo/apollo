@@ -36,7 +36,8 @@
       show-overflow
       header-row-class-name="el-table__header"
       row-class-name="el-table__row"
-      height="auto"
+      :column-config="{ resizable: true }"
+      :row-config="{ height: 45, isHover: true }"
       @checkbox-change="selectionChange">
       <!-- 默认插槽 -->
       <slot />
@@ -118,6 +119,7 @@ const props = withDefaults(defineProps<ProTableProps>(), {
 // table 实例
 // const tableRef = ref<InstanceType<typeof VxeTableInstance>>();
 const tableRef = ref<VxeTableInstance<ColumnProps>>();
+// const tableListRef = ref(null);
 
 // column 列类型
 // const columnTypes: TypeProps[] = ["seq" | "radio" | "checkbox" | "expand" | "html" | null];
@@ -143,7 +145,7 @@ const { tableData, pageable, searchParam, searchInitParam, getTableList, search,
 // 清空选中数据列表
 const clearSelection = () => tableRef.value!.clearCheckboxRow();
 
-// 初始化表格数据 && 拖拽排序
+// 初始化表格数据
 onMounted(() => {
   props.requestAuto && getTableList();
   props.data && (pageable.value.total = props.data.length);
