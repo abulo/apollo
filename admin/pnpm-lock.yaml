@@ -63,8 +63,8 @@ dependencies:
     specifier: ^3.4.21
     version: 3.4.21(typescript@5.4.4)
   vue-i18n:
-    specifier: ^9.11.0
-    version: 9.11.0(vue@3.4.21)
+    specifier: ^9.11.1
+    version: 9.11.1(vue@3.4.21)
   vue-router:
     specifier: ^4.3.0
     version: 4.3.0(vue@3.4.21)
@@ -72,11 +72,11 @@ dependencies:
     specifier: ^4.1.0
     version: registry.npmmirror.com/vuedraggable@4.1.0(vue@3.4.21)
   vxe-table:
-    specifier: ^4.5.21
-    version: 4.5.21(vue@3.4.21)(xe-utils@3.5.24)
+    specifier: ^4.5.22
+    version: 4.5.22(vue@3.4.21)
   vxe-table-plugin-element:
     specifier: ^4.0.1
-    version: 4.0.1(vxe-table@4.5.21)
+    version: 4.0.1(vxe-table@4.5.22)
 
 devDependencies:
   '@commitlint/cli':
@@ -1888,24 +1888,24 @@ packages:
     engines: {node: '>=6.9.0'}
     dev: true
 
-  /@intlify/core-base@9.11.0:
-    resolution: {integrity: sha512-cveOqAstjLZIiyatcP/HrzrQ87cZI8ScPQna3yvoM8zjcjcIRK1MRvmxUNlPdg0rTNJMZw7rixPVM58O5aHVPA==}
+  /@intlify/core-base@9.11.1:
+    resolution: {integrity: sha512-qWXBBlEA+DC0CsHkfJiQK9ELm11c9I6lDpodY4FoOf99eMas1R6JR4woPhrfAcrtxFHp1UmXWdrQNKDegSW9IA==}
     engines: {node: '>= 16'}
     dependencies:
-      '@intlify/message-compiler': 9.11.0
-      '@intlify/shared': 9.11.0
+      '@intlify/message-compiler': 9.11.1
+      '@intlify/shared': 9.11.1
     dev: false
 
-  /@intlify/message-compiler@9.11.0:
-    resolution: {integrity: sha512-x31Gl7cscnoI4UUY1yaIy8e7vVMVW1VVlTXZz4SIHKqoSEUkfmgqK8NAx1e7RcoHEbICR7uyCbud0ZL1s4OGXQ==}
+  /@intlify/message-compiler@9.11.1:
+    resolution: {integrity: sha512-y/aWx7DkaTKK2qWUw0hVbJpon8+urWXngeqh15DuIXZh6n/V/oPQiO/Ho1hUKbwap6MVMuz0OcnAJvqh3p9YPg==}
     engines: {node: '>= 16'}
     dependencies:
-      '@intlify/shared': 9.11.0
+      '@intlify/shared': 9.11.1
       source-map-js: 1.2.0
     dev: false
 
-  /@intlify/shared@9.11.0:
-    resolution: {integrity: sha512-KHSNgi7sRjmSm7aD8QH8WFt9VfKaekJuJ473opbJlkGY3EDnDUU8ikIhG8PbasQbgNvbY3m3tWNGqk2omIdwMA==}
+  /@intlify/shared@9.11.1:
+    resolution: {integrity: sha512-yuDG82vjgId2oasNRgZ0PKJrF65zlL33MNyITP5itbLcP4AYOR/NcIuD+/DiI+GHXdxASMKJU0ZiITLc6RC+qw==}
     engines: {node: '>= 16'}
     dev: false
 
@@ -7808,14 +7808,14 @@ packages:
       - supports-color
     dev: true
 
-  /vue-i18n@9.11.0(vue@3.4.21):
-    resolution: {integrity: sha512-vU4gY6lu8Pdfs9BgKGiDAJmFDf88cceR47KcSB0VW4xJzUrXR/7qwqM7A8dQ2nedhoIDxoOm5Ro4pFd2KvJqbA==}
+  /vue-i18n@9.11.1(vue@3.4.21):
+    resolution: {integrity: sha512-S7Xi8DkLQG4xnnbxkxzipJK6CdfLdZkmApn95st89HFGp8LTmTH0Tv+Zw6puhOCZJCFrH73PHo3Ylwd2+Bmdxg==}
     engines: {node: '>= 16'}
     peerDependencies:
       vue: ^3.0.0
     dependencies:
-      '@intlify/core-base': 9.11.0
-      '@intlify/shared': 9.11.0
+      '@intlify/core-base': 9.11.1
+      '@intlify/shared': 9.11.1
       '@vue/devtools-api': 6.6.1
       vue: 3.4.21(typescript@5.4.4)
     dev: false
@@ -7863,19 +7863,18 @@ packages:
       '@vue/shared': 3.4.21
       typescript: 5.4.4
 
-  /vxe-table-plugin-element@4.0.1(vxe-table@4.5.21):
+  /vxe-table-plugin-element@4.0.1(vxe-table@4.5.22):
     resolution: {integrity: sha512-q5CS+aeFl4LmRmgzLhj+n6ob25O7nU7uxkpBsdHuSK/Ql9DuI3fUO95HsOHZdzdTMDvrcOtu1eV5Z5nK4b7arA==}
     peerDependencies:
       vxe-table: ^4.5.0
     dependencies:
-      vxe-table: 4.5.21(vue@3.4.21)(xe-utils@3.5.24)
+      vxe-table: 4.5.22(vue@3.4.21)
     dev: false
 
-  /vxe-table@4.5.21(vue@3.4.21)(xe-utils@3.5.24):
-    resolution: {integrity: sha512-yp+BNGCy61lk7ayf0LI3UNcR2fRmipGSiIAh3lNOIdyW1nAobf/GwIx3rXghjzFb0a6NNJeYxv2NM+gwXxtmww==}
+  /vxe-table@4.5.22(vue@3.4.21):
+    resolution: {integrity: sha512-bUmn6KSL9FE0Dfrsw7VjJAS8tratL1OBIDVzt1djgijU6WAwyp3697POkMR9TZ4HHvV6uGDSCuGzUUXGFodvVQ==}
     peerDependencies:
       vue: ^3.2.28
-      xe-utils: ^3.5.0
     dependencies:
       dom-zindex: 1.0.1
       vue: 3.4.21(typescript@5.4.4)
