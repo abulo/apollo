@@ -9,7 +9,7 @@
       :request-auto="true"
       :pagination="false"
       :tree-config="{ transform: true, iconOpen: 'vxe-icon-arrow-down', iconClose: 'vxe-icon-arrow-right' }"
-      :scroll-y="{ enabled: true, gt: 100 }"
+      :scroll-y="{ enabled: true }"
       :init-param="initParam"
       height="600"
       :search-col="12">
