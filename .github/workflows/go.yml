@@ -39,12 +39,12 @@ jobs:
       - name: Install Node.js         # 下载指定的 Node 版本
         uses: actions/setup-node@v4
         with:
-          node-version: 16
+          node-version: 18
 
       - name: Install pnpm            # 下载 pnpm 包
         uses: pnpm/action-setup@v3
         with:
-          version: 8
+          version: 9
 
       - name: Build Vue               # 编译前端代码
         run: |
