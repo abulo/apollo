@@ -1,6 +1,6 @@
 <template>
   <div :style="style">
-    <slot></slot>
+    <slot />
   </div>
 </template>
 
@@ -19,7 +19,7 @@ import {
   VNodeArrayChildren,
   VNode
 } from "vue";
-import type { BreakPoint } from "./interface/index";
+import { BreakPoint } from "./interface/index";
 
 type Props = {
   cols?: number | Record<BreakPoint, number>;

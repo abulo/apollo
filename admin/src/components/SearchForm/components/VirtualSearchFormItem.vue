@@ -14,9 +14,9 @@
         v-for="(col, index) in columnEnum"
         :key="index"
         :label="col[fieldNames.label]"
-        :value="col[fieldNames.value]"></component>
+        :value="col[fieldNames.value]" />
     </template>
-    <slot v-else></slot>
+    <slot v-else />
   </component>
 </template>
 

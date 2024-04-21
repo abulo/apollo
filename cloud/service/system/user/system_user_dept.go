@@ -14,17 +14,17 @@ import (
 func SystemUserDeptCustomDao(item *SystemUserDeptCustomObject) *dao.SystemUserDeptCustom {
 	daoItem := &dao.SystemUserDeptCustom{}
 
-	if item != nil && item.SystemUserId != nil {
-		daoItem.SystemUserId = item.SystemUserId // 系统用户 id
+	if item != nil && item.UserId != nil {
+		daoItem.UserId = item.UserId // 系统用户 id
 	}
-	if item != nil && item.SystemDeptIds != nil {
-		daoItem.SystemDeptIds = null.JSONFrom(item.GetSystemDeptIds()) // 部门 id
+	if item != nil && item.DeptIds != nil {
+		daoItem.DeptIds = null.JSONFrom(item.GetDeptIds()) // 部门 id
 	}
 	if item != nil && item.Deleted != nil {
 		daoItem.Deleted = item.Deleted // 删除
 	}
-	if item != nil && item.SystemTenantId != nil {
-		daoItem.SystemTenantId = item.SystemTenantId // 租户
+	if item != nil && item.TenantId != nil {
+		daoItem.TenantId = item.TenantId // 租户
 	}
 	if item != nil && item.Creator != nil {
 		daoItem.Creator = null.StringFrom(item.GetCreator()) // 创建人
@@ -44,17 +44,17 @@ func SystemUserDeptCustomDao(item *SystemUserDeptCustomObject) *dao.SystemUserDe
 // SystemUserDeptCustomProto 数据绑定
 func SystemUserDeptCustomProto(item dao.SystemUserDeptCustom) *SystemUserDeptCustomObject {
 	res := &SystemUserDeptCustomObject{}
-	if item.SystemUserId != nil {
-		res.SystemUserId = item.SystemUserId
+	if item.UserId != nil {
+		res.UserId = item.UserId
 	}
-	if item.SystemDeptIds.IsValid() {
-		res.SystemDeptIds = *item.SystemDeptIds.Ptr()
+	if item.DeptIds.IsValid() {
+		res.DeptIds = *item.DeptIds.Ptr()
 	}
 	if item.Deleted != nil {
 		res.Deleted = item.Deleted
 	}
-	if item.SystemTenantId != nil {
-		res.SystemTenantId = item.SystemTenantId
+	if item.TenantId != nil {
+		res.TenantId = item.TenantId
 	}
 	if item.Creator.IsValid() {
 		res.Creator = item.Creator.Ptr()
@@ -78,17 +78,17 @@ func SystemUserDeptDao(item *SystemUserDeptObject) *dao.SystemUserDept {
 	if item != nil && item.Id != nil {
 		daoItem.Id = item.Id // 编号
 	}
-	if item != nil && item.SystemUserId != nil {
-		daoItem.SystemUserId = item.SystemUserId // 系统用户 id
+	if item != nil && item.UserId != nil {
+		daoItem.UserId = item.UserId // 系统用户 id
 	}
-	if item != nil && item.SystemDeptId != nil {
-		daoItem.SystemDeptId = item.SystemDeptId // 部门 id
+	if item != nil && item.DeptId != nil {
+		daoItem.DeptId = item.DeptId // 部门 id
 	}
 	if item != nil && item.Deleted != nil {
 		daoItem.Deleted = item.Deleted // 删除
 	}
-	if item != nil && item.SystemTenantId != nil {
-		daoItem.SystemTenantId = item.SystemTenantId // 租户
+	if item != nil && item.TenantId != nil {
+		daoItem.TenantId = item.TenantId // 租户
 	}
 	if item != nil && item.Creator != nil {
 		daoItem.Creator = null.StringFrom(item.GetCreator()) // 创建人
@@ -112,17 +112,17 @@ func SystemUserDeptProto(item dao.SystemUserDept) *SystemUserDeptObject {
 	if item.Id != nil {
 		res.Id = item.Id
 	}
-	if item.SystemUserId != nil {
-		res.SystemUserId = item.SystemUserId
+	if item.UserId != nil {
+		res.UserId = item.UserId
 	}
-	if item.SystemDeptId != nil {
-		res.SystemDeptId = item.SystemDeptId
+	if item.DeptId != nil {
+		res.DeptId = item.DeptId
 	}
 	if item.Deleted != nil {
 		res.Deleted = item.Deleted
 	}
-	if item.SystemTenantId != nil {
-		res.SystemTenantId = item.SystemTenantId
+	if item.TenantId != nil {
+		res.TenantId = item.TenantId
 	}
 	if item.Creator.IsValid() {
 		res.Creator = item.Creator.Ptr()

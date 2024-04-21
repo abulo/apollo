@@ -42,13 +42,12 @@ func (srv SrvSystemOperateLogServiceServer) SystemOperateLogCreate(ctx context.C
 
 // SystemOperateLogDelete 删除数据
 func (srv SrvSystemOperateLogServiceServer) SystemOperateLogDelete(ctx context.Context, request *SystemOperateLogDeleteRequest) (*SystemOperateLogDeleteResponse, error) {
-	// systemOperateLogId := request.GetSystemOperateLogId()
-	req := request.GetSystemOperateLogIds()
-	var systemOperateLogIds []int64
-	if err := json.Unmarshal(req, &systemOperateLogIds); err != nil {
+	req := request.GetIds()
+	var ids []int64
+	if err := json.Unmarshal(req, &ids); err != nil {
 		return &SystemOperateLogDeleteResponse{}, status.Error(code.ConvertToGrpc(code.ParamInvalid), code.StatusText(code.ParamInvalid))
 	}
-	_, err := logger.SystemOperateLogDelete(ctx, systemOperateLogIds)
+	_, err := logger.SystemOperateLogDelete(ctx, ids)
 	if sql.ResultAccept(err) != nil {
 		globalLogger.Logger.WithFields(logrus.Fields{
 			"req": req,
@@ -64,14 +63,14 @@ func (srv SrvSystemOperateLogServiceServer) SystemOperateLogDelete(ctx context.C
 
 // SystemOperateLog 查询单条数据
 func (srv SrvSystemOperateLogServiceServer) SystemOperateLog(ctx context.Context, request *SystemOperateLogRequest) (*SystemOperateLogResponse, error) {
-	systemOperateLogId := request.GetSystemOperateLogId()
-	if systemOperateLogId < 1 {
+	id := request.GetId()
+	if id < 1 {
 		return &SystemOperateLogResponse{}, status.Error(code.ConvertToGrpc(code.ParamInvalid), code.StatusText(code.ParamInvalid))
 	}
-	res, err := logger.SystemOperateLog(ctx, systemOperateLogId)
+	res, err := logger.SystemOperateLog(ctx, id)
 	if sql.ResultAccept(err) != nil {
 		globalLogger.Logger.WithFields(logrus.Fields{
-			"req": systemOperateLogId,
+			"req": id,
 			"err": err,
 		}).Error("Sql:操作日志:system_operate_log:SystemOperateLog")
 		return &SystemOperateLogResponse{}, status.Error(code.ConvertToGrpc(code.SqlError), err.Error())

@@ -47,13 +47,13 @@ func SystemUserDeptCreate(ctx context.Context, newCtx *app.RequestContext) {
 		})
 		return
 	}
-	systemUserId := proto.Int64(cast.ToInt64(newCtx.Param("systemUserId")))
+	id := proto.Int64(cast.ToInt64(newCtx.Param("id")))
 	deleted := proto.Int32(0)
-	systemTenantId := proto.Int64(newCtx.GetInt64("systemTenantId")) // 租户
-	reqInfo.SystemUserId = systemUserId
+	tenantId := proto.Int64(newCtx.GetInt64("tenantId")) // 租户
+	reqInfo.UserId = id
 	reqInfo.Deleted = deleted
-	reqInfo.SystemTenantId = systemTenantId
-	reqInfo.Updater = null.StringFrom(newCtx.GetString("systemUserName"))
+	reqInfo.TenantId = tenantId
+	reqInfo.Updater = null.StringFrom(newCtx.GetString("userName"))
 	reqInfo.UpdateTime = null.DateTimeFrom(util.Now())
 	request.Data = user.SystemUserDeptCustomProto(reqInfo)
 	// 执行服务
@@ -94,15 +94,15 @@ func SystemUserDeptList(ctx context.Context, newCtx *app.RequestContext) {
 	// 构造查询条件
 	request := &user.SystemUserDeptListRequest{}
 
-	systemUserId := proto.Int64(cast.ToInt64(newCtx.Param("systemUserId")))
+	id := proto.Int64(cast.ToInt64(newCtx.Param("id")))
 	deleted := proto.Int32(0)
-	systemTenantId := proto.Int64(newCtx.GetInt64("systemTenantId")) // 租户
-	request.SystemUserId = systemUserId                              // 系统用户 ID
-	if val, ok := newCtx.GetQuery("systemDeptId"); ok {
-		request.SystemDeptId = proto.Int64(cast.ToInt64(val)) // 部门 id
+	tenantId := proto.Int64(newCtx.GetInt64("tenantId")) // 租户
+	request.UserId = id                                  // 系统用户 ID
+	if val, ok := newCtx.GetQuery("deptId"); ok {
+		request.DeptId = proto.Int64(cast.ToInt64(val)) // 部门 id
 	}
-	request.SystemTenantId = systemTenantId // 租户
-	request.Deleted = deleted               // 删除
+	request.TenantId = tenantId // 租户
+	request.Deleted = deleted   // 删除
 
 	// 执行服务
 	res, err := client.SystemUserDeptList(ctx, request)
@@ -122,15 +122,15 @@ func SystemUserDeptList(ctx context.Context, newCtx *app.RequestContext) {
 	if res.GetCode() == code.Success {
 		rpcList := res.GetData()
 		for _, item := range rpcList {
-			listDept = append(listDept, *item.SystemDeptId)
+			listDept = append(listDept, *item.DeptId)
 		}
 	}
 	newCtx.JSON(consts.StatusOK, utils.H{
 		"code": res.GetCode(),
 		"msg":  res.GetMsg(),
 		"data": utils.H{
-			"systemUserId":  systemUserId,
-			"systemDeptIds": listDept,
+			"userId":  id,
+			"deptIds": listDept,
 		},
 	})
 }

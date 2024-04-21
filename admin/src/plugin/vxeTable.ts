@@ -1,4 +1,4 @@
-import type { App } from "vue";
+import { App } from "vue";
 
 import { VXETable, Icon, Column, Table } from "vxe-table";
 import VXETablePluginElement from "vxe-table-plugin-element";

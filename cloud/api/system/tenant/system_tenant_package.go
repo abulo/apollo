@@ -48,7 +48,7 @@ func SystemTenantPackageCreate(ctx context.Context, newCtx *app.RequestContext) 
 		return
 	}
 	reqInfo.Deleted = proto.Int32(0)
-	reqInfo.Creator = null.StringFrom(newCtx.GetString("systemUserName"))
+	reqInfo.Creator = null.StringFrom(newCtx.GetString("userName"))
 	reqInfo.CreateTime = null.DateTimeFrom(util.Now())
 	request.Data = tenant.SystemTenantPackageProto(reqInfo)
 	// 执行服务
@@ -87,9 +87,9 @@ func SystemTenantPackageUpdate(ctx context.Context, newCtx *app.RequestContext) 
 	}
 	//链接服务
 	client := tenant.NewSystemTenantPackageServiceClient(grpcClient)
-	systemTenantPackageId := cast.ToInt64(newCtx.Param("systemTenantPackageId"))
+	id := cast.ToInt64(newCtx.Param("id"))
 	request := &tenant.SystemTenantPackageUpdateRequest{}
-	request.SystemTenantPackageId = systemTenantPackageId
+	request.Id = id
 	// 数据绑定
 	var reqInfo dao.SystemTenantPackage
 	if err := newCtx.BindAndValidate(&reqInfo); err != nil {
@@ -99,7 +99,7 @@ func SystemTenantPackageUpdate(ctx context.Context, newCtx *app.RequestContext) 
 		})
 		return
 	}
-	reqInfo.Updater = null.StringFrom(newCtx.GetString("systemUserName"))
+	reqInfo.Updater = null.StringFrom(newCtx.GetString("userName"))
 	reqInfo.UpdateTime = null.DateTimeFrom(util.Now())
 	request.Data = tenant.SystemTenantPackageProto(reqInfo)
 	// 执行服务
@@ -137,9 +137,9 @@ func SystemTenantPackageDelete(ctx context.Context, newCtx *app.RequestContext) 
 	}
 	//链接服务
 	client := tenant.NewSystemTenantPackageServiceClient(grpcClient)
-	systemTenantPackageId := cast.ToInt64(newCtx.Param("systemTenantPackageId"))
+	id := cast.ToInt64(newCtx.Param("id"))
 	request := &tenant.SystemTenantPackageDeleteRequest{}
-	request.SystemTenantPackageId = systemTenantPackageId
+	request.Id = id
 	// 执行服务
 	res, err := client.SystemTenantPackageDelete(ctx, request)
 	if err != nil {
@@ -176,9 +176,9 @@ func SystemTenantPackage(ctx context.Context, newCtx *app.RequestContext) {
 	}
 	//链接服务
 	client := tenant.NewSystemTenantPackageServiceClient(grpcClient)
-	systemTenantPackageId := cast.ToInt64(newCtx.Param("systemTenantPackageId"))
+	id := cast.ToInt64(newCtx.Param("id"))
 	request := &tenant.SystemTenantPackageRequest{}
-	request.SystemTenantPackageId = systemTenantPackageId
+	request.Id = id
 	// 执行服务
 	res, err := client.SystemTenantPackage(ctx, request)
 	if err != nil {
@@ -215,9 +215,9 @@ func SystemTenantPackageRecover(ctx context.Context, newCtx *app.RequestContext)
 	}
 	//链接服务
 	client := tenant.NewSystemTenantPackageServiceClient(grpcClient)
-	systemTenantPackageId := cast.ToInt64(newCtx.Param("systemTenantPackageId"))
+	id := cast.ToInt64(newCtx.Param("id"))
 	request := &tenant.SystemTenantPackageRecoverRequest{}
-	request.SystemTenantPackageId = systemTenantPackageId
+	request.Id = id
 	// 执行服务
 	res, err := client.SystemTenantPackageRecover(ctx, request)
 	if err != nil {

@@ -26,8 +26,8 @@ func SystemDeptDao(item *SystemDeptObject) *dao.SystemDept {
 	if item != nil && item.Sort != nil {
 		daoItem.Sort = item.Sort // 显示顺序
 	}
-	if item != nil && item.SystemUserId != nil {
-		daoItem.SystemUserId = null.Int64From(item.GetSystemUserId()) // 负责人
+	if item != nil && item.UserId != nil {
+		daoItem.UserId = null.Int64From(item.GetUserId()) // 负责人
 	}
 	if item != nil && item.Phone != nil {
 		daoItem.Phone = null.StringFrom(item.GetPhone()) // 联系电话
@@ -41,8 +41,8 @@ func SystemDeptDao(item *SystemDeptObject) *dao.SystemDept {
 	if item != nil && item.Deleted != nil {
 		daoItem.Deleted = item.Deleted // 是否删除
 	}
-	if item != nil && item.SystemTenantId != nil {
-		daoItem.SystemTenantId = item.SystemTenantId // 租户ID
+	if item != nil && item.TenantId != nil {
+		daoItem.TenantId = item.TenantId // 租户ID
 	}
 	if item != nil && item.Creator != nil {
 		daoItem.Creator = null.StringFrom(item.GetCreator()) // 创建人
@@ -75,8 +75,8 @@ func SystemDeptProto(item dao.SystemDept) *SystemDeptObject {
 	if item.Sort != nil {
 		res.Sort = item.Sort
 	}
-	if item.SystemUserId.IsValid() {
-		res.SystemUserId = item.SystemUserId.Ptr()
+	if item.UserId.IsValid() {
+		res.UserId = item.UserId.Ptr()
 	}
 	if item.Phone.IsValid() {
 		res.Phone = item.Phone.Ptr()
@@ -90,8 +90,8 @@ func SystemDeptProto(item dao.SystemDept) *SystemDeptObject {
 	if item.Deleted != nil {
 		res.Deleted = item.Deleted
 	}
-	if item.SystemTenantId != nil {
-		res.SystemTenantId = item.SystemTenantId
+	if item.TenantId != nil {
+		res.TenantId = item.TenantId
 	}
 	if item.Creator.IsValid() {
 		res.Creator = item.Creator.Ptr()

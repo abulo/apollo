@@ -40,12 +40,12 @@ func (srv SrvSystemTenantPackageServiceServer) SystemTenantPackageCreate(ctx con
 
 // SystemTenantPackageUpdate 更新数据
 func (srv SrvSystemTenantPackageServiceServer) SystemTenantPackageUpdate(ctx context.Context, request *SystemTenantPackageUpdateRequest) (*SystemTenantPackageUpdateResponse, error) {
-	systemTenantPackageId := request.GetSystemTenantPackageId()
-	if systemTenantPackageId < 1 {
+	id := request.GetId()
+	if id < 1 {
 		return &SystemTenantPackageUpdateResponse{}, status.Error(code.ConvertToGrpc(code.ParamInvalid), code.StatusText(code.ParamInvalid))
 	}
 	req := SystemTenantPackageDao(request.GetData())
-	_, err := tenant.SystemTenantPackageUpdate(ctx, systemTenantPackageId, *req)
+	_, err := tenant.SystemTenantPackageUpdate(ctx, id, *req)
 	if sql.ResultAccept(err) != nil {
 		globalLogger.Logger.WithFields(logrus.Fields{
 			"req": req,
@@ -61,14 +61,14 @@ func (srv SrvSystemTenantPackageServiceServer) SystemTenantPackageUpdate(ctx con
 
 // SystemTenantPackageDelete 删除数据
 func (srv SrvSystemTenantPackageServiceServer) SystemTenantPackageDelete(ctx context.Context, request *SystemTenantPackageDeleteRequest) (*SystemTenantPackageDeleteResponse, error) {
-	systemTenantPackageId := request.GetSystemTenantPackageId()
-	if systemTenantPackageId < 1 {
+	id := request.GetId()
+	if id < 1 {
 		return &SystemTenantPackageDeleteResponse{}, status.Error(code.ConvertToGrpc(code.ParamInvalid), code.StatusText(code.ParamInvalid))
 	}
-	_, err := tenant.SystemTenantPackageDelete(ctx, systemTenantPackageId)
+	_, err := tenant.SystemTenantPackageDelete(ctx, id)
 	if sql.ResultAccept(err) != nil {
 		globalLogger.Logger.WithFields(logrus.Fields{
-			"req": systemTenantPackageId,
+			"req": id,
 			"err": err,
 		}).Error("Sql:租户套餐包:system_tenant_package:SystemTenantPackageDelete")
 		return &SystemTenantPackageDeleteResponse{}, status.Error(code.ConvertToGrpc(code.SqlError), err.Error())
@@ -81,14 +81,14 @@ func (srv SrvSystemTenantPackageServiceServer) SystemTenantPackageDelete(ctx con
 
 // SystemTenantPackage 查询单条数据
 func (srv SrvSystemTenantPackageServiceServer) SystemTenantPackage(ctx context.Context, request *SystemTenantPackageRequest) (*SystemTenantPackageResponse, error) {
-	systemTenantPackageId := request.GetSystemTenantPackageId()
-	if systemTenantPackageId < 1 {
+	id := request.GetId()
+	if id < 1 {
 		return &SystemTenantPackageResponse{}, status.Error(code.ConvertToGrpc(code.ParamInvalid), code.StatusText(code.ParamInvalid))
 	}
-	res, err := tenant.SystemTenantPackage(ctx, systemTenantPackageId)
+	res, err := tenant.SystemTenantPackage(ctx, id)
 	if sql.ResultAccept(err) != nil {
 		globalLogger.Logger.WithFields(logrus.Fields{
-			"req": systemTenantPackageId,
+			"req": id,
 			"err": err,
 		}).Error("Sql:租户套餐包:system_tenant_package:SystemTenantPackage")
 		return &SystemTenantPackageResponse{}, status.Error(code.ConvertToGrpc(code.SqlError), err.Error())
@@ -102,14 +102,14 @@ func (srv SrvSystemTenantPackageServiceServer) SystemTenantPackage(ctx context.C
 
 // SystemTenantPackageRecover 恢复数据
 func (srv SrvSystemTenantPackageServiceServer) SystemTenantPackageRecover(ctx context.Context, request *SystemTenantPackageRecoverRequest) (*SystemTenantPackageRecoverResponse, error) {
-	systemTenantPackageId := request.GetSystemTenantPackageId()
-	if systemTenantPackageId < 1 {
+	id := request.GetId()
+	if id < 1 {
 		return &SystemTenantPackageRecoverResponse{}, status.Error(code.ConvertToGrpc(code.ParamInvalid), code.StatusText(code.ParamInvalid))
 	}
-	_, err := tenant.SystemTenantPackageRecover(ctx, systemTenantPackageId)
+	_, err := tenant.SystemTenantPackageRecover(ctx, id)
 	if sql.ResultAccept(err) != nil {
 		globalLogger.Logger.WithFields(logrus.Fields{
-			"req": systemTenantPackageId,
+			"req": id,
 			"err": err,
 		}).Error("Sql:租户套餐包:system_tenant_package:SystemTenantPackageRecover")
 		return &SystemTenantPackageRecoverResponse{}, status.Error(code.ConvertToGrpc(code.SqlError), err.Error())

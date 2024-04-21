@@ -11,7 +11,7 @@
       :search-col="12">
       <!-- 表格 header 按钮 -->
       <template #tableHeader>
-        <el-button type="primary" :icon="CirclePlus" @click="handleAdd" v-auth="'role.SystemRoleCreate'">新增</el-button>
+        <el-button v-auth="'role.SystemRoleCreate'" type="primary" :icon="CirclePlus" @click="handleAdd">新增</el-button>
       </template>
       <!-- 状态-->
       <template #status="scope">
@@ -22,37 +22,37 @@
         <DictTag type="delete" :value="scope.row.deleted" />
       </template>
       <template #operation="scope">
-        <el-button type="primary" link :icon="EditPen" @click="handleUpdate(scope.row)" v-auth="'role.SystemRoleUpdate'">
+        <el-button v-auth="'role.SystemRoleUpdate'" type="primary" link :icon="EditPen" @click="handleUpdate(scope.row)">
           编辑
         </el-button>
         <el-dropdown trigger="click">
           <el-button
+            v-auth="['role.SystemRoleMenuList', 'role.SystemRoleDataScope', 'role.SystemRoleRecover', 'role.SystemRoleDelete']"
             type="primary"
             link
-            :icon="DArrowRight"
-            v-auth="['role.SystemRoleMenuList', 'role.SystemRoleDataScope', 'role.SystemRoleRecover', 'role.SystemRoleDelete']">
+            :icon="DArrowRight">
             更多
           </el-button>
           <template #dropdown>
             <el-dropdown-menu>
-              <el-dropdown-item :icon="Menu" @click="handleMenu(scope.row)" v-auth="'role.SystemRoleMenuList'">
+              <el-dropdown-item v-auth="'role.SystemRoleMenuList'" :icon="Menu" @click="handleMenu(scope.row)">
                 菜单权限
               </el-dropdown-item>
-              <el-dropdown-item :icon="DataBoard" @click="handleScope(scope.row)" v-auth="'role.SystemRoleDataScope'">
+              <el-dropdown-item v-auth="'role.SystemRoleDataScope'" :icon="DataBoard" @click="handleScope(scope.row)">
                 数据权限
               </el-dropdown-item>
               <el-dropdown-item
-                :icon="Delete"
                 v-if="scope.row.deleted === 0"
-                @click="handleDelete(scope.row)"
-                v-auth="'role.SystemRoleDelete'">
+                v-auth="'role.SystemRoleDelete'"
+                :icon="Delete"
+                @click="handleDelete(scope.row)">
                 删除
               </el-dropdown-item>
               <el-dropdown-item
-                :icon="Refresh"
                 v-if="scope.row.deleted === 1"
-                @click="handleDelete(scope.row)"
-                v-auth="'role.SystemRoleRecover'">
+                v-auth="'role.SystemRoleRecover'"
+                :icon="Refresh"
+                @click="handleDelete(scope.row)">
                 恢复
               </el-dropdown-item>
             </el-dropdown-menu>
@@ -62,8 +62,8 @@
     </ProTable>
     <!-- 添加或者修改 -->
     <el-dialog
-      :title="title"
       v-model="centerDialogVisible"
+      :title="title"
       width="40%"
       destroy-on-close
       align-center
@@ -97,14 +97,14 @@
       <template #footer>
         <span class="dialog-footer">
           <el-button @click="resetForm(refSystemRoleItemFrom)">取消</el-button>
-          <el-button type="primary" @click="submitForm(refSystemRoleItemFrom)" :loading="loading">确定</el-button>
+          <el-button type="primary" :loading="loading" @click="submitForm(refSystemRoleItemFrom)">确定</el-button>
         </span>
       </template>
     </el-dialog>
     <!-- 菜单权限 -->
     <el-dialog
-      :title="titleMenu"
       v-model="centerMenuDialogVisible"
+      :title="titleMenu"
       width="40%"
       destroy-on-close
       align-center
@@ -136,7 +136,7 @@
               ref="menuRef"
               :data="menuOptions"
               :props="defaultProps"
-              :list="systemRoleMenuItemFrom.systemMenuIds"
+              :list="systemRoleMenuItemFrom.menuIds"
               empty-text="加载中，请稍候"
               node-key="id"
               show-checkbox />
@@ -146,14 +146,14 @@
       <template #footer>
         <span class="dialog-footer">
           <el-button @click="resetMenuForm(refSystemRoleMenuItemFrom)">取消</el-button>
-          <el-button type="primary" @click="submitMenuForm(refSystemRoleMenuItemFrom)" :loading="loading">确定</el-button>
+          <el-button type="primary" :loading="loading" @click="submitMenuForm(refSystemRoleMenuItemFrom)">确定</el-button>
         </span>
       </template>
     </el-dialog>
     <!-- 数据权限 -->
     <el-dialog
-      :title="titleScope"
       v-model="centerScopeDialogVisible"
+      :title="titleScope"
       width="40%"
       destroy-on-close
       align-center
@@ -178,7 +178,7 @@
             <el-option v-for="dict in dataScopeEnum" :key="Number(dict.value)" :label="dict.label" :value="Number(dict.value)" />
           </el-select>
         </el-form-item>
-        <el-form-item label="权限范围" v-if="systemRoleScopeItemFrom.dataScope === 2">
+        <el-form-item v-if="systemRoleScopeItemFrom.dataScope === 2" label="权限范围">
           <el-card class="cardHeight">
             <template #header>
               全选/全不选:
@@ -200,7 +200,7 @@
       <template #footer>
         <span class="dialog-footer">
           <el-button @click="resetScopeForm(refSystemRoleScopeItemFrom)">取消</el-button>
-          <el-button type="primary" @click="submitScopeForm(refSystemRoleScopeItemFrom)" :loading="loading">确定</el-button>
+          <el-button type="primary" :loading="loading" @click="submitScopeForm(refSystemRoleScopeItemFrom)">确定</el-button>
         </span>
       </template>
     </el-dialog>
@@ -214,7 +214,7 @@ import { EditPen, CirclePlus, Delete, DataBoard, DArrowRight, Menu, Refresh } fr
 import ProTable from "@/components/ProTable/index.vue";
 import { DictTag } from "@/components/DictTag";
 import { FormInstance, FormRules, ElTree } from "element-plus";
-import type Node from "element-plus/es/components/tree/src/model/node";
+import Node from "element-plus/es/components/tree/src/model/node";
 import { SystemRole } from "@/api/interface/systemRole";
 import {
   getSystemRoleListApi,
@@ -286,12 +286,12 @@ const rulesSystemRoleItemFrom = reactive<FormRules>({
 });
 
 const systemRoleMenuItemFrom = ref<SystemRole.ResSystemRoleMenuItem>({
-  systemMenuIds: [], //json 关联的菜单编号
-  systemRoleId: 0 //bigint 租户编号
+  menuIds: [], //json 关联的菜单编号
+  roleId: 0 //bigint 租户编号
 });
 const refSystemRoleMenuItemFrom = ref<FormInstance>();
 const rulesSystemRoleMenuItemFrom = reactive<FormRules>({
-  systemMenuIds: [{ required: true, message: "必须选择", trigger: "change" }]
+  menuIds: [{ required: true, message: "必须选择", trigger: "change" }]
 });
 
 //弹出层标题
@@ -452,7 +452,7 @@ const handleMenu = async (row: SystemRole.ResSystemRoleItem) => {
   const { data } = await getSystemRoleMenuListApi(Number(row.id));
   systemRoleItemFrom.value = row;
   systemRoleMenuItemFrom.value = data;
-  const menuIds = data.systemMenuIds;
+  const menuIds = data.menuIds;
   useTimeoutFn(() => {
     menuIds?.forEach((menuId: number) => {
       menuRef.value?.setChecked(menuId, true, false);
@@ -474,11 +474,11 @@ const submitMenuForm = (formEl: FormInstance | undefined) => {
     if (!valid) return;
     loading.value = true;
     const data = systemRoleMenuItemFrom.value as unknown as SystemRole.ResSystemRoleMenuItem;
-    data.systemMenuIds = [
+    data.menuIds = [
       ...(menuRef.value!.getCheckedKeys(false) as unknown as Array<number>), // 获得当前选中节点
       ...(menuRef.value!.getHalfCheckedKeys() as unknown as Array<number>) // 获得半选中的父节点
     ];
-    await useHandleSet(addSystemRoleMenuApi, data.systemRoleId, data, "绑定菜单权限");
+    await useHandleSet(addSystemRoleMenuApi, data.roleId, data, "绑定菜单权限");
     resetMenuForm(formEl);
     loading.value = false;
     proTable.value?.getTableList();

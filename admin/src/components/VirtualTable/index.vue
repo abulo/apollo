@@ -129,6 +129,8 @@ const isShowSearch = ref(true);
 
 // 控制 ToolButton 显示
 const showToolButton = (key: "refresh" | "setting" | "search") => {
+  // 判断是不是  setting , 是setting 直接返回 false
+  if (key === "setting") return false;
   return Array.isArray(props.toolButton) ? props.toolButton.includes(key) : props.toolButton;
 };
 

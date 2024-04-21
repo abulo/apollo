@@ -11,11 +11,82 @@
  Target Server Version : 80300 (8.3.0)
  File Encoding         : 65001
 
- Date: 14/04/2024 16:09:59
+ Date: 21/04/2024 19:36:11
 */
 
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
+
+-- ----------------------------
+-- Table structure for member
+-- ----------------------------
+DROP TABLE IF EXISTS `member`;
+CREATE TABLE `member` (
+  `id` bigint NOT NULL AUTO_INCREMENT COMMENT '用户编号',
+  `nickname` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '用户昵称',
+  `avatar` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '用户头像',
+  `birthday` date DEFAULT NULL COMMENT '用户生日',
+  `gender` tinyint DEFAULT '0' COMMENT '用户性别(0女/1男)',
+  `status` tinyint NOT NULL DEFAULT '0' COMMENT '用户状态(0正常/1锁定)',
+  `creator` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '创建人',
+  `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `updater` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '更新人',
+  `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=DYNAMIC COMMENT='用户';
+
+-- ----------------------------
+-- Records of member
+-- ----------------------------
+BEGIN;
+COMMIT;
+
+-- ----------------------------
+-- Table structure for member_auth
+-- ----------------------------
+DROP TABLE IF EXISTS `member_auth`;
+CREATE TABLE `member_auth` (
+  `id` bigint NOT NULL AUTO_INCREMENT COMMENT '编号',
+  `member_id` bigint NOT NULL COMMENT '用户编号',
+  `identity_type` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '登录类型(手机号/邮箱) 或第三方应用名称 (微信/微博等)',
+  `identifier` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '手机号/邮箱/第三方的唯一标识',
+  `credential` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '密码凭证 (自建账号的保存密码, 第三方的保存 token)',
+  `creator` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '创建人',
+  `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `updater` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '更新人',
+  `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  PRIMARY KEY (`id`) USING BTREE,
+  UNIQUE KEY `item:identity` (`identity_type`,`identifier`) USING BTREE,
+  KEY `idx:user` (`member_id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=DYNAMIC COMMENT='用户三方登录授权';
+
+-- ----------------------------
+-- Records of member_auth
+-- ----------------------------
+BEGIN;
+COMMIT;
+
+-- ----------------------------
+-- Table structure for member_secret
+-- ----------------------------
+DROP TABLE IF EXISTS `member_secret`;
+CREATE TABLE `member_secret` (
+  `id` bigint NOT NULL AUTO_INCREMENT COMMENT '编号',
+  `member_id` bigint NOT NULL COMMENT '用户编号',
+  `password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '用户密码',
+  `creator` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '创建人',
+  `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `updater` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '更新人',
+  `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  PRIMARY KEY (`id`) USING BTREE,
+  UNIQUE KEY `uniq:user` (`member_id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=DYNAMIC COMMENT='用户密码';
+
+-- ----------------------------
+-- Records of member_secret
+-- ----------------------------
+BEGIN;
+COMMIT;
 
 -- ----------------------------
 -- Table structure for region
@@ -25,9 +96,9 @@ CREATE TABLE `region` (
   `id` bigint NOT NULL COMMENT '区域编号',
   `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '区域名称',
   `parent_id` bigint NOT NULL DEFAULT '0' COMMENT '父级编号',
-  `status` tinyint NOT NULL DEFAULT '0' COMMENT '状态;',
-  `deleted` tinyint NOT NULL DEFAULT '0' COMMENT '是否删除;',
-  `sort` int NOT NULL DEFAULT '0' COMMENT '排序;',
+  `status` tinyint NOT NULL DEFAULT '0' COMMENT '状态',
+  `deleted` tinyint NOT NULL DEFAULT '0' COMMENT '是否删除',
+  `sort` int NOT NULL DEFAULT '0' COMMENT '排序',
   `creator` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '创建人',
   `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `updater` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '更新人',
@@ -3481,18 +3552,18 @@ CREATE TABLE `system_dept` (
   `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '部门名称',
   `parent_id` bigint NOT NULL DEFAULT '0' COMMENT '父部门ID',
   `sort` int NOT NULL COMMENT '显示顺序',
-  `system_user_id` bigint DEFAULT '0' COMMENT '负责人',
+  `user_id` bigint DEFAULT '0' COMMENT '负责人',
   `phone` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '联系电话',
   `email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '邮件',
   `status` tinyint NOT NULL COMMENT '部门状态',
   `deleted` tinyint NOT NULL DEFAULT '0' COMMENT '是否删除',
-  `system_tenant_id` bigint NOT NULL DEFAULT '0' COMMENT '租户ID',
+  `tenant_id` bigint NOT NULL DEFAULT '0' COMMENT '租户ID',
   `creator` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '创建人',
   `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `updater` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '更新人',
   `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE,
-  KEY `idx:list` (`system_tenant_id`,`deleted`,`status`,`parent_id`,`name`,`sort`) USING BTREE
+  KEY `idx:list` (`tenant_id`,`deleted`,`status`,`parent_id`,`name`,`sort`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=DYNAMIC COMMENT='部门';
 
 -- ----------------------------
@@ -3597,14 +3668,14 @@ CREATE TABLE `system_login_log` (
   `login_time` datetime NOT NULL COMMENT '登录时间',
   `channel` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '渠道',
   `deleted` tinyint NOT NULL COMMENT '删除',
-  `system_tenant_id` bigint NOT NULL COMMENT '租户',
+  `tenant_id` bigint NOT NULL COMMENT '租户',
   `creator` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '创建人',
   `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `updater` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '更新人',
   `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE,
-  KEY `idx:list` (`system_tenant_id`,`deleted`,`username`,`login_time`,`channel`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=332 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=DYNAMIC COMMENT='登录日志';
+  KEY `idx:list` (`tenant_id`,`deleted`,`username`,`login_time`,`channel`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=DYNAMIC COMMENT='登录日志';
 
 -- ----------------------------
 -- Records of system_login_log
@@ -3758,14 +3829,14 @@ CREATE TABLE `system_operate_log` (
   `channel` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '渠道',
   `result` tinyint NOT NULL DEFAULT '0' COMMENT '结果(0 成功/1 失败)',
   `deleted` tinyint NOT NULL COMMENT '删除',
-  `system_tenant_id` bigint NOT NULL COMMENT '租户',
+  `tenant_id` bigint NOT NULL COMMENT '租户',
   `creator` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '创建人',
   `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `updater` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '更新人',
   `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE,
-  KEY `idx:list` (`system_tenant_id`,`deleted`,`username`,`module`,`start_time`,`result`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=3092 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=DYNAMIC COMMENT='操作日志';
+  KEY `idx:list` (`tenant_id`,`deleted`,`username`,`module`,`start_time`,`result`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=DYNAMIC COMMENT='操作日志';
 
 -- ----------------------------
 -- Records of system_operate_log
@@ -3783,13 +3854,13 @@ CREATE TABLE `system_post` (
   `sort` int NOT NULL COMMENT '显示顺序',
   `status` tinyint NOT NULL COMMENT '状态',
   `deleted` tinyint NOT NULL DEFAULT '0' COMMENT '是否删除',
-  `system_tenant_id` bigint NOT NULL COMMENT '租户ID',
+  `tenant_id` bigint NOT NULL COMMENT '租户ID',
   `creator` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '创建人',
   `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `updater` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '更新人',
   `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE,
-  KEY `idx:list` (`system_tenant_id`,`deleted`,`status`,`name`,`sort`) USING BTREE
+  KEY `idx:list` (`tenant_id`,`deleted`,`status`,`name`,`sort`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=DYNAMIC COMMENT='职位';
 
 -- ----------------------------
@@ -3813,21 +3884,21 @@ CREATE TABLE `system_role` (
   `type` tinyint NOT NULL DEFAULT '1' COMMENT '角色类型(1内置/2定义)',
   `remark` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '备注',
   `deleted` tinyint NOT NULL COMMENT '删除',
-  `system_tenant_id` bigint NOT NULL COMMENT '租户',
+  `tenant_id` bigint NOT NULL COMMENT '租户',
   `creator` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '创建者',
   `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `updater` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '更新者',
   `update_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE,
-  KEY `idx:list` (`system_tenant_id`,`deleted`,`type`,`status`,`sort`,`name`) USING BTREE
+  KEY `idx:list` (`tenant_id`,`deleted`,`type`,`status`,`sort`,`name`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=DYNAMIC COMMENT='系统角色';
 
 -- ----------------------------
 -- Records of system_role
 -- ----------------------------
 BEGIN;
-INSERT INTO `system_role` (`id`, `name`, `code`, `sort`, `data_scope`, `data_scope_dept`, `status`, `type`, `remark`, `deleted`, `system_tenant_id`, `creator`, `create_time`, `updater`, `update_time`) VALUES (1, '超级管理员', 'super', 0, NULL, NULL, 0, 2, '', 1, 1, 'admin', '2024-03-23 14:02:42', NULL, '2024-03-23 14:02:42');
-INSERT INTO `system_role` (`id`, `name`, `code`, `sort`, `data_scope`, `data_scope_dept`, `status`, `type`, `remark`, `deleted`, `system_tenant_id`, `creator`, `create_time`, `updater`, `update_time`) VALUES (5, '测试', 'test', 1, NULL, NULL, 0, 2, '', 0, 1, 'admin', '2024-03-30 20:41:48', NULL, '2024-03-30 20:41:48');
+INSERT INTO `system_role` (`id`, `name`, `code`, `sort`, `data_scope`, `data_scope_dept`, `status`, `type`, `remark`, `deleted`, `tenant_id`, `creator`, `create_time`, `updater`, `update_time`) VALUES (1, '超级管理员', 'super', 0, NULL, NULL, 0, 2, '', 1, 1, 'admin', '2024-03-23 14:02:42', NULL, '2024-03-23 14:02:42');
+INSERT INTO `system_role` (`id`, `name`, `code`, `sort`, `data_scope`, `data_scope_dept`, `status`, `type`, `remark`, `deleted`, `tenant_id`, `creator`, `create_time`, `updater`, `update_time`) VALUES (5, '测试', 'test', 1, NULL, NULL, 0, 2, '', 0, 1, 'admin', '2024-03-30 20:41:48', NULL, '2024-03-30 20:41:48');
 COMMIT;
 
 -- ----------------------------
@@ -3836,17 +3907,17 @@ COMMIT;
 DROP TABLE IF EXISTS `system_role_menu`;
 CREATE TABLE `system_role_menu` (
   `id` bigint NOT NULL AUTO_INCREMENT COMMENT '自增编号',
-  `system_role_id` bigint NOT NULL COMMENT '角色编号',
-  `system_menu_id` bigint NOT NULL COMMENT '菜单编号',
+  `role_id` bigint NOT NULL COMMENT '角色编号',
+  `menu_id` bigint NOT NULL COMMENT '菜单编号',
   `deleted` tinyint NOT NULL COMMENT '删除',
-  `system_tenant_id` bigint NOT NULL COMMENT '租户',
+  `tenant_id` bigint NOT NULL COMMENT '租户',
   `creator` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '创建者',
   `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `updater` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '更新者',
   `update_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE,
-  UNIQUE KEY `uniq:role_menu` (`system_role_id`,`system_menu_id`) USING BTREE,
-  KEY `idx:list` (`system_tenant_id`,`deleted`,`system_menu_id`) USING BTREE
+  UNIQUE KEY `uniq:role_menu` (`role_id`,`menu_id`) USING BTREE,
+  KEY `idx:list` (`tenant_id`,`deleted`,`menu_id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=443 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=DYNAMIC COMMENT='系统角色和系统菜单关联表';
 
 -- ----------------------------
@@ -3862,29 +3933,29 @@ DROP TABLE IF EXISTS `system_tenant`;
 CREATE TABLE `system_tenant` (
   `id` bigint NOT NULL AUTO_INCREMENT COMMENT '租户编号',
   `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '租户名称',
-  `system_user_id` bigint DEFAULT NULL COMMENT '联系人ID',
+  `user_id` bigint DEFAULT NULL COMMENT '联系人ID',
   `contact_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '联系人',
   `contact_mobile` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '租户联系电话',
   `status` tinyint NOT NULL COMMENT '状态（0正常 1停用）',
   `domain` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '域名',
   `expire_date` date NOT NULL COMMENT '过期时间',
   `account_count` bigint NOT NULL COMMENT '账号数量',
-  `system_tenant_package_id` bigint NOT NULL COMMENT '套餐编号',
+  `tenant_package_id` bigint NOT NULL COMMENT '套餐编号',
   `deleted` tinyint NOT NULL COMMENT '是否删除(0否 1是)',
   `creator` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '创建人',
   `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `updater` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '更新人',
   `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE,
-  KEY `idx:package` (`system_tenant_package_id`) USING BTREE,
-  KEY `idx:list` (`deleted`,`status`,`name`,`expire_date`) USING BTREE
+  KEY `idx:list` (`deleted`,`status`,`name`,`expire_date`) USING BTREE,
+  KEY `idx:package` (`tenant_package_id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=DYNAMIC COMMENT='租户';
 
 -- ----------------------------
 -- Records of system_tenant
 -- ----------------------------
 BEGIN;
-INSERT INTO `system_tenant` (`id`, `name`, `system_user_id`, `contact_name`, `contact_mobile`, `status`, `domain`, `expire_date`, `account_count`, `system_tenant_package_id`, `deleted`, `creator`, `create_time`, `updater`, `update_time`) VALUES (1, '系统租户', 1, '周先生', '13512345678', 0, 'http://www.baidu.com', '2029-03-01', 100, 0, 0, NULL, '2024-03-20 21:14:57', 'admin', '2024-03-20 21:58:40');
+INSERT INTO `system_tenant` (`id`, `name`, `user_id`, `contact_name`, `contact_mobile`, `status`, `domain`, `expire_date`, `account_count`, `tenant_package_id`, `deleted`, `creator`, `create_time`, `updater`, `update_time`) VALUES (1, '系统租户', 1, '周先生', '13512345678', 0, 'http://www.baidu.com', '2029-03-01', 100, 0, 0, NULL, '2024-03-20 21:14:57', 'admin', '2024-04-21 19:04:41');
 COMMIT;
 
 -- ----------------------------
@@ -3895,7 +3966,7 @@ CREATE TABLE `system_tenant_package` (
   `id` bigint NOT NULL AUTO_INCREMENT COMMENT '套餐编号',
   `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '套餐名称',
   `status` tinyint NOT NULL DEFAULT '0' COMMENT '状态（0正常 1停用）',
-  `system_menu_ids` json NOT NULL COMMENT '目录编号',
+  `menu_ids` json NOT NULL COMMENT '目录编号',
   `remark` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '备注',
   `deleted` tinyint NOT NULL COMMENT '是否删除(0否 1是)',
   `creator` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '创建人',
@@ -3924,21 +3995,21 @@ CREATE TABLE `system_user` (
   `password` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '用户密码',
   `status` tinyint NOT NULL DEFAULT '0' COMMENT '用户状态（0正常 1停用）',
   `deleted` tinyint NOT NULL DEFAULT '0' COMMENT '是否删除(0否 1是)',
-  `system_tenant_id` bigint NOT NULL DEFAULT '0' COMMENT '租户ID',
+  `tenant_id` bigint NOT NULL DEFAULT '0' COMMENT '租户ID',
   `creator` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '创建人',
   `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `updater` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '更新人',
   `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE KEY `item:login` (`username`) USING BTREE,
-  KEY `idx:list` (`system_tenant_id`,`deleted`,`status`,`nickname`,`mobile`) USING BTREE
+  KEY `idx:list` (`tenant_id`,`deleted`,`status`,`nickname`,`mobile`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=DYNAMIC COMMENT='系统用户';
 
 -- ----------------------------
 -- Records of system_user
 -- ----------------------------
 BEGIN;
-INSERT INTO `system_user` (`id`, `nickname`, `mobile`, `username`, `password`, `status`, `deleted`, `system_tenant_id`, `creator`, `create_time`, `updater`, `update_time`) VALUES (1, '安安', '15397620000', 'admin', '21232f297a57a5a743894a0e4a801fc3', 0, 0, 1, NULL, '2024-03-20 21:15:35', 'admin', '2024-03-20 21:52:56');
+INSERT INTO `system_user` (`id`, `nickname`, `mobile`, `username`, `password`, `status`, `deleted`, `tenant_id`, `creator`, `create_time`, `updater`, `update_time`) VALUES (1, '安安', '15397620000', 'admin', '21232f297a57a5a743894a0e4a801fc3', 0, 0, 1, NULL, '2024-03-20 21:15:35', 'admin', '2024-04-21 19:03:45');
 COMMIT;
 
 -- ----------------------------
@@ -3947,17 +4018,17 @@ COMMIT;
 DROP TABLE IF EXISTS `system_user_dept`;
 CREATE TABLE `system_user_dept` (
   `id` bigint NOT NULL AUTO_INCREMENT COMMENT '编号',
-  `system_user_id` bigint NOT NULL COMMENT '系统用户 id',
-  `system_dept_id` bigint NOT NULL COMMENT '部门 id',
+  `user_id` bigint NOT NULL COMMENT '系统用户 id',
+  `dept_id` bigint NOT NULL COMMENT '部门 id',
   `deleted` tinyint NOT NULL COMMENT '删除',
-  `system_tenant_id` bigint NOT NULL COMMENT '租户',
+  `tenant_id` bigint NOT NULL COMMENT '租户',
   `creator` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '创建人',
   `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `updater` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '更新人',
   `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE,
-  KEY `uniq:user_dept` (`system_user_id`,`system_dept_id`) USING BTREE,
-  KEY `idx:list` (`system_tenant_id`,`deleted`,`system_dept_id`) USING BTREE
+  KEY `uniq:user_dept` (`user_id`,`dept_id`) USING BTREE,
+  KEY `idx:list` (`tenant_id`,`deleted`,`dept_id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=DYNAMIC COMMENT='系统用户部门';
 
 -- ----------------------------
@@ -3972,17 +4043,17 @@ COMMIT;
 DROP TABLE IF EXISTS `system_user_post`;
 CREATE TABLE `system_user_post` (
   `id` bigint NOT NULL AUTO_INCREMENT COMMENT '编号',
-  `system_user_id` bigint NOT NULL COMMENT '系统用户 ID',
-  `system_post_id` bigint NOT NULL COMMENT '职位 id',
+  `user_id` bigint NOT NULL COMMENT '系统用户 ID',
+  `post_id` bigint NOT NULL COMMENT '职位 id',
   `deleted` tinyint NOT NULL COMMENT '删除',
-  `system_tenant_id` bigint NOT NULL COMMENT '租户',
+  `tenant_id` bigint NOT NULL COMMENT '租户',
   `creator` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '创建人',
   `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `updater` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '更新人',
   `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE,
-  UNIQUE KEY `uniq:user_post` (`system_user_id`,`system_post_id`) USING BTREE,
-  KEY `idx:list` (`system_tenant_id`,`deleted`,`system_post_id`) USING BTREE
+  UNIQUE KEY `uniq:user_post` (`user_id`,`post_id`) USING BTREE,
+  KEY `idx:list` (`tenant_id`,`deleted`,`post_id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=DYNAMIC COMMENT='系统用户职位';
 
 -- ----------------------------
@@ -3997,17 +4068,17 @@ COMMIT;
 DROP TABLE IF EXISTS `system_user_role`;
 CREATE TABLE `system_user_role` (
   `id` bigint NOT NULL AUTO_INCREMENT COMMENT '自增编号',
-  `system_user_id` bigint NOT NULL COMMENT '用户编号',
-  `system_role_id` bigint NOT NULL COMMENT '角色编号',
+  `user_id` bigint NOT NULL COMMENT '用户编号',
+  `role_id` bigint NOT NULL COMMENT '角色编号',
   `deleted` tinyint NOT NULL COMMENT '删除',
-  `system_tenant_id` bigint NOT NULL COMMENT '租户',
+  `tenant_id` bigint NOT NULL COMMENT '租户',
   `creator` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '创建者',
   `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `updater` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '更新者',
   `update_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE,
-  UNIQUE KEY `uniq:user_role` (`system_user_id`,`system_role_id`) USING BTREE,
-  KEY `idx:list` (`system_tenant_id`,`deleted`,`system_role_id`) USING BTREE
+  UNIQUE KEY `uniq:user_role` (`user_id`,`role_id`) USING BTREE,
+  KEY `idx:list` (`tenant_id`,`deleted`,`role_id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=DYNAMIC COMMENT='系统用户和系统角色关联表';
 
 -- ----------------------------
@@ -4022,94 +4093,23 @@ COMMIT;
 DROP TABLE IF EXISTS `system_user_tenant`;
 CREATE TABLE `system_user_tenant` (
   `id` bigint NOT NULL AUTO_INCREMENT COMMENT '编号',
-  `system_user_id` bigint NOT NULL COMMENT '系统用户 ID',
-  `system_tenant_id` bigint NOT NULL COMMENT '租户 id',
+  `user_id` bigint NOT NULL COMMENT '系统用户 ID',
+  `tenant_id` bigint NOT NULL COMMENT '租户 id',
   `deleted` tinyint NOT NULL COMMENT '删除',
   `creator` varchar(64) DEFAULT NULL COMMENT '创建人',
   `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `updater` varchar(64) DEFAULT NULL COMMENT '更新人',
   `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`id`),
-  KEY `uniq:user_tenant` (`system_user_id`,`system_tenant_id`),
-  KEY `idx:tenant` (`system_tenant_id`)
+  KEY `uniq:user_tenant` (`user_id`,`tenant_id`) USING BTREE,
+  KEY `idx:tenant` (`tenant_id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='系统租户用户';
 
 -- ----------------------------
 -- Records of system_user_tenant
 -- ----------------------------
 BEGIN;
-INSERT INTO `system_user_tenant` (`id`, `system_user_id`, `system_tenant_id`, `deleted`, `creator`, `create_time`, `updater`, `update_time`) VALUES (1, 1, 1, 0, NULL, '2024-03-31 20:33:48', NULL, '2024-03-31 20:33:48');
-COMMIT;
-
--- ----------------------------
--- Table structure for user
--- ----------------------------
-DROP TABLE IF EXISTS `user`;
-CREATE TABLE `user` (
-  `id` bigint NOT NULL AUTO_INCREMENT COMMENT '用户编号',
-  `nickname` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '用户昵称',
-  `avatar` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '用户头像',
-  `birthday` date DEFAULT NULL COMMENT '用户生日',
-  `gender` tinyint DEFAULT '0' COMMENT '用户性别(0女/1男)',
-  `status` tinyint NOT NULL DEFAULT '0' COMMENT '用户状态(0正常/1锁定)',
-  `creator` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '创建人',
-  `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `updater` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '更新人',
-  `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=DYNAMIC COMMENT='用户';
-
--- ----------------------------
--- Records of user
--- ----------------------------
-BEGIN;
-COMMIT;
-
--- ----------------------------
--- Table structure for user_auth
--- ----------------------------
-DROP TABLE IF EXISTS `user_auth`;
-CREATE TABLE `user_auth` (
-  `id` bigint NOT NULL AUTO_INCREMENT COMMENT '编号',
-  `user_id` bigint NOT NULL COMMENT '用户编号',
-  `identity_type` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '登录类型(手机号/邮箱) 或第三方应用名称 (微信/微博等)',
-  `identifier` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '手机号/邮箱/第三方的唯一标识',
-  `credential` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '密码凭证 (自建账号的保存密码, 第三方的保存 token)',
-  `creator` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '创建人',
-  `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `updater` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '更新人',
-  `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-  PRIMARY KEY (`id`) USING BTREE,
-  UNIQUE KEY `item:identity` (`identity_type`,`identifier`) USING BTREE,
-  KEY `idx:user` (`user_id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=DYNAMIC COMMENT='用户三方登录授权';
-
--- ----------------------------
--- Records of user_auth
--- ----------------------------
-BEGIN;
-COMMIT;
-
--- ----------------------------
--- Table structure for user_secret
--- ----------------------------
-DROP TABLE IF EXISTS `user_secret`;
-CREATE TABLE `user_secret` (
-  `id` bigint NOT NULL AUTO_INCREMENT COMMENT '编号',
-  `user_id` bigint NOT NULL COMMENT '用户编号',
-  `password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '用户密码',
-  `creator` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '创建人',
-  `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `updater` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '更新人',
-  `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-  PRIMARY KEY (`id`) USING BTREE,
-  UNIQUE KEY `uniq:user` (`user_id`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=DYNAMIC COMMENT='用户密码';
-
--- ----------------------------
--- Records of user_secret
--- ----------------------------
-BEGIN;
+INSERT INTO `system_user_tenant` (`id`, `user_id`, `tenant_id`, `deleted`, `creator`, `create_time`, `updater`, `update_time`) VALUES (1, 1, 1, 0, NULL, '2024-03-31 20:33:48', NULL, '2024-04-21 19:04:14');
 COMMIT;
 
 SET FOREIGN_KEY_CHECKS = 1;

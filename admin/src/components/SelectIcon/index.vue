@@ -7,11 +7,11 @@
     :visible="state.popoverVisible"
     :show-arrow="false">
     <div
+      class="icon-selector"
       @mouseover.stop="state.iconSelectorMouseover = true"
-      @mouseout.stop="state.iconSelectorMouseover = false"
-      class="icon-selector">
+      @mouseout.stop="state.iconSelectorMouseover = false">
       <transition name="el-zoom-in-center">
-        <div class="icon-selector-box" v-if="show">
+        <div v-if="show" class="icon-selector-box">
           <div class="selector-header">
             <div class="selector-title">{{ title ? title : "" }}</div>
           </div>
@@ -19,11 +19,11 @@
             <el-scrollbar ref="selectorScrollbarRef" height="20vh">
               <div v-if="renderFontIconNames.length > 0">
                 <div
+                  v-for="(item, key) in renderFontIconNames"
+                  :key="key"
                   class="icon-selector-item"
                   :title="item"
-                  @click="onIcon(item)"
-                  v-for="(item, key) in renderFontIconNames"
-                  :key="key">
+                  @click="onIcon(item)">
                   <el-button :icon="customIcons[item]" />
                 </div>
               </div>
@@ -34,14 +34,14 @@
     </div>
     <template #reference>
       <el-input
+        ref="selectorInput"
         v-model="state.inputValue"
         :size="size"
         :disabled="disabled"
         :placeholder="placeholder"
-        ref="selectorInput"
+        :class="'size-' + size"
         @focus="onInputFocus"
-        @blur="onInputBlur"
-        :class="'size-' + size">
+        @blur="onInputBlur">
         <template #prepend>
           <div class="icon-prepend">
             <el-button
@@ -53,7 +53,7 @@
           </div>
         </template>
         <template #append>
-          <el-button @click="onInputRefresh" :icon="Icons.Refresh" />
+          <el-button :icon="Icons.Refresh" @click="onInputRefresh" />
         </template>
       </el-input>
     </template>

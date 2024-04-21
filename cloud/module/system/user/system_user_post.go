@@ -15,22 +15,22 @@ import (
 func SystemUserPostCreate(ctx context.Context, data dao.SystemUserPostCustom) (res int64, err error) {
 	db := initial.Core.Store.LoadSQL("mysql").Write()
 	var list []any
-	if data.SystemPostIds.IsValid() {
+	if data.PostIds.IsValid() {
 		var postIds []int64
-		err = json.Unmarshal(data.SystemPostIds.JSON, &postIds)
+		err = json.Unmarshal(data.PostIds.JSON, &postIds)
 		if err != nil {
 			return
 		}
 		for _, postId := range postIds {
 			list = append(list, dao.SystemUserPost{
-				SystemPostId:   proto.Int64(postId),
-				SystemUserId:   data.SystemUserId,
-				Deleted:        proto.Int32(0),
-				SystemTenantId: data.SystemTenantId,
-				Creator:        data.Creator,
-				CreateTime:     data.CreateTime,
-				Updater:        data.Updater,
-				UpdateTime:     data.UpdateTime,
+				PostId:     proto.Int64(postId),
+				UserId:     data.UserId,
+				Deleted:    proto.Int32(0),
+				TenantId:   data.TenantId,
+				Creator:    data.Creator,
+				CreateTime: data.CreateTime,
+				Updater:    data.Updater,
+				UpdateTime: data.UpdateTime,
 			})
 		}
 	}
@@ -39,7 +39,7 @@ func SystemUserPostCreate(ctx context.Context, data dao.SystemUserPostCustom) (r
 		// 先删除数据, 在添加数据
 		// 需要先将数据删除了在添加
 		builder := sql.NewBuilder()
-		query, args, err := builder.Table("`system_user_post`").Where("`system_tenant_id`", data.SystemTenantId).Where("system_user_id", data.SystemUserId).Delete()
+		query, args, err := builder.Table("`system_user_post`").Where("`tenant_id`", data.TenantId).Where("user_id", data.UserId).Delete()
 		if err != nil {
 			return err
 		}
@@ -67,17 +67,17 @@ func SystemUserPostList(ctx context.Context, condition map[string]any) (res []da
 	db := initial.Core.Store.LoadSQL("mysql").Read()
 	builder := sql.NewBuilder()
 	builder.Table("`system_user_post`")
-	if val, ok := condition["systemTenantId"]; ok {
-		builder.Where("`system_tenant_id`", val)
+	if val, ok := condition["tenantId"]; ok {
+		builder.Where("`tenant_id`", val)
 	}
 	if val, ok := condition["deleted"]; ok {
 		builder.Where("`deleted`", val)
 	}
-	if val, ok := condition["systemUserId"]; ok {
-		builder.Where("`system_user_id`", val)
+	if val, ok := condition["userId"]; ok {
+		builder.Where("`user_id`", val)
 	}
-	if val, ok := condition["systemPostId"]; ok {
-		builder.Where("`system_post_id`", val)
+	if val, ok := condition["postId"]; ok {
+		builder.Where("`post_id`", val)
 	}
 	builder.OrderBy("`id`", sql.DESC)
 	query, args, err := builder.Rows()

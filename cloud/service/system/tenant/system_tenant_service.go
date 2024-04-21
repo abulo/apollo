@@ -41,12 +41,12 @@ func (srv SrvSystemTenantServiceServer) SystemTenantCreate(ctx context.Context, 
 
 // SystemTenantUpdate 更新数据
 func (srv SrvSystemTenantServiceServer) SystemTenantUpdate(ctx context.Context, request *SystemTenantUpdateRequest) (*SystemTenantUpdateResponse, error) {
-	systemTenantId := request.GetSystemTenantId()
-	if systemTenantId < 1 {
+	id := request.GetId()
+	if id < 1 {
 		return &SystemTenantUpdateResponse{}, status.Error(code.ConvertToGrpc(code.ParamInvalid), code.StatusText(code.ParamInvalid))
 	}
 	req := SystemTenantDao(request.GetData())
-	_, err := tenant.SystemTenantUpdate(ctx, systemTenantId, *req)
+	_, err := tenant.SystemTenantUpdate(ctx, id, *req)
 	if sql.ResultAccept(err) != nil {
 		globalLogger.Logger.WithFields(logrus.Fields{
 			"req": req,
@@ -62,14 +62,14 @@ func (srv SrvSystemTenantServiceServer) SystemTenantUpdate(ctx context.Context, 
 
 // SystemTenantDelete 删除数据
 func (srv SrvSystemTenantServiceServer) SystemTenantDelete(ctx context.Context, request *SystemTenantDeleteRequest) (*SystemTenantDeleteResponse, error) {
-	systemTenantId := request.GetSystemTenantId()
-	if systemTenantId < 1 {
+	id := request.GetId()
+	if id < 1 {
 		return &SystemTenantDeleteResponse{}, status.Error(code.ConvertToGrpc(code.ParamInvalid), code.StatusText(code.ParamInvalid))
 	}
-	_, err := tenant.SystemTenantDelete(ctx, systemTenantId)
+	_, err := tenant.SystemTenantDelete(ctx, id)
 	if sql.ResultAccept(err) != nil {
 		globalLogger.Logger.WithFields(logrus.Fields{
-			"req": systemTenantId,
+			"req": id,
 			"err": err,
 		}).Error("Sql:租户:system_tenant:SystemTenantDelete")
 		return &SystemTenantDeleteResponse{}, status.Error(code.ConvertToGrpc(code.SqlError), err.Error())
@@ -82,14 +82,14 @@ func (srv SrvSystemTenantServiceServer) SystemTenantDelete(ctx context.Context, 
 
 // SystemTenant 查询单条数据
 func (srv SrvSystemTenantServiceServer) SystemTenant(ctx context.Context, request *SystemTenantRequest) (*SystemTenantResponse, error) {
-	systemTenantId := request.GetSystemTenantId()
-	if systemTenantId < 1 {
+	id := request.GetId()
+	if id < 1 {
 		return &SystemTenantResponse{}, status.Error(code.ConvertToGrpc(code.ParamInvalid), code.StatusText(code.ParamInvalid))
 	}
-	res, err := tenant.SystemTenant(ctx, systemTenantId)
+	res, err := tenant.SystemTenant(ctx, id)
 	if sql.ResultAccept(err) != nil {
 		globalLogger.Logger.WithFields(logrus.Fields{
-			"req": systemTenantId,
+			"req": id,
 			"err": err,
 		}).Error("Sql:租户:system_tenant:SystemTenant")
 		return &SystemTenantResponse{}, status.Error(code.ConvertToGrpc(code.SqlError), err.Error())
@@ -103,14 +103,14 @@ func (srv SrvSystemTenantServiceServer) SystemTenant(ctx context.Context, reques
 
 // SystemTenantRecover 恢复数据
 func (srv SrvSystemTenantServiceServer) SystemTenantRecover(ctx context.Context, request *SystemTenantRecoverRequest) (*SystemTenantRecoverResponse, error) {
-	systemTenantId := request.GetSystemTenantId()
-	if systemTenantId < 1 {
+	id := request.GetId()
+	if id < 1 {
 		return &SystemTenantRecoverResponse{}, status.Error(code.ConvertToGrpc(code.ParamInvalid), code.StatusText(code.ParamInvalid))
 	}
-	_, err := tenant.SystemTenantRecover(ctx, systemTenantId)
+	_, err := tenant.SystemTenantRecover(ctx, id)
 	if sql.ResultAccept(err) != nil {
 		globalLogger.Logger.WithFields(logrus.Fields{
-			"req": systemTenantId,
+			"req": id,
 			"err": err,
 		}).Error("Sql:租户:system_tenant:SystemTenantRecover")
 		return &SystemTenantRecoverResponse{}, status.Error(code.ConvertToGrpc(code.SqlError), err.Error())
@@ -139,8 +139,8 @@ func (srv SrvSystemTenantServiceServer) SystemTenantList(ctx context.Context, re
 	if request.FinishExpireDate != nil {
 		condition["finishExpireDate"] = util.Date("Y-m-d", util.GrpcTime(request.GetFinishExpireDate()))
 	}
-	if request.SystemTenantPackageId != nil {
-		condition["systemTenantPackageId"] = request.GetSystemTenantPackageId()
+	if request.TenantPackageId != nil {
+		condition["tenantPackageId"] = request.GetTenantPackageId()
 	}
 
 	// 当前页面
@@ -197,8 +197,8 @@ func (srv SrvSystemTenantServiceServer) SystemTenantListTotal(ctx context.Contex
 	if request.FinishExpireDate != nil {
 		condition["finishExpireDate"] = util.Date("Y-m-d", util.GrpcTime(request.GetFinishExpireDate()))
 	}
-	if request.SystemTenantPackageId != nil {
-		condition["systemTenantPackageId"] = request.GetSystemTenantPackageId()
+	if request.TenantPackageId != nil {
+		condition["tenantPackageId"] = request.GetTenantPackageId()
 	}
 
 	// 获取数据集合

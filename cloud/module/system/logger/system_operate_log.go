@@ -24,11 +24,11 @@ func SystemOperateLogCreate(ctx context.Context, data dao.SystemOperateLog) (res
 }
 
 // SystemOperateLogDelete 删除数据
-func SystemOperateLogDelete(ctx context.Context, systemOperateLogIds []int64) (res int64, err error) {
+func SystemOperateLogDelete(ctx context.Context, ids []int64) (res int64, err error) {
 	db := initial.Core.Store.LoadSQL("mysql").Write()
 	builder := sql.NewBuilder()
 	id := make([]any, 0)
-	for _, v := range systemOperateLogIds {
+	for _, v := range ids {
 		id = append(id, v)
 	}
 	query, args, err := builder.Table("`system_operate_log`").In("`id`", id...).Delete()
@@ -40,10 +40,10 @@ func SystemOperateLogDelete(ctx context.Context, systemOperateLogIds []int64) (r
 }
 
 // SystemOperateLog 查询单条数据
-func SystemOperateLog(ctx context.Context, systemOperateLogId int64) (res dao.SystemOperateLog, err error) {
+func SystemOperateLog(ctx context.Context, id int64) (res dao.SystemOperateLog, err error) {
 	db := initial.Core.Store.LoadSQL("mysql").Read()
 	builder := sql.NewBuilder()
-	query, args, err := builder.Table("`system_operate_log`").Where("`id`", systemOperateLogId).Row()
+	query, args, err := builder.Table("`system_operate_log`").Where("`id`", id).Row()
 	if err != nil {
 		return
 	}

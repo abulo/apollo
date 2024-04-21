@@ -48,8 +48,8 @@ func SystemRoleCreate(ctx context.Context, newCtx *app.RequestContext) {
 		return
 	}
 	reqInfo.Deleted = proto.Int32(0)
-	reqInfo.SystemTenantId = proto.Int64(newCtx.GetInt64("systemTenantId")) // 租户
-	reqInfo.Creator = null.StringFrom(newCtx.GetString("systemUserName"))
+	reqInfo.TenantId = proto.Int64(newCtx.GetInt64("tenantId")) // 租户
+	reqInfo.Creator = null.StringFrom(newCtx.GetString("userName"))
 	reqInfo.CreateTime = null.DateTimeFrom(util.Now())
 	request.Data = role.SystemRoleProto(reqInfo)
 	// 执行服务
@@ -88,9 +88,9 @@ func SystemRoleUpdate(ctx context.Context, newCtx *app.RequestContext) {
 	}
 	//链接服务
 	client := role.NewSystemRoleServiceClient(grpcClient)
-	systemRoleId := cast.ToInt64(newCtx.Param("systemRoleId"))
+	id := cast.ToInt64(newCtx.Param("id"))
 	request := &role.SystemRoleUpdateRequest{}
-	request.SystemRoleId = systemRoleId
+	request.Id = id
 	// 数据绑定
 	var reqInfo dao.SystemRole
 	if err := newCtx.BindAndValidate(&reqInfo); err != nil {
@@ -100,8 +100,8 @@ func SystemRoleUpdate(ctx context.Context, newCtx *app.RequestContext) {
 		})
 		return
 	}
-	reqInfo.SystemTenantId = proto.Int64(newCtx.GetInt64("systemTenantId")) // 租户
-	reqInfo.Updater = null.StringFrom(newCtx.GetString("systemUserName"))
+	reqInfo.TenantId = proto.Int64(newCtx.GetInt64("tenantId")) // 租户
+	reqInfo.Updater = null.StringFrom(newCtx.GetString("userName"))
 	reqInfo.UpdateTime = null.DateTimeFrom(util.Now())
 	request.Data = role.SystemRoleProto(reqInfo)
 	// 执行服务
@@ -139,9 +139,9 @@ func SystemRoleDelete(ctx context.Context, newCtx *app.RequestContext) {
 	}
 	//链接服务
 	client := role.NewSystemRoleServiceClient(grpcClient)
-	systemRoleId := cast.ToInt64(newCtx.Param("systemRoleId"))
+	id := cast.ToInt64(newCtx.Param("id"))
 	request := &role.SystemRoleDeleteRequest{}
-	request.SystemRoleId = systemRoleId
+	request.Id = id
 	// 执行服务
 	res, err := client.SystemRoleDelete(ctx, request)
 	if err != nil {
@@ -178,9 +178,9 @@ func SystemRole(ctx context.Context, newCtx *app.RequestContext) {
 	}
 	//链接服务
 	client := role.NewSystemRoleServiceClient(grpcClient)
-	systemRoleId := cast.ToInt64(newCtx.Param("systemRoleId"))
+	id := cast.ToInt64(newCtx.Param("id"))
 	request := &role.SystemRoleRequest{}
-	request.SystemRoleId = systemRoleId
+	request.Id = id
 	// 执行服务
 	res, err := client.SystemRole(ctx, request)
 	if err != nil {
@@ -217,9 +217,9 @@ func SystemRoleRecover(ctx context.Context, newCtx *app.RequestContext) {
 	}
 	//链接服务
 	client := role.NewSystemRoleServiceClient(grpcClient)
-	systemRoleId := cast.ToInt64(newCtx.Param("systemRoleId"))
+	id := cast.ToInt64(newCtx.Param("id"))
 	request := &role.SystemRoleRecoverRequest{}
-	request.SystemRoleId = systemRoleId
+	request.Id = id
 	// 执行服务
 	res, err := client.SystemRoleRecover(ctx, request)
 	if err != nil {
@@ -261,8 +261,8 @@ func SystemRoleList(ctx context.Context, newCtx *app.RequestContext) {
 	// 构造查询条件
 	request := &role.SystemRoleListRequest{}
 
-	request.SystemTenantId = proto.Int64(newCtx.GetInt64("systemTenantId")) // 租户ID
-	request.Deleted = proto.Int32(0)                                        // 删除状态
+	request.TenantId = proto.Int64(newCtx.GetInt64("tenantId")) // 租户ID
+	request.Deleted = proto.Int32(0)                            // 删除状态
 	if val, ok := newCtx.GetQuery("deleted"); ok {
 		if cast.ToBool(val) {
 			request.Deleted = nil

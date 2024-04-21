@@ -24,11 +24,11 @@ func SystemLoginLogCreate(ctx context.Context, data dao.SystemLoginLog) (res int
 }
 
 // SystemLoginLogDelete 删除数据
-func SystemLoginLogDelete(ctx context.Context, systemLoginLogIds []int64) (res int64, err error) {
+func SystemLoginLogDelete(ctx context.Context, ids []int64) (res int64, err error) {
 	db := initial.Core.Store.LoadSQL("mysql").Write()
 	builder := sql.NewBuilder()
 	id := make([]any, 0)
-	for _, v := range systemLoginLogIds {
+	for _, v := range ids {
 		id = append(id, v)
 	}
 	query, args, err := builder.Table("`system_login_log`").In("`id`", id...).Delete()

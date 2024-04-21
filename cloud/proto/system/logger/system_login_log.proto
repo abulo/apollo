@@ -19,14 +19,18 @@ message SystemLoginLogObject {
 	google.protobuf.Timestamp login_time = 5; //登录时间
 	// @inject_tag: db:"channel" json:"channel"
 	optional string channel = 6; //渠道
+	// @inject_tag: db:"deleted" json:"deleted"
+	optional int32 deleted = 7; //是否删除
+	// @inject_tag: db:"tenant_id" json:"tenantId"
+	optional int64 tenant_id = 8; //租户ID
 	// @inject_tag: db:"creator" json:"creator"
-	optional string creator = 7; //创建人
+	optional string creator = 9; //创建人
 	// @inject_tag: db:"create_time" json:"createTime"
-	google.protobuf.Timestamp create_time = 8; //创建时间
+	google.protobuf.Timestamp create_time = 10; //创建时间
 	// @inject_tag: db:"updater" json:"updater"
-	optional string updater = 9; //更新人
+	optional string updater = 11; //更新人
 	// @inject_tag: db:"update_time" json:"updateTime"
-	google.protobuf.Timestamp update_time = 10; //更新时间
+	google.protobuf.Timestamp update_time = 12; //更新时间
 }
 // SystemLoginLogTotalResponse 列表数据总量
 message SystemLoginLogTotalResponse {
@@ -46,8 +50,8 @@ message SystemLoginLogCreateResponse {
 }
 // SystemLoginLogDeleteRequest 删除数据请求
 message SystemLoginLogDeleteRequest {
-	// @inject_tag: db:"system_login_log_ids" json:"systemLoginLogIds"
-	bytes system_login_log_ids = 1; //主键
+	// @inject_tag: db:"ids" json:"ids"
+	bytes ids = 1; //主键
 }
 // SystemLoginLogDeleteResponse 删除数据响应
 message SystemLoginLogDeleteResponse {
@@ -56,8 +60,8 @@ message SystemLoginLogDeleteResponse {
 }
 // SystemLoginLogRequest 查询单条数据请求
 message SystemLoginLogRequest {
-	// @inject_tag: db:"system_login_log_id" json:"systemLoginLogId"
-	int64 system_login_log_id = 1; //主键
+	// @inject_tag: db:"id" json:"id"
+	int64 id = 1; //主键
 }
 // SystemLoginLogResponse 查询单条数据响应
 message SystemLoginLogResponse {

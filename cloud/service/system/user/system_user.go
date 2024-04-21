@@ -35,8 +35,8 @@ func SystemUserDao(item *SystemUserObject) *dao.SystemUser {
 	if item != nil && item.Deleted != nil {
 		daoItem.Deleted = item.Deleted // 是否删除(0否 1是)
 	}
-	if item != nil && item.SystemTenantId != nil {
-		daoItem.SystemTenantId = item.SystemTenantId // 租户ID
+	if item != nil && item.TenantId != nil {
+		daoItem.TenantId = item.TenantId // 租户ID
 	}
 	if item != nil && item.Creator != nil {
 		daoItem.Creator = null.StringFrom(item.GetCreator()) // 创建人
@@ -50,14 +50,14 @@ func SystemUserDao(item *SystemUserObject) *dao.SystemUser {
 	if item != nil && item.UpdateTime != nil {
 		daoItem.UpdateTime = null.DateTimeFrom(util.GrpcTime(item.UpdateTime)) // 更新时间
 	}
-	// if item != nil && item.SystemDeptIds != nil {
-	// 	daoItem.SystemDeptIds = null.JSONFrom(item.GetSystemDeptIds())
+	// if item != nil && item.DeptIds != nil {
+	// 	daoItem.DeptIds = null.JSONFrom(item.GetDeptIds())
 	// }
-	// if item != nil && item.SystemPostIds != nil {
-	// 	daoItem.SystemPostIds = null.JSONFrom(item.GetSystemPostIds())
+	// if item != nil && item.PostIds != nil {
+	// 	daoItem.PostIds = null.JSONFrom(item.GetPostIds())
 	// }
-	// if item != nil && item.SystemRoleIds != nil {
-	// 	daoItem.SystemRoleIds = null.JSONFrom(item.GetSystemRoleIds())
+	// if item != nil && item.RoleIds != nil {
+	// 	daoItem.RoleIds = null.JSONFrom(item.GetRoleIds())
 	// }
 
 	return daoItem
@@ -87,8 +87,8 @@ func SystemUserProto(item dao.SystemUser) *SystemUserObject {
 	if item.Deleted != nil {
 		res.Deleted = item.Deleted
 	}
-	if item.SystemTenantId != nil {
-		res.SystemTenantId = item.SystemTenantId
+	if item.TenantId != nil {
+		res.TenantId = item.TenantId
 	}
 	if item.Creator.IsValid() {
 		res.Creator = item.Creator.Ptr()
@@ -102,14 +102,14 @@ func SystemUserProto(item dao.SystemUser) *SystemUserObject {
 	if item.UpdateTime.IsValid() {
 		res.UpdateTime = timestamppb.New(*item.UpdateTime.Ptr())
 	}
-	// if item.SystemDeptIds.IsValid() {
-	// 	res.SystemDeptIds = *item.SystemDeptIds.Ptr()
+	// if item.DeptIds.IsValid() {
+	// 	res.DeptIds = *item.DeptIds.Ptr()
 	// }
-	// if item.SystemPostIds.IsValid() {
-	// 	res.SystemPostIds = *item.SystemPostIds.Ptr()
+	// if item.PostIds.IsValid() {
+	// 	res.PostIds = *item.PostIds.Ptr()
 	// }
-	// if item.SystemRoleIds.IsValid() {
-	// 	res.SystemRoleIds = *item.SystemRoleIds.Ptr()
+	// if item.RoleIds.IsValid() {
+	// 	res.RoleIds = *item.RoleIds.Ptr()
 	// }
 
 	return res

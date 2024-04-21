@@ -5,7 +5,7 @@
         <el-tab-pane v-for="item in tabsMenuList" :key="item.path" :label="item.title" :name="item.path" :closable="item.close">
           <template #label>
             <el-icon v-if="item.icon && tabsIcon" class="tabs-icon">
-              <component :is="item.icon"></component>
+              <component :is="item.icon" />
             </el-icon>
             {{ item.title }}
           </template>

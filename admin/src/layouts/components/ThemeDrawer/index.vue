@@ -8,10 +8,10 @@
     <div class="layout-box">
       <el-tooltip effect="dark" content="纵向" placement="top" :show-after="200">
         <div :class="['layout-item layout-vertical', { 'is-active': layout == 'vertical' }]" @click="setLayout('vertical')">
-          <div class="layout-dark"></div>
+          <div class="layout-dark" />
           <div class="layout-container">
-            <div class="layout-light"></div>
-            <div class="layout-content"></div>
+            <div class="layout-light" />
+            <div class="layout-content" />
           </div>
           <el-icon v-if="layout == 'vertical'">
             <CircleCheckFilled />
@@ -20,10 +20,10 @@
       </el-tooltip>
       <el-tooltip effect="dark" content="经典" placement="top" :show-after="200">
         <div :class="['layout-item layout-classic', { 'is-active': layout == 'classic' }]" @click="setLayout('classic')">
-          <div class="layout-dark"></div>
+          <div class="layout-dark" />
           <div class="layout-container">
-            <div class="layout-light"></div>
-            <div class="layout-content"></div>
+            <div class="layout-light" />
+            <div class="layout-content" />
           </div>
           <el-icon v-if="layout == 'classic'">
             <CircleCheckFilled />
@@ -32,8 +32,8 @@
       </el-tooltip>
       <el-tooltip effect="dark" content="横向" placement="top" :show-after="200">
         <div :class="['layout-item layout-transverse', { 'is-active': layout == 'transverse' }]" @click="setLayout('transverse')">
-          <div class="layout-dark"></div>
-          <div class="layout-content"></div>
+          <div class="layout-dark" />
+          <div class="layout-content" />
           <el-icon v-if="layout == 'transverse'">
             <CircleCheckFilled />
           </el-icon>
@@ -41,9 +41,9 @@
       </el-tooltip>
       <el-tooltip effect="dark" content="分栏" placement="top" :show-after="200">
         <div :class="['layout-item layout-columns', { 'is-active': layout == 'columns' }]" @click="setLayout('columns')">
-          <div class="layout-dark"></div>
-          <div class="layout-light"></div>
-          <div class="layout-content"></div>
+          <div class="layout-dark" />
+          <div class="layout-light" />
+          <div class="layout-content" />
           <el-icon v-if="layout == 'columns'">
             <CircleCheckFilled />
           </el-icon>

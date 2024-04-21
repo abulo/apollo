@@ -15,22 +15,22 @@ import (
 func SystemUserDeptCreate(ctx context.Context, data dao.SystemUserDeptCustom) (res int64, err error) {
 	db := initial.Core.Store.LoadSQL("mysql").Write()
 	var list []any
-	if data.SystemDeptIds.IsValid() {
+	if data.DeptIds.IsValid() {
 		var deptIds []int64
-		err = json.Unmarshal(data.SystemDeptIds.JSON, &deptIds)
+		err = json.Unmarshal(data.DeptIds.JSON, &deptIds)
 		if err != nil {
 			return
 		}
 		for _, deptId := range deptIds {
 			list = append(list, dao.SystemUserDept{
-				SystemDeptId:   proto.Int64(deptId),
-				SystemUserId:   data.SystemUserId,
-				Deleted:        proto.Int32(0),
-				SystemTenantId: data.SystemTenantId,
-				Creator:        data.Creator,
-				CreateTime:     data.CreateTime,
-				Updater:        data.Updater,
-				UpdateTime:     data.UpdateTime,
+				DeptId:     proto.Int64(deptId),
+				UserId:     data.UserId,
+				Deleted:    proto.Int32(0),
+				TenantId:   data.TenantId,
+				Creator:    data.Creator,
+				CreateTime: data.CreateTime,
+				Updater:    data.Updater,
+				UpdateTime: data.UpdateTime,
 			})
 		}
 	}
@@ -39,7 +39,7 @@ func SystemUserDeptCreate(ctx context.Context, data dao.SystemUserDeptCustom) (r
 		// 先删除数据, 在添加数据
 		// 需要先将数据删除了在添加
 		builder := sql.NewBuilder()
-		query, args, err := builder.Table("`system_user_dept`").Where("`system_tenant_id`", data.SystemTenantId).Where("system_user_id", data.SystemUserId).Delete()
+		query, args, err := builder.Table("`system_user_dept`").Where("`tenant_id`", data.TenantId).Where("user_id", data.UserId).Delete()
 		if err != nil {
 			return err
 		}
@@ -67,17 +67,17 @@ func SystemUserDeptList(ctx context.Context, condition map[string]any) (res []da
 	db := initial.Core.Store.LoadSQL("mysql").Read()
 	builder := sql.NewBuilder()
 	builder.Table("`system_user_dept`")
-	if val, ok := condition["systemTenantId"]; ok {
-		builder.Where("`system_tenant_id`", val)
+	if val, ok := condition["tenantId"]; ok {
+		builder.Where("`tenant_id`", val)
 	}
 	if val, ok := condition["deleted"]; ok {
 		builder.Where("`deleted`", val)
 	}
-	if val, ok := condition["systemDeptId"]; ok {
-		builder.Where("`system_dept_id`", val)
+	if val, ok := condition["deptId"]; ok {
+		builder.Where("`dept_id`", val)
 	}
-	if val, ok := condition["systemUserId"]; ok {
-		builder.Where("`system_user_id`", val)
+	if val, ok := condition["userId"]; ok {
+		builder.Where("`user_id`", val)
 	}
 
 	builder.OrderBy("`id`", sql.DESC)
@@ -92,7 +92,7 @@ func SystemUserDeptList(ctx context.Context, condition map[string]any) (res []da
 // SystemDeptListRecursive 递归查询
 func SystemDeptListRecursive(ctx context.Context, id int64) (res []dao.SystemDept, err error) {
 	db := initial.Core.Store.LoadSQL("mysql").Read()
-	query := "WITH RECURSIVE filter_system_dept AS (SELECT `id`,`name`,`parent_id`,`sort`,`system_user_id`,`phone`,`email`,`status`,`deleted`,`system_tenant_id`,`creator`,`create_time`,`updater`,`update_time` FROM `system_dept` WHERE `id`=? UNION ALL SELECT d.* FROM system_dept AS d INNER JOIN filter_system_dept f ON d.parent_id=f.id) SELECT filter_system_dept.* FROM filter_system_dept"
+	query := "WITH RECURSIVE filter_system_dept AS (SELECT `id`,`name`,`parent_id`,`sort`,`system_user_id`,`phone`,`email`,`status`,`deleted`,`tenant_id`,`creator`,`create_time`,`updater`,`update_time` FROM `system_dept` WHERE `id`=? UNION ALL SELECT d.* FROM system_dept AS d INNER JOIN filter_system_dept f ON d.parent_id=f.id) SELECT filter_system_dept.* FROM filter_system_dept"
 	err = db.QueryRows(ctx, query, id).ToStruct(&res)
 	return
 }

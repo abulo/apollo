@@ -45,14 +45,14 @@ func SystemRoleMenuCreate(ctx context.Context, newCtx *app.RequestContext) {
 		})
 		return
 	}
-	systemRoleId := cast.ToInt64(newCtx.Param("systemRoleId"))
-	reqInfo.Creator = null.StringFrom(newCtx.GetString("systemUserName"))
+	id := cast.ToInt64(newCtx.Param("id"))
+	reqInfo.Creator = null.StringFrom(newCtx.GetString("userName"))
 	reqInfo.CreateTime = null.DateTimeFrom(util.Now())
-	reqInfo.Updater = null.StringFrom(newCtx.GetString("systemUserName"))
+	reqInfo.Updater = null.StringFrom(newCtx.GetString("userName"))
 	reqInfo.UpdateTime = null.DateTimeFrom(util.Now())
 	reqInfo.Deleted = proto.Int32(0)
-	reqInfo.SystemRoleId = proto.Int64(systemRoleId)
-	reqInfo.SystemTenantId = proto.Int64(newCtx.GetInt64("systemTenantId"))
+	reqInfo.RoleId = proto.Int64(id)
+	reqInfo.TenantId = proto.Int64(newCtx.GetInt64("tenantId"))
 	request.Data = role.SystemRoleMenuCustomProto(reqInfo)
 
 	// 执行服务
@@ -88,20 +88,20 @@ func SystemRoleMenuList(ctx context.Context, newCtx *app.RequestContext) {
 		})
 		return
 	}
-	systemRoleId := cast.ToInt64(newCtx.Param("systemRoleId"))
+	id := cast.ToInt64(newCtx.Param("id"))
 	//链接服务
 	client := role.NewSystemRoleMenuServiceClient(grpcClient)
 	request := &role.SystemRoleMenuListRequest{}
-	request.SystemTenantId = proto.Int64(newCtx.GetInt64("systemTenantId")) // 租户ID
-	request.Deleted = proto.Int32(0)                                        // 删除状态
-	request.SystemRoleId = proto.Int64(cast.ToInt64(systemRoleId))
+	request.TenantId = proto.Int64(newCtx.GetInt64("tenantId")) // 租户ID
+	request.Deleted = proto.Int32(0)                            // 删除状态
+	request.RoleId = proto.Int64(cast.ToInt64(id))
 	if val, ok := newCtx.GetQuery("deleted"); ok {
 		if cast.ToBool(val) {
 			request.Deleted = nil
 		}
 	}
-	if val, ok := newCtx.GetQuery("systemMenuId"); ok {
-		request.SystemMenuId = proto.Int64(cast.ToInt64(val))
+	if val, ok := newCtx.GetQuery("menuId"); ok {
+		request.MenuId = proto.Int64(cast.ToInt64(val))
 	}
 	// 执行服务
 	res, err := client.SystemRoleMenuList(ctx, request)
@@ -121,15 +121,15 @@ func SystemRoleMenuList(ctx context.Context, newCtx *app.RequestContext) {
 	if res.GetCode() == code.Success {
 		rpcList := res.GetData()
 		for _, item := range rpcList {
-			list = append(list, *item.SystemMenuId)
+			list = append(list, *item.MenuId)
 		}
 	}
 	newCtx.JSON(consts.StatusOK, utils.H{
 		"code": res.GetCode(),
 		"msg":  res.GetMsg(),
 		"data": utils.H{
-			"systemRoleId":  systemRoleId,
-			"systemMenuIds": list,
+			"roleId":  id,
+			"menuIds": list,
 		},
 	})
 }

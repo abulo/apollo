@@ -15,7 +15,7 @@
       :search-col="12">
       <!-- 表格 header 按钮 -->
       <template #tableHeader>
-        <el-button type="primary" :icon="CirclePlus" @click="handleAdd()" v-auth="'region.RegionCreate'">新增</el-button>
+        <el-button v-auth="'region.RegionCreate'" type="primary" :icon="CirclePlus" @click="handleAdd()">新增</el-button>
         <el-button type="primary" :icon="Sort" @click="toggleExpandAll">展开/折叠</el-button>
       </template>
       <!-- 状态-->
@@ -28,34 +28,34 @@
       </template>
       <!-- 地区操作 -->
       <template #operation="scope">
-        <el-button type="primary" link :icon="CirclePlus" @click="handleAdd(scope.row)" v-auth="'region.RegionCreate'">
+        <el-button v-auth="'region.RegionCreate'" type="primary" link :icon="CirclePlus" @click="handleAdd(scope.row)">
           新增
         </el-button>
         <el-dropdown trigger="click">
           <el-button
+            v-auth="['region.RegionUpdate', 'region.RegionDelete', 'region.RegionRecover']"
             type="primary"
             link
-            :icon="DArrowRight"
-            v-auth="['region.RegionUpdate', 'region.RegionDelete', 'region.RegionRecover']">
+            :icon="DArrowRight">
             更多
           </el-button>
           <template #dropdown>
             <el-dropdown-menu>
-              <el-dropdown-item :icon="EditPen" @click="handleUpdate(scope.row)" v-auth="'region.RegionUpdate'">
+              <el-dropdown-item v-auth="'region.RegionUpdate'" :icon="EditPen" @click="handleUpdate(scope.row)">
                 编辑
               </el-dropdown-item>
               <el-dropdown-item
-                :icon="Delete"
                 v-if="scope.row.deleted === 0"
-                @click="handleDelete(scope.row)"
-                v-auth="'region.RegionDelete'">
+                v-auth="'region.RegionDelete'"
+                :icon="Delete"
+                @click="handleDelete(scope.row)">
                 删除
               </el-dropdown-item>
               <el-dropdown-item
-                :icon="Refresh"
                 v-if="scope.row.deleted === 1"
-                @click="handleRecover(scope.row)"
-                v-auth="'region.RegionRecover'">
+                v-auth="'region.RegionRecover'"
+                :icon="Refresh"
+                @click="handleRecover(scope.row)">
                 恢复
               </el-dropdown-item>
             </el-dropdown-menu>
@@ -65,8 +65,8 @@
     </VirtualTable>
     <!-- 新增/编辑弹窗 -->
     <el-dialog
-      :title="title"
       v-model="centerDialogVisible"
+      :title="title"
       width="40%"
       destroy-on-close
       align-center
@@ -107,7 +107,7 @@
       <template #footer>
         <span class="dialog-footer">
           <el-button @click="resetForm(refRegionItemFrom)">取消</el-button>
-          <el-button type="primary" @click="submitForm(refRegionItemFrom)" :loading="loading">确定</el-button>
+          <el-button type="primary" :loading="loading" @click="submitForm(refRegionItemFrom)">确定</el-button>
         </span>
       </template>
     </el-dialog>

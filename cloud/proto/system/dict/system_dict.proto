@@ -46,8 +46,8 @@ message SystemDictCreateResponse {
 }
 // SystemDictUpdateRequest 更新数据请求
 message SystemDictUpdateRequest {
-	// @inject_tag: db:"system_dict_id" json:"systemDictId"
-	int64 system_dict_id = 1; //字典编码
+	// @inject_tag: db:"id" json:"id"
+	int64 id = 1; //字典编码
 	SystemDictObject data = 2;
 }
 // SystemDictUpdateResponse 更新数据响应
@@ -57,8 +57,8 @@ message SystemDictUpdateResponse {
 }
 // SystemDictDeleteRequest 删除数据请求
 message SystemDictDeleteRequest {
-	// @inject_tag: db:"system_dict_id" json:"systemDictId"
-	int64 system_dict_id = 1; //字典编码
+	// @inject_tag: db:"id" json:"id"
+	int64 id = 1; //字典编码
 }
 // SystemDictDeleteResponse 删除数据响应
 message SystemDictDeleteResponse {
@@ -67,8 +67,8 @@ message SystemDictDeleteResponse {
 }
 // SystemDictRequest 查询单条数据请求
 message SystemDictRequest {
-	// @inject_tag: db:"system_dict_id" json:"systemDictId"
-	int64 system_dict_id = 1; //字典编码
+	// @inject_tag: db:"id" json:"id"
+	int64 id = 1; //字典编码
 }
 // SystemDictResponse 查询单条数据响应
 message SystemDictResponse {

@@ -18,9 +18,9 @@
     </template>
   </el-dropdown>
   <!-- infoDialog -->
-  <InfoDialog ref="infoRef"></InfoDialog>
+  <InfoDialog ref="infoRef" />
   <!-- passwordDialog -->
-  <PasswordDialog ref="passwordRef"></PasswordDialog>
+  <PasswordDialog ref="passwordRef" />
 </template>
 
 <script setup lang="ts">

@@ -2,7 +2,7 @@
  * v-auth
  * 按钮权限指令
  */
-import type { Directive, DirectiveBinding } from "vue";
+import { Directive, DirectiveBinding } from "vue";
 import { HasPermissionItem } from "@/utils/permission";
 
 const auth: Directive = {

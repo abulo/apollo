@@ -32,6 +32,12 @@ func SystemLoginLogDao(item *SystemLoginLogObject) *dao.SystemLoginLog {
 	if item != nil && item.Channel != nil {
 		daoItem.Channel = item.Channel // 渠道
 	}
+	if item != nil && item.Deleted != nil {
+		daoItem.Deleted = item.Deleted // 是否删除
+	}
+	if item != nil && item.TenantId != nil {
+		daoItem.TenantId = item.TenantId // 租户ID
+	}
 	if item != nil && item.Creator != nil {
 		daoItem.Creator = null.StringFrom(item.GetCreator()) // 创建人
 	}
@@ -68,6 +74,12 @@ func SystemLoginLogProto(item dao.SystemLoginLog) *SystemLoginLogObject {
 	}
 	if item.Channel != nil {
 		res.Channel = item.Channel
+	}
+	if item.Deleted != nil {
+		res.Deleted = item.Deleted
+	}
+	if item.TenantId != nil {
+		res.TenantId = item.TenantId
 	}
 	if item.Creator.IsValid() {
 		res.Creator = item.Creator.Ptr()

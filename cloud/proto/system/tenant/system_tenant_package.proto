@@ -13,8 +13,8 @@ message SystemTenantPackageObject {
 	optional string name = 2; //套餐名称
 	// @inject_tag: db:"status" json:"status"
 	optional int32 status = 3; //状态（0正常 1停用）
-	// @inject_tag: db:"system_menu_ids" json:"systemMenuIds"
-	optional bytes system_menu_ids = 4; //目录编号
+	// @inject_tag: db:"menu_ids" json:"menuIds"
+	optional bytes menu_ids = 4; //目录编号
 	// @inject_tag: db:"remark" json:"remark"
 	optional string remark = 5; //备注
 	// @inject_tag: db:"deleted" json:"deleted"
@@ -40,8 +40,8 @@ message SystemTenantPackageCreateResponse {
 }
 // SystemTenantPackageUpdateRequest 更新数据请求
 message SystemTenantPackageUpdateRequest {
-	// @inject_tag: db:"system_tenant_package_id" json:"systemTenantPackageId"
-	int64 system_tenant_package_id = 1; //套餐编号
+	// @inject_tag: db:"id" json:"id"
+	int64 id = 1; //套餐编号
 	SystemTenantPackageObject data = 2;
 }
 // SystemTenantPackageUpdateResponse 更新数据响应
@@ -51,8 +51,8 @@ message SystemTenantPackageUpdateResponse {
 }
 // SystemTenantPackageDeleteRequest 删除数据请求
 message SystemTenantPackageDeleteRequest {
-	// @inject_tag: db:"system_tenant_package_id" json:"systemTenantPackageId"
-	int64 system_tenant_package_id = 1; //套餐编号
+	// @inject_tag: db:"id" json:"id"
+	int64 id = 1; //套餐编号
 }
 // SystemTenantPackageDeleteResponse 删除数据响应
 message SystemTenantPackageDeleteResponse {
@@ -61,8 +61,8 @@ message SystemTenantPackageDeleteResponse {
 }
 // SystemTenantPackageRequest 查询单条数据请求
 message SystemTenantPackageRequest {
-	// @inject_tag: db:"system_tenant_package_id" json:"systemTenantPackageId"
-	int64 system_tenant_package_id = 1; //套餐编号
+	// @inject_tag: db:"id" json:"id"
+	int64 id = 1; //套餐编号
 }
 // SystemTenantPackageResponse 查询单条数据响应
 message SystemTenantPackageResponse {
@@ -72,8 +72,8 @@ message SystemTenantPackageResponse {
 }
 // SystemTenantPackageRecoverRequest 恢复数据请求
 message SystemTenantPackageRecoverRequest {
-	// @inject_tag: db:"system_tenant_package_id" json:"systemTenantPackageId"
-	int64 system_tenant_package_id = 1; //套餐编号
+	// @inject_tag: db:"id" json:"id"
+	int64 id = 1; //套餐编号
 }
 // SystemTenantPackageRecoverResponse 删除数据响应
 message SystemTenantPackageRecoverResponse {

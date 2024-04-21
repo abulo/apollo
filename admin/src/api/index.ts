@@ -1,4 +1,10 @@
-import axios, { AxiosInstance, AxiosError, AxiosRequestConfig, InternalAxiosRequestConfig, AxiosResponse } from "axios";
+import axios, {
+  type AxiosInstance,
+  type AxiosError,
+  type AxiosRequestConfig,
+  type InternalAxiosRequestConfig,
+  type AxiosResponse
+} from "axios";
 import { showFullScreenLoading, tryHideFullScreenLoading } from "@/components/Loading/fullScreen";
 import { LOGIN_URL } from "@/config";
 import { ElMessage } from "element-plus";

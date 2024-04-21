@@ -23,8 +23,8 @@ func SystemTenantPackageDao(item *SystemTenantPackageObject) *dao.SystemTenantPa
 	if item != nil && item.Status != nil {
 		daoItem.Status = item.Status // 状态（0正常 1停用）
 	}
-	if item != nil && item.SystemMenuIds != nil {
-		daoItem.SystemMenuIds = null.JSONFrom(item.GetSystemMenuIds()) // 目录编号
+	if item != nil && item.MenuIds != nil {
+		daoItem.MenuIds = null.JSONFrom(item.GetMenuIds()) // 目录编号
 	}
 	if item != nil && item.Remark != nil {
 		daoItem.Remark = null.StringFrom(item.GetRemark()) // 备注
@@ -60,8 +60,8 @@ func SystemTenantPackageProto(item dao.SystemTenantPackage) *SystemTenantPackage
 	if item.Status != nil {
 		res.Status = item.Status
 	}
-	if item.SystemMenuIds.IsValid() {
-		res.SystemMenuIds = *item.SystemMenuIds.Ptr()
+	if item.MenuIds.IsValid() {
+		res.MenuIds = *item.MenuIds.Ptr()
 	}
 	if item.Remark.IsValid() {
 		res.Remark = item.Remark.Ptr()

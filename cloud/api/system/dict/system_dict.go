@@ -46,7 +46,7 @@ func SystemDictCreate(ctx context.Context, newCtx *app.RequestContext) {
 		})
 		return
 	}
-	reqInfo.Creator = null.StringFrom(newCtx.GetString("systemUserName"))
+	reqInfo.Creator = null.StringFrom(newCtx.GetString("userName"))
 	reqInfo.CreateTime = null.DateTimeFrom(util.Now())
 	request.Data = dict.SystemDictProto(reqInfo)
 	// 执行服务
@@ -85,9 +85,9 @@ func SystemDictUpdate(ctx context.Context, newCtx *app.RequestContext) {
 	}
 	//链接服务
 	client := dict.NewSystemDictServiceClient(grpcClient)
-	systemDictId := cast.ToInt64(newCtx.Param("systemDictId"))
+	id := cast.ToInt64(newCtx.Param("id"))
 	request := &dict.SystemDictUpdateRequest{}
-	request.SystemDictId = systemDictId
+	request.Id = id
 	// 数据绑定
 	var reqInfo dao.SystemDict
 	if err := newCtx.BindAndValidate(&reqInfo); err != nil {
@@ -97,7 +97,7 @@ func SystemDictUpdate(ctx context.Context, newCtx *app.RequestContext) {
 		})
 		return
 	}
-	reqInfo.Updater = null.StringFrom(newCtx.GetString("systemUserName"))
+	reqInfo.Updater = null.StringFrom(newCtx.GetString("userName"))
 	reqInfo.UpdateTime = null.DateTimeFrom(util.Now())
 	request.Data = dict.SystemDictProto(reqInfo)
 	// 执行服务
@@ -135,9 +135,9 @@ func SystemDictDelete(ctx context.Context, newCtx *app.RequestContext) {
 	}
 	//链接服务
 	client := dict.NewSystemDictServiceClient(grpcClient)
-	systemDictId := cast.ToInt64(newCtx.Param("systemDictId"))
+	id := cast.ToInt64(newCtx.Param("id"))
 	request := &dict.SystemDictDeleteRequest{}
-	request.SystemDictId = systemDictId
+	request.Id = id
 	// 执行服务
 	res, err := client.SystemDictDelete(ctx, request)
 	if err != nil {
@@ -174,9 +174,9 @@ func SystemDict(ctx context.Context, newCtx *app.RequestContext) {
 	}
 	//链接服务
 	client := dict.NewSystemDictServiceClient(grpcClient)
-	systemDictId := cast.ToInt64(newCtx.Param("systemDictId"))
+	id := cast.ToInt64(newCtx.Param("id"))
 	request := &dict.SystemDictRequest{}
-	request.SystemDictId = systemDictId
+	request.Id = id
 	// 执行服务
 	res, err := client.SystemDict(ctx, request)
 	if err != nil {

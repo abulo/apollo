@@ -14,7 +14,7 @@
       :search-col="12">
       <!-- 表格 header 按钮 -->
       <template #tableHeader>
-        <el-button type="primary" :icon="CirclePlus" @click="handleAdd()" v-auth="'dept.SystemDeptCreate'">新增</el-button>
+        <el-button v-auth="'dept.SystemDeptCreate'" type="primary" :icon="CirclePlus" @click="handleAdd()">新增</el-button>
         <el-button type="primary" :icon="Sort" @click="toggleExpandAll">展开/折叠</el-button>
       </template>
       <!-- 状态-->
@@ -26,34 +26,34 @@
         <DictTag type="delete" :value="scope.row.deleted" />
       </template>
       <template #operation="scope">
-        <el-button type="primary" link :icon="CirclePlus" @click="handleAdd(scope.row)" v-auth="'dept.SystemDeptCreate'">
+        <el-button v-auth="'dept.SystemDeptCreate'" type="primary" link :icon="CirclePlus" @click="handleAdd(scope.row)">
           新增
         </el-button>
         <el-dropdown trigger="click">
           <el-button
+            v-auth="['dept.SystemDeptUpdate', 'dept.SystemDeptDelete', 'dept.SystemDeptRecover']"
             type="primary"
             link
             :icon="DArrowRight"
-            v-auth="['dept.SystemDeptUpdate', 'dept.SystemDeptDelete', 'dept.SystemDeptRecover']"
             >更多</el-button
           >
           <template #dropdown>
             <el-dropdown-menu>
-              <el-dropdown-item :icon="EditPen" @click="handleUpdate(scope.row)" v-auth="'dept.SystemDeptUpdate'">
+              <el-dropdown-item v-auth="'dept.SystemDeptUpdate'" :icon="EditPen" @click="handleUpdate(scope.row)">
                 编辑
               </el-dropdown-item>
               <el-dropdown-item
-                :icon="Delete"
                 v-if="scope.row.deleted === 0"
-                @click="handleDelete(scope.row)"
-                v-auth="'dept.SystemDeptDelete'">
+                v-auth="'dept.SystemDeptDelete'"
+                :icon="Delete"
+                @click="handleDelete(scope.row)">
                 删除
               </el-dropdown-item>
               <el-dropdown-item
-                :icon="Refresh"
                 v-if="scope.row.deleted === 1"
-                @click="handleRecover(scope.row)"
-                v-auth="'dept.SystemDeptRecover'">
+                v-auth="'dept.SystemDeptRecover'"
+                :icon="Refresh"
+                @click="handleRecover(scope.row)">
                 恢复
               </el-dropdown-item>
             </el-dropdown-menu>
@@ -62,8 +62,8 @@
       </template>
     </ProTable>
     <el-dialog
-      :title="title"
       v-model="centerDialogVisible"
+      :title="title"
       width="40%"
       destroy-on-close
       align-center
@@ -71,8 +71,8 @@
       append-to-body
       draggable
       :lock-scroll="false"
-      @click="handleDialogClick"
-      class="dialog-settings">
+      class="dialog-settings"
+      @click="handleDialogClick">
       <el-form ref="refSystemDeptItemFrom" :model="systemDeptItemFrom" :rules="rulesSystemDeptItemFrom" label-width="100px">
         <el-form-item label="上级部门" prop="parentId">
           <el-tree-select
@@ -89,7 +89,7 @@
         <el-form-item label="部门名称" prop="name">
           <el-input v-model="systemDeptItemFrom.name" placeholder="请输入部门名称" />
         </el-form-item>
-        <el-form-item label="负责人" prop="systemUserId">
+        <el-form-item label="负责人" prop="userId">
           <el-popover placement="bottom-start" :width="600" :show-arrow="false" trigger="click" :visible="isUserOpenPopover">
             <template #reference>
               <el-button style="margin-right: 16px" @click.stop="userOpenPopover">{{ userItem }}</el-button>
@@ -133,7 +133,7 @@
       <template #footer>
         <span class="dialog-footer">
           <el-button @click.stop="resetForm(refSystemDeptItemFrom)">取消</el-button>
-          <el-button type="primary" @click.stop="submitForm(refSystemDeptItemFrom)" :loading="loading">确定</el-button>
+          <el-button type="primary" :loading="loading" @click.stop="submitForm(refSystemDeptItemFrom)">确定</el-button>
         </span>
       </template>
     </el-dialog>
@@ -186,7 +186,7 @@ const systemDeptItemFrom = ref<SystemDept.ResSystemDeptItem>({
   name: "", //部门名称
   parentId: 0, //父部门ID
   sort: 0, //显示顺序
-  systemUserId: 0, //负责人id
+  userId: 0, //负责人id
   phone: "", //联系电话
   email: "", //邮箱
   status: 0, //部门状态（0正常 1停用）
@@ -211,7 +211,7 @@ const reset = () => {
     name: "", //部门名称
     parentId: 0, //父部门ID
     sort: 0, //显示顺序
-    systemUserId: 0, //负责人id
+    userId: 0, //负责人id
     phone: "", //联系电话
     email: "", //邮箱
     status: 0, //部门状态（0正常 1停用）
@@ -258,7 +258,7 @@ const getTreeSelect = async () => {
     children: data,
     parentId: 0, //父部门ID
     sort: 0, //显示顺序
-    systemUserId: 0, //负责人id
+    userId: 0, //负责人id
     phone: "", //联系电话
     email: "", //邮箱
     status: 0, //部门状态（0正常 1停用）
@@ -275,8 +275,8 @@ const handleUpdate = async (row: SystemDept.ResSystemDeptItem) => {
   getTreeSelect();
   const { data } = await getSystemDeptItemApi(Number(row.id));
   systemDeptItemFrom.value = data;
-  if (Number(data.systemUserId) !== 0) {
-    const user = await getSystemUserItemApi(Number(data.systemUserId));
+  if (Number(data.userId) !== 0) {
+    const user = await getSystemUserItemApi(Number(data.userId));
     userItem.value = user.data.nickname;
   }
 };
@@ -372,7 +372,7 @@ const getSystemUserSearch = (params: any) => {
 // 当用户被选择
 const handleUser = (row: SystemUser.ResSystemUserItem) => {
   userItem.value = row.nickname;
-  systemDeptItemFrom.value.systemUserId = Number(row.id);
+  systemDeptItemFrom.value.userId = Number(row.id);
   isUserOpenPopover.value = false;
 };
 </script>

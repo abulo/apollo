@@ -12,25 +12,25 @@
       <!-- 表格 header 按钮 -->
       <template #tableHeader="scope">
         <el-button
+          v-auth="'logger.SystemEntryLogDelete'"
           type="danger"
           :icon="Delete"
           plain
           :disabled="!scope.isSelected"
-          @click="handleDelete(scope.selectedListIds)"
-          v-auth="'logger.SystemEntryLogDelete'">
+          @click="handleDelete(scope.selectedListIds)">
           删除
         </el-button>
-        <el-button type="danger" :icon="Delete" @click="handleDrop" v-auth="'logger.SystemEntryLogDrop'"> 清空 </el-button>
+        <el-button v-auth="'logger.SystemEntryLogDrop'" type="danger" :icon="Delete" @click="handleDrop"> 清空 </el-button>
       </template>
       <template #operation="scope">
-        <el-button type="primary" link :icon="View" @click="handleItem(scope.row)" v-auth="'logger.SystemEntryLog'">
+        <el-button v-auth="'logger.SystemEntryLog'" type="primary" link :icon="View" @click="handleItem(scope.row)">
           查看
         </el-button>
       </template>
     </ProTable>
     <el-dialog
-      :title="title"
       v-model="centerDialogVisible"
+      :title="title"
       width="40%"
       destroy-on-close
       align-center

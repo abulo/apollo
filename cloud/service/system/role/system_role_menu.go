@@ -12,17 +12,17 @@ import (
 
 func SystemRoleMenuCustomDao(item *SystemRoleMenuCustomObject) *dao.SystemRoleMenuCustom {
 	daoItem := &dao.SystemRoleMenuCustom{}
-	if item != nil && item.SystemRoleId != nil {
-		daoItem.SystemRoleId = item.SystemRoleId // 角色编号
+	if item != nil && item.RoleId != nil {
+		daoItem.RoleId = item.RoleId // 角色编号
 	}
-	if item != nil && item.SystemMenuIds != nil {
-		daoItem.SystemMenuIds = null.JSONFrom(item.GetSystemMenuIds()) // 数据范围(指定部门数组)
+	if item != nil && item.MenuIds != nil {
+		daoItem.MenuIds = null.JSONFrom(item.GetMenuIds()) // 数据范围(指定部门数组)
 	}
 	if item != nil && item.Deleted != nil {
 		daoItem.Deleted = item.Deleted // 删除
 	}
-	if item != nil && item.SystemTenantId != nil {
-		daoItem.SystemTenantId = item.SystemTenantId // 租户
+	if item != nil && item.TenantId != nil {
+		daoItem.TenantId = item.TenantId // 租户
 	}
 	if item != nil && item.Creator != nil {
 		daoItem.Creator = null.StringFrom(item.GetCreator()) // 创建者
@@ -42,17 +42,17 @@ func SystemRoleMenuCustomDao(item *SystemRoleMenuCustomObject) *dao.SystemRoleMe
 // SystemRoleMenuCustomProto 数据绑定
 func SystemRoleMenuCustomProto(item dao.SystemRoleMenuCustom) *SystemRoleMenuCustomObject {
 	res := &SystemRoleMenuCustomObject{}
-	if item.SystemRoleId != nil {
-		res.SystemRoleId = item.SystemRoleId
+	if item.RoleId != nil {
+		res.RoleId = item.RoleId
 	}
-	if item.SystemMenuIds.IsValid() {
-		res.SystemMenuIds = *item.SystemMenuIds.Ptr()
+	if item.MenuIds.IsValid() {
+		res.MenuIds = *item.MenuIds.Ptr()
 	}
 	if item.Deleted != nil {
 		res.Deleted = item.Deleted
 	}
-	if item.SystemTenantId != nil {
-		res.SystemTenantId = item.SystemTenantId
+	if item.TenantId != nil {
+		res.TenantId = item.TenantId
 	}
 	if item.Creator.IsValid() {
 		res.Creator = item.Creator.Ptr()
@@ -77,17 +77,17 @@ func SystemRoleMenuDao(item *SystemRoleMenuObject) *dao.SystemRoleMenu {
 	if item != nil && item.Id != nil {
 		daoItem.Id = item.Id // 自增编号
 	}
-	if item != nil && item.SystemRoleId != nil {
-		daoItem.SystemRoleId = item.SystemRoleId // 角色编号
+	if item != nil && item.RoleId != nil {
+		daoItem.RoleId = item.RoleId // 角色编号
 	}
-	if item != nil && item.SystemMenuId != nil {
-		daoItem.SystemMenuId = item.SystemMenuId // 菜单编号
+	if item != nil && item.MenuId != nil {
+		daoItem.MenuId = item.MenuId // 菜单编号
 	}
 	if item != nil && item.Deleted != nil {
 		daoItem.Deleted = item.Deleted // 删除
 	}
-	if item != nil && item.SystemTenantId != nil {
-		daoItem.SystemTenantId = item.SystemTenantId // 租户
+	if item != nil && item.TenantId != nil {
+		daoItem.TenantId = item.TenantId // 租户
 	}
 	if item != nil && item.Creator != nil {
 		daoItem.Creator = null.StringFrom(item.GetCreator()) // 创建者
@@ -111,17 +111,17 @@ func SystemRoleMenuProto(item dao.SystemRoleMenu) *SystemRoleMenuObject {
 	if item.Id != nil {
 		res.Id = item.Id
 	}
-	if item.SystemRoleId != nil {
-		res.SystemRoleId = item.SystemRoleId
+	if item.RoleId != nil {
+		res.RoleId = item.RoleId
 	}
-	if item.SystemMenuId != nil {
-		res.SystemMenuId = item.SystemMenuId
+	if item.MenuId != nil {
+		res.MenuId = item.MenuId
 	}
 	if item.Deleted != nil {
 		res.Deleted = item.Deleted
 	}
-	if item.SystemTenantId != nil {
-		res.SystemTenantId = item.SystemTenantId
+	if item.TenantId != nil {
+		res.TenantId = item.TenantId
 	}
 	if item.Creator.IsValid() {
 		res.Creator = item.Creator.Ptr()

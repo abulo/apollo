@@ -1,6 +1,6 @@
 <template>
   <div class="maximize" @click="exitMaximize">
-    <i :class="'iconfont icon-tuichu'"></i>
+    <i :class="'iconfont icon-tuichu'" />
   </div>
 </template>
 

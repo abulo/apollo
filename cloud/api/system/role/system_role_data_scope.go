@@ -33,7 +33,7 @@ func SystemRoleDataScopeCreate(ctx context.Context, newCtx *app.RequestContext) 
 		})
 		return
 	}
-	systemRoleId := cast.ToInt64(newCtx.Param("systemRoleId"))
+	id := cast.ToInt64(newCtx.Param("id"))
 	client := role.NewSystemRoleServiceClient(grpcClient)
 	request := &role.SystemRoleDataScopeCreateRequest{}
 	// 数据绑定
@@ -45,11 +45,11 @@ func SystemRoleDataScopeCreate(ctx context.Context, newCtx *app.RequestContext) 
 		})
 		return
 	}
-	reqInfo.Id = proto.Int64(systemRoleId)
-	reqInfo.Updater = null.StringFrom(newCtx.GetString("systemUserName"))
+	reqInfo.Id = proto.Int64(id)
+	reqInfo.Updater = null.StringFrom(newCtx.GetString("userName"))
 	reqInfo.UpdateTime = null.DateTimeFrom(util.Now())
 	request.Data = role.SystemRoleDataScopeProto(reqInfo)
-	request.SystemRoleId = systemRoleId
+	request.Id = id
 
 	// 执行服务
 	res, err := client.SystemRoleDataScopeCreate(ctx, request)
@@ -83,10 +83,10 @@ func SystemRoleDataScope(ctx context.Context, newCtx *app.RequestContext) {
 		})
 		return
 	}
-	systemRoleId := cast.ToInt64(newCtx.Param("systemRoleId"))
+	id := cast.ToInt64(newCtx.Param("id"))
 	client := role.NewSystemRoleServiceClient(grpcClient)
 	request := &role.SystemRoleDataScopeRequest{}
-	request.SystemRoleId = systemRoleId
+	request.Id = id
 
 	// 执行服务
 	res, err := client.SystemRoleDataScope(ctx, request)

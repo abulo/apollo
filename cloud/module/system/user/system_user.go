@@ -26,10 +26,10 @@ func SystemUserCreate(ctx context.Context, data dao.SystemUser) (res int64, err 
 }
 
 // SystemUserUpdate 更新数据
-func SystemUserUpdate(ctx context.Context, systemUserId int64, data dao.SystemUser) (res int64, err error) {
+func SystemUserUpdate(ctx context.Context, id int64, data dao.SystemUser) (res int64, err error) {
 	db := initial.Core.Store.LoadSQL("mysql").Write()
 	builder := sql.NewBuilder()
-	query, args, err := builder.Table("`system_user`").Where("`id`", systemUserId).Update(data)
+	query, args, err := builder.Table("`system_user`").Where("`id`", id).Update(data)
 	if err != nil {
 		return
 	}
@@ -38,12 +38,12 @@ func SystemUserUpdate(ctx context.Context, systemUserId int64, data dao.SystemUs
 }
 
 // SystemUserDelete 删除数据
-func SystemUserDelete(ctx context.Context, systemUserId int64) (res int64, err error) {
+func SystemUserDelete(ctx context.Context, id int64) (res int64, err error) {
 	db := initial.Core.Store.LoadSQL("mysql").Write()
 	builder := sql.NewBuilder()
 	data := make(map[string]any)
 	data["deleted"] = 1
-	query, args, err := builder.Table("`system_user`").Where("`id`", systemUserId).Update(data)
+	query, args, err := builder.Table("`system_user`").Where("`id`", id).Update(data)
 	if err != nil {
 		return
 	}
@@ -52,10 +52,10 @@ func SystemUserDelete(ctx context.Context, systemUserId int64) (res int64, err e
 }
 
 // SystemUser 查询单条数据
-func SystemUser(ctx context.Context, systemUserId int64) (res dao.SystemUser, err error) {
+func SystemUser(ctx context.Context, id int64) (res dao.SystemUser, err error) {
 	db := initial.Core.Store.LoadSQL("mysql").Read()
 	builder := sql.NewBuilder()
-	query, args, err := builder.Table("`system_user`").Where("`id`", systemUserId).Row()
+	query, args, err := builder.Table("`system_user`").Where("`id`", id).Row()
 	if err != nil {
 		return
 	}
@@ -64,12 +64,12 @@ func SystemUser(ctx context.Context, systemUserId int64) (res dao.SystemUser, er
 }
 
 // SystemUserRecover 恢复数据
-func SystemUserRecover(ctx context.Context, systemUserId int64) (res int64, err error) {
+func SystemUserRecover(ctx context.Context, id int64) (res int64, err error) {
 	db := initial.Core.Store.LoadSQL("mysql").Write()
 	builder := sql.NewBuilder()
 	data := make(map[string]any)
 	data["deleted"] = 0
-	query, args, err := builder.Table("`system_user`").Where("`id`", systemUserId).Update(data)
+	query, args, err := builder.Table("`system_user`").Where("`id`", id).Update(data)
 	if err != nil {
 		return
 	}
@@ -104,8 +104,8 @@ func SystemUserList(ctx context.Context, condition map[string]any) (res []dao.Sy
 	builder := sql.NewBuilder()
 	builder.Table("`system_user`")
 	builder.Select("`system_user`.*")
-	if val, ok := condition["systemTenantId"]; ok {
-		builder.Where("`system_user`.`system_tenant_id`", val)
+	if val, ok := condition["tenantId"]; ok {
+		builder.Where("`system_user`.`tenant_id`", val)
 	}
 	if val, ok := condition["deleted"]; ok {
 		builder.Where("`system_user`.`deleted`", val)
@@ -121,8 +121,8 @@ func SystemUserList(ctx context.Context, condition map[string]any) (res []dao.Sy
 				for _, v := range deptList {
 					newVal = append(newVal, cast.ToInt64(v.Id))
 				}
-				builder.LeftJoin("`system_user_dept`", "`system_user`.`id` = `system_user_dept`.`system_user_id`")
-				builder.In("`system_user_dept`.`system_dept_id`", newVal...)
+				builder.LeftJoin("`system_user_dept`", "`system_user`.`id` = `system_user_dept`.`user_id`")
+				builder.In("`system_user_dept`.`dept_id`", newVal...)
 			}
 		}
 	}
@@ -156,8 +156,8 @@ func SystemUserListTotal(ctx context.Context, condition map[string]any) (res int
 	builder := sql.NewBuilder()
 	builder.Table("`system_user`")
 	builder.Select("`system_user`.`id`")
-	if val, ok := condition["systemTenantId"]; ok {
-		builder.Where("`system_user`.`system_tenant_id`", val)
+	if val, ok := condition["tenantId"]; ok {
+		builder.Where("`system_user`.`tenant_id`", val)
 	}
 	if val, ok := condition["deleted"]; ok {
 		builder.Where("`system_user`.`deleted`", val)
@@ -173,8 +173,8 @@ func SystemUserListTotal(ctx context.Context, condition map[string]any) (res int
 				for _, v := range deptList {
 					newVal = append(newVal, cast.ToInt64(v.Id))
 				}
-				builder.LeftJoin("`system_user_dept`", "`system_user`.`id` = `system_user_dept`.`system_user_id`")
-				builder.In("`system_user_dept`.`system_dept_id`", newVal...)
+				builder.LeftJoin("`system_user_dept`", "`system_user`.`id` = `system_user_dept`.`user_id`")
+				builder.In("`system_user_dept`.`dept_id`", newVal...)
 			}
 		}
 	}
@@ -205,12 +205,12 @@ func SystemUserListTotal(ctx context.Context, condition map[string]any) (res int
 }
 
 // SystemUserPassword 密码修改
-func SystemUserPassword(ctx context.Context, systemUserId int64, password string) (res int64, err error) {
+func SystemUserPassword(ctx context.Context, id int64, password string) (res int64, err error) {
 	db := initial.Core.Store.LoadSQL("mysql").Write()
 	builder := sql.NewBuilder()
 	data := make(map[string]any)
 	data["password"] = password
-	query, args, err := builder.Table("`system_user`").Where("`id`", systemUserId).Update(data)
+	query, args, err := builder.Table("`system_user`").Where("`id`", id).Update(data)
 	if err != nil {
 		return
 	}

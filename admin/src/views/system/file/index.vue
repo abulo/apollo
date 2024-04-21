@@ -1,10 +1,10 @@
 <template>
   <div>
     <vxe-table border show-overflow height="400" :row-config="{ isHover: true }" :data="tableData" :scroll-y="{ enabled: true }">
-      <vxe-column type="seq" width="100"></vxe-column>
-      <vxe-column field="name" title="Name" sortable></vxe-column>
-      <vxe-column field="role" title="Role"></vxe-column>
-      <vxe-column field="sex" title="Sex"></vxe-column>
+      <vxe-column type="seq" width="100" />
+      <vxe-column field="name" title="Name" sortable />
+      <vxe-column field="role" title="Role" />
+      <vxe-column field="sex" title="Sex" />
     </vxe-table>
   </div>
 </template>

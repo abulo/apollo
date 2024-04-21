@@ -11,7 +11,7 @@ export namespace SystemDept {
     name: string; // 部门名称
     parentId: number; // 父部门ID
     sort: number; // 显示顺序
-    systemUserId: number; // 负责人
+    userId: number; // 负责人
     phone: string; // 联系电话
     email: string; // 邮件
     status: number; // 部门状态

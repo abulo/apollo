@@ -53,6 +53,12 @@ func SystemOperateLogDao(item *SystemOperateLogObject) *dao.SystemOperateLog {
 	if item != nil && item.Result != nil {
 		daoItem.Result = item.Result // 结果(0 成功/1 失败)
 	}
+	if item != nil && item.Deleted != nil {
+		daoItem.Deleted = item.Deleted // 是否删除
+	}
+	if item != nil && item.TenantId != nil {
+		daoItem.TenantId = item.TenantId // 租户ID
+	}
 	if item != nil && item.Creator != nil {
 		daoItem.Creator = null.StringFrom(item.GetCreator()) // 创建人
 	}
@@ -110,6 +116,12 @@ func SystemOperateLogProto(item dao.SystemOperateLog) *SystemOperateLogObject {
 	}
 	if item.Result != nil {
 		res.Result = item.Result
+	}
+	if item.Deleted != nil {
+		res.Deleted = item.Deleted
+	}
+	if item.TenantId != nil {
+		res.TenantId = item.TenantId
 	}
 	if item.Creator.IsValid() {
 		res.Creator = item.Creator.Ptr()

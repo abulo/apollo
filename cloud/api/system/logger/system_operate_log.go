@@ -44,8 +44,8 @@ func SystemOperateLogDelete(ctx context.Context, newCtx *app.RequestContext) {
 		})
 		return
 	}
-	if reqInfo.SystemOperateLogIds.IsValid() {
-		request.SystemOperateLogIds = *reqInfo.SystemOperateLogIds.Ptr()
+	if reqInfo.Ids.IsValid() {
+		request.Ids = *reqInfo.Ids.Ptr()
 	}
 	// 执行服务
 	res, err := client.SystemOperateLogDelete(ctx, request)
@@ -83,9 +83,9 @@ func SystemOperateLog(ctx context.Context, newCtx *app.RequestContext) {
 	}
 	//链接服务
 	client := logger.NewSystemOperateLogServiceClient(grpcClient)
-	systemOperateLogId := cast.ToInt64(newCtx.Param("systemOperateLogId"))
+	id := cast.ToInt64(newCtx.Param("id"))
 	request := &logger.SystemOperateLogRequest{}
-	request.SystemOperateLogId = systemOperateLogId
+	request.Id = id
 	// 执行服务
 	res, err := client.SystemOperateLog(ctx, request)
 	if err != nil {

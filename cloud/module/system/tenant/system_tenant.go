@@ -19,13 +19,13 @@ func SystemTenantCreate(ctx context.Context, data dao.SystemTenant) (res int64, 
 	res = 0
 	err = db.Transact(ctx, func(ctx context.Context, session sql.Session) error {
 		builder := sql.NewBuilder()
-		data.SystemUserId = null.Int64From(0)
+		data.UserId = null.Int64From(0)
 		query, args, err := builder.Table("`system_tenant`").Insert(data)
 		if err != nil {
 			return err
 		}
 		// 插入租户信息
-		tenantId, err := session.Insert(ctx, query, args...)
+		id, err := session.Insert(ctx, query, args...)
 		if err != nil {
 			return err
 		}
@@ -39,7 +39,7 @@ func SystemTenantCreate(ctx context.Context, data dao.SystemTenant) (res int64, 
 		user.CreateTime = data.CreateTime
 		user.Updater = data.Updater
 		user.UpdateTime = data.UpdateTime
-		user.SystemTenantId = proto.Int64(tenantId)
+		user.TenantId = proto.Int64(id)
 		user.Status = proto.Int32(0)
 		user.Deleted = proto.Int32(0)
 		builder = sql.NewBuilder()
@@ -56,8 +56,8 @@ func SystemTenantCreate(ctx context.Context, data dao.SystemTenant) (res int64, 
 		// 绑定用户和租户的关系
 
 		var userTenant dao.SystemUserTenant
-		userTenant.SystemUserId = proto.Int64(userId)
-		userTenant.SystemTenantId = proto.Int64(tenantId)
+		userTenant.UserId = proto.Int64(userId)
+		userTenant.TenantId = proto.Int64(id)
 		userTenant.Deleted = proto.Int32(0)
 		userTenant.Creator = data.Creator
 		userTenant.CreateTime = data.CreateTime
@@ -76,9 +76,9 @@ func SystemTenantCreate(ctx context.Context, data dao.SystemTenant) (res int64, 
 
 		// 更新租户管理员信息
 		var updateTenant dao.SystemTenant
-		updateTenant.SystemUserId = null.Int64From(userId)
+		updateTenant.UserId = null.Int64From(userId)
 		builder = sql.NewBuilder()
-		query, args, err = builder.Table("`system_tenant`").Where("`id`", tenantId).Update(updateTenant)
+		query, args, err = builder.Table("`system_tenant`").Where("`id`", id).Update(updateTenant)
 		if err != nil {
 			return err
 		}
@@ -86,7 +86,7 @@ func SystemTenantCreate(ctx context.Context, data dao.SystemTenant) (res int64, 
 		if err != nil {
 			return err
 		}
-		res = tenantId
+		res = id
 		return nil
 	})
 
@@ -94,10 +94,10 @@ func SystemTenantCreate(ctx context.Context, data dao.SystemTenant) (res int64, 
 }
 
 // SystemTenantUpdate 更新数据
-func SystemTenantUpdate(ctx context.Context, systemTenantId int64, data dao.SystemTenant) (res int64, err error) {
+func SystemTenantUpdate(ctx context.Context, id int64, data dao.SystemTenant) (res int64, err error) {
 	db := initial.Core.Store.LoadSQL("mysql").Write()
 	builder := sql.NewBuilder()
-	query, args, err := builder.Table("`system_tenant`").Where("`id`", systemTenantId).Update(data)
+	query, args, err := builder.Table("`system_tenant`").Where("`id`", id).Update(data)
 	if err != nil {
 		return
 	}
@@ -106,12 +106,12 @@ func SystemTenantUpdate(ctx context.Context, systemTenantId int64, data dao.Syst
 }
 
 // SystemTenantDelete 删除数据
-func SystemTenantDelete(ctx context.Context, systemTenantId int64) (res int64, err error) {
+func SystemTenantDelete(ctx context.Context, id int64) (res int64, err error) {
 	db := initial.Core.Store.LoadSQL("mysql").Write()
 	builder := sql.NewBuilder()
 	data := make(map[string]any)
 	data["deleted"] = 1
-	query, args, err := builder.Table("`system_tenant`").Where("`id`", systemTenantId).Update(data)
+	query, args, err := builder.Table("`system_tenant`").Where("`id`", id).Update(data)
 	if err != nil {
 		return
 	}
@@ -120,10 +120,10 @@ func SystemTenantDelete(ctx context.Context, systemTenantId int64) (res int64, e
 }
 
 // SystemTenant 查询单条数据
-func SystemTenant(ctx context.Context, systemTenantId int64) (res dao.SystemTenant, err error) {
+func SystemTenant(ctx context.Context, id int64) (res dao.SystemTenant, err error) {
 	db := initial.Core.Store.LoadSQL("mysql").Read()
 	builder := sql.NewBuilder()
-	query, args, err := builder.Table("`system_tenant`").Where("`id`", systemTenantId).Row()
+	query, args, err := builder.Table("`system_tenant`").Where("`id`", id).Row()
 	if err != nil {
 		return
 	}
@@ -132,12 +132,12 @@ func SystemTenant(ctx context.Context, systemTenantId int64) (res dao.SystemTena
 }
 
 // SystemTenantRecover 恢复数据
-func SystemTenantRecover(ctx context.Context, systemTenantId int64) (res int64, err error) {
+func SystemTenantRecover(ctx context.Context, id int64) (res int64, err error) {
 	db := initial.Core.Store.LoadSQL("mysql").Write()
 	builder := sql.NewBuilder()
 	data := make(map[string]any)
 	data["deleted"] = 0
-	query, args, err := builder.Table("`system_tenant`").Where("`id`", systemTenantId).Update(data)
+	query, args, err := builder.Table("`system_tenant`").Where("`id`", id).Update(data)
 	if err != nil {
 		return
 	}

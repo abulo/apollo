@@ -15,8 +15,8 @@ message SystemDeptObject {
 	optional int64 parent_id = 3; //父部门ID
 	// @inject_tag: db:"sort" json:"sort"
 	optional int32 sort = 4; //显示顺序
-	// @inject_tag: db:"system_user_id" json:"systemUserId"
-	optional int64 system_user_id = 5; //负责人
+	// @inject_tag: db:"user_id" json:"userId"
+	optional int64 user_id = 5; //负责人
 	// @inject_tag: db:"phone" json:"phone"
 	optional string phone = 6; //联系电话
 	// @inject_tag: db:"email" json:"email"
@@ -25,8 +25,8 @@ message SystemDeptObject {
 	optional int32 status = 8; //部门状态
 	// @inject_tag: db:"deleted" json:"deleted"
 	optional int32 deleted = 9; //是否删除
-	// @inject_tag: db:"system_tenant_id" json:"systemTenantId"
-	optional int64 system_tenant_id = 10; //租户ID
+	// @inject_tag: db:"tenant_id" json:"tenantId"
+	optional int64 tenant_id = 10; //租户ID
 	// @inject_tag: db:"creator" json:"creator"
 	optional string creator = 11; //创建人
 	// @inject_tag: db:"create_time" json:"createTime"
@@ -48,8 +48,8 @@ message SystemDeptCreateResponse {
 }
 // SystemDeptUpdateRequest 更新数据请求
 message SystemDeptUpdateRequest {
-	// @inject_tag: db:"system_dept_id" json:"systemDeptId"
-	int64 system_dept_id = 1; //部门ID
+	// @inject_tag: db:"Id" json:"Id"
+	int64 Id = 1; //部门ID
 	SystemDeptObject data = 2;
 }
 // SystemDeptUpdateResponse 更新数据响应
@@ -59,8 +59,8 @@ message SystemDeptUpdateResponse {
 }
 // SystemDeptDeleteRequest 删除数据请求
 message SystemDeptDeleteRequest {
-	// @inject_tag: db:"system_dept_id" json:"systemDeptId"
-	int64 system_dept_id = 1; //部门ID
+	// @inject_tag: db:"Id" json:"Id"
+	int64 Id = 1; //部门ID
 }
 // SystemDeptDeleteResponse 删除数据响应
 message SystemDeptDeleteResponse {
@@ -69,8 +69,8 @@ message SystemDeptDeleteResponse {
 }
 // SystemDeptRequest 查询单条数据请求
 message SystemDeptRequest {
-	// @inject_tag: db:"system_dept_id" json:"systemDeptId"
-	int64 system_dept_id = 1; //部门ID
+	// @inject_tag: db:"Id" json:"Id"
+	int64 Id = 1; //部门ID
 }
 // SystemDeptResponse 查询单条数据响应
 message SystemDeptResponse {
@@ -80,8 +80,8 @@ message SystemDeptResponse {
 }
 // SystemDeptRecoverRequest 恢复数据请求
 message SystemDeptRecoverRequest {
-	// @inject_tag: db:"system_dept_id" json:"systemDeptId"
-	int64 system_dept_id = 1; //部门ID
+	// @inject_tag: db:"Id" json:"Id"
+	int64 Id = 1; //部门ID
 }
 // SystemDeptRecoverResponse 删除数据响应
 message SystemDeptRecoverResponse {
@@ -91,8 +91,8 @@ message SystemDeptRecoverResponse {
 // SystemDeptListRequest 列表数据
 message SystemDeptListRequest {
 	
-	// @inject_tag: db:"system_tenant_id" json:"systemTenantId"
-	optional int64 system_tenant_id = 1; // 租户ID
+	// @inject_tag: db:"tenant_id" json:"tenantId"
+	optional int64 tenant_id = 1; // 租户ID
 	// @inject_tag: db:"deleted" json:"deleted"
 	optional int32 deleted = 2; // 是否删除
 	// @inject_tag: db:"status" json:"status"

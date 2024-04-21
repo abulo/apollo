@@ -44,8 +44,8 @@ message SystemDictTypeCreateResponse {
 }
 // SystemDictTypeUpdateRequest 更新数据请求
 message SystemDictTypeUpdateRequest {
-	// @inject_tag: db:"system_dict_type_id" json:"systemDictTypeId"
-	int64 system_dict_type_id = 1; //字典主键
+	// @inject_tag: db:"id" json:"id"
+	int64 id = 1; //字典主键
 	SystemDictTypeObject data = 2;
 }
 // SystemDictTypeUpdateResponse 更新数据响应
@@ -55,8 +55,8 @@ message SystemDictTypeUpdateResponse {
 }
 // SystemDictTypeDeleteRequest 删除数据请求
 message SystemDictTypeDeleteRequest {
-	// @inject_tag: db:"system_dict_type_id" json:"systemDictTypeId"
-	int64 system_dict_type_id = 1; //字典主键
+	// @inject_tag: db:"id" json:"id"
+	int64 id = 1; //字典主键
 }
 // SystemDictTypeDeleteResponse 删除数据响应
 message SystemDictTypeDeleteResponse {
@@ -65,8 +65,8 @@ message SystemDictTypeDeleteResponse {
 }
 // SystemDictTypeRequest 查询单条数据请求
 message SystemDictTypeRequest {
-	// @inject_tag: db:"system_dict_type_id" json:"systemDictTypeId"
-	int64 system_dict_type_id = 1; //字典主键
+	// @inject_tag: db:"id" json:"id"
+	int64 id = 1; //字典主键
 }
 // SystemDictTypeResponse 查询单条数据响应
 message SystemDictTypeResponse {

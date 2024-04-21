@@ -24,10 +24,10 @@ func SystemDictTypeCreate(ctx context.Context, data dao.SystemDictType) (res int
 }
 
 // SystemDictTypeUpdate 更新数据
-func SystemDictTypeUpdate(ctx context.Context, systemDictTypeId int64, data dao.SystemDictType) (res int64, err error) {
+func SystemDictTypeUpdate(ctx context.Context, id int64, data dao.SystemDictType) (res int64, err error) {
 	db := initial.Core.Store.LoadSQL("mysql").Write()
 	builder := sql.NewBuilder()
-	query, args, err := builder.Table("`system_dict_type`").Where("`id`", systemDictTypeId).Update(data)
+	query, args, err := builder.Table("`system_dict_type`").Where("`id`", id).Update(data)
 	if err != nil {
 		return
 	}
@@ -36,10 +36,10 @@ func SystemDictTypeUpdate(ctx context.Context, systemDictTypeId int64, data dao.
 }
 
 // SystemDictTypeDelete 删除数据
-func SystemDictTypeDelete(ctx context.Context, systemDictTypeId int64) (res int64, err error) {
+func SystemDictTypeDelete(ctx context.Context, id int64) (res int64, err error) {
 	db := initial.Core.Store.LoadSQL("mysql").Write()
 	builder := sql.NewBuilder()
-	query, args, err := builder.Table("`system_dict_type`").Where("`id`", systemDictTypeId).Delete()
+	query, args, err := builder.Table("`system_dict_type`").Where("`id`", id).Delete()
 	if err != nil {
 		return
 	}
@@ -48,10 +48,10 @@ func SystemDictTypeDelete(ctx context.Context, systemDictTypeId int64) (res int6
 }
 
 // SystemDictType 查询单条数据
-func SystemDictType(ctx context.Context, systemDictTypeId int64) (res dao.SystemDictType, err error) {
+func SystemDictType(ctx context.Context, id int64) (res dao.SystemDictType, err error) {
 	db := initial.Core.Store.LoadSQL("mysql").Read()
 	builder := sql.NewBuilder()
-	query, args, err := builder.Table("`system_dict_type`").Where("`id`", systemDictTypeId).Row()
+	query, args, err := builder.Table("`system_dict_type`").Where("`id`", id).Row()
 	if err != nil {
 		return
 	}

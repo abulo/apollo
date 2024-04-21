@@ -10,7 +10,7 @@
 	使用：在 Dom 上加上 v-draggable 即可
 	<div class="dialog-model" v-draggable></div>
 */
-import type { Directive } from "vue";
+import { Directive } from "vue";
 interface ElType extends HTMLElement {
   parentNode: any;
 }

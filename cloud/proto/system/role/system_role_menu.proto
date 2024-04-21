@@ -9,14 +9,14 @@ import "google/protobuf/timestamp.proto";
 message SystemRoleMenuObject {
 	// @inject_tag: db:"id" json:"id"
 	optional int64 id = 1; //自增编号
-	// @inject_tag: db:"system_role_id" json:"systemRoleId"
-	optional int64 system_role_id = 2; //角色编号
-	// @inject_tag: db:"system_menu_id" json:"systemMenuId"
-	optional int64 system_menu_id = 3; //菜单编号
+	// @inject_tag: db:"role_id" json:"roleId"
+	optional int64 role_id = 2; //角色编号
+	// @inject_tag: db:"menu_id" json:"menuId"
+	optional int64 menu_id = 3; //菜单编号
 	// @inject_tag: db:"deleted" json:"deleted"
 	optional int32 deleted = 4; //删除
-	// @inject_tag: db:"system_tenant_id" json:"systemTenantId"
-	optional int64 system_tenant_id = 5; //租户
+	// @inject_tag: db:"tenant_id" json:"tenantId"
+	optional int64 tenant_id = 5; //租户
 	// @inject_tag: db:"creator" json:"creator"
 	optional string creator = 6; //创建者
 	// @inject_tag: db:"create_time" json:"createTime"
@@ -29,14 +29,14 @@ message SystemRoleMenuObject {
 
 // SystemRoleMenuCustomObject 数据对象
 message SystemRoleMenuCustomObject {
-	// @inject_tag: db:"system_role_id" json:"systemRoleId"
-	optional int64 system_role_id = 1; //角色编号
-	// @inject_tag: db:"system_menu_ids" json:"systemMenuIds"
-	optional bytes system_menu_ids = 2; //菜单编号
+	// @inject_tag: db:"role_id" json:"roleId"
+	optional int64 role_id = 1; //角色编号
+	// @inject_tag: db:"menu_ids" json:"menuIds"
+	optional bytes menu_ids = 2; //菜单编号
 	// @inject_tag: db:"deleted" json:"deleted"
 	optional int32 deleted = 3; //删除
-	// @inject_tag: db:"system_tenant_id" json:"systemTenantId"
-	optional int64 system_tenant_id = 4; //租户
+	// @inject_tag: db:"tenant_id" json:"tenantId"
+	optional int64 tenant_id = 4; //租户
 	// @inject_tag: db:"creator" json:"creator"
 	optional string creator = 5; //创建者
 	// @inject_tag: db:"create_time" json:"createTime"
@@ -58,12 +58,12 @@ message SystemRoleMenuCreateResponse {
 }
 // SystemRoleMenuListRequest 列表数据
 message SystemRoleMenuListRequest {
-	// @inject_tag: db:"system_role_id" json:"systemRoleId"
-	optional int64 system_role_id = 1; // 角色编号
-	// @inject_tag: db:"system_menu_id" json:"systemMenuId"
-	optional int64 system_menu_id = 2; // 菜单编号
-	// @inject_tag: db:"system_tenant_id" json:"systemTenantId"
-	optional int64 system_tenant_id = 3; // 租户
+	// @inject_tag: db:"role_id" json:"roleId"
+	optional int64 role_id = 1; // 角色编号
+	// @inject_tag: db:"menu_id" json:"menuId"
+	optional int64 menu_id = 2; // 菜单编号
+	// @inject_tag: db:"tenant_id" json:"tenantId"
+	optional int64 tenant_id = 3; // 租户
 	// @inject_tag: db:"deleted" json:"deleted"
 	optional int32 deleted = 4; // 删除
 

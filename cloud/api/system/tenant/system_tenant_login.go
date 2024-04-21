@@ -40,9 +40,9 @@ func SystemTenantLogin(ctx context.Context, newCtx *app.RequestContext) {
 	}
 	//链接服务
 	tenantClient := tenant.NewSystemTenantServiceClient(grpcClient)
-	systemTenantId := cast.ToInt64(newCtx.Param("systemTenantId"))
+	id := cast.ToInt64(newCtx.Param("id"))
 	tenantRequest := &tenant.SystemTenantRequest{}
-	tenantRequest.SystemTenantId = systemTenantId
+	tenantRequest.Id = id
 	// 执行服务
 	tenantRes, tenantErr := tenantClient.SystemTenant(ctx, tenantRequest)
 	if tenantErr != nil {
@@ -70,7 +70,7 @@ func SystemTenantLogin(ctx context.Context, newCtx *app.RequestContext) {
 	// 获取用户信息
 	clientSystemUser := user.NewSystemUserServiceClient(grpcClient)
 	requestSystemUser := &user.SystemUserRequest{}
-	requestSystemUser.SystemUserId = *tenantItem.SystemUserId.Ptr()
+	requestSystemUser.Id = *tenantItem.UserId.Ptr()
 
 	// 执行服务
 	res, err := clientSystemUser.SystemUser(ctx, requestSystemUser)
@@ -91,10 +91,10 @@ func SystemTenantLogin(ctx context.Context, newCtx *app.RequestContext) {
 
 	second := initial.Core.Config.Int64("Cache.SystemUser.PermissionExpire")
 	var systemUserToken dao.SystemUserToken
-	systemUserToken.SystemUserId = userInfo.GetId()
-	systemUserToken.SystemUserName = userInfo.GetUsername()
-	systemUserToken.SystemNickName = userInfo.GetNickname()
-	systemUserToken.SystemTenantId = userInfo.GetSystemTenantId()
+	systemUserToken.UserId = userInfo.GetId()
+	systemUserToken.UserName = userInfo.GetUsername()
+	systemUserToken.NickName = userInfo.GetNickname()
+	systemUserToken.TenantId = userInfo.GetTenantId()
 	token, err := tools.GenerateToken(systemUserToken, "WEB", second)
 	if err != nil {
 		globalLogger.Logger.WithFields(logrus.Fields{
@@ -120,18 +120,16 @@ func SystemTenantLogin(ctx context.Context, newCtx *app.RequestContext) {
 	systemLoginLog.Updater = null.StringFrom(userInfo.GetUsername()) //更新者
 	systemLoginLog.UpdateTime = null.DateTimeFrom(nowTime)           //更新时间
 	systemLoginLog.Deleted = proto.Int32(0)                          // 删除状态
-	systemLoginLog.SystemTenantId = userInfo.SystemTenantId          // 租户ID
+	systemLoginLog.TenantId = userInfo.TenantId                      // 租户ID
 	// 将这些数据需要全部存储在消息列队中,然后后台去执行消息列队
 	redisHandler := initial.Core.Store.LoadRedis("redis")
 	key := util.NewReplacer(initial.Core.Config.String("Cache.SystemLoginLog.Queue"))
 	bytes, _ := json.Marshal(systemLoginLog)
 	redisHandler.LPush(ctx, key, cast.ToString(bytes))
 
-	systemTenantId = userInfo.GetSystemTenantId() // 租户 Id
+	tenantId := userInfo.GetTenantId()            // 租户 Id
 	systemUserId := userInfo.GetId()              // 用户 Id
-
-	// 获取套餐服务
-	tenantPackageId := tenantItem.SystemTenantPackageId
+	tenantPackageId := tenantItem.TenantPackageId // 获取套餐服务
 	//链接服务
 	menuClient := menu.NewSystemMenuServiceClient(grpcClient)
 	// 构造查询条件
@@ -148,12 +146,12 @@ func SystemTenantLogin(ctx context.Context, newCtx *app.RequestContext) {
 		tenantPackageClient := tenant.NewSystemTenantPackageServiceClient(grpcClient)
 		systemTenantPackageId := cast.ToInt64(tenantPackageId)
 		tenantPackageRequest := &tenant.SystemTenantPackageRequest{}
-		tenantPackageRequest.SystemTenantPackageId = systemTenantPackageId
+		tenantPackageRequest.Id = systemTenantPackageId
 		// 执行服务
 		if res, err := tenantPackageClient.SystemTenantPackage(ctx, tenantPackageRequest); err == nil {
 			tenantPackageItem := tenant.SystemTenantPackageDao(res.GetData())
-			if tenantPackageItem.SystemMenuIds.IsValid() {
-				json.Unmarshal(tenantPackageItem.SystemMenuIds.JSON, &menuIds)
+			if tenantPackageItem.MenuIds.IsValid() {
+				json.Unmarshal(tenantPackageItem.MenuIds.JSON, &menuIds)
 			}
 		}
 	}
@@ -184,32 +182,32 @@ func SystemTenantLogin(ctx context.Context, newCtx *app.RequestContext) {
 			listMenu = append(listMenu, item)
 		}
 	}
-	if systemUserId != *tenantItem.SystemUserId.Ptr() {
+	if systemUserId != *tenantItem.UserId.Ptr() {
 		//链接服务
 		userRoleClient := user.NewSystemUserRoleServiceClient(grpcClient)
 		// 构造查询条件
 		userRoleRequest := &user.SystemUserRoleListRequest{}
-		userRoleRequest.SystemUserId = proto.Int64(systemUserId)     // 系统用户 ID
-		userRoleRequest.SystemTenantId = proto.Int64(systemTenantId) // 租户
-		userRoleRequest.Deleted = proto.Int32(0)                     // 删除
+		userRoleRequest.UserId = proto.Int64(systemUserId) // 系统用户 ID
+		userRoleRequest.TenantId = proto.Int64(tenantId)   // 租户
+		userRoleRequest.Deleted = proto.Int32(0)           // 删除
 
 		roleMenuClient := role.NewSystemRoleMenuServiceClient(grpcClient)
 		if userRoleRes, err := userRoleClient.SystemUserRoleList(ctx, userRoleRequest); err == nil {
 			if userRoleRes.GetCode() == code.Success {
 				rpcUserRoleList := userRoleRes.GetData()
 				for _, item := range rpcUserRoleList {
-					systemRoleId := item.GetSystemRoleId()
+					systemRoleId := item.GetRoleId()
 					//链接服务
 					roleMenuRequest := &role.SystemRoleMenuListRequest{}
-					roleMenuRequest.SystemTenantId = proto.Int64(systemTenantId) // 租户ID
-					roleMenuRequest.Deleted = proto.Int32(0)                     // 删除状态
-					roleMenuRequest.SystemRoleId = proto.Int64(systemRoleId)     // 角色ID
+					roleMenuRequest.TenantId = proto.Int64(tenantId)   // 租户ID
+					roleMenuRequest.Deleted = proto.Int32(0)           // 删除状态
+					roleMenuRequest.RoleId = proto.Int64(systemRoleId) // 角色ID
 					if roleMenuRes, err := roleMenuClient.SystemRoleMenuList(ctx, roleMenuRequest); err == nil {
 						if roleMenuRes.GetCode() == code.Success {
 							rpcRoleMenuList := roleMenuRes.GetData()
 							var newCurrentMenuIds []int64
 							for _, item := range rpcRoleMenuList {
-								newCurrentMenuIds = append(newCurrentMenuIds, *item.SystemMenuId)
+								newCurrentMenuIds = append(newCurrentMenuIds, *item.MenuId)
 							}
 							currentMenuIds = newCurrentMenuIds
 						}

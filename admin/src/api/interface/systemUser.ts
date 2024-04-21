@@ -21,7 +21,7 @@ export namespace SystemUser {
   export interface ReqSystemUserList extends ReqPage {
     username?: string; //用户名
     status?: number; // 帐号状态（0正常 1停用）
-    systemDeptId?: number; // 部门
+    deptId?: number; // 部门
   }
   export interface ResSystemUserItem {
     id: number | undefined; // 用户编号
@@ -31,9 +31,9 @@ export namespace SystemUser {
     password: string | undefined; //用户密码
     status: number; // 用户状态（0正常 1停用）
     deleted: number; // 是否删除(0否 1是)
-    systemRoleIds: number[] | undefined; // 角色
-    systemDeptIds: number[] | undefined; // 部门
-    systemPostIds: number[] | undefined; // 岗位
+    roleIds: number[] | undefined; // 角色
+    deptIds: number[] | undefined; // 部门
+    postIds: number[] | undefined; // 岗位
   }
   export interface ReqSystemUserPassword {
     password: string;

@@ -79,8 +79,8 @@ func SystemRoleDao(item *SystemRoleObject) *dao.SystemRole {
 	if item != nil && item.Deleted != nil {
 		daoItem.Deleted = item.Deleted // 删除
 	}
-	if item != nil && item.SystemTenantId != nil {
-		daoItem.SystemTenantId = item.SystemTenantId // 租户
+	if item != nil && item.TenantId != nil {
+		daoItem.TenantId = item.TenantId // 租户
 	}
 	if item != nil && item.Creator != nil {
 		daoItem.Creator = null.StringFrom(item.GetCreator()) // 创建者
@@ -125,8 +125,8 @@ func SystemRoleProto(item dao.SystemRole) *SystemRoleObject {
 	if item.Deleted != nil {
 		res.Deleted = item.Deleted
 	}
-	if item.SystemTenantId != nil {
-		res.SystemTenantId = item.SystemTenantId
+	if item.TenantId != nil {
+		res.TenantId = item.TenantId
 	}
 	if item.Creator.IsValid() {
 		res.Creator = item.Creator.Ptr()

@@ -58,10 +58,10 @@ func AuthMiddleware() app.HandlerFunc {
 			newCtx.Abort()
 			return
 		}
-		newCtx.Set("systemUserId", rsp.SystemUserId)     // 用户ID
-		newCtx.Set("systemNickName", rsp.SystemNickName) // 昵称
-		newCtx.Set("systemUserName", rsp.SystemUserName) // 用户名
-		newCtx.Set("systemTenantId", rsp.SystemTenantId) // 租户
+		newCtx.Set("userId", rsp.UserId)     // 用户ID
+		newCtx.Set("nickName", rsp.NickName) // 昵称
+		newCtx.Set("userName", rsp.UserName) // 用户名
+		newCtx.Set("tenantId", rsp.TenantId) // 租户
 
 		handlerName := newCtx.HandlerName()
 		method := util.Explode("/", handlerName)
@@ -74,7 +74,7 @@ func AuthMiddleware() app.HandlerFunc {
 				newCtx.Next(ctx)
 			} else {
 				// 判断一下这个用户的的权限
-				key := util.NewReplacer(initial.Core.Config.String("Cache.SystemUser.Permission"), ":UserId", rsp.SystemUserId)
+				key := util.NewReplacer(initial.Core.Config.String("Cache.SystemUser.Permission"), ":UserId", rsp.UserId)
 				// 获取用户的权限
 				if permission, err := redisHandler.Get(ctx, key); err == nil {
 					var permissionList []string
@@ -102,7 +102,7 @@ func AuthMiddleware() app.HandlerFunc {
 			channel = append(channel, "unknown")
 		}
 		var systemOperateLog dao.SystemOperateLog
-		systemOperateLog.Username = proto.String(rsp.SystemUserName)                                   //用户名称
+		systemOperateLog.Username = proto.String(rsp.UserName)                                         //用户名称
 		systemOperateLog.Module = nil                                                                  //模块标题
 		systemOperateLog.RequestMethod = proto.String(cast.ToString(newCtx.Request.Method()))          //请求方法名
 		systemOperateLog.RequestUrl = proto.String(cast.ToString(newCtx.Request.URI().RequestURI()))   //请求地址
@@ -118,12 +118,12 @@ func AuthMiddleware() app.HandlerFunc {
 		} else {
 			systemOperateLog.Result = proto.Int32(1) //结果(0 成功/1 失败)
 		}
-		systemOperateLog.Creator = null.StringFrom(rsp.SystemUserName)    //创建者
-		systemOperateLog.CreateTime = null.DateTimeFrom(startTime)        //创建时间
-		systemOperateLog.Updater = null.StringFrom(rsp.SystemUserName)    //更新者
-		systemOperateLog.UpdateTime = null.DateTimeFrom(startTime)        //更新时间
-		systemOperateLog.Deleted = proto.Int32(0)                         //删除状态
-		systemOperateLog.SystemTenantId = proto.Int64(rsp.SystemTenantId) //租户
+		systemOperateLog.Creator = null.StringFrom(rsp.UserName)   //创建者
+		systemOperateLog.CreateTime = null.DateTimeFrom(startTime) //创建时间
+		systemOperateLog.Updater = null.StringFrom(rsp.UserName)   //更新者
+		systemOperateLog.UpdateTime = null.DateTimeFrom(startTime) //更新时间
+		systemOperateLog.Deleted = proto.Int32(0)                  //删除状态
+		systemOperateLog.TenantId = proto.Int64(rsp.TenantId)      //租户
 
 		// 将这些数据需要全部存储在消息列队中,然后后台去执行消息列队
 

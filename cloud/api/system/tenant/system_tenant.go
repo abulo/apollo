@@ -50,7 +50,7 @@ func SystemTenantCreate(ctx context.Context, newCtx *app.RequestContext) {
 		return
 	}
 	reqInfo.Deleted = proto.Int32(0)
-	reqInfo.Creator = null.StringFrom(newCtx.GetString("systemUserName"))
+	reqInfo.Creator = null.StringFrom(newCtx.GetString("userName"))
 	reqInfo.CreateTime = null.DateTimeFrom(util.Now())
 	if reqInfo.Password != nil {
 		reqInfo.Password = proto.String(util.Md5(cast.ToString(reqInfo.Password)))
@@ -92,9 +92,9 @@ func SystemTenantUpdate(ctx context.Context, newCtx *app.RequestContext) {
 	}
 	//链接服务
 	client := tenant.NewSystemTenantServiceClient(grpcClient)
-	systemTenantId := cast.ToInt64(newCtx.Param("systemTenantId"))
+	id := cast.ToInt64(newCtx.Param("id"))
 	request := &tenant.SystemTenantUpdateRequest{}
-	request.SystemTenantId = systemTenantId
+	request.Id = id
 	// 数据绑定
 	var reqInfo dao.SystemTenant
 	if err := newCtx.BindAndValidate(&reqInfo); err != nil {
@@ -104,7 +104,7 @@ func SystemTenantUpdate(ctx context.Context, newCtx *app.RequestContext) {
 		})
 		return
 	}
-	reqInfo.Updater = null.StringFrom(newCtx.GetString("systemUserName"))
+	reqInfo.Updater = null.StringFrom(newCtx.GetString("userName"))
 	reqInfo.UpdateTime = null.DateTimeFrom(util.Now())
 	request.Data = tenant.SystemTenantProto(reqInfo)
 	// 执行服务
@@ -142,9 +142,9 @@ func SystemTenantDelete(ctx context.Context, newCtx *app.RequestContext) {
 	}
 	//链接服务
 	client := tenant.NewSystemTenantServiceClient(grpcClient)
-	systemTenantId := cast.ToInt64(newCtx.Param("systemTenantId"))
+	id := cast.ToInt64(newCtx.Param("id"))
 	request := &tenant.SystemTenantDeleteRequest{}
-	request.SystemTenantId = systemTenantId
+	request.Id = id
 	// 执行服务
 	res, err := client.SystemTenantDelete(ctx, request)
 	if err != nil {
@@ -181,9 +181,9 @@ func SystemTenant(ctx context.Context, newCtx *app.RequestContext) {
 	}
 	//链接服务
 	client := tenant.NewSystemTenantServiceClient(grpcClient)
-	systemTenantId := cast.ToInt64(newCtx.Param("systemTenantId"))
+	id := cast.ToInt64(newCtx.Param("id"))
 	request := &tenant.SystemTenantRequest{}
-	request.SystemTenantId = systemTenantId
+	request.Id = id
 	// 执行服务
 	res, err := client.SystemTenant(ctx, request)
 	if err != nil {
@@ -220,9 +220,9 @@ func SystemTenantRecover(ctx context.Context, newCtx *app.RequestContext) {
 	}
 	//链接服务
 	client := tenant.NewSystemTenantServiceClient(grpcClient)
-	systemTenantId := cast.ToInt64(newCtx.Param("systemTenantId"))
+	id := cast.ToInt64(newCtx.Param("id"))
 	request := &tenant.SystemTenantRecoverRequest{}
-	request.SystemTenantId = systemTenantId
+	request.Id = id
 	// 执行服务
 	res, err := client.SystemTenantRecover(ctx, request)
 	if err != nil {
@@ -275,9 +275,9 @@ func SystemTenantList(ctx context.Context, newCtx *app.RequestContext) {
 			requestTotal.Deleted = nil
 		}
 	}
-	if val, ok := newCtx.GetQuery("systemTenantPackageId"); ok {
-		request.SystemTenantPackageId = proto.Int64(cast.ToInt64(val))      // 套餐编号
-		requestTotal.SystemTenantPackageId = proto.Int64(cast.ToInt64(val)) // 套餐编号
+	if val, ok := newCtx.GetQuery("tenantPackageId"); ok {
+		request.TenantPackageId = proto.Int64(cast.ToInt64(val))      // 套餐编号
+		requestTotal.TenantPackageId = proto.Int64(cast.ToInt64(val)) // 套餐编号
 	}
 	if val, ok := newCtx.GetQuery("status"); ok {
 		request.Status = proto.Int32(cast.ToInt32(val))      // 状态（0正常 1停用）

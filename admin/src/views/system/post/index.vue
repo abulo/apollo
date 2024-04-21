@@ -11,7 +11,7 @@
       :search-col="12">
       <!-- 表格 header 按钮 -->
       <template #tableHeader>
-        <el-button type="primary" :icon="CirclePlus" @click="handleAdd" v-auth="'post.SystemPostCreate'">新增</el-button>
+        <el-button v-auth="'post.SystemPostCreate'" type="primary" :icon="CirclePlus" @click="handleAdd">新增</el-button>
       </template>
       <!-- 状态-->
       <template #status="scope">
@@ -23,32 +23,32 @@
       </template>
       <!-- 菜单操作 -->
       <template #operation="scope">
-        <el-button type="primary" link :icon="EditPen" @click="handleUpdate(scope.row)" v-auth="'post.SystemPostUpdate'">
+        <el-button v-auth="'post.SystemPostUpdate'" type="primary" link :icon="EditPen" @click="handleUpdate(scope.row)">
           编辑
         </el-button>
         <el-button
           v-if="scope.row.deleted === 0"
+          v-auth="'post.SystemPostDelete'"
           type="primary"
           link
           :icon="Delete"
-          @click="handleDelete(scope.row)"
-          v-auth="'post.SystemPostDelete'">
+          @click="handleDelete(scope.row)">
           删除
         </el-button>
         <el-button
           v-if="scope.row.deleted === 1"
+          v-auth="'post.SystemPostRecover'"
           type="primary"
           link
           :icon="Refresh"
-          @click="handleRecover(scope.row)"
-          v-auth="'post.SystemPostRecover'">
+          @click="handleRecover(scope.row)">
           恢复
         </el-button>
       </template>
     </ProTable>
     <el-dialog
-      :title="title"
       v-model="centerDialogVisible"
+      :title="title"
       width="40%"
       destroy-on-close
       align-center
@@ -75,7 +75,7 @@
       <template #footer>
         <span class="dialog-footer">
           <el-button @click="resetForm(refSystemPostItemFrom)">取消</el-button>
-          <el-button type="primary" @click="submitForm(refSystemPostItemFrom)" :loading="loading">确定</el-button>
+          <el-button type="primary" :loading="loading" @click="submitForm(refSystemPostItemFrom)">确定</el-button>
         </span>
       </template>
     </el-dialog>

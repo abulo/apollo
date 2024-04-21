@@ -8,7 +8,7 @@
               <el-space :size="4">
                 <span>{{ `${item.search?.label ?? item.title}` }}</span>
                 <el-tooltip v-if="item.search?.tooltip" effect="dark" :content="item.search?.tooltip" placement="top">
-                  <i :class="'iconfont icon-yiwen'"></i>
+                  <i :class="'iconfont icon-yiwen'" />
                 </el-tooltip>
               </el-space>
               <span>:</span>
@@ -23,7 +23,7 @@
             <el-button v-if="showCollapse" type="primary" link class="search-isOpen" @click="collapsed = !collapsed">
               {{ collapsed ? "展开" : "合并" }}
               <el-icon class="el-icon--right">
-                <component :is="collapsed ? ArrowDown : ArrowUp"></component>
+                <component :is="collapsed ? ArrowDown : ArrowUp" />
               </el-icon>
             </el-button>
           </div>

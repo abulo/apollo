@@ -1,4 +1,4 @@
-import type { ProxyOptions } from "vite";
+import { ProxyOptions } from "vite";
 
 type ProxyItem = [string, string];
 

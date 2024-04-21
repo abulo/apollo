@@ -48,8 +48,8 @@ func SystemDeptCreate(ctx context.Context, newCtx *app.RequestContext) {
 		return
 	}
 	reqInfo.Deleted = proto.Int32(0)
-	reqInfo.SystemTenantId = proto.Int64(newCtx.GetInt64("systemTenantId")) // 租户
-	reqInfo.Creator = null.StringFrom(newCtx.GetString("systemUserName"))
+	reqInfo.TenantId = proto.Int64(newCtx.GetInt64("tenantId")) // 租户
+	reqInfo.Creator = null.StringFrom(newCtx.GetString("userName"))
 	reqInfo.CreateTime = null.DateTimeFrom(util.Now())
 	request.Data = dept.SystemDeptProto(reqInfo)
 	// 执行服务
@@ -88,9 +88,9 @@ func SystemDeptUpdate(ctx context.Context, newCtx *app.RequestContext) {
 	}
 	//链接服务
 	client := dept.NewSystemDeptServiceClient(grpcClient)
-	systemDeptId := cast.ToInt64(newCtx.Param("systemDeptId"))
+	id := cast.ToInt64(newCtx.Param("id"))
 	request := &dept.SystemDeptUpdateRequest{}
-	request.SystemDeptId = systemDeptId
+	request.Id = id
 	// 数据绑定
 	var reqInfo dao.SystemDept
 	if err := newCtx.BindAndValidate(&reqInfo); err != nil {
@@ -100,8 +100,8 @@ func SystemDeptUpdate(ctx context.Context, newCtx *app.RequestContext) {
 		})
 		return
 	}
-	reqInfo.SystemTenantId = proto.Int64(newCtx.GetInt64("systemTenantId")) // 租户
-	reqInfo.Updater = null.StringFrom(newCtx.GetString("systemUserName"))
+	reqInfo.TenantId = proto.Int64(newCtx.GetInt64("tenantId")) // 租户
+	reqInfo.Updater = null.StringFrom(newCtx.GetString("userName"))
 	reqInfo.UpdateTime = null.DateTimeFrom(util.Now())
 	request.Data = dept.SystemDeptProto(reqInfo)
 	// 执行服务
@@ -139,9 +139,9 @@ func SystemDeptDelete(ctx context.Context, newCtx *app.RequestContext) {
 	}
 	//链接服务
 	client := dept.NewSystemDeptServiceClient(grpcClient)
-	systemDeptId := cast.ToInt64(newCtx.Param("systemDeptId"))
+	id := cast.ToInt64(newCtx.Param("id"))
 	request := &dept.SystemDeptDeleteRequest{}
-	request.SystemDeptId = systemDeptId
+	request.Id = id
 	// 执行服务
 	res, err := client.SystemDeptDelete(ctx, request)
 	if err != nil {
@@ -178,9 +178,9 @@ func SystemDept(ctx context.Context, newCtx *app.RequestContext) {
 	}
 	//链接服务
 	client := dept.NewSystemDeptServiceClient(grpcClient)
-	systemDeptId := cast.ToInt64(newCtx.Param("systemDeptId"))
+	id := cast.ToInt64(newCtx.Param("id"))
 	request := &dept.SystemDeptRequest{}
-	request.SystemDeptId = systemDeptId
+	request.Id = id
 	// 执行服务
 	res, err := client.SystemDept(ctx, request)
 	if err != nil {
@@ -217,9 +217,9 @@ func SystemDeptRecover(ctx context.Context, newCtx *app.RequestContext) {
 	}
 	//链接服务
 	client := dept.NewSystemDeptServiceClient(grpcClient)
-	systemDeptId := cast.ToInt64(newCtx.Param("systemDeptId"))
+	id := cast.ToInt64(newCtx.Param("id"))
 	request := &dept.SystemDeptRecoverRequest{}
-	request.SystemDeptId = systemDeptId
+	request.Id = id
 	// 执行服务
 	res, err := client.SystemDeptRecover(ctx, request)
 	if err != nil {
@@ -260,8 +260,8 @@ func SystemDeptList(ctx context.Context, newCtx *app.RequestContext) {
 	client := dept.NewSystemDeptServiceClient(grpcClient)
 	// 构造查询条件
 	request := &dept.SystemDeptListRequest{}
-	request.SystemTenantId = proto.Int64(newCtx.GetInt64("systemTenantId")) // 租户ID
-	request.Deleted = proto.Int32(0)                                        // 删除状态
+	request.TenantId = proto.Int64(newCtx.GetInt64("tenantId")) // 租户ID
+	request.Deleted = proto.Int32(0)                            // 删除状态
 	if val, ok := newCtx.GetQuery("deleted"); ok {
 		if cast.ToBool(val) {
 			request.Deleted = nil

@@ -11,7 +11,7 @@
       :search-col="12">
       <!-- 表格 header 按钮 -->
       <template #tableHeader>
-        <el-button type="primary" :icon="CirclePlus" @click="handleAdd" v-auth="'dict.SystemDictCreate'">新增</el-button>
+        <el-button v-auth="'dict.SystemDictCreate'" type="primary" :icon="CirclePlus" @click="handleAdd">新增</el-button>
         <el-button type="primary" :icon="Remove" @click="closeCurrentTab">关闭</el-button>
       </template>
       <!-- 状态-->
@@ -20,17 +20,17 @@
       </template>
       <!-- 菜单操作 -->
       <template #operation="scope">
-        <el-button type="primary" link :icon="EditPen" @click="handleUpdate(scope.row)" v-auth="'dict.SystemDictUpdate'">
+        <el-button v-auth="'dict.SystemDictUpdate'" type="primary" link :icon="EditPen" @click="handleUpdate(scope.row)">
           编辑
         </el-button>
-        <el-button type="primary" link :icon="Delete" @click="handleDelete(scope.row)" v-auth="'dict.SystemDictDelete'">
+        <el-button v-auth="'dict.SystemDictDelete'" type="primary" link :icon="Delete" @click="handleDelete(scope.row)">
           删除
         </el-button>
       </template>
     </ProTable>
     <el-dialog
-      :title="title"
       v-model="centerDialogVisible"
+      :title="title"
       width="40%"
       destroy-on-close
       align-center
@@ -69,13 +69,13 @@
           <el-input v-model="systemDictItemFrom.cssClass" placeholder="请输入 CSS Class" />
         </el-form-item>
         <el-form-item label="备注" prop="remark">
-          <el-input type="textarea" v-model="systemDictItemFrom.remark" />
+          <el-input v-model="systemDictItemFrom.remark" type="textarea" />
         </el-form-item>
       </el-form>
       <template #footer>
         <span class="dialog-footer">
           <el-button @click="resetForm(refSystemDictItemFrom)">取消</el-button>
-          <el-button type="primary" @click="submitForm(refSystemDictItemFrom)" :loading="loading">确定</el-button>
+          <el-button type="primary" :loading="loading" @click="submitForm(refSystemDictItemFrom)">确定</el-button>
         </span>
       </template>
     </el-dialog>
@@ -106,7 +106,7 @@ import { HasPermission } from "@/utils/permission";
 const route = useRoute();
 const tabStore = useTabsStore();
 const keepAliveStore = useKeepAliveStore();
-// 字典 systemDictId
+// 字典类型
 const systemDictType = ref(String(route.params.type));
 //加载
 const loading = ref(false);

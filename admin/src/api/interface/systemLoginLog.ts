@@ -20,7 +20,7 @@ export namespace SystemLoginLog {
     updateTime: string; // 更新时间
   }
   export interface ReqSystemLoginLogDelete {
-    systemLoginLogIds: number[]; // 访问日志编号
+    ids: number[]; // 访问日志编号
   }
   export interface ReqSystemLoginLogDrop {
     username?: string; // 用户账号

@@ -10,7 +10,7 @@
       :pagination="false"
       :search-col="12">
       <template #tableHeader>
-        <el-button type="primary" :icon="CirclePlus" @click="handleAdd" v-auth="'tenant.SystemTenantPackageCreate'"
+        <el-button v-auth="'tenant.SystemTenantPackageCreate'" type="primary" :icon="CirclePlus" @click="handleAdd"
           >新增</el-button
         >
       </template>
@@ -25,36 +25,36 @@
       <!-- 菜单操作 -->
       <template #operation="scope">
         <el-button
+          v-auth="'tenant.SystemTenantPackageUpdate'"
           type="primary"
           link
           :icon="EditPen"
-          @click="handleUpdate(scope.row)"
-          v-auth="'tenant.SystemTenantPackageUpdate'">
+          @click="handleUpdate(scope.row)">
           编辑
         </el-button>
         <el-button
           v-if="scope.row.deleted === 0"
+          v-auth="'tenant.SystemTenantPackageDelete'"
           type="primary"
           link
           :icon="Delete"
-          @click="handleDelete(scope.row)"
-          v-auth="'tenant.SystemTenantPackageDelete'">
+          @click="handleDelete(scope.row)">
           删除
         </el-button>
         <el-button
           v-if="scope.row.deleted === 1"
+          v-auth="'tenant.SystemTenantPackageRecover'"
           type="primary"
           link
           :icon="Refresh"
-          @click="handleRecover(scope.row)"
-          v-auth="'tenant.SystemTenantPackageRecover'">
+          @click="handleRecover(scope.row)">
           恢复
         </el-button>
       </template>
     </ProTable>
     <el-dialog
-      :title="title"
       v-model="centerDialogVisible"
+      :title="title"
       width="40%"
       destroy-on-close
       align-center
@@ -84,7 +84,7 @@
               ref="menuRef"
               :data="menuSelect"
               :props="defaultProps"
-              :list="systemTenantPackageItemFrom.systemMenuIds"
+              :list="systemTenantPackageItemFrom.menuIds"
               empty-text="加载中，请稍候"
               node-key="id"
               show-checkbox />
@@ -98,13 +98,13 @@
           </el-radio-group>
         </el-form-item>
         <el-form-item label="备注" prop="remark">
-          <el-input type="textarea" v-model="systemTenantPackageItemFrom.remark" />
+          <el-input v-model="systemTenantPackageItemFrom.remark" type="textarea" />
         </el-form-item>
       </el-form>
       <template #footer>
         <span class="dialog-footer">
           <el-button @click="resetForm(refSystemTenantPackageItemFrom)">取消</el-button>
-          <el-button type="primary" @click="submitForm(refSystemTenantPackageItemFrom)" :loading="loading">确定</el-button>
+          <el-button type="primary" :loading="loading" @click="submitForm(refSystemTenantPackageItemFrom)">确定</el-button>
         </span>
       </template>
     </el-dialog>
@@ -128,7 +128,7 @@ import {
 import { SystemMenu } from "@/api/interface/systemMenu";
 import { getSystemMenuSearchApi } from "@/api/modules/systemMenu";
 import { FormInstance, FormRules, ElTree } from "element-plus";
-import type Node from "element-plus/es/components/tree/src/model/node";
+import Node from "element-plus/es/components/tree/src/model/node";
 import { useTimeoutFn } from "@vueuse/core";
 import { getIntDictOptions } from "@/utils/dict";
 import { useHandleData, useHandleSet } from "@/hooks/useHandleData";
@@ -148,7 +148,7 @@ const systemTenantPackageItemFrom = ref<SystemTenantPackage.ResSystemTenantPacka
   name: "", //套餐名
   status: 0, //租户状态（0正常 1停用）
   remark: "", //备注
-  systemMenuIds: [], //关联的菜单编号
+  menuIds: [], //关联的菜单编号
   deleted: 0 //是否删除
 });
 //校验
@@ -256,7 +256,7 @@ const reset = () => {
     name: "", //套餐名
     status: 0, //租户状态（0正常 1停用）
     remark: "", //备注
-    systemMenuIds: [], //关联的菜单编号
+    menuIds: [], //关联的菜单编号
     deleted: 0 //是否删除
   };
   menuRef.value?.setCheckedNodes([]);
@@ -276,7 +276,7 @@ const submitForm = (formEl: FormInstance | undefined) => {
     if (!valid) return;
     loading.value = true;
     const data = systemTenantPackageItemFrom.value as unknown as SystemTenantPackage.ResSystemTenantPackageItem;
-    data.systemMenuIds = [
+    data.menuIds = [
       ...(menuRef.value!.getCheckedKeys(false) as unknown as Array<number>), // 获得当前选中节点
       ...(menuRef.value!.getHalfCheckedKeys() as unknown as Array<number>) // 获得半选中的父节点
     ];
@@ -308,7 +308,7 @@ const handleUpdate = async (row: SystemTenantPackage.ResSystemTenantPackageItem)
   const { data } = await getSystemTenantPackageItemApi(Number(row.id));
   systemTenantPackageItemFrom.value = data;
   useTimeoutFn(() => {
-    data.systemMenuIds?.forEach((menuId: number) => {
+    data.menuIds?.forEach((menuId: number) => {
       menuRef.value?.setChecked(menuId, true, false);
     });
   }, 200);

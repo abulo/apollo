@@ -15,22 +15,22 @@ import (
 func SystemUserRoleCreate(ctx context.Context, data dao.SystemUserRoleCustom) (res int64, err error) {
 	db := initial.Core.Store.LoadSQL("mysql").Write()
 	var list []any
-	if data.SystemRoleIds.IsValid() {
+	if data.RoleIds.IsValid() {
 		var roleIds []int64
-		err = json.Unmarshal(data.SystemRoleIds.JSON, &roleIds)
+		err = json.Unmarshal(data.RoleIds.JSON, &roleIds)
 		if err != nil {
 			return
 		}
 		for _, roleId := range roleIds {
 			list = append(list, dao.SystemUserRole{
-				SystemRoleId:   proto.Int64(roleId),
-				SystemUserId:   data.SystemUserId,
-				Deleted:        proto.Int32(0),
-				SystemTenantId: data.SystemTenantId,
-				Creator:        data.Creator,
-				CreateTime:     data.CreateTime,
-				Updater:        data.Updater,
-				UpdateTime:     data.UpdateTime,
+				RoleId:     proto.Int64(roleId),
+				UserId:     data.UserId,
+				Deleted:    proto.Int32(0),
+				TenantId:   data.TenantId,
+				Creator:    data.Creator,
+				CreateTime: data.CreateTime,
+				Updater:    data.Updater,
+				UpdateTime: data.UpdateTime,
 			})
 		}
 	}
@@ -39,7 +39,7 @@ func SystemUserRoleCreate(ctx context.Context, data dao.SystemUserRoleCustom) (r
 		// 先删除数据, 在添加数据
 		// 需要先将数据删除了在添加
 		builder := sql.NewBuilder()
-		query, args, err := builder.Table("`system_user_role`").Where("`system_tenant_id`", data.SystemTenantId).Where("system_user_id", data.SystemUserId).Delete()
+		query, args, err := builder.Table("`system_user_role`").Where("`tenant_id`", data.TenantId).Where("user_id", data.UserId).Delete()
 		if err != nil {
 			return err
 		}
@@ -68,17 +68,17 @@ func SystemUserRoleList(ctx context.Context, condition map[string]any) (res []da
 	builder := sql.NewBuilder()
 	builder.Table("`system_user_role`")
 
-	if val, ok := condition["systemTenantId"]; ok {
-		builder.Where("`system_tenant_id`", val)
+	if val, ok := condition["tenantId"]; ok {
+		builder.Where("`tenant_id`", val)
 	}
 	if val, ok := condition["deleted"]; ok {
 		builder.Where("`deleted`", val)
 	}
-	if val, ok := condition["systemUserId"]; ok {
-		builder.Where("`system_user_id`", val)
+	if val, ok := condition["userId"]; ok {
+		builder.Where("`user_id`", val)
 	}
-	if val, ok := condition["systemRoleId"]; ok {
-		builder.Where("`system_role_id`", val)
+	if val, ok := condition["roleId"]; ok {
+		builder.Where("`role_id`", val)
 	}
 
 	builder.OrderBy("`id`", sql.DESC)

@@ -45,8 +45,8 @@ func SystemLoginLogDelete(ctx context.Context, newCtx *app.RequestContext) {
 		})
 		return
 	}
-	if reqInfo.SystemLoginLogIds.IsValid() {
-		request.SystemLoginLogIds = *reqInfo.SystemLoginLogIds.Ptr()
+	if reqInfo.Ids.IsValid() {
+		request.Ids = *reqInfo.Ids.Ptr()
 	}
 	// 执行服务
 	res, err := client.SystemLoginLogDelete(ctx, request)
@@ -84,9 +84,9 @@ func SystemLoginLog(ctx context.Context, newCtx *app.RequestContext) {
 	}
 	//链接服务
 	client := logger.NewSystemLoginLogServiceClient(grpcClient)
-	systemLoginLogId := cast.ToInt64(newCtx.Param("systemLoginLogId"))
+	id := cast.ToInt64(newCtx.Param("id"))
 	request := &logger.SystemLoginLogRequest{}
-	request.SystemLoginLogId = systemLoginLogId
+	request.Id = id
 	// 执行服务
 	res, err := client.SystemLoginLog(ctx, request)
 	if err != nil {

@@ -9,7 +9,7 @@
   <div v-waterMarker="{text:'版权所有',textColor:'rgba(180, 180, 180, 0.4)'}"></div>
 */
 
-import type { Directive, DirectiveBinding } from "vue";
+import { Directive, DirectiveBinding } from "vue";
 const addWaterMarker: Directive = (str: string, parentNode: any, font: any, textColor: string) => {
   // 水印文字，父元素，字体，文字颜色
   let can: HTMLCanvasElement = document.createElement("canvas");

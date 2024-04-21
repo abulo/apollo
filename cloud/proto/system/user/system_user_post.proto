@@ -9,14 +9,14 @@ import "google/protobuf/timestamp.proto";
 message SystemUserPostObject {
 	// @inject_tag: db:"id" json:"id"
 	optional int64 id = 1; //编号
-	// @inject_tag: db:"system_user_id" json:"systemUserId"
-	optional int64 system_user_id = 2; //系统用户 ID
-	// @inject_tag: db:"system_post_id" json:"systemPostId"
-	optional int64 system_post_id = 3; //职位 id
+	// @inject_tag: db:"user_id" json:"userId"
+	optional int64 user_id = 2; //系统用户 ID
+	// @inject_tag: db:"post_id" json:"postId"
+	optional int64 post_id = 3; //职位 id
 	// @inject_tag: db:"deleted" json:"deleted"
 	optional int32 deleted = 4; //删除
-	// @inject_tag: db:"system_tenant_id" json:"systemTenantId"
-	optional int64 system_tenant_id = 5; //租户
+	// @inject_tag: db:"tenant_id" json:"tenantId"
+	optional int64 tenant_id = 5; //租户
 	// @inject_tag: db:"creator" json:"creator"
 	optional string creator = 6; //创建人
 	// @inject_tag: db:"create_time" json:"createTime"
@@ -29,14 +29,14 @@ message SystemUserPostObject {
 
 // SystemUserPostCustomObject 数据对象
 message SystemUserPostCustomObject {
-	// @inject_tag: db:"system_user_id" json:"systemUserId"
-	optional int64 system_user_id = 1; //系统用户 id
-	// @inject_tag: db:"system_post_ids" json:"systemPostIds"
-	optional bytes system_post_ids = 2; //职位 id
+	// @inject_tag: db:"user_id" json:"userId"
+	optional int64 user_id = 1; //系统用户 id
+	// @inject_tag: db:"post_ids" json:"postIds"
+	optional bytes post_ids = 2; //职位 id
 	// @inject_tag: db:"deleted" json:"deleted"
 	optional int32 deleted = 3; //删除
-	// @inject_tag: db:"system_tenant_id" json:"systemTenantId"
-	optional int64 system_tenant_id = 4; //租户
+	// @inject_tag: db:"tenant_id" json:"tenantId"
+	optional int64 tenant_id = 4; //租户
 	// @inject_tag: db:"creator" json:"creator"
 	optional string creator = 5; //创建人
 	// @inject_tag: db:"create_time" json:"createTime"
@@ -60,12 +60,12 @@ message SystemUserPostCreateResponse {
 // SystemUserPostListRequest 列表数据
 message SystemUserPostListRequest {
 	
-	// @inject_tag: db:"system_user_id" json:"systemUserId"
-	optional int64 system_user_id = 1; // 系统用户 ID
-	// @inject_tag: db:"system_post_id" json:"systemPostId"
-	optional int64 system_post_id = 2; // 职位 id
-	// @inject_tag: db:"system_tenant_id" json:"systemTenantId"
-	optional int64 system_tenant_id = 3; // 租户
+	// @inject_tag: db:"user_id" json:"userId"
+	optional int64 user_id = 1; // 系统用户 ID
+	// @inject_tag: db:"post_id" json:"postId"
+	optional int64 post_id = 2; // 职位 id
+	// @inject_tag: db:"tenant_id" json:"tenantId"
+	optional int64 tenant_id = 3; // 租户
 	// @inject_tag: db:"deleted" json:"deleted"
 	optional int32 deleted = 4; // 删除
 

@@ -40,12 +40,12 @@ func (srv SrvSystemRoleServiceServer) SystemRoleCreate(ctx context.Context, requ
 
 // SystemRoleUpdate 更新数据
 func (srv SrvSystemRoleServiceServer) SystemRoleUpdate(ctx context.Context, request *SystemRoleUpdateRequest) (*SystemRoleUpdateResponse, error) {
-	systemRoleId := request.GetSystemRoleId()
-	if systemRoleId < 1 {
+	id := request.GetId()
+	if id < 1 {
 		return &SystemRoleUpdateResponse{}, status.Error(code.ConvertToGrpc(code.ParamInvalid), code.StatusText(code.ParamInvalid))
 	}
 	req := SystemRoleDao(request.GetData())
-	_, err := role.SystemRoleUpdate(ctx, systemRoleId, *req)
+	_, err := role.SystemRoleUpdate(ctx, id, *req)
 	if sql.ResultAccept(err) != nil {
 		globalLogger.Logger.WithFields(logrus.Fields{
 			"req": req,
@@ -61,14 +61,14 @@ func (srv SrvSystemRoleServiceServer) SystemRoleUpdate(ctx context.Context, requ
 
 // SystemRoleDelete 删除数据
 func (srv SrvSystemRoleServiceServer) SystemRoleDelete(ctx context.Context, request *SystemRoleDeleteRequest) (*SystemRoleDeleteResponse, error) {
-	systemRoleId := request.GetSystemRoleId()
-	if systemRoleId < 1 {
+	id := request.GetId()
+	if id < 1 {
 		return &SystemRoleDeleteResponse{}, status.Error(code.ConvertToGrpc(code.ParamInvalid), code.StatusText(code.ParamInvalid))
 	}
-	_, err := role.SystemRoleDelete(ctx, systemRoleId)
+	_, err := role.SystemRoleDelete(ctx, id)
 	if sql.ResultAccept(err) != nil {
 		globalLogger.Logger.WithFields(logrus.Fields{
-			"req": systemRoleId,
+			"req": id,
 			"err": err,
 		}).Error("Sql:系统角色:system_role:SystemRoleDelete")
 		return &SystemRoleDeleteResponse{}, status.Error(code.ConvertToGrpc(code.SqlError), err.Error())
@@ -81,14 +81,14 @@ func (srv SrvSystemRoleServiceServer) SystemRoleDelete(ctx context.Context, requ
 
 // SystemRole 查询单条数据
 func (srv SrvSystemRoleServiceServer) SystemRole(ctx context.Context, request *SystemRoleRequest) (*SystemRoleResponse, error) {
-	systemRoleId := request.GetSystemRoleId()
-	if systemRoleId < 1 {
+	id := request.GetId()
+	if id < 1 {
 		return &SystemRoleResponse{}, status.Error(code.ConvertToGrpc(code.ParamInvalid), code.StatusText(code.ParamInvalid))
 	}
-	res, err := role.SystemRole(ctx, systemRoleId)
+	res, err := role.SystemRole(ctx, id)
 	if sql.ResultAccept(err) != nil {
 		globalLogger.Logger.WithFields(logrus.Fields{
-			"req": systemRoleId,
+			"req": id,
 			"err": err,
 		}).Error("Sql:系统角色:system_role:SystemRole")
 		return &SystemRoleResponse{}, status.Error(code.ConvertToGrpc(code.SqlError), err.Error())
@@ -102,14 +102,14 @@ func (srv SrvSystemRoleServiceServer) SystemRole(ctx context.Context, request *S
 
 // SystemRoleRecover 恢复数据
 func (srv SrvSystemRoleServiceServer) SystemRoleRecover(ctx context.Context, request *SystemRoleRecoverRequest) (*SystemRoleRecoverResponse, error) {
-	systemRoleId := request.GetSystemRoleId()
-	if systemRoleId < 1 {
+	id := request.GetId()
+	if id < 1 {
 		return &SystemRoleRecoverResponse{}, status.Error(code.ConvertToGrpc(code.ParamInvalid), code.StatusText(code.ParamInvalid))
 	}
-	_, err := role.SystemRoleRecover(ctx, systemRoleId)
+	_, err := role.SystemRoleRecover(ctx, id)
 	if sql.ResultAccept(err) != nil {
 		globalLogger.Logger.WithFields(logrus.Fields{
-			"req": systemRoleId,
+			"req": id,
 			"err": err,
 		}).Error("Sql:系统角色:system_role:SystemRoleRecover")
 		return &SystemRoleRecoverResponse{}, status.Error(code.ConvertToGrpc(code.SqlError), err.Error())
@@ -123,8 +123,8 @@ func (srv SrvSystemRoleServiceServer) SystemRoleList(ctx context.Context, reques
 	// 数据库查询条件
 	condition := make(map[string]any)
 	// 构造查询条件
-	if request.SystemTenantId != nil {
-		condition["systemTenantId"] = request.GetSystemTenantId()
+	if request.TenantId != nil {
+		condition["tenantId"] = request.GetTenantId()
 	}
 	if request.Deleted != nil {
 		condition["deleted"] = request.GetDeleted()
@@ -159,12 +159,12 @@ func (srv SrvSystemRoleServiceServer) SystemRoleList(ctx context.Context, reques
 	}, nil
 }
 func (srv SrvSystemRoleServiceServer) SystemRoleDataScopeCreate(ctx context.Context, request *SystemRoleDataScopeCreateRequest) (*SystemRoleDataScopeCreateResponse, error) {
-	systemRoleId := request.GetSystemRoleId()
-	if systemRoleId < 1 {
+	id := request.GetId()
+	if id < 1 {
 		return &SystemRoleDataScopeCreateResponse{}, status.Error(code.ConvertToGrpc(code.ParamInvalid), code.StatusText(code.ParamInvalid))
 	}
 	req := SystemRoleDataScopeDao(request.GetData())
-	data, err := role.SystemRoleDataScopeCreate(ctx, systemRoleId, *req)
+	data, err := role.SystemRoleDataScopeCreate(ctx, id, *req)
 	if sql.ResultAccept(err) != nil {
 		globalLogger.Logger.WithFields(logrus.Fields{
 			"req": req,
@@ -180,14 +180,14 @@ func (srv SrvSystemRoleServiceServer) SystemRoleDataScopeCreate(ctx context.Cont
 }
 
 func (srv SrvSystemRoleServiceServer) SystemRoleDataScope(ctx context.Context, request *SystemRoleDataScopeRequest) (*SystemRoleDataScopeResponse, error) {
-	systemRoleId := request.GetSystemRoleId()
-	if systemRoleId < 1 {
+	id := request.GetId()
+	if id < 1 {
 		return &SystemRoleDataScopeResponse{}, status.Error(code.ConvertToGrpc(code.ParamInvalid), code.StatusText(code.ParamInvalid))
 	}
-	res, err := role.SystemRoleDataScope(ctx, systemRoleId)
+	res, err := role.SystemRoleDataScope(ctx, id)
 	if sql.ResultAccept(err) != nil {
 		globalLogger.Logger.WithFields(logrus.Fields{
-			"req": systemRoleId,
+			"req": id,
 			"err": err,
 		}).Error("Sql:系统角色:system_role:SystemRoleDataScope")
 		return &SystemRoleDataScopeResponse{}, status.Error(code.ConvertToGrpc(code.SqlError), err.Error())

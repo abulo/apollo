@@ -11,7 +11,7 @@
       :search-col="12">
       <!-- 表格 header 按钮 -->
       <template #tableHeader>
-        <el-button type="primary" :icon="CirclePlus" @click="handleAdd" v-auth="'tenant.SystemTenantCreate'">新增</el-button>
+        <el-button v-auth="'tenant.SystemTenantCreate'" type="primary" :icon="CirclePlus" @click="handleAdd">新增</el-button>
       </template>
       <!-- 状态-->
       <template #status="scope">
@@ -23,35 +23,35 @@
       </template>
       <!-- 菜单操作 -->
       <template #operation="scope">
-        <el-button type="primary" link :icon="EditPen" @click="handleUpdate(scope.row)" v-auth="'tenant.SystemTenantUpdate'">
+        <el-button v-auth="'tenant.SystemTenantUpdate'" type="primary" link :icon="EditPen" @click="handleUpdate(scope.row)">
           编辑
         </el-button>
-        <el-button type="primary" link :icon="Connection" @click="handleLogin(scope.row)" v-auth="'tenant.SystemTenantLogin'">
+        <el-button v-auth="'tenant.SystemTenantLogin'" type="primary" link :icon="Connection" @click="handleLogin(scope.row)">
           登录
         </el-button>
         <el-button
           v-if="scope.row.deleted === 0"
+          v-auth="'tenant.SystemTenantDelete'"
           type="primary"
           link
           :icon="Delete"
-          @click="handleDelete(scope.row)"
-          v-auth="'tenant.SystemTenantDelete'">
+          @click="handleDelete(scope.row)">
           删除
         </el-button>
         <el-button
           v-if="scope.row.deleted === 1"
+          v-auth="'tenant.SystemTenantRecover'"
           type="primary"
           link
           :icon="Refresh"
-          @click="handleRecover(scope.row)"
-          v-auth="'tenant.SystemTenantRecover'">
+          @click="handleRecover(scope.row)">
           恢复
         </el-button>
       </template>
     </ProTable>
     <el-dialog
-      :title="title"
       v-model="centerDialogVisible"
+      :title="title"
       width="40%"
       destroy-on-close
       align-center
@@ -59,8 +59,8 @@
       append-to-body
       draggable
       :lock-scroll="false"
-      @click="handleDialogClick"
-      class="dialog-settings">
+      class="dialog-settings"
+      @click="handleDialogClick">
       <el-form ref="refSystemTenantItemFrom" :model="systemTenantItemFrom" :rules="rulesSystemTenantItemFrom" label-width="100px">
         <el-form-item v-if="systemTenantItemFrom.id === 0" label="用户名" prop="username">
           <el-input v-model="systemTenantItemFrom.username" />
@@ -68,7 +68,7 @@
         <el-form-item v-if="systemTenantItemFrom.id === 0" label="用户密码" prop="password">
           <el-input v-model="systemTenantItemFrom.password" show-password type="password" />
         </el-form-item>
-        <el-form-item label="负责人" prop="systemUserId" v-if="systemTenantItemFrom.id !== 0">
+        <el-form-item v-if="systemTenantItemFrom.id !== 0" label="负责人" prop="userId">
           <el-popover placement="bottom-start" :width="600" :show-arrow="false" trigger="click" :visible="isUserOpenPopover">
             <template #reference>
               <el-button style="margin-right: 16px" @click.stop="userOpenPopover">{{ userItem }}</el-button>
@@ -95,8 +95,8 @@
         <el-form-item label="租户名" prop="name">
           <el-input v-model="systemTenantItemFrom.name" />
         </el-form-item>
-        <el-form-item label="租户套餐" prop="systemTenantPackageId">
-          <el-select v-model="systemTenantItemFrom.systemTenantPackageId" clearable placeholder="请选择租户套餐">
+        <el-form-item label="租户套餐" prop="tenantPackageId">
+          <el-select v-model="systemTenantItemFrom.tenantPackageId" clearable placeholder="请选择租户套餐">
             <el-option v-for="item in tenantPackageEnum" :key="item.id" :label="item.name" :value="item.id" />
           </el-select>
         </el-form-item>
@@ -132,7 +132,7 @@
       <template #footer>
         <span class="dialog-footer">
           <el-button @click="resetForm(refSystemTenantItemFrom)">取消</el-button>
-          <el-button type="primary" @click="submitForm(refSystemTenantItemFrom)" :loading="loading">确定</el-button>
+          <el-button type="primary" :loading="loading" @click="submitForm(refSystemTenantItemFrom)">确定</el-button>
         </span>
       </template>
     </el-dialog>
@@ -188,14 +188,14 @@ const centerDialogVisible = ref(false);
 const systemTenantItemFrom = ref<SystemTenant.ResSystemTenantItem>({
   id: 0, // bigint 租户编号,PRI
   name: "", // varchar 租户名
-  systemUserId: undefined, // bigint 联系人的用户编号
+  userId: undefined, // bigint 联系人的用户编号
   contactName: "", // varchar 联系人
   contactMobile: "", // varchar 联系手机
   status: 0, // tinyint 租户状态（0正常 1停用）
   domain: "", // varchar 绑定域名
   expireDate: "", // datetime 过期时间
   accountCount: 0, // int 账号数量
-  systemTenantPackageId: 0, // bigint 套餐 ID
+  tenantPackageId: 0, // bigint 套餐 ID
   deleted: 0, // tinyint 是否删除
   username: undefined, // varchar 用户名
   password: undefined // varchar 密码
@@ -205,7 +205,7 @@ const refSystemTenantItemFrom = ref<FormInstance>();
 //校验
 const rulesSystemTenantItemFrom = reactive<FormRules>({
   name: [{ required: true, message: "租户名不能为空", trigger: "blur" }],
-  systemTenantPackageId: [{ required: true, message: "租户套餐不能为空", trigger: "blur" }],
+  tenantPackageId: [{ required: true, message: "租户套餐不能为空", trigger: "blur" }],
   status: [{ required: true, message: "租户状态不能为空", trigger: "blur" }],
   accountCount: [{ required: true, message: "账号额度不能为空", trigger: "blur" }],
   expireDate: [{ required: true, message: "过期时间不能为空", trigger: "blur" }],
@@ -236,7 +236,7 @@ const columns: ColumnProps<SystemTenant.ResSystemTenantItem>[] = [
   { prop: "id", label: "编号", width: 100 },
   { prop: "name", label: "租户名", search: { el: "input", span: 2 } },
   {
-    prop: "systemTenantPackageId",
+    prop: "tenantPackageId",
     label: "租户套餐",
     tag: true,
     enum: tenantPackageEnum,
@@ -302,14 +302,14 @@ const reset = () => {
   systemTenantItemFrom.value = {
     id: 0, // bigint 租户编号,PRI
     name: "", // varchar 租户名
-    systemUserId: undefined, // bigint 联系人的用户编号
+    userId: undefined, // bigint 联系人的用户编号
     contactName: "", // varchar 联系人
     contactMobile: "", // varchar 联系手机
     status: 0, // tinyint 租户状态（0正常 1停用）
     domain: "", // varchar 绑定域名
     expireDate: "", // datetime 过期时间
     accountCount: 0, // int 账号数量
-    systemTenantPackageId: 0, // bigint 套餐 ID
+    tenantPackageId: 0, // bigint 套餐 ID
     deleted: 0, // tinyint 是否删除
     username: undefined, // varchar 用户名
     password: undefined // varchar 密码
@@ -395,8 +395,8 @@ const handleUpdate = async (row: SystemTenant.ResSystemTenantItem) => {
   reset();
   const { data } = await getSystemTenantItemApi(Number(row.id));
   systemTenantItemFrom.value = data;
-  if (Number(data.systemUserId) !== 0) {
-    const user = await getSystemUserItemApi(Number(data.systemUserId));
+  if (Number(data.userId) !== 0) {
+    const user = await getSystemUserItemApi(Number(data.userId));
     userItem.value = user.data.nickname;
   }
 };
@@ -414,7 +414,7 @@ const getSystemUserSearch = (params: any) => {
 // 当用户被选择
 const handleUser = (row: SystemUser.ResSystemUserItem) => {
   userItem.value = row.nickname;
-  systemTenantItemFrom.value.systemUserId = Number(row.id);
+  systemTenantItemFrom.value.userId = Number(row.id);
   isUserOpenPopover.value = false;
 };
 
@@ -428,7 +428,7 @@ onMounted(async () => {
     id: 0, //bigint 套餐编号,PRI
     name: "内置套餐", //varchar 套餐名称
     status: 0, //tinyint 状态（0正常 1停用）
-    systemMenuIds: [], //json 目录编号
+    menuIds: [], //json 目录编号
     remark: "", //varchar 备注
     deleted: 0
   });

@@ -20,8 +20,8 @@ func SystemTenantDao(item *SystemTenantObject) *dao.SystemTenant {
 	if item != nil && item.Name != nil {
 		daoItem.Name = item.Name // 租户名称
 	}
-	if item != nil && item.SystemUserId != nil {
-		daoItem.SystemUserId = null.Int64From(item.GetSystemUserId()) // 联系人ID
+	if item != nil && item.UserId != nil {
+		daoItem.UserId = null.Int64From(item.GetUserId()) // 联系人ID
 	}
 	if item != nil && item.ContactName != nil {
 		daoItem.ContactName = item.ContactName // 联系人
@@ -41,8 +41,8 @@ func SystemTenantDao(item *SystemTenantObject) *dao.SystemTenant {
 	if item != nil && item.AccountCount != nil {
 		daoItem.AccountCount = item.AccountCount // 账号数量
 	}
-	if item != nil && item.SystemTenantPackageId != nil {
-		daoItem.SystemTenantPackageId = item.SystemTenantPackageId // 套餐编号
+	if item != nil && item.TenantPackageId != nil {
+		daoItem.TenantPackageId = item.TenantPackageId // 套餐编号
 	}
 	if item != nil && item.Deleted != nil {
 		daoItem.Deleted = item.Deleted // 是否删除(0否 1是)
@@ -77,8 +77,8 @@ func SystemTenantProto(item dao.SystemTenant) *SystemTenantObject {
 	if item.Name != nil {
 		res.Name = item.Name
 	}
-	if item.SystemUserId.IsValid() {
-		res.SystemUserId = item.SystemUserId.Ptr()
+	if item.UserId.IsValid() {
+		res.UserId = item.UserId.Ptr()
 	}
 	if item.ContactName != nil {
 		res.ContactName = item.ContactName
@@ -98,8 +98,8 @@ func SystemTenantProto(item dao.SystemTenant) *SystemTenantObject {
 	if item.AccountCount != nil {
 		res.AccountCount = item.AccountCount
 	}
-	if item.SystemTenantPackageId != nil {
-		res.SystemTenantPackageId = item.SystemTenantPackageId
+	if item.TenantPackageId != nil {
+		res.TenantPackageId = item.TenantPackageId
 	}
 	if item.Deleted != nil {
 		res.Deleted = item.Deleted

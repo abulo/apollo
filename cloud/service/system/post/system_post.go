@@ -29,8 +29,8 @@ func SystemPostDao(item *SystemPostObject) *dao.SystemPost {
 	if item != nil && item.Deleted != nil {
 		daoItem.Deleted = item.Deleted // 是否删除
 	}
-	if item != nil && item.SystemTenantId != nil {
-		daoItem.SystemTenantId = item.SystemTenantId // 租户ID
+	if item != nil && item.TenantId != nil {
+		daoItem.TenantId = item.TenantId // 租户ID
 	}
 	if item != nil && item.Creator != nil {
 		daoItem.Creator = null.StringFrom(item.GetCreator()) // 创建人
@@ -66,8 +66,8 @@ func SystemPostProto(item dao.SystemPost) *SystemPostObject {
 	if item.Deleted != nil {
 		res.Deleted = item.Deleted
 	}
-	if item.SystemTenantId != nil {
-		res.SystemTenantId = item.SystemTenantId
+	if item.TenantId != nil {
+		res.TenantId = item.TenantId
 	}
 	if item.Creator.IsValid() {
 		res.Creator = item.Creator.Ptr()

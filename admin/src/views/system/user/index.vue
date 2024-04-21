@@ -1,6 +1,6 @@
 <template>
   <div class="main-box">
-    <TreeFilter label="name" title="部门列表" :data="deptList" @change="changeDept" :default-value="initParam.systemDeptId" />
+    <TreeFilter label="name" title="部门列表" :data="deptList" :default-value="initParam.deptId" @change="changeDept" />
     <div class="table-box">
       <ProTable
         ref="proTable"
@@ -14,7 +14,7 @@
         :search-col="12">
         <!-- 表格 header 按钮 -->
         <template #tableHeader>
-          <el-button type="primary" :icon="CirclePlus" @click="handleAdd" v-auth="'user.SystemUserCreate'">新增</el-button>
+          <el-button v-auth="'user.SystemUserCreate'" type="primary" :icon="CirclePlus" @click="handleAdd">新增</el-button>
         </template>
         <template #status="scope">
           <DictTag type="status" :value="scope.row.status" />
@@ -24,14 +24,11 @@
         </template>
         <!-- 菜单操作 -->
         <template #operation="scope">
-          <el-button type="primary" link :icon="EditPen" @click="handleUpdate(scope.row)" v-auth="'user.SystemUserUpdate'">
+          <el-button v-auth="'user.SystemUserUpdate'" type="primary" link :icon="EditPen" @click="handleUpdate(scope.row)">
             编辑
           </el-button>
           <el-dropdown trigger="click">
             <el-button
-              type="primary"
-              link
-              :icon="DArrowRight"
               v-auth="[
                 'user.SystemUserRoleList',
                 'user.SystemUserDeptList',
@@ -40,34 +37,37 @@
                 'user.SystemUserDelete',
                 'user.SystemUserRecover'
               ]"
-              >更多</el-button
-            >
+              type="primary"
+              link
+              :icon="DArrowRight">
+              更多
+            </el-button>
             <template #dropdown>
               <el-dropdown-menu>
-                <el-dropdown-item :icon="CircleCheck" @click="handleRole(scope.row)" v-auth="'user.SystemUserRoleList'">
+                <el-dropdown-item v-auth="'user.SystemUserRoleList'" :icon="CircleCheck" @click="handleRole(scope.row)">
                   分配角色
                 </el-dropdown-item>
-                <el-dropdown-item :icon="CircleCheck" @click="handleDept(scope.row)" v-auth="'user.SystemUserDeptList'">
+                <el-dropdown-item v-auth="'user.SystemUserDeptList'" :icon="CircleCheck" @click="handleDept(scope.row)">
                   分配部门
                 </el-dropdown-item>
-                <el-dropdown-item :icon="CircleCheck" @click="handlePost(scope.row)" v-auth="'user.SystemUserPostList'">
+                <el-dropdown-item v-auth="'user.SystemUserPostList'" :icon="CircleCheck" @click="handlePost(scope.row)">
                   分配职位
                 </el-dropdown-item>
-                <el-dropdown-item :icon="Key" @click="handlePassword(scope.row)" v-auth="'user.SystemUserPassword'">
+                <el-dropdown-item v-auth="'user.SystemUserPassword'" :icon="Key" @click="handlePassword(scope.row)">
                   重置密码
                 </el-dropdown-item>
                 <el-dropdown-item
-                  :icon="Delete"
                   v-if="scope.row.deleted === 0"
-                  @click="handleDelete(scope.row)"
-                  v-auth="'user.SystemUserDelete'">
+                  v-auth="'user.SystemUserDelete'"
+                  :icon="Delete"
+                  @click="handleDelete(scope.row)">
                   删除
                 </el-dropdown-item>
                 <el-dropdown-item
-                  :icon="Refresh"
                   v-if="scope.row.deleted === 1"
-                  @click="handleRecover(scope.row)"
-                  v-auth="'user.SystemUserRecover'">
+                  v-auth="'user.SystemUserRecover'"
+                  :icon="Refresh"
+                  @click="handleRecover(scope.row)">
                   恢复
                 </el-dropdown-item>
               </el-dropdown-menu>
@@ -76,8 +76,8 @@
         </template>
       </ProTable>
       <el-dialog
-        :title="title"
         v-model="centerDialogVisible"
+        :title="title"
         width="40%"
         destroy-on-close
         align-center
@@ -107,7 +107,7 @@
             </el-radio-group>
           </el-form-item>
           <!-- <el-form-item label="用户角色">
-            <el-select v-model="systemUserItemFrom.systemRoleIds" multiple placeholder="请选择角色">
+            <el-select v-model="systemUserItemFrom.roleIds" multiple placeholder="请选择角色">
               <el-option v-for="item in roleList" :key="item.id" :label="item.name" :value="item.id" />
             </el-select>
           </el-form-item> -->
@@ -115,13 +115,13 @@
         <template #footer>
           <span class="dialog-footer">
             <el-button @click="resetForm(refSystemUserItemFrom)">取消</el-button>
-            <el-button type="primary" @click="submitForm(refSystemUserItemFrom)" :loading="loading">确定</el-button>
+            <el-button type="primary" :loading="loading" @click="submitForm(refSystemUserItemFrom)">确定</el-button>
           </span>
         </template>
       </el-dialog>
       <el-dialog
-        :title="titleRole"
         v-model="centerRoleDialogVisible"
+        :title="titleRole"
         width="40%"
         destroy-on-close
         align-center
@@ -138,8 +138,8 @@
           <el-form-item label="用户名">
             <el-tag>{{ systemUserItemFrom.username }}</el-tag>
           </el-form-item>
-          <el-form-item label="角色" prop="systemRoleIds">
-            <el-select v-model="systemUserRoleItemFrom.systemRoleIds" multiple placeholder="请选择角色">
+          <el-form-item label="角色" prop="roleIds">
+            <el-select v-model="systemUserRoleItemFrom.roleIds" multiple placeholder="请选择角色">
               <el-option v-for="item in roleSelect" :key="item.id" :label="item.name" :value="item.id" />
             </el-select>
           </el-form-item>
@@ -147,14 +147,14 @@
         <template #footer>
           <span class="dialog-footer">
             <el-button @click="resetRoleForm(refSystemUserRoleItemFrom)">取消</el-button>
-            <el-button type="primary" @click="submitRoleForm(refSystemUserRoleItemFrom)" :loading="loading">确定</el-button>
+            <el-button type="primary" :loading="loading" @click="submitRoleForm(refSystemUserRoleItemFrom)">确定</el-button>
           </span>
         </template>
       </el-dialog>
 
       <el-dialog
-        :title="titlePost"
         v-model="centerPostDialogVisible"
+        :title="titlePost"
         width="40%"
         destroy-on-close
         align-center
@@ -171,8 +171,8 @@
           <el-form-item label="用户名">
             <el-tag>{{ systemUserItemFrom.username }}</el-tag>
           </el-form-item>
-          <el-form-item label="职位" prop="systemPostIds">
-            <el-select v-model="systemUserPostItemFrom.systemPostIds" multiple placeholder="请选择职位">
+          <el-form-item label="职位" prop="postIds">
+            <el-select v-model="systemUserPostItemFrom.postIds" multiple placeholder="请选择职位">
               <el-option v-for="item in postSelect" :key="item.id" :label="item.name" :value="item.id" />
             </el-select>
           </el-form-item>
@@ -180,14 +180,14 @@
         <template #footer>
           <span class="dialog-footer">
             <el-button @click="resetPostForm(refSystemUserPostItemFrom)">取消</el-button>
-            <el-button type="primary" @click="submitPostForm(refSystemUserPostItemFrom)" :loading="loading">确定</el-button>
+            <el-button type="primary" :loading="loading" @click="submitPostForm(refSystemUserPostItemFrom)">确定</el-button>
           </span>
         </template>
       </el-dialog>
 
       <el-dialog
-        :title="titleDept"
         v-model="centerDeptDialogVisible"
+        :title="titleDept"
         width="40%"
         destroy-on-close
         align-center
@@ -204,9 +204,9 @@
           <el-form-item label="用户名">
             <el-tag>{{ systemUserItemFrom.username }}</el-tag>
           </el-form-item>
-          <el-form-item label="部门" prop="systemDeptIds">
+          <el-form-item label="部门" prop="deptIds">
             <el-tree-select
-              v-model="systemUserDeptItemFrom.systemDeptIds"
+              v-model="systemUserDeptItemFrom.deptIds"
               :data="deptSelect"
               :props="{ value: 'id', label: 'name' }"
               value-key="id"
@@ -221,7 +221,7 @@
         <template #footer>
           <span class="dialog-footer">
             <el-button @click="resetDeptForm(refSystemUserDeptItemFrom)">取消</el-button>
-            <el-button type="primary" @click="submitDeptForm(refSystemUserDeptItemFrom)" :loading="loading">确定</el-button>
+            <el-button type="primary" :loading="loading" @click="submitDeptForm(refSystemUserDeptItemFrom)">确定</el-button>
           </span>
         </template>
       </el-dialog>
@@ -262,7 +262,7 @@ import { SystemUserDept } from "@/api/interface/systemUserDept";
 import { getSystemUserDeptListApi, addSystemUserDeptApi } from "@/api/modules/systemUserDept";
 import { HasPermission } from "@/utils/permission";
 
-const initParam = reactive({ systemDeptId: "" });
+const initParam = reactive({ deptId: "" });
 //加载
 const loading = ref(false);
 //弹出层标题
@@ -284,9 +284,9 @@ const systemUserItemFrom = ref<SystemUser.ResSystemUserItem>({
   password: "",
   status: 0,
   deleted: 0,
-  systemRoleIds: undefined,
-  systemDeptIds: undefined,
-  systemPostIds: undefined
+  roleIds: undefined,
+  deptIds: undefined,
+  postIds: undefined
 });
 //校验
 const refSystemUserItemFrom = ref<FormInstance>();
@@ -348,21 +348,21 @@ const reset = () => {
     password: "",
     status: 0,
     deleted: 0,
-    systemRoleIds: undefined,
-    systemDeptIds: undefined,
-    systemPostIds: undefined
+    roleIds: undefined,
+    deptIds: undefined,
+    postIds: undefined
   };
   systemUserRoleItemFrom.value = {
-    systemUserId: 0,
-    systemRoleIds: []
+    userId: 0,
+    roleIds: []
   };
   systemUserPostItemFrom.value = {
-    systemUserId: 0,
-    systemPostIds: []
+    userId: 0,
+    postIds: []
   };
   systemUserDeptItemFrom.value = {
-    systemUserId: 0,
-    systemDeptIds: []
+    userId: 0,
+    deptIds: []
   };
 };
 // 弹出层标题
@@ -373,14 +373,14 @@ const centerDeptDialogVisible = ref(false);
 const deptSelect = ref<SystemDept.ResSystemDeptList[]>([]);
 // 当前用户的职位
 const systemUserDeptItemFrom = ref<SystemUserDept.ResSystemUserDeptItem>({
-  systemUserId: 0,
-  systemDeptIds: []
+  userId: 0,
+  deptIds: []
 });
 //校验
 const refSystemUserDeptItemFrom = ref<FormInstance>();
 //校验
 const rulesSystemUserDeptItemFrom = reactive<FormRules>({
-  systemDeptIds: [{ required: true, message: "用户部门不能为空", trigger: "blur" }]
+  deptIds: [{ required: true, message: "用户部门不能为空", trigger: "blur" }]
 });
 
 // 部门处理
@@ -411,7 +411,7 @@ const submitDeptForm = (formEl: FormInstance | undefined) => {
     if (!valid) return;
     loading.value = true;
     const data = systemUserDeptItemFrom.value as unknown as SystemUserDept.ResSystemUserDeptItem;
-    await useHandleSet(addSystemUserDeptApi, data.systemUserId, data, "分配部门");
+    await useHandleSet(addSystemUserDeptApi, data.userId, data, "分配部门");
     resetDeptForm(formEl);
     loading.value = false;
     proTable.value?.getTableList();
@@ -426,14 +426,14 @@ const centerPostDialogVisible = ref(false);
 const postSelect = ref<SystemPost.ResSystemPostItem[]>([]);
 // 当前用户的职位
 const systemUserPostItemFrom = ref<SystemUserPost.ResSystemUserPostItem>({
-  systemUserId: 0,
-  systemPostIds: []
+  userId: 0,
+  postIds: []
 });
 //校验
 const refSystemUserPostItemFrom = ref<FormInstance>();
 //校验
 const rulesSystemUserPostItemFrom = reactive<FormRules>({
-  systemPostIds: [{ required: true, message: "用户职位不能为空", trigger: "blur" }]
+  postIds: [{ required: true, message: "用户职位不能为空", trigger: "blur" }]
 });
 // 职位处理
 const handlePost = async (row: SystemUser.ResSystemUserItem) => {
@@ -461,7 +461,7 @@ const submitPostForm = (formEl: FormInstance | undefined) => {
     if (!valid) return;
     loading.value = true;
     const data = systemUserPostItemFrom.value as unknown as SystemUserPost.ResSystemUserPostItem;
-    await useHandleSet(addSystemUserPostApi, data.systemUserId, data, "分配职位");
+    await useHandleSet(addSystemUserPostApi, data.userId, data, "分配职位");
     resetPostForm(formEl);
     loading.value = false;
     proTable.value?.getTableList();
@@ -476,14 +476,14 @@ const centerRoleDialogVisible = ref(false);
 const roleSelect = ref<SystemRole.ResSystemRoleItem[]>([]);
 // 当前用户的角色
 const systemUserRoleItemFrom = ref<SystemUserRole.ResSystemUserRoleItem>({
-  systemUserId: 0,
-  systemRoleIds: []
+  userId: 0,
+  roleIds: []
 });
 //校验
 const refSystemUserRoleItemFrom = ref<FormInstance>();
 //校验
 const rulesSystemUserRoleItemFrom = reactive<FormRules>({
-  systemRoleIds: [{ required: true, message: "用户角色不能为空", trigger: "blur" }]
+  roleIds: [{ required: true, message: "用户角色不能为空", trigger: "blur" }]
 });
 // 角色处理
 const handleRole = async (row: SystemUser.ResSystemUserItem) => {
@@ -513,7 +513,7 @@ const submitRoleForm = (formEl: FormInstance | undefined) => {
     if (!valid) return;
     loading.value = true;
     const data = systemUserRoleItemFrom.value as unknown as SystemUserRole.ResSystemUserRoleItem;
-    await useHandleSet(addSystemUserRoleApi, data.systemUserId, data, "分配角色");
+    await useHandleSet(addSystemUserRoleApi, data.userId, data, "分配角色");
     resetRoleForm(formEl);
     loading.value = false;
     proTable.value?.getTableList();
@@ -582,7 +582,7 @@ const getTreeFilter = async () => {
 // 树形筛选切换
 const changeDept = (val: string) => {
   proTable.value!.pageable.pageNum = 1;
-  initParam.systemDeptId = val;
+  initParam.deptId = val;
   proTable.value?.getTableList();
 };
 

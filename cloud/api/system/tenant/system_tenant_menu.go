@@ -35,9 +35,9 @@ func SystemMenuList(ctx context.Context, newCtx *app.RequestContext) {
 	}
 	//链接服务
 	tenantClient := tenant.NewSystemTenantServiceClient(grpcClient)
-	systemTenantId := newCtx.GetInt64("systemTenantId")
+	id := newCtx.GetInt64("id")
 	tenantRequest := &tenant.SystemTenantRequest{}
-	tenantRequest.SystemTenantId = systemTenantId
+	tenantRequest.Id = id
 	// 执行服务
 	tenantRes, tenantErr := tenantClient.SystemTenant(ctx, tenantRequest)
 	if tenantErr != nil {
@@ -63,7 +63,7 @@ func SystemMenuList(ctx context.Context, newCtx *app.RequestContext) {
 	// 这里有一个数据需要来判断
 	tenantItem := tenant.SystemTenantDao(tenantRes.GetData())
 	// 获取套餐服务
-	tenantPackageId := tenantItem.SystemTenantPackageId
+	tenantPackageId := tenantItem.TenantPackageId
 	//链接服务
 	menuClient := menu.NewSystemMenuServiceClient(grpcClient)
 	// 构造查询条件
@@ -80,12 +80,12 @@ func SystemMenuList(ctx context.Context, newCtx *app.RequestContext) {
 		tenantPackageClient := tenant.NewSystemTenantPackageServiceClient(grpcClient)
 		systemTenantPackageId := cast.ToInt64(tenantPackageId)
 		tenantPackageRequest := &tenant.SystemTenantPackageRequest{}
-		tenantPackageRequest.SystemTenantPackageId = systemTenantPackageId
+		tenantPackageRequest.Id = systemTenantPackageId
 		// 执行服务
 		if res, err := tenantPackageClient.SystemTenantPackage(ctx, tenantPackageRequest); err == nil {
 			tenantPackageItem := tenant.SystemTenantPackageDao(res.GetData())
-			if tenantPackageItem.SystemMenuIds.IsValid() {
-				json.Unmarshal(tenantPackageItem.SystemMenuIds.JSON, &menuIds)
+			if tenantPackageItem.MenuIds.IsValid() {
+				json.Unmarshal(tenantPackageItem.MenuIds.JSON, &menuIds)
 			}
 		}
 	}

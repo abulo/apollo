@@ -41,14 +41,14 @@ func (srv SrvSystemRoleMenuServiceServer) SystemRoleMenuList(ctx context.Context
 	// 数据库查询条件
 	condition := make(map[string]any)
 	// 构造查询条件
-	if request.SystemRoleId != nil {
-		condition["systemRoleId"] = request.GetSystemRoleId()
+	if request.RoleId != nil {
+		condition["roleId"] = request.GetRoleId()
 	}
-	if request.SystemMenuId != nil {
-		condition["systemMenuId"] = request.GetSystemMenuId()
+	if request.MenuId != nil {
+		condition["menuId"] = request.GetMenuId()
 	}
-	if request.SystemTenantId != nil {
-		condition["systemTenantId"] = request.GetSystemTenantId()
+	if request.TenantId != nil {
+		condition["tenantId"] = request.GetTenantId()
 	}
 	if request.Deleted != nil {
 		condition["deleted"] = request.GetDeleted()

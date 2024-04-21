@@ -3,7 +3,7 @@ package dao
 import "github.com/abulo/ratel/v3/stores/null"
 
 type SystemLoginLogDelete struct {
-	SystemLoginLogIds null.JSON `json:"systemLoginLogIds,omitempty"` // 登录日志编号
+	Ids null.JSON `json:"ids,omitempty"` // 登录日志编号
 }
 
 type SystemLoginLogDrop struct {
@@ -14,7 +14,7 @@ type SystemLoginLogDrop struct {
 }
 
 type SystemOperateLogDelete struct {
-	SystemOperateLogIds null.JSON `json:"systemOperateLogIds,omitempty"` // 操作日志编号
+	Ids null.JSON `json:"ids,omitempty"` // 操作日志编号
 }
 
 type SystemOperateLogDrop struct {
@@ -26,7 +26,7 @@ type SystemOperateLogDrop struct {
 }
 
 type SystemEntryLogDelete struct {
-	SystemEntryLogIds null.JSON `json:"systemEntryLogIds,omitempty"` // 访问日志编号
+	Ids null.JSON `json:"ids,omitempty"` // 访问日志编号
 }
 
 type SystemEntryLogDrop struct {

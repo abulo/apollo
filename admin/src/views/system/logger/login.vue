@@ -12,25 +12,25 @@
       <!-- 表格 header 按钮 -->
       <template #tableHeader="scope">
         <el-button
+          v-auth="'logger.SystemLoginLogDelete'"
           type="danger"
           :icon="Delete"
           plain
           :disabled="!scope.isSelected"
-          @click="handleDelete(scope.selectedListIds)"
-          v-auth="'logger.SystemLoginLogDelete'">
+          @click="handleDelete(scope.selectedListIds)">
           删除
         </el-button>
-        <el-button type="danger" :icon="Delete" @click="handleDrop" v-auth="'logger.SystemLoginLogDrop'"> 清空 </el-button>
+        <el-button v-auth="'logger.SystemLoginLogDrop'" type="danger" :icon="Delete" @click="handleDrop"> 清空 </el-button>
       </template>
       <template #operation="scope">
-        <el-button type="primary" link :icon="View" @click="handleItem(scope.row)" v-auth="'logger.SystemLoginLog'">
+        <el-button v-auth="'logger.SystemLoginLog'" type="primary" link :icon="View" @click="handleItem(scope.row)">
           查看
         </el-button>
       </template>
     </ProTable>
     <el-dialog
-      :title="title"
       v-model="centerDialogVisible"
+      :title="title"
       width="40%"
       destroy-on-close
       align-center
@@ -115,7 +115,7 @@ const proTable = ref<ProTableInstance>();
 // 批量删除用户信息
 const handleDelete = async (id: string[]) => {
   const data = ref<SystemLoginLog.ReqSystemLoginLogDelete>({
-    systemLoginLogIds: id.map(Number)
+    ids: id.map(Number)
   });
   await useHandleData(deleteSystemLoginLogApi, data.value, "删除所选信息");
   proTable.value?.clearSelection();

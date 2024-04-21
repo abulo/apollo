@@ -33,14 +33,18 @@ message SystemOperateLogObject {
 	optional string channel = 12; //渠道
 	// @inject_tag: db:"result" json:"result"
 	optional int32 result = 13; //结果(0 成功/1 失败)
+	// @inject_tag: db:"deleted" json:"deleted"
+	optional int32 deleted = 14; //是否删除
+	// @inject_tag: db:"tenant_id" json:"tenantId"
+	optional int64 tenant_id = 15; //租户ID
 	// @inject_tag: db:"creator" json:"creator"
-	optional string creator = 14; //创建人
+	optional string creator = 16; //创建人
 	// @inject_tag: db:"create_time" json:"createTime"
-	google.protobuf.Timestamp create_time = 15; //创建时间
+	google.protobuf.Timestamp create_time = 17; //创建时间
 	// @inject_tag: db:"updater" json:"updater"
-	optional string updater = 16; //更新人
+	optional string updater = 18; //更新人
 	// @inject_tag: db:"update_time" json:"updateTime"
-	google.protobuf.Timestamp update_time = 17; //更新时间
+	google.protobuf.Timestamp update_time = 19; //更新时间
 }
 // SystemOperateLogTotalResponse 列表数据总量
 message SystemOperateLogTotalResponse {
@@ -60,8 +64,8 @@ message SystemOperateLogCreateResponse {
 }
 // SystemOperateLogDeleteRequest 删除数据请求
 message SystemOperateLogDeleteRequest {
-	// @inject_tag: db:"system_operate_log_ids" json:"systemOperateLogIds"
-	bytes system_operate_log_ids = 1; //主键
+	// @inject_tag: db:"ids" json:"ids"
+	bytes ids = 1; //主键
 }
 // SystemOperateLogDeleteResponse 删除数据响应
 message SystemOperateLogDeleteResponse {
@@ -70,8 +74,8 @@ message SystemOperateLogDeleteResponse {
 }
 // SystemOperateLogRequest 查询单条数据请求
 message SystemOperateLogRequest {
-	// @inject_tag: db:"system_operate_log_id" json:"systemOperateLogId"
-	int64 system_operate_log_id = 1; //主键
+	// @inject_tag: db:"id" json:"id"
+	int64 id = 1; //主键
 }
 // SystemOperateLogResponse 查询单条数据响应
 message SystemOperateLogResponse {

@@ -14,17 +14,17 @@ import (
 func SystemUserRoleCustomDao(item *SystemUserRoleCustomObject) *dao.SystemUserRoleCustom {
 	daoItem := &dao.SystemUserRoleCustom{}
 
-	if item != nil && item.SystemUserId != nil {
-		daoItem.SystemUserId = item.SystemUserId // 系统用户 id
+	if item != nil && item.UserId != nil {
+		daoItem.UserId = item.UserId // 系统用户 id
 	}
-	if item != nil && item.SystemRoleIds != nil {
-		daoItem.SystemRoleIds = null.JSONFrom(item.GetSystemRoleIds()) // 角色 id
+	if item != nil && item.RoleIds != nil {
+		daoItem.RoleIds = null.JSONFrom(item.GetRoleIds()) // 角色 id
 	}
 	if item != nil && item.Deleted != nil {
 		daoItem.Deleted = item.Deleted // 删除
 	}
-	if item != nil && item.SystemTenantId != nil {
-		daoItem.SystemTenantId = item.SystemTenantId // 租户
+	if item != nil && item.TenantId != nil {
+		daoItem.TenantId = item.TenantId // 租户
 	}
 	if item != nil && item.Creator != nil {
 		daoItem.Creator = null.StringFrom(item.GetCreator()) // 创建人
@@ -44,17 +44,17 @@ func SystemUserRoleCustomDao(item *SystemUserRoleCustomObject) *dao.SystemUserRo
 // SystemUserRoleCustomProto 数据绑定
 func SystemUserRoleCustomProto(item dao.SystemUserRoleCustom) *SystemUserRoleCustomObject {
 	res := &SystemUserRoleCustomObject{}
-	if item.SystemUserId != nil {
-		res.SystemUserId = item.SystemUserId
+	if item.UserId != nil {
+		res.UserId = item.UserId
 	}
-	if item.SystemRoleIds.IsValid() {
-		res.SystemRoleIds = *item.SystemRoleIds.Ptr()
+	if item.RoleIds.IsValid() {
+		res.RoleIds = *item.RoleIds.Ptr()
 	}
 	if item.Deleted != nil {
 		res.Deleted = item.Deleted
 	}
-	if item.SystemTenantId != nil {
-		res.SystemTenantId = item.SystemTenantId
+	if item.TenantId != nil {
+		res.TenantId = item.TenantId
 	}
 	if item.Creator.IsValid() {
 		res.Creator = item.Creator.Ptr()
@@ -78,17 +78,17 @@ func SystemUserRoleDao(item *SystemUserRoleObject) *dao.SystemUserRole {
 	if item != nil && item.Id != nil {
 		daoItem.Id = item.Id // 自增编号
 	}
-	if item != nil && item.SystemUserId != nil {
-		daoItem.SystemUserId = item.SystemUserId // 用户编号
+	if item != nil && item.UserId != nil {
+		daoItem.UserId = item.UserId // 用户编号
 	}
-	if item != nil && item.SystemRoleId != nil {
-		daoItem.SystemRoleId = item.SystemRoleId // 角色编号
+	if item != nil && item.RoleId != nil {
+		daoItem.RoleId = item.RoleId // 角色编号
 	}
 	if item != nil && item.Deleted != nil {
 		daoItem.Deleted = item.Deleted // 删除
 	}
-	if item != nil && item.SystemTenantId != nil {
-		daoItem.SystemTenantId = item.SystemTenantId // 租户
+	if item != nil && item.TenantId != nil {
+		daoItem.TenantId = item.TenantId // 租户
 	}
 	if item != nil && item.Creator != nil {
 		daoItem.Creator = null.StringFrom(item.GetCreator()) // 创建者
@@ -112,17 +112,17 @@ func SystemUserRoleProto(item dao.SystemUserRole) *SystemUserRoleObject {
 	if item.Id != nil {
 		res.Id = item.Id
 	}
-	if item.SystemUserId != nil {
-		res.SystemUserId = item.SystemUserId
+	if item.UserId != nil {
+		res.UserId = item.UserId
 	}
-	if item.SystemRoleId != nil {
-		res.SystemRoleId = item.SystemRoleId
+	if item.RoleId != nil {
+		res.RoleId = item.RoleId
 	}
 	if item.Deleted != nil {
 		res.Deleted = item.Deleted
 	}
-	if item.SystemTenantId != nil {
-		res.SystemTenantId = item.SystemTenantId
+	if item.TenantId != nil {
+		res.TenantId = item.TenantId
 	}
 	if item.Creator.IsValid() {
 		res.Creator = item.Creator.Ptr()

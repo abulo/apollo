@@ -47,13 +47,13 @@ func SystemUserRoleCreate(ctx context.Context, newCtx *app.RequestContext) {
 		})
 		return
 	}
-	systemUserId := proto.Int64(cast.ToInt64(newCtx.Param("systemUserId")))
+	id := proto.Int64(cast.ToInt64(newCtx.Param("id")))
 	deleted := proto.Int32(0)
-	systemTenantId := proto.Int64(newCtx.GetInt64("systemTenantId")) // 租户
-	reqInfo.SystemUserId = systemUserId
+	tenantId := proto.Int64(newCtx.GetInt64("tenantId")) // 租户
+	reqInfo.UserId = id
 	reqInfo.Deleted = deleted
-	reqInfo.SystemTenantId = systemTenantId
-	reqInfo.Updater = null.StringFrom(newCtx.GetString("systemUserName"))
+	reqInfo.TenantId = tenantId
+	reqInfo.Updater = null.StringFrom(newCtx.GetString("userName"))
 	reqInfo.UpdateTime = null.DateTimeFrom(util.Now())
 	request.Data = user.SystemUserRoleCustomProto(reqInfo)
 	// 执行服务
@@ -94,14 +94,14 @@ func SystemUserRoleList(ctx context.Context, newCtx *app.RequestContext) {
 	// 构造查询条件
 	request := &user.SystemUserRoleListRequest{}
 
-	systemUserId := proto.Int64(cast.ToInt64(newCtx.Param("systemUserId")))
+	id := proto.Int64(cast.ToInt64(newCtx.Param("id")))
 	deleted := proto.Int32(0)
-	systemTenantId := proto.Int64(newCtx.GetInt64("systemTenantId")) // 租户
-	request.SystemUserId = systemUserId                              // 系统用户 ID
-	request.SystemTenantId = systemTenantId                          // 租户
-	request.Deleted = deleted                                        // 删除
-	if val, ok := newCtx.GetQuery("systemRoleId"); ok {
-		request.SystemRoleId = proto.Int64(cast.ToInt64(val)) // 角色编号
+	tenantId := proto.Int64(newCtx.GetInt64("tenantId")) // 租户
+	request.UserId = id                                  // 系统用户 ID
+	request.TenantId = tenantId                          // 租户
+	request.Deleted = deleted                            // 删除
+	if val, ok := newCtx.GetQuery("roleId"); ok {
+		request.RoleId = proto.Int64(cast.ToInt64(val)) // 角色编号
 	}
 
 	// 执行服务
@@ -122,15 +122,15 @@ func SystemUserRoleList(ctx context.Context, newCtx *app.RequestContext) {
 	if res.GetCode() == code.Success {
 		rpcList := res.GetData()
 		for _, item := range rpcList {
-			listRole = append(listRole, *item.SystemRoleId)
+			listRole = append(listRole, *item.RoleId)
 		}
 	}
 	newCtx.JSON(consts.StatusOK, utils.H{
 		"code": res.GetCode(),
 		"msg":  res.GetMsg(),
 		"data": utils.H{
-			"systemUserId":  systemUserId,
-			"systemRoleIds": listRole,
+			"userId":  id,
+			"roleIds": listRole,
 		},
 	})
 }

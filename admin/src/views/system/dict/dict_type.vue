@@ -11,7 +11,7 @@
       :search-col="12">
       <!-- 表格 header 按钮 -->
       <template #tableHeader>
-        <el-button type="primary" :icon="CirclePlus" @click="handleAdd" v-auth="'dict.SystemDictTypeCreate'">新增</el-button>
+        <el-button v-auth="'dict.SystemDictTypeCreate'" type="primary" :icon="CirclePlus" @click="handleAdd">新增</el-button>
       </template>
       <!-- 状态-->
       <template #status="scope">
@@ -19,19 +19,19 @@
       </template>
       <!-- 菜单操作 -->
       <template #operation="scope">
-        <el-button type="primary" link :icon="EditPen" @click="handleUpdate(scope.row)" v-auth="'dict.SystemDictTypeUpdate'">
+        <el-button v-auth="'dict.SystemDictTypeUpdate'" type="primary" link :icon="EditPen" @click="handleUpdate(scope.row)">
           编辑
         </el-button>
         <el-dropdown trigger="click">
-          <el-button type="primary" link :icon="DArrowRight" v-auth="['dict.SystemDictTypeDelete', 'dict.SystemDictList']"
+          <el-button v-auth="['dict.SystemDictTypeDelete', 'dict.SystemDictList']" type="primary" link :icon="DArrowRight"
             >更多</el-button
           >
           <template #dropdown>
             <el-dropdown-menu>
-              <el-dropdown-item :icon="DataBoard" @click="toRouteLabel(scope.row)" v-auth="'dict.SystemDictList'">
+              <el-dropdown-item v-auth="'dict.SystemDictList'" :icon="DataBoard" @click="toRouteLabel(scope.row)">
                 数据
               </el-dropdown-item>
-              <el-dropdown-item :icon="Delete" @click="handleDelete(scope.row)" v-auth="'dict.SystemDictTypeDelete'">
+              <el-dropdown-item v-auth="'dict.SystemDictTypeDelete'" :icon="Delete" @click="handleDelete(scope.row)">
                 删除
               </el-dropdown-item>
             </el-dropdown-menu>
@@ -40,8 +40,8 @@
       </template>
     </ProTable>
     <el-dialog
-      :title="title"
       v-model="centerDialogVisible"
+      :title="title"
       width="40%"
       destroy-on-close
       align-center
@@ -69,13 +69,13 @@
           </el-radio-group>
         </el-form-item>
         <el-form-item label="备注" prop="remark">
-          <el-input type="textarea" v-model="systemDictTypeItemFrom.remark" />
+          <el-input v-model="systemDictTypeItemFrom.remark" type="textarea" />
         </el-form-item>
       </el-form>
       <template #footer>
         <span class="dialog-footer">
           <el-button @click="resetForm(refSystemDictTypeItemFrom)">取消</el-button>
-          <el-button type="primary" @click="submitForm(refSystemDictTypeItemFrom)" :loading="loading">确定</el-button>
+          <el-button type="primary" :loading="loading" @click="submitForm(refSystemDictTypeItemFrom)">确定</el-button>
         </span>
       </template>
     </el-dialog>

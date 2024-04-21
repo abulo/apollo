@@ -19,6 +19,7 @@ stats.html
 !.vscode/settings.json
 .idea
 .DS_Store
+.eslintcache
 *.suo
 *.ntvs*
 *.njsproj

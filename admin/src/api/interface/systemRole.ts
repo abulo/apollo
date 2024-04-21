@@ -23,10 +23,10 @@ export namespace SystemRole {
 
   export interface ReqSystemRoleMenuItem {
     deleted?: number; // 删除
-    systemMenuId?: number; // 菜单
+    menuId?: number; // 菜单
   }
   export interface ResSystemRoleMenuItem {
-    systemRoleId: number; // 角色编号
-    systemMenuIds: number[] | undefined; //菜单编号
+    roleId: number; // 角色编号
+    menuIds: number[] | undefined; //菜单编号
   }
 }

@@ -40,12 +40,12 @@ func (srv SrvSystemDeptServiceServer) SystemDeptCreate(ctx context.Context, requ
 
 // SystemDeptUpdate 更新数据
 func (srv SrvSystemDeptServiceServer) SystemDeptUpdate(ctx context.Context, request *SystemDeptUpdateRequest) (*SystemDeptUpdateResponse, error) {
-	systemDeptId := request.GetSystemDeptId()
-	if systemDeptId < 1 {
+	id := request.GetId()
+	if id < 1 {
 		return &SystemDeptUpdateResponse{}, status.Error(code.ConvertToGrpc(code.ParamInvalid), code.StatusText(code.ParamInvalid))
 	}
 	req := SystemDeptDao(request.GetData())
-	_, err := dept.SystemDeptUpdate(ctx, systemDeptId, *req)
+	_, err := dept.SystemDeptUpdate(ctx, id, *req)
 	if sql.ResultAccept(err) != nil {
 		globalLogger.Logger.WithFields(logrus.Fields{
 			"req": req,
@@ -61,14 +61,14 @@ func (srv SrvSystemDeptServiceServer) SystemDeptUpdate(ctx context.Context, requ
 
 // SystemDeptDelete 删除数据
 func (srv SrvSystemDeptServiceServer) SystemDeptDelete(ctx context.Context, request *SystemDeptDeleteRequest) (*SystemDeptDeleteResponse, error) {
-	systemDeptId := request.GetSystemDeptId()
-	if systemDeptId < 1 {
+	id := request.GetId()
+	if id < 1 {
 		return &SystemDeptDeleteResponse{}, status.Error(code.ConvertToGrpc(code.ParamInvalid), code.StatusText(code.ParamInvalid))
 	}
-	_, err := dept.SystemDeptDelete(ctx, systemDeptId)
+	_, err := dept.SystemDeptDelete(ctx, id)
 	if sql.ResultAccept(err) != nil {
 		globalLogger.Logger.WithFields(logrus.Fields{
-			"req": systemDeptId,
+			"req": id,
 			"err": err,
 		}).Error("Sql:部门:system_dept:SystemDeptDelete")
 		return &SystemDeptDeleteResponse{}, status.Error(code.ConvertToGrpc(code.SqlError), err.Error())
@@ -81,14 +81,14 @@ func (srv SrvSystemDeptServiceServer) SystemDeptDelete(ctx context.Context, requ
 
 // SystemDept 查询单条数据
 func (srv SrvSystemDeptServiceServer) SystemDept(ctx context.Context, request *SystemDeptRequest) (*SystemDeptResponse, error) {
-	systemDeptId := request.GetSystemDeptId()
-	if systemDeptId < 1 {
+	id := request.GetId()
+	if id < 1 {
 		return &SystemDeptResponse{}, status.Error(code.ConvertToGrpc(code.ParamInvalid), code.StatusText(code.ParamInvalid))
 	}
-	res, err := dept.SystemDept(ctx, systemDeptId)
+	res, err := dept.SystemDept(ctx, id)
 	if sql.ResultAccept(err) != nil {
 		globalLogger.Logger.WithFields(logrus.Fields{
-			"req": systemDeptId,
+			"req": id,
 			"err": err,
 		}).Error("Sql:部门:system_dept:SystemDept")
 		return &SystemDeptResponse{}, status.Error(code.ConvertToGrpc(code.SqlError), err.Error())
@@ -102,14 +102,14 @@ func (srv SrvSystemDeptServiceServer) SystemDept(ctx context.Context, request *S
 
 // SystemDeptRecover 恢复数据
 func (srv SrvSystemDeptServiceServer) SystemDeptRecover(ctx context.Context, request *SystemDeptRecoverRequest) (*SystemDeptRecoverResponse, error) {
-	systemDeptId := request.GetSystemDeptId()
-	if systemDeptId < 1 {
+	id := request.GetId()
+	if id < 1 {
 		return &SystemDeptRecoverResponse{}, status.Error(code.ConvertToGrpc(code.ParamInvalid), code.StatusText(code.ParamInvalid))
 	}
-	_, err := dept.SystemDeptRecover(ctx, systemDeptId)
+	_, err := dept.SystemDeptRecover(ctx, id)
 	if sql.ResultAccept(err) != nil {
 		globalLogger.Logger.WithFields(logrus.Fields{
-			"req": systemDeptId,
+			"req": id,
 			"err": err,
 		}).Error("Sql:部门:system_dept:SystemDeptRecover")
 		return &SystemDeptRecoverResponse{}, status.Error(code.ConvertToGrpc(code.SqlError), err.Error())
@@ -123,8 +123,8 @@ func (srv SrvSystemDeptServiceServer) SystemDeptList(ctx context.Context, reques
 	// 数据库查询条件
 	condition := make(map[string]any)
 	// 构造查询条件
-	if request.SystemTenantId != nil {
-		condition["systemTenantId"] = request.GetSystemTenantId()
+	if request.TenantId != nil {
+		condition["tenantId"] = request.GetTenantId()
 	}
 	if request.Deleted != nil {
 		condition["deleted"] = request.GetDeleted()

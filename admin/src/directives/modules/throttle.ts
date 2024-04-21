@@ -8,7 +8,7 @@
   使用：给 Dom 加上 v-throttle 及回调函数即可
   <button v-throttle="debounceClick">节流提交</button>
 */
-import type { Directive, DirectiveBinding } from "vue";
+import { Directive, DirectiveBinding } from "vue";
 interface ElType extends HTMLElement {
   __handleClick__: () => any;
   disabled: boolean;

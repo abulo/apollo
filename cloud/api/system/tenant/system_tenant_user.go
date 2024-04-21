@@ -41,11 +41,11 @@ func SystemUserList(ctx context.Context, newCtx *app.RequestContext) {
 		request.Username = proto.String(val)      // 用户名称
 		requestTotal.Username = proto.String(val) // 用户名称
 	}
-	systemTenantId := cast.ToInt64(newCtx.Param("systemTenantId"))
-	request.SystemTenantId = proto.Int64(systemTenantId)      // 租户ID
-	requestTotal.SystemTenantId = proto.Int64(systemTenantId) // 租户ID
-	request.Deleted = proto.Int32(0)                          // 删除状态
-	requestTotal.Deleted = proto.Int32(0)                     // 删除状态
+	id := cast.ToInt64(newCtx.Param("id"))
+	request.TenantId = proto.Int64(id)      // 租户ID
+	requestTotal.TenantId = proto.Int64(id) // 租户ID
+	request.Deleted = proto.Int32(0)        // 删除状态
+	requestTotal.Deleted = proto.Int32(0)   // 删除状态
 	if val, ok := newCtx.GetQuery("deleted"); ok {
 		if cast.ToBool(val) {
 			request.Deleted = nil
@@ -57,9 +57,9 @@ func SystemUserList(ctx context.Context, newCtx *app.RequestContext) {
 		requestTotal.Status = proto.Int32(cast.ToInt32(val)) // 用户状态（0正常 1停用）
 	}
 
-	if val, ok := newCtx.GetQuery("systemDeptId"); ok {
-		request.SystemDeptId = proto.Int64(cast.ToInt64(val))      // 用户状态（0正常 1停用）
-		requestTotal.SystemDeptId = proto.Int64(cast.ToInt64(val)) // 用户状态（0正常 1停用）
+	if val, ok := newCtx.GetQuery("deptId"); ok {
+		request.DeptId = proto.Int64(cast.ToInt64(val))      // 用户状态（0正常 1停用）
+		requestTotal.DeptId = proto.Int64(cast.ToInt64(val)) // 用户状态（0正常 1停用）
 	}
 
 	// 执行服务,获取数据量
@@ -133,9 +133,9 @@ func SystemUserPassword(ctx context.Context, newCtx *app.RequestContext) {
 	}
 	//链接服务
 	client := user.NewSystemUserServiceClient(grpcClient)
-	systemUserId := cast.ToInt64(newCtx.Param("systemUserId"))
+	id := cast.ToInt64(newCtx.Param("id"))
 	request := &user.SystemUserPasswordRequest{}
-	request.SystemUserId = systemUserId
+	request.Id = id
 	// 数据绑定
 	var reqInfo dao.SystemUserPassword
 	if err := newCtx.BindAndValidate(&reqInfo); err != nil {

@@ -42,12 +42,12 @@ func (srv SrvSystemLoginLogServiceServer) SystemLoginLogCreate(ctx context.Conte
 
 // SystemLoginLogDelete 删除数据
 func (srv SrvSystemLoginLogServiceServer) SystemLoginLogDelete(ctx context.Context, request *SystemLoginLogDeleteRequest) (*SystemLoginLogDeleteResponse, error) {
-	req := request.GetSystemLoginLogIds()
-	var systemLoginLogIds []int64
-	if err := json.Unmarshal(req, &systemLoginLogIds); err != nil {
+	req := request.GetIds()
+	var ids []int64
+	if err := json.Unmarshal(req, &ids); err != nil {
 		return &SystemLoginLogDeleteResponse{}, status.Error(code.ConvertToGrpc(code.ParamInvalid), code.StatusText(code.ParamInvalid))
 	}
-	_, err := logger.SystemLoginLogDelete(ctx, systemLoginLogIds)
+	_, err := logger.SystemLoginLogDelete(ctx, ids)
 	if sql.ResultAccept(err) != nil {
 		globalLogger.Logger.WithFields(logrus.Fields{
 			"req": req,
@@ -63,14 +63,14 @@ func (srv SrvSystemLoginLogServiceServer) SystemLoginLogDelete(ctx context.Conte
 
 // SystemLoginLog 查询单条数据
 func (srv SrvSystemLoginLogServiceServer) SystemLoginLog(ctx context.Context, request *SystemLoginLogRequest) (*SystemLoginLogResponse, error) {
-	systemLoginLogId := request.GetSystemLoginLogId()
-	if systemLoginLogId < 1 {
+	id := request.GetId()
+	if id < 1 {
 		return &SystemLoginLogResponse{}, status.Error(code.ConvertToGrpc(code.ParamInvalid), code.StatusText(code.ParamInvalid))
 	}
-	res, err := logger.SystemLoginLog(ctx, systemLoginLogId)
+	res, err := logger.SystemLoginLog(ctx, id)
 	if sql.ResultAccept(err) != nil {
 		globalLogger.Logger.WithFields(logrus.Fields{
-			"req": systemLoginLogId,
+			"req": id,
 			"err": err,
 		}).Error("Sql:登录日志:system_login_log:SystemLoginLog")
 		return &SystemLoginLogResponse{}, status.Error(code.ConvertToGrpc(code.SqlError), err.Error())

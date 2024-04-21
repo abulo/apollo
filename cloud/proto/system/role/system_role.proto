@@ -23,8 +23,8 @@ message SystemRoleObject {
 	optional string remark = 7; //备注
 	// @inject_tag: db:"deleted" json:"deleted"
 	optional int32 deleted = 8; //删除
-	// @inject_tag: db:"system_tenant_id" json:"systemTenantId"
-	optional int64 system_tenant_id = 9; //租户
+	// @inject_tag: db:"tenant_id" json:"tenantId"
+	optional int64 tenant_id = 9; //租户
 	// @inject_tag: db:"creator" json:"creator"
 	optional string creator = 10; //创建者
 	// @inject_tag: db:"create_time" json:"createTime"
@@ -51,8 +51,8 @@ message SystemRoleDataScopeObject {
 
 // SystemRoleDataScopeCreateRequest 创建数据请求
 message SystemRoleDataScopeCreateRequest {
-	// @inject_tag: db:"system_role_id" json:"systemRoleId"
-	int64 system_role_id = 1; //角色编号
+	// @inject_tag: db:"id" json:"id"
+	int64 id = 1; //角色编号
 	SystemRoleDataScopeObject data = 2;
 }
 
@@ -75,8 +75,8 @@ message SystemRoleCreateResponse {
 }
 // SystemRoleUpdateRequest 更新数据请求
 message SystemRoleUpdateRequest {
-	// @inject_tag: db:"system_role_id" json:"systemRoleId"
-	int64 system_role_id = 1; //角色编号
+	// @inject_tag: db:"id" json:"id"
+	int64 id = 1; //角色编号
 	SystemRoleObject data = 2;
 }
 // SystemRoleUpdateResponse 更新数据响应
@@ -86,8 +86,8 @@ message SystemRoleUpdateResponse {
 }
 // SystemRoleDeleteRequest 删除数据请求
 message SystemRoleDeleteRequest {
-	// @inject_tag: db:"system_role_id" json:"systemRoleId"
-	int64 system_role_id = 1; //角色编号
+	// @inject_tag: db:"id" json:"id"
+	int64 id = 1; //角色编号
 }
 // SystemRoleDeleteResponse 删除数据响应
 message SystemRoleDeleteResponse {
@@ -96,8 +96,8 @@ message SystemRoleDeleteResponse {
 }
 // SystemRoleRequest 查询单条数据请求
 message SystemRoleRequest {
-	// @inject_tag: db:"system_role_id" json:"systemRoleId"
-	int64 system_role_id = 1; //角色编号
+	// @inject_tag: db:"id" json:"id"
+	int64 id = 1; //角色编号
 }
 // SystemRoleResponse 查询单条数据响应
 message SystemRoleResponse {
@@ -107,8 +107,8 @@ message SystemRoleResponse {
 }
 // SystemRoleRecoverRequest 恢复数据请求
 message SystemRoleRecoverRequest {
-	// @inject_tag: db:"system_role_id" json:"systemRoleId"
-	int64 system_role_id = 1; //角色编号
+	// @inject_tag: db:"id" json:"id"
+	int64 id = 1; //角色编号
 }
 // SystemRoleRecoverResponse 删除数据响应
 message SystemRoleRecoverResponse {
@@ -118,8 +118,8 @@ message SystemRoleRecoverResponse {
 // SystemRoleListRequest 列表数据
 message SystemRoleListRequest {
 	
-	// @inject_tag: db:"system_tenant_id" json:"systemTenantId"
-	optional int64 system_tenant_id = 1; // 租户
+	// @inject_tag: db:"tenant_id" json:"tenantId"
+	optional int64 tenant_id = 1; // 租户
 	// @inject_tag: db:"deleted" json:"deleted"
 	optional int32 deleted = 2; // 删除
 	// @inject_tag: db:"type" json:"type"
@@ -140,8 +140,8 @@ message SystemRoleListResponse {
 
 // SystemRoleDataScopeRequest 查询单条数据请求
 message SystemRoleDataScopeRequest {
-	// @inject_tag: db:"system_role_id" json:"systemRoleId"
-	int64 system_role_id = 1; //角色编号
+	// @inject_tag: db:"id" json:"id"
+	int64 id = 1; //角色编号
 }
 // SystemRoleDataScopeResponse 查询单条数据响应
 message SystemRoleDataScopeResponse {

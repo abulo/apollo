@@ -21,8 +21,8 @@ message SystemUserObject {
 	optional int32 status = 6; //用户状态（0正常 1停用）
 	// @inject_tag: db:"deleted" json:"deleted"
 	optional int32 deleted = 7; //是否删除(0否 1是)
-	// @inject_tag: db:"system_tenant_id" json:"systemTenantId"
-	optional int64 system_tenant_id = 8; //租户ID
+	// @inject_tag: db:"tenant_id" json:"tenantId"
+	optional int64 tenant_id = 8; //租户ID
 	// @inject_tag: db:"creator" json:"creator"
 	optional string creator = 9; //创建人
 	// @inject_tag: db:"create_time" json:"createTime"
@@ -31,12 +31,12 @@ message SystemUserObject {
 	optional string updater = 11; //更新人
 	// @inject_tag: db:"update_time" json:"updateTime"
 	google.protobuf.Timestamp update_time = 12; //更新时间
-	// @inject_tag: db:"system_role_ids" json:"systemRoleIds"
-	optional bytes system_role_ids = 13; //角色ID
-	// @inject_tag: db:"system_post_ids" json:"systemPostIds"
-	optional bytes system_post_ids = 14; //岗位ID
-	// @inject_tag: db:"system_dept_ids" json:"systemDeptIds"
-	optional bytes system_dept_ids = 15; //租户ID
+	// @inject_tag: db:"role_ids" json:"roleIds"
+	optional bytes role_ids = 13; //角色ID
+	// @inject_tag: db:"post_ids" json:"postIds"
+	optional bytes post_ids = 14; //岗位ID
+	// @inject_tag: db:"dept_ids" json:"deptIds"
+	optional bytes dept_ids = 15; //租户ID
 }
 // SystemUserTotalResponse 列表数据总量
 message SystemUserTotalResponse {
@@ -56,8 +56,8 @@ message SystemUserCreateResponse {
 }
 // SystemUserUpdateRequest 更新数据请求
 message SystemUserUpdateRequest {
-	// @inject_tag: db:"system_user_id" json:"systemUserId"
-	int64 system_user_id = 1; //用户编号
+	// @inject_tag: db:"id" json:"id"
+	int64 id = 1; //用户编号
 	SystemUserObject data = 2;
 }
 // SystemUserUpdateResponse 更新数据响应
@@ -67,8 +67,8 @@ message SystemUserUpdateResponse {
 }
 // SystemUserDeleteRequest 删除数据请求
 message SystemUserDeleteRequest {
-	// @inject_tag: db:"system_user_id" json:"systemUserId"
-	int64 system_user_id = 1; //用户编号
+	// @inject_tag: db:"id" json:"id"
+	int64 id = 1; //用户编号
 }
 // SystemUserDeleteResponse 删除数据响应
 message SystemUserDeleteResponse {
@@ -77,8 +77,8 @@ message SystemUserDeleteResponse {
 }
 // SystemUserRequest 查询单条数据请求
 message SystemUserRequest {
-	// @inject_tag: db:"system_user_id" json:"systemUserId"
-	int64 system_user_id = 1; //用户编号
+	// @inject_tag: db:"id" json:"id"
+	int64 id = 1; //用户编号
 }
 // SystemUserResponse 查询单条数据响应
 message SystemUserResponse {
@@ -88,8 +88,8 @@ message SystemUserResponse {
 }
 // SystemUserRecoverRequest 恢复数据请求
 message SystemUserRecoverRequest {
-	// @inject_tag: db:"system_user_id" json:"systemUserId"
-	int64 system_user_id = 1; //用户编号
+	// @inject_tag: db:"id" json:"id"
+	int64 id = 1; //用户编号
 }
 // SystemUserRecoverResponse 删除数据响应
 message SystemUserRecoverResponse {
@@ -112,14 +112,14 @@ message SystemUserLoginResponse {
 message SystemUserListRequest {
 	// @inject_tag: db:"username" json:"username"
 	optional string username = 1; // 用户名称
-	// @inject_tag: db:"system_tenant_id" json:"systemTenantId"
-	optional int64 system_tenant_id = 2; // 租户ID
+	// @inject_tag: db:"tenant_id" json:"tenantId"
+	optional int64 tenant_id = 2; // 租户ID
 	// @inject_tag: db:"deleted" json:"deleted"
 	optional int32 deleted = 3; // 是否删除(0否 1是)
 	// @inject_tag: db:"status" json:"status"
 	optional int32 status = 4; // 用户状态（0正常 1停用）
-	// @inject_tag: db:"system_dept_id" json:"systemDeptId"
-	optional int64 system_dept_id = 5; // 租户ID
+	// @inject_tag: db:"dept_id" json:"deptId"
+	optional int64 dept_id = 5; // 租户ID
 
 	// @inject_tag: db:"page_num" json:"pageNum"
 	optional int64 page_num = 6;
@@ -137,21 +137,21 @@ message SystemUserListResponse {
 message SystemUserListTotalRequest {
 	// @inject_tag: db:"username" json:"username"
 	optional string username = 1; // 用户名称
-	// @inject_tag: db:"system_tenant_id" json:"systemTenantId"
-	optional int64 system_tenant_id = 2; // 租户ID
+	// @inject_tag: db:"tenant_id" json:"tenantId"
+	optional int64 tenant_id = 2; // 租户ID
 	// @inject_tag: db:"deleted" json:"deleted"
 	optional int32 deleted = 3; // 是否删除(0否 1是)
 	// @inject_tag: db:"status" json:"status"
 	optional int32 status = 4; // 用户状态（0正常 1停用）
-	// @inject_tag: db:"system_dept_id" json:"systemDeptId"
-	optional int64 system_dept_id = 5; // 租户ID
+	// @inject_tag: db:"dept_id" json:"deptId"
+	optional int64 dept_id = 5; // 租户ID
 }
 
 
 // SystemUserPasswordRequest  修改密码
 message SystemUserPasswordRequest {
-	// @inject_tag: db:"system_user_id" json:"systemUserId"
-	int64 system_user_id = 1; //用户ID
+	// @inject_tag: db:"id" json:"id"
+	int64 id = 1; //用户ID
 	// @inject_tag: db:"password" json:"password"
 	optional string password = 2; //密码
 }

@@ -40,12 +40,12 @@ func (srv SrvSystemDictTypeServiceServer) SystemDictTypeCreate(ctx context.Conte
 
 // SystemDictTypeUpdate 更新数据
 func (srv SrvSystemDictTypeServiceServer) SystemDictTypeUpdate(ctx context.Context, request *SystemDictTypeUpdateRequest) (*SystemDictTypeUpdateResponse, error) {
-	systemDictTypeId := request.GetSystemDictTypeId()
-	if systemDictTypeId < 1 {
+	id := request.GetId()
+	if id < 1 {
 		return &SystemDictTypeUpdateResponse{}, status.Error(code.ConvertToGrpc(code.ParamInvalid), code.StatusText(code.ParamInvalid))
 	}
 	req := SystemDictTypeDao(request.GetData())
-	_, err := dict.SystemDictTypeUpdate(ctx, systemDictTypeId, *req)
+	_, err := dict.SystemDictTypeUpdate(ctx, id, *req)
 	if sql.ResultAccept(err) != nil {
 		globalLogger.Logger.WithFields(logrus.Fields{
 			"req": req,
@@ -61,14 +61,14 @@ func (srv SrvSystemDictTypeServiceServer) SystemDictTypeUpdate(ctx context.Conte
 
 // SystemDictTypeDelete 删除数据
 func (srv SrvSystemDictTypeServiceServer) SystemDictTypeDelete(ctx context.Context, request *SystemDictTypeDeleteRequest) (*SystemDictTypeDeleteResponse, error) {
-	systemDictTypeId := request.GetSystemDictTypeId()
-	if systemDictTypeId < 1 {
+	id := request.GetId()
+	if id < 1 {
 		return &SystemDictTypeDeleteResponse{}, status.Error(code.ConvertToGrpc(code.ParamInvalid), code.StatusText(code.ParamInvalid))
 	}
-	_, err := dict.SystemDictTypeDelete(ctx, systemDictTypeId)
+	_, err := dict.SystemDictTypeDelete(ctx, id)
 	if sql.ResultAccept(err) != nil {
 		globalLogger.Logger.WithFields(logrus.Fields{
-			"req": systemDictTypeId,
+			"req": id,
 			"err": err,
 		}).Error("Sql:字典类型:system_dict_type:SystemDictTypeDelete")
 		return &SystemDictTypeDeleteResponse{}, status.Error(code.ConvertToGrpc(code.SqlError), err.Error())
@@ -81,14 +81,14 @@ func (srv SrvSystemDictTypeServiceServer) SystemDictTypeDelete(ctx context.Conte
 
 // SystemDictType 查询单条数据
 func (srv SrvSystemDictTypeServiceServer) SystemDictType(ctx context.Context, request *SystemDictTypeRequest) (*SystemDictTypeResponse, error) {
-	systemDictTypeId := request.GetSystemDictTypeId()
-	if systemDictTypeId < 1 {
+	id := request.GetId()
+	if id < 1 {
 		return &SystemDictTypeResponse{}, status.Error(code.ConvertToGrpc(code.ParamInvalid), code.StatusText(code.ParamInvalid))
 	}
-	res, err := dict.SystemDictType(ctx, systemDictTypeId)
+	res, err := dict.SystemDictType(ctx, id)
 	if sql.ResultAccept(err) != nil {
 		globalLogger.Logger.WithFields(logrus.Fields{
-			"req": systemDictTypeId,
+			"req": id,
 			"err": err,
 		}).Error("Sql:字典类型:system_dict_type:SystemDictType")
 		return &SystemDictTypeResponse{}, status.Error(code.ConvertToGrpc(code.SqlError), err.Error())

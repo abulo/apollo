@@ -28,7 +28,7 @@ func SystemEntryLogDelete(ctx context.Context, newCtx *app.RequestContext) {
 		return
 	}
 	var mongoIds []string
-	if err := json.Unmarshal(reqInfo.SystemEntryLogIds.JSON, &mongoIds); err != nil {
+	if err := json.Unmarshal(reqInfo.Ids.JSON, &mongoIds); err != nil {
 		newCtx.JSON(consts.StatusOK, utils.H{
 			"code": code.ParamInvalid,
 			"msg":  code.StatusText(code.ParamInvalid),

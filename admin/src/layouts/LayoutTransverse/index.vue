@@ -12,7 +12,7 @@
           <el-sub-menu v-if="subItem.children?.length" :key="subItem.path" :index="subItem.path + 'el-sub-menu'">
             <template #title>
               <el-icon>
-                <component :is="subItem.meta.icon"></component>
+                <component :is="subItem.meta.icon" />
               </el-icon>
               <span>{{ subItem.meta.title }}</span>
             </template>
@@ -20,7 +20,7 @@
           </el-sub-menu>
           <el-menu-item v-else :key="subItem.path + 'el-menu-item'" :index="subItem.path" @click="handleClickMenu(subItem)">
             <el-icon>
-              <component :is="subItem.meta.icon"></component>
+              <component :is="subItem.meta.icon" />
             </el-icon>
             <template #title>
               <span>{{ subItem.meta.title }}</span>

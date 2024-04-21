@@ -40,12 +40,12 @@ func (srv SrvSystemDictServiceServer) SystemDictCreate(ctx context.Context, requ
 
 // SystemDictUpdate 更新数据
 func (srv SrvSystemDictServiceServer) SystemDictUpdate(ctx context.Context, request *SystemDictUpdateRequest) (*SystemDictUpdateResponse, error) {
-	systemDictId := request.GetSystemDictId()
-	if systemDictId < 1 {
+	id := request.GetId()
+	if id < 1 {
 		return &SystemDictUpdateResponse{}, status.Error(code.ConvertToGrpc(code.ParamInvalid), code.StatusText(code.ParamInvalid))
 	}
 	req := SystemDictDao(request.GetData())
-	_, err := dict.SystemDictUpdate(ctx, systemDictId, *req)
+	_, err := dict.SystemDictUpdate(ctx, id, *req)
 	if sql.ResultAccept(err) != nil {
 		globalLogger.Logger.WithFields(logrus.Fields{
 			"req": req,
@@ -61,14 +61,14 @@ func (srv SrvSystemDictServiceServer) SystemDictUpdate(ctx context.Context, requ
 
 // SystemDictDelete 删除数据
 func (srv SrvSystemDictServiceServer) SystemDictDelete(ctx context.Context, request *SystemDictDeleteRequest) (*SystemDictDeleteResponse, error) {
-	systemDictId := request.GetSystemDictId()
-	if systemDictId < 1 {
+	id := request.GetId()
+	if id < 1 {
 		return &SystemDictDeleteResponse{}, status.Error(code.ConvertToGrpc(code.ParamInvalid), code.StatusText(code.ParamInvalid))
 	}
-	_, err := dict.SystemDictDelete(ctx, systemDictId)
+	_, err := dict.SystemDictDelete(ctx, id)
 	if sql.ResultAccept(err) != nil {
 		globalLogger.Logger.WithFields(logrus.Fields{
-			"req": systemDictId,
+			"req": id,
 			"err": err,
 		}).Error("Sql:字典数据表:system_dict:SystemDictDelete")
 		return &SystemDictDeleteResponse{}, status.Error(code.ConvertToGrpc(code.SqlError), err.Error())
@@ -81,14 +81,14 @@ func (srv SrvSystemDictServiceServer) SystemDictDelete(ctx context.Context, requ
 
 // SystemDict 查询单条数据
 func (srv SrvSystemDictServiceServer) SystemDict(ctx context.Context, request *SystemDictRequest) (*SystemDictResponse, error) {
-	systemDictId := request.GetSystemDictId()
-	if systemDictId < 1 {
+	id := request.GetId()
+	if id < 1 {
 		return &SystemDictResponse{}, status.Error(code.ConvertToGrpc(code.ParamInvalid), code.StatusText(code.ParamInvalid))
 	}
-	res, err := dict.SystemDict(ctx, systemDictId)
+	res, err := dict.SystemDict(ctx, id)
 	if sql.ResultAccept(err) != nil {
 		globalLogger.Logger.WithFields(logrus.Fields{
-			"req": systemDictId,
+			"req": id,
 			"err": err,
 		}).Error("Sql:字典数据表:system_dict:SystemDict")
 		return &SystemDictResponse{}, status.Error(code.ConvertToGrpc(code.SqlError), err.Error())

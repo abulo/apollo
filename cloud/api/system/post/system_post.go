@@ -48,8 +48,8 @@ func SystemPostCreate(ctx context.Context, newCtx *app.RequestContext) {
 		return
 	}
 	reqInfo.Deleted = proto.Int32(0)
-	reqInfo.SystemTenantId = proto.Int64(newCtx.GetInt64("systemTenantId")) // 租户
-	reqInfo.Creator = null.StringFrom(newCtx.GetString("systemUserName"))
+	reqInfo.TenantId = proto.Int64(newCtx.GetInt64("tenantId")) // 租户
+	reqInfo.Creator = null.StringFrom(newCtx.GetString("userName"))
 	reqInfo.CreateTime = null.DateTimeFrom(util.Now())
 	request.Data = post.SystemPostProto(reqInfo)
 	// 执行服务
@@ -88,9 +88,9 @@ func SystemPostUpdate(ctx context.Context, newCtx *app.RequestContext) {
 	}
 	//链接服务
 	client := post.NewSystemPostServiceClient(grpcClient)
-	systemPostId := cast.ToInt64(newCtx.Param("systemPostId"))
+	id := cast.ToInt64(newCtx.Param("id"))
 	request := &post.SystemPostUpdateRequest{}
-	request.SystemPostId = systemPostId
+	request.Id = id
 	// 数据绑定
 	var reqInfo dao.SystemPost
 	if err := newCtx.BindAndValidate(&reqInfo); err != nil {
@@ -100,8 +100,8 @@ func SystemPostUpdate(ctx context.Context, newCtx *app.RequestContext) {
 		})
 		return
 	}
-	reqInfo.SystemTenantId = proto.Int64(newCtx.GetInt64("systemTenantId")) // 租户
-	reqInfo.Updater = null.StringFrom(newCtx.GetString("systemUserName"))
+	reqInfo.TenantId = proto.Int64(newCtx.GetInt64("tenantId")) // 租户
+	reqInfo.Updater = null.StringFrom(newCtx.GetString("userName"))
 	reqInfo.UpdateTime = null.DateTimeFrom(util.Now())
 	request.Data = post.SystemPostProto(reqInfo)
 	// 执行服务
@@ -139,9 +139,9 @@ func SystemPostDelete(ctx context.Context, newCtx *app.RequestContext) {
 	}
 	//链接服务
 	client := post.NewSystemPostServiceClient(grpcClient)
-	systemPostId := cast.ToInt64(newCtx.Param("systemPostId"))
+	id := cast.ToInt64(newCtx.Param("id"))
 	request := &post.SystemPostDeleteRequest{}
-	request.SystemPostId = systemPostId
+	request.Id = id
 	// 执行服务
 	res, err := client.SystemPostDelete(ctx, request)
 	if err != nil {
@@ -178,9 +178,9 @@ func SystemPost(ctx context.Context, newCtx *app.RequestContext) {
 	}
 	//链接服务
 	client := post.NewSystemPostServiceClient(grpcClient)
-	systemPostId := cast.ToInt64(newCtx.Param("systemPostId"))
+	id := cast.ToInt64(newCtx.Param("id"))
 	request := &post.SystemPostRequest{}
-	request.SystemPostId = systemPostId
+	request.Id = id
 	// 执行服务
 	res, err := client.SystemPost(ctx, request)
 	if err != nil {
@@ -217,9 +217,9 @@ func SystemPostRecover(ctx context.Context, newCtx *app.RequestContext) {
 	}
 	//链接服务
 	client := post.NewSystemPostServiceClient(grpcClient)
-	systemPostId := cast.ToInt64(newCtx.Param("systemPostId"))
+	id := cast.ToInt64(newCtx.Param("id"))
 	request := &post.SystemPostRecoverRequest{}
-	request.SystemPostId = systemPostId
+	request.Id = id
 	// 执行服务
 	res, err := client.SystemPostRecover(ctx, request)
 	if err != nil {
@@ -261,8 +261,8 @@ func SystemPostList(ctx context.Context, newCtx *app.RequestContext) {
 	// 构造查询条件
 	request := &post.SystemPostListRequest{}
 
-	request.SystemTenantId = proto.Int64(newCtx.GetInt64("systemTenantId")) // 租户ID
-	request.Deleted = proto.Int32(0)                                        // 删除状态
+	request.TenantId = proto.Int64(newCtx.GetInt64("tenantId")) // 租户ID
+	request.Deleted = proto.Int32(0)                            // 删除状态
 	if val, ok := newCtx.GetQuery("deleted"); ok {
 		if cast.ToBool(val) {
 			request.Deleted = nil

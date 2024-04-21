@@ -28,7 +28,7 @@ export namespace SystemOperateLog {
     updateTime: string; // 更新时间
   }
   export interface ReqSystemOperateLogDelete {
-    systemOperateLogIds: string[]; // 操作日志编号
+    ids: string[]; // 操作日志编号
   }
   export interface ReqSystemOperateLogDrop {
     username?: string; // 用户账号

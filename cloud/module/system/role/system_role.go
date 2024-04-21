@@ -23,10 +23,10 @@ func SystemRoleCreate(ctx context.Context, data dao.SystemRole) (res int64, err 
 }
 
 // SystemRoleUpdate 更新数据
-func SystemRoleUpdate(ctx context.Context, systemRoleId int64, data dao.SystemRole) (res int64, err error) {
+func SystemRoleUpdate(ctx context.Context, id int64, data dao.SystemRole) (res int64, err error) {
 	db := initial.Core.Store.LoadSQL("mysql").Write()
 	builder := sql.NewBuilder()
-	query, args, err := builder.Table("`system_role`").Where("`id`", systemRoleId).Update(data)
+	query, args, err := builder.Table("`system_role`").Where("`id`", id).Update(data)
 	if err != nil {
 		return
 	}
@@ -35,12 +35,12 @@ func SystemRoleUpdate(ctx context.Context, systemRoleId int64, data dao.SystemRo
 }
 
 // SystemRoleDelete 删除数据
-func SystemRoleDelete(ctx context.Context, systemRoleId int64) (res int64, err error) {
+func SystemRoleDelete(ctx context.Context, id int64) (res int64, err error) {
 	db := initial.Core.Store.LoadSQL("mysql").Write()
 	builder := sql.NewBuilder()
 	data := make(map[string]any)
 	data["deleted"] = 1
-	query, args, err := builder.Table("`system_role`").Where("`id`", systemRoleId).Update(data)
+	query, args, err := builder.Table("`system_role`").Where("`id`", id).Update(data)
 	if err != nil {
 		return
 	}
@@ -49,10 +49,10 @@ func SystemRoleDelete(ctx context.Context, systemRoleId int64) (res int64, err e
 }
 
 // SystemRole 查询单条数据
-func SystemRole(ctx context.Context, systemRoleId int64) (res dao.SystemRole, err error) {
+func SystemRole(ctx context.Context, id int64) (res dao.SystemRole, err error) {
 	db := initial.Core.Store.LoadSQL("mysql").Read()
 	builder := sql.NewBuilder()
-	query, args, err := builder.Table("`system_role`").Where("`id`", systemRoleId).Row()
+	query, args, err := builder.Table("`system_role`").Where("`id`", id).Row()
 	if err != nil {
 		return
 	}
@@ -61,12 +61,12 @@ func SystemRole(ctx context.Context, systemRoleId int64) (res dao.SystemRole, er
 }
 
 // SystemRoleRecover 恢复数据
-func SystemRoleRecover(ctx context.Context, systemRoleId int64) (res int64, err error) {
+func SystemRoleRecover(ctx context.Context, id int64) (res int64, err error) {
 	db := initial.Core.Store.LoadSQL("mysql").Write()
 	builder := sql.NewBuilder()
 	data := make(map[string]any)
 	data["deleted"] = 0
-	query, args, err := builder.Table("`system_role`").Where("`id`", systemRoleId).Update(data)
+	query, args, err := builder.Table("`system_role`").Where("`id`", id).Update(data)
 	if err != nil {
 		return
 	}
@@ -79,8 +79,8 @@ func SystemRoleList(ctx context.Context, condition map[string]any) (res []dao.Sy
 	db := initial.Core.Store.LoadSQL("mysql").Read()
 	builder := sql.NewBuilder()
 	builder.Table("`system_role`")
-	if val, ok := condition["systemTenantId"]; ok {
-		builder.Where("`system_tenant_id`", val)
+	if val, ok := condition["tenantId"]; ok {
+		builder.Where("`tenant_id`", val)
 	}
 	if val, ok := condition["deleted"]; ok {
 		builder.Where("`deleted`", val)
@@ -106,10 +106,10 @@ func SystemRoleList(ctx context.Context, condition map[string]any) (res []dao.Sy
 }
 
 // SystemRoleDataScopeCreate 创建数据
-func SystemRoleDataScopeCreate(ctx context.Context, systemRoleId int64, data dao.SystemRoleDataScope) (res int64, err error) {
+func SystemRoleDataScopeCreate(ctx context.Context, id int64, data dao.SystemRoleDataScope) (res int64, err error) {
 	db := initial.Core.Store.LoadSQL("mysql").Write()
 	builder := sql.NewBuilder()
-	query, args, err := builder.Table("`system_role`").Where("`id`", systemRoleId).Update(data)
+	query, args, err := builder.Table("`system_role`").Where("`id`", id).Update(data)
 	if err != nil {
 		return
 	}
@@ -118,10 +118,10 @@ func SystemRoleDataScopeCreate(ctx context.Context, systemRoleId int64, data dao
 }
 
 // SystemRoleDataScope 查询单条数据
-func SystemRoleDataScope(ctx context.Context, systemRoleId int64) (res dao.SystemRoleDataScope, err error) {
+func SystemRoleDataScope(ctx context.Context, id int64) (res dao.SystemRoleDataScope, err error) {
 	db := initial.Core.Store.LoadSQL("mysql").Read()
 	builder := sql.NewBuilder()
-	query, args, err := builder.Table("`system_role`").Where("`id`", systemRoleId).Row()
+	query, args, err := builder.Table("`system_role`").Where("`id`", id).Row()
 	if err != nil {
 		return
 	}

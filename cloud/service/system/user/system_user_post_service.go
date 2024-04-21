@@ -41,14 +41,14 @@ func (srv SrvSystemUserPostServiceServer) SystemUserPostList(ctx context.Context
 	// 数据库查询条件
 	condition := make(map[string]any)
 	// 构造查询条件
-	if request.SystemUserId != nil {
-		condition["systemUserId"] = request.GetSystemUserId()
+	if request.UserId != nil {
+		condition["userId"] = request.GetUserId()
 	}
-	if request.SystemPostId != nil {
-		condition["systemPostId"] = request.GetSystemPostId()
+	if request.PostId != nil {
+		condition["postId"] = request.GetPostId()
 	}
-	if request.SystemTenantId != nil {
-		condition["systemTenantId"] = request.GetSystemTenantId()
+	if request.TenantId != nil {
+		condition["tenantId"] = request.GetTenantId()
 	}
 	if request.Deleted != nil {
 		condition["deleted"] = request.GetDeleted()

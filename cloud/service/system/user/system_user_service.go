@@ -42,12 +42,12 @@ func (srv SrvSystemUserServiceServer) SystemUserCreate(ctx context.Context, requ
 
 // SystemUserUpdate 更新数据
 func (srv SrvSystemUserServiceServer) SystemUserUpdate(ctx context.Context, request *SystemUserUpdateRequest) (*SystemUserUpdateResponse, error) {
-	systemUserId := request.GetSystemUserId()
-	if systemUserId < 1 {
+	id := request.GetId()
+	if id < 1 {
 		return &SystemUserUpdateResponse{}, status.Error(code.ConvertToGrpc(code.ParamInvalid), code.StatusText(code.ParamInvalid))
 	}
 	req := SystemUserDao(request.GetData())
-	_, err := user.SystemUserUpdate(ctx, systemUserId, *req)
+	_, err := user.SystemUserUpdate(ctx, id, *req)
 	if sql.ResultAccept(err) != nil {
 		globalLogger.Logger.WithFields(logrus.Fields{
 			"req": req,
@@ -63,14 +63,14 @@ func (srv SrvSystemUserServiceServer) SystemUserUpdate(ctx context.Context, requ
 
 // SystemUserDelete 删除数据
 func (srv SrvSystemUserServiceServer) SystemUserDelete(ctx context.Context, request *SystemUserDeleteRequest) (*SystemUserDeleteResponse, error) {
-	systemUserId := request.GetSystemUserId()
-	if systemUserId < 1 {
+	id := request.GetId()
+	if id < 1 {
 		return &SystemUserDeleteResponse{}, status.Error(code.ConvertToGrpc(code.ParamInvalid), code.StatusText(code.ParamInvalid))
 	}
-	_, err := user.SystemUserDelete(ctx, systemUserId)
+	_, err := user.SystemUserDelete(ctx, id)
 	if sql.ResultAccept(err) != nil {
 		globalLogger.Logger.WithFields(logrus.Fields{
-			"req": systemUserId,
+			"req": id,
 			"err": err,
 		}).Error("Sql:系统用户:system_user:SystemUserDelete")
 		return &SystemUserDeleteResponse{}, status.Error(code.ConvertToGrpc(code.SqlError), err.Error())
@@ -83,14 +83,14 @@ func (srv SrvSystemUserServiceServer) SystemUserDelete(ctx context.Context, requ
 
 // SystemUser 查询单条数据
 func (srv SrvSystemUserServiceServer) SystemUser(ctx context.Context, request *SystemUserRequest) (*SystemUserResponse, error) {
-	systemUserId := request.GetSystemUserId()
-	if systemUserId < 1 {
+	id := request.GetId()
+	if id < 1 {
 		return &SystemUserResponse{}, status.Error(code.ConvertToGrpc(code.ParamInvalid), code.StatusText(code.ParamInvalid))
 	}
-	res, err := user.SystemUser(ctx, systemUserId)
+	res, err := user.SystemUser(ctx, id)
 	if sql.ResultAccept(err) != nil {
 		globalLogger.Logger.WithFields(logrus.Fields{
-			"req": systemUserId,
+			"req": id,
 			"err": err,
 		}).Error("Sql:系统用户:system_user:SystemUser")
 		return &SystemUserResponse{}, status.Error(code.ConvertToGrpc(code.SqlError), err.Error())
@@ -104,14 +104,14 @@ func (srv SrvSystemUserServiceServer) SystemUser(ctx context.Context, request *S
 
 // SystemUserRecover 恢复数据
 func (srv SrvSystemUserServiceServer) SystemUserRecover(ctx context.Context, request *SystemUserRecoverRequest) (*SystemUserRecoverResponse, error) {
-	systemUserId := request.GetSystemUserId()
-	if systemUserId < 1 {
+	id := request.GetId()
+	if id < 1 {
 		return &SystemUserRecoverResponse{}, status.Error(code.ConvertToGrpc(code.ParamInvalid), code.StatusText(code.ParamInvalid))
 	}
-	_, err := user.SystemUserRecover(ctx, systemUserId)
+	_, err := user.SystemUserRecover(ctx, id)
 	if sql.ResultAccept(err) != nil {
 		globalLogger.Logger.WithFields(logrus.Fields{
-			"req": systemUserId,
+			"req": id,
 			"err": err,
 		}).Error("Sql:系统用户:system_user:SystemUserRecover")
 		return &SystemUserRecoverResponse{}, status.Error(code.ConvertToGrpc(code.SqlError), err.Error())
@@ -160,8 +160,8 @@ func (srv SrvSystemUserServiceServer) SystemUserList(ctx context.Context, reques
 	if request.Username != nil {
 		condition["username"] = request.GetUsername()
 	}
-	if request.SystemTenantId != nil {
-		condition["systemTenantId"] = request.GetSystemTenantId()
+	if request.TenantId != nil {
+		condition["tenantId"] = request.GetTenantId()
 	}
 	if request.Deleted != nil {
 		condition["deleted"] = request.GetDeleted()
@@ -169,8 +169,8 @@ func (srv SrvSystemUserServiceServer) SystemUserList(ctx context.Context, reques
 	if request.Status != nil {
 		condition["status"] = request.GetStatus()
 	}
-	if request.SystemDeptId != nil {
-		condition["systemDeptId"] = request.GetSystemDeptId()
+	if request.DeptId != nil {
+		condition["deptId"] = request.GetDeptId()
 	}
 
 	// 当前页面
@@ -215,8 +215,8 @@ func (srv SrvSystemUserServiceServer) SystemUserListTotal(ctx context.Context, r
 	if request.Username != nil {
 		condition["username"] = request.GetUsername()
 	}
-	if request.SystemTenantId != nil {
-		condition["systemTenantId"] = request.GetSystemTenantId()
+	if request.TenantId != nil {
+		condition["tenantId"] = request.GetTenantId()
 	}
 	if request.Deleted != nil {
 		condition["deleted"] = request.GetDeleted()
@@ -224,8 +224,8 @@ func (srv SrvSystemUserServiceServer) SystemUserListTotal(ctx context.Context, r
 	if request.Status != nil {
 		condition["status"] = request.GetStatus()
 	}
-	if request.SystemDeptId != nil {
-		condition["systemDeptId"] = request.GetSystemDeptId()
+	if request.DeptId != nil {
+		condition["deptId"] = request.GetDeptId()
 	}
 
 	// 获取数据集合
@@ -246,16 +246,16 @@ func (srv SrvSystemUserServiceServer) SystemUserListTotal(ctx context.Context, r
 
 // SystemUserUpdate 更新数据
 func (srv SrvSystemUserServiceServer) SystemUserPassword(ctx context.Context, request *SystemUserPasswordRequest) (*SystemUserPasswordResponse, error) {
-	systemUserId := request.GetSystemUserId()
+	id := request.GetId()
 
-	if systemUserId < 1 {
+	if id < 1 {
 		return &SystemUserPasswordResponse{}, status.Error(code.ConvertToGrpc(code.ParamInvalid), code.StatusText(code.ParamInvalid))
 	}
 	password := request.GetPassword()
 	if util.Empty(password) {
 		return &SystemUserPasswordResponse{}, status.Error(code.ConvertToGrpc(code.ParamInvalid), code.StatusText(code.ParamInvalid))
 	}
-	_, err := user.SystemUserPassword(ctx, systemUserId, password)
+	_, err := user.SystemUserPassword(ctx, id, password)
 	if sql.ResultAccept(err) != nil {
 		globalLogger.Logger.WithFields(logrus.Fields{
 			"req": request,

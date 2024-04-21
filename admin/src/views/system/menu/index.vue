@@ -15,13 +15,13 @@
       :search-col="12">
       <!-- 表格 header 按钮 -->
       <template #tableHeader>
-        <el-button type="primary" :icon="CirclePlus" @click="handleAdd()" v-auth="'menu.SystemMenuCreate'">新增</el-button>
+        <el-button v-auth="'menu.SystemMenuCreate'" type="primary" :icon="CirclePlus" @click="handleAdd()">新增</el-button>
         <el-button type="primary" :icon="Sort" @click="toggleExpandAll">展开/折叠</el-button>
       </template>
       <!-- 菜单图标 -->
       <template #icon="scope">
         <el-icon :size="18">
-          <component :is="scope.row.icon"></component>
+          <component :is="scope.row.icon" />
         </el-icon>
       </template>
       <!-- 类别 -->
@@ -38,34 +38,34 @@
       </template>
       <!-- 菜单操作 -->
       <template #operation="scope">
-        <el-button type="primary" link :icon="CirclePlus" @click="handleAdd(scope.row)" v-auth="'menu.SystemMenuCreate'">
+        <el-button v-auth="'menu.SystemMenuCreate'" type="primary" link :icon="CirclePlus" @click="handleAdd(scope.row)">
           新增
         </el-button>
         <el-dropdown trigger="click">
           <el-button
+            v-auth="['menu.SystemMenuUpdate', 'menu.SystemMenuDelete', 'menu.SystemMenuRecover']"
             type="primary"
             link
-            :icon="DArrowRight"
-            v-auth="['menu.SystemMenuUpdate', 'menu.SystemMenuDelete', 'menu.SystemMenuRecover']">
+            :icon="DArrowRight">
             更多
           </el-button>
           <template #dropdown>
             <el-dropdown-menu>
-              <el-dropdown-item :icon="EditPen" @click="handleUpdate(scope.row)" v-auth="'menu.SystemMenuUpdate'">
+              <el-dropdown-item v-auth="'menu.SystemMenuUpdate'" :icon="EditPen" @click="handleUpdate(scope.row)">
                 编辑
               </el-dropdown-item>
               <el-dropdown-item
-                :icon="Delete"
                 v-if="scope.row.deleted === 0"
-                @click="handleDelete(scope.row)"
-                v-auth="'menu.SystemMenuDelete'">
+                v-auth="'menu.SystemMenuDelete'"
+                :icon="Delete"
+                @click="handleDelete(scope.row)">
                 删除
               </el-dropdown-item>
               <el-dropdown-item
-                :icon="Refresh"
                 v-if="scope.row.deleted === 1"
-                @click="handleRecover(scope.row)"
-                v-auth="'menu.SystemMenuRecover'">
+                v-auth="'menu.SystemMenuRecover'"
+                :icon="Refresh"
+                @click="handleRecover(scope.row)">
                 恢复
               </el-dropdown-item>
             </el-dropdown-menu>
@@ -75,8 +75,8 @@
     </VirtualTable>
     <!-- 新增/编辑弹窗 -->
     <el-dialog
-      :title="title"
       v-model="centerDialogVisible"
+      :title="title"
       width="40%"
       destroy-on-close
       align-center
@@ -170,7 +170,7 @@
       <template #footer>
         <span class="dialog-footer">
           <el-button @click="resetForm(refSystemMenuItemFrom)">取消</el-button>
-          <el-button type="primary" @click="submitForm(refSystemMenuItemFrom)" :loading="loading">确定</el-button>
+          <el-button type="primary" :loading="loading" @click="submitForm(refSystemMenuItemFrom)">确定</el-button>
         </span>
       </template>
     </el-dialog>

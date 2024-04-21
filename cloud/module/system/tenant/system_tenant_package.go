@@ -23,10 +23,10 @@ func SystemTenantPackageCreate(ctx context.Context, data dao.SystemTenantPackage
 }
 
 // SystemTenantPackageUpdate 更新数据
-func SystemTenantPackageUpdate(ctx context.Context, systemTenantPackageId int64, data dao.SystemTenantPackage) (res int64, err error) {
+func SystemTenantPackageUpdate(ctx context.Context, id int64, data dao.SystemTenantPackage) (res int64, err error) {
 	db := initial.Core.Store.LoadSQL("mysql").Write()
 	builder := sql.NewBuilder()
-	query, args, err := builder.Table("`system_tenant_package`").Where("`id`", systemTenantPackageId).Update(data)
+	query, args, err := builder.Table("`system_tenant_package`").Where("`id`", id).Update(data)
 	if err != nil {
 		return
 	}
@@ -35,12 +35,12 @@ func SystemTenantPackageUpdate(ctx context.Context, systemTenantPackageId int64,
 }
 
 // SystemTenantPackageDelete 删除数据
-func SystemTenantPackageDelete(ctx context.Context, systemTenantPackageId int64) (res int64, err error) {
+func SystemTenantPackageDelete(ctx context.Context, id int64) (res int64, err error) {
 	db := initial.Core.Store.LoadSQL("mysql").Write()
 	builder := sql.NewBuilder()
 	data := make(map[string]any)
 	data["deleted"] = 1
-	query, args, err := builder.Table("`system_tenant_package`").Where("`id`", systemTenantPackageId).Update(data)
+	query, args, err := builder.Table("`system_tenant_package`").Where("`id`", id).Update(data)
 	if err != nil {
 		return
 	}
@@ -49,10 +49,10 @@ func SystemTenantPackageDelete(ctx context.Context, systemTenantPackageId int64)
 }
 
 // SystemTenantPackage 查询单条数据
-func SystemTenantPackage(ctx context.Context, systemTenantPackageId int64) (res dao.SystemTenantPackage, err error) {
+func SystemTenantPackage(ctx context.Context, id int64) (res dao.SystemTenantPackage, err error) {
 	db := initial.Core.Store.LoadSQL("mysql").Read()
 	builder := sql.NewBuilder()
-	query, args, err := builder.Table("`system_tenant_package`").Where("`id`", systemTenantPackageId).Row()
+	query, args, err := builder.Table("`system_tenant_package`").Where("`id`", id).Row()
 	if err != nil {
 		return
 	}
@@ -61,12 +61,12 @@ func SystemTenantPackage(ctx context.Context, systemTenantPackageId int64) (res 
 }
 
 // SystemTenantPackageRecover 恢复数据
-func SystemTenantPackageRecover(ctx context.Context, systemTenantPackageId int64) (res int64, err error) {
+func SystemTenantPackageRecover(ctx context.Context, id int64) (res int64, err error) {
 	db := initial.Core.Store.LoadSQL("mysql").Write()
 	builder := sql.NewBuilder()
 	data := make(map[string]any)
 	data["deleted"] = 0
-	query, args, err := builder.Table("`system_tenant_package`").Where("`id`", systemTenantPackageId).Update(data)
+	query, args, err := builder.Table("`system_tenant_package`").Where("`id`", id).Update(data)
 	if err != nil {
 		return
 	}

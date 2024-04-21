@@ -13,10 +13,10 @@ type SystemUserLogin struct {
 
 // SystemUserToken 用户令牌
 type SystemUserToken struct {
-	SystemUserId   int64  `json:"systemUserId"`   // 用户ID
-	SystemUserName string `json:"systemUserName"` // 用户名
-	SystemNickName string `json:"systemNickName"` // 用户昵称
-	SystemTenantId int64  `json:"systemTenantId"` // 租户ID
+	UserId   int64  `json:"userId"`   // 用户ID
+	UserName string `json:"userName"` // 用户名
+	NickName string `json:"nickName"` // 用户昵称
+	TenantId int64  `json:"tenantId"` // 租户ID
 	jwt.RegisteredClaims
 }
 

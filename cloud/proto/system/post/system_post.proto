@@ -17,8 +17,8 @@ message SystemPostObject {
 	optional int32 status = 4; //状态
 	// @inject_tag: db:"deleted" json:"deleted"
 	optional int32 deleted = 5; //是否删除
-	// @inject_tag: db:"system_tenant_id" json:"systemTenantId"
-	optional int64 system_tenant_id = 6; //租户ID
+	// @inject_tag: db:"tenant_id" json:"tenantId"
+	optional int64 tenant_id = 6; //租户ID
 	// @inject_tag: db:"creator" json:"creator"
 	optional string creator = 7; //创建人
 	// @inject_tag: db:"create_time" json:"createTime"
@@ -40,8 +40,8 @@ message SystemPostCreateResponse {
 }
 // SystemPostUpdateRequest 更新数据请求
 message SystemPostUpdateRequest {
-	// @inject_tag: db:"system_post_id" json:"systemPostId"
-	int64 system_post_id = 1; //职位ID
+	// @inject_tag: db:"id" json:"id"
+	int64 id = 1; //职位ID
 	SystemPostObject data = 2;
 }
 // SystemPostUpdateResponse 更新数据响应
@@ -51,8 +51,8 @@ message SystemPostUpdateResponse {
 }
 // SystemPostDeleteRequest 删除数据请求
 message SystemPostDeleteRequest {
-	// @inject_tag: db:"system_post_id" json:"systemPostId"
-	int64 system_post_id = 1; //职位ID
+	// @inject_tag: db:"id" json:"id"
+	int64 id = 1; //职位ID
 }
 // SystemPostDeleteResponse 删除数据响应
 message SystemPostDeleteResponse {
@@ -61,8 +61,8 @@ message SystemPostDeleteResponse {
 }
 // SystemPostRequest 查询单条数据请求
 message SystemPostRequest {
-	// @inject_tag: db:"system_post_id" json:"systemPostId"
-	int64 system_post_id = 1; //职位ID
+	// @inject_tag: db:"id" json:"id"
+	int64 id = 1; //职位ID
 }
 // SystemPostResponse 查询单条数据响应
 message SystemPostResponse {
@@ -72,8 +72,8 @@ message SystemPostResponse {
 }
 // SystemPostRecoverRequest 恢复数据请求
 message SystemPostRecoverRequest {
-	// @inject_tag: db:"system_post_id" json:"systemPostId"
-	int64 system_post_id = 1; //职位ID
+	// @inject_tag: db:"id" json:"id"
+	int64 id = 1; //职位ID
 }
 // SystemPostRecoverResponse 删除数据响应
 message SystemPostRecoverResponse {
@@ -83,8 +83,8 @@ message SystemPostRecoverResponse {
 // SystemPostListRequest 列表数据
 message SystemPostListRequest {
 	
-	// @inject_tag: db:"system_tenant_id" json:"systemTenantId"
-	optional int64 system_tenant_id = 1; // 租户ID
+	// @inject_tag: db:"tenant_id" json:"tenantId"
+	optional int64 tenant_id = 1; // 租户ID
 	// @inject_tag: db:"deleted" json:"deleted"
 	optional int32 deleted = 2; // 是否删除
 	// @inject_tag: db:"status" json:"status"

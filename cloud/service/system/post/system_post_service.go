@@ -40,12 +40,12 @@ func (srv SrvSystemPostServiceServer) SystemPostCreate(ctx context.Context, requ
 
 // SystemPostUpdate 更新数据
 func (srv SrvSystemPostServiceServer) SystemPostUpdate(ctx context.Context, request *SystemPostUpdateRequest) (*SystemPostUpdateResponse, error) {
-	systemPostId := request.GetSystemPostId()
-	if systemPostId < 1 {
+	id := request.GetId()
+	if id < 1 {
 		return &SystemPostUpdateResponse{}, status.Error(code.ConvertToGrpc(code.ParamInvalid), code.StatusText(code.ParamInvalid))
 	}
 	req := SystemPostDao(request.GetData())
-	_, err := post.SystemPostUpdate(ctx, systemPostId, *req)
+	_, err := post.SystemPostUpdate(ctx, id, *req)
 	if sql.ResultAccept(err) != nil {
 		globalLogger.Logger.WithFields(logrus.Fields{
 			"req": req,
@@ -61,14 +61,14 @@ func (srv SrvSystemPostServiceServer) SystemPostUpdate(ctx context.Context, requ
 
 // SystemPostDelete 删除数据
 func (srv SrvSystemPostServiceServer) SystemPostDelete(ctx context.Context, request *SystemPostDeleteRequest) (*SystemPostDeleteResponse, error) {
-	systemPostId := request.GetSystemPostId()
-	if systemPostId < 1 {
+	id := request.GetId()
+	if id < 1 {
 		return &SystemPostDeleteResponse{}, status.Error(code.ConvertToGrpc(code.ParamInvalid), code.StatusText(code.ParamInvalid))
 	}
-	_, err := post.SystemPostDelete(ctx, systemPostId)
+	_, err := post.SystemPostDelete(ctx, id)
 	if sql.ResultAccept(err) != nil {
 		globalLogger.Logger.WithFields(logrus.Fields{
-			"req": systemPostId,
+			"req": id,
 			"err": err,
 		}).Error("Sql:职位:system_post:SystemPostDelete")
 		return &SystemPostDeleteResponse{}, status.Error(code.ConvertToGrpc(code.SqlError), err.Error())
@@ -81,14 +81,14 @@ func (srv SrvSystemPostServiceServer) SystemPostDelete(ctx context.Context, requ
 
 // SystemPost 查询单条数据
 func (srv SrvSystemPostServiceServer) SystemPost(ctx context.Context, request *SystemPostRequest) (*SystemPostResponse, error) {
-	systemPostId := request.GetSystemPostId()
-	if systemPostId < 1 {
+	id := request.GetId()
+	if id < 1 {
 		return &SystemPostResponse{}, status.Error(code.ConvertToGrpc(code.ParamInvalid), code.StatusText(code.ParamInvalid))
 	}
-	res, err := post.SystemPost(ctx, systemPostId)
+	res, err := post.SystemPost(ctx, id)
 	if sql.ResultAccept(err) != nil {
 		globalLogger.Logger.WithFields(logrus.Fields{
-			"req": systemPostId,
+			"req": id,
 			"err": err,
 		}).Error("Sql:职位:system_post:SystemPost")
 		return &SystemPostResponse{}, status.Error(code.ConvertToGrpc(code.SqlError), err.Error())
@@ -102,14 +102,14 @@ func (srv SrvSystemPostServiceServer) SystemPost(ctx context.Context, request *S
 
 // SystemPostRecover 恢复数据
 func (srv SrvSystemPostServiceServer) SystemPostRecover(ctx context.Context, request *SystemPostRecoverRequest) (*SystemPostRecoverResponse, error) {
-	systemPostId := request.GetSystemPostId()
-	if systemPostId < 1 {
+	id := request.GetId()
+	if id < 1 {
 		return &SystemPostRecoverResponse{}, status.Error(code.ConvertToGrpc(code.ParamInvalid), code.StatusText(code.ParamInvalid))
 	}
-	_, err := post.SystemPostRecover(ctx, systemPostId)
+	_, err := post.SystemPostRecover(ctx, id)
 	if sql.ResultAccept(err) != nil {
 		globalLogger.Logger.WithFields(logrus.Fields{
-			"req": systemPostId,
+			"req": id,
 			"err": err,
 		}).Error("Sql:职位:system_post:SystemPostRecover")
 		return &SystemPostRecoverResponse{}, status.Error(code.ConvertToGrpc(code.SqlError), err.Error())
@@ -123,8 +123,8 @@ func (srv SrvSystemPostServiceServer) SystemPostList(ctx context.Context, reques
 	// 数据库查询条件
 	condition := make(map[string]any)
 	// 构造查询条件
-	if request.SystemTenantId != nil {
-		condition["systemTenantId"] = request.GetSystemTenantId()
+	if request.TenantId != nil {
+		condition["tenantId"] = request.GetTenantId()
 	}
 	if request.Deleted != nil {
 		condition["deleted"] = request.GetDeleted()

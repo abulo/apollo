@@ -46,7 +46,7 @@ func SystemDictTypeCreate(ctx context.Context, newCtx *app.RequestContext) {
 		})
 		return
 	}
-	reqInfo.Creator = null.StringFrom(newCtx.GetString("systemUserName"))
+	reqInfo.Creator = null.StringFrom(newCtx.GetString("userName"))
 	reqInfo.CreateTime = null.DateTimeFrom(util.Now())
 	request.Data = dict.SystemDictTypeProto(reqInfo)
 	// 执行服务
@@ -85,9 +85,9 @@ func SystemDictTypeUpdate(ctx context.Context, newCtx *app.RequestContext) {
 	}
 	//链接服务
 	client := dict.NewSystemDictTypeServiceClient(grpcClient)
-	systemDictTypeId := cast.ToInt64(newCtx.Param("systemDictTypeId"))
+	id := cast.ToInt64(newCtx.Param("id"))
 	request := &dict.SystemDictTypeUpdateRequest{}
-	request.SystemDictTypeId = systemDictTypeId
+	request.Id = id
 	// 数据绑定
 	var reqInfo dao.SystemDictType
 	if err := newCtx.BindAndValidate(&reqInfo); err != nil {
@@ -97,7 +97,7 @@ func SystemDictTypeUpdate(ctx context.Context, newCtx *app.RequestContext) {
 		})
 		return
 	}
-	reqInfo.Updater = null.StringFrom(newCtx.GetString("systemUserName"))
+	reqInfo.Updater = null.StringFrom(newCtx.GetString("userName"))
 	reqInfo.UpdateTime = null.DateTimeFrom(util.Now())
 	request.Data = dict.SystemDictTypeProto(reqInfo)
 	// 执行服务
@@ -135,9 +135,9 @@ func SystemDictTypeDelete(ctx context.Context, newCtx *app.RequestContext) {
 	}
 	//链接服务
 	client := dict.NewSystemDictTypeServiceClient(grpcClient)
-	systemDictTypeId := cast.ToInt64(newCtx.Param("systemDictTypeId"))
+	id := cast.ToInt64(newCtx.Param("id"))
 	request := &dict.SystemDictTypeDeleteRequest{}
-	request.SystemDictTypeId = systemDictTypeId
+	request.Id = id
 	// 执行服务
 	res, err := client.SystemDictTypeDelete(ctx, request)
 	if err != nil {
@@ -174,9 +174,9 @@ func SystemDictType(ctx context.Context, newCtx *app.RequestContext) {
 	}
 	//链接服务
 	client := dict.NewSystemDictTypeServiceClient(grpcClient)
-	systemDictTypeId := cast.ToInt64(newCtx.Param("systemDictTypeId"))
+	id := cast.ToInt64(newCtx.Param("id"))
 	request := &dict.SystemDictTypeRequest{}
-	request.SystemDictTypeId = systemDictTypeId
+	request.Id = id
 	// 执行服务
 	res, err := client.SystemDictType(ctx, request)
 	if err != nil {
