@@ -136,7 +136,7 @@ func SystemEntryLogList(ctx context.Context, newCtx *app.RequestContext) {
 
 // SystemEntryLog 删除数据
 func SystemEntryLog(ctx context.Context, newCtx *app.RequestContext) {
-	systemEntryId := cast.ToString(newCtx.Param("systemEntryLogId"))
+	systemEntryId := cast.ToString(newCtx.Param("id"))
 	// 将systemEntryId 装换成 primitive.ObjectID 类型
 	id, _ := primitive.ObjectIDFromHex(systemEntryId)
 	res, err := logger.SystemEntryLog(ctx, id)
