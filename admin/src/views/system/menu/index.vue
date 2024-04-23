@@ -343,7 +343,7 @@ const handleRecover = async (row: SystemMenu.ResSystemMenuItem) => {
 // 获取菜单树选项
 const getTreeSelect = async () => {
   menuOptions.value = [];
-  const res = await getSystemMenuListApi();
+  const res = await getSystemMenuListApi({ tree: 1 });
   let obj: SystemMenu.ResSystemMenuList = {
     id: 0,
     name: "主类目",

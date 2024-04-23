@@ -295,7 +295,16 @@ func SystemDeptList(ctx context.Context, newCtx *app.RequestContext) {
 			list = append(list, dept.SystemDeptDao(item))
 		}
 	}
-	newList := SystemDeptTree(list, 0)
+	var newList []*dao.SystemDept
+	newList = list
+	tree := false
+	if val, ok := newCtx.GetQuery("tree"); ok {
+		tree = cast.ToBool(val)
+	}
+	if tree {
+		newList = SystemDeptTree(list, 0)
+	}
+
 	newCtx.JSON(consts.StatusOK, utils.H{
 		"code": res.GetCode(),
 		"msg":  res.GetMsg(),

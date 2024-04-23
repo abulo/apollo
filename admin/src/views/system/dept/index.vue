@@ -1,16 +1,17 @@
 <template>
   <div class="table-box">
-    <ProTable
-      v-if="refreshTable"
+    <VirtualTable
       ref="proTable"
       title="部门列表"
       row-key="id"
-      :indent="32"
       :columns="columns"
-      :default-expand-all="isExpandAll"
       :request-api="getSystemDeptListApi"
       :request-auto="true"
       :pagination="false"
+      :tree-config="{ transform: true, iconOpen: 'vxe-icon-arrow-down', iconClose: 'vxe-icon-arrow-right' }"
+      :scroll-y="{ enabled: true }"
+      height="600"
+      :init-param="initDeptParam"
       :search-col="12">
       <!-- 表格 header 按钮 -->
       <template #tableHeader>
@@ -60,7 +61,7 @@
           </template>
         </el-dropdown>
       </template>
-    </ProTable>
+    </VirtualTable>
     <el-dialog
       v-model="centerDialogVisible"
       :title="title"
@@ -141,10 +142,16 @@
 </template>
 
 <script setup lang="tsx" name="systemDept">
-import { ref, reactive, nextTick } from "vue";
-import { ProTableInstance, ColumnProps, SearchProps } from "@/components/ProTable/interface";
+import { ref, reactive } from "vue";
+import {
+  ProTableInstance as VirtualProTableInstance,
+  ColumnProps as VirtualColumnProps,
+  SearchProps as VirtualSearchProps
+} from "@/components/VirtualTable/interface";
 import { EditPen, CirclePlus, Sort, Delete, Refresh, DArrowRight } from "@element-plus/icons-vue";
+import VirtualTable from "@/components/VirtualTable/index.vue";
 import ProTable from "@/components/ProTable/index.vue";
+import { ColumnProps } from "@/components/ProTable/interface";
 import { SystemUser } from "@/api/interface/systemUser";
 import { getSystemUserItemApi, getSystemUserSearchApi } from "@/api/modules/systemUser";
 import { SystemDept } from "@/api/interface/systemDept";
@@ -161,6 +168,7 @@ import { getIntDictOptions } from "@/utils/dict";
 import { DictTag } from "@/components/DictTag";
 import { useHandleData, useHandleSet } from "@/hooks/useHandleData";
 import { HasPermission } from "@/utils/permission";
+const initDeptParam = reactive({ tree: 0 });
 
 //菜单状态
 const statusEnum = getIntDictOptions("status");
@@ -169,11 +177,9 @@ const deletedEnum = getIntDictOptions("delete");
 //加载
 const loading = ref(false);
 //table数据
-const proTable = ref<ProTableInstance>();
+const proTable = ref<VirtualProTableInstance>();
 //是否展开，默认全部折叠
 const isExpandAll = ref(true);
-//重新渲染表格状态
-const refreshTable = ref(true);
 //弹出层标题
 const title = ref();
 //是否显示弹出层
@@ -222,12 +228,8 @@ const reset = () => {
 };
 // 设置展开合并
 const toggleExpandAll = () => {
-  refreshTable.value = false;
   isExpandAll.value = !isExpandAll.value;
-  nextTick(() => {
-    refreshTable.value = true;
-    deptSelect.value = [];
-  });
+  proTable.value?.element?.setAllTreeExpand(isExpandAll.value);
 };
 // resetForm
 const resetForm = (formEl: FormInstance | undefined) => {
@@ -251,7 +253,7 @@ const handleAdd = (row?: SystemDept.ResSystemDeptItem) => {
 // 获取部门树选项
 const getTreeSelect = async () => {
   deptSelect.value = [];
-  const { data } = await getSystemDeptListApi();
+  const { data } = await getSystemDeptListApi({ tree: 1 });
   let obj: SystemDept.ResSystemDeptList = {
     id: 0,
     name: "顶级部门",
@@ -311,7 +313,7 @@ const submitForm = (formEl: FormInstance | undefined) => {
   });
 };
 // 表格配置项
-const deleteSearch = reactive<SearchProps>(
+const deleteSearch = reactive<VirtualSearchProps>(
   HasPermission("dept.SystemDeptDelete")
     ? {
         el: "switch",
@@ -320,21 +322,21 @@ const deleteSearch = reactive<SearchProps>(
     : {}
 );
 // 表格配置项
-const columns: ColumnProps<SystemDept.ResSystemDeptList>[] = [
-  { prop: "id", type: "", label: "编号", width: 100 },
-  { prop: "name", label: "部门名称", align: "left" },
-  { prop: "sort", label: "排序" },
-  { prop: "status", label: "状态", tag: true, enum: statusEnum, search: { el: "select", span: 2 } },
+const columns: VirtualColumnProps<SystemDept.ResSystemDeptList>[] = [
+  { field: "id", title: "编号", width: 100 },
+  { field: "name", title: "部门名称", align: "left", treeNode: true },
+  { field: "sort", title: "排序" },
+  { field: "status", title: "状态", tag: true, enum: statusEnum, search: { el: "select", span: 2 } },
   {
-    prop: "deleted",
-    label: "删除",
+    field: "deleted",
+    title: "删除",
     tag: true,
     enum: deletedEnum,
     search: deleteSearch
   },
   {
-    prop: "operation",
-    label: "操作",
+    field: "operation",
+    title: "操作",
     width: 160,
     fixed: "right",
     isShow: HasPermission("dept.SystemDeptUpdate", "dept.SystemDeptDelete", "dept.SystemDeptRecover", "dept.SystemDeptCreate")

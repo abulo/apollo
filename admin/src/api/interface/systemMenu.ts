@@ -4,6 +4,7 @@ export namespace SystemMenu {
     type?: number; //菜单类型(1:目录/2: 菜单/3: 按钮)
     deleted?: number; //是否删除
     status?: number; //菜单状态(0开启/1关闭)
+    tree?: number; // 是否树形结构
   }
   // 单个数据接口
   export interface ResSystemMenuItem {

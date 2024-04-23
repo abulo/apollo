@@ -35,7 +35,7 @@ func SystemMenuList(ctx context.Context, newCtx *app.RequestContext) {
 	}
 	//链接服务
 	tenantClient := tenant.NewSystemTenantServiceClient(grpcClient)
-	id := newCtx.GetInt64("id")
+	id := newCtx.GetInt64("tenantId")
 	tenantRequest := &tenant.SystemTenantRequest{}
 	tenantRequest.Id = id
 	// 执行服务

@@ -231,7 +231,7 @@ const handleRecover = async (row: Region.ResRegionItem) => {
 // 获取地区树选项
 const getTreeSelect = async () => {
   regionOptions.value = [];
-  const res = await getRegionListApi();
+  const res = await getRegionListApi({ tree: 1 });
   let obj: Region.ResRegionList = {
     id: 0,
     name: "主类目",

@@ -2,7 +2,7 @@ import { VNode, ComponentPublicInstance, Ref } from "vue";
 import { BreakPoint, Responsive } from "@/components/Grid/interface";
 import { VxeColumnProps } from "vxe-table";
 import { ProTableProps } from "@/components/VirtualTable/index.vue";
-import VirtualTable from "@/components/VirtualTable/index.vue";
+import type VirtualTable from "@/components/VirtualTable/index.vue";
 
 export interface EnumProps {
   label?: string; // 选项框显示的文字
