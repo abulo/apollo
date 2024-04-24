@@ -106,7 +106,7 @@
     "vue-tsc": "^2.0.14"
   },
   "engines": {
-    "node": ">=16.0.0"
+    "node": ">=18.0.0"
   },
   "browserslist": {
     "production": [
