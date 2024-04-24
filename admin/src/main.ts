@@ -31,7 +31,7 @@ import I18n from "@/languages/index";
 // pinia store
 import pinia from "@/stores";
 // errorHandler
-import errorHandler from "@/utils/errorHandler";
+// import errorHandler from "@/utils/errorHandler";
 // 虚拟表格
 import { useVxeTable } from "@/plugin/vxeTable";
 
@@ -39,9 +39,9 @@ const app = createApp(App);
 
 // app.config.errorHandler = errorHandler;
 app.config.errorHandler = function (err, vm, info) {
-  console.log('全局捕获 err >>>', err)
-  console.log('全局捕获 vm >>>', vm)
-  console.log('全局捕获 info >>>', info)
+  console.log("全局捕获 err >>>", err);
+  console.log("全局捕获 vm >>>", vm);
+  console.log("全局捕获 info >>>", info);
 };
 
 app.config.warnHandler = () => null;
