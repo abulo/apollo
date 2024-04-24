@@ -75,11 +75,11 @@ importers:
         specifier: ^4.1.0
         version: 4.1.0(vue@3.4.24(typescript@5.4.5))
       vxe-table:
-        specifier: ^4.6.0
-        version: 4.6.2(vue@3.4.24(typescript@5.4.5))
+        specifier: ^4.6.3
+        version: 4.6.3(vue@3.4.24(typescript@5.4.5))
       vxe-table-plugin-element:
         specifier: ^4.0.1
-        version: 4.0.1(vxe-table@4.6.2(vue@3.4.24(typescript@5.4.5)))
+        version: 4.0.1(vxe-table@4.6.3(vue@3.4.24(typescript@5.4.5)))
     devDependencies:
       '@commitlint/cli':
         specifier: ^19.3.0
@@ -4839,8 +4839,8 @@ packages:
     peerDependencies:
       vxe-table: ^4.5.0
 
-  vxe-table@4.6.2:
-    resolution: {integrity: sha512-UoHfQOHBqXzNcSPdZgYk35NLf/wm1AVxKYMWk7kfZ7eJGzUwNUyI2Q1SazA5id99tJyHCsv6uCjsYP9/wq8V4A==}
+  vxe-table@4.6.3:
+    resolution: {integrity: sha512-71FOi0lFQbvs1dUIZPTDCLaSJkRjLHlBuNzWIR9RofBe4EvhX4OowrhaCCsCXXKCCGSlJRp6+/O2c71lEZY9PQ==}
     peerDependencies:
       vue: ^3.2.28
 
@@ -10061,11 +10061,11 @@ snapshots:
       sortablejs: 1.14.0
       vue: 3.4.24(typescript@5.4.5)
 
-  vxe-table-plugin-element@4.0.1(vxe-table@4.6.2(vue@3.4.24(typescript@5.4.5))):
+  vxe-table-plugin-element@4.0.1(vxe-table@4.6.3(vue@3.4.24(typescript@5.4.5))):
     dependencies:
-      vxe-table: 4.6.2(vue@3.4.24(typescript@5.4.5))
+      vxe-table: 4.6.3(vue@3.4.24(typescript@5.4.5))
 
-  vxe-table@4.6.2(vue@3.4.24(typescript@5.4.5)):
+  vxe-table@4.6.3(vue@3.4.24(typescript@5.4.5)):
     dependencies:
       dom-zindex: 1.0.2
       vue: 3.4.24(typescript@5.4.5)
