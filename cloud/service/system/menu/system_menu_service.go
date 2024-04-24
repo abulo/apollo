@@ -40,7 +40,7 @@ func (srv SrvSystemMenuServiceServer) SystemMenuCreate(ctx context.Context, requ
 
 // SystemMenuUpdate 更新数据
 func (srv SrvSystemMenuServiceServer) SystemMenuUpdate(ctx context.Context, request *SystemMenuUpdateRequest) (*SystemMenuUpdateResponse, error) {
-	systemMenuId := request.GetSystemMenuId()
+	systemMenuId := request.GetId()
 	if systemMenuId < 1 {
 		return &SystemMenuUpdateResponse{}, status.Error(code.ConvertToGrpc(code.ParamInvalid), code.StatusText(code.ParamInvalid))
 	}
@@ -61,7 +61,7 @@ func (srv SrvSystemMenuServiceServer) SystemMenuUpdate(ctx context.Context, requ
 
 // SystemMenuDelete 删除数据
 func (srv SrvSystemMenuServiceServer) SystemMenuDelete(ctx context.Context, request *SystemMenuDeleteRequest) (*SystemMenuDeleteResponse, error) {
-	systemMenuId := request.GetSystemMenuId()
+	systemMenuId := request.GetId()
 	if systemMenuId < 1 {
 		return &SystemMenuDeleteResponse{}, status.Error(code.ConvertToGrpc(code.ParamInvalid), code.StatusText(code.ParamInvalid))
 	}
@@ -81,7 +81,7 @@ func (srv SrvSystemMenuServiceServer) SystemMenuDelete(ctx context.Context, requ
 
 // SystemMenu 查询单条数据
 func (srv SrvSystemMenuServiceServer) SystemMenu(ctx context.Context, request *SystemMenuRequest) (*SystemMenuResponse, error) {
-	systemMenuId := request.GetSystemMenuId()
+	systemMenuId := request.GetId()
 	if systemMenuId < 1 {
 		return &SystemMenuResponse{}, status.Error(code.ConvertToGrpc(code.ParamInvalid), code.StatusText(code.ParamInvalid))
 	}
@@ -102,7 +102,7 @@ func (srv SrvSystemMenuServiceServer) SystemMenu(ctx context.Context, request *S
 
 // SystemMenuRecover 恢复数据
 func (srv SrvSystemMenuServiceServer) SystemMenuRecover(ctx context.Context, request *SystemMenuRecoverRequest) (*SystemMenuRecoverResponse, error) {
-	systemMenuId := request.GetSystemMenuId()
+	systemMenuId := request.GetId()
 	if systemMenuId < 1 {
 		return &SystemMenuRecoverResponse{}, status.Error(code.ConvertToGrpc(code.ParamInvalid), code.StatusText(code.ParamInvalid))
 	}

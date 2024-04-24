@@ -1,0 +1,143 @@
+
+syntax = "proto3";
+// system_notice 通知公告表
+package notice;
+option go_package = "./notice";
+import "google/protobuf/timestamp.proto";
+
+// SystemNoticeObject 数据对象
+message SystemNoticeObject {
+	// @inject_tag: db:"id" json:"id"
+	optional int64 id = 1; //公告ID
+	// @inject_tag: db:"title" json:"title"
+	optional string title = 2; //公告标题
+	// @inject_tag: db:"content" json:"content"
+	optional string content = 3; //公告内容
+	// @inject_tag: db:"type" json:"type"
+	optional int32 type = 4; //公告类型（1通知 2公告）
+	// @inject_tag: db:"status" json:"status"
+	optional int32 status = 5; //公告状态（0正常 1关闭）
+	// @inject_tag: db:"deleted" json:"deleted"
+	optional int32 deleted = 6; //删除
+	// @inject_tag: db:"tenant_id" json:"tenantId"
+	optional int64 tenant_id = 7; //租户
+	// @inject_tag: db:"creator" json:"creator"
+	optional string creator = 8; //创建人
+	// @inject_tag: db:"create_time" json:"createTime"
+	google.protobuf.Timestamp create_time = 9; //创建时间
+	// @inject_tag: db:"updater" json:"updater"
+	optional string updater = 10; //更新人
+	// @inject_tag: db:"update_time" json:"updateTime"
+	google.protobuf.Timestamp update_time = 11; //更新时间
+}
+// SystemNoticeTotalResponse 列表数据总量
+message SystemNoticeTotalResponse {
+	int64 code = 1;
+	string msg = 2;
+	int64 data = 3;
+}
+// SystemNoticeCreateRequest 创建数据请求
+message SystemNoticeCreateRequest {
+	SystemNoticeObject data = 1;
+}
+// SystemNoticeCreateResponse 创建数据响应
+message SystemNoticeCreateResponse {
+	int64 code = 1;
+	string msg = 2;
+	int64 data = 3;
+}
+// SystemNoticeUpdateRequest 更新数据请求
+message SystemNoticeUpdateRequest {
+	// @inject_tag: db:"id" json:"id"
+	int64 id = 1; //公告ID
+	SystemNoticeObject data = 2;
+}
+// SystemNoticeUpdateResponse 更新数据响应
+message SystemNoticeUpdateResponse {
+	int64 code = 1;
+	string msg = 2;
+}
+// SystemNoticeDeleteRequest 删除数据请求
+message SystemNoticeDeleteRequest {
+	// @inject_tag: db:"id" json:"id"
+	int64 id = 1; //公告ID
+}
+// SystemNoticeDeleteResponse 删除数据响应
+message SystemNoticeDeleteResponse {
+	int64 code = 1;
+	string msg = 2;
+}
+// SystemNoticeRequest 查询单条数据请求
+message SystemNoticeRequest {
+	// @inject_tag: db:"id" json:"id"
+	int64 id = 1; //公告ID
+}
+// SystemNoticeResponse 查询单条数据响应
+message SystemNoticeResponse {
+	int64 code = 1;
+	string msg = 2;
+	SystemNoticeObject data = 3;
+}
+// SystemNoticeRecoverRequest 恢复数据请求
+message SystemNoticeRecoverRequest {
+	// @inject_tag: db:"id" json:"id"
+	int64 id = 1; //公告ID
+}
+// SystemNoticeRecoverResponse 删除数据响应
+message SystemNoticeRecoverResponse {
+	int64 code = 1;
+	string msg = 2;
+}
+// SystemNoticeListRequest 列表数据
+message SystemNoticeListRequest {
+	
+	// @inject_tag: db:"tenant_id" json:"tenantId"
+	optional int64 tenant_id = 1; // 租户
+	// @inject_tag: db:"deleted" json:"deleted"
+	optional int32 deleted = 2; // 删除
+	// @inject_tag: db:"status" json:"status"
+	optional int32 status = 3; // 公告状态（0正常 1关闭）
+	// @inject_tag: db:"type" json:"type"
+	optional int32 type = 4; // 公告类型（1通知 2公告）
+	// @inject_tag: db:"title" json:"title"
+	optional string title = 5; // 公告标题
+
+	// @inject_tag: db:"page_num" json:"pageNum"
+	optional int64 page_num = 6;
+	// @inject_tag: db:"page_size" json:"pageSize"
+	optional int64 page_size = 7;
+}
+
+// SystemNoticeListResponse 数据响应
+message SystemNoticeListResponse {
+	int64 code = 1;
+  	string msg = 2;
+	repeated SystemNoticeObject data = 3;
+}
+// SystemNoticeListTotalRequest 列表数据
+message SystemNoticeListTotalRequest {
+	
+	// @inject_tag: db:"tenant_id" json:"tenantId"
+	optional int64 tenant_id = 1; // 租户
+	// @inject_tag: db:"deleted" json:"deleted"
+	optional int32 deleted = 2; // 删除
+	// @inject_tag: db:"status" json:"status"
+	optional int32 status = 3; // 公告状态（0正常 1关闭）
+	// @inject_tag: db:"type" json:"type"
+	optional int32 type = 4; // 公告类型（1通知 2公告）
+	// @inject_tag: db:"title" json:"title"
+	optional string title = 5; // 公告标题
+
+}
+
+
+// SystemNoticeService 服务
+service SystemNoticeService{
+	rpc SystemNoticeCreate(SystemNoticeCreateRequest) returns (SystemNoticeCreateResponse);
+	rpc SystemNoticeUpdate(SystemNoticeUpdateRequest) returns (SystemNoticeUpdateResponse);
+	rpc SystemNoticeDelete(SystemNoticeDeleteRequest) returns (SystemNoticeDeleteResponse);
+	rpc SystemNotice(SystemNoticeRequest) returns (SystemNoticeResponse);
+	rpc SystemNoticeRecover(SystemNoticeRecoverRequest) returns (SystemNoticeRecoverResponse);
+	rpc SystemNoticeList(SystemNoticeListRequest) returns (SystemNoticeListResponse);
+	rpc SystemNoticeListTotal(SystemNoticeListTotalRequest) returns (SystemNoticeTotalResponse);
+}

@@ -6,6 +6,7 @@ import (
 	"cloud/api/system/dict"
 	"cloud/api/system/logger"
 	"cloud/api/system/menu"
+	"cloud/api/system/notice"
 	"cloud/api/system/post"
 	"cloud/api/system/role"
 	"cloud/api/system/tenant"
@@ -228,5 +229,18 @@ func ManagerInitRoute(handle *xhertz.Server) {
 		auth.GET("/region", region.RegionList)
 		// region->地区表->搜索
 		auth.GET("/region/search", region.RegionSearch)
+
+		// system_notice->通知公告表->创建
+		auth.POST("/system/notice", notice.SystemNoticeCreate)
+		// system_notice->通知公告表->更新
+		auth.PUT("/system/notice/:id/update", notice.SystemNoticeUpdate)
+		// system_notice->通知公告表->删除
+		auth.DELETE("/system/notice/:id/delete", notice.SystemNoticeDelete)
+		// system_notice->通知公告表->单条数据信息查看
+		auth.GET("/system/notice/:id/item", notice.SystemNotice)
+		// system_notice->通知公告表->恢复
+		auth.PUT("/system/notice/:id/recover", notice.SystemNoticeRecover)
+		// system_notice->通知公告表->列表
+		auth.GET("/system/notice", notice.SystemNoticeList)
 	}
 }

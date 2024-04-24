@@ -11,7 +11,7 @@
  Target Server Version : 80300 (8.3.0)
  File Encoding         : 65001
 
- Date: 21/04/2024 19:36:11
+ Date: 24/04/2024 15:19:25
 */
 
 SET NAMES utf8mb4;
@@ -3592,7 +3592,7 @@ CREATE TABLE `system_dict` (
   `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE,
   KEY `list:data` (`dict_type`,`status`,`sort`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=DYNAMIC COMMENT='字典数据表';
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=DYNAMIC COMMENT='字典数据表';
 
 -- ----------------------------
 -- Records of system_dict
@@ -3620,6 +3620,8 @@ INSERT INTO `system_dict` (`id`, `sort`, `label`, `value`, `dict_type`, `status`
 INSERT INTO `system_dict` (`id`, `sort`, `label`, `value`, `dict_type`, `status`, `color_type`, `css_class`, `remark`, `creator`, `create_time`, `updater`, `update_time`) VALUES (20, 3, '本部门数据权限', ' 3', 'role.scope', 0, 'default', '', '', 'admin', '2024-03-12 11:33:20', '', '2024-03-12 11:33:20');
 INSERT INTO `system_dict` (`id`, `sort`, `label`, `value`, `dict_type`, `status`, `color_type`, `css_class`, `remark`, `creator`, `create_time`, `updater`, `update_time`) VALUES (21, 4, '本部门及以下数据权限', '4', 'role.scope', 0, 'default', '', '', 'admin', '2024-03-12 11:34:28', '', '2024-03-12 11:34:28');
 INSERT INTO `system_dict` (`id`, `sort`, `label`, `value`, `dict_type`, `status`, `color_type`, `css_class`, `remark`, `creator`, `create_time`, `updater`, `update_time`) VALUES (22, 5, '仅本人数据权限', '5', 'role.scope', 0, 'default', '', '', 'admin', '2024-03-12 11:34:49', '', '2024-03-12 11:34:49');
+INSERT INTO `system_dict` (`id`, `sort`, `label`, `value`, `dict_type`, `status`, `color_type`, `css_class`, `remark`, `creator`, `create_time`, `updater`, `update_time`) VALUES (23, 1, '通知', '1', 'notice.type', 0, '', '', '', 'admin', '2024-04-24 14:54:14', '', '2024-04-24 14:54:14');
+INSERT INTO `system_dict` (`id`, `sort`, `label`, `value`, `dict_type`, `status`, `color_type`, `css_class`, `remark`, `creator`, `create_time`, `updater`, `update_time`) VALUES (24, 2, '公告', '2', 'notice.type', 0, '', '', '', 'admin', '2024-04-24 14:54:24', '', '2024-04-24 14:54:24');
 COMMIT;
 
 -- ----------------------------
@@ -3639,7 +3641,7 @@ CREATE TABLE `system_dict_type` (
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE KEY `uniq:type` (`type`) USING BTREE,
   KEY `idx:list` (`status`,`type`,`name`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=DYNAMIC COMMENT='字典类型';
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=DYNAMIC COMMENT='字典类型';
 
 -- ----------------------------
 -- Records of system_dict_type
@@ -3654,6 +3656,7 @@ INSERT INTO `system_dict_type` (`id`, `name`, `type`, `status`, `remark`, `creat
 INSERT INTO `system_dict_type` (`id`, `name`, `type`, `status`, `remark`, `creator`, `create_time`, `updater`, `update_time`) VALUES (7, '菜单全屏', 'menu.fullScreen', 0, '', '', '2024-02-26 01:59:33', 'admin', '2024-02-29 09:23:31');
 INSERT INTO `system_dict_type` (`id`, `name`, `type`, `status`, `remark`, `creator`, `create_time`, `updater`, `update_time`) VALUES (8, '角色类别', 'role.type', 0, '', '', '2024-02-27 03:06:42', 'admin', '2024-02-29 09:23:23');
 INSERT INTO `system_dict_type` (`id`, `name`, `type`, `status`, `remark`, `creator`, `create_time`, `updater`, `update_time`) VALUES (9, '角色数据范围', 'role.scope', 0, '', 'admin', '2024-03-12 11:19:26', '', '2024-03-12 11:19:26');
+INSERT INTO `system_dict_type` (`id`, `name`, `type`, `status`, `remark`, `creator`, `create_time`, `updater`, `update_time`) VALUES (11, '公告类型', 'notice.type', 0, '', 'admin', '2024-04-24 14:53:36', '', '2024-04-24 14:53:36');
 COMMIT;
 
 -- ----------------------------
@@ -3675,10 +3678,103 @@ CREATE TABLE `system_login_log` (
   `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE,
   KEY `idx:list` (`tenant_id`,`deleted`,`username`,`login_time`,`channel`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=DYNAMIC COMMENT='登录日志';
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=DYNAMIC COMMENT='登录日志';
 
 -- ----------------------------
 -- Records of system_login_log
+-- ----------------------------
+BEGIN;
+COMMIT;
+
+-- ----------------------------
+-- Table structure for system_mail_account
+-- ----------------------------
+DROP TABLE IF EXISTS `system_mail_account`;
+CREATE TABLE `system_mail_account` (
+  `id` bigint NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `mail` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '邮箱',
+  `username` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '用户名',
+  `password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '密码',
+  `host` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT 'SMTP 服务器域名',
+  `port` int NOT NULL COMMENT 'SMTP 服务器端口',
+  `ssl_enable` tinyint NOT NULL DEFAULT '0' COMMENT '是否开启 SSL',
+  `creator` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '创建者',
+  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `updater` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '更新者',
+  `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  `deleted` tinyint NOT NULL DEFAULT '0' COMMENT '是否删除',
+  PRIMARY KEY (`id`) USING BTREE,
+  KEY `idx:list` (`deleted`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=DYNAMIC COMMENT='邮箱账号表';
+
+-- ----------------------------
+-- Records of system_mail_account
+-- ----------------------------
+BEGIN;
+COMMIT;
+
+-- ----------------------------
+-- Table structure for system_mail_log
+-- ----------------------------
+DROP TABLE IF EXISTS `system_mail_log`;
+CREATE TABLE `system_mail_log` (
+  `id` bigint NOT NULL AUTO_INCREMENT COMMENT '编号',
+  `user_id` bigint DEFAULT NULL COMMENT '用户编号',
+  `user_type` tinyint DEFAULT NULL COMMENT '用户类型',
+  `to_mail` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '接收邮箱地址',
+  `account_id` bigint NOT NULL COMMENT '邮箱账号编号',
+  `from_mail` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '发送邮箱地址',
+  `template_id` bigint NOT NULL COMMENT '模板编号',
+  `template_code` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '模板编码',
+  `template_nickname` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '模版发送人名称',
+  `template_title` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '邮件标题',
+  `template_content` varchar(10240) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '邮件内容',
+  `template_params` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '邮件参数',
+  `send_status` tinyint NOT NULL DEFAULT '0' COMMENT '发送状态',
+  `send_time` datetime DEFAULT NULL COMMENT '发送时间',
+  `send_message_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '发送返回的消息 ID',
+  `send_exception` varchar(4096) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '发送异常',
+  `creator` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '创建者',
+  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `updater` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '更新者',
+  `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  `deleted` tinyint NOT NULL DEFAULT '0' COMMENT '是否删除',
+  PRIMARY KEY (`id`) USING BTREE,
+  KEY `idx:list` (`deleted`,`send_status`,`send_time`,`template_title`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=DYNAMIC COMMENT='邮件日志表';
+
+-- ----------------------------
+-- Records of system_mail_log
+-- ----------------------------
+BEGIN;
+COMMIT;
+
+-- ----------------------------
+-- Table structure for system_mail_template
+-- ----------------------------
+DROP TABLE IF EXISTS `system_mail_template`;
+CREATE TABLE `system_mail_template` (
+  `id` bigint NOT NULL AUTO_INCREMENT COMMENT '编号',
+  `name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '模板名称',
+  `code` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '模板编码',
+  `account_id` bigint NOT NULL COMMENT '发送的邮箱账号编号',
+  `nickname` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '发送人名称',
+  `title` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '模板标题',
+  `content` varchar(10240) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '模板内容',
+  `params` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '参数数组',
+  `status` tinyint NOT NULL COMMENT '开启状态',
+  `remark` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '备注',
+  `creator` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '创建者',
+  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `updater` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '更新者',
+  `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  `deleted` tinyint NOT NULL DEFAULT '0' COMMENT '是否删除',
+  PRIMARY KEY (`id`) USING BTREE,
+  KEY `idx:list` (`deleted`,`status`,`title`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=DYNAMIC COMMENT='邮件模版表';
+
+-- ----------------------------
+-- Records of system_mail_template
 -- ----------------------------
 BEGIN;
 COMMIT;
@@ -3713,7 +3809,7 @@ CREATE TABLE `system_menu` (
   `deleted` tinyint NOT NULL DEFAULT '0' COMMENT '是否删除',
   PRIMARY KEY (`id`) USING BTREE,
   KEY `list:parent` (`deleted`,`status`,`type`,`sort`,`parent_id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=134 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=DYNAMIC COMMENT='系统菜单';
+) ENGINE=InnoDB AUTO_INCREMENT=140 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=DYNAMIC COMMENT='系统菜单';
 
 -- ----------------------------
 -- Records of system_menu
@@ -3782,7 +3878,7 @@ INSERT INTO `system_menu` (`id`, `name`, `permission`, `type`, `sort`, `parent_i
 INSERT INTO `system_menu` (`id`, `name`, `permission`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `status`, `hide`, `link`, `keep_alive`, `affix`, `active_path`, `full_screen`, `redirect`, `creator`, `create_time`, `updater`, `update_time`, `deleted`) VALUES (105, '部门分配', 'user.SystemUserDeptList', 3, 0, 21, '', '', '', '', 0, 0, '', 0, 0, '', 0, '', 'admin', '2024-03-13 10:54:07', '', '2024-03-13 10:54:07', 0);
 INSERT INTO `system_menu` (`id`, `name`, `permission`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `status`, `hide`, `link`, `keep_alive`, `affix`, `active_path`, `full_screen`, `redirect`, `creator`, `create_time`, `updater`, `update_time`, `deleted`) VALUES (106, '部门处理', 'user.SystemUserDeptCreate', 3, 0, 105, '', '', '', '', 0, 0, '', 0, 0, '', 0, '', 'admin', '2024-03-13 10:54:28', '', '2024-03-13 10:54:28', 0);
 INSERT INTO `system_menu` (`id`, `name`, `permission`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `status`, `hide`, `link`, `keep_alive`, `affix`, `active_path`, `full_screen`, `redirect`, `creator`, `create_time`, `updater`, `update_time`, `deleted`) VALUES (107, '用户恢复', 'user.SystemUserRecover', 3, 0, 21, '', '', '', '', 0, 0, '', 0, 0, '', 0, '', 'admin', '2024-03-13 11:00:31', '', '2024-03-13 11:00:31', 0);
-INSERT INTO `system_menu` (`id`, `name`, `permission`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `status`, `hide`, `link`, `keep_alive`, `affix`, `active_path`, `full_screen`, `redirect`, `creator`, `create_time`, `updater`, `update_time`, `deleted`) VALUES (108, '租户管理', '', 2, 19, 2, '/system/tenant', 'Avatar', '', '', 0, 0, '', 1, 0, '', 0, '/system/tenant/index', '芋道源码', '2023-07-11 08:32:02', 'admin', '2024-03-16 17:13:49', 0);
+INSERT INTO `system_menu` (`id`, `name`, `permission`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `status`, `hide`, `link`, `keep_alive`, `affix`, `active_path`, `full_screen`, `redirect`, `creator`, `create_time`, `updater`, `update_time`, `deleted`) VALUES (108, '租户管理', '', 2, 19, 2, '/system/tenant', 'Folder', '', '', 0, 0, '', 1, 0, '', 0, '/system/tenant/index', '芋道源码', '2023-07-11 08:32:02', 'admin', '2024-04-24 14:39:06', 0);
 INSERT INTO `system_menu` (`id`, `name`, `permission`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `status`, `hide`, `link`, `keep_alive`, `affix`, `active_path`, `full_screen`, `redirect`, `creator`, `create_time`, `updater`, `update_time`, `deleted`) VALUES (109, '套餐管理', '', 2, 1, 108, '/system/tenant/package', 'Memo', '/system/tenant/package', 'systemTenantPackage', 0, 0, '', 1, 0, '', 0, '', 'admin', '2024-03-16 16:53:59', 'admin', '2024-03-16 17:16:38', 0);
 INSERT INTO `system_menu` (`id`, `name`, `permission`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `status`, `hide`, `link`, `keep_alive`, `affix`, `active_path`, `full_screen`, `redirect`, `creator`, `create_time`, `updater`, `update_time`, `deleted`) VALUES (110, '用户管理', '', 2, 22, 108, '/system/tenant/index', 'User', '/system/tenant/index', 'systemTenant', 0, 0, '', 1, 0, '', 0, '', 'admin', '2024-03-16 16:58:10', 'admin', '2024-03-16 17:17:01', 0);
 INSERT INTO `system_menu` (`id`, `name`, `permission`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `status`, `hide`, `link`, `keep_alive`, `affix`, `active_path`, `full_screen`, `redirect`, `creator`, `create_time`, `updater`, `update_time`, `deleted`) VALUES (111, '套餐列表', 'tenant.SystemTenantPackageList', 3, 1, 109, '', '', '', '', 0, 0, '', 0, 0, '', 0, '', 'admin', '2024-03-16 16:59:56', '', '2024-03-16 16:59:56', 0);
@@ -3808,6 +3904,100 @@ INSERT INTO `system_menu` (`id`, `name`, `permission`, `type`, `sort`, `parent_i
 INSERT INTO `system_menu` (`id`, `name`, `permission`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `status`, `hide`, `link`, `keep_alive`, `affix`, `active_path`, `full_screen`, `redirect`, `creator`, `create_time`, `updater`, `update_time`, `deleted`) VALUES (131, '地区编辑', 'region.RegionUpdate', 3, 0, 128, '', '', '', '', 0, 0, '', 0, 0, '', 0, '', 'admin', '2024-04-05 16:49:05', '', '2024-04-05 16:49:05', 0);
 INSERT INTO `system_menu` (`id`, `name`, `permission`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `status`, `hide`, `link`, `keep_alive`, `affix`, `active_path`, `full_screen`, `redirect`, `creator`, `create_time`, `updater`, `update_time`, `deleted`) VALUES (132, '地区删除', 'region.RegionDelete', 3, 0, 128, '', '', '', '', 0, 0, '', 0, 0, '', 0, '', 'admin', '2024-04-05 16:49:26', '', '2024-04-05 16:49:26', 0);
 INSERT INTO `system_menu` (`id`, `name`, `permission`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `status`, `hide`, `link`, `keep_alive`, `affix`, `active_path`, `full_screen`, `redirect`, `creator`, `create_time`, `updater`, `update_time`, `deleted`) VALUES (133, '地区恢复', 'region.RegionRecover', 3, 0, 128, '', '', '', '', 0, 0, '', 0, 0, '', 0, '', 'admin', '2024-04-05 16:49:46', '', '2024-04-05 16:49:46', 0);
+INSERT INTO `system_menu` (`id`, `name`, `permission`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `status`, `hide`, `link`, `keep_alive`, `affix`, `active_path`, `full_screen`, `redirect`, `creator`, `create_time`, `updater`, `update_time`, `deleted`) VALUES (134, '公告管理', '', 2, 26, 2, '/system/notice', 'Notification', '/system/notice/index', 'systemNotice', 0, 0, '', 1, 0, '', 0, '', 'admin', '2024-04-24 14:28:46', '', '2024-04-24 14:28:46', 0);
+INSERT INTO `system_menu` (`id`, `name`, `permission`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `status`, `hide`, `link`, `keep_alive`, `affix`, `active_path`, `full_screen`, `redirect`, `creator`, `create_time`, `updater`, `update_time`, `deleted`) VALUES (135, '公告列表', 'notice.SystemNoticeList', 3, 0, 134, '', '', '', '', 0, 0, '', 0, 0, '', 0, '', 'admin', '2024-04-24 14:29:56', '', '2024-04-24 14:29:56', 0);
+INSERT INTO `system_menu` (`id`, `name`, `permission`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `status`, `hide`, `link`, `keep_alive`, `affix`, `active_path`, `full_screen`, `redirect`, `creator`, `create_time`, `updater`, `update_time`, `deleted`) VALUES (136, '公告新增', 'notice.SystemNoticeCreate', 3, 0, 134, '', '', '', '', 0, 0, '', 0, 0, '', 0, '', 'admin', '2024-04-24 14:30:36', '', '2024-04-24 14:30:36', 0);
+INSERT INTO `system_menu` (`id`, `name`, `permission`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `status`, `hide`, `link`, `keep_alive`, `affix`, `active_path`, `full_screen`, `redirect`, `creator`, `create_time`, `updater`, `update_time`, `deleted`) VALUES (137, '公告编辑', 'notice.SystemNoticeUpdate', 3, 0, 134, '', '', '', '', 0, 0, '', 0, 0, '', 0, '', 'admin', '2024-04-24 14:31:34', '', '2024-04-24 14:31:34', 0);
+INSERT INTO `system_menu` (`id`, `name`, `permission`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `status`, `hide`, `link`, `keep_alive`, `affix`, `active_path`, `full_screen`, `redirect`, `creator`, `create_time`, `updater`, `update_time`, `deleted`) VALUES (138, '公告删除', 'notice.SystemNoticeDelete', 3, 0, 134, '', '', '', '', 0, 0, '', 0, 0, '', 0, '', 'admin', '2024-04-24 14:31:57', '', '2024-04-24 14:31:57', 0);
+INSERT INTO `system_menu` (`id`, `name`, `permission`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `status`, `hide`, `link`, `keep_alive`, `affix`, `active_path`, `full_screen`, `redirect`, `creator`, `create_time`, `updater`, `update_time`, `deleted`) VALUES (139, '公告恢复', 'notice.SystemNoticeRecover', 3, 0, 134, '', '', '', '', 0, 0, '', 0, 0, '', 0, '', 'admin', '2024-04-24 14:32:23', '', '2024-04-24 14:32:23', 0);
+COMMIT;
+
+-- ----------------------------
+-- Table structure for system_notice
+-- ----------------------------
+DROP TABLE IF EXISTS `system_notice`;
+CREATE TABLE `system_notice` (
+  `id` bigint NOT NULL AUTO_INCREMENT COMMENT '公告ID',
+  `title` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '公告标题',
+  `content` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '公告内容',
+  `type` tinyint NOT NULL COMMENT '公告类型（1通知 2公告）',
+  `status` tinyint NOT NULL DEFAULT '0' COMMENT '公告状态（0正常 1关闭）',
+  `deleted` tinyint NOT NULL DEFAULT '0' COMMENT '删除',
+  `tenant_id` bigint NOT NULL COMMENT '租户',
+  `creator` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '创建人',
+  `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `updater` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '更新人',
+  `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  PRIMARY KEY (`id`) USING BTREE,
+  KEY `idx:list` (`tenant_id`,`deleted`,`status`,`type`,`title`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=DYNAMIC COMMENT='通知公告表';
+
+-- ----------------------------
+-- Records of system_notice
+-- ----------------------------
+BEGIN;
+INSERT INTO `system_notice` (`id`, `title`, `content`, `type`, `status`, `deleted`, `tenant_id`, `creator`, `create_time`, `updater`, `update_time`) VALUES (1, '测试公告', '测测', 2, 0, 0, 1, 'admin', '2024-04-24 15:08:24', 'admin', '2024-04-24 15:10:38');
+COMMIT;
+
+-- ----------------------------
+-- Table structure for system_notify_message
+-- ----------------------------
+DROP TABLE IF EXISTS `system_notify_message`;
+CREATE TABLE `system_notify_message` (
+  `id` bigint NOT NULL AUTO_INCREMENT COMMENT '用户ID',
+  `user_id` bigint NOT NULL COMMENT '用户id',
+  `user_type` tinyint NOT NULL COMMENT '用户类型',
+  `template_id` bigint NOT NULL COMMENT '模版编号',
+  `template_code` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '模板编码',
+  `template_nickname` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '模版发送人名称',
+  `template_content` varchar(1024) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '模版内容',
+  `template_type` int NOT NULL COMMENT '模版类型',
+  `template_params` json NOT NULL COMMENT '模版参数',
+  `read_status` tinyint NOT NULL COMMENT '是否已读',
+  `read_time` datetime DEFAULT NULL COMMENT '阅读时间',
+  `deleted` tinyint NOT NULL DEFAULT '0' COMMENT '删除',
+  `tenant_id` bigint NOT NULL COMMENT '租户',
+  `creator` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '创建人',
+  `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `updater` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '更新人',
+  `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  PRIMARY KEY (`id`) USING BTREE,
+  KEY `idx:list` (`tenant_id`,`deleted`,`template_type`,`read_status`,`read_time`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=DYNAMIC COMMENT='站内信消息表';
+
+-- ----------------------------
+-- Records of system_notify_message
+-- ----------------------------
+BEGIN;
+COMMIT;
+
+-- ----------------------------
+-- Table structure for system_notify_template
+-- ----------------------------
+DROP TABLE IF EXISTS `system_notify_template`;
+CREATE TABLE `system_notify_template` (
+  `id` bigint NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '模板名称',
+  `code` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '模版编码',
+  `nickname` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '发送人名称',
+  `content` varchar(1024) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '模版内容',
+  `type` tinyint NOT NULL COMMENT '类型',
+  `params` json DEFAULT NULL COMMENT '参数数组',
+  `status` tinyint NOT NULL COMMENT '状态',
+  `remark` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '备注',
+  `deleted` tinyint NOT NULL DEFAULT '0' COMMENT '删除',
+  `creator` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '创建人',
+  `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `updater` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '更新人',
+  `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  PRIMARY KEY (`id`) USING BTREE,
+  KEY `idx:list` (`deleted`,`status`,`type`,`name`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=DYNAMIC COMMENT='站内信模板表';
+
+-- ----------------------------
+-- Records of system_notify_template
+-- ----------------------------
+BEGIN;
 COMMIT;
 
 -- ----------------------------
@@ -3836,7 +4026,7 @@ CREATE TABLE `system_operate_log` (
   `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE,
   KEY `idx:list` (`tenant_id`,`deleted`,`username`,`module`,`start_time`,`result`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=DYNAMIC COMMENT='操作日志';
+) ENGINE=InnoDB AUTO_INCREMENT=120 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=DYNAMIC COMMENT='操作日志';
 
 -- ----------------------------
 -- Records of system_operate_log

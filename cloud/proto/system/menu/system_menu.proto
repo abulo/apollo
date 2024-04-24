@@ -66,8 +66,8 @@ message SystemMenuCreateResponse {
 }
 // SystemMenuUpdateRequest 更新数据请求
 message SystemMenuUpdateRequest {
-	// @inject_tag: db:"system_menu_id" json:"systemMenuId"
-	int64 system_menu_id = 1; //菜单编号
+	// @inject_tag: db:"id" json:"id"
+	int64 id = 1; //菜单编号
 	SystemMenuObject data = 2;
 }
 // SystemMenuUpdateResponse 更新数据响应
@@ -77,8 +77,8 @@ message SystemMenuUpdateResponse {
 }
 // SystemMenuDeleteRequest 删除数据请求
 message SystemMenuDeleteRequest {
-	// @inject_tag: db:"system_menu_id" json:"systemMenuId"
-	int64 system_menu_id = 1; //菜单编号
+	// @inject_tag: db:"id" json:"id"
+	int64 id = 1; //菜单编号
 }
 // SystemMenuDeleteResponse 删除数据响应
 message SystemMenuDeleteResponse {
@@ -87,8 +87,8 @@ message SystemMenuDeleteResponse {
 }
 // SystemMenuRequest 查询单条数据请求
 message SystemMenuRequest {
-	// @inject_tag: db:"system_menu_id" json:"systemMenuId"
-	int64 system_menu_id = 1; //菜单编号
+	// @inject_tag: db:"id" json:"id"
+	int64 id = 1; //菜单编号
 }
 // SystemMenuResponse 查询单条数据响应
 message SystemMenuResponse {
@@ -98,8 +98,8 @@ message SystemMenuResponse {
 }
 // SystemMenuRecoverRequest 恢复数据请求
 message SystemMenuRecoverRequest {
-	// @inject_tag: db:"system_menu_id" json:"systemMenuId"
-	int64 system_menu_id = 1; //菜单编号
+	// @inject_tag: db:"id" json:"id"
+	int64 id = 1; //菜单编号
 }
 // SystemMenuRecoverResponse 删除数据响应
 message SystemMenuRecoverResponse {

@@ -5,6 +5,7 @@ import (
 	"cloud/service/system/dict"
 	"cloud/service/system/logger"
 	"cloud/service/system/menu"
+	"cloud/service/system/notice"
 	"cloud/service/system/post"
 	"cloud/service/system/role"
 	"cloud/service/system/tenant"
@@ -73,6 +74,10 @@ func Registry(server *xgrpc.Server) {
 	})
 	// 职位->system_post
 	post.RegisterSystemPostServiceServer(server.Server, &post.SrvSystemPostServiceServer{
+		Server: server,
+	})
+	// 通知公告表->system_notice
+	notice.RegisterSystemNoticeServiceServer(server.Server, &notice.SrvSystemNoticeServiceServer{
 		Server: server,
 	})
 

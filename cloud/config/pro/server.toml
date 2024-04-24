@@ -17,7 +17,7 @@
         # 同监听一样
         ServiceAddress = "127.0.0.1:10000"
         # 慢日志
-        SlowQueryThresholdInMilli = 10000
+        SlowQueryThresholdInMill = 10000
     # [server.api]
     #     # 是否开启
     #     Disable = false
@@ -34,7 +34,7 @@
     #     # 同监听一样
     #     ServiceAddress = "172.18.1.5:16666"
     #     # 慢日志
-    #     SlowQueryThresholdInMilli = 10000
+    #     SlowQueryThresholdInMill = 10000
     [server.grpc]
         # 是否开启
         Disable = false
@@ -53,7 +53,7 @@
         # 同监听一样
         ServiceAddress = "127.0.0.1:16666"
         # 慢日志
-        SlowQueryThresholdInMilli = 10000
+        SlowQueryThresholdInMill = 10000
     # [server.monitor]
     #     host = "172.18.1.5"
     #     port = 18889

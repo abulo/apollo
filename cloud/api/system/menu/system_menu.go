@@ -85,9 +85,9 @@ func SystemMenuUpdate(ctx context.Context, newCtx *app.RequestContext) {
 	}
 	//链接服务
 	client := menu.NewSystemMenuServiceClient(grpcClient)
-	systemMenuId := cast.ToInt64(newCtx.Param("systemMenuId"))
+	id := cast.ToInt64(newCtx.Param("id"))
 	request := &menu.SystemMenuUpdateRequest{}
-	request.SystemMenuId = systemMenuId
+	request.Id = id
 	// 数据绑定
 	var reqInfo dao.SystemMenu
 	if err := newCtx.BindAndValidate(&reqInfo); err != nil {
@@ -135,9 +135,9 @@ func SystemMenuDelete(ctx context.Context, newCtx *app.RequestContext) {
 	}
 	//链接服务
 	client := menu.NewSystemMenuServiceClient(grpcClient)
-	systemMenuId := cast.ToInt64(newCtx.Param("systemMenuId"))
+	id := cast.ToInt64(newCtx.Param("id"))
 	request := &menu.SystemMenuDeleteRequest{}
-	request.SystemMenuId = systemMenuId
+	request.Id = id
 	// 执行服务
 	res, err := client.SystemMenuDelete(ctx, request)
 	if err != nil {
@@ -174,9 +174,9 @@ func SystemMenu(ctx context.Context, newCtx *app.RequestContext) {
 	}
 	//链接服务
 	client := menu.NewSystemMenuServiceClient(grpcClient)
-	systemMenuId := cast.ToInt64(newCtx.Param("systemMenuId"))
+	id := cast.ToInt64(newCtx.Param("id"))
 	request := &menu.SystemMenuRequest{}
-	request.SystemMenuId = systemMenuId
+	request.Id = id
 	// 执行服务
 	res, err := client.SystemMenu(ctx, request)
 	if err != nil {
@@ -213,9 +213,9 @@ func SystemMenuRecover(ctx context.Context, newCtx *app.RequestContext) {
 	}
 	//链接服务
 	client := menu.NewSystemMenuServiceClient(grpcClient)
-	systemMenuId := cast.ToInt64(newCtx.Param("systemMenuId"))
+	id := cast.ToInt64(newCtx.Param("id"))
 	request := &menu.SystemMenuRecoverRequest{}
-	request.SystemMenuId = systemMenuId
+	request.Id = id
 	// 执行服务
 	res, err := client.SystemMenuRecover(ctx, request)
 	if err != nil {

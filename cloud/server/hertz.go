@@ -38,7 +38,8 @@ func (eng *Engine) NewHertzServer() error {
 	client.DisableTrace = cast.ToBool(cfg["DisableTrace"])
 	client.DisableSlowQuery = cast.ToBool(cfg["DisableSlowQuery"])
 	client.ServiceAddress = cast.ToString(cfg["ServiceAddress"])
-	client.SlowQueryThresholdInMilli = cast.ToInt64(cfg["SlowQueryThresholdInMilli"])
+	client.SlowQueryThresholdInMill = cast.ToInt64(cfg["SlowQueryThresholdInMill"])
+	// client.Mode = xhertz.ReleaseMode
 
 	res := client.Build()
 	res.Use(recovery.Recovery(recovery.WithRecoveryHandler(hertzPanicRecoveryHandler)))

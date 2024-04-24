@@ -5,7 +5,7 @@ go 1.22
 toolchain go1.22.2
 
 require (
-	github.com/abulo/ratel/v3 v3.7.14
+	github.com/abulo/ratel/v3 v3.7.15
 	github.com/cloudwego/hertz v0.8.1
 	github.com/fsnotify/fsnotify v1.7.0
 	github.com/golang-jwt/jwt/v5 v5.2.0

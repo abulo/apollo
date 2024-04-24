@@ -1,4 +1,4 @@
-package post
+package notice
 
 import (
 	"context"
@@ -6,7 +6,7 @@ import (
 	"cloud/code"
 	"cloud/dao"
 	"cloud/initial"
-	"cloud/service/system/post"
+	"cloud/service/system/notice"
 
 	globalLogger "github.com/abulo/ratel/v3/core/logger"
 	"github.com/abulo/ratel/v3/stores/null"
@@ -20,15 +20,15 @@ import (
 	"google.golang.org/protobuf/proto"
 )
 
-// system_post 职位
-// SystemPostCreate 创建数据
-func SystemPostCreate(ctx context.Context, newCtx *app.RequestContext) {
+// system_notice 通知公告表
+// SystemNoticeCreate 创建数据
+func SystemNoticeCreate(ctx context.Context, newCtx *app.RequestContext) {
 	//判断这个服务能不能链接
 	grpcClient, err := initial.Core.Client.LoadGrpc("grpc").Singleton()
 	if err != nil {
 		globalLogger.Logger.WithFields(logrus.Fields{
 			"err": err,
-		}).Error("Grpc:职位:system_post:SystemPostCreate")
+		}).Error("Grpc:通知公告表:system_notice:SystemNoticeCreate")
 		newCtx.JSON(consts.StatusOK, utils.H{
 			"code": code.RPCError,
 			"msg":  code.StatusText(code.RPCError),
@@ -36,10 +36,10 @@ func SystemPostCreate(ctx context.Context, newCtx *app.RequestContext) {
 		return
 	}
 	//链接服务
-	client := post.NewSystemPostServiceClient(grpcClient)
-	request := &post.SystemPostCreateRequest{}
+	client := notice.NewSystemNoticeServiceClient(grpcClient)
+	request := &notice.SystemNoticeCreateRequest{}
 	// 数据绑定
-	var reqInfo dao.SystemPost
+	var reqInfo dao.SystemNotice
 	if err := newCtx.BindAndValidate(&reqInfo); err != nil {
 		newCtx.JSON(consts.StatusOK, utils.H{
 			"code": code.ParamInvalid,
@@ -51,14 +51,14 @@ func SystemPostCreate(ctx context.Context, newCtx *app.RequestContext) {
 	reqInfo.TenantId = proto.Int64(newCtx.GetInt64("tenantId"))
 	reqInfo.Creator = null.StringFrom(newCtx.GetString("userName"))
 	reqInfo.CreateTime = null.DateTimeFrom(util.Now())
-	request.Data = post.SystemPostProto(reqInfo)
+	request.Data = notice.SystemNoticeProto(reqInfo)
 	// 执行服务
-	res, err := client.SystemPostCreate(ctx, request)
+	res, err := client.SystemNoticeCreate(ctx, request)
 	if err != nil {
 		globalLogger.Logger.WithFields(logrus.Fields{
 			"req": request,
 			"err": err,
-		}).Error("GrpcCall:职位:system_post:SystemPostCreate")
+		}).Error("GrpcCall:通知公告表:system_notice:SystemNoticeCreate")
 		fromError := status.Convert(err)
 		newCtx.JSON(consts.StatusOK, utils.H{
 			"code": code.ConvertToHttp(fromError.Code()),
@@ -72,14 +72,14 @@ func SystemPostCreate(ctx context.Context, newCtx *app.RequestContext) {
 	})
 }
 
-// SystemPostUpdate 更新数据
-func SystemPostUpdate(ctx context.Context, newCtx *app.RequestContext) {
+// SystemNoticeUpdate 更新数据
+func SystemNoticeUpdate(ctx context.Context, newCtx *app.RequestContext) {
 	//判断这个服务能不能链接
 	grpcClient, err := initial.Core.Client.LoadGrpc("grpc").Singleton()
 	if err != nil {
 		globalLogger.Logger.WithFields(logrus.Fields{
 			"err": err,
-		}).Error("Grpc:职位:system_post:SystemPostUpdate")
+		}).Error("Grpc:通知公告表:system_notice:SystemNoticeUpdate")
 		newCtx.JSON(consts.StatusOK, utils.H{
 			"code": code.RPCError,
 			"msg":  code.StatusText(code.RPCError),
@@ -87,12 +87,12 @@ func SystemPostUpdate(ctx context.Context, newCtx *app.RequestContext) {
 		return
 	}
 	//链接服务
-	client := post.NewSystemPostServiceClient(grpcClient)
+	client := notice.NewSystemNoticeServiceClient(grpcClient)
 	id := cast.ToInt64(newCtx.Param("id"))
-	request := &post.SystemPostUpdateRequest{}
+	request := &notice.SystemNoticeUpdateRequest{}
 	request.Id = id
 	// 数据绑定
-	var reqInfo dao.SystemPost
+	var reqInfo dao.SystemNotice
 	if err := newCtx.BindAndValidate(&reqInfo); err != nil {
 		newCtx.JSON(consts.StatusOK, utils.H{
 			"code": code.ParamInvalid,
@@ -100,17 +100,17 @@ func SystemPostUpdate(ctx context.Context, newCtx *app.RequestContext) {
 		})
 		return
 	}
-	reqInfo.TenantId = proto.Int64(newCtx.GetInt64("tenantId")) // 租户
+	reqInfo.TenantId = proto.Int64(newCtx.GetInt64("tenantId"))
 	reqInfo.Updater = null.StringFrom(newCtx.GetString("userName"))
 	reqInfo.UpdateTime = null.DateTimeFrom(util.Now())
-	request.Data = post.SystemPostProto(reqInfo)
+	request.Data = notice.SystemNoticeProto(reqInfo)
 	// 执行服务
-	res, err := client.SystemPostUpdate(ctx, request)
+	res, err := client.SystemNoticeUpdate(ctx, request)
 	if err != nil {
 		globalLogger.Logger.WithFields(logrus.Fields{
 			"req": request,
 			"err": err,
-		}).Error("GrpcCall:职位:system_post:SystemPostUpdate")
+		}).Error("GrpcCall:通知公告表:system_notice:SystemNoticeUpdate")
 		fromError := status.Convert(err)
 		newCtx.JSON(consts.StatusOK, utils.H{
 			"code": code.ConvertToHttp(fromError.Code()),
@@ -124,13 +124,13 @@ func SystemPostUpdate(ctx context.Context, newCtx *app.RequestContext) {
 	})
 }
 
-// SystemPostDelete 删除数据
-func SystemPostDelete(ctx context.Context, newCtx *app.RequestContext) {
+// SystemNoticeDelete 删除数据
+func SystemNoticeDelete(ctx context.Context, newCtx *app.RequestContext) {
 	grpcClient, err := initial.Core.Client.LoadGrpc("grpc").Singleton()
 	if err != nil {
 		globalLogger.Logger.WithFields(logrus.Fields{
 			"err": err,
-		}).Error("Grpc:职位:system_post:SystemPostDelete")
+		}).Error("Grpc:通知公告表:system_notice:SystemNoticeDelete")
 		newCtx.JSON(consts.StatusOK, utils.H{
 			"code": code.RPCError,
 			"msg":  code.StatusText(code.RPCError),
@@ -138,17 +138,17 @@ func SystemPostDelete(ctx context.Context, newCtx *app.RequestContext) {
 		return
 	}
 	//链接服务
-	client := post.NewSystemPostServiceClient(grpcClient)
+	client := notice.NewSystemNoticeServiceClient(grpcClient)
 	id := cast.ToInt64(newCtx.Param("id"))
-	request := &post.SystemPostDeleteRequest{}
+	request := &notice.SystemNoticeDeleteRequest{}
 	request.Id = id
 	// 执行服务
-	res, err := client.SystemPostDelete(ctx, request)
+	res, err := client.SystemNoticeDelete(ctx, request)
 	if err != nil {
 		globalLogger.Logger.WithFields(logrus.Fields{
 			"req": request,
 			"err": err,
-		}).Error("GrpcCall:职位:system_post:SystemPostDelete")
+		}).Error("GrpcCall:通知公告表:system_notice:SystemNoticeDelete")
 		fromError := status.Convert(err)
 		newCtx.JSON(consts.StatusOK, utils.H{
 			"code": code.ConvertToHttp(fromError.Code()),
@@ -162,14 +162,14 @@ func SystemPostDelete(ctx context.Context, newCtx *app.RequestContext) {
 	})
 }
 
-// SystemPost 查询单条数据
-func SystemPost(ctx context.Context, newCtx *app.RequestContext) {
+// SystemNotice 查询单条数据
+func SystemNotice(ctx context.Context, newCtx *app.RequestContext) {
 	//判断这个服务能不能链接
 	grpcClient, err := initial.Core.Client.LoadGrpc("grpc").Singleton()
 	if err != nil {
 		globalLogger.Logger.WithFields(logrus.Fields{
 			"err": err,
-		}).Error("Grpc:职位:system_post:SystemPost")
+		}).Error("Grpc:通知公告表:system_notice:SystemNotice")
 		newCtx.JSON(consts.StatusOK, utils.H{
 			"code": code.RPCError,
 			"msg":  code.StatusText(code.RPCError),
@@ -177,17 +177,17 @@ func SystemPost(ctx context.Context, newCtx *app.RequestContext) {
 		return
 	}
 	//链接服务
-	client := post.NewSystemPostServiceClient(grpcClient)
+	client := notice.NewSystemNoticeServiceClient(grpcClient)
 	id := cast.ToInt64(newCtx.Param("id"))
-	request := &post.SystemPostRequest{}
+	request := &notice.SystemNoticeRequest{}
 	request.Id = id
 	// 执行服务
-	res, err := client.SystemPost(ctx, request)
+	res, err := client.SystemNotice(ctx, request)
 	if err != nil {
 		globalLogger.Logger.WithFields(logrus.Fields{
 			"req": request,
 			"err": err,
-		}).Error("GrpcCall:职位:system_post:SystemPost")
+		}).Error("GrpcCall:通知公告表:system_notice:SystemNotice")
 		fromError := status.Convert(err)
 		newCtx.JSON(consts.StatusOK, utils.H{
 			"code": code.ConvertToHttp(fromError.Code()),
@@ -198,17 +198,17 @@ func SystemPost(ctx context.Context, newCtx *app.RequestContext) {
 	newCtx.JSON(consts.StatusOK, utils.H{
 		"code": res.GetCode(),
 		"msg":  res.GetMsg(),
-		"data": post.SystemPostDao(res.GetData()),
+		"data": notice.SystemNoticeDao(res.GetData()),
 	})
 }
 
-// SystemPostRecover 恢复数据
-func SystemPostRecover(ctx context.Context, newCtx *app.RequestContext) {
+// SystemNoticeRecover 恢复数据
+func SystemNoticeRecover(ctx context.Context, newCtx *app.RequestContext) {
 	grpcClient, err := initial.Core.Client.LoadGrpc("grpc").Singleton()
 	if err != nil {
 		globalLogger.Logger.WithFields(logrus.Fields{
 			"err": err,
-		}).Error("Grpc:职位:system_post:SystemPostRecover")
+		}).Error("Grpc:通知公告表:system_notice:SystemNoticeRecover")
 		newCtx.JSON(consts.StatusOK, utils.H{
 			"code": code.RPCError,
 			"msg":  code.StatusText(code.RPCError),
@@ -216,17 +216,17 @@ func SystemPostRecover(ctx context.Context, newCtx *app.RequestContext) {
 		return
 	}
 	//链接服务
-	client := post.NewSystemPostServiceClient(grpcClient)
+	client := notice.NewSystemNoticeServiceClient(grpcClient)
 	id := cast.ToInt64(newCtx.Param("id"))
-	request := &post.SystemPostRecoverRequest{}
+	request := &notice.SystemNoticeRecoverRequest{}
 	request.Id = id
 	// 执行服务
-	res, err := client.SystemPostRecover(ctx, request)
+	res, err := client.SystemNoticeRecover(ctx, request)
 	if err != nil {
 		globalLogger.Logger.WithFields(logrus.Fields{
 			"req": request,
 			"err": err,
-		}).Error("GrpcCall:职位:system_post:SystemPostRecover")
+		}).Error("GrpcCall:通知公告表:system_notice:SystemNoticeRecover")
 		fromError := status.Convert(err)
 		newCtx.JSON(consts.StatusOK, utils.H{
 			"code": code.ConvertToHttp(fromError.Code()),
@@ -240,16 +240,13 @@ func SystemPostRecover(ctx context.Context, newCtx *app.RequestContext) {
 	})
 }
 
-// SystemPostSearch 列表数据
-func SystemPostSearch(ctx context.Context, newCtx *app.RequestContext) {
-	SystemPostList(ctx, newCtx)
-}
-func SystemPostList(ctx context.Context, newCtx *app.RequestContext) {
+// SystemNoticeList 列表数据
+func SystemNoticeList(ctx context.Context, newCtx *app.RequestContext) {
 	grpcClient, err := initial.Core.Client.LoadGrpc("grpc").Singleton()
 	if err != nil {
 		globalLogger.Logger.WithFields(logrus.Fields{
 			"err": err,
-		}).Error("Grpc:职位:system_post:SystemPostList")
+		}).Error("Grpc:通知公告表:system_notice:SystemNoticeList")
 		newCtx.JSON(consts.StatusOK, utils.H{
 			"code": code.RPCError,
 			"msg":  code.StatusText(code.RPCError),
@@ -257,31 +254,41 @@ func SystemPostList(ctx context.Context, newCtx *app.RequestContext) {
 		return
 	}
 	//链接服务
-	client := post.NewSystemPostServiceClient(grpcClient)
+	client := notice.NewSystemNoticeServiceClient(grpcClient)
 	// 构造查询条件
-	request := &post.SystemPostListRequest{}
+	request := &notice.SystemNoticeListRequest{}
+	requestTotal := &notice.SystemNoticeListTotalRequest{}
 
-	request.TenantId = proto.Int64(newCtx.GetInt64("tenantId")) // 租户ID
-	request.Deleted = proto.Int32(0)                            // 删除状态
+	request.TenantId = proto.Int64(newCtx.GetInt64("tenantId"))      // 租户ID
+	requestTotal.TenantId = proto.Int64(newCtx.GetInt64("tenantId")) // 租户ID
+	request.Deleted = proto.Int32(0)                                 // 删除状态
+	requestTotal.Deleted = proto.Int32(0)                            // 删除状态
 	if val, ok := newCtx.GetQuery("deleted"); ok {
 		if cast.ToBool(val) {
 			request.Deleted = nil
+			requestTotal.Deleted = nil
 		}
 	}
 	if val, ok := newCtx.GetQuery("status"); ok {
-		request.Status = proto.Int32(cast.ToInt32(val)) // 状态
+		request.Status = proto.Int32(cast.ToInt32(val))      // 公告状态（0正常 1关闭）
+		requestTotal.Status = proto.Int32(cast.ToInt32(val)) // 公告状态（0正常 1关闭）
 	}
-	if val, ok := newCtx.GetQuery("name"); ok {
-		request.Name = proto.String(val) // 职位名称
+	if val, ok := newCtx.GetQuery("type"); ok {
+		request.Type = proto.Int32(cast.ToInt32(val))      // 公告类型（1通知 2公告）
+		requestTotal.Type = proto.Int32(cast.ToInt32(val)) // 公告类型（1通知 2公告）
+	}
+	if val, ok := newCtx.GetQuery("title"); ok {
+		request.Title = proto.String(val)      // 公告标题
+		requestTotal.Title = proto.String(val) // 公告标题
 	}
 
-	// 执行服务
-	res, err := client.SystemPostList(ctx, request)
+	// 执行服务,获取数据量
+	resTotal, err := client.SystemNoticeListTotal(ctx, requestTotal)
 	if err != nil {
 		globalLogger.Logger.WithFields(logrus.Fields{
 			"req": request,
 			"err": err,
-		}).Error("GrpcCall:职位:system_post:SystemPostList")
+		}).Error("GrpcCall:通知公告表:system_notice:SystemNoticeList")
 		fromError := status.Convert(err)
 		newCtx.JSON(consts.StatusOK, utils.H{
 			"code": code.ConvertToHttp(fromError.Code()),
@@ -289,16 +296,41 @@ func SystemPostList(ctx context.Context, newCtx *app.RequestContext) {
 		})
 		return
 	}
-	var list []*dao.SystemPost
+	var total int64
+	request.PageNum = proto.Int64(cast.ToInt64(newCtx.Query("pageNum")))
+	request.PageSize = proto.Int64(cast.ToInt64(newCtx.Query("pageSize")))
+	if resTotal.GetCode() == code.Success {
+		total = resTotal.GetData()
+	}
+	// 执行服务
+	res, err := client.SystemNoticeList(ctx, request)
+	if err != nil {
+		globalLogger.Logger.WithFields(logrus.Fields{
+			"req": request,
+			"err": err,
+		}).Error("GrpcCall:通知公告表:system_notice:SystemNoticeList")
+		fromError := status.Convert(err)
+		newCtx.JSON(consts.StatusOK, utils.H{
+			"code": code.ConvertToHttp(fromError.Code()),
+			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
+		})
+		return
+	}
+	var list []*dao.SystemNotice
 	if res.GetCode() == code.Success {
 		rpcList := res.GetData()
 		for _, item := range rpcList {
-			list = append(list, post.SystemPostDao(item))
+			list = append(list, notice.SystemNoticeDao(item))
 		}
 	}
 	newCtx.JSON(consts.StatusOK, utils.H{
 		"code": res.GetCode(),
 		"msg":  res.GetMsg(),
-		"data": list,
+		"data": utils.H{
+			"total":    total,
+			"list":     list,
+			"pageNum":  request.PageNum,
+			"pageSize": request.PageSize,
+		},
 	})
 }

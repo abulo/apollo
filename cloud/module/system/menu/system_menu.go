@@ -22,10 +22,10 @@ func SystemMenuCreate(ctx context.Context, data dao.SystemMenu) (res int64, err 
 }
 
 // SystemMenuUpdate 更新数据
-func SystemMenuUpdate(ctx context.Context, systemMenuId int64, data dao.SystemMenu) (res int64, err error) {
+func SystemMenuUpdate(ctx context.Context, id int64, data dao.SystemMenu) (res int64, err error) {
 	db := initial.Core.Store.LoadSQL("mysql").Write()
 	builder := sql.NewBuilder()
-	query, args, err := builder.Table("`system_menu`").Where("`id`", systemMenuId).Update(data)
+	query, args, err := builder.Table("`system_menu`").Where("`id`", id).Update(data)
 	if err != nil {
 		return
 	}
@@ -34,12 +34,12 @@ func SystemMenuUpdate(ctx context.Context, systemMenuId int64, data dao.SystemMe
 }
 
 // SystemMenuDelete 删除数据
-func SystemMenuDelete(ctx context.Context, systemMenuId int64) (res int64, err error) {
+func SystemMenuDelete(ctx context.Context, id int64) (res int64, err error) {
 	db := initial.Core.Store.LoadSQL("mysql").Write()
 	builder := sql.NewBuilder()
 	data := make(map[string]any)
 	data["deleted"] = 1
-	query, args, err := builder.Table("`system_menu`").Where("`id`", systemMenuId).Update(data)
+	query, args, err := builder.Table("`system_menu`").Where("`id`", id).Update(data)
 	if err != nil {
 		return
 	}
@@ -48,10 +48,10 @@ func SystemMenuDelete(ctx context.Context, systemMenuId int64) (res int64, err e
 }
 
 // SystemMenu 查询单条数据
-func SystemMenu(ctx context.Context, systemMenuId int64) (res dao.SystemMenu, err error) {
+func SystemMenu(ctx context.Context, id int64) (res dao.SystemMenu, err error) {
 	db := initial.Core.Store.LoadSQL("mysql").Read()
 	builder := sql.NewBuilder()
-	query, args, err := builder.Table("`system_menu`").Where("`id`", systemMenuId).Row()
+	query, args, err := builder.Table("`system_menu`").Where("`id`", id).Row()
 	if err != nil {
 		return
 	}
@@ -60,12 +60,12 @@ func SystemMenu(ctx context.Context, systemMenuId int64) (res dao.SystemMenu, er
 }
 
 // SystemMenuRecover 恢复数据
-func SystemMenuRecover(ctx context.Context, systemMenuId int64) (res int64, err error) {
+func SystemMenuRecover(ctx context.Context, id int64) (res int64, err error) {
 	db := initial.Core.Store.LoadSQL("mysql").Write()
 	builder := sql.NewBuilder()
 	data := make(map[string]any)
 	data["deleted"] = 0
-	query, args, err := builder.Table("`system_menu`").Where("`id`", systemMenuId).Update(data)
+	query, args, err := builder.Table("`system_menu`").Where("`id`", id).Update(data)
 	if err != nil {
 		return
 	}
