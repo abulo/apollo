@@ -85,6 +85,17 @@ jobs:
         with:
           clean: false
 
+      - name: Clean Vue
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          password: ${{ secrets.PASSWORD }}
+          port: ${{ secrets.PORT }}
+          script_stop: true
+          script: |
+            rm -rf /data/wwwroot/apollo/admin/*
+
       - name: Download Build Artifacts
         uses: actions/download-artifact@v4
         with:
