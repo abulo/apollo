@@ -42,6 +42,7 @@ app.config.errorHandler = function (err, vm, info) {
   console.log("全局捕获 err >>>", err);
   console.log("全局捕获 vm >>>", vm);
   console.log("全局捕获 info >>>", info);
+  console.error('Stack Trace:', err.stack);
 };
 
 app.config.warnHandler = () => null;

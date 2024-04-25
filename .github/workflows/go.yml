@@ -44,7 +44,7 @@ jobs:
       - name: Install pnpm            # 下载 pnpm 包
         uses: pnpm/action-setup@v3
         with:
-          version: 9.0.5
+          version: 9.0.6
 
       - name: Build Vue               # 编译前端代码
         run: |
