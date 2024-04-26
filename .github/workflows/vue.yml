@@ -81,7 +81,7 @@ jobs:
           username: ${{ secrets.FTP_USERNAME }} # FTP username
           password: ${{ secrets.FTP_PASSWORD }} # FTP password
           remote_folder: apollo/admin # optional, remote path of your FTP server
-          local_folder: admin/dist # optional, local path, default is: dist
+          local_folder: ./ # optional, local path, default is: dist
           cleanup: false # optional, remove existing files inside FTP remote folder
           # include: '[]' # optional, e.g. '['dist']'
           # exclude: '[]' # optional, e.g. '['node_modules/**', '.git/**', '*.env']'

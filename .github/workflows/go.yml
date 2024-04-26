@@ -78,7 +78,7 @@ jobs:
           name: compiled
           path: ./
 
-      - name: FTP bin
+      - name: FTP Golang
         uses: sand4rt/ftp-deployer@v1.8
         with:
           sftp: false # optional
@@ -86,27 +86,41 @@ jobs:
           port: 21 # optional, default is: 21
           username: ${{ secrets.FTP_USERNAME }} # FTP username
           password: ${{ secrets.FTP_PASSWORD }} # FTP password
-          remote_folder: apollo/cloud/bin # optional, remote path of your FTP server
-          local_folder: cloud/bin # optional, local path, default is: dist
+          remote_folder: apollo/cloud/ # optional, remote path of your FTP server
+          local_folder: ./ # optional, local path, default is: dist
           cleanup: false # optional, remove existing files inside FTP remote folder
           # include: '[]' # optional, e.g. '['dist']'
           # exclude: '[]' # optional, e.g. '['node_modules/**', '.git/**', '*.env']'
           passive: true # optional
+      # - name: FTP bin
+      #   uses: sand4rt/ftp-deployer@v1.8
+      #   with:
+      #     sftp: false # optional
+      #     host: ${{ secrets.HOST }} # e.g. ftp.host.com or sftp.host.com (without ftp:// or ftps://)
+      #     port: 21 # optional, default is: 21
+      #     username: ${{ secrets.FTP_USERNAME }} # FTP username
+      #     password: ${{ secrets.FTP_PASSWORD }} # FTP password
+      #     remote_folder: apollo/cloud/bin # optional, remote path of your FTP server
+      #     local_folder: cloud/bin # optional, local path, default is: dist
+      #     cleanup: false # optional, remove existing files inside FTP remote folder
+      #     # include: '[]' # optional, e.g. '['dist']'
+      #     # exclude: '[]' # optional, e.g. '['node_modules/**', '.git/**', '*.env']'
+      #     passive: true # optional
 
-      - name: FTP config
-        uses: sand4rt/ftp-deployer@v1.8
-        with:
-          sftp: false # optional
-          host: ${{ secrets.HOST }} # e.g. ftp.host.com or sftp.host.com (without ftp:// or ftps://)
-          port: 21 # optional, default is: 21
-          username: ${{ secrets.FTP_USERNAME }} # FTP username
-          password: ${{ secrets.FTP_PASSWORD }} # FTP password
-          remote_folder: apollo/cloud/config/pro # optional, remote path of your FTP server
-          local_folder: cloud/config/pro # optional, local path, default is: dist
-          cleanup: false # optional, remove existing files inside FTP remote folder
-          # include: '[]' # optional, e.g. '['dist']'
-          # exclude: '[]' # optional, e.g. '['node_modules/**', '.git/**', '*.env']'
-          passive: true # optional
+      # - name: FTP config
+      #   uses: sand4rt/ftp-deployer@v1.8
+      #   with:
+      #     sftp: false # optional
+      #     host: ${{ secrets.HOST }} # e.g. ftp.host.com or sftp.host.com (without ftp:// or ftps://)
+      #     port: 21 # optional, default is: 21
+      #     username: ${{ secrets.FTP_USERNAME }} # FTP username
+      #     password: ${{ secrets.FTP_PASSWORD }} # FTP password
+      #     remote_folder: apollo/cloud/config/pro # optional, remote path of your FTP server
+      #     local_folder: cloud/config/pro # optional, local path, default is: dist
+      #     cleanup: false # optional, remove existing files inside FTP remote folder
+      #     # include: '[]' # optional, e.g. '['dist']'
+      #     # exclude: '[]' # optional, e.g. '['node_modules/**', '.git/**', '*.env']'
+      #     passive: true # optional
     needs:
       - stop
 
