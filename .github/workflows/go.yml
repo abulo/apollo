@@ -5,59 +5,46 @@ name: Release
 
 on:
   push:
-    branches: [ "tenant" ]
+    branches: ["tenant"]
+    paths:
+      - "cloud/**"
   pull_request:
-    branches: [ "tenant" ]
+    branches: ["tenant"]
+    paths:
+      - "cloud/**"
 
 env:
   TZ: Asia/Shanghai
 
 jobs:
   build: # 声明job的名字
-    runs-on: ubuntu-20.04   # 使用ubuntu系统镜像运行脚本
+    runs-on: ubuntu-20.04 # 使用ubuntu系统镜像运行脚本
     # steps定义job的步骤，具体执行，运行xxx，-字符开头的一块则为一个步骤，可以配置多个步骤
     steps:
-      - uses: actions/checkout@v4     # 下载git仓库中的代码，使用官方提供，使用库用uses关键字
+      - uses: actions/checkout@v4 # 下载git仓库中的代码，使用官方提供，使用库用uses关键字
         with:
           clean: false
 
-      - name: SetUp Go                # 下载go代码
-        uses: actions/setup-go@v5     # 使用官方提供
+      - name: SetUp Go # 下载go代码
+        uses: actions/setup-go@v5 # 使用官方提供
         with:
-          go-version: 1.22.2          # 指定go版本1.22.1
+          go-version: 1.22.2 # 指定go版本1.22.1
           check-latest: true
 
       - name: Install linux deps
         run: |
-            sudo apt-get -y install libvips-dev
+          sudo apt-get -y install libvips-dev
 
-      - name: Build Go                # 编译仓库中的代码
+      - name: Build Go # 编译仓库中的代码
         run: |
           cd cloud
           ./build.sh
 
-      - name: Install Node.js         # 下载指定的 Node 版本
-        uses: actions/setup-node@v4
-        with:
-          node-version: 18.20.2
-
-      - name: Install pnpm            # 下载 pnpm 包
-        uses: pnpm/action-setup@v3
-        with:
-          version: 9.0.6
-
-      - name: Build Vue               # 编译前端代码
-        run: |
-          cd admin
-          pnpm i
-          pnpm build:pro
-
-      - name: Generate Build Artifacts  # 打包编译文件
+      - name: Generate Build Artifacts # 打包编译文件
         uses: actions/upload-artifact@v4
         with:
           name: compiled
           path: |
-            admin/dist/
             cloud/bin/
             cloud/config/pro/
 
@@ -78,51 +65,10 @@ jobs:
     needs:
       - build
 
-  vue:
-    runs-on: ubuntu-20.04
-    steps:
-      - uses: actions/checkout@v4   # 下载git仓库中的代码，使用官方提供，使用库用uses关键字
-        with:
-          clean: false
-
-      - name: Clean Vue
-        uses: appleboy/ssh-action@v1.0.3
-        with:
-          host: ${{ secrets.HOST }}
-          username: ${{ secrets.USERNAME }}
-          password: ${{ secrets.PASSWORD }}
-          port: ${{ secrets.PORT }}
-          script_stop: true
-          script: |
-            rm -rf /data/wwwroot/apollo/admin/*
-
-      - name: Download Build Artifacts
-        uses: actions/download-artifact@v4
-        with:
-          name: compiled
-          path: ./
-
-      - name: Ftp Vue
-        uses: sand4rt/ftp-deployer@v1.8
-        with:
-          sftp: false # optional
-          host: ${{ secrets.HOST }} # e.g. ftp.host.com or sftp.host.com (without ftp:// or ftps://)
-          port: 21 # optional, default is: 21
-          username: ${{ secrets.FTP_USERNAME }} # FTP username
-          password: ${{ secrets.FTP_PASSWORD }} # FTP password
-          remote_folder: apollo/admin # optional, remote path of your FTP server
-          local_folder: admin/dist # optional, local path, default is: dist
-          cleanup: false # optional, remove existing files inside FTP remote folder
-          # include: '[]' # optional, e.g. '['dist']'
-          # exclude: '[]' # optional, e.g. '['node_modules/**', '.git/**', '*.env']'
-          passive: true # optional
-    needs:
-      - stop
-
   golang:
     runs-on: ubuntu-20.04
     steps:
-      - uses: actions/checkout@v4   # 下载git仓库中的代码，使用官方提供，使用库用uses关键字
+      - uses: actions/checkout@v4 # 下载git仓库中的代码，使用官方提供，使用库用uses关键字
         with:
           clean: false
 
@@ -162,7 +108,7 @@ jobs:
           # exclude: '[]' # optional, e.g. '['node_modules/**', '.git/**', '*.env']'
           passive: true # optional
     needs:
-     - stop
+      - stop
 
   start:
     runs-on: ubuntu-20.04
@@ -180,4 +126,3 @@ jobs:
             supervisorctl start ApolloHertz
     needs:
       - golang
-      - vue
