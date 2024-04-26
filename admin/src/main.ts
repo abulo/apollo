@@ -38,7 +38,7 @@ import { useVxeTable } from "@/plugin/vxeTable";
 const app = createApp(App);
 // 全局错误捕获
 app.config.errorHandler = errorHandler;
-
+//
 app.config.warnHandler = () => null;
 
 // register the element Icons component
