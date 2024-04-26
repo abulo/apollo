@@ -36,8 +36,8 @@ importers:
         specifier: ^3.1.0
         version: 3.1.0(echarts@5.5.0)
       element-plus:
-        specifier: ^2.7.1
-        version: 2.7.1(vue@3.4.25(typescript@5.4.5))
+        specifier: ^2.7.2
+        version: 2.7.2(vue@3.4.25(typescript@5.4.5))
       md5:
         specifier: ^2.3.0
         version: 2.3.0
@@ -75,11 +75,11 @@ importers:
         specifier: ^4.1.0
         version: 4.1.0(vue@3.4.25(typescript@5.4.5))
       vxe-table:
-        specifier: ^4.6.4
-        version: 4.6.4(vue@3.4.25(typescript@5.4.5))
+        specifier: ^4.6.5
+        version: 4.6.5(vue@3.4.25(typescript@5.4.5))
       vxe-table-plugin-element:
         specifier: ^4.0.1
-        version: 4.0.1(vxe-table@4.6.4(vue@3.4.25(typescript@5.4.5)))
+        version: 4.0.1(vxe-table@4.6.5(vue@3.4.25(typescript@5.4.5)))
     devDependencies:
       '@commitlint/cli':
         specifier: ^19.3.0
@@ -2370,8 +2370,8 @@ packages:
   electron-to-chromium@1.4.679:
     resolution: {integrity: sha512-NhQMsz5k0d6m9z3qAxnsOR/ebal4NAGsrNVRwcDo4Kc/zQ7KdsTKZUxZoygHcVRb0QDW3waEDIcE3isZ79RP6g==}
 
-  element-plus@2.7.1:
-    resolution: {integrity: sha512-yk/vXFwJp0flMrd2kfcR0XlumhwtPjB19HJvwcf0n3DvRE7UK8LeSK14LVghSzk0TzPsFFElweMnZEEv7+MYuQ==}
+  element-plus@2.7.2:
+    resolution: {integrity: sha512-AdEzBU/A68iUleio0MkQ46JeU5SeQvFFd915GJFScJmUEo5AmYg3OQ4pVjcu+p3b3Nupg9MC5Wa4xjAiC51kUg==}
     peerDependencies:
       vue: ^3.2.0
 
@@ -4839,8 +4839,8 @@ packages:
     peerDependencies:
       vxe-table: ^4.5.0
 
-  vxe-table@4.6.4:
-    resolution: {integrity: sha512-TYr/ea/Jq4qcijcqRN9wby1pO1LWXX4XGwulT8WljbxVhCwDQE1gDWF2EHK/+SkX2q/3sDjHVxbz2WtO48/Bcg==}
+  vxe-table@4.6.5:
+    resolution: {integrity: sha512-XvnDkKzAnDUsFD7sFVRehRunCz4PEtxGf5TABjJE/vPI1vL0FXpfwBHt0yX7eNteKlOXepDvzF4XO3rqCQLTag==}
     peerDependencies:
       vue: ^3.2.28
 
@@ -7445,7 +7445,7 @@ snapshots:
 
   electron-to-chromium@1.4.679: {}
 
-  element-plus@2.7.1(vue@3.4.25(typescript@5.4.5)):
+  element-plus@2.7.2(vue@3.4.25(typescript@5.4.5)):
     dependencies:
       '@ctrl/tinycolor': 3.6.0
       '@element-plus/icons-vue': 2.3.1(vue@3.4.25(typescript@5.4.5))
@@ -10061,11 +10061,11 @@ snapshots:
       sortablejs: 1.14.0
       vue: 3.4.25(typescript@5.4.5)
 
-  vxe-table-plugin-element@4.0.1(vxe-table@4.6.4(vue@3.4.25(typescript@5.4.5))):
+  vxe-table-plugin-element@4.0.1(vxe-table@4.6.5(vue@3.4.25(typescript@5.4.5))):
     dependencies:
-      vxe-table: 4.6.4(vue@3.4.25(typescript@5.4.5))
+      vxe-table: 4.6.5(vue@3.4.25(typescript@5.4.5))
 
-  vxe-table@4.6.4(vue@3.4.25(typescript@5.4.5)):
+  vxe-table@4.6.5(vue@3.4.25(typescript@5.4.5)):
     dependencies:
       dom-zindex: 1.0.2
       vue: 3.4.25(typescript@5.4.5)
