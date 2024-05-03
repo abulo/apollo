@@ -7,6 +7,7 @@ import (
 	"cloud/api/system/logger"
 	"cloud/api/system/menu"
 	"cloud/api/system/notice"
+	"cloud/api/system/notify"
 	"cloud/api/system/post"
 	"cloud/api/system/role"
 	"cloud/api/system/tenant"
@@ -242,5 +243,31 @@ func ManagerInitRoute(handle *xhertz.Server) {
 		auth.PUT("/system/notice/:id/recover", notice.SystemNoticeRecover)
 		// system_notice->通知公告表->列表
 		auth.GET("/system/notice", notice.SystemNoticeList)
+
+		// system_notify_message->站内信消息表->创建
+		auth.POST("/system/notify/message", notify.SystemNotifyMessageCreate)
+		// system_notify_message->站内信消息表->更新
+		auth.PUT("/system/notify/message/:id/update", notify.SystemNotifyMessageUpdate)
+		// system_notify_message->站内信消息表->删除
+		auth.DELETE("/system/notify/message/:id/delete", notify.SystemNotifyMessageDelete)
+		// system_notify_message->站内信消息表->单条数据信息查看
+		auth.GET("/system/notify/message/:id/item", notify.SystemNotifyMessage)
+		// system_notify_message->站内信消息表->恢复
+		auth.PUT("/system/notify/message/:id/recover", notify.SystemNotifyMessageRecover)
+		// system_notify_message->站内信消息表->列表
+		auth.GET("/system/notify/message", notify.SystemNotifyMessageList)
+
+		// system_notify_template->站内信模板表->创建
+		auth.POST("/system/notify/template", notify.SystemNotifyTemplateCreate)
+		// system_notify_template->站内信模板表->更新
+		auth.PUT("/system/notify/template/:id/update", notify.SystemNotifyTemplateUpdate)
+		// system_notify_template->站内信模板表->删除
+		auth.DELETE("/system/notify/template/:id/delete", notify.SystemNotifyTemplateDelete)
+		// system_notify_template->站内信模板表->单条数据信息查看
+		auth.GET("/system/notify/template/:id/item", notify.SystemNotifyTemplate)
+		// system_notify_template->站内信模板表->恢复
+		auth.PUT("/system/notify/template/:id/recover", notify.SystemNotifyTemplateRecover)
+		// system_notify_template->站内信模板表->列表
+		auth.GET("/system/notify/template", notify.SystemNotifyTemplateList)
 	}
 }

@@ -11,7 +11,7 @@
  Target Server Version : 80300 (8.3.0)
  File Encoding         : 65001
 
- Date: 24/04/2024 15:19:25
+ Date: 03/05/2024 23:57:47
 */
 
 SET NAMES utf8mb4;
@@ -3592,7 +3592,7 @@ CREATE TABLE `system_dict` (
   `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE,
   KEY `list:data` (`dict_type`,`status`,`sort`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=DYNAMIC COMMENT='字典数据表';
+) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=DYNAMIC COMMENT='字典数据表';
 
 -- ----------------------------
 -- Records of system_dict
@@ -3622,6 +3622,12 @@ INSERT INTO `system_dict` (`id`, `sort`, `label`, `value`, `dict_type`, `status`
 INSERT INTO `system_dict` (`id`, `sort`, `label`, `value`, `dict_type`, `status`, `color_type`, `css_class`, `remark`, `creator`, `create_time`, `updater`, `update_time`) VALUES (22, 5, '仅本人数据权限', '5', 'role.scope', 0, 'default', '', '', 'admin', '2024-03-12 11:34:49', '', '2024-03-12 11:34:49');
 INSERT INTO `system_dict` (`id`, `sort`, `label`, `value`, `dict_type`, `status`, `color_type`, `css_class`, `remark`, `creator`, `create_time`, `updater`, `update_time`) VALUES (23, 1, '通知', '1', 'notice.type', 0, '', '', '', 'admin', '2024-04-24 14:54:14', '', '2024-04-24 14:54:14');
 INSERT INTO `system_dict` (`id`, `sort`, `label`, `value`, `dict_type`, `status`, `color_type`, `css_class`, `remark`, `creator`, `create_time`, `updater`, `update_time`) VALUES (24, 2, '公告', '2', 'notice.type', 0, '', '', '', 'admin', '2024-04-24 14:54:24', '', '2024-04-24 14:54:24');
+INSERT INTO `system_dict` (`id`, `sort`, `label`, `value`, `dict_type`, `status`, `color_type`, `css_class`, `remark`, `creator`, `create_time`, `updater`, `update_time`) VALUES (25, 1, '通知公告', '0', 'notifyTemplate.type', 0, 'primary', '', '', 'admin', '2024-04-28 15:47:31', 'admin', '2024-04-28 19:16:55');
+INSERT INTO `system_dict` (`id`, `sort`, `label`, `value`, `dict_type`, `status`, `color_type`, `css_class`, `remark`, `creator`, `create_time`, `updater`, `update_time`) VALUES (26, 2, '系统消息', '1', 'notifyTemplate.type', 0, 'success', '', '', 'admin', '2024-04-28 15:47:49', 'admin', '2024-04-28 19:16:42');
+INSERT INTO `system_dict` (`id`, `sort`, `label`, `value`, `dict_type`, `status`, `color_type`, `css_class`, `remark`, `creator`, `create_time`, `updater`, `update_time`) VALUES (27, 0, '管理员', '0', 'notifyMessage.userType', 0, 'default', '', '', 'admin', '2024-05-03 23:32:52', '', '2024-05-03 23:32:52');
+INSERT INTO `system_dict` (`id`, `sort`, `label`, `value`, `dict_type`, `status`, `color_type`, `css_class`, `remark`, `creator`, `create_time`, `updater`, `update_time`) VALUES (28, 1, '会员', ' 1', 'notifyMessage.userType', 0, 'success', '', '', 'admin', '2024-05-03 23:33:05', '', '2024-05-03 23:33:05');
+INSERT INTO `system_dict` (`id`, `sort`, `label`, `value`, `dict_type`, `status`, `color_type`, `css_class`, `remark`, `creator`, `create_time`, `updater`, `update_time`) VALUES (29, 0, '未读', '0', 'notifyMessage.readStatus', 0, 'success', '', '', 'admin', '2024-05-03 23:38:26', '', '2024-05-03 23:38:26');
+INSERT INTO `system_dict` (`id`, `sort`, `label`, `value`, `dict_type`, `status`, `color_type`, `css_class`, `remark`, `creator`, `create_time`, `updater`, `update_time`) VALUES (30, 1, '已读', '1', 'notifyMessage.readStatus', 0, 'default', '', '', 'admin', '2024-05-03 23:38:37', '', '2024-05-03 23:38:37');
 COMMIT;
 
 -- ----------------------------
@@ -3641,7 +3647,7 @@ CREATE TABLE `system_dict_type` (
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE KEY `uniq:type` (`type`) USING BTREE,
   KEY `idx:list` (`status`,`type`,`name`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=DYNAMIC COMMENT='字典类型';
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=DYNAMIC COMMENT='字典类型';
 
 -- ----------------------------
 -- Records of system_dict_type
@@ -3657,6 +3663,9 @@ INSERT INTO `system_dict_type` (`id`, `name`, `type`, `status`, `remark`, `creat
 INSERT INTO `system_dict_type` (`id`, `name`, `type`, `status`, `remark`, `creator`, `create_time`, `updater`, `update_time`) VALUES (8, '角色类别', 'role.type', 0, '', '', '2024-02-27 03:06:42', 'admin', '2024-02-29 09:23:23');
 INSERT INTO `system_dict_type` (`id`, `name`, `type`, `status`, `remark`, `creator`, `create_time`, `updater`, `update_time`) VALUES (9, '角色数据范围', 'role.scope', 0, '', 'admin', '2024-03-12 11:19:26', '', '2024-03-12 11:19:26');
 INSERT INTO `system_dict_type` (`id`, `name`, `type`, `status`, `remark`, `creator`, `create_time`, `updater`, `update_time`) VALUES (11, '公告类型', 'notice.type', 0, '', 'admin', '2024-04-24 14:53:36', '', '2024-04-24 14:53:36');
+INSERT INTO `system_dict_type` (`id`, `name`, `type`, `status`, `remark`, `creator`, `create_time`, `updater`, `update_time`) VALUES (12, '模板类型', 'notifyTemplate.type', 0, '', 'admin', '2024-04-28 15:46:53', '', '2024-04-28 15:46:53');
+INSERT INTO `system_dict_type` (`id`, `name`, `type`, `status`, `remark`, `creator`, `create_time`, `updater`, `update_time`) VALUES (13, '用户类型', 'notifyMessage.userType', 0, '', 'admin', '2024-05-03 23:32:08', 'admin', '2024-05-03 23:32:24');
+INSERT INTO `system_dict_type` (`id`, `name`, `type`, `status`, `remark`, `creator`, `create_time`, `updater`, `update_time`) VALUES (14, '阅读状态', 'notifyMessage.readStatus', 0, '', 'admin', '2024-05-03 23:38:03', '', '2024-05-03 23:38:03');
 COMMIT;
 
 -- ----------------------------
@@ -3678,7 +3687,7 @@ CREATE TABLE `system_login_log` (
   `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE,
   KEY `idx:list` (`tenant_id`,`deleted`,`username`,`login_time`,`channel`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=DYNAMIC COMMENT='登录日志';
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=DYNAMIC COMMENT='登录日志';
 
 -- ----------------------------
 -- Records of system_login_log
@@ -3809,7 +3818,7 @@ CREATE TABLE `system_menu` (
   `deleted` tinyint NOT NULL DEFAULT '0' COMMENT '是否删除',
   PRIMARY KEY (`id`) USING BTREE,
   KEY `list:parent` (`deleted`,`status`,`type`,`sort`,`parent_id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=140 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=DYNAMIC COMMENT='系统菜单';
+) ENGINE=InnoDB AUTO_INCREMENT=153 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=DYNAMIC COMMENT='系统菜单';
 
 -- ----------------------------
 -- Records of system_menu
@@ -3910,6 +3919,19 @@ INSERT INTO `system_menu` (`id`, `name`, `permission`, `type`, `sort`, `parent_i
 INSERT INTO `system_menu` (`id`, `name`, `permission`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `status`, `hide`, `link`, `keep_alive`, `affix`, `active_path`, `full_screen`, `redirect`, `creator`, `create_time`, `updater`, `update_time`, `deleted`) VALUES (137, '公告编辑', 'notice.SystemNoticeUpdate', 3, 0, 134, '', '', '', '', 0, 0, '', 0, 0, '', 0, '', 'admin', '2024-04-24 14:31:34', '', '2024-04-24 14:31:34', 0);
 INSERT INTO `system_menu` (`id`, `name`, `permission`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `status`, `hide`, `link`, `keep_alive`, `affix`, `active_path`, `full_screen`, `redirect`, `creator`, `create_time`, `updater`, `update_time`, `deleted`) VALUES (138, '公告删除', 'notice.SystemNoticeDelete', 3, 0, 134, '', '', '', '', 0, 0, '', 0, 0, '', 0, '', 'admin', '2024-04-24 14:31:57', '', '2024-04-24 14:31:57', 0);
 INSERT INTO `system_menu` (`id`, `name`, `permission`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `status`, `hide`, `link`, `keep_alive`, `affix`, `active_path`, `full_screen`, `redirect`, `creator`, `create_time`, `updater`, `update_time`, `deleted`) VALUES (139, '公告恢复', 'notice.SystemNoticeRecover', 3, 0, 134, '', '', '', '', 0, 0, '', 0, 0, '', 0, '', 'admin', '2024-04-24 14:32:23', '', '2024-04-24 14:32:23', 0);
+INSERT INTO `system_menu` (`id`, `name`, `permission`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `status`, `hide`, `link`, `keep_alive`, `affix`, `active_path`, `full_screen`, `redirect`, `creator`, `create_time`, `updater`, `update_time`, `deleted`) VALUES (140, '站内信管理', '', 2, 27, 2, '/system/notify', 'Folder', '', '', 0, 0, '', 1, 0, '', 0, '/system/notify/message', 'admin', '2024-04-28 15:49:21', 'admin', '2024-04-28 15:50:19', 0);
+INSERT INTO `system_menu` (`id`, `name`, `permission`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `status`, `hide`, `link`, `keep_alive`, `affix`, `active_path`, `full_screen`, `redirect`, `creator`, `create_time`, `updater`, `update_time`, `deleted`) VALUES (141, '模板管理', '', 2, 0, 140, '/system/notify/template', 'Cellphone', '/system/notify/template', 'systemNotifyTemplate', 0, 0, '', 1, 0, '', 0, '', 'admin', '2024-04-28 15:52:30', '', '2024-04-28 15:52:30', 0);
+INSERT INTO `system_menu` (`id`, `name`, `permission`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `status`, `hide`, `link`, `keep_alive`, `affix`, `active_path`, `full_screen`, `redirect`, `creator`, `create_time`, `updater`, `update_time`, `deleted`) VALUES (142, '模板列表', 'notify.SystemNotifyTemplateList', 3, 0, 141, '', '', '', '', 0, 0, '', 0, 0, '', 0, '', 'admin', '2024-04-28 15:56:19', '', '2024-04-28 15:56:19', 0);
+INSERT INTO `system_menu` (`id`, `name`, `permission`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `status`, `hide`, `link`, `keep_alive`, `affix`, `active_path`, `full_screen`, `redirect`, `creator`, `create_time`, `updater`, `update_time`, `deleted`) VALUES (143, '模板新增', 'notify.SystemNotifyTemplateCreate', 3, 0, 141, '', '', '', '', 0, 0, '', 0, 0, '', 0, '', 'admin', '2024-04-28 15:58:07', '', '2024-04-28 15:58:07', 0);
+INSERT INTO `system_menu` (`id`, `name`, `permission`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `status`, `hide`, `link`, `keep_alive`, `affix`, `active_path`, `full_screen`, `redirect`, `creator`, `create_time`, `updater`, `update_time`, `deleted`) VALUES (144, '模板编辑', 'notify.SystemNotifyTemplateUpdate', 3, 0, 141, '', '', '', '', 0, 0, '', 0, 0, '', 0, '', 'admin', '2024-04-28 15:59:16', '', '2024-04-28 15:59:16', 0);
+INSERT INTO `system_menu` (`id`, `name`, `permission`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `status`, `hide`, `link`, `keep_alive`, `affix`, `active_path`, `full_screen`, `redirect`, `creator`, `create_time`, `updater`, `update_time`, `deleted`) VALUES (145, '模板删除', 'notify.SystemNotifyTemplateDelete', 3, 0, 141, '', '', '', '', 0, 0, '', 0, 0, '', 0, '', 'admin', '2024-04-28 15:59:43', '', '2024-04-28 15:59:43', 0);
+INSERT INTO `system_menu` (`id`, `name`, `permission`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `status`, `hide`, `link`, `keep_alive`, `affix`, `active_path`, `full_screen`, `redirect`, `creator`, `create_time`, `updater`, `update_time`, `deleted`) VALUES (146, '模板恢复', 'notify.SystemNotifyTemplateRecover', 3, 0, 141, '', '', '', '', 0, 0, '', 0, 0, '', 0, '', 'admin', '2024-04-28 16:00:29', '', '2024-04-28 16:00:29', 0);
+INSERT INTO `system_menu` (`id`, `name`, `permission`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `status`, `hide`, `link`, `keep_alive`, `affix`, `active_path`, `full_screen`, `redirect`, `creator`, `create_time`, `updater`, `update_time`, `deleted`) VALUES (147, '消息管理', '', 2, 0, 140, '/system/notify/message', 'Message', '/system/notify/message', 'systemNotifyMessage', 0, 0, '', 1, 0, '', 0, '', 'admin', '2024-04-28 16:02:54', '', '2024-04-28 16:02:54', 0);
+INSERT INTO `system_menu` (`id`, `name`, `permission`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `status`, `hide`, `link`, `keep_alive`, `affix`, `active_path`, `full_screen`, `redirect`, `creator`, `create_time`, `updater`, `update_time`, `deleted`) VALUES (148, '消息列表', 'notify.SystemNotifyMessageList', 3, 0, 147, '', '', '', '', 0, 0, '', 0, 0, '', 0, '', 'admin', '2024-04-28 15:56:19', '', '2024-04-28 15:56:19', 0);
+INSERT INTO `system_menu` (`id`, `name`, `permission`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `status`, `hide`, `link`, `keep_alive`, `affix`, `active_path`, `full_screen`, `redirect`, `creator`, `create_time`, `updater`, `update_time`, `deleted`) VALUES (149, '消息新增', 'notify.SystemNotifyMessageCreate', 3, 0, 147, '', '', '', '', 0, 0, '', 0, 0, '', 0, '', 'admin', '2024-04-28 15:58:07', '', '2024-04-28 15:58:07', 0);
+INSERT INTO `system_menu` (`id`, `name`, `permission`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `status`, `hide`, `link`, `keep_alive`, `affix`, `active_path`, `full_screen`, `redirect`, `creator`, `create_time`, `updater`, `update_time`, `deleted`) VALUES (150, '消息编辑', 'notify.SystemNotifyMessageUpdate', 3, 0, 147, '', '', '', '', 0, 0, '', 0, 0, '', 0, '', 'admin', '2024-04-28 15:59:16', '', '2024-04-28 15:59:16', 0);
+INSERT INTO `system_menu` (`id`, `name`, `permission`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `status`, `hide`, `link`, `keep_alive`, `affix`, `active_path`, `full_screen`, `redirect`, `creator`, `create_time`, `updater`, `update_time`, `deleted`) VALUES (151, '消息删除', 'notify.SystemNotifyMessageDelete', 3, 0, 147, '', '', '', '', 0, 0, '', 0, 0, '', 0, '', 'admin', '2024-04-28 15:59:43', '', '2024-04-28 15:59:43', 0);
+INSERT INTO `system_menu` (`id`, `name`, `permission`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `status`, `hide`, `link`, `keep_alive`, `affix`, `active_path`, `full_screen`, `redirect`, `creator`, `create_time`, `updater`, `update_time`, `deleted`) VALUES (152, '消息恢复', 'notify.SystemNotifyMessageRecover', 3, 0, 147, '', '', '', '', 0, 0, '', 0, 0, '', 0, '', 'admin', '2024-04-28 16:00:29', '', '2024-04-28 16:00:29', 0);
 COMMIT;
 
 -- ----------------------------
@@ -4026,7 +4048,7 @@ CREATE TABLE `system_operate_log` (
   `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE,
   KEY `idx:list` (`tenant_id`,`deleted`,`username`,`module`,`start_time`,`result`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=120 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=DYNAMIC COMMENT='操作日志';
+) ENGINE=InnoDB AUTO_INCREMENT=274 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=DYNAMIC COMMENT='操作日志';
 
 -- ----------------------------
 -- Records of system_operate_log

@@ -1,0 +1,17 @@
+{
+  "Vue3.3+defineOptions快速生成模板": {
+    "scope": "vue",
+    "prefix": "Vue3.3+",
+    "body": [
+      "<template>",
+      "\t<div>test</div>",
+      "</template>\n",
+      "<script setup lang=\"ts\" name=\"name\">\n",
+      "</script>\n",
+      "<style lang=\"scss\">",
+      "@import \"@/styles/custom.scss\";",
+      "</style>",
+    ],
+    "description": "Vue3.3+defineOptions快速生成模板"
+  }
+}

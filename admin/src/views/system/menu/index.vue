@@ -244,6 +244,7 @@ const rulesSystemMenuItemFrom = reactive<FormRules>({
 
 // 重置数据
 const reset = () => {
+  loading.value = false;
   systemMenuItemFrom.value = {
     id: 0, //菜单ID
     name: "", //菜单名称

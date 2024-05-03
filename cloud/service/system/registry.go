@@ -6,6 +6,7 @@ import (
 	"cloud/service/system/logger"
 	"cloud/service/system/menu"
 	"cloud/service/system/notice"
+	"cloud/service/system/notify"
 	"cloud/service/system/post"
 	"cloud/service/system/role"
 	"cloud/service/system/tenant"
@@ -78,6 +79,14 @@ func Registry(server *xgrpc.Server) {
 	})
 	// 通知公告表->system_notice
 	notice.RegisterSystemNoticeServiceServer(server.Server, &notice.SrvSystemNoticeServiceServer{
+		Server: server,
+	})
+	// 站内信消息表->system_notify_message
+	notify.RegisterSystemNotifyMessageServiceServer(server.Server, &notify.SrvSystemNotifyMessageServiceServer{
+		Server: server,
+	})
+	// 站内信模板表->system_notify_template
+	notify.RegisterSystemNotifyTemplateServiceServer(server.Server, &notify.SrvSystemNotifyTemplateServiceServer{
 		Server: server,
 	})
 
