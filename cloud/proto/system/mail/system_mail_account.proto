@@ -1,0 +1,115 @@
+
+syntax = "proto3";
+// system_mail_account 邮箱账号表
+package mail;
+option go_package = "./mail";
+import "google/protobuf/timestamp.proto";
+
+// SystemMailAccountObject 数据对象
+message SystemMailAccountObject {
+	// @inject_tag: db:"id" json:"id"
+	optional int64 id = 1; //主键
+	// @inject_tag: db:"mail" json:"mail"
+	optional string mail = 2; //邮箱
+	// @inject_tag: db:"username" json:"username"
+	optional string username = 3; //用户名
+	// @inject_tag: db:"password" json:"password"
+	optional string password = 4; //密码
+	// @inject_tag: db:"host" json:"host"
+	optional string host = 5; //SMTP 服务器域名
+	// @inject_tag: db:"port" json:"port"
+	optional int32 port = 6; //SMTP 服务器端口
+	// @inject_tag: db:"ssl_enable" json:"sslEnable"
+	optional int32 ssl_enable = 7; //是否开启 SSL
+	// @inject_tag: db:"creator" json:"creator"
+	optional string creator = 8; //创建者
+	// @inject_tag: db:"create_time" json:"createTime"
+	google.protobuf.Timestamp create_time = 9; //创建时间
+	// @inject_tag: db:"updater" json:"updater"
+	optional string updater = 10; //更新者
+	// @inject_tag: db:"update_time" json:"updateTime"
+	google.protobuf.Timestamp update_time = 11; //更新时间
+	// @inject_tag: db:"deleted" json:"deleted"
+	optional int32 deleted = 12; //是否删除
+}
+// SystemMailAccountCreateRequest 创建数据请求
+message SystemMailAccountCreateRequest {
+	SystemMailAccountObject data = 1;
+}
+// SystemMailAccountCreateResponse 创建数据响应
+message SystemMailAccountCreateResponse {
+	int64 code = 1;
+	string msg = 2;
+	int64 data = 3;
+}
+// SystemMailAccountUpdateRequest 更新数据请求
+message SystemMailAccountUpdateRequest {
+	// @inject_tag: db:"id" json:"id"
+	int64 id = 1; //主键
+	SystemMailAccountObject data = 2;
+}
+// SystemMailAccountUpdateResponse 更新数据响应
+message SystemMailAccountUpdateResponse {
+	int64 code = 1;
+	string msg = 2;
+}
+// SystemMailAccountDeleteRequest 删除数据请求
+message SystemMailAccountDeleteRequest {
+	// @inject_tag: db:"id" json:"id"
+	int64 id = 1; //主键
+}
+// SystemMailAccountDeleteResponse 删除数据响应
+message SystemMailAccountDeleteResponse {
+	int64 code = 1;
+	string msg = 2;
+}
+// SystemMailAccountRequest 查询单条数据请求
+message SystemMailAccountRequest {
+	// @inject_tag: db:"id" json:"id"
+	int64 id = 1; //主键
+}
+// SystemMailAccountResponse 查询单条数据响应
+message SystemMailAccountResponse {
+	int64 code = 1;
+	string msg = 2;
+	SystemMailAccountObject data = 3;
+}
+// SystemMailAccountRecoverRequest 恢复数据请求
+message SystemMailAccountRecoverRequest {
+	// @inject_tag: db:"id" json:"id"
+	int64 id = 1; //主键
+}
+// SystemMailAccountRecoverResponse 删除数据响应
+message SystemMailAccountRecoverResponse {
+	int64 code = 1;
+	string msg = 2;
+}
+// SystemMailAccountListRequest 列表数据
+message SystemMailAccountListRequest {
+	
+	// @inject_tag: db:"deleted" json:"deleted"
+	optional int32 deleted = 1; // 是否删除
+	// @inject_tag: db:"mail" json:"mail"
+	optional string mail = 2; // 邮箱
+	// @inject_tag: db:"username" json:"username"
+	optional string username = 3; // 用户名
+
+}
+
+// SystemMailAccountListResponse 数据响应
+message SystemMailAccountListResponse {
+	int64 code = 1;
+  	string msg = 2;
+	repeated SystemMailAccountObject data = 3;
+}
+
+
+// SystemMailAccountService 服务
+service SystemMailAccountService{
+	rpc SystemMailAccountCreate(SystemMailAccountCreateRequest) returns (SystemMailAccountCreateResponse);
+	rpc SystemMailAccountUpdate(SystemMailAccountUpdateRequest) returns (SystemMailAccountUpdateResponse);
+	rpc SystemMailAccountDelete(SystemMailAccountDeleteRequest) returns (SystemMailAccountDeleteResponse);
+	rpc SystemMailAccount(SystemMailAccountRequest) returns (SystemMailAccountResponse);
+	rpc SystemMailAccountRecover(SystemMailAccountRecoverRequest) returns (SystemMailAccountRecoverResponse);
+	rpc SystemMailAccountList(SystemMailAccountListRequest) returns (SystemMailAccountListResponse);
+}

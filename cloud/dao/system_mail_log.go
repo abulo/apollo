@@ -15,7 +15,7 @@ type SystemMailLog struct {
 	TemplateNickname null.String   `db:"template_nickname" json:"templateNickname"` //varchar 模版发送人名称
 	TemplateTitle    *string       `db:"template_title" json:"templateTitle"`       //varchar 邮件标题
 	TemplateContent  *string       `db:"template_content" json:"templateContent"`   //varchar 邮件内容
-	TemplateParams   *string       `db:"template_params" json:"templateParams"`     //varchar 邮件参数
+	TemplateParams   null.JSON     `db:"template_params" json:"templateParams"`     //json 邮件参数
 	SendStatus       *int32        `db:"send_status" json:"sendStatus"`             //tinyint 发送状态
 	SendTime         null.DateTime `db:"send_time" json:"sendTime"`                 //datetime 发送时间
 	SendMessageId    null.String   `db:"send_message_id" json:"sendMessageId"`      //varchar 发送返回的消息 ID

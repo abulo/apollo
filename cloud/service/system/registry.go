@@ -4,6 +4,7 @@ import (
 	"cloud/service/system/dept"
 	"cloud/service/system/dict"
 	"cloud/service/system/logger"
+	"cloud/service/system/mail"
 	"cloud/service/system/menu"
 	"cloud/service/system/notice"
 	"cloud/service/system/notify"
@@ -87,6 +88,18 @@ func Registry(server *xgrpc.Server) {
 	})
 	// 站内信模板表->system_notify_template
 	notify.RegisterSystemNotifyTemplateServiceServer(server.Server, &notify.SrvSystemNotifyTemplateServiceServer{
+		Server: server,
+	})
+	// 邮箱账号表->system_mail_account
+	mail.RegisterSystemMailAccountServiceServer(server.Server, &mail.SrvSystemMailAccountServiceServer{
+		Server: server,
+	})
+	// 邮件模版表->system_mail_template
+	mail.RegisterSystemMailTemplateServiceServer(server.Server, &mail.SrvSystemMailTemplateServiceServer{
+		Server: server,
+	})
+	// 邮件日志表->system_mail_log
+	mail.RegisterSystemMailLogServiceServer(server.Server, &mail.SrvSystemMailLogServiceServer{
 		Server: server,
 	})
 

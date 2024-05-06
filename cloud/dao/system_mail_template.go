@@ -11,7 +11,7 @@ type SystemMailTemplate struct {
 	Nickname   null.String   `db:"nickname" json:"nickname"`      //varchar 发送人名称
 	Title      *string       `db:"title" json:"title"`            //varchar 模板标题
 	Content    *string       `db:"content" json:"content"`        //varchar 模板内容
-	Params     *string       `db:"params" json:"params"`          //varchar 参数数组
+	Params     null.JSON     `db:"params" json:"params"`          //json 参数数组
 	Status     *int32        `db:"status" json:"status"`          //tinyint 开启状态
 	Remark     null.String   `db:"remark" json:"remark"`          //varchar 备注
 	Creator    null.String   `db:"creator" json:"creator"`        //varchar 创建者

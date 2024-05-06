@@ -5,6 +5,7 @@ import (
 	"cloud/api/system/dept"
 	"cloud/api/system/dict"
 	"cloud/api/system/logger"
+	"cloud/api/system/mail"
 	"cloud/api/system/menu"
 	"cloud/api/system/notice"
 	"cloud/api/system/notify"
@@ -269,5 +270,46 @@ func ManagerInitRoute(handle *xhertz.Server) {
 		auth.PUT("/system/notify/template/:id/recover", notify.SystemNotifyTemplateRecover)
 		// system_notify_template->站内信模板表->列表
 		auth.GET("/system/notify/template", notify.SystemNotifyTemplateList)
+
+		// system_mail_account->邮箱账号表->创建
+		auth.POST("/system/mail/account", mail.SystemMailAccountCreate)
+		// system_mail_account->邮箱账号表->更新
+		auth.PUT("/system/mail/account/:id/update", mail.SystemMailAccountUpdate)
+		// system_mail_account->邮箱账号表->删除
+		auth.DELETE("/system/mail/account/:id/delete", mail.SystemMailAccountDelete)
+		// system_mail_account->邮箱账号表->单条数据信息查看
+		auth.GET("/system/mail/account/:id/item", mail.SystemMailAccount)
+		// system_mail_account->邮箱账号表->恢复
+		auth.PUT("/system/mail/account/:id/recover", mail.SystemMailAccountRecover)
+		// system_mail_account->邮箱账号表->列表
+		auth.GET("/system/mail/account", mail.SystemMailAccountList)
+		// system_mail_account->邮箱账号表->搜索
+		auth.GET("/system/mail/account/search", mail.SystemMailAccountSearch)
+
+		// system_mail_template->邮件模版表->创建
+		auth.POST("/system/mail/template", mail.SystemMailTemplateCreate)
+		// system_mail_template->邮件模版表->更新
+		auth.PUT("/system/mail/template/:id/update", mail.SystemMailTemplateUpdate)
+		// system_mail_template->邮件模版表->删除
+		auth.DELETE("/system/mail/template/:id/delete", mail.SystemMailTemplateDelete)
+		// system_mail_template->邮件模版表->单条数据信息查看
+		auth.GET("/system/mail/template/:id/item", mail.SystemMailTemplate)
+		// system_mail_template->邮件模版表->恢复
+		auth.PUT("/system/mail/template/:id/recover", mail.SystemMailTemplateRecover)
+		// system_mail_template->邮件模版表->列表
+		auth.GET("/system/mail/template", mail.SystemMailTemplateList)
+
+		// system_mail_log->邮件日志表->创建
+		auth.POST("/system/mail/log", mail.SystemMailLogCreate)
+		// system_mail_log->邮件日志表->更新
+		auth.PUT("/system/mail/log/:id/update", mail.SystemMailLogUpdate)
+		// system_mail_log->邮件日志表->删除
+		auth.DELETE("/system/mail/log/:id/delete", mail.SystemMailLogDelete)
+		// system_mail_log->邮件日志表->单条数据信息查看
+		auth.GET("/system/mail/log/:id/item", mail.SystemMailLog)
+		// system_mail_log->邮件日志表->恢复
+		auth.PUT("/system/mail/log/:id/recover", mail.SystemMailLogRecover)
+		// system_mail_log->邮件日志表->列表
+		auth.GET("/system/mail/log", mail.SystemMailLogList)
 	}
 }
