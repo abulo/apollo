@@ -8,7 +8,7 @@
       :request-api="getSystemMenuListApi"
       :request-auto="true"
       :pagination="false"
-      :tree-config="{ transform: true, iconOpen: 'vxe-icon-arrow-down', iconClose: 'vxe-icon-arrow-right' }"
+      :tree-config="{ transform: true, iconOpen: 'vxe-icon-arrow-down', iconClose: 'vxe-icon-arrow-right', reserve: true }"
       :scroll-y="{ enabled: true }"
       :init-param="initParam"
       height="600"
@@ -102,7 +102,7 @@
         </el-form-item>
         <el-form-item label="菜单类型" prop="type">
           <el-radio-group v-model="systemMenuItemFrom.type">
-            <el-radio-button v-for="dict in typeEnum" :key="dict.value" :label="dict.value">
+            <el-radio-button v-for="dict in typeEnum" :key="dict.value" :value="dict.value">
               {{ dict.label }}
             </el-radio-button>
           </el-radio-group>
@@ -133,35 +133,35 @@
         </el-form-item>
         <el-form-item label="菜单状态" prop="status">
           <el-radio-group v-model="systemMenuItemFrom.status">
-            <el-radio-button v-for="dict in statusEnum" :key="Number(dict.value)" :label="dict.value">
+            <el-radio-button v-for="dict in statusEnum" :key="Number(dict.value)" :value="dict.value">
               {{ dict.label }}
             </el-radio-button>
           </el-radio-group>
         </el-form-item>
         <el-form-item v-if="systemMenuItemFrom.type !== 3" label="隐藏状态" prop="hide">
           <el-radio-group v-model="systemMenuItemFrom.hide">
-            <el-radio-button v-for="dict in hideEnum" :key="Number(dict.value)" :label="dict.value">
+            <el-radio-button v-for="dict in hideEnum" :key="Number(dict.value)" :value="dict.value">
               {{ dict.label }}
             </el-radio-button>
           </el-radio-group>
         </el-form-item>
         <el-form-item v-if="systemMenuItemFrom.type !== 3" label="Tab显示" prop="affix">
           <el-radio-group v-model="systemMenuItemFrom.affix">
-            <el-radio-button v-for="dict in affixEnum" :key="Number(dict.value)" :label="dict.value">
+            <el-radio-button v-for="dict in affixEnum" :key="Number(dict.value)" :value="dict.value">
               {{ dict.label }}
             </el-radio-button>
           </el-radio-group>
         </el-form-item>
         <el-form-item v-if="systemMenuItemFrom.type === 2" label="缓存状态" prop="keepAlive">
           <el-radio-group v-model="systemMenuItemFrom.keepAlive">
-            <el-radio-button v-for="dict in keepAliveEnum" :key="Number(dict.value)" :label="dict.value">
+            <el-radio-button v-for="dict in keepAliveEnum" :key="Number(dict.value)" :value="dict.value">
               {{ dict.label }}
             </el-radio-button>
           </el-radio-group>
         </el-form-item>
         <el-form-item v-if="systemMenuItemFrom.type === 2" label="全屏" prop="fullScreen">
           <el-radio-group v-model="systemMenuItemFrom.fullScreen">
-            <el-radio-button v-for="dict in fullScreenEnum" :key="Number(dict.value)" :label="dict.value">
+            <el-radio-button v-for="dict in fullScreenEnum" :key="Number(dict.value)" :value="dict.value">
               {{ dict.label }}
             </el-radio-button>
           </el-radio-group>
@@ -196,6 +196,8 @@ import { getIntDictOptions } from "@/utils/dict";
 import { DictTag } from "@/components/DictTag";
 import { useHandleData, useHandleSet } from "@/hooks/useHandleData";
 import { HasPermission } from "@/utils/permission";
+// 获取展开了哪一行
+const treeExpand = ref<Number[]>();
 const initParam = reactive({ tree: 0 });
 //加载
 const loading = ref(false);

@@ -33,11 +33,12 @@
       :data="processTableData"
       :border="border"
       :row-key="rowKey"
+      :use-key="rowKey"
       show-overflow
       header-row-class-name="el-table__header"
       row-class-name="el-table__row"
       :column-config="{ resizable: true }"
-      :row-config="{ height: 45, isHover: true }"
+      :row-config="{ height: 45, isHover: true, keyField: rowKey }"
       @checkbox-change="selectionChange">
       <!-- 默认插槽 -->
       <slot />

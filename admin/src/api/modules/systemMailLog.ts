@@ -22,4 +22,3 @@ export const deleteSystemMailLogApi = (id: number) => {
 export const recoverSystemMailLogApi = (id: number) => {
   return http.put(PORT + `/system/mail/log/${id}/recover`);
 };
-

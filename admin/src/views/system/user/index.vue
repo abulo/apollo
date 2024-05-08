@@ -101,7 +101,7 @@
           </el-form-item>
           <el-form-item label="用户状态" prop="status">
             <el-radio-group v-model="systemUserItemFrom.status">
-              <el-radio-button v-for="dict in statusEnum" :key="Number(dict.value)" :label="dict.value">
+              <el-radio-button v-for="dict in statusEnum" :key="Number(dict.value)" :value="dict.value">
                 {{ dict.label }}
               </el-radio-button>
             </el-radio-group>

@@ -5,13 +5,13 @@
       title="模板列表"
       row-key="id"
       :columns="columns"
-      :request-api="getSystemNotifyTemplateListApi"
+      :request-api="getSystemMailTemplateListApi"
       :request-auto="true"
       :pagination="true"
       :search-col="12">
       <!-- 表格 header 按钮 -->
       <template #tableHeader>
-        <el-button v-auth="'notify.SystemNotifyTemplateCreate'" type="primary" :icon="CirclePlus" @click="handleAdd">
+        <el-button v-auth="'mail.SystemMailTemplateCreate'" type="primary" :icon="CirclePlus" @click="handleAdd">
           新增
         </el-button>
       </template>
@@ -25,17 +25,12 @@
       </template>
       <!-- 菜单操作 -->
       <template #operation="scope">
-        <el-button
-          v-auth="'notify.SystemNotifyTemplateUpdate'"
-          type="primary"
-          link
-          :icon="EditPen"
-          @click="handleUpdate(scope.row)">
+        <el-button v-auth="'mail.SystemMailTemplateUpdate'" type="primary" link :icon="EditPen" @click="handleUpdate(scope.row)">
           编辑
         </el-button>
         <el-button
           v-if="scope.row.deleted === 0"
-          v-auth="'notify.SystemNotifyTemplateDelete'"
+          v-auth="'mail.SystemMailTemplateDelete'"
           type="primary"
           link
           :icon="Delete"
@@ -44,7 +39,7 @@
         </el-button>
         <el-button
           v-if="scope.row.deleted === 1"
-          v-auth="'notify.SystemNotifyTemplateRecover'"
+          v-auth="'mail.SystemMailTemplateRecover'"
           type="primary"
           link
           :icon="Refresh"
@@ -65,66 +60,65 @@
       :lock-scroll="false"
       class="dialog-settings">
       <el-form
-        ref="refSystemNotifyTemplateItemFrom"
-        :model="systemNotifyTemplateItemFrom"
-        :rules="rulesSystemNotifyTemplateItemFrom"
+        ref="refSystemMailTemplateItemFrom"
+        :model="systemMailTemplateItemFrom"
+        :rules="rulesSystemMailTemplateItemFrom"
         label-width="100px">
         <el-form-item label="模板名称" prop="name">
-          <el-input v-model="systemNotifyTemplateItemFrom.name" />
+          <el-input v-model="systemMailTemplateItemFrom.name" />
         </el-form-item>
         <el-form-item label="模板编码" prop="code">
-          <el-input v-model="systemNotifyTemplateItemFrom.code" />
+          <el-input v-model="systemMailTemplateItemFrom.code" />
         </el-form-item>
         <el-form-item label="发送人" prop="nickname">
-          <el-input v-model="systemNotifyTemplateItemFrom.nickname" />
+          <el-input v-model="systemMailTemplateItemFrom.nickname" />
         </el-form-item>
         <el-form-item label="模板内容" prop="content">
-          <el-input v-model="systemNotifyTemplateItemFrom.content" type="textarea" />
+          <el-input v-model="systemMailTemplateItemFrom.content" type="textarea" />
         </el-form-item>
-        <el-form-item label="模板类型" prop="type">
-          <el-radio-group v-model="systemNotifyTemplateItemFrom.type">
-            <el-radio-button v-for="dict in typeEnum" :key="Number(dict.value)" :value="dict.value">
-              {{ dict.label }}
-            </el-radio-button>
-          </el-radio-group>
+        <el-form-item label="邮箱账号" prop="accountId">
+          <el-select v-model="systemMailTemplateItemFrom.accountId" placeholder="请选择邮箱账号">
+            <el-option v-for="item in accountEnum" :key="item.value" :label="item.label" :value="item.value" />
+          </el-select>
         </el-form-item>
         <el-form-item label="模板状态" prop="status">
-          <el-radio-group v-model="systemNotifyTemplateItemFrom.status">
+          <el-radio-group v-model="systemMailTemplateItemFrom.status">
             <el-radio-button v-for="dict in statusEnum" :key="Number(dict.value)" :value="dict.value">
               {{ dict.label }}
             </el-radio-button>
           </el-radio-group>
         </el-form-item>
         <el-form-item label="备注" prop="remark">
-          <el-input v-model="systemNotifyTemplateItemFrom.remark" />
+          <el-input v-model="systemMailTemplateItemFrom.remark" />
         </el-form-item>
       </el-form>
       <template #footer>
         <span class="dialog-footer">
-          <el-button @click="resetForm(refSystemNotifyTemplateItemFrom)">取消</el-button>
-          <el-button type="primary" :loading="loading" @click="submitForm(refSystemNotifyTemplateItemFrom)">确定</el-button>
+          <el-button @click="resetForm(refSystemMailTemplateItemFrom)">取消</el-button>
+          <el-button type="primary" :loading="loading" @click="submitForm(refSystemMailTemplateItemFrom)">确定</el-button>
         </span>
       </template>
     </el-dialog>
   </div>
 </template>
 
-<script setup lang="ts" name="systemNotifyTemplate">
-import { ref, reactive } from "vue";
+<script setup lang="ts" name="systemMailTemplate">
+import { ref, reactive, onMounted } from "vue";
 import { ProTableInstance, ColumnProps, SearchProps } from "@/components/ProTable/interface";
 import { EditPen, CirclePlus, Delete, Refresh } from "@element-plus/icons-vue";
 import ProTable from "@/components/ProTable/index.vue";
-import { SystemNotifyTemplate } from "@/api/interface/systemNotifyTemplate";
+import { SystemMailTemplate } from "@/api/interface/systemMailTemplate";
 import {
-  getSystemNotifyTemplateListApi,
-  deleteSystemNotifyTemplateApi,
-  recoverSystemNotifyTemplateApi,
-  getSystemNotifyTemplateItemApi,
-  addSystemNotifyTemplateApi,
-  updateSystemNotifyTemplateApi
-} from "@/api/modules/systemNotifyTemplate";
+  getSystemMailTemplateListApi,
+  deleteSystemMailTemplateApi,
+  recoverSystemMailTemplateApi,
+  getSystemMailTemplateItemApi,
+  addSystemMailTemplateApi,
+  updateSystemMailTemplateApi
+} from "@/api/modules/systemMailTemplate";
 import { FormInstance, FormRules } from "element-plus";
-import { getIntDictOptions } from "@/utils/dict";
+import { getSystemMailAccountSearchApi } from "@/api/modules/systemMailAccount";
+import { getIntDictOptions, DictDataType } from "@/utils/dict";
 import { DictTag } from "@/components/DictTag";
 import { useHandleData, useHandleSet } from "@/hooks/useHandleData";
 import { HasPermission } from "@/utils/permission";
@@ -137,24 +131,26 @@ const proTable = ref<ProTableInstance>();
 //是否显示弹出层
 const centerDialogVisible = ref(false);
 //数据接口
-const systemNotifyTemplateItemFrom = ref<SystemNotifyTemplate.ResSystemNotifyTemplateItem>({
+const systemMailTemplateItemFrom = ref<SystemMailTemplate.ResSystemMailTemplateItem>({
   id: 0, // 模板 id
   name: "", // 模板名称
   code: "", // 模版编码
+  accountId: undefined, // 发送的邮箱账号编号
   nickname: "", // 发送人名称
+  title: "", // 模板标题
   content: "", // 模版内容
-  type: 0, // 类型
   params: {}, // 参数数组
   status: 0, // 状态
   remark: "", // 备注
   deleted: 0 // 删除
 });
 //校验
-const refSystemNotifyTemplateItemFrom = ref<FormInstance>();
+const refSystemMailTemplateItemFrom = ref<FormInstance>();
 //校验
-const rulesSystemNotifyTemplateItemFrom = reactive<FormRules>({
+const rulesSystemMailTemplateItemFrom = reactive<FormRules>({
   name: [{ required: true, message: "模板名称不能为空", trigger: "blur" }],
   code: [{ required: true, message: "模板编码不能为空", trigger: "blur" }],
+  accountId: [{ required: true, message: "发送的邮箱账号编号不能为空", trigger: "blur" }],
   nickname: [{ required: true, message: "发送人名称不能为空", trigger: "blur" }],
   type: [{ required: true, message: "模板类别不能为空", trigger: "blur" }],
   content: [{ required: true, message: "模板内容不能为空", trigger: "blur" }],
@@ -165,23 +161,23 @@ const rulesSystemNotifyTemplateItemFrom = reactive<FormRules>({
 const statusEnum = getIntDictOptions("status");
 //删除状态
 const deletedEnum = getIntDictOptions("delete");
-//模板类型
-const typeEnum = getIntDictOptions("notifyTemplate.type");
+//账号
+const accountEnum = reactive<DictDataType[]>([]);
 // 表格配置项
 const deleteSearch = reactive<SearchProps>(
-  HasPermission("notify.SystemNotifyTemplateDelete")
+  HasPermission("mail.SystemMailTemplateDelete")
     ? {
         el: "switch",
         span: 2
       }
     : {}
 );
-const columns: ColumnProps<SystemNotifyTemplate.ResSystemNotifyTemplateItem>[] = [
+const columns: ColumnProps<SystemMailTemplate.ResSystemMailTemplateItem>[] = [
   { prop: "id", label: "编号", width: 100 },
   { prop: "name", label: "模板名称", search: { el: "input", span: 2, props: { placeholder: "请输入名称" } } },
-  { prop: "code", label: "模板编码" },
+  { prop: "code", label: "模板编码", search: { el: "input", span: 2, props: { placeholder: "请输入编码" } } },
+  { prop: "accountId", label: "邮箱账号", tag: true, enum: accountEnum, search: { el: "select", span: 2 } },
   { prop: "nickname", label: "发送人" },
-  { prop: "type", label: "模板类型", tag: true, enum: typeEnum, search: { el: "select", span: 2 } },
   { prop: "status", label: "状态", tag: true, enum: statusEnum, search: { el: "select", span: 2 } },
   {
     prop: "deleted",
@@ -195,23 +191,20 @@ const columns: ColumnProps<SystemNotifyTemplate.ResSystemNotifyTemplateItem>[] =
     label: "操作",
     width: 150,
     fixed: "right",
-    isShow: HasPermission(
-      "notify.SystemNotifyTemplateUpdate",
-      "notify.SystemNotifyTemplateDelete",
-      "notify.SystemNotifyTemplateRecover"
-    )
+    isShow: HasPermission("mail.SystemMailTemplateUpdate", "mail.SystemMailTemplateDelete", "mail.SystemMailTemplateRecover")
   }
 ];
 // 重置数据
 const reset = () => {
   loading.value = false;
-  systemNotifyTemplateItemFrom.value = {
+  systemMailTemplateItemFrom.value = {
     id: 0, // 模板 id
     name: "", // 模板名称
     code: "", // 模版编码
+    accountId: undefined, // 发送的邮箱账号编号
     nickname: "", // 发送人名称
+    title: "", // 模板标题
     content: "", // 模版内容
-    type: 0, // 类型
     params: {}, // 参数数组
     status: 0, // 状态
     remark: "", // 备注
@@ -232,11 +225,11 @@ const submitForm = (formEl: FormInstance | undefined) => {
   formEl.validate(async valid => {
     if (!valid) return;
     loading.value = true;
-    const data = systemNotifyTemplateItemFrom.value as unknown as SystemNotifyTemplate.ResSystemNotifyTemplateItem;
+    const data = systemMailTemplateItemFrom.value as unknown as SystemMailTemplate.ResSystemMailTemplateItem;
     if (data.id !== 0) {
-      await useHandleSet(updateSystemNotifyTemplateApi, data.id, data, "修改模板");
+      await useHandleSet(updateSystemMailTemplateApi, data.id, data, "修改模板");
     } else {
-      await useHandleData(addSystemNotifyTemplateApi, data, "添加模板");
+      await useHandleData(addSystemMailTemplateApi, data, "添加模板");
     }
     resetForm(formEl);
     loading.value = false;
@@ -245,14 +238,14 @@ const submitForm = (formEl: FormInstance | undefined) => {
 };
 
 // 删除按钮
-const handleDelete = async (row: SystemNotifyTemplate.ResSystemNotifyTemplateItem) => {
-  await useHandleData(deleteSystemNotifyTemplateApi, Number(row.id), "删除模板");
+const handleDelete = async (row: SystemMailTemplate.ResSystemMailTemplateItem) => {
+  await useHandleData(deleteSystemMailTemplateApi, Number(row.id), "删除模板");
   proTable.value?.getTableList();
 };
 
 // 恢复按钮
-const handleRecover = async (row: SystemNotifyTemplate.ResSystemNotifyTemplateItem) => {
-  await useHandleData(recoverSystemNotifyTemplateApi, Number(row.id), "恢复模板");
+const handleRecover = async (row: SystemMailTemplate.ResSystemMailTemplateItem) => {
+  await useHandleData(recoverSystemMailTemplateApi, Number(row.id), "恢复模板");
   proTable.value?.getTableList();
 };
 
@@ -264,13 +257,32 @@ const handleAdd = () => {
 };
 
 // 编辑按钮
-const handleUpdate = async (row: SystemNotifyTemplate.ResSystemNotifyTemplateItem) => {
+const handleUpdate = async (row: SystemMailTemplate.ResSystemMailTemplateItem) => {
   title.value = "编辑模板";
   centerDialogVisible.value = true;
   reset();
-  const { data } = await getSystemNotifyTemplateItemApi(Number(row.id));
-  systemNotifyTemplateItemFrom.value = data;
+  const { data } = await getSystemMailTemplateItemApi(Number(row.id));
+  systemMailTemplateItemFrom.value = data;
 };
+
+const getAccount = async () => {
+  const { data } = await getSystemMailAccountSearchApi();
+  //扁平化输出数据
+  data.forEach(item => {
+    let obj: DictDataType = {
+      label: item.mail,
+      value: Number(item.id),
+      colorType: "",
+      cssClass: "",
+      dictType: "account"
+    };
+    accountEnum.push(obj);
+  });
+};
+
+onMounted(() => {
+  getAccount();
+});
 </script>
 
 <style lang="scss">

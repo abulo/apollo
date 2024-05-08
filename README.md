@@ -1,9 +1,9 @@
 # Apollo
 
 <img src="https://img.shields.io/badge/golang-1.22-blue"/>
-<img src="https://img.shields.io/badge/ratel-3.7.4-lightBlue"/>
-<img src="https://img.shields.io/badge/vue-3.3.4-brightgreen"/>
-<img src="https://img.shields.io/badge/element--plus-2.3.8-green"/>
+<img src="https://img.shields.io/badge/ratel-3.7.18-lightBlue"/>
+<img src="https://img.shields.io/badge/vue-3.4.27-brightgreen"/>
+<img src="https://img.shields.io/badge/element--plus-2.7.2-green"/>
 
 # 1 基本介绍
 ## 1.1 项目介绍
@@ -25,8 +25,9 @@ Apollo 的成长离不开大家的支持，如果你愿意为 Apollo 贡献代�
 # 2. 使用说明
 
 ```
-- node版本 > v16.8.3
+- node版本 >= v18.20.2
 - golang版本 >= v1.22
+- pnpm >=v9.1.0
 - IDE推荐：VScode
 ```
 

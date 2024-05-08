@@ -246,9 +246,9 @@ func ManagerInitRoute(handle *xhertz.Server) {
 		auth.GET("/system/notice", notice.SystemNoticeList)
 
 		// system_notify_message->站内信消息表->创建
-		auth.POST("/system/notify/message", notify.SystemNotifyMessageCreate)
+		// auth.POST("/system/notify/message", notify.SystemNotifyMessageCreate)
 		// system_notify_message->站内信消息表->更新
-		auth.PUT("/system/notify/message/:id/update", notify.SystemNotifyMessageUpdate)
+		// auth.PUT("/system/notify/message/:id/update", notify.SystemNotifyMessageUpdate)
 		// system_notify_message->站内信消息表->删除
 		auth.DELETE("/system/notify/message/:id/delete", notify.SystemNotifyMessageDelete)
 		// system_notify_message->站内信消息表->单条数据信息查看
@@ -300,9 +300,9 @@ func ManagerInitRoute(handle *xhertz.Server) {
 		auth.GET("/system/mail/template", mail.SystemMailTemplateList)
 
 		// system_mail_log->邮件日志表->创建
-		auth.POST("/system/mail/log", mail.SystemMailLogCreate)
+		// auth.POST("/system/mail/log", mail.SystemMailLogCreate)
 		// system_mail_log->邮件日志表->更新
-		auth.PUT("/system/mail/log/:id/update", mail.SystemMailLogUpdate)
+		// auth.PUT("/system/mail/log/:id/update", mail.SystemMailLogUpdate)
 		// system_mail_log->邮件日志表->删除
 		auth.DELETE("/system/mail/log/:id/delete", mail.SystemMailLogDelete)
 		// system_mail_log->邮件日志表->单条数据信息查看

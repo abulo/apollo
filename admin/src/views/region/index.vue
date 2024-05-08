@@ -8,7 +8,7 @@
       :request-api="getRegionListApi"
       :request-auto="true"
       :pagination="false"
-      :tree-config="{ transform: true, iconOpen: 'vxe-icon-arrow-down', iconClose: 'vxe-icon-arrow-right' }"
+      :tree-config="{ transform: true, iconOpen: 'vxe-icon-arrow-down', iconClose: 'vxe-icon-arrow-right', reserve: true }"
       :scroll-y="{ enabled: true }"
       :init-param="initParam"
       height="600"
@@ -98,7 +98,7 @@
         </el-form-item>
         <el-form-item label="地区状态" prop="status">
           <el-radio-group v-model="regionItemFrom.status">
-            <el-radio-button v-for="dict in statusEnum" :key="Number(dict.value)" :label="dict.value">
+            <el-radio-button v-for="dict in statusEnum" :key="Number(dict.value)" :value="dict.value">
               {{ dict.label }}
             </el-radio-button>
           </el-radio-group>

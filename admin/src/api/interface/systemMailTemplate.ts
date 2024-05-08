@@ -12,7 +12,7 @@ export namespace SystemMailTemplate {
     id: number; // 主键
     name: string; // 模板名称
     code: string; // 模板编码
-    accountId: number; // 发送的邮箱账号编号
+    accountId: number | undefined; // 发送的邮箱账号编号
     nickname: string; // 发送人名称
     title: string; // 模板标题
     content: string; // 模板内容

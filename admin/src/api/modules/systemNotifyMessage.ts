@@ -14,14 +14,14 @@ export const getSystemNotifyMessageItemApi = (id: number) => {
 };
 
 // 添加
-export const addSystemNotifyMessageApi = (params: SystemNotifyMessage.ResSystemNotifyMessageItem) => {
-  return http.post(PORT + `/system/notify/message`, params);
-};
+// export const addSystemNotifyMessageApi = (params: SystemNotifyMessage.ResSystemNotifyMessageItem) => {
+//   return http.post(PORT + `/system/notify/message`, params);
+// };
 
-// 修改
-export const updateSystemNotifyMessageApi = (id: number, params: SystemNotifyMessage.ResSystemNotifyMessageItem) => {
-  return http.put(PORT + `/system/notify/message/${id}/update`, params);
-};
+// // 修改
+// export const updateSystemNotifyMessageApi = (id: number, params: SystemNotifyMessage.ResSystemNotifyMessageItem) => {
+//   return http.put(PORT + `/system/notify/message/${id}/update`, params);
+// };
 
 // 删除
 export const deleteSystemNotifyMessageApi = (id: number) => {

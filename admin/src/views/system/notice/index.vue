@@ -66,14 +66,14 @@
         </el-form-item>
         <el-form-item label="公告类型" prop="type">
           <el-radio-group v-model="systemNoticeItemFrom.type">
-            <el-radio-button v-for="dict in typeEnum" :key="Number(dict.value)" :label="dict.value">
+            <el-radio-button v-for="dict in typeEnum" :key="Number(dict.value)" :value="dict.value">
               {{ dict.label }}
             </el-radio-button>
           </el-radio-group>
         </el-form-item>
         <el-form-item label="公告状态" prop="status">
           <el-radio-group v-model="systemNoticeItemFrom.status">
-            <el-radio-button v-for="dict in statusEnum" :key="Number(dict.value)" :label="dict.value">
+            <el-radio-button v-for="dict in statusEnum" :key="Number(dict.value)" :value="dict.value">
               {{ dict.label }}
             </el-radio-button>
           </el-radio-group>
