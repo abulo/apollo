@@ -209,6 +209,7 @@ const columns: ColumnProps<SystemDict.ResSystemDictItem>[] = [
 
 // 重置数据
 const reset = () => {
+  loading.value = false;
   systemDictItemFrom.value = {
     id: 0, //字典主键
     sort: 0, //字典排序

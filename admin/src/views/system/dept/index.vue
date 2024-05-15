@@ -212,6 +212,7 @@ const rulesSystemDeptItemFrom = reactive<FormRules>({
 
 // 重置数据
 const reset = () => {
+  loading.value = false;
   systemDeptItemFrom.value = {
     id: 0, //部门ID
     name: "", //部门名称

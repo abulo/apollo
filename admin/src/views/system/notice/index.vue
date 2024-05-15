@@ -171,6 +171,7 @@ const columns: ColumnProps<SystemNotice.ResSystemNoticeItem>[] = [
 ];
 // 重置数据
 const reset = () => {
+  loading.value = false;
   systemNoticeItemFrom.value = {
     id: 0, // 公告ID
     title: "", // 公告标题

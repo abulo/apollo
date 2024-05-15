@@ -2,6 +2,7 @@ package service
 
 import (
 	"cloud/service/captcha"
+	"cloud/service/pay"
 	"cloud/service/region"
 	"cloud/service/system"
 
@@ -19,4 +20,5 @@ func Registry(server *xgrpc.Server) {
 		Server: server,
 	})
 	system.Registry(server)
+	pay.Registry(server)
 }

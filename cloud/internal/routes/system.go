@@ -1,7 +1,6 @@
 package routes
 
 import (
-	"cloud/api/region"
 	"cloud/api/system/dept"
 	"cloud/api/system/dict"
 	"cloud/api/system/logger"
@@ -18,7 +17,7 @@ import (
 	"github.com/abulo/ratel/v3/server/xhertz"
 )
 
-func ManagerInitRoute(handle *xhertz.Server) {
+func SystemInitRoute(handle *xhertz.Server) {
 	auth := handle.Group("/admin").Use(middleware.AuthMiddleware())
 	{
 
@@ -216,21 +215,6 @@ func ManagerInitRoute(handle *xhertz.Server) {
 		auth.GET("/system/role/:id/scope", role.SystemRoleDataScope)
 		// system_role->系统角色->数据范围
 		auth.POST("/system/role/:id/scope", role.SystemRoleDataScopeCreate)
-
-		// region->地区表->创建
-		auth.POST("/region", region.RegionCreate)
-		// region->地区表->更新
-		auth.PUT("/region/:id/update", region.RegionUpdate)
-		// region->地区表->删除
-		auth.DELETE("/region/:id/delete", region.RegionDelete)
-		// region->地区表->单条数据信息查看
-		auth.GET("/region/:id/item", region.Region)
-		// region->地区表->恢复
-		auth.PUT("/region/:id/recover", region.RegionRecover)
-		// region->地区表->列表
-		auth.GET("/region", region.RegionList)
-		// region->地区表->搜索
-		auth.GET("/region/search", region.RegionSearch)
 
 		// system_notice->通知公告表->创建
 		auth.POST("/system/notice", notice.SystemNoticeCreate)

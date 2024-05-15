@@ -356,6 +356,7 @@ const columns: ColumnProps<SystemRole.ResSystemRoleItem>[] = [
 ];
 // 重置数据
 const reset = () => {
+  loading.value = false;
   systemRoleItemFrom.value = {
     id: 0, //bigint 角色ID,PRI
     name: "", //varchar 角色名称

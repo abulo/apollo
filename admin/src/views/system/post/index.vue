@@ -159,6 +159,7 @@ const columns: ColumnProps<SystemPost.ResSystemPostItem>[] = [
 ];
 // 重置数据
 const reset = () => {
+  loading.value = false;
   systemPostItemFrom.value = {
     id: 0, //bigint 岗位ID,PRI
     name: "", //varchar 岗位名称

@@ -1,0 +1,173 @@
+
+syntax = "proto3";
+// pay_notify_task 商户支付-退款等的通知
+package notify;
+option go_package = "./notify";
+import "google/protobuf/timestamp.proto";
+
+// PayNotifyTaskObject 数据对象
+message PayNotifyTaskObject {
+	// @inject_tag: db:"id" json:"id"
+	optional int64 id = 1; //任务编号
+	// @inject_tag: db:"app_id" json:"appId"
+	optional int64 app_id = 2; //应用编号
+	// @inject_tag: db:"type" json:"type"
+	optional int32 type = 3; //通知类型
+	// @inject_tag: db:"data_id" json:"dataId"
+	optional int64 data_id = 4; //数据编号
+	// @inject_tag: db:"status" json:"status"
+	optional int32 status = 5; //通知状态
+	// @inject_tag: db:"merchant_order_id" json:"merchantOrderId"
+	optional string merchant_order_id = 6; //商户订单编号
+	// @inject_tag: db:"merchant_transfer_id" json:"merchantTransferId"
+	optional string merchant_transfer_id = 7; //商户转账单编号
+	// @inject_tag: db:"next_notify_time" json:"nextNotifyTime"
+	google.protobuf.Timestamp next_notify_time = 8; //下一次通知时间
+	// @inject_tag: db:"last_execute_time" json:"lastExecuteTime"
+	google.protobuf.Timestamp last_execute_time = 9; //最后一次执行时间
+	// @inject_tag: db:"notify_times" json:"notifyTimes"
+	optional int32 notify_times = 10; //当前通知次数
+	// @inject_tag: db:"max_notify_times" json:"maxNotifyTimes"
+	optional int32 max_notify_times = 11; //最大可通知次数
+	// @inject_tag: db:"notify_url" json:"notifyUrl"
+	optional string notify_url = 12; //异步通知地址
+	// @inject_tag: db:"deleted" json:"deleted"
+	optional int32 deleted = 13; //删除
+	// @inject_tag: db:"tenant_id" json:"tenantId"
+	optional int64 tenant_id = 14; //租户
+	// @inject_tag: db:"creator" json:"creator"
+	optional string creator = 15; //创建人
+	// @inject_tag: db:"create_time" json:"createTime"
+	google.protobuf.Timestamp create_time = 16; //创建时间
+	// @inject_tag: db:"updater" json:"updater"
+	optional string updater = 17; //更新人
+	// @inject_tag: db:"update_time" json:"updateTime"
+	google.protobuf.Timestamp update_time = 18; //更新时间
+}
+// PayNotifyTaskTotalResponse 列表数据总量
+message PayNotifyTaskTotalResponse {
+	int64 code = 1;
+	string msg = 2;
+	int64 data = 3;
+}
+// PayNotifyTaskCreateRequest 创建数据请求
+message PayNotifyTaskCreateRequest {
+	PayNotifyTaskObject data = 1;
+}
+// PayNotifyTaskCreateResponse 创建数据响应
+message PayNotifyTaskCreateResponse {
+	int64 code = 1;
+	string msg = 2;
+	int64 data = 3;
+}
+// PayNotifyTaskUpdateRequest 更新数据请求
+message PayNotifyTaskUpdateRequest {
+	// @inject_tag: db:"id" json:"id"
+	int64 id = 1; //任务编号
+	PayNotifyTaskObject data = 2;
+}
+// PayNotifyTaskUpdateResponse 更新数据响应
+message PayNotifyTaskUpdateResponse {
+	int64 code = 1;
+	string msg = 2;
+}
+// PayNotifyTaskDeleteRequest 删除数据请求
+message PayNotifyTaskDeleteRequest {
+	// @inject_tag: db:"id" json:"id"
+	int64 id = 1; //任务编号
+}
+// PayNotifyTaskDeleteResponse 删除数据响应
+message PayNotifyTaskDeleteResponse {
+	int64 code = 1;
+	string msg = 2;
+}
+// PayNotifyTaskRequest 查询单条数据请求
+message PayNotifyTaskRequest {
+	// @inject_tag: db:"id" json:"id"
+	int64 id = 1; //任务编号
+}
+// PayNotifyTaskResponse 查询单条数据响应
+message PayNotifyTaskResponse {
+	int64 code = 1;
+	string msg = 2;
+	PayNotifyTaskObject data = 3;
+}
+// PayNotifyTaskRecoverRequest 恢复数据请求
+message PayNotifyTaskRecoverRequest {
+	// @inject_tag: db:"id" json:"id"
+	int64 id = 1; //任务编号
+}
+// PayNotifyTaskRecoverResponse 删除数据响应
+message PayNotifyTaskRecoverResponse {
+	int64 code = 1;
+	string msg = 2;
+}
+// PayNotifyTaskListRequest 列表数据
+message PayNotifyTaskListRequest {
+	
+	// @inject_tag: db:"tenant_id" json:"tenantId"
+	optional int64 tenant_id = 1; // 租户
+	// @inject_tag: db:"deleted" json:"deleted"
+	optional int32 deleted = 2; // 删除
+	// @inject_tag: db:"app_id" json:"appId"
+	optional int64 app_id = 3; // 应用编号
+	// @inject_tag: db:"type" json:"type"
+	optional int32 type = 4; // 通知类型
+	// @inject_tag: db:"data_id" json:"dataId"
+	optional int64 data_id = 5; // 数据编号
+	// @inject_tag: db:"status" json:"status"
+	optional int32 status = 6; // 通知状态
+	// @inject_tag: db:"merchant_order_id" json:"merchantOrderId"
+	optional string merchant_order_id = 7; // 商户订单编号
+	// @inject_tag: db:"begin_create_time" json:"beginCreateTime"
+	google.protobuf.Timestamp begin_create_time = 8; // 创建时间
+	// @inject_tag: db:"finish_create_time" json:"finishCreateTime"
+	google.protobuf.Timestamp finish_create_time = 9; // 创建时间
+
+	// @inject_tag: db:"page_num" json:"pageNum"
+	optional int64 page_num = 10;
+	// @inject_tag: db:"page_size" json:"pageSize"
+	optional int64 page_size = 11;
+}
+
+// PayNotifyTaskListResponse 数据响应
+message PayNotifyTaskListResponse {
+	int64 code = 1;
+  	string msg = 2;
+	repeated PayNotifyTaskObject data = 3;
+}
+// PayNotifyTaskListTotalRequest 列表数据
+message PayNotifyTaskListTotalRequest {
+	
+	// @inject_tag: db:"tenant_id" json:"tenantId"
+	optional int64 tenant_id = 1; // 租户
+	// @inject_tag: db:"deleted" json:"deleted"
+	optional int32 deleted = 2; // 删除
+	// @inject_tag: db:"app_id" json:"appId"
+	optional int64 app_id = 3; // 应用编号
+	// @inject_tag: db:"type" json:"type"
+	optional int32 type = 4; // 通知类型
+	// @inject_tag: db:"data_id" json:"dataId"
+	optional int64 data_id = 5; // 数据编号
+	// @inject_tag: db:"status" json:"status"
+	optional int32 status = 6; // 通知状态
+	// @inject_tag: db:"merchant_order_id" json:"merchantOrderId"
+	optional string merchant_order_id = 7; // 商户订单编号
+	// @inject_tag: db:"begin_create_time" json:"beginCreateTime"
+	google.protobuf.Timestamp begin_create_time = 8; // 创建时间
+	// @inject_tag: db:"finish_create_time" json:"finishCreateTime"
+	google.protobuf.Timestamp finish_create_time = 9; // 创建时间
+
+}
+
+
+// PayNotifyTaskService 服务
+service PayNotifyTaskService{
+	rpc PayNotifyTaskCreate(PayNotifyTaskCreateRequest) returns (PayNotifyTaskCreateResponse);
+	rpc PayNotifyTaskUpdate(PayNotifyTaskUpdateRequest) returns (PayNotifyTaskUpdateResponse);
+	rpc PayNotifyTaskDelete(PayNotifyTaskDeleteRequest) returns (PayNotifyTaskDeleteResponse);
+	rpc PayNotifyTask(PayNotifyTaskRequest) returns (PayNotifyTaskResponse);
+	rpc PayNotifyTaskRecover(PayNotifyTaskRecoverRequest) returns (PayNotifyTaskRecoverResponse);
+	rpc PayNotifyTaskList(PayNotifyTaskListRequest) returns (PayNotifyTaskListResponse);
+	rpc PayNotifyTaskListTotal(PayNotifyTaskListTotalRequest) returns (PayNotifyTaskTotalResponse);
+}

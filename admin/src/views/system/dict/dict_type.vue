@@ -150,6 +150,7 @@ const columns: ColumnProps<SystemDictType.ResSystemDictTypeItem>[] = [
 
 // 重置数据
 const reset = () => {
+  loading.value = false;
   systemDictTypeItemFrom.value = {
     id: 0, //字典主键
     name: "", //字典名称
