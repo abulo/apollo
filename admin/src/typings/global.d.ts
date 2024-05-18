@@ -35,6 +35,12 @@ declare namespace File {
     | "image/x-icon";
 
   type ExcelMimeType = "application/vnd.ms-excel" | "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+  type WordMimeType = "application/msword" | "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
+  type PdfMimeType = "application/pdf";
+  type PptMimeType =
+    | "application/vnd.ms-powerpoint"
+    | "application/vnd.openxmlformats-officedocument.presentationml.presentation";
+  type MimeType = ImageMimeType | ExcelMimeType | WordMimeType | PdfMimeType | PptMimeType;
 }
 
 /* Vite */
@@ -53,6 +59,7 @@ declare interface ViteEnv {
   VITE_PWA: boolean;
   VITE_PUBLIC_PATH: string;
   VITE_API_URL: string;
+  VITE_STATIC_URL: string;
   VITE_PROXY: [string, string][];
 }
 

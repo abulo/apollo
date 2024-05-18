@@ -3,6 +3,7 @@ package routes
 import (
 	"cloud/api/system/dept"
 	"cloud/api/system/dict"
+	"cloud/api/system/file"
 	"cloud/api/system/logger"
 	"cloud/api/system/mail"
 	"cloud/api/system/menu"
@@ -295,5 +296,16 @@ func SystemInitRoute(handle *xhertz.Server) {
 		auth.PUT("/system/mail/log/:id/recover", mail.SystemMailLogRecover)
 		// system_mail_log->邮件日志表->列表
 		auth.GET("/system/mail/log", mail.SystemMailLogList)
+
+		// system_file->文件管理->创建
+		auth.POST("/system/file", file.SystemFileCreate)
+		// system_file->文件管理->更新
+		auth.PUT("/system/file/:id/update", file.SystemFileUpdate)
+		// system_file->文件管理->删除
+		auth.DELETE("/system/file/:id/delete", file.SystemFileDelete)
+		// system_file->文件管理->单条数据信息查看
+		auth.GET("/system/file/:id/item", file.SystemFile)
+		// system_file->文件管理->列表
+		auth.GET("/system/file", file.SystemFileList)
 	}
 }

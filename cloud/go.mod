@@ -9,6 +9,7 @@ require (
 	github.com/cloudwego/hertz v0.9.0
 	github.com/fsnotify/fsnotify v1.7.0
 	github.com/golang-jwt/jwt/v5 v5.2.1
+	github.com/h2non/filetype v1.1.3
 	github.com/mojocn/base64Captcha v1.3.6
 	github.com/pkg/errors v0.9.1
 	github.com/sirupsen/logrus v1.9.3

@@ -57,7 +57,7 @@
       draggable
       :lock-scroll="false"
       class="dialog-settings">
-      <el-form ref="refPayAppItemFrom" :model="payAppItemFrom" :rules="rulesPayAppItemFrom" label-width="100px">
+      <el-form ref="refPayAppItemFrom" :model="payAppItemFrom" :rules="rulesPayAppItemFrom" label-width="150px">
         <el-form-item label="应用名称" prop="name">
           <el-input v-model="payAppItemFrom.name" />
         </el-form-item>
@@ -76,9 +76,6 @@
         </el-form-item>
         <el-form-item label="备注" prop="remark">
           <el-input v-model="payAppItemFrom.remark" placeholder="请输入备注" />
-        </el-form-item>
-        <el-form-item label="备注" prop="remark">
-          <el-input v-model="payAppItemFrom.remark" />
         </el-form-item>
       </el-form>
       <template #footer>
@@ -414,7 +411,7 @@ import { HasPermission } from "@/utils/permission";
 import type { UploadProps, UploadRequestOptions } from "element-plus";
 //加载
 const loading = ref(false);
-//弹出层标题
+//弹出层标题1
 const title = ref();
 //table数据
 const proTable = ref<ProTableInstance>();

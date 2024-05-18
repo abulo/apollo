@@ -7,6 +7,12 @@
     overflow: auto;
   }
 }
+.dialog-settings-none {
+  .el-dialog__body {
+    scrollbar-width: none;
+    text-align: center;
+  }
+}
 .el-dialog .el-dialog__header {
   // border-bottom: unset;
   margin-bottom: 18px;

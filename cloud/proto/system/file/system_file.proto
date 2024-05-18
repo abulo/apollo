@@ -1,0 +1,124 @@
+
+syntax = "proto3";
+// system_file 文件管理
+package file;
+option go_package = "./file";
+import "google/protobuf/timestamp.proto";
+
+// SystemFileObject 数据对象
+message SystemFileObject {
+	// @inject_tag: db:"id" json:"id"
+	optional int64 id = 1; //编号
+	// @inject_tag: db:"file_name" json:"fileName"
+	optional string file_name = 2; //文件名称
+	// @inject_tag: db:"file_type" json:"fileType"
+	optional int32 file_type = 3; //文件类型
+	// @inject_tag: db:"file_mime_type" json:"fileMimeType"
+	optional string file_mime_type = 4; //Mime类型
+	// @inject_tag: db:"file_size" json:"fileSize"
+	optional int64 file_size = 5; //文件大小
+	// @inject_tag: db:"file_path" json:"filePath"
+	optional string file_path = 6; //文件路径
+	// @inject_tag: db:"tenant_id" json:"tenantId"
+	optional int64 tenant_id = 7; //租户
+	// @inject_tag: db:"creator" json:"creator"
+	optional string creator = 8; //创建人
+	// @inject_tag: db:"create_time" json:"createTime"
+	google.protobuf.Timestamp create_time = 9; //创建时间
+	// @inject_tag: db:"updater" json:"updater"
+	optional string updater = 10; //更新人
+	// @inject_tag: db:"update_time" json:"updateTime"
+	google.protobuf.Timestamp update_time = 11; //更新时间
+}
+// SystemFileTotalResponse 列表数据总量
+message SystemFileTotalResponse {
+	int64 code = 1;
+	string msg = 2;
+	int64 data = 3;
+}
+// SystemFileCreateRequest 创建数据请求
+message SystemFileCreateRequest {
+	SystemFileObject data = 1;
+}
+// SystemFileCreateResponse 创建数据响应
+message SystemFileCreateResponse {
+	int64 code = 1;
+	string msg = 2;
+	int64 data = 3;
+}
+// SystemFileUpdateRequest 更新数据请求
+message SystemFileUpdateRequest {
+	// @inject_tag: db:"id" json:"id"
+	int64 id = 1; //编号
+	SystemFileObject data = 2;
+}
+// SystemFileUpdateResponse 更新数据响应
+message SystemFileUpdateResponse {
+	int64 code = 1;
+	string msg = 2;
+}
+// SystemFileDeleteRequest 删除数据请求
+message SystemFileDeleteRequest {
+	// @inject_tag: db:"id" json:"id"
+	int64 id = 1; //编号
+}
+// SystemFileDeleteResponse 删除数据响应
+message SystemFileDeleteResponse {
+	int64 code = 1;
+	string msg = 2;
+}
+// SystemFileRequest 查询单条数据请求
+message SystemFileRequest {
+	// @inject_tag: db:"id" json:"id"
+	int64 id = 1; //编号
+}
+// SystemFileResponse 查询单条数据响应
+message SystemFileResponse {
+	int64 code = 1;
+	string msg = 2;
+	SystemFileObject data = 3;
+}
+// SystemFileListRequest 列表数据
+message SystemFileListRequest {
+	
+	// @inject_tag: db:"tenant_id" json:"tenantId"
+	optional int64 tenant_id = 1; // 租户
+	// @inject_tag: db:"file_type" json:"fileType"
+	optional int32 file_type = 2; // 文件类型
+	// @inject_tag: db:"file_name" json:"fileName"
+	optional string file_name = 3; // 文件名称
+
+	// @inject_tag: db:"page_num" json:"pageNum"
+	optional int64 page_num = 4;
+	// @inject_tag: db:"page_size" json:"pageSize"
+	optional int64 page_size = 5;
+}
+
+// SystemFileListResponse 数据响应
+message SystemFileListResponse {
+	int64 code = 1;
+  	string msg = 2;
+	repeated SystemFileObject data = 3;
+}
+// SystemFileListTotalRequest 列表数据
+message SystemFileListTotalRequest {
+	
+	// @inject_tag: db:"tenant_id" json:"tenantId"
+	optional int64 tenant_id = 1; // 租户
+	// @inject_tag: db:"file_type" json:"fileType"
+	optional int32 file_type = 2; // 文件类型
+	// @inject_tag: db:"file_name" json:"fileName"
+	optional string file_name = 3; // 文件名称
+
+}
+
+
+// SystemFileService 服务
+service SystemFileService{
+	rpc SystemFileCreate(SystemFileCreateRequest) returns (SystemFileCreateResponse);
+	rpc SystemFileUpdate(SystemFileUpdateRequest) returns (SystemFileUpdateResponse);
+	rpc SystemFileDelete(SystemFileDeleteRequest) returns (SystemFileDeleteResponse);
+	rpc SystemFile(SystemFileRequest) returns (SystemFileResponse);
+	rpc SystemFileList(SystemFileListRequest) returns (SystemFileListResponse);
+	rpc SystemFileListTotal(SystemFileListTotalRequest) returns (SystemFileTotalResponse);
+}

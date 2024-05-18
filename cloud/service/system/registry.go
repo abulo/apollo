@@ -3,6 +3,7 @@ package system
 import (
 	"cloud/service/system/dept"
 	"cloud/service/system/dict"
+	"cloud/service/system/file"
 	"cloud/service/system/logger"
 	"cloud/service/system/mail"
 	"cloud/service/system/menu"
@@ -102,5 +103,8 @@ func Registry(server *xgrpc.Server) {
 	mail.RegisterSystemMailLogServiceServer(server.Server, &mail.SrvSystemMailLogServiceServer{
 		Server: server,
 	})
-
+	// 文件管理->system_file
+	file.RegisterSystemFileServiceServer(server.Server, &file.SrvSystemFileServiceServer{
+		Server: server,
+	})
 }
