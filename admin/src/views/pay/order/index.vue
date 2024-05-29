@@ -5,7 +5,7 @@
       title="支付订单列表"
       row-key="id"
       :columns="columns"
-      :request-api="getPayOrderListApi"
+      :request-api="getTableList"
       :request-auto="true"
       :pagination="true"
       :search-col="12">
@@ -300,6 +300,15 @@ const handleItem = async (row: PayOrder.ResPayOrderItem) => {
   const { data } = await getPayOrderItemApi(Number(row.id));
   payOrderItemFrom.value = data;
 };
+
+const getTableList = (params: any) => {
+  let newParams = JSON.parse(JSON.stringify(params));
+  newParams.createTime && (newParams.beginCreateTimeTime = newParams.createTime[0]);
+  newParams.createTime && (newParams.finishCreateTimeTime = newParams.createTime[1]);
+  delete newParams.createTime;
+  return getPayOrderListApi(newParams);
+};
+
 onMounted(async () => {
   const { data } = await getPayAppListApi();
   payAppList.value = data;
