@@ -359,11 +359,8 @@ func SystemFileList(ctx context.Context, newCtx *app.RequestContext) {
 	// 构造查询条件
 	request := &file.SystemFileListRequest{}
 	requestTotal := &file.SystemFileListTotalRequest{}
-
-	if val, ok := newCtx.GetQuery("tenantId"); ok {
-		request.TenantId = proto.Int64(cast.ToInt64(val))      // 租户
-		requestTotal.TenantId = proto.Int64(cast.ToInt64(val)) // 租户
-	}
+	request.TenantId = proto.Int64(newCtx.GetInt64("tenantId"))      // 租户ID
+	requestTotal.TenantId = proto.Int64(newCtx.GetInt64("tenantId")) // 租户ID
 	if val, ok := newCtx.GetQuery("fileType"); ok {
 		request.FileType = proto.Int32(cast.ToInt32(val))      // 文件类型
 		requestTotal.FileType = proto.Int32(cast.ToInt32(val)) // 文件类型

@@ -22,9 +22,9 @@
     # 驱动名称
     DriverName = "mysql"
 [vue]
-    MethodPath = "src/api/method"
-    InterfacePath = "src/api/interface"
-    PagePath = "src/view"
+    ModulesDir = "src/api/modules"
+    InterfaceDir = "src/api/interface"
+    PageDir = "src/views"
 [watch]
     # 在 go.mod 发生变化自动运行 go mod tidy
     AutoTidy = true

@@ -62,16 +62,26 @@
       center
       append-to-body
       draggable
+      v-loading="viewLoading"
       :lock-scroll="false"
       class="dialog-settings dialog-settings-none">
-      <vue-office-pdf :src="FileUrl(systemFileItemFrom.filePath)" style="height: 100vh" v-if="systemFileItemFrom.fileType == 5" />
+      <vue-office-pdf
+        :src="FileUrl(systemFileItemFrom.filePath)"
+        style="height: 100vh"
+        @rendered="renderedHandler"
+        @error="errorHandler"
+        v-if="systemFileItemFrom.fileType == 5" />
       <vue-office-excel
         :src="FileUrl(systemFileItemFrom.filePath)"
         style="height: 100vh"
+        @rendered="renderedHandler"
+        @error="errorHandler"
         v-if="systemFileItemFrom.fileType == 3" />
       <vue-office-docx
         :src="FileUrl(systemFileItemFrom.filePath)"
         style="height: 100vh"
+        @rendered="renderedHandler"
+        @error="errorHandler"
         v-if="systemFileItemFrom.fileType == 2" />
       <el-image :src="FileUrl(systemFileItemFrom.filePath)" style="height: 100vh" v-if="systemFileItemFrom.fileType == 1" />
     </el-dialog>
@@ -101,6 +111,8 @@ const title = ref();
 const proTable = ref<ProTableInstance>();
 //是否显示弹出层
 const centerDialogVisible = ref(false);
+// 是否显示加载
+const viewLoading = ref(false);
 //数据接口
 const systemFileItemFrom = ref<SystemFile.ResSystemFileItem>({
   id: 0, //编号
@@ -130,6 +142,7 @@ const columns: ColumnProps<SystemFile.ResSystemFileItem>[] = [
 
 // 重置数据
 const reset = () => {
+  centerDialogVisible.value = false;
   systemFileItemFrom.value = {
     id: 0, //编号
     fileName: "", //文件名称
@@ -140,11 +153,22 @@ const reset = () => {
   };
 };
 
+const renderedHandler = () => {
+  console.log("渲染完成");
+  viewLoading.value = false;
+};
+
+const errorHandler = () => {
+  console.log("渲染失败");
+  viewLoading.value = false;
+  centerDialogVisible.value = false;
+};
+
 // 编辑按钮
 const handleItem = async (row: SystemFile.ResSystemFileItem) => {
   title.value = "文件预览";
-  centerDialogVisible.value = true;
   reset();
+  centerDialogVisible.value = true;
   systemFileItemFrom.value = row;
 };
 

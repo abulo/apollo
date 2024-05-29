@@ -11,7 +11,7 @@
  Target Server Version : 80400 (8.4.0)
  File Encoding         : 65001
 
- Date: 18/05/2024 16:47:16
+ Date: 29/05/2024 23:36:21
 */
 
 SET NAMES utf8mb4;
@@ -108,13 +108,15 @@ CREATE TABLE `pay_app` (
   `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`id`),
   KEY `idx:list` (`tenant_id`,`deleted`,`status`,`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='支付应用信息';
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='支付应用信息';
 
 -- ----------------------------
 -- Records of pay_app
 -- ----------------------------
 BEGIN;
-INSERT INTO `pay_app` (`id`, `name`, `status`, `remark`, `order_notify_url`, `refund_notify_url`, `transfer_notify_url`, `deleted`, `tenant_id`, `creator`, `create_time`, `updater`, `update_time`) VALUES (1, '测试应用', 0, 'ddd', 'ddd', 'ddd', '', 0, 1, 'admin', '2024-05-15 13:06:36', 'admin', '2024-05-18 13:25:19');
+INSERT INTO `pay_app` (`id`, `name`, `status`, `remark`, `order_notify_url`, `refund_notify_url`, `transfer_notify_url`, `deleted`, `tenant_id`, `creator`, `create_time`, `updater`, `update_time`) VALUES (1, '商城应用', 0, NULL, 'http://127.0.0.1:48080/app-api/trade/order/update-paid', 'http://127.0.0.1:48080/admin-api/trade/after-sale/update-refunded', '', 0, 1, '1', '2023-02-11 21:20:54', '1', '2023-08-18 14:54:15');
+INSERT INTO `pay_app` (`id`, `name`, `status`, `remark`, `order_notify_url`, `refund_notify_url`, `transfer_notify_url`, `deleted`, `tenant_id`, `creator`, `create_time`, `updater`, `update_time`) VALUES (7, '示例应用', 0, NULL, 'http://127.0.0.1:48080/admin-api/pay/demo-order/update-paid', 'http://127.0.0.1:48080/admin-api/pay/demo-order/update-refunded', '', 0, 1, '1', '2023-02-11 21:20:54', '1', '2023-07-17 16:37:28');
+INSERT INTO `pay_app` (`id`, `name`, `status`, `remark`, `order_notify_url`, `refund_notify_url`, `transfer_notify_url`, `deleted`, `tenant_id`, `creator`, `create_time`, `updater`, `update_time`) VALUES (8, '会员钱包', 0, NULL, 'http://127.0.0.1:48080/admin-api/pay/wallet-recharge/update-paid', 'http://127.0.0.1:48080/admin-api/pay/wallet-recharge/update-refunded', '', 0, 1, '1', '2023-09-30 18:43:09', '1', '2023-09-30 18:51:27');
 COMMIT;
 
 -- ----------------------------
@@ -238,12 +240,13 @@ CREATE TABLE `pay_order` (
   `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`id`),
   KEY `idx:list` (`tenant_id`,`deleted`,`app_id`,`channel_id`,`channel_code`,`merchant_order_id`,`no`,`channel_order_no`,`status`,`create_time`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='支付订单';
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='支付订单';
 
 -- ----------------------------
 -- Records of pay_order
 -- ----------------------------
 BEGIN;
+INSERT INTO `pay_order` (`id`, `app_id`, `channel_id`, `channel_code`, `merchant_order_id`, `subject`, `body`, `notify_url`, `price`, `channel_fee_rate`, `channel_fee_price`, `status`, `user_ip`, `expire_time`, `success_time`, `extension_id`, `no`, `refund_price`, `channel_user_id`, `channel_order_no`, `deleted`, `tenant_id`, `creator`, `create_time`, `updater`, `update_time`) VALUES (1, 1, 1, 'mock', '1', '1', '1', '1', 1, 1, 1, 0, '1', '2024-05-29 21:28:10', '2024-05-29 21:28:13', 1, '1', 1, '1', '1', 0, 1, '1', '2024-05-29 21:28:32', '1', '2024-05-29 21:28:32');
 COMMIT;
 
 -- ----------------------------
@@ -3824,7 +3827,7 @@ CREATE TABLE `system_dict` (
   `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`id`),
   KEY `list:data` (`dict_type`,`status`,`sort`)
-) ENGINE=InnoDB AUTO_INCREMENT=51 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='字典数据表';
+) ENGINE=InnoDB AUTO_INCREMENT=55 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='字典数据表';
 
 -- ----------------------------
 -- Records of system_dict
@@ -3880,6 +3883,10 @@ INSERT INTO `system_dict` (`id`, `sort`, `label`, `value`, `dict_type`, `status`
 INSERT INTO `system_dict` (`id`, `sort`, `label`, `value`, `dict_type`, `status`, `color_type`, `css_class`, `remark`, `creator`, `create_time`, `updater`, `update_time`) VALUES (48, 0, '表格', '3', 'file.type', 0, '', '', '', 'admin', '2024-05-17 18:48:43', '', '2024-05-17 18:48:43');
 INSERT INTO `system_dict` (`id`, `sort`, `label`, `value`, `dict_type`, `status`, `color_type`, `css_class`, `remark`, `creator`, `create_time`, `updater`, `update_time`) VALUES (49, 0, 'PPT', '4', 'file.type', 0, '', '', '', 'admin', '2024-05-17 18:48:54', '', '2024-05-17 18:48:54');
 INSERT INTO `system_dict` (`id`, `sort`, `label`, `value`, `dict_type`, `status`, `color_type`, `css_class`, `remark`, `creator`, `create_time`, `updater`, `update_time`) VALUES (50, 0, 'PDF', '5', 'file.type', 0, '', '', '', 'admin', '2024-05-17 18:49:05', '', '2024-05-17 18:49:05');
+INSERT INTO `system_dict` (`id`, `sort`, `label`, `value`, `dict_type`, `status`, `color_type`, `css_class`, `remark`, `creator`, `create_time`, `updater`, `update_time`) VALUES (51, 0, '等待支付', '0', 'pay.orderStatus', 0, 'info', '', '', 'admin', '2024-05-29 21:15:29', '', '2024-05-29 21:15:29');
+INSERT INTO `system_dict` (`id`, `sort`, `label`, `value`, `dict_type`, `status`, `color_type`, `css_class`, `remark`, `creator`, `create_time`, `updater`, `update_time`) VALUES (52, 1, '支付成功', '1', 'pay.orderStatus', 0, 'success', '', '', 'admin', '2024-05-29 21:15:44', '', '2024-05-29 21:15:44');
+INSERT INTO `system_dict` (`id`, `sort`, `label`, `value`, `dict_type`, `status`, `color_type`, `css_class`, `remark`, `creator`, `create_time`, `updater`, `update_time`) VALUES (53, 2, '已退款', '2', 'pay.orderStatus', 0, 'danger', '', '', 'admin', '2024-05-29 21:16:04', '', '2024-05-29 21:16:04');
+INSERT INTO `system_dict` (`id`, `sort`, `label`, `value`, `dict_type`, `status`, `color_type`, `css_class`, `remark`, `creator`, `create_time`, `updater`, `update_time`) VALUES (54, 3, '已退款', '3', 'pay.orderStatus', 0, 'info', '', '', 'admin', '2024-05-29 21:16:19', '', '2024-05-29 21:16:19');
 COMMIT;
 
 -- ----------------------------
@@ -3899,7 +3906,7 @@ CREATE TABLE `system_dict_type` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `uniq:type` (`type`),
   KEY `idx:list` (`status`,`type`,`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='字典类型';
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='字典类型';
 
 -- ----------------------------
 -- Records of system_dict_type
@@ -3922,6 +3929,7 @@ INSERT INTO `system_dict_type` (`id`, `name`, `type`, `status`, `remark`, `creat
 INSERT INTO `system_dict_type` (`id`, `name`, `type`, `status`, `remark`, `creator`, `create_time`, `updater`, `update_time`) VALUES (16, '邮件发送状态', 'mailLog.sendStatus', 0, '', 'admin', '2024-05-08 18:20:29', '', '2024-05-08 18:20:29');
 INSERT INTO `system_dict_type` (`id`, `name`, `type`, `status`, `remark`, `creator`, `create_time`, `updater`, `update_time`) VALUES (17, '支付渠道', 'payChannel.code', 0, '', 'admin', '2024-05-13 23:32:45', '', '2024-05-13 23:32:45');
 INSERT INTO `system_dict_type` (`id`, `name`, `type`, `status`, `remark`, `creator`, `create_time`, `updater`, `update_time`) VALUES (18, '文件类型', 'file.type', 0, '', 'admin', '2024-05-17 18:47:43', '', '2024-05-17 18:47:43');
+INSERT INTO `system_dict_type` (`id`, `name`, `type`, `status`, `remark`, `creator`, `create_time`, `updater`, `update_time`) VALUES (19, '支付状态', 'pay.orderStatus', 0, '', 'admin', '2024-05-29 21:15:01', '', '2024-05-29 21:15:01');
 COMMIT;
 
 -- ----------------------------
@@ -3942,7 +3950,7 @@ CREATE TABLE `system_file` (
   `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`id`),
   KEY `idx:list` (`tenant_id`,`file_type`,`file_name`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='文件管理';
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='文件管理';
 
 -- ----------------------------
 -- Records of system_file
@@ -3969,7 +3977,7 @@ CREATE TABLE `system_login_log` (
   `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`id`),
   KEY `idx:list` (`tenant_id`,`deleted`,`username`,`login_time`,`channel`)
-) ENGINE=InnoDB AUTO_INCREMENT=47 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='登录日志';
+) ENGINE=InnoDB AUTO_INCREMENT=53 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='登录日志';
 
 -- ----------------------------
 -- Records of system_login_log
@@ -4102,7 +4110,7 @@ CREATE TABLE `system_menu` (
   `deleted` tinyint NOT NULL DEFAULT '0' COMMENT '是否删除',
   PRIMARY KEY (`id`),
   KEY `list:parent` (`deleted`,`status`,`type`,`sort`,`parent_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=185 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='系统菜单';
+) ENGINE=InnoDB AUTO_INCREMENT=189 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='系统菜单';
 
 -- ----------------------------
 -- Records of system_menu
@@ -4246,6 +4254,10 @@ INSERT INTO `system_menu` (`id`, `name`, `permission`, `type`, `sort`, `parent_i
 INSERT INTO `system_menu` (`id`, `name`, `permission`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `status`, `hide`, `link`, `keep_alive`, `affix`, `active_path`, `full_screen`, `redirect`, `creator`, `create_time`, `updater`, `update_time`, `deleted`) VALUES (182, '文件新增', 'file.SystemFileCreate', 3, 0, 127, '', '', '', '', 0, 0, '', 0, 0, '', 0, '', 'admin', '2024-05-17 18:43:07', '', '2024-05-17 18:43:07', 0);
 INSERT INTO `system_menu` (`id`, `name`, `permission`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `status`, `hide`, `link`, `keep_alive`, `affix`, `active_path`, `full_screen`, `redirect`, `creator`, `create_time`, `updater`, `update_time`, `deleted`) VALUES (183, '文件编辑', 'file.SystemFileUpdate', 3, 0, 127, '', '', '', '', 0, 0, '', 0, 0, '', 0, '', 'admin', '2024-05-17 18:43:25', '', '2024-05-17 18:43:25', 0);
 INSERT INTO `system_menu` (`id`, `name`, `permission`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `status`, `hide`, `link`, `keep_alive`, `affix`, `active_path`, `full_screen`, `redirect`, `creator`, `create_time`, `updater`, `update_time`, `deleted`) VALUES (184, '文件删除', 'file.SystemFileDelete', 3, 0, 127, '', '', '', '', 0, 0, '', 0, 0, '', 0, '', 'admin', '2024-05-17 18:43:41', '', '2024-05-17 18:43:41', 0);
+INSERT INTO `system_menu` (`id`, `name`, `permission`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `status`, `hide`, `link`, `keep_alive`, `affix`, `active_path`, `full_screen`, `redirect`, `creator`, `create_time`, `updater`, `update_time`, `deleted`) VALUES (185, '支付订单', '', 2, 1, 172, '/pay/order', 'TakeawayBox', '/pay/order/index', 'payOrder', 0, 0, '', 1, 0, '', 0, '', 'admin', '2024-05-29 21:21:54', '', '2024-05-29 21:21:54', 0);
+INSERT INTO `system_menu` (`id`, `name`, `permission`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `status`, `hide`, `link`, `keep_alive`, `affix`, `active_path`, `full_screen`, `redirect`, `creator`, `create_time`, `updater`, `update_time`, `deleted`) VALUES (186, '支付订单列表', 'order.PayOrderList', 3, 0, 185, '', '', '', '', 0, 0, '', 0, 0, '', 0, '', 'admin', '2024-05-29 21:22:14', 'admin', '2024-05-29 21:22:44', 0);
+INSERT INTO `system_menu` (`id`, `name`, `permission`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `status`, `hide`, `link`, `keep_alive`, `affix`, `active_path`, `full_screen`, `redirect`, `creator`, `create_time`, `updater`, `update_time`, `deleted`) VALUES (187, '支付订单删除', 'order.PayOrderDelete', 3, 0, 185, '', '', '', '', 0, 0, '', 0, 0, '', 0, '', 'admin', '2024-05-29 21:23:08', '', '2024-05-29 21:23:08', 0);
+INSERT INTO `system_menu` (`id`, `name`, `permission`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `status`, `hide`, `link`, `keep_alive`, `affix`, `active_path`, `full_screen`, `redirect`, `creator`, `create_time`, `updater`, `update_time`, `deleted`) VALUES (188, '支付订单恢复', 'order.PayOrderRecover', 3, 0, 185, '', '', '', '', 0, 0, '', 0, 0, '', 0, '', 'admin', '2024-05-29 21:23:30', '', '2024-05-29 21:23:30', 0);
 COMMIT;
 
 -- ----------------------------
@@ -4361,7 +4373,7 @@ CREATE TABLE `system_operate_log` (
   `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`id`),
   KEY `idx:list` (`tenant_id`,`deleted`,`username`,`module`,`start_time`,`result`)
-) ENGINE=InnoDB AUTO_INCREMENT=801 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='操作日志';
+) ENGINE=InnoDB AUTO_INCREMENT=914 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='操作日志';
 
 -- ----------------------------
 -- Records of system_operate_log
