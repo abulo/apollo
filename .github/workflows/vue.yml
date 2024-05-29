@@ -38,7 +38,7 @@ jobs:
       - name: Build Vue # 编译前端代码
         run: |
           cd admin
-          pnpm i
+          pnpm install --no-frozen-lockfile
           pnpm build:pro
 
       - name: Generate Build Artifacts # 打包编译文件
