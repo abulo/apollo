@@ -52,7 +52,7 @@ jobs:
             docsMessages=("${{ steps.extractCommitMessages.outputs.docsMessages }}")
             perfMessages=("${{ steps.extractCommitMessages.outputs.perfMessages }}")
             # 生成发布说明的Markdown字符串
-            releaseNotes="> ## 更新内容：  \n"
+            releaseNotes="## 更新内容：  \n"
             if [[ -n "$featMessages" ]]; then
               releaseNotes="$releaseNotes\n### ✨ Features | 新功能:  \n"
               for message in "${featMessages[@]}"; do
