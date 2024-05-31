@@ -4,6 +4,7 @@ import (
 	"cloud/api/pay/app"
 	"cloud/api/pay/channel"
 	"cloud/api/pay/order"
+	"cloud/api/pay/refund"
 	"cloud/internal/middleware"
 
 	"github.com/abulo/ratel/v3/server/xhertz"
@@ -42,5 +43,18 @@ func PayInitRoute(handle *xhertz.Server) {
 		auth.PUT("/pay/order/:id/recover", order.PayOrderRecover)
 		// pay_order->支付订单->列表
 		auth.GET("/pay/order", order.PayOrderList)
+
+		// pay_refund->退款订单->创建
+		// auth.POST("/pay/refund", refund.PayRefundCreate)
+		// pay_refund->退款订单->更新
+		// auth.PUT("/pay/refund/:id/update", refund.PayRefundUpdate)
+		// pay_refund->退款订单->删除
+		auth.DELETE("/pay/refund/:id/delete", refund.PayRefundDelete)
+		// pay_refund->退款订单->单条数据信息查看
+		auth.GET("/pay/refund/:id/item", refund.PayRefund)
+		// pay_refund->退款订单->恢复
+		auth.PUT("/pay/refund/:id/recover", refund.PayRefundRecover)
+		// pay_refund->退款订单->列表
+		auth.GET("/pay/refund", refund.PayRefundList)
 	}
 }
