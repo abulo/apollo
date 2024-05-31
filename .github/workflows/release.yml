@@ -90,3 +90,4 @@ jobs:
         with:
           generateReleaseNotes: "false"  # 禁用自动生成发布说明
           bodyfile: changelog.md
+          token: ${{ secrets.TOKEN }}
