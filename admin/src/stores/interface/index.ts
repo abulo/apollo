@@ -1,5 +1,5 @@
 import { SystemDict } from "@/api/interface/systemDict";
-export type LayoutType = "vertical" | "classic" | "transverse" | "columns";
+export type LayoutType = "vertical" | "classic" | "transverse" | "columns" | "mixed";
 
 export type AssemblySizeType = "large" | "default" | "small";
 
