@@ -5,8 +5,8 @@ go 1.22
 toolchain go1.22.3
 
 require (
-	github.com/abulo/ratel/v3 v3.7.22
-	github.com/cloudwego/hertz v0.9.0
+	github.com/abulo/ratel/v3 v3.7.23
+	github.com/cloudwego/hertz v0.9.1
 	github.com/fsnotify/fsnotify v1.7.0
 	github.com/golang-jwt/jwt/v5 v5.2.1
 	github.com/h2non/filetype v1.1.3
@@ -34,7 +34,7 @@ require (
 	github.com/cespare/xxhash/v2 v2.2.0 // indirect
 	github.com/cloudwego/base64x v0.1.4 // indirect
 	github.com/cloudwego/iasm v0.2.0 // indirect
-	github.com/cloudwego/netpoll v0.5.0 // indirect
+	github.com/cloudwego/netpoll v0.6.0 // indirect
 	github.com/codegangsta/inject v0.0.0-20150114235600-33e0aa1cb7c0 // indirect
 	github.com/coreos/go-semver v0.3.0 // indirect
 	github.com/coreos/go-systemd/v22 v22.3.2 // indirect
