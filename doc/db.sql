@@ -11,7 +11,7 @@
  Target Server Version : 80400 (8.4.0)
  File Encoding         : 65001
 
- Date: 29/05/2024 23:36:21
+ Date: 05/06/2024 12:21:03
 */
 
 SET NAMES utf8mb4;
@@ -199,7 +199,7 @@ CREATE TABLE `pay_notify_task` (
   `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`id`),
   KEY `idx:list` (`tenant_id`,`deleted`,`app_id`,`type`,`data_id`,`status`,`merchant_order_id`,`create_time`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='商户支付-退款等的通知';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='商户支付-任务通知';
 
 -- ----------------------------
 -- Records of pay_notify_task
@@ -3827,7 +3827,7 @@ CREATE TABLE `system_dict` (
   `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`id`),
   KEY `list:data` (`dict_type`,`status`,`sort`)
-) ENGINE=InnoDB AUTO_INCREMENT=55 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='字典数据表';
+) ENGINE=InnoDB AUTO_INCREMENT=65 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='字典数据表';
 
 -- ----------------------------
 -- Records of system_dict
@@ -3852,7 +3852,7 @@ INSERT INTO `system_dict` (`id`, `sort`, `label`, `value`, `dict_type`, `status`
 INSERT INTO `system_dict` (`id`, `sort`, `label`, `value`, `dict_type`, `status`, `color_type`, `css_class`, `remark`, `creator`, `create_time`, `updater`, `update_time`) VALUES (17, 3, '自定义', '2', 'role.type', 0, 'info', '', '', '', '2024-02-27 03:07:47', '', '2024-02-27 03:07:47');
 INSERT INTO `system_dict` (`id`, `sort`, `label`, `value`, `dict_type`, `status`, `color_type`, `css_class`, `remark`, `creator`, `create_time`, `updater`, `update_time`) VALUES (18, 1, '全部数据权限', '1', 'role.scope', 0, 'default', '', '', 'admin', '2024-03-12 11:20:03', 'admin', '2024-03-12 11:32:51');
 INSERT INTO `system_dict` (`id`, `sort`, `label`, `value`, `dict_type`, `status`, `color_type`, `css_class`, `remark`, `creator`, `create_time`, `updater`, `update_time`) VALUES (19, 2, '指定部门数据权限', '2', 'role.scope', 0, 'default', '', '', 'admin', '2024-03-12 11:32:36', 'admin', '2024-03-12 11:32:59');
-INSERT INTO `system_dict` (`id`, `sort`, `label`, `value`, `dict_type`, `status`, `color_type`, `css_class`, `remark`, `creator`, `create_time`, `updater`, `update_time`) VALUES (20, 3, '本部门数据权限', ' 3', 'role.scope', 0, 'default', '', '', 'admin', '2024-03-12 11:33:20', '', '2024-03-12 11:33:20');
+INSERT INTO `system_dict` (`id`, `sort`, `label`, `value`, `dict_type`, `status`, `color_type`, `css_class`, `remark`, `creator`, `create_time`, `updater`, `update_time`) VALUES (20, 3, '本部门数据权限', '3', 'role.scope', 0, 'default', '', '', 'admin', '2024-03-12 11:33:20', '', '2024-06-05 11:43:31');
 INSERT INTO `system_dict` (`id`, `sort`, `label`, `value`, `dict_type`, `status`, `color_type`, `css_class`, `remark`, `creator`, `create_time`, `updater`, `update_time`) VALUES (21, 4, '本部门及以下数据权限', '4', 'role.scope', 0, 'default', '', '', 'admin', '2024-03-12 11:34:28', '', '2024-03-12 11:34:28');
 INSERT INTO `system_dict` (`id`, `sort`, `label`, `value`, `dict_type`, `status`, `color_type`, `css_class`, `remark`, `creator`, `create_time`, `updater`, `update_time`) VALUES (22, 5, '仅本人数据权限', '5', 'role.scope', 0, 'default', '', '', 'admin', '2024-03-12 11:34:49', '', '2024-03-12 11:34:49');
 INSERT INTO `system_dict` (`id`, `sort`, `label`, `value`, `dict_type`, `status`, `color_type`, `css_class`, `remark`, `creator`, `create_time`, `updater`, `update_time`) VALUES (23, 1, '通知', '1', 'notice.type', 0, '', '', '', 'admin', '2024-04-24 14:54:14', '', '2024-04-24 14:54:14');
@@ -3860,7 +3860,7 @@ INSERT INTO `system_dict` (`id`, `sort`, `label`, `value`, `dict_type`, `status`
 INSERT INTO `system_dict` (`id`, `sort`, `label`, `value`, `dict_type`, `status`, `color_type`, `css_class`, `remark`, `creator`, `create_time`, `updater`, `update_time`) VALUES (25, 1, '通知公告', '0', 'notifyTemplate.type', 0, 'primary', '', '', 'admin', '2024-04-28 15:47:31', 'admin', '2024-04-28 19:16:55');
 INSERT INTO `system_dict` (`id`, `sort`, `label`, `value`, `dict_type`, `status`, `color_type`, `css_class`, `remark`, `creator`, `create_time`, `updater`, `update_time`) VALUES (26, 2, '系统消息', '1', 'notifyTemplate.type', 0, 'success', '', '', 'admin', '2024-04-28 15:47:49', 'admin', '2024-04-28 19:16:42');
 INSERT INTO `system_dict` (`id`, `sort`, `label`, `value`, `dict_type`, `status`, `color_type`, `css_class`, `remark`, `creator`, `create_time`, `updater`, `update_time`) VALUES (27, 0, '管理员', '0', 'notifyMessage.userType', 0, 'default', '', '', 'admin', '2024-05-03 23:32:52', '', '2024-05-03 23:32:52');
-INSERT INTO `system_dict` (`id`, `sort`, `label`, `value`, `dict_type`, `status`, `color_type`, `css_class`, `remark`, `creator`, `create_time`, `updater`, `update_time`) VALUES (28, 1, '会员', ' 1', 'notifyMessage.userType', 0, 'success', '', '', 'admin', '2024-05-03 23:33:05', '', '2024-05-03 23:33:05');
+INSERT INTO `system_dict` (`id`, `sort`, `label`, `value`, `dict_type`, `status`, `color_type`, `css_class`, `remark`, `creator`, `create_time`, `updater`, `update_time`) VALUES (28, 1, '会员', '1', 'notifyMessage.userType', 0, 'success', '', '', 'admin', '2024-05-03 23:33:05', '', '2024-06-05 11:43:26');
 INSERT INTO `system_dict` (`id`, `sort`, `label`, `value`, `dict_type`, `status`, `color_type`, `css_class`, `remark`, `creator`, `create_time`, `updater`, `update_time`) VALUES (29, 0, '未读', '0', 'notifyMessage.readStatus', 0, 'success', '', '', 'admin', '2024-05-03 23:38:26', '', '2024-05-03 23:38:26');
 INSERT INTO `system_dict` (`id`, `sort`, `label`, `value`, `dict_type`, `status`, `color_type`, `css_class`, `remark`, `creator`, `create_time`, `updater`, `update_time`) VALUES (30, 1, '已读', '1', 'notifyMessage.readStatus', 0, 'default', '', '', 'admin', '2024-05-03 23:38:37', '', '2024-05-03 23:38:37');
 INSERT INTO `system_dict` (`id`, `sort`, `label`, `value`, `dict_type`, `status`, `color_type`, `css_class`, `remark`, `creator`, `create_time`, `updater`, `update_time`) VALUES (31, 0, '否', '0', 'mailAccount.ssl', 0, '', '', '', 'admin', '2024-05-08 15:42:55', '', '2024-05-08 15:42:55');
@@ -3887,6 +3887,16 @@ INSERT INTO `system_dict` (`id`, `sort`, `label`, `value`, `dict_type`, `status`
 INSERT INTO `system_dict` (`id`, `sort`, `label`, `value`, `dict_type`, `status`, `color_type`, `css_class`, `remark`, `creator`, `create_time`, `updater`, `update_time`) VALUES (52, 1, '支付成功', '1', 'pay.orderStatus', 0, 'success', '', '', 'admin', '2024-05-29 21:15:44', '', '2024-05-29 21:15:44');
 INSERT INTO `system_dict` (`id`, `sort`, `label`, `value`, `dict_type`, `status`, `color_type`, `css_class`, `remark`, `creator`, `create_time`, `updater`, `update_time`) VALUES (53, 2, '已退款', '2', 'pay.orderStatus', 0, 'danger', '', '', 'admin', '2024-05-29 21:16:04', '', '2024-05-29 21:16:04');
 INSERT INTO `system_dict` (`id`, `sort`, `label`, `value`, `dict_type`, `status`, `color_type`, `css_class`, `remark`, `creator`, `create_time`, `updater`, `update_time`) VALUES (54, 3, '已退款', '3', 'pay.orderStatus', 0, 'info', '', '', 'admin', '2024-05-29 21:16:19', '', '2024-05-29 21:16:19');
+INSERT INTO `system_dict` (`id`, `sort`, `label`, `value`, `dict_type`, `status`, `color_type`, `css_class`, `remark`, `creator`, `create_time`, `updater`, `update_time`) VALUES (55, 1, '等待退款', '0', 'pay.refundStatus', 0, 'info', '', '', 'admin', '2024-05-30 09:08:05', '', '2024-05-30 09:08:05');
+INSERT INTO `system_dict` (`id`, `sort`, `label`, `value`, `dict_type`, `status`, `color_type`, `css_class`, `remark`, `creator`, `create_time`, `updater`, `update_time`) VALUES (56, 2, '退款成功', '1', 'pay.refundStatus', 0, 'success', '', '', 'admin', '2024-05-30 09:08:26', '', '2024-05-30 09:08:26');
+INSERT INTO `system_dict` (`id`, `sort`, `label`, `value`, `dict_type`, `status`, `color_type`, `css_class`, `remark`, `creator`, `create_time`, `updater`, `update_time`) VALUES (57, 3, '退款失败', '2', 'pay.refundStatus', 0, 'danger', '', '', 'admin', '2024-05-30 09:08:44', '', '2024-05-30 09:08:44');
+INSERT INTO `system_dict` (`id`, `sort`, `label`, `value`, `dict_type`, `status`, `color_type`, `css_class`, `remark`, `creator`, `create_time`, `updater`, `update_time`) VALUES (58, 0, '等待通知', '0', 'pay.notifyStatus', 0, 'info', '', '', 'admin', '2024-06-05 11:37:03', '', '2024-06-05 11:37:03');
+INSERT INTO `system_dict` (`id`, `sort`, `label`, `value`, `dict_type`, `status`, `color_type`, `css_class`, `remark`, `creator`, `create_time`, `updater`, `update_time`) VALUES (59, 1, '通知成功', '1', 'pay.notifyStatus', 0, 'success', '', '', 'admin', '2024-06-05 11:37:18', '', '2024-06-05 11:37:18');
+INSERT INTO `system_dict` (`id`, `sort`, `label`, `value`, `dict_type`, `status`, `color_type`, `css_class`, `remark`, `creator`, `create_time`, `updater`, `update_time`) VALUES (60, 2, '通知失败', '2', 'pay.notifyStatus', 0, 'danger', '', '', 'admin', '2024-06-05 11:37:35', '', '2024-06-05 11:37:35');
+INSERT INTO `system_dict` (`id`, `sort`, `label`, `value`, `dict_type`, `status`, `color_type`, `css_class`, `remark`, `creator`, `create_time`, `updater`, `update_time`) VALUES (61, 3, '请求成功结果失败', '3', 'pay.notifyStatus', 0, 'warning', '', '', 'admin', '2024-06-05 11:38:01', '', '2024-06-05 11:38:01');
+INSERT INTO `system_dict` (`id`, `sort`, `label`, `value`, `dict_type`, `status`, `color_type`, `css_class`, `remark`, `creator`, `create_time`, `updater`, `update_time`) VALUES (62, 4, '请求失败', '4', 'pay.notifyStatus', 0, 'warning', '', '', 'admin', '2024-06-05 11:38:21', '', '2024-06-05 11:38:21');
+INSERT INTO `system_dict` (`id`, `sort`, `label`, `value`, `dict_type`, `status`, `color_type`, `css_class`, `remark`, `creator`, `create_time`, `updater`, `update_time`) VALUES (63, 0, '支付订单', '1', 'pay.notifyType', 0, 'primary', '', '', 'admin', '2024-06-05 11:40:13', '', '2024-06-05 11:43:03');
+INSERT INTO `system_dict` (`id`, `sort`, `label`, `value`, `dict_type`, `status`, `color_type`, `css_class`, `remark`, `creator`, `create_time`, `updater`, `update_time`) VALUES (64, 0, '退款订单', '2', 'pay.notifyType', 0, 'default', '', '', 'admin', '2024-06-05 11:40:25', '', '2024-06-05 11:42:56');
 COMMIT;
 
 -- ----------------------------
@@ -3906,7 +3916,7 @@ CREATE TABLE `system_dict_type` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `uniq:type` (`type`),
   KEY `idx:list` (`status`,`type`,`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='字典类型';
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='字典类型';
 
 -- ----------------------------
 -- Records of system_dict_type
@@ -3930,6 +3940,9 @@ INSERT INTO `system_dict_type` (`id`, `name`, `type`, `status`, `remark`, `creat
 INSERT INTO `system_dict_type` (`id`, `name`, `type`, `status`, `remark`, `creator`, `create_time`, `updater`, `update_time`) VALUES (17, '支付渠道', 'payChannel.code', 0, '', 'admin', '2024-05-13 23:32:45', '', '2024-05-13 23:32:45');
 INSERT INTO `system_dict_type` (`id`, `name`, `type`, `status`, `remark`, `creator`, `create_time`, `updater`, `update_time`) VALUES (18, '文件类型', 'file.type', 0, '', 'admin', '2024-05-17 18:47:43', '', '2024-05-17 18:47:43');
 INSERT INTO `system_dict_type` (`id`, `name`, `type`, `status`, `remark`, `creator`, `create_time`, `updater`, `update_time`) VALUES (19, '支付状态', 'pay.orderStatus', 0, '', 'admin', '2024-05-29 21:15:01', '', '2024-05-29 21:15:01');
+INSERT INTO `system_dict_type` (`id`, `name`, `type`, `status`, `remark`, `creator`, `create_time`, `updater`, `update_time`) VALUES (20, '退款订单状态', 'pay.refundStatus', 0, '', 'admin', '2024-05-30 09:07:36', '', '2024-05-30 09:07:36');
+INSERT INTO `system_dict_type` (`id`, `name`, `type`, `status`, `remark`, `creator`, `create_time`, `updater`, `update_time`) VALUES (21, '支付通知状态', 'pay.notifyStatus', 0, '', 'admin', '2024-06-05 11:36:36', '', '2024-06-05 11:36:36');
+INSERT INTO `system_dict_type` (`id`, `name`, `type`, `status`, `remark`, `creator`, `create_time`, `updater`, `update_time`) VALUES (22, '支付通知类型', 'pay.notifyType', 0, '', 'admin', '2024-06-05 11:39:44', '', '2024-06-05 11:42:35');
 COMMIT;
 
 -- ----------------------------
@@ -3977,12 +3990,13 @@ CREATE TABLE `system_login_log` (
   `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`id`),
   KEY `idx:list` (`tenant_id`,`deleted`,`username`,`login_time`,`channel`)
-) ENGINE=InnoDB AUTO_INCREMENT=53 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='登录日志';
+) ENGINE=InnoDB AUTO_INCREMENT=60 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='登录日志';
 
 -- ----------------------------
 -- Records of system_login_log
 -- ----------------------------
 BEGIN;
+
 COMMIT;
 
 -- ----------------------------
@@ -4110,7 +4124,7 @@ CREATE TABLE `system_menu` (
   `deleted` tinyint NOT NULL DEFAULT '0' COMMENT '是否删除',
   PRIMARY KEY (`id`),
   KEY `list:parent` (`deleted`,`status`,`type`,`sort`,`parent_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=189 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='系统菜单';
+) ENGINE=InnoDB AUTO_INCREMENT=197 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='系统菜单';
 
 -- ----------------------------
 -- Records of system_menu
@@ -4258,6 +4272,14 @@ INSERT INTO `system_menu` (`id`, `name`, `permission`, `type`, `sort`, `parent_i
 INSERT INTO `system_menu` (`id`, `name`, `permission`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `status`, `hide`, `link`, `keep_alive`, `affix`, `active_path`, `full_screen`, `redirect`, `creator`, `create_time`, `updater`, `update_time`, `deleted`) VALUES (186, '支付订单列表', 'order.PayOrderList', 3, 0, 185, '', '', '', '', 0, 0, '', 0, 0, '', 0, '', 'admin', '2024-05-29 21:22:14', 'admin', '2024-05-29 21:22:44', 0);
 INSERT INTO `system_menu` (`id`, `name`, `permission`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `status`, `hide`, `link`, `keep_alive`, `affix`, `active_path`, `full_screen`, `redirect`, `creator`, `create_time`, `updater`, `update_time`, `deleted`) VALUES (187, '支付订单删除', 'order.PayOrderDelete', 3, 0, 185, '', '', '', '', 0, 0, '', 0, 0, '', 0, '', 'admin', '2024-05-29 21:23:08', '', '2024-05-29 21:23:08', 0);
 INSERT INTO `system_menu` (`id`, `name`, `permission`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `status`, `hide`, `link`, `keep_alive`, `affix`, `active_path`, `full_screen`, `redirect`, `creator`, `create_time`, `updater`, `update_time`, `deleted`) VALUES (188, '支付订单恢复', 'order.PayOrderRecover', 3, 0, 185, '', '', '', '', 0, 0, '', 0, 0, '', 0, '', 'admin', '2024-05-29 21:23:30', '', '2024-05-29 21:23:30', 0);
+INSERT INTO `system_menu` (`id`, `name`, `permission`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `status`, `hide`, `link`, `keep_alive`, `affix`, `active_path`, `full_screen`, `redirect`, `creator`, `create_time`, `updater`, `update_time`, `deleted`) VALUES (189, '退款订单', '', 2, 1, 172, '/pay/refund', 'Wallet', '/pay/refund/index', 'payRefund', 0, 0, '', 1, 0, '', 0, '', 'admin', '2024-05-30 09:12:20', '', '2024-05-30 09:12:20', 0);
+INSERT INTO `system_menu` (`id`, `name`, `permission`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `status`, `hide`, `link`, `keep_alive`, `affix`, `active_path`, `full_screen`, `redirect`, `creator`, `create_time`, `updater`, `update_time`, `deleted`) VALUES (190, '退款订单列表', 'refund.PayRefundList', 3, 0, 189, '', '', '', '', 0, 0, '', 0, 0, '', 0, '', 'admin', '2024-05-30 09:13:29', '', '2024-05-30 09:13:29', 0);
+INSERT INTO `system_menu` (`id`, `name`, `permission`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `status`, `hide`, `link`, `keep_alive`, `affix`, `active_path`, `full_screen`, `redirect`, `creator`, `create_time`, `updater`, `update_time`, `deleted`) VALUES (191, '退款订单删除', 'refund.PayRefundDelete', 3, 0, 189, '', '', '', '', 0, 0, '', 0, 0, '', 0, '', 'admin', '2024-05-30 09:13:53', '', '2024-05-30 09:13:53', 0);
+INSERT INTO `system_menu` (`id`, `name`, `permission`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `status`, `hide`, `link`, `keep_alive`, `affix`, `active_path`, `full_screen`, `redirect`, `creator`, `create_time`, `updater`, `update_time`, `deleted`) VALUES (192, '退款订单恢复', 'order.PayOrderRecover', 3, 0, 189, '', '', '', '', 0, 0, '', 0, 0, '', 0, '', 'admin', '2024-05-30 09:14:11', '', '2024-05-30 09:14:11', 0);
+INSERT INTO `system_menu` (`id`, `name`, `permission`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `status`, `hide`, `link`, `keep_alive`, `affix`, `active_path`, `full_screen`, `redirect`, `creator`, `create_time`, `updater`, `update_time`, `deleted`) VALUES (193, '通知回调', '', 2, 4, 172, '/pay/notify', 'DocumentCopy', '/pay/notify/index', '', 0, 0, '', 1, 0, 'payNotifyTask', 0, '', 'admin', '2024-06-05 12:18:25', '', '2024-06-05 12:18:26', 0);
+INSERT INTO `system_menu` (`id`, `name`, `permission`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `status`, `hide`, `link`, `keep_alive`, `affix`, `active_path`, `full_screen`, `redirect`, `creator`, `create_time`, `updater`, `update_time`, `deleted`) VALUES (194, '通知回调列表', 'notify.PayNotifyTaskList', 3, 0, 193, '', '', '', '', 0, 0, '', 0, 0, '', 0, '', 'admin', '2024-06-05 12:19:08', '', '2024-06-05 12:19:08', 0);
+INSERT INTO `system_menu` (`id`, `name`, `permission`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `status`, `hide`, `link`, `keep_alive`, `affix`, `active_path`, `full_screen`, `redirect`, `creator`, `create_time`, `updater`, `update_time`, `deleted`) VALUES (195, '通知回调删除', 'notify.PayNotifyTaskDelete', 3, 0, 193, '', '', '', '', 0, 0, '', 0, 0, '', 0, '', 'admin', '2024-06-05 12:19:33', '', '2024-06-05 12:19:33', 0);
+INSERT INTO `system_menu` (`id`, `name`, `permission`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `status`, `hide`, `link`, `keep_alive`, `affix`, `active_path`, `full_screen`, `redirect`, `creator`, `create_time`, `updater`, `update_time`, `deleted`) VALUES (196, '通知回调恢复', 'notify.PayNotifyTaskRecover', 3, 0, 193, '', '', '', '', 0, 0, '', 0, 0, '', 0, '', 'admin', '2024-06-05 12:19:55', '', '2024-06-05 12:19:55', 0);
 COMMIT;
 
 -- ----------------------------
@@ -4373,12 +4395,13 @@ CREATE TABLE `system_operate_log` (
   `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`id`),
   KEY `idx:list` (`tenant_id`,`deleted`,`username`,`module`,`start_time`,`result`)
-) ENGINE=InnoDB AUTO_INCREMENT=914 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='操作日志';
+) ENGINE=InnoDB AUTO_INCREMENT=1029 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='操作日志';
 
 -- ----------------------------
 -- Records of system_operate_log
 -- ----------------------------
 BEGIN;
+
 COMMIT;
 
 -- ----------------------------
