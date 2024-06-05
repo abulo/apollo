@@ -255,7 +255,7 @@ const columns: ColumnProps<PayRefund.ResPayRefundItem>[] = [
     label: "操作",
     width: 150,
     fixed: "right",
-    isShow: HasPermission("refund.PayRefundUpdate", "refund.PayRefundDelete", "refund.PayRefundRecover")
+    isShow: HasPermission("refund.PayRefundDelete", "refund.PayRefundRecover")
   }
 ];
 
@@ -314,7 +314,7 @@ const getTableList = (params: any) => {
 
 // 编辑按钮
 const handleItem = async (row: PayRefund.ResPayRefundItem) => {
-  title.value = "编辑退款订单";
+  title.value = "退款订单";
   centerDialogVisible.value = true;
   reset();
   const { data } = await getPayRefundItemApi(Number(row.id));

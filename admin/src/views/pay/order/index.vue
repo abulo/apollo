@@ -244,7 +244,7 @@ const columns: ColumnProps<PayOrder.ResPayOrderItem>[] = [
     label: "操作",
     width: 150,
     fixed: "right",
-    isShow: HasPermission("order.PayOrderUpdate", "order.PayOrderDelete", "order.PayOrderRecover")
+    isShow: HasPermission("order.PayOrderDelete", "order.PayOrderRecover")
   }
 ];
 
