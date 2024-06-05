@@ -2,10 +2,10 @@ module cloud
 
 go 1.22
 
-toolchain go1.22.3
+toolchain go1.22.4
 
 require (
-	github.com/abulo/ratel/v3 v3.7.23
+	github.com/abulo/ratel/v3 v3.7.24
 	github.com/cloudwego/hertz v0.9.1
 	github.com/fsnotify/fsnotify v1.7.0
 	github.com/golang-jwt/jwt/v5 v5.2.1
