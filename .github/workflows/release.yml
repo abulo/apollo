@@ -32,10 +32,14 @@ jobs:
           fixMessages=$(echo "$commitMessages" | grep 'fix' || true)
           docsMessages=$(echo "$commitMessages" | grep 'docs' || true)
           perfMessages=$(echo "$commitMessages" | grep 'perf' || true)
-          echo "featMessages=$featMessages" >> $GITHUB_ENV
-          echo "fixMessages=$fixMessages" >> $GITHUB_ENV
-          echo "docsMessages=$docsMessages" >> $GITHUB_ENV
-          echo "perfMessages=$perfMessages" >> $GITHUB_ENV
+          echo "$featMessages" > featMessages.txt
+          echo "$fixMessages" > fixMessages.txt
+          echo "$docsMessages" > docsMessages.txt
+          echo "$perfMessages" > perfMessages.txt
+          echo "featMessages=$(cat featMessages.txt)" >> $GITHUB_ENV
+          echo "fixMessages=$(cat fixMessages.txt)" >> $GITHUB_ENV
+          echo "docsMessages=$(cat docsMessages.txt)" >> $GITHUB_ENV
+          echo "perfMessages=$(cat perfMessages.txt)" >> $GITHUB_ENV
 
       - name: 获取当前分支名
         id: getBranchName
@@ -77,7 +81,8 @@ jobs:
                 releaseNotes="$releaseNotes\n- $message"
               done
             fi
-            echo "releaseNotes=$releaseNotes" >> $GITHUB_ENV
+            echo "$releaseNotes" > releaseNotes.txt
+            echo "releaseNotes=$(cat releaseNotes.txt)" >> $GITHUB_ENV
 
       - name: 写入生成的发布说明到 changelog.md
         run: |
