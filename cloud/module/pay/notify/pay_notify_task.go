@@ -10,7 +10,7 @@ import (
 	"github.com/spf13/cast"
 )
 
-// pay_notify_task 商户支付-退款等的通知
+// pay_notify_task 商户支付-任务通知
 // PayNotifyTaskCreate 创建数据
 func PayNotifyTaskCreate(ctx context.Context, data dao.PayNotifyTask) (res int64, err error) {
 	db := initial.Core.Store.LoadSQL("mysql").Write()

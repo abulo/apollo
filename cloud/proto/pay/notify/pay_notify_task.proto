@@ -1,6 +1,6 @@
 
 syntax = "proto3";
-// pay_notify_task 商户支付-退款等的通知
+// pay_notify_task 商户支付-任务通知
 package notify;
 option go_package = "./notify";
 import "google/protobuf/timestamp.proto";

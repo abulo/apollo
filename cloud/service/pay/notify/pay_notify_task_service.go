@@ -12,9 +12,9 @@ import (
 	"google.golang.org/grpc/status"
 )
 
-// pay_notify_task 商户支付-退款等的通知
+// pay_notify_task 商户支付-任务通知
 
-// SrvPayNotifyTaskServiceServer 商户支付-退款等的通知
+// SrvPayNotifyTaskServiceServer 商户支付-任务通知
 type SrvPayNotifyTaskServiceServer struct {
 	UnimplementedPayNotifyTaskServiceServer
 	Server *xgrpc.Server
@@ -28,7 +28,7 @@ func (srv SrvPayNotifyTaskServiceServer) PayNotifyTaskCreate(ctx context.Context
 		globalLogger.Logger.WithFields(logrus.Fields{
 			"req": req,
 			"err": err,
-		}).Error("Sql:商户支付-退款等的通知:pay_notify_task:PayNotifyTaskCreate")
+		}).Error("Sql:商户支付-任务通知:pay_notify_task:PayNotifyTaskCreate")
 		return &PayNotifyTaskCreateResponse{}, status.Error(code.ConvertToGrpc(code.SqlError), err.Error())
 	}
 	return &PayNotifyTaskCreateResponse{
@@ -50,7 +50,7 @@ func (srv SrvPayNotifyTaskServiceServer) PayNotifyTaskUpdate(ctx context.Context
 		globalLogger.Logger.WithFields(logrus.Fields{
 			"req": req,
 			"err": err,
-		}).Error("Sql:商户支付-退款等的通知:pay_notify_task:PayNotifyTaskUpdate")
+		}).Error("Sql:商户支付-任务通知:pay_notify_task:PayNotifyTaskUpdate")
 		return &PayNotifyTaskUpdateResponse{}, status.Error(code.ConvertToGrpc(code.SqlError), err.Error())
 	}
 	return &PayNotifyTaskUpdateResponse{
@@ -70,7 +70,7 @@ func (srv SrvPayNotifyTaskServiceServer) PayNotifyTaskDelete(ctx context.Context
 		globalLogger.Logger.WithFields(logrus.Fields{
 			"req": id,
 			"err": err,
-		}).Error("Sql:商户支付-退款等的通知:pay_notify_task:PayNotifyTaskDelete")
+		}).Error("Sql:商户支付-任务通知:pay_notify_task:PayNotifyTaskDelete")
 		return &PayNotifyTaskDeleteResponse{}, status.Error(code.ConvertToGrpc(code.SqlError), err.Error())
 	}
 	return &PayNotifyTaskDeleteResponse{
@@ -90,7 +90,7 @@ func (srv SrvPayNotifyTaskServiceServer) PayNotifyTask(ctx context.Context, requ
 		globalLogger.Logger.WithFields(logrus.Fields{
 			"req": id,
 			"err": err,
-		}).Error("Sql:商户支付-退款等的通知:pay_notify_task:PayNotifyTask")
+		}).Error("Sql:商户支付-任务通知:pay_notify_task:PayNotifyTask")
 		return &PayNotifyTaskResponse{}, status.Error(code.ConvertToGrpc(code.SqlError), err.Error())
 	}
 	return &PayNotifyTaskResponse{
@@ -111,7 +111,7 @@ func (srv SrvPayNotifyTaskServiceServer) PayNotifyTaskRecover(ctx context.Contex
 		globalLogger.Logger.WithFields(logrus.Fields{
 			"req": id,
 			"err": err,
-		}).Error("Sql:商户支付-退款等的通知:pay_notify_task:PayNotifyTaskRecover")
+		}).Error("Sql:商户支付-任务通知:pay_notify_task:PayNotifyTaskRecover")
 		return &PayNotifyTaskRecoverResponse{}, status.Error(code.ConvertToGrpc(code.SqlError), err.Error())
 	}
 	return &PayNotifyTaskRecoverResponse{
@@ -171,7 +171,7 @@ func (srv SrvPayNotifyTaskServiceServer) PayNotifyTaskList(ctx context.Context, 
 		globalLogger.Logger.WithFields(logrus.Fields{
 			"req": condition,
 			"err": err,
-		}).Error("Sql:商户支付-退款等的通知:pay_notify_task:PayNotifyTaskList")
+		}).Error("Sql:商户支付-任务通知:pay_notify_task:PayNotifyTaskList")
 		return &PayNotifyTaskListResponse{}, status.Error(code.ConvertToGrpc(code.SqlError), err.Error())
 	}
 	var res []*PayNotifyTaskObject
@@ -224,7 +224,7 @@ func (srv SrvPayNotifyTaskServiceServer) PayNotifyTaskListTotal(ctx context.Cont
 		globalLogger.Logger.WithFields(logrus.Fields{
 			"req": condition,
 			"err": err,
-		}).Error("Sql:商户支付-退款等的通知:pay_notify_task:PayNotifyTaskListTotal")
+		}).Error("Sql:商户支付-任务通知:pay_notify_task:PayNotifyTaskListTotal")
 		return &PayNotifyTaskTotalResponse{}, status.Error(code.ConvertToGrpc(code.SqlError), err.Error())
 	}
 	return &PayNotifyTaskTotalResponse{

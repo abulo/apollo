@@ -4,7 +4,7 @@
 // - protoc             v3.20.3
 // source: notify/pay_notify_task.proto
 
-// pay_notify_task 商户支付-退款等的通知
+// pay_notify_task 商户支付-任务通知
 
 package notify
 

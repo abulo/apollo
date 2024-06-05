@@ -28,7 +28,7 @@ func Registry(server *xgrpc.Server) {
 	order.RegisterPayOrderExtensionServiceServer(server.Server, &order.SrvPayOrderExtensionServiceServer{
 		Server: server,
 	})
-	// 商户支付-退款等的通知->pay_notify_task
+	// 商户支付-任务通知->pay_notify_task
 	notify.RegisterPayNotifyTaskServiceServer(server.Server, &notify.SrvPayNotifyTaskServiceServer{
 		Server: server,
 	})

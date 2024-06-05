@@ -3,6 +3,7 @@ package routes
 import (
 	"cloud/api/pay/app"
 	"cloud/api/pay/channel"
+	"cloud/api/pay/notify"
 	"cloud/api/pay/order"
 	"cloud/api/pay/refund"
 	"cloud/internal/middleware"
@@ -56,5 +57,18 @@ func PayInitRoute(handle *xhertz.Server) {
 		auth.PUT("/pay/refund/:id/recover", refund.PayRefundRecover)
 		// pay_refund->退款订单->列表
 		auth.GET("/pay/refund", refund.PayRefundList)
+
+		// pay_notify_task->商户支付-任务通知->创建
+		// auth.POST("/pay/notify", notify.PayNotifyTaskCreate)
+		// pay_notify_task->商户支付-任务通知->更新
+		// auth.PUT("/pay/notify/:id/update", notify.PayNotifyTaskUpdate)
+		// pay_notify_task->商户支付-任务通知->删除
+		auth.DELETE("/pay/notify/:id/delete", notify.PayNotifyTaskDelete)
+		// pay_notify_task->商户支付-任务通知->单条数据信息查看
+		auth.GET("/pay/notify/:id/item", notify.PayNotifyTask)
+		// pay_notify_task->商户支付-任务通知->恢复
+		auth.PUT("/pay/notify/:id/recover", notify.PayNotifyTaskRecover)
+		// pay_notify_task->商户支付-任务通知->列表
+		auth.GET("/pay/notify", notify.PayNotifyTaskList)
 	}
 }

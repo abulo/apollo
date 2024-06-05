@@ -8,7 +8,7 @@ import (
 	"google.golang.org/protobuf/types/known/timestamppb"
 )
 
-// pay_notify_task 商户支付-退款等的通知
+// pay_notify_task 商户支付-任务通知
 
 // PayNotifyTaskDao 数据转换
 func PayNotifyTaskDao(item *PayNotifyTaskObject) *dao.PayNotifyTask {
