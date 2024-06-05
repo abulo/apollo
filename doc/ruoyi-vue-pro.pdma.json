@@ -66924,7 +66924,7 @@
     {
       "id": "F485D933-6C7A-42DB-9250-A6D1F8F6D0AF",
       "defKey": "pay_notify_task",
-      "defName": "商户支付、退款等的通知",
+      "defName": "商户支付、任务通知",
       "comment": "",
       "properties": {},
       "fields": [
