@@ -48,6 +48,7 @@ import Main from "@/layouts/components/Main/index.vue";
 import ToolBarLeft from "@/layouts/components/Header/ToolBarLeft.vue";
 import ToolBarRight from "@/layouts/components/Header/ToolBarRight.vue";
 import SubMenu from "@/layouts/components/Menu/SubMenu.vue";
+import { findRootMenuByPath } from "@/utils/index";
 const title = import.meta.env.VITE_GLOB_APP_TITLE;
 const route = useRoute();
 const router = useRouter();
@@ -64,7 +65,8 @@ const activeMenu = computed(() => (route.meta.activeMenu ? route.meta.activeMenu
 const subMenuList = ref<Menu.MenuOptions[]>([]);
 const activeHeaderMenu = ref("");
 const getActiveHeaderMenu = () => {
-  return authStore.authMenuList.find(menu => route.path.includes(menu.path))?.path || "";
+  const menuItem = findRootMenuByPath(authStore.authMenuList, route.path);
+  return menuItem?.path || "";
 };
 watch(
   () => [menuList, route],
@@ -72,10 +74,8 @@ watch(
     // 当前菜单没有数据直接 return
     if (!menuList.value.length) return;
     activeHeaderMenu.value = getActiveHeaderMenu();
-    const menuItem = menuList.value.filter((item: Menu.MenuOptions) => {
-      return route.path === item.path || `/${route.path.split("/")[1]}` === item.path;
-    });
-    if (menuItem[0].children?.length) return (subMenuList.value = menuItem[0].children);
+    const menuItem = findRootMenuByPath(menuList.value, route.path);
+    if (menuItem?.children?.length) return (subMenuList.value = menuItem.children);
     subMenuList.value = [];
   },
   {
@@ -85,7 +85,7 @@ watch(
 );
 // change SubMenu
 const changeSubMenu = (item: Menu.MenuOptions) => {
-  if (item.children?.length) return (subMenuList.value = item.children);
+  if (item?.children?.length) return (subMenuList.value = item.children);
   subMenuList.value = [];
   router.push(item.path);
 };

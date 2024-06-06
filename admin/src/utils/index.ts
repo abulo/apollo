@@ -216,6 +216,27 @@ export function findMenuByPath(menuList: Menu.MenuOptions[], path: string): Menu
 }
 
 /**
+ * @description 递归查询当前 path 所对应的根节点菜单对象 (该函数暂未使用)
+ * @param {Array} menuList 菜单列表
+ * @param {String} path 当前访问地址
+ * @returns {Object | null}
+ */
+export function findRootMenuByPath(menuList: Menu.MenuOptions[], path: string): Menu.MenuOptions | null {
+  // 根节点菜单
+  let rootMenu: Menu.MenuOptions | null = null;
+  for (const item of menuList) {
+    if (item.path === path) return item;
+    if (item.children) {
+      const res = findRootMenuByPath(item.children, path);
+      if (res) {
+        rootMenu = item;
+        break;
+      }
+    }
+  }
+  return rootMenu;
+}
+/**
  * @description 使用递归过滤需要缓存的菜单 name (该函数暂未使用)
  * @param {Array} menuList 所有菜单列表
  * @param {Array} keepAliveNameArr 缓存的菜单 name ['**','**']
