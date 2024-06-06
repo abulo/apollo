@@ -6,6 +6,7 @@ import (
 	"cloud/service/pay/notify"
 	"cloud/service/pay/order"
 	"cloud/service/pay/refund"
+	"cloud/service/pay/wallet"
 
 	"github.com/abulo/ratel/v3/server/xgrpc"
 )
@@ -38,6 +39,10 @@ func Registry(server *xgrpc.Server) {
 	})
 	// 退款订单->pay_refund
 	refund.RegisterPayRefundServiceServer(server.Server, &refund.SrvPayRefundServiceServer{
+		Server: server,
+	})
+	// 会员钱包表->pay_wallet
+	wallet.RegisterPayWalletServiceServer(server.Server, &wallet.SrvPayWalletServiceServer{
 		Server: server,
 	})
 }
