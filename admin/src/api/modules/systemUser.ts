@@ -22,8 +22,8 @@ export const getSystemUserListApi = (params?: SystemUser.ReqSystemUserList) => {
 };
 
 // 搜索
-export const getSystemUserSearchApi = (params?: SystemUser.ReqSystemUserList) => {
-  return http.get<ResPage<SystemUser.ResSystemUserItem>>(PORT + `/system/user/search`, params);
+export const getSystemUserListSimpleApi = (params?: SystemUser.ReqSystemUserList) => {
+  return http.get<ResPage<SystemUser.ResSystemUserItem>>(PORT + `/system/user/simple`, params);
 };
 
 // 获取单个数据接口

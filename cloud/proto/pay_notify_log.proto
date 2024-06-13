@@ -1,0 +1,115 @@
+
+syntax = "proto3";
+// pay_notify_log 支付通知日志
+package notify;
+option go_package = "cloud/service/pay/notify;notify";
+import "google/protobuf/timestamp.proto";
+
+// PayNotifyLogObject 数据对象
+message PayNotifyLogObject {
+	// @inject_tag: db:"id" json:"id"
+	optional int64 id = 1; //日志编号
+	// @inject_tag: db:"task_id" json:"taskId"
+	optional int64 task_id = 2; //通知任务编号
+	// @inject_tag: db:"notify_times" json:"notifyTimes"
+	optional int32 notify_times = 3; //第几次被通知
+	// @inject_tag: db:"response" json:"response"
+	optional bytes response = 4; //请求参数
+	// @inject_tag: db:"status" json:"status"
+	optional int32 status = 5; //通知状态
+	// @inject_tag: db:"deleted" json:"deleted"
+	optional int32 deleted = 6; //删除
+	// @inject_tag: db:"tenant_id" json:"tenantId"
+	optional int64 tenant_id = 7; //租户
+	// @inject_tag: db:"creator" json:"creator"
+	optional string creator = 8; //创建人
+	// @inject_tag: db:"create_time" json:"createTime"
+	google.protobuf.Timestamp create_time = 9; //创建时间
+	// @inject_tag: db:"updater" json:"updater"
+	optional string updater = 10; //更新人
+	// @inject_tag: db:"update_time" json:"updateTime"
+	google.protobuf.Timestamp update_time = 11; //更新时间
+}
+// PayNotifyLogCreateRequest 创建数据请求
+message PayNotifyLogCreateRequest {
+	PayNotifyLogObject data = 1;
+}
+// PayNotifyLogCreateResponse 创建数据响应
+message PayNotifyLogCreateResponse {
+	int64 code = 1;
+	string msg = 2;
+	int64 data = 3;
+}
+// PayNotifyLogUpdateRequest 更新数据请求
+message PayNotifyLogUpdateRequest {
+	// @inject_tag: db:"id" json:"id"
+	int64 id = 1; //日志编号
+	PayNotifyLogObject data = 2;
+}
+// PayNotifyLogUpdateResponse 更新数据响应
+message PayNotifyLogUpdateResponse {
+	int64 code = 1;
+	string msg = 2;
+}
+// PayNotifyLogDeleteRequest 删除数据请求
+message PayNotifyLogDeleteRequest {
+	// @inject_tag: db:"id" json:"id"
+	int64 id = 1; //日志编号
+}
+// PayNotifyLogDeleteResponse 删除数据响应
+message PayNotifyLogDeleteResponse {
+	int64 code = 1;
+	string msg = 2;
+}
+// PayNotifyLogRequest 查询单条数据请求
+message PayNotifyLogRequest {
+	// @inject_tag: db:"id" json:"id"
+	int64 id = 1; //日志编号
+}
+// PayNotifyLogResponse 查询单条数据响应
+message PayNotifyLogResponse {
+	int64 code = 1;
+	string msg = 2;
+	PayNotifyLogObject data = 3;
+}
+// PayNotifyLogRecoverRequest 恢复数据请求
+message PayNotifyLogRecoverRequest {
+	// @inject_tag: db:"id" json:"id"
+	int64 id = 1; //日志编号
+}
+// PayNotifyLogRecoverResponse 删除数据响应
+message PayNotifyLogRecoverResponse {
+	int64 code = 1;
+	string msg = 2;
+}
+// PayNotifyLogListRequest 列表数据
+message PayNotifyLogListRequest {
+	
+	// @inject_tag: db:"tenant_id" json:"tenantId"
+	optional int64 tenant_id = 1; // 租户
+	// @inject_tag: db:"deleted" json:"deleted"
+	optional int32 deleted = 2; // 删除
+	// @inject_tag: db:"status" json:"status"
+	optional int32 status = 3; // 通知状态
+	// @inject_tag: db:"task_id" json:"taskId"
+	optional int64 task_id = 4; // 通知任务编号
+
+}
+
+// PayNotifyLogListResponse 数据响应
+message PayNotifyLogListResponse {
+	int64 code = 1;
+  	string msg = 2;
+	repeated PayNotifyLogObject data = 3;
+}
+
+
+// PayNotifyLogService 服务
+service PayNotifyLogService{
+	rpc PayNotifyLogCreate(PayNotifyLogCreateRequest) returns (PayNotifyLogCreateResponse);
+	rpc PayNotifyLogUpdate(PayNotifyLogUpdateRequest) returns (PayNotifyLogUpdateResponse);
+	rpc PayNotifyLogDelete(PayNotifyLogDeleteRequest) returns (PayNotifyLogDeleteResponse);
+	rpc PayNotifyLog(PayNotifyLogRequest) returns (PayNotifyLogResponse);
+	rpc PayNotifyLogRecover(PayNotifyLogRecoverRequest) returns (PayNotifyLogRecoverResponse);
+	rpc PayNotifyLogList(PayNotifyLogListRequest) returns (PayNotifyLogListResponse);
+}

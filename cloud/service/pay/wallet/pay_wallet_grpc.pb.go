@@ -2,7 +2,7 @@
 // versions:
 // - protoc-gen-go-grpc v1.4.0
 // - protoc             v5.27.1
-// source: wallet/pay_wallet.proto
+// source: pay_wallet.proto
 
 // pay_wallet 会员钱包表
 
@@ -26,6 +26,7 @@ const (
 	PayWalletService_PayWalletDelete_FullMethodName    = "/wallet.PayWalletService/PayWalletDelete"
 	PayWalletService_PayWallet_FullMethodName          = "/wallet.PayWalletService/PayWallet"
 	PayWalletService_PayWalletRecover_FullMethodName   = "/wallet.PayWalletService/PayWalletRecover"
+	PayWalletService_PayWalletUser_FullMethodName      = "/wallet.PayWalletService/PayWalletUser"
 	PayWalletService_PayWalletList_FullMethodName      = "/wallet.PayWalletService/PayWalletList"
 	PayWalletService_PayWalletListTotal_FullMethodName = "/wallet.PayWalletService/PayWalletListTotal"
 )
@@ -41,6 +42,7 @@ type PayWalletServiceClient interface {
 	PayWalletDelete(ctx context.Context, in *PayWalletDeleteRequest, opts ...grpc.CallOption) (*PayWalletDeleteResponse, error)
 	PayWallet(ctx context.Context, in *PayWalletRequest, opts ...grpc.CallOption) (*PayWalletResponse, error)
 	PayWalletRecover(ctx context.Context, in *PayWalletRecoverRequest, opts ...grpc.CallOption) (*PayWalletRecoverResponse, error)
+	PayWalletUser(ctx context.Context, in *PayWalletUserRequest, opts ...grpc.CallOption) (*PayWalletUserResponse, error)
 	PayWalletList(ctx context.Context, in *PayWalletListRequest, opts ...grpc.CallOption) (*PayWalletListResponse, error)
 	PayWalletListTotal(ctx context.Context, in *PayWalletListTotalRequest, opts ...grpc.CallOption) (*PayWalletTotalResponse, error)
 }
@@ -103,6 +105,16 @@ func (c *payWalletServiceClient) PayWalletRecover(ctx context.Context, in *PayWa
 	return out, nil
 }
 
+func (c *payWalletServiceClient) PayWalletUser(ctx context.Context, in *PayWalletUserRequest, opts ...grpc.CallOption) (*PayWalletUserResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(PayWalletUserResponse)
+	err := c.cc.Invoke(ctx, PayWalletService_PayWalletUser_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *payWalletServiceClient) PayWalletList(ctx context.Context, in *PayWalletListRequest, opts ...grpc.CallOption) (*PayWalletListResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(PayWalletListResponse)
@@ -134,6 +146,7 @@ type PayWalletServiceServer interface {
 	PayWalletDelete(context.Context, *PayWalletDeleteRequest) (*PayWalletDeleteResponse, error)
 	PayWallet(context.Context, *PayWalletRequest) (*PayWalletResponse, error)
 	PayWalletRecover(context.Context, *PayWalletRecoverRequest) (*PayWalletRecoverResponse, error)
+	PayWalletUser(context.Context, *PayWalletUserRequest) (*PayWalletUserResponse, error)
 	PayWalletList(context.Context, *PayWalletListRequest) (*PayWalletListResponse, error)
 	PayWalletListTotal(context.Context, *PayWalletListTotalRequest) (*PayWalletTotalResponse, error)
 	mustEmbedUnimplementedPayWalletServiceServer()
@@ -157,6 +170,9 @@ func (UnimplementedPayWalletServiceServer) PayWallet(context.Context, *PayWallet
 }
 func (UnimplementedPayWalletServiceServer) PayWalletRecover(context.Context, *PayWalletRecoverRequest) (*PayWalletRecoverResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method PayWalletRecover not implemented")
+}
+func (UnimplementedPayWalletServiceServer) PayWalletUser(context.Context, *PayWalletUserRequest) (*PayWalletUserResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method PayWalletUser not implemented")
 }
 func (UnimplementedPayWalletServiceServer) PayWalletList(context.Context, *PayWalletListRequest) (*PayWalletListResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method PayWalletList not implemented")
@@ -267,6 +283,24 @@ func _PayWalletService_PayWalletRecover_Handler(srv interface{}, ctx context.Con
 	return interceptor(ctx, in, info, handler)
 }
 
+func _PayWalletService_PayWalletUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(PayWalletUserRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(PayWalletServiceServer).PayWalletUser(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: PayWalletService_PayWalletUser_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(PayWalletServiceServer).PayWalletUser(ctx, req.(*PayWalletUserRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _PayWalletService_PayWalletList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(PayWalletListRequest)
 	if err := dec(in); err != nil {
@@ -331,6 +365,10 @@ var PayWalletService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _PayWalletService_PayWalletRecover_Handler,
 		},
 		{
+			MethodName: "PayWalletUser",
+			Handler:    _PayWalletService_PayWalletUser_Handler,
+		},
+		{
 			MethodName: "PayWalletList",
 			Handler:    _PayWalletService_PayWalletList_Handler,
 		},
@@ -340,5 +378,5 @@ var PayWalletService_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "wallet/pay_wallet.proto",
+	Metadata: "pay_wallet.proto",
 }

@@ -6,8 +6,6 @@ import (
 	"context"
 
 	"github.com/abulo/ratel/v3/stores/sql"
-	"github.com/abulo/ratel/v3/util"
-	"github.com/spf13/cast"
 )
 
 // system_notify_message 站内信消息表
@@ -98,11 +96,13 @@ func SystemNotifyMessageList(ctx context.Context, condition map[string]any) (res
 	if val, ok := condition["finishReadTime"]; ok {
 		builder.LessEqual("`read_time`", val)
 	}
-	if !util.Empty(condition["offset"]) {
-		builder.Offset(cast.ToInt64(condition["offset"]))
-	}
-	if !util.Empty(condition["limit"]) {
-		builder.Limit(cast.ToInt64(condition["limit"]))
+
+	if val, ok := condition["pagination"]; ok {
+		pagination := val.(*sql.Pagination)
+		if pagination != nil {
+			builder.Offset(pagination.GetOffset())
+			builder.Limit(pagination.GetLimit())
+		}
 	}
 	builder.OrderBy("`id`", sql.DESC)
 	query, args, err := builder.Rows()
@@ -136,6 +136,7 @@ func SystemNotifyMessageListTotal(ctx context.Context, condition map[string]any)
 	if val, ok := condition["finishReadTime"]; ok {
 		builder.LessEqual("`read_time`", val)
 	}
+
 	query, args, err := builder.Count()
 	if err != nil {
 		return

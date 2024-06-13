@@ -40,12 +40,12 @@ func (srv SrvSystemMenuServiceServer) SystemMenuCreate(ctx context.Context, requ
 
 // SystemMenuUpdate 更新数据
 func (srv SrvSystemMenuServiceServer) SystemMenuUpdate(ctx context.Context, request *SystemMenuUpdateRequest) (*SystemMenuUpdateResponse, error) {
-	systemMenuId := request.GetId()
-	if systemMenuId < 1 {
+	id := request.GetId()
+	if id < 1 {
 		return &SystemMenuUpdateResponse{}, status.Error(code.ConvertToGrpc(code.ParamInvalid), code.StatusText(code.ParamInvalid))
 	}
 	req := SystemMenuDao(request.GetData())
-	_, err := menu.SystemMenuUpdate(ctx, systemMenuId, *req)
+	_, err := menu.SystemMenuUpdate(ctx, id, *req)
 	if sql.ResultAccept(err) != nil {
 		globalLogger.Logger.WithFields(logrus.Fields{
 			"req": req,
@@ -61,14 +61,14 @@ func (srv SrvSystemMenuServiceServer) SystemMenuUpdate(ctx context.Context, requ
 
 // SystemMenuDelete 删除数据
 func (srv SrvSystemMenuServiceServer) SystemMenuDelete(ctx context.Context, request *SystemMenuDeleteRequest) (*SystemMenuDeleteResponse, error) {
-	systemMenuId := request.GetId()
-	if systemMenuId < 1 {
+	id := request.GetId()
+	if id < 1 {
 		return &SystemMenuDeleteResponse{}, status.Error(code.ConvertToGrpc(code.ParamInvalid), code.StatusText(code.ParamInvalid))
 	}
-	_, err := menu.SystemMenuDelete(ctx, systemMenuId)
+	_, err := menu.SystemMenuDelete(ctx, id)
 	if sql.ResultAccept(err) != nil {
 		globalLogger.Logger.WithFields(logrus.Fields{
-			"req": systemMenuId,
+			"req": id,
 			"err": err,
 		}).Error("Sql:系统菜单:system_menu:SystemMenuDelete")
 		return &SystemMenuDeleteResponse{}, status.Error(code.ConvertToGrpc(code.SqlError), err.Error())
@@ -81,14 +81,14 @@ func (srv SrvSystemMenuServiceServer) SystemMenuDelete(ctx context.Context, requ
 
 // SystemMenu 查询单条数据
 func (srv SrvSystemMenuServiceServer) SystemMenu(ctx context.Context, request *SystemMenuRequest) (*SystemMenuResponse, error) {
-	systemMenuId := request.GetId()
-	if systemMenuId < 1 {
+	id := request.GetId()
+	if id < 1 {
 		return &SystemMenuResponse{}, status.Error(code.ConvertToGrpc(code.ParamInvalid), code.StatusText(code.ParamInvalid))
 	}
-	res, err := menu.SystemMenu(ctx, systemMenuId)
+	res, err := menu.SystemMenu(ctx, id)
 	if sql.ResultAccept(err) != nil {
 		globalLogger.Logger.WithFields(logrus.Fields{
-			"req": systemMenuId,
+			"req": id,
 			"err": err,
 		}).Error("Sql:系统菜单:system_menu:SystemMenu")
 		return &SystemMenuResponse{}, status.Error(code.ConvertToGrpc(code.SqlError), err.Error())
@@ -102,14 +102,14 @@ func (srv SrvSystemMenuServiceServer) SystemMenu(ctx context.Context, request *S
 
 // SystemMenuRecover 恢复数据
 func (srv SrvSystemMenuServiceServer) SystemMenuRecover(ctx context.Context, request *SystemMenuRecoverRequest) (*SystemMenuRecoverResponse, error) {
-	systemMenuId := request.GetId()
-	if systemMenuId < 1 {
+	id := request.GetId()
+	if id < 1 {
 		return &SystemMenuRecoverResponse{}, status.Error(code.ConvertToGrpc(code.ParamInvalid), code.StatusText(code.ParamInvalid))
 	}
-	_, err := menu.SystemMenuRecover(ctx, systemMenuId)
+	_, err := menu.SystemMenuRecover(ctx, id)
 	if sql.ResultAccept(err) != nil {
 		globalLogger.Logger.WithFields(logrus.Fields{
-			"req": systemMenuId,
+			"req": id,
 			"err": err,
 		}).Error("Sql:系统菜单:system_menu:SystemMenuRecover")
 		return &SystemMenuRecoverResponse{}, status.Error(code.ConvertToGrpc(code.SqlError), err.Error())
@@ -133,6 +133,26 @@ func (srv SrvSystemMenuServiceServer) SystemMenuList(ctx context.Context, reques
 		condition["type"] = request.GetType()
 	}
 
+	paginationRequest := request.GetPagination()
+	if paginationRequest != nil {
+		// 当前页面
+		pageNum := paginationRequest.GetPageNum()
+		// 每页多少数据
+		pageSize := paginationRequest.GetPageSize()
+		if pageNum < 1 {
+			pageNum = 1
+		}
+		if pageSize < 1 {
+			pageSize = 10
+		}
+		// 分页数据
+		offset := pageSize * (pageNum - 1)
+		pagination := &sql.Pagination{
+			Offset: &offset,
+			Limit:  &pageSize,
+		}
+		condition["pagination"] = pagination
+	}
 	// 获取数据集合
 	list, err := menu.SystemMenuList(ctx, condition)
 	if sql.ResultAccept(err) != nil {
@@ -150,5 +170,36 @@ func (srv SrvSystemMenuServiceServer) SystemMenuList(ctx context.Context, reques
 		Code: code.Success,
 		Msg:  code.StatusText(code.Success),
 		Data: res,
+	}, nil
+}
+
+// SystemMenuListTotal 获取总数
+func (srv SrvSystemMenuServiceServer) SystemMenuListTotal(ctx context.Context, request *SystemMenuListTotalRequest) (*SystemMenuTotalResponse, error) {
+	// 数据库查询条件
+	condition := make(map[string]any)
+	// 构造查询条件
+	if request.Deleted != nil {
+		condition["deleted"] = request.GetDeleted()
+	}
+	if request.Status != nil {
+		condition["status"] = request.GetStatus()
+	}
+	if request.Type != nil {
+		condition["type"] = request.GetType()
+	}
+
+	// 获取数据集合
+	total, err := menu.SystemMenuListTotal(ctx, condition)
+	if sql.ResultAccept(err) != nil {
+		globalLogger.Logger.WithFields(logrus.Fields{
+			"req": condition,
+			"err": err,
+		}).Error("Sql:系统菜单:system_menu:SystemMenuListTotal")
+		return &SystemMenuTotalResponse{}, status.Error(code.ConvertToGrpc(code.SqlError), err.Error())
+	}
+	return &SystemMenuTotalResponse{
+		Code: code.Success,
+		Msg:  code.StatusText(code.Success),
+		Data: total,
 	}, nil
 }

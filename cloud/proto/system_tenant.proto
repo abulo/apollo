@@ -1,0 +1,156 @@
+
+syntax = "proto3";
+// system_tenant 租户
+package tenant;
+option go_package = "cloud/service/system/tenant;tenant";
+import "google/protobuf/timestamp.proto";
+import "pagination.proto";
+
+// SystemTenantObject 数据对象
+message SystemTenantObject {
+	// @inject_tag: db:"id" json:"id"
+	optional int64 id = 1; //租户编号
+	// @inject_tag: db:"name" json:"name"
+	optional string name = 2; //租户名称
+	// @inject_tag: db:"user_id" json:"userId"
+	optional int64 user_id = 3; //联系人ID
+	// @inject_tag: db:"contact_name" json:"contactName"
+	optional string contact_name = 4; //联系人
+	// @inject_tag: db:"contact_mobile" json:"contactMobile"
+	optional string contact_mobile = 5; //租户联系电话
+	// @inject_tag: db:"status" json:"status"
+	optional int32 status = 6; //状态（0正常 1停用）
+	// @inject_tag: db:"domain" json:"domain"
+	optional string domain = 7; //域名
+	// @inject_tag: db:"expire_date" json:"expireDate"
+	google.protobuf.Timestamp expire_date = 8; //过期时间
+	// @inject_tag: db:"account_count" json:"accountCount"
+	optional int64 account_count = 9; //账号数量
+	// @inject_tag: db:"tenant_package_id" json:"tenantPackageId"
+	optional int64 tenant_package_id = 10; //套餐编号
+	// @inject_tag: db:"deleted" json:"deleted"
+	optional int32 deleted = 11; //是否删除(0否 1是)
+	// @inject_tag: db:"creator" json:"creator"
+	optional string creator = 12; //创建人
+	// @inject_tag: db:"create_time" json:"createTime"
+	google.protobuf.Timestamp create_time = 13; //创建时间
+	// @inject_tag: db:"updater" json:"updater"
+	optional string updater = 14; //更新人
+	// @inject_tag: db:"update_time" json:"updateTime"
+	google.protobuf.Timestamp update_time = 15; //更新时间
+	// @inject_tag: db:"username" json:"username"
+	optional string username = 16; //用户名称
+	// @inject_tag: db:"password" json:"password"
+	optional string password = 17; //用户密码
+}
+// SystemTenantTotalResponse 列表数据总量
+message SystemTenantTotalResponse {
+	int64 code = 1;
+	string msg = 2;
+	int64 data = 3;
+}
+// SystemTenantCreateRequest 创建数据请求
+message SystemTenantCreateRequest {
+	SystemTenantObject data = 1;
+}
+// SystemTenantCreateResponse 创建数据响应
+message SystemTenantCreateResponse {
+	int64 code = 1;
+	string msg = 2;
+	int64 data = 3;
+}
+// SystemTenantUpdateRequest 更新数据请求
+message SystemTenantUpdateRequest {
+	// @inject_tag: db:"id" json:"id"
+	int64 id = 1; //租户编号
+	SystemTenantObject data = 2;
+}
+// SystemTenantUpdateResponse 更新数据响应
+message SystemTenantUpdateResponse {
+	int64 code = 1;
+	string msg = 2;
+}
+// SystemTenantDeleteRequest 删除数据请求
+message SystemTenantDeleteRequest {
+	// @inject_tag: db:"id" json:"id"
+	int64 id = 1; //租户编号
+}
+// SystemTenantDeleteResponse 删除数据响应
+message SystemTenantDeleteResponse {
+	int64 code = 1;
+	string msg = 2;
+}
+// SystemTenantRequest 查询单条数据请求
+message SystemTenantRequest {
+	// @inject_tag: db:"id" json:"id"
+	int64 id = 1; //租户编号
+}
+// SystemTenantResponse 查询单条数据响应
+message SystemTenantResponse {
+	int64 code = 1;
+	string msg = 2;
+	SystemTenantObject data = 3;
+}
+// SystemTenantRecoverRequest 恢复数据请求
+message SystemTenantRecoverRequest {
+	// @inject_tag: db:"id" json:"id"
+	int64 id = 1; //租户编号
+}
+// SystemTenantRecoverResponse 删除数据响应
+message SystemTenantRecoverResponse {
+	int64 code = 1;
+	string msg = 2;
+}
+// SystemTenantListRequest 列表数据
+message SystemTenantListRequest {
+	
+	// @inject_tag: db:"deleted" json:"deleted"
+	optional int32 deleted = 1; // 是否删除(0否 1是)
+	// @inject_tag: db:"status" json:"status"
+	optional int32 status = 2; // 状态（0正常 1停用）
+	// @inject_tag: db:"name" json:"name"
+	optional string name = 3; // 租户名称
+	// @inject_tag: db:"begin_expire_date" json:"beginExpireDate"
+	google.protobuf.Timestamp begin_expire_date = 4; // 过期时间
+	// @inject_tag: db:"finish_expire_date" json:"finishExpireDate"
+	google.protobuf.Timestamp finish_expire_date = 5; // 过期时间
+	// @inject_tag: db:"tenant_package_id" json:"tenantPackageId"
+	optional int64 tenant_package_id = 6; // 套餐编号
+
+	// @inject_tag: db:"pagination" json:"pagination"
+	optional pagination.PaginationRequest pagination = 7; // 分页
+}
+
+// SystemTenantListResponse 数据响应
+message SystemTenantListResponse {
+	int64 code = 1;
+  	string msg = 2;
+	repeated SystemTenantObject data = 3;
+}
+// SystemTenantListTotalRequest 列表数据
+message SystemTenantListTotalRequest {
+	// @inject_tag: db:"deleted" json:"deleted"
+	optional int32 deleted = 1; // 是否删除(0否 1是)
+	// @inject_tag: db:"status" json:"status"
+	optional int32 status = 2; // 状态（0正常 1停用）
+	// @inject_tag: db:"name" json:"name"
+	optional string name = 3; // 租户名称
+	// @inject_tag: db:"begin_expire_date" json:"beginExpireDate"
+	google.protobuf.Timestamp begin_expire_date = 4; // 过期时间
+	// @inject_tag: db:"finish_expire_date" json:"finishExpireDate"
+	google.protobuf.Timestamp finish_expire_date = 5; // 过期时间
+	// @inject_tag: db:"tenant_package_id" json:"tenantPackageId"
+	optional int64 tenant_package_id = 6; // 套餐编号
+}
+
+
+// SystemTenantService 服务
+service SystemTenantService{
+	rpc SystemTenantCreate(SystemTenantCreateRequest) returns (SystemTenantCreateResponse);
+	rpc SystemTenantUpdate(SystemTenantUpdateRequest) returns (SystemTenantUpdateResponse);
+	rpc SystemTenantDelete(SystemTenantDeleteRequest) returns (SystemTenantDeleteResponse);
+	rpc SystemTenant(SystemTenantRequest) returns (SystemTenantResponse);
+	rpc SystemTenantRecover(SystemTenantRecoverRequest) returns (SystemTenantRecoverResponse);
+	rpc SystemTenantList(SystemTenantListRequest) returns (SystemTenantListResponse);
+	rpc SystemTenantListTotal(SystemTenantListTotalRequest) returns (SystemTenantTotalResponse);
+}

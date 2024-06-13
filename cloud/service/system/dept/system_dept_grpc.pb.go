@@ -2,7 +2,7 @@
 // versions:
 // - protoc-gen-go-grpc v1.4.0
 // - protoc             v5.27.1
-// source: dept/system_dept.proto
+// source: system_dept.proto
 
 // system_dept 部门
 
@@ -21,12 +21,13 @@ import (
 const _ = grpc.SupportPackageIsVersion8
 
 const (
-	SystemDeptService_SystemDeptCreate_FullMethodName  = "/dept.SystemDeptService/SystemDeptCreate"
-	SystemDeptService_SystemDeptUpdate_FullMethodName  = "/dept.SystemDeptService/SystemDeptUpdate"
-	SystemDeptService_SystemDeptDelete_FullMethodName  = "/dept.SystemDeptService/SystemDeptDelete"
-	SystemDeptService_SystemDept_FullMethodName        = "/dept.SystemDeptService/SystemDept"
-	SystemDeptService_SystemDeptRecover_FullMethodName = "/dept.SystemDeptService/SystemDeptRecover"
-	SystemDeptService_SystemDeptList_FullMethodName    = "/dept.SystemDeptService/SystemDeptList"
+	SystemDeptService_SystemDeptCreate_FullMethodName    = "/dept.SystemDeptService/SystemDeptCreate"
+	SystemDeptService_SystemDeptUpdate_FullMethodName    = "/dept.SystemDeptService/SystemDeptUpdate"
+	SystemDeptService_SystemDeptDelete_FullMethodName    = "/dept.SystemDeptService/SystemDeptDelete"
+	SystemDeptService_SystemDept_FullMethodName          = "/dept.SystemDeptService/SystemDept"
+	SystemDeptService_SystemDeptRecover_FullMethodName   = "/dept.SystemDeptService/SystemDeptRecover"
+	SystemDeptService_SystemDeptList_FullMethodName      = "/dept.SystemDeptService/SystemDeptList"
+	SystemDeptService_SystemDeptListTotal_FullMethodName = "/dept.SystemDeptService/SystemDeptListTotal"
 )
 
 // SystemDeptServiceClient is the client API for SystemDeptService service.
@@ -41,6 +42,7 @@ type SystemDeptServiceClient interface {
 	SystemDept(ctx context.Context, in *SystemDeptRequest, opts ...grpc.CallOption) (*SystemDeptResponse, error)
 	SystemDeptRecover(ctx context.Context, in *SystemDeptRecoverRequest, opts ...grpc.CallOption) (*SystemDeptRecoverResponse, error)
 	SystemDeptList(ctx context.Context, in *SystemDeptListRequest, opts ...grpc.CallOption) (*SystemDeptListResponse, error)
+	SystemDeptListTotal(ctx context.Context, in *SystemDeptListTotalRequest, opts ...grpc.CallOption) (*SystemDeptTotalResponse, error)
 }
 
 type systemDeptServiceClient struct {
@@ -111,6 +113,16 @@ func (c *systemDeptServiceClient) SystemDeptList(ctx context.Context, in *System
 	return out, nil
 }
 
+func (c *systemDeptServiceClient) SystemDeptListTotal(ctx context.Context, in *SystemDeptListTotalRequest, opts ...grpc.CallOption) (*SystemDeptTotalResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(SystemDeptTotalResponse)
+	err := c.cc.Invoke(ctx, SystemDeptService_SystemDeptListTotal_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // SystemDeptServiceServer is the server API for SystemDeptService service.
 // All implementations must embed UnimplementedSystemDeptServiceServer
 // for forward compatibility
@@ -123,6 +135,7 @@ type SystemDeptServiceServer interface {
 	SystemDept(context.Context, *SystemDeptRequest) (*SystemDeptResponse, error)
 	SystemDeptRecover(context.Context, *SystemDeptRecoverRequest) (*SystemDeptRecoverResponse, error)
 	SystemDeptList(context.Context, *SystemDeptListRequest) (*SystemDeptListResponse, error)
+	SystemDeptListTotal(context.Context, *SystemDeptListTotalRequest) (*SystemDeptTotalResponse, error)
 	mustEmbedUnimplementedSystemDeptServiceServer()
 }
 
@@ -147,6 +160,9 @@ func (UnimplementedSystemDeptServiceServer) SystemDeptRecover(context.Context, *
 }
 func (UnimplementedSystemDeptServiceServer) SystemDeptList(context.Context, *SystemDeptListRequest) (*SystemDeptListResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SystemDeptList not implemented")
+}
+func (UnimplementedSystemDeptServiceServer) SystemDeptListTotal(context.Context, *SystemDeptListTotalRequest) (*SystemDeptTotalResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SystemDeptListTotal not implemented")
 }
 func (UnimplementedSystemDeptServiceServer) mustEmbedUnimplementedSystemDeptServiceServer() {}
 
@@ -269,6 +285,24 @@ func _SystemDeptService_SystemDeptList_Handler(srv interface{}, ctx context.Cont
 	return interceptor(ctx, in, info, handler)
 }
 
+func _SystemDeptService_SystemDeptListTotal_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SystemDeptListTotalRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SystemDeptServiceServer).SystemDeptListTotal(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: SystemDeptService_SystemDeptListTotal_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SystemDeptServiceServer).SystemDeptListTotal(ctx, req.(*SystemDeptListTotalRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // SystemDeptService_ServiceDesc is the grpc.ServiceDesc for SystemDeptService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -300,7 +334,11 @@ var SystemDeptService_ServiceDesc = grpc.ServiceDesc{
 			MethodName: "SystemDeptList",
 			Handler:    _SystemDeptService_SystemDeptList_Handler,
 		},
+		{
+			MethodName: "SystemDeptListTotal",
+			Handler:    _SystemDeptService_SystemDeptListTotal_Handler,
+		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "dept/system_dept.proto",
+	Metadata: "system_dept.proto",
 }

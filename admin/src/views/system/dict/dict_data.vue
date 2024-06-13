@@ -7,7 +7,7 @@
       :columns="columns"
       :request-api="getCustomSystemDictListApi"
       :request-auto="true"
-      :pagination="false"
+      :pagination="true"
       :search-col="12">
       <!-- 表格 header 按钮 -->
       <template #tableHeader>

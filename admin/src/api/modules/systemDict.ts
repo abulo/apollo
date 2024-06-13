@@ -1,10 +1,11 @@
+import { ResPage } from "@/api/interface/index";
 import { PORT } from "@/api/config/servicePort";
 import http from "@/api";
 import { SystemDict } from "@/api/interface/systemDict";
 
 // 获取字典列表
 export const getSystemDictListApi = (params?: SystemDict.ReqSystemDictList) => {
-  return http.get<SystemDict.ResSystemDictItem[]>(PORT + `/system/dict/data`, params);
+  return http.get<ResPage<SystemDict.ResSystemDictItem>>(PORT + `/system/dict/data`, params);
 };
 
 // 获取单个字典

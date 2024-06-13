@@ -2,7 +2,7 @@
 // versions:
 // - protoc-gen-go-grpc v1.4.0
 // - protoc             v5.27.1
-// source: tenant/system_tenant_package.proto
+// source: system_tenant_package.proto
 
 // system_tenant_package 租户套餐包
 
@@ -21,12 +21,13 @@ import (
 const _ = grpc.SupportPackageIsVersion8
 
 const (
-	SystemTenantPackageService_SystemTenantPackageCreate_FullMethodName  = "/tenant.SystemTenantPackageService/SystemTenantPackageCreate"
-	SystemTenantPackageService_SystemTenantPackageUpdate_FullMethodName  = "/tenant.SystemTenantPackageService/SystemTenantPackageUpdate"
-	SystemTenantPackageService_SystemTenantPackageDelete_FullMethodName  = "/tenant.SystemTenantPackageService/SystemTenantPackageDelete"
-	SystemTenantPackageService_SystemTenantPackage_FullMethodName        = "/tenant.SystemTenantPackageService/SystemTenantPackage"
-	SystemTenantPackageService_SystemTenantPackageRecover_FullMethodName = "/tenant.SystemTenantPackageService/SystemTenantPackageRecover"
-	SystemTenantPackageService_SystemTenantPackageList_FullMethodName    = "/tenant.SystemTenantPackageService/SystemTenantPackageList"
+	SystemTenantPackageService_SystemTenantPackageCreate_FullMethodName    = "/tenant.SystemTenantPackageService/SystemTenantPackageCreate"
+	SystemTenantPackageService_SystemTenantPackageUpdate_FullMethodName    = "/tenant.SystemTenantPackageService/SystemTenantPackageUpdate"
+	SystemTenantPackageService_SystemTenantPackageDelete_FullMethodName    = "/tenant.SystemTenantPackageService/SystemTenantPackageDelete"
+	SystemTenantPackageService_SystemTenantPackage_FullMethodName          = "/tenant.SystemTenantPackageService/SystemTenantPackage"
+	SystemTenantPackageService_SystemTenantPackageRecover_FullMethodName   = "/tenant.SystemTenantPackageService/SystemTenantPackageRecover"
+	SystemTenantPackageService_SystemTenantPackageList_FullMethodName      = "/tenant.SystemTenantPackageService/SystemTenantPackageList"
+	SystemTenantPackageService_SystemTenantPackageListTotal_FullMethodName = "/tenant.SystemTenantPackageService/SystemTenantPackageListTotal"
 )
 
 // SystemTenantPackageServiceClient is the client API for SystemTenantPackageService service.
@@ -41,6 +42,7 @@ type SystemTenantPackageServiceClient interface {
 	SystemTenantPackage(ctx context.Context, in *SystemTenantPackageRequest, opts ...grpc.CallOption) (*SystemTenantPackageResponse, error)
 	SystemTenantPackageRecover(ctx context.Context, in *SystemTenantPackageRecoverRequest, opts ...grpc.CallOption) (*SystemTenantPackageRecoverResponse, error)
 	SystemTenantPackageList(ctx context.Context, in *SystemTenantPackageListRequest, opts ...grpc.CallOption) (*SystemTenantPackageListResponse, error)
+	SystemTenantPackageListTotal(ctx context.Context, in *SystemTenantPackageListTotalRequest, opts ...grpc.CallOption) (*SystemTenantPackageTotalResponse, error)
 }
 
 type systemTenantPackageServiceClient struct {
@@ -111,6 +113,16 @@ func (c *systemTenantPackageServiceClient) SystemTenantPackageList(ctx context.C
 	return out, nil
 }
 
+func (c *systemTenantPackageServiceClient) SystemTenantPackageListTotal(ctx context.Context, in *SystemTenantPackageListTotalRequest, opts ...grpc.CallOption) (*SystemTenantPackageTotalResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(SystemTenantPackageTotalResponse)
+	err := c.cc.Invoke(ctx, SystemTenantPackageService_SystemTenantPackageListTotal_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // SystemTenantPackageServiceServer is the server API for SystemTenantPackageService service.
 // All implementations must embed UnimplementedSystemTenantPackageServiceServer
 // for forward compatibility
@@ -123,6 +135,7 @@ type SystemTenantPackageServiceServer interface {
 	SystemTenantPackage(context.Context, *SystemTenantPackageRequest) (*SystemTenantPackageResponse, error)
 	SystemTenantPackageRecover(context.Context, *SystemTenantPackageRecoverRequest) (*SystemTenantPackageRecoverResponse, error)
 	SystemTenantPackageList(context.Context, *SystemTenantPackageListRequest) (*SystemTenantPackageListResponse, error)
+	SystemTenantPackageListTotal(context.Context, *SystemTenantPackageListTotalRequest) (*SystemTenantPackageTotalResponse, error)
 	mustEmbedUnimplementedSystemTenantPackageServiceServer()
 }
 
@@ -147,6 +160,9 @@ func (UnimplementedSystemTenantPackageServiceServer) SystemTenantPackageRecover(
 }
 func (UnimplementedSystemTenantPackageServiceServer) SystemTenantPackageList(context.Context, *SystemTenantPackageListRequest) (*SystemTenantPackageListResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SystemTenantPackageList not implemented")
+}
+func (UnimplementedSystemTenantPackageServiceServer) SystemTenantPackageListTotal(context.Context, *SystemTenantPackageListTotalRequest) (*SystemTenantPackageTotalResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SystemTenantPackageListTotal not implemented")
 }
 func (UnimplementedSystemTenantPackageServiceServer) mustEmbedUnimplementedSystemTenantPackageServiceServer() {
 }
@@ -270,6 +286,24 @@ func _SystemTenantPackageService_SystemTenantPackageList_Handler(srv interface{}
 	return interceptor(ctx, in, info, handler)
 }
 
+func _SystemTenantPackageService_SystemTenantPackageListTotal_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SystemTenantPackageListTotalRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SystemTenantPackageServiceServer).SystemTenantPackageListTotal(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: SystemTenantPackageService_SystemTenantPackageListTotal_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SystemTenantPackageServiceServer).SystemTenantPackageListTotal(ctx, req.(*SystemTenantPackageListTotalRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // SystemTenantPackageService_ServiceDesc is the grpc.ServiceDesc for SystemTenantPackageService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -301,7 +335,11 @@ var SystemTenantPackageService_ServiceDesc = grpc.ServiceDesc{
 			MethodName: "SystemTenantPackageList",
 			Handler:    _SystemTenantPackageService_SystemTenantPackageList_Handler,
 		},
+		{
+			MethodName: "SystemTenantPackageListTotal",
+			Handler:    _SystemTenantPackageService_SystemTenantPackageListTotal_Handler,
+		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "tenant/system_tenant_package.proto",
+	Metadata: "system_tenant_package.proto",
 }

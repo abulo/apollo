@@ -248,14 +248,14 @@ import {
 import { getIntDictOptions } from "@/utils/dict";
 import { SystemRole } from "@/api/interface/systemRole";
 import { SystemUserRole } from "@/api/interface/systemUserRole";
-import { getSystemRoleSearchApi } from "@/api/modules/systemRole";
+import { getSystemRoleListSimpleApi } from "@/api/modules/systemRole";
 import { getSystemUserRoleListApi, addSystemUserRoleApi } from "@/api/modules/systemUserRole";
 import { useHandleData, useHandleSet } from "@/hooks/useHandleData";
 import TreeFilter from "@/components/TreeFilter/index.vue";
 import { SystemDept } from "@/api/interface/systemDept";
-import { getSystemDeptSearchApi } from "@/api/modules/systemDept";
+import { getSystemDeptListSimpleApi } from "@/api/modules/systemDept";
 import { SystemPost } from "@/api/interface/systemPost";
-import { getSystemPostSearchApi } from "@/api/modules/systemPost";
+import { getSystemPostListSimpleApi } from "@/api/modules/systemPost";
 import { SystemUserPost } from "@/api/interface/systemUserPost";
 import { getSystemUserPostListApi, addSystemUserPostApi } from "@/api/modules/systemUserPost";
 import { SystemUserDept } from "@/api/interface/systemUserDept";
@@ -390,7 +390,7 @@ const handleDept = async (row: SystemUser.ResSystemUserItem) => {
   centerDeptDialogVisible.value = true;
   // 获取用户信息
   systemUserItemFrom.value = row;
-  const deptList = await getSystemDeptSearchApi();
+  const deptList = await getSystemDeptListSimpleApi();
   deptSelect.value = deptList.data;
   // 获取用户当前的部门
   const userDeptItem = await getSystemUserDeptListApi(Number(row.id));
@@ -442,7 +442,7 @@ const handlePost = async (row: SystemUser.ResSystemUserItem) => {
   centerPostDialogVisible.value = true;
   // 获取用户信息
   systemUserItemFrom.value = row;
-  const postList = await getSystemPostSearchApi();
+  const postList = await getSystemPostListSimpleApi();
   postSelect.value = postList.data;
   // 获取用户当前的职位
   const userPostItem = await getSystemUserPostListApi(Number(row.id));
@@ -492,7 +492,7 @@ const handleRole = async (row: SystemUser.ResSystemUserItem) => {
   centerRoleDialogVisible.value = true;
   // 获取用户信息
   systemUserItemFrom.value = row;
-  const roleList = await getSystemRoleSearchApi();
+  const roleList = await getSystemRoleListSimpleApi();
   roleSelect.value = roleList.data;
   // 获取用户当前的角色
   const userRoleItem = await getSystemUserRoleListApi(Number(row.id));
@@ -575,7 +575,7 @@ const submitForm = (formEl: FormInstance | undefined) => {
 // 部门树选择
 const deptList = ref<SystemDept.ResSystemDeptList[]>([]);
 const getTreeFilter = async () => {
-  const { data } = await getSystemDeptSearchApi();
+  const { data } = await getSystemDeptListSimpleApi({ tree: 1 });
   deptList.value = data;
 };
 

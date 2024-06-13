@@ -6,6 +6,7 @@ import (
 	"cloud/code"
 	"cloud/dao"
 	"cloud/initial"
+	"cloud/service/pagination"
 	"cloud/service/system/dict"
 
 	globalLogger "github.com/abulo/ratel/v3/core/logger"
@@ -20,6 +21,7 @@ import (
 	"google.golang.org/protobuf/proto"
 )
 
+// system_dict 字典数据表
 // SystemDictCreate 创建数据
 func SystemDictCreate(ctx context.Context, newCtx *app.RequestContext) {
 	//判断这个服务能不能链接
@@ -99,6 +101,8 @@ func SystemDictUpdate(ctx context.Context, newCtx *app.RequestContext) {
 	}
 	reqInfo.Updater = null.StringFrom(newCtx.GetString("userName"))
 	reqInfo.UpdateTime = null.DateTimeFrom(util.Now())
+	reqInfo.Creator = null.StringFromPtr(nil)
+	reqInfo.CreateTime = null.DateTimeFromPtr(nil)
 	request.Data = dict.SystemDictProto(reqInfo)
 	// 执行服务
 	res, err := client.SystemDictUpdate(ctx, request)
@@ -215,14 +219,39 @@ func SystemDictList(ctx context.Context, newCtx *app.RequestContext) {
 	client := dict.NewSystemDictServiceClient(grpcClient)
 	// 构造查询条件
 	request := &dict.SystemDictListRequest{}
+	requestTotal := &dict.SystemDictListTotalRequest{}
 
 	if val, ok := newCtx.GetQuery("dictType"); ok {
-		request.DictType = proto.String(val) // 字典类型
+		request.DictType = proto.String(val)      // 字典类型
+		requestTotal.DictType = proto.String(val) // 字典类型
 	}
 	if val, ok := newCtx.GetQuery("status"); ok {
-		request.Status = proto.Int32(cast.ToInt32(val)) // 状态（0正常 1停用）
+		request.Status = proto.Int32(cast.ToInt32(val))      // 状态（0正常 1停用）
+		requestTotal.Status = proto.Int32(cast.ToInt32(val)) // 状态（0正常 1停用）
 	}
 
+	// 执行服务,获取数据量
+	resTotal, err := client.SystemDictListTotal(ctx, requestTotal)
+	if err != nil {
+		globalLogger.Logger.WithFields(logrus.Fields{
+			"req": request,
+			"err": err,
+		}).Error("GrpcCall:字典数据表:system_dict:SystemDictList")
+		fromError := status.Convert(err)
+		newCtx.JSON(consts.StatusOK, utils.H{
+			"code": code.ConvertToHttp(fromError.Code()),
+			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
+		})
+		return
+	}
+	var total int64
+	paginationRequest := &pagination.PaginationRequest{}
+	paginationRequest.PageNum = proto.Int64(cast.ToInt64(newCtx.Query("pageNum")))
+	paginationRequest.PageSize = proto.Int64(cast.ToInt64(newCtx.Query("pageSize")))
+	request.Pagination = paginationRequest
+	if resTotal.GetCode() == code.Success {
+		total = resTotal.GetData()
+	}
 	// 执行服务
 	res, err := client.SystemDictList(ctx, request)
 	if err != nil {
@@ -247,10 +276,16 @@ func SystemDictList(ctx context.Context, newCtx *app.RequestContext) {
 	newCtx.JSON(consts.StatusOK, utils.H{
 		"code": res.GetCode(),
 		"msg":  res.GetMsg(),
-		"data": list,
+		"data": utils.H{
+			"total":    total,
+			"list":     list,
+			"pageNum":  paginationRequest.PageNum,
+			"pageSize": paginationRequest.PageSize,
+		},
 	})
 }
 
+// SystemDictAll 查询所有数据
 func SystemDictAll(ctx context.Context, newCtx *app.RequestContext) {
 	grpcClient, err := initial.Core.Client.LoadGrpc("grpc").Singleton()
 	if err != nil {
@@ -267,29 +302,7 @@ func SystemDictAll(ctx context.Context, newCtx *app.RequestContext) {
 	client := dict.NewSystemDictTypeServiceClient(grpcClient)
 	// 构造查询条件
 	request := &dict.SystemDictTypeListRequest{}
-	requestTotal := &dict.SystemDictTypeListTotalRequest{}
-	request.Status = proto.Int32(0)      // 状态（0正常 1停用）
-	requestTotal.Status = proto.Int32(0) // 状态（0正常 1停用）
-	// 执行服务,获取数据量
-	resTotal, err := client.SystemDictTypeListTotal(ctx, requestTotal)
-	if err != nil {
-		globalLogger.Logger.WithFields(logrus.Fields{
-			"req": request,
-			"err": err,
-		}).Error("GrpcCall:字典类型:system_dict_type:SystemDictAll")
-		fromError := status.Convert(err)
-		newCtx.JSON(consts.StatusOK, utils.H{
-			"code": code.ConvertToHttp(fromError.Code()),
-			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
-		})
-		return
-	}
-	var total int64
-	request.PageNum = proto.Int64(1)
-	if resTotal.GetCode() == code.Success {
-		total = resTotal.GetData()
-	}
-	request.PageSize = proto.Int64(total)
+	request.Status = proto.Int32(0) // 状态（0正常 1停用）
 	// 执行服务
 	res, err := client.SystemDictTypeList(ctx, request)
 	if err != nil {

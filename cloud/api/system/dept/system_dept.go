@@ -103,6 +103,8 @@ func SystemDeptUpdate(ctx context.Context, newCtx *app.RequestContext) {
 	reqInfo.TenantId = proto.Int64(newCtx.GetInt64("tenantId")) // 租户
 	reqInfo.Updater = null.StringFrom(newCtx.GetString("userName"))
 	reqInfo.UpdateTime = null.DateTimeFrom(util.Now())
+	reqInfo.Creator = null.StringFromPtr(nil)
+	reqInfo.CreateTime = null.DateTimeFromPtr(nil)
 	request.Data = dept.SystemDeptProto(reqInfo)
 	// 执行服务
 	res, err := client.SystemDeptUpdate(ctx, request)
@@ -239,7 +241,8 @@ func SystemDeptRecover(ctx context.Context, newCtx *app.RequestContext) {
 		"msg":  res.GetMsg(),
 	})
 }
-func SystemDeptSearch(ctx context.Context, newCtx *app.RequestContext) {
+
+func SystemDeptListSimple(ctx context.Context, newCtx *app.RequestContext) {
 	SystemDeptList(ctx, newCtx)
 }
 
@@ -270,10 +273,12 @@ func SystemDeptList(ctx context.Context, newCtx *app.RequestContext) {
 	if val, ok := newCtx.GetQuery("status"); ok {
 		request.Status = proto.Int32(cast.ToInt32(val)) // 部门状态
 	}
+	if val, ok := newCtx.GetQuery("parentId"); ok {
+		request.ParentId = proto.Int64(cast.ToInt64(val)) // 父部门ID
+	}
 	if val, ok := newCtx.GetQuery("name"); ok {
 		request.Name = proto.String(val) // 部门名称
 	}
-
 	// 执行服务
 	res, err := client.SystemDeptList(ctx, request)
 	if err != nil {

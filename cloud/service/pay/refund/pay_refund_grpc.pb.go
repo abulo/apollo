@@ -2,7 +2,7 @@
 // versions:
 // - protoc-gen-go-grpc v1.4.0
 // - protoc             v5.27.1
-// source: refund/pay_refund.proto
+// source: pay_refund.proto
 
 // pay_refund 退款订单
 
@@ -340,5 +340,5 @@ var PayRefundService_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "refund/pay_refund.proto",
+	Metadata: "pay_refund.proto",
 }

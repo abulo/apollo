@@ -2,7 +2,7 @@
 // versions:
 // - protoc-gen-go-grpc v1.4.0
 // - protoc             v5.27.1
-// source: captcha/captcha.proto
+// source: captcha.proto
 
 // captcha 验证码服务
 
@@ -150,5 +150,5 @@ var CaptchaService_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "captcha/captcha.proto",
+	Metadata: "captcha.proto",
 }

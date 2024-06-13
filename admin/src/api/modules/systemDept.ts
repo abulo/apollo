@@ -26,6 +26,6 @@ export const recoverSystemDeptApi = (id: number) => {
   return http.put(PORT + `/system/dept/${id}/recover`);
 };
 // 获取部门树
-export const getSystemDeptSearchApi = (params?: SystemDept.ReqSystemDeptList) => {
-  return http.get<SystemDept.ResSystemDeptList[]>(PORT + `/system/dept/search`, params);
+export const getSystemDeptListSimpleApi = (params?: SystemDept.ReqSystemDeptList) => {
+  return http.get<SystemDept.ResSystemDeptList[]>(PORT + `/system/dept/simple`, params);
 };

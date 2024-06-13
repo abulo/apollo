@@ -153,7 +153,7 @@ import VirtualTable from "@/components/VirtualTable/index.vue";
 import ProTable from "@/components/ProTable/index.vue";
 import { ColumnProps } from "@/components/ProTable/interface";
 import { SystemUser } from "@/api/interface/systemUser";
-import { getSystemUserItemApi, getSystemUserSearchApi } from "@/api/modules/systemUser";
+import { getSystemUserItemApi, getSystemUserListSimpleApi } from "@/api/modules/systemUser";
 import { SystemDept } from "@/api/interface/systemDept";
 import {
   getSystemDeptListApi,
@@ -370,7 +370,7 @@ const handleDialogClick = () => {
 // 列表数据接口
 const getSystemUserSearch = (params: any) => {
   const newParams = Object.assign(params, JSON.parse(JSON.stringify(initParam)));
-  return getSystemUserSearchApi(newParams);
+  return getSystemUserListSimpleApi(newParams);
 };
 // 当用户被选择
 const handleUser = (row: SystemUser.ResSystemUserItem) => {

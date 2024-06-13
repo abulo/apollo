@@ -9,6 +9,7 @@ import (
 	"cloud/code"
 	"cloud/dao"
 	"cloud/initial"
+	"cloud/service/pagination"
 	"cloud/service/system/file"
 
 	globalLogger "github.com/abulo/ratel/v3/core/logger"
@@ -206,8 +207,11 @@ func SystemFileUpdate(ctx context.Context, newCtx *app.RequestContext) {
 		})
 		return
 	}
+	reqInfo.TenantId = proto.Int64(newCtx.GetInt64("tenantId")) // 租户
 	reqInfo.Updater = null.StringFrom(newCtx.GetString("userName"))
 	reqInfo.UpdateTime = null.DateTimeFrom(util.Now())
+	reqInfo.Creator = null.StringFromPtr(nil)
+	reqInfo.CreateTime = null.DateTimeFromPtr(nil)
 	request.Data = file.SystemFileProto(reqInfo)
 	// 执行服务
 	res, err := client.SystemFileUpdate(ctx, request)
@@ -385,8 +389,10 @@ func SystemFileList(ctx context.Context, newCtx *app.RequestContext) {
 		return
 	}
 	var total int64
-	request.PageNum = proto.Int64(cast.ToInt64(newCtx.Query("pageNum")))
-	request.PageSize = proto.Int64(cast.ToInt64(newCtx.Query("pageSize")))
+	paginationRequest := &pagination.PaginationRequest{}
+	paginationRequest.PageNum = proto.Int64(cast.ToInt64(newCtx.Query("pageNum")))
+	paginationRequest.PageSize = proto.Int64(cast.ToInt64(newCtx.Query("pageSize")))
+	request.Pagination = paginationRequest
 	if resTotal.GetCode() == code.Success {
 		total = resTotal.GetData()
 	}
@@ -417,8 +423,8 @@ func SystemFileList(ctx context.Context, newCtx *app.RequestContext) {
 		"data": utils.H{
 			"total":    total,
 			"list":     list,
-			"pageNum":  request.PageNum,
-			"pageSize": request.PageSize,
+			"pageNum":  paginationRequest.PageNum,
+			"pageSize": paginationRequest.PageSize,
 		},
 	})
 }

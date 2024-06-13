@@ -6,6 +6,7 @@ import (
 	"cloud/code"
 	"cloud/dao"
 	"cloud/initial"
+	"cloud/service/pagination"
 	"cloud/service/system/notify"
 
 	globalLogger "github.com/abulo/ratel/v3/core/logger"
@@ -47,9 +48,9 @@ func SystemNotifyTemplateCreate(ctx context.Context, newCtx *app.RequestContext)
 		})
 		return
 	}
+	reqInfo.Deleted = proto.Int32(0)
 	reqInfo.Creator = null.StringFrom(newCtx.GetString("userName"))
 	reqInfo.CreateTime = null.DateTimeFrom(util.Now())
-	reqInfo.Deleted = proto.Int32(0)
 	request.Data = notify.SystemNotifyTemplateProto(reqInfo)
 	// 执行服务
 	res, err := client.SystemNotifyTemplateCreate(ctx, request)
@@ -101,6 +102,8 @@ func SystemNotifyTemplateUpdate(ctx context.Context, newCtx *app.RequestContext)
 	}
 	reqInfo.Updater = null.StringFrom(newCtx.GetString("userName"))
 	reqInfo.UpdateTime = null.DateTimeFrom(util.Now())
+	reqInfo.Creator = null.StringFromPtr(nil)
+	reqInfo.CreateTime = null.DateTimeFromPtr(nil)
 	request.Data = notify.SystemNotifyTemplateProto(reqInfo)
 	// 执行服务
 	res, err := client.SystemNotifyTemplateUpdate(ctx, request)
@@ -257,8 +260,8 @@ func SystemNotifyTemplateList(ctx context.Context, newCtx *app.RequestContext) {
 	request := &notify.SystemNotifyTemplateListRequest{}
 	requestTotal := &notify.SystemNotifyTemplateListTotalRequest{}
 
-	request.Deleted = proto.Int32(0)
-	requestTotal.Deleted = proto.Int32(0)
+	request.Deleted = proto.Int32(0)      // 删除状态
+	requestTotal.Deleted = proto.Int32(0) // 删除状态
 	if val, ok := newCtx.GetQuery("deleted"); ok {
 		if cast.ToBool(val) {
 			request.Deleted = nil
@@ -293,8 +296,10 @@ func SystemNotifyTemplateList(ctx context.Context, newCtx *app.RequestContext) {
 		return
 	}
 	var total int64
-	request.PageNum = proto.Int64(cast.ToInt64(newCtx.Query("pageNum")))
-	request.PageSize = proto.Int64(cast.ToInt64(newCtx.Query("pageSize")))
+	paginationRequest := &pagination.PaginationRequest{}
+	paginationRequest.PageNum = proto.Int64(cast.ToInt64(newCtx.Query("pageNum")))
+	paginationRequest.PageSize = proto.Int64(cast.ToInt64(newCtx.Query("pageSize")))
+	request.Pagination = paginationRequest
 	if resTotal.GetCode() == code.Success {
 		total = resTotal.GetData()
 	}
@@ -325,8 +330,8 @@ func SystemNotifyTemplateList(ctx context.Context, newCtx *app.RequestContext) {
 		"data": utils.H{
 			"total":    total,
 			"list":     list,
-			"pageNum":  request.PageNum,
-			"pageSize": request.PageSize,
+			"pageNum":  paginationRequest.PageNum,
+			"pageSize": paginationRequest.PageSize,
 		},
 	})
 }

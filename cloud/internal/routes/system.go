@@ -34,8 +34,8 @@ func SystemInitRoute(handle *xhertz.Server) {
 		auth.PUT("/system/user/:id/recover", user.SystemUserRecover)
 		// system_user->系统用户->列表
 		auth.GET("/system/user", user.SystemUserList)
-		// system_user->系统用户->搜索
-		auth.GET("/system/user/search", user.SystemUserSearch)
+		// system_user->系统用户->精简列表
+		auth.GET("/system/user/simple", user.SystemUserListSimple)
 		// system_user->用户信息表->用户的菜单
 		auth.GET("/system/user/menu", user.SystemUserMenu)
 		// system_user->用户信息表->菜单权限
@@ -71,8 +71,8 @@ func SystemInitRoute(handle *xhertz.Server) {
 		auth.GET("/system/menu/:id/item", menu.SystemMenu)
 		// system_menu->系统菜单->恢复
 		auth.PUT("/system/menu/:id/recover", menu.SystemMenuRecover)
-		// system_menu->系统菜单->搜索
-		auth.GET("/system/menu/search", menu.SystemMenuSearch)
+		// system_menu->系统菜单->精简列表
+		auth.GET("/system/menu/simple", menu.SystemMenuListSimple)
 
 		// system_dict_type->字典类型->创建
 		auth.POST("/system/dict", dict.SystemDictTypeCreate)
@@ -100,22 +100,26 @@ func SystemInitRoute(handle *xhertz.Server) {
 		auth.GET("/system/dict/all", dict.SystemDictAll)
 
 		// system_login_log->登录日志->删除
-		auth.POST("/system/logger/login/delete", logger.SystemLoginLogDelete)
-		// system_login_log->登录日志->清空
-		auth.POST("/system/logger/login/drop", logger.SystemLoginLogDrop)
+		auth.DELETE("/system/logger/login/:id/delete", logger.SystemLoginLogDelete)
 		// system_login_log->登录日志->单条数据信息查看
 		auth.GET("/system/logger/login/:id/item", logger.SystemLoginLog)
+		// system_login_log->登录日志->恢复
+		auth.PUT("/system/logger/login/:id/recover", logger.SystemLoginLogRecover)
 		// system_login_log->登录日志->列表
 		auth.GET("/system/logger/login", logger.SystemLoginLogList)
+		// system_login_log->登录日志->清除
+		auth.POST("/system/logger/login/drop", logger.SystemLoginLogDrop)
 
 		// system_operate_log->操作日志->删除
-		auth.POST("/system/logger/operate/delete", logger.SystemOperateLogDelete)
-		// system_operate_log->操作日志->清空
-		auth.POST("/system/logger/operate/drop", logger.SystemOperateLogDrop)
+		auth.DELETE("/system/logger/operate/:id/delete", logger.SystemOperateLogDelete)
 		// system_operate_log->操作日志->单条数据信息查看
 		auth.GET("/system/logger/operate/:id/item", logger.SystemOperateLog)
+		// system_operate_log->操作日志->恢复
+		auth.PUT("/system/logger/operate/:id/recover", logger.SystemOperateLogRecover)
 		// system_operate_log->操作日志->列表
 		auth.GET("/system/logger/operate", logger.SystemOperateLogList)
+		// system_operate_log->操作日志->清除
+		auth.POST("/system/logger/operate/drop", logger.SystemOperateLogDrop)
 
 		// system_entry_log -> 访问日志 -> 删除
 		auth.POST("/system/logger/entry/delete", logger.SystemEntryLogDelete)
@@ -138,8 +142,8 @@ func SystemInitRoute(handle *xhertz.Server) {
 		auth.PUT("/system/tenant/:id/recover", tenant.SystemTenantRecover)
 		// system_tenant->租户->列表
 		auth.GET("/system/tenant", tenant.SystemTenantList)
-		// system_tenant->租户->搜索
-		auth.GET("/system/tenant/search", tenant.SystemTenantSearch)
+		// system_tenant->租户->精简列表
+		auth.GET("/system/tenant/simple", tenant.SystemTenantListSimple)
 		// system_tenant->租户->租户用户
 		auth.GET("/system/tenant/:id/user", tenant.SystemUserList)
 		// system_tenant->租户->租户菜单
@@ -159,8 +163,8 @@ func SystemInitRoute(handle *xhertz.Server) {
 		auth.PUT("/system/tenant/package/:id/recover", tenant.SystemTenantPackageRecover)
 		// system_tenant_package->租户套餐包->列表
 		auth.GET("/system/tenant/package", tenant.SystemTenantPackageList)
-		// system_tenant_package->租户套餐包->搜索
-		auth.GET("/system/tenant/package/search", tenant.SystemTenantPackageSearch)
+		// system_tenant_package->租户套餐包->精简列表
+		auth.GET("/system/tenant/package/simple", tenant.SystemTenantPackageListSimple)
 		//
 
 		// system_dept->部门->创建
@@ -175,8 +179,8 @@ func SystemInitRoute(handle *xhertz.Server) {
 		auth.PUT("/system/dept/:id/recover", dept.SystemDeptRecover)
 		// system_dept->部门->列表
 		auth.GET("/system/dept", dept.SystemDeptList)
-		// system_dept->部门->搜索
-		auth.GET("/system/dept/search", dept.SystemDeptSearch)
+		// system_dept->部门->精简列表
+		auth.GET("/system/dept/simple", dept.SystemDeptListSimple)
 
 		// system_post->职位->创建
 		auth.POST("/system/post", post.SystemPostCreate)
@@ -190,8 +194,8 @@ func SystemInitRoute(handle *xhertz.Server) {
 		auth.PUT("/system/post/:id/recover", post.SystemPostRecover)
 		// system_post->职位->列表
 		auth.GET("/system/post", post.SystemPostList)
-		// system_post->职位->搜索
-		auth.GET("/system/post/search", post.SystemPostSearch)
+		// system_post->职位->精简列表
+		auth.GET("/system/post/simple", post.SystemPostListSimple)
 
 		// system_role->系统角色->创建
 		auth.POST("/system/role", role.SystemRoleCreate)
@@ -205,8 +209,8 @@ func SystemInitRoute(handle *xhertz.Server) {
 		auth.PUT("/system/role/:id/recover", role.SystemRoleRecover)
 		// system_role->系统角色->列表
 		auth.GET("/system/role", role.SystemRoleList)
-		// system_role->系统角色->搜索
-		auth.GET("/system/role/search", role.SystemRoleSearch)
+		// system_role->系统角色->精简列表
+		auth.GET("/system/role/simple", role.SystemRoleListSimple)
 
 		// system_role->系统角色->角色菜单
 		auth.GET("/system/role/:id/menu", role.SystemRoleMenuList)
@@ -268,8 +272,8 @@ func SystemInitRoute(handle *xhertz.Server) {
 		auth.PUT("/system/mail/account/:id/recover", mail.SystemMailAccountRecover)
 		// system_mail_account->邮箱账号表->列表
 		auth.GET("/system/mail/account", mail.SystemMailAccountList)
-		// system_mail_account->邮箱账号表->搜索
-		auth.GET("/system/mail/account/search", mail.SystemMailAccountSearch)
+		// system_mail_account->邮箱账号表->精简列表
+		auth.GET("/system/mail/account/simple", mail.SystemMailAccountListSimple)
 
 		// system_mail_template->邮件模版表->创建
 		auth.POST("/system/mail/template", mail.SystemMailTemplateCreate)

@@ -1,0 +1,119 @@
+
+syntax = "proto3";
+// pay_app 支付应用信息
+package app;
+option go_package = "cloud/service/pay/app;app";
+import "google/protobuf/timestamp.proto";
+
+// PayAppObject 数据对象
+message PayAppObject {
+	// @inject_tag: db:"id" json:"id"
+	optional int64 id = 1; //应用编号
+	// @inject_tag: db:"name" json:"name"
+	optional string name = 2; //应用名称
+	// @inject_tag: db:"status" json:"status"
+	optional int32 status = 3; //开启状态
+	// @inject_tag: db:"remark" json:"remark"
+	optional string remark = 4; //备注
+	// @inject_tag: db:"order_notify_url" json:"orderNotifyUrl"
+	optional string order_notify_url = 5; //支付结果的回调地址
+	// @inject_tag: db:"refund_notify_url" json:"refundNotifyUrl"
+	optional string refund_notify_url = 6; //退款结果的回调地址
+	// @inject_tag: db:"transfer_notify_url" json:"transferNotifyUrl"
+	optional string transfer_notify_url = 7; //转账结果的回调地址
+	// @inject_tag: db:"deleted" json:"deleted"
+	optional int32 deleted = 8; //删除
+	// @inject_tag: db:"tenant_id" json:"tenantId"
+	optional int64 tenant_id = 9; //租户
+	// @inject_tag: db:"creator" json:"creator"
+	optional string creator = 10; //创建人
+	// @inject_tag: db:"create_time" json:"createTime"
+	google.protobuf.Timestamp create_time = 11; //创建时间
+	// @inject_tag: db:"updater" json:"updater"
+	optional string updater = 12; //更新人
+	// @inject_tag: db:"update_time" json:"updateTime"
+	google.protobuf.Timestamp update_time = 13; //更新时间
+}
+// PayAppCreateRequest 创建数据请求
+message PayAppCreateRequest {
+	PayAppObject data = 1;
+}
+// PayAppCreateResponse 创建数据响应
+message PayAppCreateResponse {
+	int64 code = 1;
+	string msg = 2;
+	int64 data = 3;
+}
+// PayAppUpdateRequest 更新数据请求
+message PayAppUpdateRequest {
+	// @inject_tag: db:"id" json:"id"
+	int64 id = 1; //应用编号
+	PayAppObject data = 2;
+}
+// PayAppUpdateResponse 更新数据响应
+message PayAppUpdateResponse {
+	int64 code = 1;
+	string msg = 2;
+}
+// PayAppDeleteRequest 删除数据请求
+message PayAppDeleteRequest {
+	// @inject_tag: db:"id" json:"id"
+	int64 id = 1; //应用编号
+}
+// PayAppDeleteResponse 删除数据响应
+message PayAppDeleteResponse {
+	int64 code = 1;
+	string msg = 2;
+}
+// PayAppRequest 查询单条数据请求
+message PayAppRequest {
+	// @inject_tag: db:"id" json:"id"
+	int64 id = 1; //应用编号
+}
+// PayAppResponse 查询单条数据响应
+message PayAppResponse {
+	int64 code = 1;
+	string msg = 2;
+	PayAppObject data = 3;
+}
+// PayAppRecoverRequest 恢复数据请求
+message PayAppRecoverRequest {
+	// @inject_tag: db:"id" json:"id"
+	int64 id = 1; //应用编号
+}
+// PayAppRecoverResponse 删除数据响应
+message PayAppRecoverResponse {
+	int64 code = 1;
+	string msg = 2;
+}
+// PayAppListRequest 列表数据
+message PayAppListRequest {
+	
+	// @inject_tag: db:"tenant_id" json:"tenantId"
+	optional int64 tenant_id = 1; // 租户
+	// @inject_tag: db:"deleted" json:"deleted"
+	optional int32 deleted = 2; // 删除
+	// @inject_tag: db:"status" json:"status"
+	optional int32 status = 3; // 开启状态
+	// @inject_tag: db:"name" json:"name"
+	optional string name = 4; // 应用名称
+
+}
+
+// PayAppListResponse 数据响应
+message PayAppListResponse {
+	int64 code = 1;
+  	string msg = 2;
+	repeated PayAppObject data = 3;
+}
+
+
+// PayAppService 服务
+service PayAppService{
+	rpc PayAppCreate(PayAppCreateRequest) returns (PayAppCreateResponse);
+	rpc PayAppUpdate(PayAppUpdateRequest) returns (PayAppUpdateResponse);
+	rpc PayAppDelete(PayAppDeleteRequest) returns (PayAppDeleteResponse);
+	rpc PayApp(PayAppRequest) returns (PayAppResponse);
+	rpc PayAppRecover(PayAppRecoverRequest) returns (PayAppRecoverResponse);
+	rpc PayAppList(PayAppListRequest) returns (PayAppListResponse);
+}

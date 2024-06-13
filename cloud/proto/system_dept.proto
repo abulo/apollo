@@ -1,0 +1,146 @@
+
+syntax = "proto3";
+// system_dept 部门
+package dept;
+option go_package = "cloud/service/system/dept;dept";
+import "pagination.proto";
+import "google/protobuf/timestamp.proto";
+
+// SystemDeptObject 数据对象
+message SystemDeptObject {
+	// @inject_tag: db:"id" json:"id"
+	optional int64 id = 1; //部门ID
+	// @inject_tag: db:"name" json:"name"
+	optional string name = 2; //部门名称
+	// @inject_tag: db:"parent_id" json:"parentId"
+	optional int64 parent_id = 3; //父部门ID
+	// @inject_tag: db:"sort" json:"sort"
+	optional int32 sort = 4; //显示顺序
+	// @inject_tag: db:"user_id" json:"userId"
+	optional int64 user_id = 5; //负责人
+	// @inject_tag: db:"phone" json:"phone"
+	optional string phone = 6; //联系电话
+	// @inject_tag: db:"email" json:"email"
+	optional string email = 7; //邮件
+	// @inject_tag: db:"status" json:"status"
+	optional int32 status = 8; //部门状态
+	// @inject_tag: db:"deleted" json:"deleted"
+	optional int32 deleted = 9; //是否删除
+	// @inject_tag: db:"tenant_id" json:"tenantId"
+	optional int64 tenant_id = 10; //租户ID
+	// @inject_tag: db:"creator" json:"creator"
+	optional string creator = 11; //创建人
+	// @inject_tag: db:"create_time" json:"createTime"
+	google.protobuf.Timestamp create_time = 12; //创建时间
+	// @inject_tag: db:"updater" json:"updater"
+	optional string updater = 13; //更新人
+	// @inject_tag: db:"update_time" json:"updateTime"
+	google.protobuf.Timestamp update_time = 14; //更新时间
+}
+// SystemDeptTotalResponse 列表数据总量
+message SystemDeptTotalResponse {
+	int64 code = 1;
+	string msg = 2;
+	int64 data = 3;
+}
+// SystemDeptCreateRequest 创建数据请求
+message SystemDeptCreateRequest {
+	SystemDeptObject data = 1;
+}
+// SystemDeptCreateResponse 创建数据响应
+message SystemDeptCreateResponse {
+	int64 code = 1;
+	string msg = 2;
+	int64 data = 3;
+}
+// SystemDeptUpdateRequest 更新数据请求
+message SystemDeptUpdateRequest {
+	// @inject_tag: db:"id" json:"id"
+	int64 id = 1; //部门ID
+	SystemDeptObject data = 2;
+}
+// SystemDeptUpdateResponse 更新数据响应
+message SystemDeptUpdateResponse {
+	int64 code = 1;
+	string msg = 2;
+}
+// SystemDeptDeleteRequest 删除数据请求
+message SystemDeptDeleteRequest {
+	// @inject_tag: db:"id" json:"id"
+	int64 id = 1; //部门ID
+}
+// SystemDeptDeleteResponse 删除数据响应
+message SystemDeptDeleteResponse {
+	int64 code = 1;
+	string msg = 2;
+}
+// SystemDeptRequest 查询单条数据请求
+message SystemDeptRequest {
+	// @inject_tag: db:"id" json:"id"
+	int64 id = 1; //部门ID
+}
+// SystemDeptResponse 查询单条数据响应
+message SystemDeptResponse {
+	int64 code = 1;
+	string msg = 2;
+	SystemDeptObject data = 3;
+}
+// SystemDeptRecoverRequest 恢复数据请求
+message SystemDeptRecoverRequest {
+	// @inject_tag: db:"id" json:"id"
+	int64 id = 1; //部门ID
+}
+// SystemDeptRecoverResponse 删除数据响应
+message SystemDeptRecoverResponse {
+	int64 code = 1;
+	string msg = 2;
+}
+// SystemDeptListRequest 列表数据
+message SystemDeptListRequest {
+	// @inject_tag: db:"tenant_id" json:"tenantId"
+	optional int64 tenant_id = 1; // 租户ID
+	// @inject_tag: db:"deleted" json:"deleted"
+	optional int32 deleted = 2; // 是否删除
+	// @inject_tag: db:"status" json:"status"
+	optional int32 status = 3; // 部门状态
+	// @inject_tag: db:"parent_id" json:"parentId"
+	optional int64 parent_id = 4; // 父部门ID
+	// @inject_tag: db:"name" json:"name"
+	optional string name = 5; // 部门名称
+	// @inject_tag: db:"pagination" json:"pagination"
+	optional pagination.PaginationRequest pagination = 6; // 分页
+}
+
+// SystemDeptListResponse 数据响应
+message SystemDeptListResponse {
+	int64 code = 1;
+  	string msg = 2;
+	repeated SystemDeptObject data = 3;
+}
+// SystemDeptListTotalRequest 列表数据
+message SystemDeptListTotalRequest {
+	
+	// @inject_tag: db:"tenant_id" json:"tenantId"
+	optional int64 tenant_id = 1; // 租户ID
+	// @inject_tag: db:"deleted" json:"deleted"
+	optional int32 deleted = 2; // 是否删除
+	// @inject_tag: db:"status" json:"status"
+	optional int32 status = 3; // 部门状态
+	// @inject_tag: db:"parent_id" json:"parentId"
+	optional int64 parent_id = 4; // 父部门ID
+	// @inject_tag: db:"name" json:"name"
+	optional string name = 5; // 部门名称
+
+}
+
+
+// SystemDeptService 服务
+service SystemDeptService{
+	rpc SystemDeptCreate(SystemDeptCreateRequest) returns (SystemDeptCreateResponse);
+	rpc SystemDeptUpdate(SystemDeptUpdateRequest) returns (SystemDeptUpdateResponse);
+	rpc SystemDeptDelete(SystemDeptDeleteRequest) returns (SystemDeptDeleteResponse);
+	rpc SystemDept(SystemDeptRequest) returns (SystemDeptResponse);
+	rpc SystemDeptRecover(SystemDeptRecoverRequest) returns (SystemDeptRecoverResponse);
+	rpc SystemDeptList(SystemDeptListRequest) returns (SystemDeptListResponse);
+	rpc SystemDeptListTotal(SystemDeptListTotalRequest) returns (SystemDeptTotalResponse);
+}

@@ -32,6 +32,6 @@ export const recoverSystemMenuApi = (id: number) => {
   return http.put(PORT + `/system/menu/${id}/recover`);
 };
 // 获取系统菜单树
-export const getSystemMenuSearchApi = (params?: SystemMenu.ReqSystemMenuList) => {
-  return http.get<SystemMenu.ResSystemMenuList[]>(PORT + `/system/menu/search`, params);
+export const getSystemMenuListSimpleApi = (params?: SystemMenu.ReqSystemMenuList) => {
+  return http.get<SystemMenu.ResSystemMenuList[]>(PORT + `/system/menu/simple`, params);
 };

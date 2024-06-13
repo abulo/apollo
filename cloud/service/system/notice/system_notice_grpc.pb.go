@@ -2,7 +2,7 @@
 // versions:
 // - protoc-gen-go-grpc v1.4.0
 // - protoc             v5.27.1
-// source: notice/system_notice.proto
+// source: system_notice.proto
 
 // system_notice 通知公告表
 
@@ -340,5 +340,5 @@ var SystemNoticeService_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "notice/system_notice.proto",
+	Metadata: "system_notice.proto",
 }

@@ -133,6 +133,26 @@ func (srv SrvSystemMailAccountServiceServer) SystemMailAccountList(ctx context.C
 		condition["username"] = request.GetUsername()
 	}
 
+	paginationRequest := request.GetPagination()
+	if paginationRequest != nil {
+		// 当前页面
+		pageNum := paginationRequest.GetPageNum()
+		// 每页多少数据
+		pageSize := paginationRequest.GetPageSize()
+		if pageNum < 1 {
+			pageNum = 1
+		}
+		if pageSize < 1 {
+			pageSize = 10
+		}
+		// 分页数据
+		offset := pageSize * (pageNum - 1)
+		pagination := &sql.Pagination{
+			Offset: &offset,
+			Limit:  &pageSize,
+		}
+		condition["pagination"] = pagination
+	}
 	// 获取数据集合
 	list, err := mail.SystemMailAccountList(ctx, condition)
 	if sql.ResultAccept(err) != nil {
@@ -150,5 +170,36 @@ func (srv SrvSystemMailAccountServiceServer) SystemMailAccountList(ctx context.C
 		Code: code.Success,
 		Msg:  code.StatusText(code.Success),
 		Data: res,
+	}, nil
+}
+
+// SystemMailAccountListTotal 获取总数
+func (srv SrvSystemMailAccountServiceServer) SystemMailAccountListTotal(ctx context.Context, request *SystemMailAccountListTotalRequest) (*SystemMailAccountTotalResponse, error) {
+	// 数据库查询条件
+	condition := make(map[string]any)
+	// 构造查询条件
+	if request.Deleted != nil {
+		condition["deleted"] = request.GetDeleted()
+	}
+	if request.Mail != nil {
+		condition["mail"] = request.GetMail()
+	}
+	if request.Username != nil {
+		condition["username"] = request.GetUsername()
+	}
+
+	// 获取数据集合
+	total, err := mail.SystemMailAccountListTotal(ctx, condition)
+	if sql.ResultAccept(err) != nil {
+		globalLogger.Logger.WithFields(logrus.Fields{
+			"req": condition,
+			"err": err,
+		}).Error("Sql:邮箱账号表:system_mail_account:SystemMailAccountListTotal")
+		return &SystemMailAccountTotalResponse{}, status.Error(code.ConvertToGrpc(code.SqlError), err.Error())
+	}
+	return &SystemMailAccountTotalResponse{
+		Code: code.Success,
+		Msg:  code.StatusText(code.Success),
+		Data: total,
 	}, nil
 }

@@ -2,7 +2,7 @@
 // versions:
 // - protoc-gen-go-grpc v1.4.0
 // - protoc             v5.27.1
-// source: post/system_post.proto
+// source: system_post.proto
 
 // system_post 职位
 
@@ -21,12 +21,13 @@ import (
 const _ = grpc.SupportPackageIsVersion8
 
 const (
-	SystemPostService_SystemPostCreate_FullMethodName  = "/post.SystemPostService/SystemPostCreate"
-	SystemPostService_SystemPostUpdate_FullMethodName  = "/post.SystemPostService/SystemPostUpdate"
-	SystemPostService_SystemPostDelete_FullMethodName  = "/post.SystemPostService/SystemPostDelete"
-	SystemPostService_SystemPost_FullMethodName        = "/post.SystemPostService/SystemPost"
-	SystemPostService_SystemPostRecover_FullMethodName = "/post.SystemPostService/SystemPostRecover"
-	SystemPostService_SystemPostList_FullMethodName    = "/post.SystemPostService/SystemPostList"
+	SystemPostService_SystemPostCreate_FullMethodName    = "/post.SystemPostService/SystemPostCreate"
+	SystemPostService_SystemPostUpdate_FullMethodName    = "/post.SystemPostService/SystemPostUpdate"
+	SystemPostService_SystemPostDelete_FullMethodName    = "/post.SystemPostService/SystemPostDelete"
+	SystemPostService_SystemPost_FullMethodName          = "/post.SystemPostService/SystemPost"
+	SystemPostService_SystemPostRecover_FullMethodName   = "/post.SystemPostService/SystemPostRecover"
+	SystemPostService_SystemPostList_FullMethodName      = "/post.SystemPostService/SystemPostList"
+	SystemPostService_SystemPostListTotal_FullMethodName = "/post.SystemPostService/SystemPostListTotal"
 )
 
 // SystemPostServiceClient is the client API for SystemPostService service.
@@ -41,6 +42,7 @@ type SystemPostServiceClient interface {
 	SystemPost(ctx context.Context, in *SystemPostRequest, opts ...grpc.CallOption) (*SystemPostResponse, error)
 	SystemPostRecover(ctx context.Context, in *SystemPostRecoverRequest, opts ...grpc.CallOption) (*SystemPostRecoverResponse, error)
 	SystemPostList(ctx context.Context, in *SystemPostListRequest, opts ...grpc.CallOption) (*SystemPostListResponse, error)
+	SystemPostListTotal(ctx context.Context, in *SystemPostListTotalRequest, opts ...grpc.CallOption) (*SystemPostTotalResponse, error)
 }
 
 type systemPostServiceClient struct {
@@ -111,6 +113,16 @@ func (c *systemPostServiceClient) SystemPostList(ctx context.Context, in *System
 	return out, nil
 }
 
+func (c *systemPostServiceClient) SystemPostListTotal(ctx context.Context, in *SystemPostListTotalRequest, opts ...grpc.CallOption) (*SystemPostTotalResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(SystemPostTotalResponse)
+	err := c.cc.Invoke(ctx, SystemPostService_SystemPostListTotal_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // SystemPostServiceServer is the server API for SystemPostService service.
 // All implementations must embed UnimplementedSystemPostServiceServer
 // for forward compatibility
@@ -123,6 +135,7 @@ type SystemPostServiceServer interface {
 	SystemPost(context.Context, *SystemPostRequest) (*SystemPostResponse, error)
 	SystemPostRecover(context.Context, *SystemPostRecoverRequest) (*SystemPostRecoverResponse, error)
 	SystemPostList(context.Context, *SystemPostListRequest) (*SystemPostListResponse, error)
+	SystemPostListTotal(context.Context, *SystemPostListTotalRequest) (*SystemPostTotalResponse, error)
 	mustEmbedUnimplementedSystemPostServiceServer()
 }
 
@@ -147,6 +160,9 @@ func (UnimplementedSystemPostServiceServer) SystemPostRecover(context.Context, *
 }
 func (UnimplementedSystemPostServiceServer) SystemPostList(context.Context, *SystemPostListRequest) (*SystemPostListResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SystemPostList not implemented")
+}
+func (UnimplementedSystemPostServiceServer) SystemPostListTotal(context.Context, *SystemPostListTotalRequest) (*SystemPostTotalResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SystemPostListTotal not implemented")
 }
 func (UnimplementedSystemPostServiceServer) mustEmbedUnimplementedSystemPostServiceServer() {}
 
@@ -269,6 +285,24 @@ func _SystemPostService_SystemPostList_Handler(srv interface{}, ctx context.Cont
 	return interceptor(ctx, in, info, handler)
 }
 
+func _SystemPostService_SystemPostListTotal_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SystemPostListTotalRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SystemPostServiceServer).SystemPostListTotal(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: SystemPostService_SystemPostListTotal_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SystemPostServiceServer).SystemPostListTotal(ctx, req.(*SystemPostListTotalRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // SystemPostService_ServiceDesc is the grpc.ServiceDesc for SystemPostService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -300,7 +334,11 @@ var SystemPostService_ServiceDesc = grpc.ServiceDesc{
 			MethodName: "SystemPostList",
 			Handler:    _SystemPostService_SystemPostList_Handler,
 		},
+		{
+			MethodName: "SystemPostListTotal",
+			Handler:    _SystemPostService_SystemPostListTotal_Handler,
+		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "post/system_post.proto",
+	Metadata: "system_post.proto",
 }

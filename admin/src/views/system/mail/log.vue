@@ -116,7 +116,7 @@ import {
   getSystemMailLogItemApi
 } from "@/api/modules/systemMailLog";
 import { FormInstance, FormRules } from "element-plus";
-import { getSystemMailAccountSearchApi } from "@/api/modules/systemMailAccount";
+import { getSystemMailAccountListSimpleApi } from "@/api/modules/systemMailAccount";
 import { getIntDictOptions, DictDataType } from "@/utils/dict";
 import { DictTag } from "@/components/DictTag";
 import { useHandleData, useHandleSet } from "@/hooks/useHandleData";
@@ -253,7 +253,7 @@ const handleItem = async (row: SystemMailLog.ResSystemMailLogItem) => {
 };
 
 const getAccount = async () => {
-  const { data } = await getSystemMailAccountSearchApi();
+  const { data } = await getSystemMailAccountListSimpleApi({ deleted: 1 });
   //扁平化输出数据
   data.forEach(item => {
     let obj: DictDataType = {

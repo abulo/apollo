@@ -92,6 +92,13 @@ func SystemPostList(ctx context.Context, condition map[string]any) (res []dao.Sy
 		builder.Like("`name`", "%"+cast.ToString(val)+"%")
 	}
 
+	if val, ok := condition["pagination"]; ok {
+		pagination := val.(*sql.Pagination)
+		if pagination != nil {
+			builder.Offset(pagination.GetOffset())
+			builder.Limit(pagination.GetLimit())
+		}
+	}
 	builder.OrderBy("`sort`", sql.ASC)
 	builder.OrderBy("`id`", sql.DESC)
 	query, args, err := builder.Rows()
@@ -99,5 +106,31 @@ func SystemPostList(ctx context.Context, condition map[string]any) (res []dao.Sy
 		return
 	}
 	err = db.QueryRows(ctx, query, args...).ToStruct(&res)
+	return
+}
+
+// SystemPostListTotal 查询列表数据总量
+func SystemPostListTotal(ctx context.Context, condition map[string]any) (res int64, err error) {
+	db := initial.Core.Store.LoadSQL("mysql").Read()
+	builder := sql.NewBuilder()
+	builder.Table("`system_post`")
+	if val, ok := condition["tenantId"]; ok {
+		builder.Where("`tenant_id`", val)
+	}
+	if val, ok := condition["deleted"]; ok {
+		builder.Where("`deleted`", val)
+	}
+	if val, ok := condition["status"]; ok {
+		builder.Where("`status`", val)
+	}
+	if val, ok := condition["name"]; ok {
+		builder.Like("`name`", "%"+cast.ToString(val)+"%")
+	}
+
+	query, args, err := builder.Count()
+	if err != nil {
+		return
+	}
+	res, err = db.Count(ctx, query, args...)
 	return
 }

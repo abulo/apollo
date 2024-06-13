@@ -230,7 +230,7 @@ func RegionRecover(ctx context.Context, newCtx *app.RequestContext) {
 		"msg":  res.GetMsg(),
 	})
 }
-func RegionSearch(ctx context.Context, newCtx *app.RequestContext) {
+func RegionListSimple(ctx context.Context, newCtx *app.RequestContext) {
 	RegionList(ctx, newCtx)
 }
 

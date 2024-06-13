@@ -6,6 +6,7 @@ import (
 	"cloud/api/pay/notify"
 	"cloud/api/pay/order"
 	"cloud/api/pay/refund"
+	"cloud/api/pay/wallet"
 	"cloud/internal/middleware"
 
 	"github.com/abulo/ratel/v3/server/xhertz"
@@ -70,5 +71,20 @@ func PayInitRoute(handle *xhertz.Server) {
 		auth.PUT("/pay/notify/:id/recover", notify.PayNotifyTaskRecover)
 		// pay_notify_task->商户支付-任务通知->列表
 		auth.GET("/pay/notify", notify.PayNotifyTaskList)
+
+		// pay_wallet->会员钱包表->创建
+		// auth.POST("/pay/wallet", wallet.PayWalletCreate)
+		// pay_wallet->会员钱包表->更新
+		// auth.PUT("/pay/wallet/:id/update", wallet.PayWalletUpdate)
+		// pay_wallet->会员钱包表->删除
+		auth.DELETE("/pay/wallet/:id/delete", wallet.PayWalletDelete)
+		// pay_wallet->会员钱包表->单条数据信息查看
+		auth.GET("/pay/wallet/:id/item", wallet.PayWallet)
+		// pay_wallet->会员钱包表->恢复
+		auth.PUT("/pay/wallet/:id/recover", wallet.PayWalletRecover)
+		// pay_wallet->会员钱包表->单条数据信息查看
+		// auth.GET("/pay/wallet/PayWalletUser/Item", wallet.PayWalletUser)
+		// pay_wallet->会员钱包表->列表
+		auth.GET("/pay/wallet", wallet.PayWalletList)
 	}
 }

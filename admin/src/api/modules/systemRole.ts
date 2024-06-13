@@ -1,10 +1,11 @@
 import { PORT } from "@/api/config/servicePort";
 import http from "@/api";
+import { ResPage } from "@/api/interface/index";
 import { SystemRole } from "@/api/interface/systemRole";
 
 // 获取角色列表
 export const getSystemRoleListApi = (params?: SystemRole.ReqSystemRoleList) => {
-  return http.get<SystemRole.ResSystemRoleItem[]>(PORT + `/system/role`, params);
+  return http.get<ResPage<SystemRole.ResSystemRoleItem>>(PORT + `/system/role`, params);
 };
 
 // 获取单个角色
@@ -31,6 +32,12 @@ export const deleteSystemRoleApi = (id: number) => {
 export const recoverSystemRoleApi = (id: number) => {
   return http.put(PORT + `/system/role/${id}/recover`);
 };
+
+// 获取角色列表
+export const getSystemRoleListSimpleApi = (params?: SystemRole.ReqSystemRoleList) => {
+  return http.get<SystemRole.ResSystemRoleItem[]>(PORT + `/system/role/simple`, params);
+};
+
 // 菜单
 export const getSystemRoleMenuListApi = (id: number, params?: SystemRole.ReqSystemRoleMenuItem) => {
   return http.get<SystemRole.ResSystemRoleMenuItem>(PORT + `/system/role/${id}/menu`, params);
@@ -47,8 +54,4 @@ export const getSystemRoleScopeListApi = (id: number) => {
 // 添加数据范围
 export const addSystemRoleScopeApi = (id: number, params: SystemRole.ResSystemRoleScopeItem) => {
   return http.post(PORT + `/system/role/${id}/scope`, params);
-};
-// 获取角色列表
-export const getSystemRoleSearchApi = (params?: SystemRole.ReqSystemRoleList) => {
-  return http.get<SystemRole.ResSystemRoleItem[]>(PORT + `/system/role/search`, params);
 };

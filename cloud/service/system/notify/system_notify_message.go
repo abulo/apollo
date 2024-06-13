@@ -15,7 +15,7 @@ func SystemNotifyMessageDao(item *SystemNotifyMessageObject) *dao.SystemNotifyMe
 	daoItem := &dao.SystemNotifyMessage{}
 
 	if item != nil && item.Id != nil {
-		daoItem.Id = item.Id // 用户ID
+		daoItem.Id = item.Id // 消息
 	}
 	if item != nil && item.UserId != nil {
 		daoItem.UserId = item.UserId // 用户id

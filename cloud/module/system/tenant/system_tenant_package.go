@@ -89,11 +89,42 @@ func SystemTenantPackageList(ctx context.Context, condition map[string]any) (res
 		builder.Like("`name`", "%"+cast.ToString(val)+"%")
 	}
 
+	if val, ok := condition["pagination"]; ok {
+		pagination := val.(*sql.Pagination)
+		if pagination != nil {
+			builder.Offset(pagination.GetOffset())
+			builder.Limit(pagination.GetLimit())
+		}
+	}
+
 	builder.OrderBy("`id`", sql.DESC)
 	query, args, err := builder.Rows()
 	if err != nil {
 		return
 	}
 	err = db.QueryRows(ctx, query, args...).ToStruct(&res)
+	return
+}
+
+// SystemTenantPackageListTotal 查询列表数据总量
+func SystemTenantPackageListTotal(ctx context.Context, condition map[string]any) (res int64, err error) {
+	db := initial.Core.Store.LoadSQL("mysql").Read()
+	builder := sql.NewBuilder()
+	builder.Table("`system_tenant_package`")
+	if val, ok := condition["deleted"]; ok {
+		builder.Where("`deleted`", val)
+	}
+	if val, ok := condition["status"]; ok {
+		builder.Where("`status`", val)
+	}
+	if val, ok := condition["name"]; ok {
+		builder.Like("`name`", "%"+cast.ToString(val)+"%")
+	}
+
+	query, args, err := builder.Count()
+	if err != nil {
+		return
+	}
+	res, err = db.Count(ctx, query, args...)
 	return
 }

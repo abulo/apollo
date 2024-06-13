@@ -1,0 +1,176 @@
+
+syntax = "proto3";
+// system_user 系统用户
+package user;
+option go_package = "cloud/service/system/user;user";
+import "pagination.proto";
+import "google/protobuf/timestamp.proto";
+
+// SystemUserObject 数据对象
+message SystemUserObject {
+	// @inject_tag: db:"id" json:"id"
+	optional int64 id = 1; //用户编号
+	// @inject_tag: db:"nickname" json:"nickname"
+	optional string nickname = 2; //昵称
+	// @inject_tag: db:"mobile" json:"mobile"
+	optional string mobile = 3; //手机号码
+	// @inject_tag: db:"username" json:"username"
+	optional string username = 4; //用户名称
+	// @inject_tag: db:"password" json:"password"
+	optional string password = 5; //用户密码
+	// @inject_tag: db:"status" json:"status"
+	optional int32 status = 6; //用户状态（0正常 1停用）
+	// @inject_tag: db:"deleted" json:"deleted"
+	optional int32 deleted = 7; //是否删除(0否 1是)
+	// @inject_tag: db:"tenant_id" json:"tenantId"
+	optional int64 tenant_id = 8; //租户ID
+	// @inject_tag: db:"creator" json:"creator"
+	optional string creator = 9; //创建人
+	// @inject_tag: db:"create_time" json:"createTime"
+	google.protobuf.Timestamp create_time = 10; //创建时间
+	// @inject_tag: db:"updater" json:"updater"
+	optional string updater = 11; //更新人
+	// @inject_tag: db:"update_time" json:"updateTime"
+	google.protobuf.Timestamp update_time = 12; //更新时间
+	// @inject_tag: db:"role_ids" json:"roleIds"
+	optional bytes role_ids = 13; //角色ID
+	// @inject_tag: db:"post_ids" json:"postIds"
+	optional bytes post_ids = 14; //岗位ID
+	// @inject_tag: db:"dept_ids" json:"deptIds"
+	optional bytes dept_ids = 15; //租户ID
+}
+// SystemUserTotalResponse 列表数据总量
+message SystemUserTotalResponse {
+	int64 code = 1;
+	string msg = 2;
+	int64 data = 3;
+}
+// SystemUserCreateRequest 创建数据请求
+message SystemUserCreateRequest {
+	SystemUserObject data = 1;
+}
+// SystemUserCreateResponse 创建数据响应
+message SystemUserCreateResponse {
+	int64 code = 1;
+	string msg = 2;
+	int64 data = 3;
+}
+// SystemUserUpdateRequest 更新数据请求
+message SystemUserUpdateRequest {
+	// @inject_tag: db:"id" json:"id"
+	int64 id = 1; //用户编号
+	SystemUserObject data = 2;
+}
+// SystemUserUpdateResponse 更新数据响应
+message SystemUserUpdateResponse {
+	int64 code = 1;
+	string msg = 2;
+}
+// SystemUserDeleteRequest 删除数据请求
+message SystemUserDeleteRequest {
+	// @inject_tag: db:"id" json:"id"
+	int64 id = 1; //用户编号
+}
+// SystemUserDeleteResponse 删除数据响应
+message SystemUserDeleteResponse {
+	int64 code = 1;
+	string msg = 2;
+}
+// SystemUserRequest 查询单条数据请求
+message SystemUserRequest {
+	// @inject_tag: db:"id" json:"id"
+	int64 id = 1; //用户编号
+}
+// SystemUserResponse 查询单条数据响应
+message SystemUserResponse {
+	int64 code = 1;
+	string msg = 2;
+	SystemUserObject data = 3;
+}
+// SystemUserRecoverRequest 恢复数据请求
+message SystemUserRecoverRequest {
+	// @inject_tag: db:"id" json:"id"
+	int64 id = 1; //用户编号
+}
+// SystemUserRecoverResponse 删除数据响应
+message SystemUserRecoverResponse {
+	int64 code = 1;
+	string msg = 2;
+}
+// SystemUserLoginRequest 查询单条数据请求
+message SystemUserLoginRequest {
+	// @inject_tag: db:"username" json:"username"
+	optional string username = 1; // 用户名称
+
+}
+// SystemUserLoginResponse 查询单条数据响应
+message SystemUserLoginResponse {
+	int64 code = 1;
+	string msg = 2;
+	SystemUserObject data = 3;
+}
+// SystemUserListRequest 列表数据
+message SystemUserListRequest {
+	// @inject_tag: db:"username" json:"username"
+	optional string username = 1; // 用户名称
+	// @inject_tag: db:"tenant_id" json:"tenantId"
+	optional int64 tenant_id = 2; // 租户ID
+	// @inject_tag: db:"deleted" json:"deleted"
+	optional int32 deleted = 3; // 是否删除(0否 1是)
+	// @inject_tag: db:"status" json:"status"
+	optional int32 status = 4; // 用户状态（0正常 1停用）
+	// @inject_tag: db:"dept_id" json:"deptId"
+	optional int64 dept_id = 5; // 租户ID
+
+	// @inject_tag: db:"pagination" json:"pagination"
+	optional pagination.PaginationRequest pagination = 6; // 分页
+}
+
+// SystemUserListResponse 数据响应
+message SystemUserListResponse {
+	int64 code = 1;
+  	string msg = 2;
+	repeated SystemUserObject data = 3;
+}
+// SystemUserListTotalRequest 列表数据
+message SystemUserListTotalRequest {
+	// @inject_tag: db:"username" json:"username"
+	optional string username = 1; // 用户名称
+	// @inject_tag: db:"tenant_id" json:"tenantId"
+	optional int64 tenant_id = 2; // 租户ID
+	// @inject_tag: db:"deleted" json:"deleted"
+	optional int32 deleted = 3; // 是否删除(0否 1是)
+	// @inject_tag: db:"status" json:"status"
+	optional int32 status = 4; // 用户状态（0正常 1停用）
+	// @inject_tag: db:"dept_id" json:"deptId"
+	optional int64 dept_id = 5; // 租户ID
+}
+
+
+// SystemUserPasswordRequest  修改密码
+message SystemUserPasswordRequest {
+	// @inject_tag: db:"id" json:"id"
+	int64 id = 1; //用户ID
+	// @inject_tag: db:"password" json:"password"
+	optional string password = 2; //密码
+}
+
+// SystemUserPasswordrResponse 修改密码响应
+message SystemUserPasswordResponse {
+	int64 code = 1;
+	string msg = 2;
+}
+
+
+// SystemUserService 服务
+service SystemUserService{
+	rpc SystemUserCreate(SystemUserCreateRequest) returns (SystemUserCreateResponse);
+	rpc SystemUserUpdate(SystemUserUpdateRequest) returns (SystemUserUpdateResponse);
+	rpc SystemUserDelete(SystemUserDeleteRequest) returns (SystemUserDeleteResponse);
+	rpc SystemUser(SystemUserRequest) returns (SystemUserResponse);
+	rpc SystemUserRecover(SystemUserRecoverRequest) returns (SystemUserRecoverResponse);
+	rpc SystemUserLogin(SystemUserLoginRequest) returns (SystemUserLoginResponse);
+	rpc SystemUserList(SystemUserListRequest) returns (SystemUserListResponse);
+	rpc SystemUserListTotal(SystemUserListTotalRequest) returns (SystemUserTotalResponse);
+	rpc SystemUserPassword(SystemUserPasswordRequest) returns (SystemUserPasswordResponse);
+}

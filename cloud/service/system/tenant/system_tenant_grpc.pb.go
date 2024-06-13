@@ -2,7 +2,7 @@
 // versions:
 // - protoc-gen-go-grpc v1.4.0
 // - protoc             v5.27.1
-// source: tenant/system_tenant.proto
+// source: system_tenant.proto
 
 // system_tenant 租户
 
@@ -340,5 +340,5 @@ var SystemTenantService_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "tenant/system_tenant.proto",
+	Metadata: "system_tenant.proto",
 }

@@ -1,0 +1,119 @@
+
+syntax = "proto3";
+// system_dict 字典数据表
+package dict;
+option go_package = "cloud/service/system/dict;dict";
+import "google/protobuf/timestamp.proto";
+import "pagination.proto";
+
+// SystemDictObject 数据对象
+message SystemDictObject {
+	// @inject_tag: db:"id" json:"id"
+	optional int64 id = 1; //字典编码
+	// @inject_tag: db:"sort" json:"sort"
+	optional int32 sort = 2; //字典排序
+	// @inject_tag: db:"label" json:"label"
+	optional string label = 3; //字典标签
+	// @inject_tag: db:"value" json:"value"
+	optional string value = 4; //字典键值
+	// @inject_tag: db:"dict_type" json:"dictType"
+	optional string dict_type = 5; //字典类型
+	// @inject_tag: db:"status" json:"status"
+	optional int32 status = 6; //状态（0正常 1停用）
+	// @inject_tag: db:"color_type" json:"colorType"
+	optional string color_type = 7; //颜色类型
+	// @inject_tag: db:"css_class" json:"cssClass"
+	optional string css_class = 8; //css 样式
+	// @inject_tag: db:"remark" json:"remark"
+	optional string remark = 9; //备注
+	// @inject_tag: db:"creator" json:"creator"
+	optional string creator = 10; //创建人
+	// @inject_tag: db:"create_time" json:"createTime"
+	google.protobuf.Timestamp create_time = 11; //创建时间
+	// @inject_tag: db:"updater" json:"updater"
+	optional string updater = 12; //更新人
+	// @inject_tag: db:"update_time" json:"updateTime"
+	google.protobuf.Timestamp update_time = 13; //更新时间
+}
+// SystemDictTotalResponse 列表数据总量
+message SystemDictTotalResponse {
+	int64 code = 1;
+	string msg = 2;
+	int64 data = 3;
+}
+// SystemDictCreateRequest 创建数据请求
+message SystemDictCreateRequest {
+	SystemDictObject data = 1;
+}
+// SystemDictCreateResponse 创建数据响应
+message SystemDictCreateResponse {
+	int64 code = 1;
+	string msg = 2;
+	int64 data = 3;
+}
+// SystemDictUpdateRequest 更新数据请求
+message SystemDictUpdateRequest {
+	// @inject_tag: db:"id" json:"id"
+	int64 id = 1; //字典编码
+	SystemDictObject data = 2;
+}
+// SystemDictUpdateResponse 更新数据响应
+message SystemDictUpdateResponse {
+	int64 code = 1;
+	string msg = 2;
+}
+// SystemDictDeleteRequest 删除数据请求
+message SystemDictDeleteRequest {
+	// @inject_tag: db:"id" json:"id"
+	int64 id = 1; //字典编码
+}
+// SystemDictDeleteResponse 删除数据响应
+message SystemDictDeleteResponse {
+	int64 code = 1;
+	string msg = 2;
+}
+// SystemDictRequest 查询单条数据请求
+message SystemDictRequest {
+	// @inject_tag: db:"id" json:"id"
+	int64 id = 1; //字典编码
+}
+// SystemDictResponse 查询单条数据响应
+message SystemDictResponse {
+	int64 code = 1;
+	string msg = 2;
+	SystemDictObject data = 3;
+}
+// SystemDictListRequest 列表数据
+message SystemDictListRequest {
+	// @inject_tag: db:"dict_type" json:"dictType"
+	optional string dict_type = 1; // 字典类型
+	// @inject_tag: db:"status" json:"status"
+	optional int32 status = 2; // 状态（0正常 1停用）
+	// @inject_tag: db:"pagination" json:"pagination"
+	optional pagination.PaginationRequest pagination = 3; // 分页
+}
+
+// SystemDictListResponse 数据响应
+message SystemDictListResponse {
+	int64 code = 1;
+  	string msg = 2;
+	repeated SystemDictObject data = 3;
+}
+// SystemDictListTotalRequest 列表数据
+message SystemDictListTotalRequest {
+	// @inject_tag: db:"dict_type" json:"dictType"
+	optional string dict_type = 1; // 字典类型
+	// @inject_tag: db:"status" json:"status"
+	optional int32 status = 2; // 状态（0正常 1停用）
+}
+
+
+// SystemDictService 服务
+service SystemDictService{
+	rpc SystemDictCreate(SystemDictCreateRequest) returns (SystemDictCreateResponse);
+	rpc SystemDictUpdate(SystemDictUpdateRequest) returns (SystemDictUpdateResponse);
+	rpc SystemDictDelete(SystemDictDeleteRequest) returns (SystemDictDeleteResponse);
+	rpc SystemDict(SystemDictRequest) returns (SystemDictResponse);
+	rpc SystemDictList(SystemDictListRequest) returns (SystemDictListResponse);
+	rpc SystemDictListTotal(SystemDictListTotalRequest) returns (SystemDictTotalResponse);
+}

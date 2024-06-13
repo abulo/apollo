@@ -1,0 +1,144 @@
+
+syntax = "proto3";
+// system_notify_template 站内信模板表
+package notify;
+option go_package = "cloud/service/system/notify;notify";
+import "google/protobuf/timestamp.proto";
+import "pagination.proto";
+
+// SystemNotifyTemplateObject 数据对象
+message SystemNotifyTemplateObject {
+	// @inject_tag: db:"id" json:"id"
+	optional int64 id = 1; //主键
+	// @inject_tag: db:"name" json:"name"
+	optional string name = 2; //模板名称
+	// @inject_tag: db:"code" json:"code"
+	optional string code = 3; //模版编码
+	// @inject_tag: db:"nickname" json:"nickname"
+	optional string nickname = 4; //发送人名称
+	// @inject_tag: db:"content" json:"content"
+	optional string content = 5; //模版内容
+	// @inject_tag: db:"type" json:"type"
+	optional int32 type = 6; //类型
+	// @inject_tag: db:"params" json:"params"
+	optional bytes params = 7; //参数数组
+	// @inject_tag: db:"status" json:"status"
+	optional int32 status = 8; //状态
+	// @inject_tag: db:"remark" json:"remark"
+	optional string remark = 9; //备注
+	// @inject_tag: db:"deleted" json:"deleted"
+	optional int32 deleted = 10; //删除
+	// @inject_tag: db:"creator" json:"creator"
+	optional string creator = 11; //创建人
+	// @inject_tag: db:"create_time" json:"createTime"
+	google.protobuf.Timestamp create_time = 12; //创建时间
+	// @inject_tag: db:"updater" json:"updater"
+	optional string updater = 13; //更新人
+	// @inject_tag: db:"update_time" json:"updateTime"
+	google.protobuf.Timestamp update_time = 14; //更新时间
+}
+// SystemNotifyTemplateTotalResponse 列表数据总量
+message SystemNotifyTemplateTotalResponse {
+	int64 code = 1;
+	string msg = 2;
+	int64 data = 3;
+}
+// SystemNotifyTemplateCreateRequest 创建数据请求
+message SystemNotifyTemplateCreateRequest {
+	SystemNotifyTemplateObject data = 1;
+}
+// SystemNotifyTemplateCreateResponse 创建数据响应
+message SystemNotifyTemplateCreateResponse {
+	int64 code = 1;
+	string msg = 2;
+	int64 data = 3;
+}
+// SystemNotifyTemplateUpdateRequest 更新数据请求
+message SystemNotifyTemplateUpdateRequest {
+	// @inject_tag: db:"id" json:"id"
+	int64 id = 1; //主键
+	SystemNotifyTemplateObject data = 2;
+}
+// SystemNotifyTemplateUpdateResponse 更新数据响应
+message SystemNotifyTemplateUpdateResponse {
+	int64 code = 1;
+	string msg = 2;
+}
+// SystemNotifyTemplateDeleteRequest 删除数据请求
+message SystemNotifyTemplateDeleteRequest {
+	// @inject_tag: db:"id" json:"id"
+	int64 id = 1; //主键
+}
+// SystemNotifyTemplateDeleteResponse 删除数据响应
+message SystemNotifyTemplateDeleteResponse {
+	int64 code = 1;
+	string msg = 2;
+}
+// SystemNotifyTemplateRequest 查询单条数据请求
+message SystemNotifyTemplateRequest {
+	// @inject_tag: db:"id" json:"id"
+	int64 id = 1; //主键
+}
+// SystemNotifyTemplateResponse 查询单条数据响应
+message SystemNotifyTemplateResponse {
+	int64 code = 1;
+	string msg = 2;
+	SystemNotifyTemplateObject data = 3;
+}
+// SystemNotifyTemplateRecoverRequest 恢复数据请求
+message SystemNotifyTemplateRecoverRequest {
+	// @inject_tag: db:"id" json:"id"
+	int64 id = 1; //主键
+}
+// SystemNotifyTemplateRecoverResponse 删除数据响应
+message SystemNotifyTemplateRecoverResponse {
+	int64 code = 1;
+	string msg = 2;
+}
+// SystemNotifyTemplateListRequest 列表数据
+message SystemNotifyTemplateListRequest {
+	
+	// @inject_tag: db:"deleted" json:"deleted"
+	optional int32 deleted = 1; // 删除
+	// @inject_tag: db:"status" json:"status"
+	optional int32 status = 2; // 状态
+	// @inject_tag: db:"type" json:"type"
+	optional int32 type = 3; // 类型
+	// @inject_tag: db:"name" json:"name"
+	optional string name = 4; // 模板名称
+
+	// @inject_tag: db:"pagination" json:"pagination"
+	optional pagination.PaginationRequest pagination = 5; // 分页
+}
+
+// SystemNotifyTemplateListResponse 数据响应
+message SystemNotifyTemplateListResponse {
+	int64 code = 1;
+  	string msg = 2;
+	repeated SystemNotifyTemplateObject data = 3;
+}
+// SystemNotifyTemplateListTotalRequest 列表数据
+message SystemNotifyTemplateListTotalRequest {
+	
+	// @inject_tag: db:"deleted" json:"deleted"
+	optional int32 deleted = 1; // 删除
+	// @inject_tag: db:"status" json:"status"
+	optional int32 status = 2; // 状态
+	// @inject_tag: db:"type" json:"type"
+	optional int32 type = 3; // 类型
+	// @inject_tag: db:"name" json:"name"
+	optional string name = 4; // 模板名称
+
+}
+
+
+// SystemNotifyTemplateService 服务
+service SystemNotifyTemplateService{
+	rpc SystemNotifyTemplateCreate(SystemNotifyTemplateCreateRequest) returns (SystemNotifyTemplateCreateResponse);
+	rpc SystemNotifyTemplateUpdate(SystemNotifyTemplateUpdateRequest) returns (SystemNotifyTemplateUpdateResponse);
+	rpc SystemNotifyTemplateDelete(SystemNotifyTemplateDeleteRequest) returns (SystemNotifyTemplateDeleteResponse);
+	rpc SystemNotifyTemplate(SystemNotifyTemplateRequest) returns (SystemNotifyTemplateResponse);
+	rpc SystemNotifyTemplateRecover(SystemNotifyTemplateRecoverRequest) returns (SystemNotifyTemplateRecoverResponse);
+	rpc SystemNotifyTemplateList(SystemNotifyTemplateListRequest) returns (SystemNotifyTemplateListResponse);
+	rpc SystemNotifyTemplateListTotal(SystemNotifyTemplateListTotalRequest) returns (SystemNotifyTemplateTotalResponse);
+}

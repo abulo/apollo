@@ -1,0 +1,160 @@
+
+syntax = "proto3";
+// pay_wallet 会员钱包表
+package wallet;
+option go_package = "cloud/service/pay/wallet;wallet";
+import "google/protobuf/timestamp.proto";
+import "pagination.proto";
+
+// PayWalletObject 数据对象
+message PayWalletObject {
+	// @inject_tag: db:"id" json:"id"
+	optional int64 id = 1; //编号
+	// @inject_tag: db:"user_id" json:"userId"
+	optional int64 user_id = 2; //用户编号
+	// @inject_tag: db:"user_type" json:"userType"
+	optional int32 user_type = 3; //用户类型
+	// @inject_tag: db:"balance" json:"balance"
+	optional int64 balance = 4; //余额，单位分
+	// @inject_tag: db:"total_expense" json:"totalExpense"
+	optional int64 total_expense = 5; //累计支出，单位分
+	// @inject_tag: db:"total_recharge" json:"totalRecharge"
+	optional int64 total_recharge = 6; //累计充值，单位分
+	// @inject_tag: db:"freeze_price" json:"freezePrice"
+	optional int64 freeze_price = 7; //冻结金额，单位分
+	// @inject_tag: db:"deleted" json:"deleted"
+	optional int32 deleted = 8; //删除
+	// @inject_tag: db:"tenant_id" json:"tenantId"
+	optional int64 tenant_id = 9; //租户
+	// @inject_tag: db:"creator" json:"creator"
+	optional string creator = 10; //创建人
+	// @inject_tag: db:"create_time" json:"createTime"
+	google.protobuf.Timestamp create_time = 11; //创建时间
+	// @inject_tag: db:"updater" json:"updater"
+	optional string updater = 12; //更新人
+	// @inject_tag: db:"update_time" json:"updateTime"
+	google.protobuf.Timestamp update_time = 13; //更新时间
+}
+// PayWalletTotalResponse 列表数据总量
+message PayWalletTotalResponse {
+	int64 code = 1;
+	string msg = 2;
+	int64 data = 3;
+}
+// PayWalletCreateRequest 创建数据请求
+message PayWalletCreateRequest {
+	PayWalletObject data = 1;
+}
+// PayWalletCreateResponse 创建数据响应
+message PayWalletCreateResponse {
+	int64 code = 1;
+	string msg = 2;
+	int64 data = 3;
+}
+// PayWalletUpdateRequest 更新数据请求
+message PayWalletUpdateRequest {
+	// @inject_tag: db:"id" json:"id"
+	int64 id = 1; //编号
+	PayWalletObject data = 2;
+}
+// PayWalletUpdateResponse 更新数据响应
+message PayWalletUpdateResponse {
+	int64 code = 1;
+	string msg = 2;
+}
+// PayWalletDeleteRequest 删除数据请求
+message PayWalletDeleteRequest {
+	// @inject_tag: db:"id" json:"id"
+	int64 id = 1; //编号
+}
+// PayWalletDeleteResponse 删除数据响应
+message PayWalletDeleteResponse {
+	int64 code = 1;
+	string msg = 2;
+}
+// PayWalletRequest 查询单条数据请求
+message PayWalletRequest {
+	// @inject_tag: db:"id" json:"id"
+	int64 id = 1; //编号
+}
+// PayWalletResponse 查询单条数据响应
+message PayWalletResponse {
+	int64 code = 1;
+	string msg = 2;
+	PayWalletObject data = 3;
+}
+// PayWalletRecoverRequest 恢复数据请求
+message PayWalletRecoverRequest {
+	// @inject_tag: db:"id" json:"id"
+	int64 id = 1; //编号
+}
+// PayWalletRecoverResponse 删除数据响应
+message PayWalletRecoverResponse {
+	int64 code = 1;
+	string msg = 2;
+}
+// PayWalletUserRequest 查询单条数据请求
+message PayWalletUserRequest {
+	
+	// @inject_tag: db:"tenant_id" json:"tenantId"
+	optional int64 tenant_id = 1; // 租户
+	// @inject_tag: db:"user_type" json:"userType"
+	optional int32 user_type = 2; // 用户类型
+	// @inject_tag: db:"user_id" json:"userId"
+	optional int64 user_id = 3; // 用户编号
+
+}
+// PayWalletUserResponse 查询单条数据响应
+message PayWalletUserResponse {
+	int64 code = 1;
+	string msg = 2;
+	PayWalletObject data = 3;
+}
+// PayWalletListRequest 列表数据
+message PayWalletListRequest {
+	
+	// @inject_tag: db:"tenant_id" json:"tenantId"
+	optional int64 tenant_id = 1; // 租户
+	// @inject_tag: db:"user_type" json:"userType"
+	optional int32 user_type = 2; // 用户类型
+	// @inject_tag: db:"user_id" json:"userId"
+	optional int64 user_id = 3; // 用户编号
+	// @inject_tag: db:"deleted" json:"deleted"
+	optional int32 deleted = 4; // 删除
+
+	// @inject_tag: db:"pagination" json:"pagination"
+	optional pagination.PaginationRequest pagination = 5; // 分页
+}
+
+// PayWalletListResponse 数据响应
+message PayWalletListResponse {
+	int64 code = 1;
+  	string msg = 2;
+	repeated PayWalletObject data = 3;
+}
+// PayWalletListTotalRequest 列表数据
+message PayWalletListTotalRequest {
+	
+	// @inject_tag: db:"tenant_id" json:"tenantId"
+	optional int64 tenant_id = 1; // 租户
+	// @inject_tag: db:"user_type" json:"userType"
+	optional int32 user_type = 2; // 用户类型
+	// @inject_tag: db:"user_id" json:"userId"
+	optional int64 user_id = 3; // 用户编号
+	// @inject_tag: db:"deleted" json:"deleted"
+	optional int32 deleted = 4; // 删除
+
+}
+
+
+// PayWalletService 服务
+service PayWalletService{
+	rpc PayWalletCreate(PayWalletCreateRequest) returns (PayWalletCreateResponse);
+	rpc PayWalletUpdate(PayWalletUpdateRequest) returns (PayWalletUpdateResponse);
+	rpc PayWalletDelete(PayWalletDeleteRequest) returns (PayWalletDeleteResponse);
+	rpc PayWallet(PayWalletRequest) returns (PayWalletResponse);
+	rpc PayWalletRecover(PayWalletRecoverRequest) returns (PayWalletRecoverResponse);
+	rpc PayWalletUser(PayWalletUserRequest) returns (PayWalletUserResponse);
+	rpc PayWalletList(PayWalletListRequest) returns (PayWalletListResponse);
+	rpc PayWalletListTotal(PayWalletListTotalRequest) returns (PayWalletTotalResponse);
+}

@@ -7,7 +7,7 @@
       :columns="columns"
       :request-api="getSystemRoleListApi"
       :request-auto="true"
-      :pagination="false"
+      :pagination="true"
       :search-col="12">
       <!-- 表格 header 按钮 -->
       <template #tableHeader>
@@ -230,7 +230,7 @@ import {
 import { SystemMenu } from "@/api/interface/systemMenu";
 import { getSystemTenantMenuListApi } from "@/api/modules/systemTenant";
 import { SystemDept } from "@/api/interface/systemDept";
-import { getSystemDeptSearchApi } from "@/api/modules/systemDept";
+import { getSystemDeptListSimpleApi } from "@/api/modules/systemDept";
 import { getIntDictOptions } from "@/utils/dict";
 import { useHandleData, useHandleSet } from "@/hooks/useHandleData";
 import { HasPermission } from "@/utils/permission";
@@ -489,7 +489,7 @@ const submitMenuForm = (formEl: FormInstance | undefined) => {
 // 获取部门树选项
 const getDeptTreeSelect = async () => {
   deptOptions.value = [];
-  const { data } = await getSystemDeptSearchApi({ tree: 1 });
+  const { data } = await getSystemDeptListSimpleApi({ tree: 1 });
   deptOptions.value = data;
 };
 

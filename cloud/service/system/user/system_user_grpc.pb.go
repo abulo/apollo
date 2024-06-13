@@ -2,7 +2,7 @@
 // versions:
 // - protoc-gen-go-grpc v1.4.0
 // - protoc             v5.27.1
-// source: user/system_user.proto
+// source: system_user.proto
 
 // system_user 系统用户
 
@@ -416,5 +416,5 @@ var SystemUserService_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "user/system_user.proto",
+	Metadata: "system_user.proto",
 }

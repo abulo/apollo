@@ -2,7 +2,7 @@
 // versions:
 // - protoc-gen-go-grpc v1.4.0
 // - protoc             v5.27.1
-// source: menu/system_menu.proto
+// source: system_menu.proto
 
 // system_menu 系统菜单
 
@@ -21,12 +21,13 @@ import (
 const _ = grpc.SupportPackageIsVersion8
 
 const (
-	SystemMenuService_SystemMenuCreate_FullMethodName  = "/menu.SystemMenuService/SystemMenuCreate"
-	SystemMenuService_SystemMenuUpdate_FullMethodName  = "/menu.SystemMenuService/SystemMenuUpdate"
-	SystemMenuService_SystemMenuDelete_FullMethodName  = "/menu.SystemMenuService/SystemMenuDelete"
-	SystemMenuService_SystemMenu_FullMethodName        = "/menu.SystemMenuService/SystemMenu"
-	SystemMenuService_SystemMenuRecover_FullMethodName = "/menu.SystemMenuService/SystemMenuRecover"
-	SystemMenuService_SystemMenuList_FullMethodName    = "/menu.SystemMenuService/SystemMenuList"
+	SystemMenuService_SystemMenuCreate_FullMethodName    = "/menu.SystemMenuService/SystemMenuCreate"
+	SystemMenuService_SystemMenuUpdate_FullMethodName    = "/menu.SystemMenuService/SystemMenuUpdate"
+	SystemMenuService_SystemMenuDelete_FullMethodName    = "/menu.SystemMenuService/SystemMenuDelete"
+	SystemMenuService_SystemMenu_FullMethodName          = "/menu.SystemMenuService/SystemMenu"
+	SystemMenuService_SystemMenuRecover_FullMethodName   = "/menu.SystemMenuService/SystemMenuRecover"
+	SystemMenuService_SystemMenuList_FullMethodName      = "/menu.SystemMenuService/SystemMenuList"
+	SystemMenuService_SystemMenuListTotal_FullMethodName = "/menu.SystemMenuService/SystemMenuListTotal"
 )
 
 // SystemMenuServiceClient is the client API for SystemMenuService service.
@@ -41,6 +42,7 @@ type SystemMenuServiceClient interface {
 	SystemMenu(ctx context.Context, in *SystemMenuRequest, opts ...grpc.CallOption) (*SystemMenuResponse, error)
 	SystemMenuRecover(ctx context.Context, in *SystemMenuRecoverRequest, opts ...grpc.CallOption) (*SystemMenuRecoverResponse, error)
 	SystemMenuList(ctx context.Context, in *SystemMenuListRequest, opts ...grpc.CallOption) (*SystemMenuListResponse, error)
+	SystemMenuListTotal(ctx context.Context, in *SystemMenuListTotalRequest, opts ...grpc.CallOption) (*SystemMenuTotalResponse, error)
 }
 
 type systemMenuServiceClient struct {
@@ -111,6 +113,16 @@ func (c *systemMenuServiceClient) SystemMenuList(ctx context.Context, in *System
 	return out, nil
 }
 
+func (c *systemMenuServiceClient) SystemMenuListTotal(ctx context.Context, in *SystemMenuListTotalRequest, opts ...grpc.CallOption) (*SystemMenuTotalResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(SystemMenuTotalResponse)
+	err := c.cc.Invoke(ctx, SystemMenuService_SystemMenuListTotal_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // SystemMenuServiceServer is the server API for SystemMenuService service.
 // All implementations must embed UnimplementedSystemMenuServiceServer
 // for forward compatibility
@@ -123,6 +135,7 @@ type SystemMenuServiceServer interface {
 	SystemMenu(context.Context, *SystemMenuRequest) (*SystemMenuResponse, error)
 	SystemMenuRecover(context.Context, *SystemMenuRecoverRequest) (*SystemMenuRecoverResponse, error)
 	SystemMenuList(context.Context, *SystemMenuListRequest) (*SystemMenuListResponse, error)
+	SystemMenuListTotal(context.Context, *SystemMenuListTotalRequest) (*SystemMenuTotalResponse, error)
 	mustEmbedUnimplementedSystemMenuServiceServer()
 }
 
@@ -147,6 +160,9 @@ func (UnimplementedSystemMenuServiceServer) SystemMenuRecover(context.Context, *
 }
 func (UnimplementedSystemMenuServiceServer) SystemMenuList(context.Context, *SystemMenuListRequest) (*SystemMenuListResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SystemMenuList not implemented")
+}
+func (UnimplementedSystemMenuServiceServer) SystemMenuListTotal(context.Context, *SystemMenuListTotalRequest) (*SystemMenuTotalResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SystemMenuListTotal not implemented")
 }
 func (UnimplementedSystemMenuServiceServer) mustEmbedUnimplementedSystemMenuServiceServer() {}
 
@@ -269,6 +285,24 @@ func _SystemMenuService_SystemMenuList_Handler(srv interface{}, ctx context.Cont
 	return interceptor(ctx, in, info, handler)
 }
 
+func _SystemMenuService_SystemMenuListTotal_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SystemMenuListTotalRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SystemMenuServiceServer).SystemMenuListTotal(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: SystemMenuService_SystemMenuListTotal_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SystemMenuServiceServer).SystemMenuListTotal(ctx, req.(*SystemMenuListTotalRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // SystemMenuService_ServiceDesc is the grpc.ServiceDesc for SystemMenuService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -300,7 +334,11 @@ var SystemMenuService_ServiceDesc = grpc.ServiceDesc{
 			MethodName: "SystemMenuList",
 			Handler:    _SystemMenuService_SystemMenuList_Handler,
 		},
+		{
+			MethodName: "SystemMenuListTotal",
+			Handler:    _SystemMenuService_SystemMenuListTotal_Handler,
+		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "menu/system_menu.proto",
+	Metadata: "system_menu.proto",
 }

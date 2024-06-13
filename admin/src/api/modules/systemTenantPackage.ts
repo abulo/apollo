@@ -27,6 +27,6 @@ export const recoverSystemTenantPackageApi = (id: number) => {
   return http.put(PORT + `/system/tenant/package/${id}/recover`);
 };
 // 搜索套餐
-export const getSystemTenantPackageSearchApi = (params?: SystemTenantPackage.ReqSystemTenantPackageList) => {
-  return http.get<SystemTenantPackage.ResSystemTenantPackageItem[]>(PORT + `/system/tenant/package/search`, params);
+export const getSystemTenantPackageListSimpleApi = (params?: SystemTenantPackage.ReqSystemTenantPackageList) => {
+  return http.get<SystemTenantPackage.ResSystemTenantPackageItem[]>(PORT + `/system/tenant/package/simple`, params);
 };

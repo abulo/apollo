@@ -3,6 +3,7 @@ export namespace SystemDictType {
   export interface ReqSystemDictTypeList extends ReqPage {
     type?: number; //字典类型
     status?: number; //状态（0正常 1停用）
+    name?: string; //字典名称
   }
   export interface ResSystemDictTypeItem {
     id: number; //字典主键

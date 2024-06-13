@@ -33,6 +33,6 @@ export const recoverRegionApi = (id: number) => {
 };
 
 // 搜索
-export const getRegionSearchApi = (params?: Region.ReqRegionList) => {
-  return http.get<Region.ResRegionList[]>(PORT + `/region/search`, params);
+export const getRegionListSimpleApi = (params?: Region.ReqRegionList) => {
+  return http.get<Region.ResRegionList[]>(PORT + `/region/simple`, params);
 };

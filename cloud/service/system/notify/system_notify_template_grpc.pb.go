@@ -2,7 +2,7 @@
 // versions:
 // - protoc-gen-go-grpc v1.4.0
 // - protoc             v5.27.1
-// source: notify/system_notify_template.proto
+// source: system_notify_template.proto
 
 // system_notify_template 站内信模板表
 
@@ -341,5 +341,5 @@ var SystemNotifyTemplateService_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "notify/system_notify_template.proto",
+	Metadata: "system_notify_template.proto",
 }

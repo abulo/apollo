@@ -126,7 +126,7 @@ import {
   updateSystemTenantPackageApi
 } from "@/api/modules/systemTenantPackage";
 import { SystemMenu } from "@/api/interface/systemMenu";
-import { getSystemMenuSearchApi } from "@/api/modules/systemMenu";
+import { getSystemMenuListSimpleApi } from "@/api/modules/systemMenu";
 import { FormInstance, FormRules, ElTree } from "element-plus";
 import Node from "element-plus/es/components/tree/src/model/node";
 import { useTimeoutFn } from "@vueuse/core";
@@ -224,7 +224,7 @@ const columns: ColumnProps<SystemTenantPackage.ResSystemTenantPackageItem>[] = [
 // 获取菜单树选项
 const getTreeSelect = async () => {
   menuSelect.value = [];
-  const { data } = await getSystemMenuSearchApi();
+  const { data } = await getSystemMenuListSimpleApi({ tree: 1 });
   menuSelect.value = data;
 };
 

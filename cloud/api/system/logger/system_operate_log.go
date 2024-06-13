@@ -7,9 +7,12 @@ import (
 	"cloud/code"
 	"cloud/dao"
 	"cloud/initial"
+	"cloud/service/pagination"
 	"cloud/service/system/logger"
 
 	globalLogger "github.com/abulo/ratel/v3/core/logger"
+	"github.com/abulo/ratel/v3/stores/null"
+	"github.com/abulo/ratel/v3/util"
 	"github.com/cloudwego/hertz/pkg/app"
 	"github.com/cloudwego/hertz/pkg/common/utils"
 	"github.com/cloudwego/hertz/pkg/protocol/consts"
@@ -19,6 +22,112 @@ import (
 	"google.golang.org/protobuf/proto"
 	"google.golang.org/protobuf/types/known/timestamppb"
 )
+
+// system_operate_log 操作日志
+// SystemOperateLogCreate 创建数据
+func SystemOperateLogCreate(ctx context.Context, newCtx *app.RequestContext) {
+	//判断这个服务能不能链接
+	grpcClient, err := initial.Core.Client.LoadGrpc("grpc").Singleton()
+	if err != nil {
+		globalLogger.Logger.WithFields(logrus.Fields{
+			"err": err,
+		}).Error("Grpc:操作日志:system_operate_log:SystemOperateLogCreate")
+		newCtx.JSON(consts.StatusOK, utils.H{
+			"code": code.RPCError,
+			"msg":  code.StatusText(code.RPCError),
+		})
+		return
+	}
+	//链接服务
+	client := logger.NewSystemOperateLogServiceClient(grpcClient)
+	request := &logger.SystemOperateLogCreateRequest{}
+	// 数据绑定
+	var reqInfo dao.SystemOperateLog
+	if err := newCtx.BindAndValidate(&reqInfo); err != nil {
+		newCtx.JSON(consts.StatusOK, utils.H{
+			"code": code.ParamInvalid,
+			"msg":  code.StatusText(code.ParamInvalid),
+		})
+		return
+	}
+	reqInfo.Deleted = proto.Int32(0)
+	reqInfo.TenantId = proto.Int64(newCtx.GetInt64("tenantId")) // 租户
+	reqInfo.Creator = null.StringFrom(newCtx.GetString("userName"))
+	reqInfo.CreateTime = null.DateTimeFrom(util.Now())
+	request.Data = logger.SystemOperateLogProto(reqInfo)
+	// 执行服务
+	res, err := client.SystemOperateLogCreate(ctx, request)
+	if err != nil {
+		globalLogger.Logger.WithFields(logrus.Fields{
+			"req": request,
+			"err": err,
+		}).Error("GrpcCall:操作日志:system_operate_log:SystemOperateLogCreate")
+		fromError := status.Convert(err)
+		newCtx.JSON(consts.StatusOK, utils.H{
+			"code": code.ConvertToHttp(fromError.Code()),
+			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
+		})
+		return
+	}
+	newCtx.JSON(consts.StatusOK, utils.H{
+		"code": res.GetCode(),
+		"msg":  res.GetMsg(),
+	})
+}
+
+// SystemOperateLogUpdate 更新数据
+func SystemOperateLogUpdate(ctx context.Context, newCtx *app.RequestContext) {
+	//判断这个服务能不能链接
+	grpcClient, err := initial.Core.Client.LoadGrpc("grpc").Singleton()
+	if err != nil {
+		globalLogger.Logger.WithFields(logrus.Fields{
+			"err": err,
+		}).Error("Grpc:操作日志:system_operate_log:SystemOperateLogUpdate")
+		newCtx.JSON(consts.StatusOK, utils.H{
+			"code": code.RPCError,
+			"msg":  code.StatusText(code.RPCError),
+		})
+		return
+	}
+	//链接服务
+	client := logger.NewSystemOperateLogServiceClient(grpcClient)
+	id := cast.ToInt64(newCtx.Param("id"))
+	request := &logger.SystemOperateLogUpdateRequest{}
+	request.Id = id
+	// 数据绑定
+	var reqInfo dao.SystemOperateLog
+	if err := newCtx.BindAndValidate(&reqInfo); err != nil {
+		newCtx.JSON(consts.StatusOK, utils.H{
+			"code": code.ParamInvalid,
+			"msg":  code.StatusText(code.ParamInvalid),
+		})
+		return
+	}
+	reqInfo.TenantId = proto.Int64(newCtx.GetInt64("tenantId")) // 租户
+	reqInfo.Updater = null.StringFrom(newCtx.GetString("userName"))
+	reqInfo.UpdateTime = null.DateTimeFrom(util.Now())
+	reqInfo.Creator = null.StringFromPtr(nil)
+	reqInfo.CreateTime = null.DateTimeFromPtr(nil)
+	request.Data = logger.SystemOperateLogProto(reqInfo)
+	// 执行服务
+	res, err := client.SystemOperateLogUpdate(ctx, request)
+	if err != nil {
+		globalLogger.Logger.WithFields(logrus.Fields{
+			"req": request,
+			"err": err,
+		}).Error("GrpcCall:操作日志:system_operate_log:SystemOperateLogUpdate")
+		fromError := status.Convert(err)
+		newCtx.JSON(consts.StatusOK, utils.H{
+			"code": code.ConvertToHttp(fromError.Code()),
+			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
+		})
+		return
+	}
+	newCtx.JSON(consts.StatusOK, utils.H{
+		"code": res.GetCode(),
+		"msg":  res.GetMsg(),
+	})
+}
 
 // SystemOperateLogDelete 删除数据
 func SystemOperateLogDelete(ctx context.Context, newCtx *app.RequestContext) {
@@ -35,18 +144,9 @@ func SystemOperateLogDelete(ctx context.Context, newCtx *app.RequestContext) {
 	}
 	//链接服务
 	client := logger.NewSystemOperateLogServiceClient(grpcClient)
+	id := cast.ToInt64(newCtx.Param("id"))
 	request := &logger.SystemOperateLogDeleteRequest{}
-	var reqInfo dao.SystemOperateLogDelete
-	if err := newCtx.BindAndValidate(&reqInfo); err != nil {
-		newCtx.JSON(consts.StatusOK, utils.H{
-			"code": code.ParamInvalid,
-			"msg":  code.StatusText(code.ParamInvalid),
-		})
-		return
-	}
-	if reqInfo.Ids.IsValid() {
-		request.Ids = *reqInfo.Ids.Ptr()
-	}
+	request.Id = id
 	// 执行服务
 	res, err := client.SystemOperateLogDelete(ctx, request)
 	if err != nil {
@@ -107,6 +207,44 @@ func SystemOperateLog(ctx context.Context, newCtx *app.RequestContext) {
 	})
 }
 
+// SystemOperateLogRecover 恢复数据
+func SystemOperateLogRecover(ctx context.Context, newCtx *app.RequestContext) {
+	grpcClient, err := initial.Core.Client.LoadGrpc("grpc").Singleton()
+	if err != nil {
+		globalLogger.Logger.WithFields(logrus.Fields{
+			"err": err,
+		}).Error("Grpc:操作日志:system_operate_log:SystemOperateLogRecover")
+		newCtx.JSON(consts.StatusOK, utils.H{
+			"code": code.RPCError,
+			"msg":  code.StatusText(code.RPCError),
+		})
+		return
+	}
+	//链接服务
+	client := logger.NewSystemOperateLogServiceClient(grpcClient)
+	id := cast.ToInt64(newCtx.Param("id"))
+	request := &logger.SystemOperateLogRecoverRequest{}
+	request.Id = id
+	// 执行服务
+	res, err := client.SystemOperateLogRecover(ctx, request)
+	if err != nil {
+		globalLogger.Logger.WithFields(logrus.Fields{
+			"req": request,
+			"err": err,
+		}).Error("GrpcCall:操作日志:system_operate_log:SystemOperateLogRecover")
+		fromError := status.Convert(err)
+		newCtx.JSON(consts.StatusOK, utils.H{
+			"code": code.ConvertToHttp(fromError.Code()),
+			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
+		})
+		return
+	}
+	newCtx.JSON(consts.StatusOK, utils.H{
+		"code": res.GetCode(),
+		"msg":  res.GetMsg(),
+	})
+}
+
 // SystemOperateLogList 列表数据
 func SystemOperateLogList(ctx context.Context, newCtx *app.RequestContext) {
 	grpcClient, err := initial.Core.Client.LoadGrpc("grpc").Singleton()
@@ -126,6 +264,17 @@ func SystemOperateLogList(ctx context.Context, newCtx *app.RequestContext) {
 	request := &logger.SystemOperateLogListRequest{}
 	requestTotal := &logger.SystemOperateLogListTotalRequest{}
 
+	request.TenantId = proto.Int64(newCtx.GetInt64("tenantId")) // 租户ID
+	requestTotal.TenantId = proto.Int64(newCtx.GetInt64("tenantId"))
+	request.Deleted = proto.Int32(0)      // 删除状态
+	requestTotal.Deleted = proto.Int32(0) // 删除状态
+	if val, ok := newCtx.GetQuery("deleted"); ok {
+		if cast.ToBool(val) {
+			request.Deleted = nil
+			requestTotal.Deleted = nil
+		}
+	}
+
 	if val, ok := newCtx.GetQuery("username"); ok {
 		request.Username = proto.String(val)      // 用户账号
 		requestTotal.Username = proto.String(val) // 用户账号
@@ -142,7 +291,6 @@ func SystemOperateLogList(ctx context.Context, newCtx *app.RequestContext) {
 		request.FinishStartTime = timestamppb.New(cast.ToTimeInDefaultLocation(val, time.Local))      // 登录时间
 		requestTotal.FinishStartTime = timestamppb.New(cast.ToTimeInDefaultLocation(val, time.Local)) // 登录时间
 	}
-
 	if val, ok := newCtx.GetQuery("result"); ok {
 		request.Result = proto.Int32(cast.ToInt32(val))      // 结果(0 成功/1 失败)
 		requestTotal.Result = proto.Int32(cast.ToInt32(val)) // 结果(0 成功/1 失败)
@@ -163,8 +311,10 @@ func SystemOperateLogList(ctx context.Context, newCtx *app.RequestContext) {
 		return
 	}
 	var total int64
-	request.PageNum = proto.Int64(cast.ToInt64(newCtx.Query("pageNum")))
-	request.PageSize = proto.Int64(cast.ToInt64(newCtx.Query("pageSize")))
+	paginationRequest := &pagination.PaginationRequest{}
+	paginationRequest.PageNum = proto.Int64(cast.ToInt64(newCtx.Query("pageNum")))
+	paginationRequest.PageSize = proto.Int64(cast.ToInt64(newCtx.Query("pageSize")))
+	request.Pagination = paginationRequest
 	if resTotal.GetCode() == code.Success {
 		total = resTotal.GetData()
 	}
@@ -195,8 +345,8 @@ func SystemOperateLogList(ctx context.Context, newCtx *app.RequestContext) {
 		"data": utils.H{
 			"total":    total,
 			"list":     list,
-			"pageNum":  request.PageNum,
-			"pageSize": request.PageSize,
+			"pageNum":  paginationRequest.PageNum,
+			"pageSize": paginationRequest.PageSize,
 		},
 	})
 }
@@ -219,6 +369,12 @@ func SystemOperateLogDropProto(item dao.SystemOperateLogDrop) *logger.SystemOper
 	}
 	if item.FinishStartTime.IsValid() {
 		res.FinishStartTime = timestamppb.New(*item.FinishStartTime.Ptr())
+	}
+	if item.Deleted != nil {
+		res.Deleted = item.Deleted
+	}
+	if item.Ids.IsValid() {
+		res.Ids = *item.Ids.Ptr()
 	}
 	return res
 }
@@ -248,7 +404,7 @@ func SystemOperateLogDrop(ctx context.Context, newCtx *app.RequestContext) {
 		return
 	}
 	request := SystemOperateLogDropProto(reqInfo)
-	// 构造查询条件
+	request.TenantId = proto.Int64(newCtx.GetInt64("tenantId")) // 租户
 	// 执行服务
 	res, err := client.SystemOperateLogDrop(ctx, request)
 	if err != nil {

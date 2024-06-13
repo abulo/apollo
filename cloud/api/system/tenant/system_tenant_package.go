@@ -6,6 +6,7 @@ import (
 	"cloud/code"
 	"cloud/dao"
 	"cloud/initial"
+	"cloud/service/pagination"
 	"cloud/service/system/tenant"
 
 	globalLogger "github.com/abulo/ratel/v3/core/logger"
@@ -238,13 +239,8 @@ func SystemTenantPackageRecover(ctx context.Context, newCtx *app.RequestContext)
 	})
 }
 
-// SystemTenantPackageSearch 列表数据
-func SystemTenantPackageSearch(ctx context.Context, newCtx *app.RequestContext) {
-	SystemTenantPackageList(ctx, newCtx)
-}
-
-// SystemTenantPackageList 列表数据
-func SystemTenantPackageList(ctx context.Context, newCtx *app.RequestContext) {
+// SystemTenantPackageListSimple  精简列表数据
+func SystemTenantPackageListSimple(ctx context.Context, newCtx *app.RequestContext) {
 	grpcClient, err := initial.Core.Client.LoadGrpc("grpc").Singleton()
 	if err != nil {
 		globalLogger.Logger.WithFields(logrus.Fields{
@@ -298,5 +294,96 @@ func SystemTenantPackageList(ctx context.Context, newCtx *app.RequestContext) {
 		"code": res.GetCode(),
 		"msg":  res.GetMsg(),
 		"data": list,
+	})
+}
+
+// SystemTenantPackageList 列表数据
+func SystemTenantPackageList(ctx context.Context, newCtx *app.RequestContext) {
+	grpcClient, err := initial.Core.Client.LoadGrpc("grpc").Singleton()
+	if err != nil {
+		globalLogger.Logger.WithFields(logrus.Fields{
+			"err": err,
+		}).Error("Grpc:租户套餐包:system_tenant_package:SystemTenantPackageList")
+		newCtx.JSON(consts.StatusOK, utils.H{
+			"code": code.RPCError,
+			"msg":  code.StatusText(code.RPCError),
+		})
+		return
+	}
+	//链接服务
+	client := tenant.NewSystemTenantPackageServiceClient(grpcClient)
+	// 构造查询条件
+	request := &tenant.SystemTenantPackageListRequest{}
+	requestTotal := &tenant.SystemTenantPackageListTotalRequest{}
+	request.Deleted = proto.Int32(0) // 删除状态
+	requestTotal.Deleted = proto.Int32(0)
+	if val, ok := newCtx.GetQuery("deleted"); ok {
+		if cast.ToBool(val) {
+			request.Deleted = nil
+			requestTotal.Deleted = nil
+		}
+	}
+	if val, ok := newCtx.GetQuery("status"); ok {
+		request.Status = proto.Int32(cast.ToInt32(val)) // 状态（0正常 1停用）
+		requestTotal.Status = proto.Int32(cast.ToInt32(val))
+	}
+	if val, ok := newCtx.GetQuery("name"); ok {
+		request.Name = proto.String(val) // 套餐名称
+		requestTotal.Name = proto.String(val)
+	}
+
+	// 执行服务,获取数据量
+	resTotal, err := client.SystemTenantPackageListTotal(ctx, requestTotal)
+	if err != nil {
+		globalLogger.Logger.WithFields(logrus.Fields{
+			"req": request,
+			"err": err,
+		}).Error("GrpcCall:租户:system_tenant_package:SystemTenantPackageList")
+		fromError := status.Convert(err)
+		newCtx.JSON(consts.StatusOK, utils.H{
+			"code": code.ConvertToHttp(fromError.Code()),
+			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
+		})
+		return
+	}
+	var total int64
+	paginationRequest := &pagination.PaginationRequest{}
+	paginationRequest.PageNum = proto.Int64(cast.ToInt64(newCtx.Query("pageNum")))
+	paginationRequest.PageSize = proto.Int64(cast.ToInt64(newCtx.Query("pageSize")))
+	request.Pagination = paginationRequest
+	if resTotal.GetCode() == code.Success {
+		total = resTotal.GetData()
+	}
+
+	// 执行服务
+	res, err := client.SystemTenantPackageList(ctx, request)
+	if err != nil {
+		globalLogger.Logger.WithFields(logrus.Fields{
+			"req": request,
+			"err": err,
+		}).Error("GrpcCall:租户套餐包:system_tenant_package:SystemTenantPackageList")
+		fromError := status.Convert(err)
+		newCtx.JSON(consts.StatusOK, utils.H{
+			"code": code.ConvertToHttp(fromError.Code()),
+			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
+		})
+		return
+	}
+	var list []*dao.SystemTenantPackage
+	if res.GetCode() == code.Success {
+		rpcList := res.GetData()
+		for _, item := range rpcList {
+			list = append(list, tenant.SystemTenantPackageDao(item))
+		}
+	}
+	newCtx.JSON(consts.StatusOK, utils.H{
+		"code": res.GetCode(),
+		"msg":  res.GetMsg(),
+		"data": utils.H{
+			"total":    total,
+			"list":     list,
+			"pageNum":  paginationRequest.PageNum,
+			"pageSize": paginationRequest.PageSize,
+		},
 	})
 }

@@ -2,7 +2,7 @@
 // versions:
 // - protoc-gen-go-grpc v1.4.0
 // - protoc             v5.27.1
-// source: order/pay_order_extension.proto
+// source: pay_order_extension.proto
 
 // pay_order_extension 支付订单拓展
 
@@ -341,5 +341,5 @@ var PayOrderExtensionService_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "order/pay_order_extension.proto",
+	Metadata: "pay_order_extension.proto",
 }

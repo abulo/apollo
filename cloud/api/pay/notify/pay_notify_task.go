@@ -7,6 +7,7 @@ import (
 	"cloud/code"
 	"cloud/dao"
 	"cloud/initial"
+	"cloud/service/pagination"
 	"cloud/service/pay/notify"
 
 	globalLogger "github.com/abulo/ratel/v3/core/logger"
@@ -332,8 +333,10 @@ func PayNotifyTaskList(ctx context.Context, newCtx *app.RequestContext) {
 		return
 	}
 	var total int64
-	request.PageNum = proto.Int64(cast.ToInt64(newCtx.Query("pageNum")))
-	request.PageSize = proto.Int64(cast.ToInt64(newCtx.Query("pageSize")))
+	paginationRequest := &pagination.PaginationRequest{}
+	paginationRequest.PageNum = proto.Int64(cast.ToInt64(newCtx.Query("pageNum")))
+	paginationRequest.PageSize = proto.Int64(cast.ToInt64(newCtx.Query("pageSize")))
+	request.Pagination = paginationRequest
 	if resTotal.GetCode() == code.Success {
 		total = resTotal.GetData()
 	}
@@ -364,8 +367,8 @@ func PayNotifyTaskList(ctx context.Context, newCtx *app.RequestContext) {
 		"data": utils.H{
 			"total":    total,
 			"list":     list,
-			"pageNum":  request.PageNum,
-			"pageSize": request.PageSize,
+			"pageNum":  paginationRequest.PageNum,
+			"pageSize": paginationRequest.PageSize,
 		},
 	})
 }

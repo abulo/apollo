@@ -2,7 +2,7 @@
 // versions:
 // - protoc-gen-go-grpc v1.4.0
 // - protoc             v5.27.1
-// source: notify/pay_notify_task.proto
+// source: pay_notify_task.proto
 
 // pay_notify_task 商户支付-任务通知
 
@@ -340,5 +340,5 @@ var PayNotifyTaskService_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "notify/pay_notify_task.proto",
+	Metadata: "pay_notify_task.proto",
 }

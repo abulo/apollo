@@ -6,6 +6,7 @@ import (
 	"context"
 
 	"github.com/abulo/ratel/v3/stores/sql"
+	"github.com/spf13/cast"
 )
 
 // system_mail_account 邮箱账号表
@@ -82,17 +83,47 @@ func SystemMailAccountList(ctx context.Context, condition map[string]any) (res [
 		builder.Where("`deleted`", val)
 	}
 	if val, ok := condition["mail"]; ok {
-		builder.Where("`mail`", val)
+		builder.Like("`mail`", "%"+cast.ToString(val)+"%")
 	}
 	if val, ok := condition["username"]; ok {
-		builder.Where("`username`", val)
+		builder.Like("`username`", "%"+cast.ToString(val)+"%")
 	}
 
+	if val, ok := condition["pagination"]; ok {
+		pagination := val.(*sql.Pagination)
+		if pagination != nil {
+			builder.Offset(pagination.GetOffset())
+			builder.Limit(pagination.GetLimit())
+		}
+	}
 	builder.OrderBy("`id`", sql.DESC)
 	query, args, err := builder.Rows()
 	if err != nil {
 		return
 	}
 	err = db.QueryRows(ctx, query, args...).ToStruct(&res)
+	return
+}
+
+// SystemMailAccountListTotal 查询列表数据总量
+func SystemMailAccountListTotal(ctx context.Context, condition map[string]any) (res int64, err error) {
+	db := initial.Core.Store.LoadSQL("mysql").Read()
+	builder := sql.NewBuilder()
+	builder.Table("`system_mail_account`")
+	if val, ok := condition["deleted"]; ok {
+		builder.Where("`deleted`", val)
+	}
+	if val, ok := condition["mail"]; ok {
+		builder.Like("`mail`", "%"+cast.ToString(val)+"%")
+	}
+	if val, ok := condition["username"]; ok {
+		builder.Like("`username`", "%"+cast.ToString(val)+"%")
+	}
+
+	query, args, err := builder.Count()
+	if err != nil {
+		return
+	}
+	res, err = db.Count(ctx, query, args...)
 	return
 }

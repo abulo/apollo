@@ -2,7 +2,7 @@
 // versions:
 // - protoc-gen-go-grpc v1.4.0
 // - protoc             v5.27.1
-// source: notify/pay_notify_log.proto
+// source: pay_notify_log.proto
 
 // pay_notify_log 支付通知日志
 
@@ -302,5 +302,5 @@ var PayNotifyLogService_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "notify/pay_notify_log.proto",
+	Metadata: "pay_notify_log.proto",
 }

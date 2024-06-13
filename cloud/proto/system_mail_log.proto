@@ -1,0 +1,178 @@
+
+syntax = "proto3";
+// system_mail_log 邮件日志表
+package mail;
+option go_package = "cloud/service/system/mail;mail";
+import "google/protobuf/timestamp.proto";
+import "pagination.proto";
+
+// SystemMailLogObject 数据对象
+message SystemMailLogObject {
+	// @inject_tag: db:"id" json:"id"
+	optional int64 id = 1; //编号
+	// @inject_tag: db:"user_id" json:"userId"
+	optional int64 user_id = 2; //用户编号
+	// @inject_tag: db:"user_type" json:"userType"
+	optional int32 user_type = 3; //用户类型
+	// @inject_tag: db:"to_mail" json:"toMail"
+	optional string to_mail = 4; //接收邮箱地址
+	// @inject_tag: db:"account_id" json:"accountId"
+	optional int64 account_id = 5; //邮箱账号编号
+	// @inject_tag: db:"from_mail" json:"fromMail"
+	optional string from_mail = 6; //发送邮箱地址
+	// @inject_tag: db:"template_id" json:"templateId"
+	optional int64 template_id = 7; //模板编号
+	// @inject_tag: db:"template_code" json:"templateCode"
+	optional string template_code = 8; //模板编码
+	// @inject_tag: db:"template_nickname" json:"templateNickname"
+	optional string template_nickname = 9; //模版发送人名称
+	// @inject_tag: db:"template_title" json:"templateTitle"
+	optional string template_title = 10; //邮件标题
+	// @inject_tag: db:"template_content" json:"templateContent"
+	optional string template_content = 11; //邮件内容
+	// @inject_tag: db:"template_params" json:"templateParams"
+	optional bytes template_params = 12; //邮件参数
+	// @inject_tag: db:"send_status" json:"sendStatus"
+	optional int32 send_status = 13; //发送状态
+	// @inject_tag: db:"send_time" json:"sendTime"
+	google.protobuf.Timestamp send_time = 14; //发送时间
+	// @inject_tag: db:"send_message_id" json:"sendMessageId"
+	optional string send_message_id = 15; //发送返回的消息 ID
+	// @inject_tag: db:"send_exception" json:"sendException"
+	optional string send_exception = 16; //发送异常
+	// @inject_tag: db:"creator" json:"creator"
+	optional string creator = 17; //创建者
+	// @inject_tag: db:"create_time" json:"createTime"
+	google.protobuf.Timestamp create_time = 18; //创建时间
+	// @inject_tag: db:"updater" json:"updater"
+	optional string updater = 19; //更新者
+	// @inject_tag: db:"update_time" json:"updateTime"
+	google.protobuf.Timestamp update_time = 20; //更新时间
+	// @inject_tag: db:"deleted" json:"deleted"
+	optional int32 deleted = 21; //是否删除
+}
+// SystemMailLogTotalResponse 列表数据总量
+message SystemMailLogTotalResponse {
+	int64 code = 1;
+	string msg = 2;
+	int64 data = 3;
+}
+// SystemMailLogCreateRequest 创建数据请求
+message SystemMailLogCreateRequest {
+	SystemMailLogObject data = 1;
+}
+// SystemMailLogCreateResponse 创建数据响应
+message SystemMailLogCreateResponse {
+	int64 code = 1;
+	string msg = 2;
+	int64 data = 3;
+}
+// SystemMailLogUpdateRequest 更新数据请求
+message SystemMailLogUpdateRequest {
+	// @inject_tag: db:"id" json:"id"
+	int64 id = 1; //编号
+	SystemMailLogObject data = 2;
+}
+// SystemMailLogUpdateResponse 更新数据响应
+message SystemMailLogUpdateResponse {
+	int64 code = 1;
+	string msg = 2;
+}
+// SystemMailLogDeleteRequest 删除数据请求
+message SystemMailLogDeleteRequest {
+	// @inject_tag: db:"id" json:"id"
+	int64 id = 1; //编号
+}
+// SystemMailLogDeleteResponse 删除数据响应
+message SystemMailLogDeleteResponse {
+	int64 code = 1;
+	string msg = 2;
+}
+// SystemMailLogRequest 查询单条数据请求
+message SystemMailLogRequest {
+	// @inject_tag: db:"id" json:"id"
+	int64 id = 1; //编号
+}
+// SystemMailLogResponse 查询单条数据响应
+message SystemMailLogResponse {
+	int64 code = 1;
+	string msg = 2;
+	SystemMailLogObject data = 3;
+}
+// SystemMailLogRecoverRequest 恢复数据请求
+message SystemMailLogRecoverRequest {
+	// @inject_tag: db:"id" json:"id"
+	int64 id = 1; //编号
+}
+// SystemMailLogRecoverResponse 删除数据响应
+message SystemMailLogRecoverResponse {
+	int64 code = 1;
+	string msg = 2;
+}
+// SystemMailLogListRequest 列表数据
+message SystemMailLogListRequest {
+	
+	// @inject_tag: db:"deleted" json:"deleted"
+	optional int32 deleted = 1; // 是否删除
+	// @inject_tag: db:"send_status" json:"sendStatus"
+	optional int32 send_status = 2; // 发送状态
+	// @inject_tag: db:"begin_send_time" json:"beginSendTime"
+	google.protobuf.Timestamp begin_send_time = 3; // 发送时间
+	// @inject_tag: db:"finish_send_time" json:"finishSendTime"
+	google.protobuf.Timestamp finish_send_time = 4; // 发送时间
+	// @inject_tag: db:"template_title" json:"templateTitle"
+	optional string template_title = 5; // 邮件标题
+	// @inject_tag: db:"user_id" json:"userId"
+	optional int64 user_id = 6; // 用户编号
+	// @inject_tag: db:"user_type" json:"userType"
+	optional int32 user_type = 7; // 用户类型
+	// @inject_tag: db:"account_id" json:"accountId"
+	optional int64 account_id = 8; // 邮箱账号编号
+	// @inject_tag: db:"template_code" json:"templateCode"
+	optional string template_code = 9; // 模板编码
+
+	// @inject_tag: db:"pagination" json:"pagination"
+	optional pagination.PaginationRequest pagination = 10; // 分页
+}
+
+// SystemMailLogListResponse 数据响应
+message SystemMailLogListResponse {
+	int64 code = 1;
+  	string msg = 2;
+	repeated SystemMailLogObject data = 3;
+}
+// SystemMailLogListTotalRequest 列表数据
+message SystemMailLogListTotalRequest {
+	
+	// @inject_tag: db:"deleted" json:"deleted"
+	optional int32 deleted = 1; // 是否删除
+	// @inject_tag: db:"send_status" json:"sendStatus"
+	optional int32 send_status = 2; // 发送状态
+	// @inject_tag: db:"begin_send_time" json:"beginSendTime"
+	google.protobuf.Timestamp begin_send_time = 3; // 发送时间
+	// @inject_tag: db:"finish_send_time" json:"finishSendTime"
+	google.protobuf.Timestamp finish_send_time = 4; // 发送时间
+	// @inject_tag: db:"template_title" json:"templateTitle"
+	optional string template_title = 5; // 邮件标题
+	// @inject_tag: db:"user_id" json:"userId"
+	optional int64 user_id = 6; // 用户编号
+	// @inject_tag: db:"user_type" json:"userType"
+	optional int32 user_type = 7; // 用户类型
+	// @inject_tag: db:"account_id" json:"accountId"
+	optional int64 account_id = 8; // 邮箱账号编号
+	// @inject_tag: db:"template_code" json:"templateCode"
+	optional string template_code = 9; // 模板编码
+
+}
+
+
+// SystemMailLogService 服务
+service SystemMailLogService{
+	rpc SystemMailLogCreate(SystemMailLogCreateRequest) returns (SystemMailLogCreateResponse);
+	rpc SystemMailLogUpdate(SystemMailLogUpdateRequest) returns (SystemMailLogUpdateResponse);
+	rpc SystemMailLogDelete(SystemMailLogDeleteRequest) returns (SystemMailLogDeleteResponse);
+	rpc SystemMailLog(SystemMailLogRequest) returns (SystemMailLogResponse);
+	rpc SystemMailLogRecover(SystemMailLogRecoverRequest) returns (SystemMailLogRecoverResponse);
+	rpc SystemMailLogList(SystemMailLogListRequest) returns (SystemMailLogListResponse);
+	rpc SystemMailLogListTotal(SystemMailLogListTotalRequest) returns (SystemMailLogTotalResponse);
+}

@@ -2,7 +2,7 @@
 // versions:
 // - protoc-gen-go-grpc v1.4.0
 // - protoc             v5.27.1
-// source: user/system_user_post.proto
+// source: system_user_post.proto
 
 // system_user_post 系统用户职位
 
@@ -150,5 +150,5 @@ var SystemUserPostService_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "user/system_user_post.proto",
+	Metadata: "system_user_post.proto",
 }

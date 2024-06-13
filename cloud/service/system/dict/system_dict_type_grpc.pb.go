@@ -2,7 +2,7 @@
 // versions:
 // - protoc-gen-go-grpc v1.4.0
 // - protoc             v5.27.1
-// source: dict/system_dict_type.proto
+// source: system_dict_type.proto
 
 // system_dict_type 字典类型
 
@@ -302,5 +302,5 @@ var SystemDictTypeService_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "dict/system_dict_type.proto",
+	Metadata: "system_dict_type.proto",
 }

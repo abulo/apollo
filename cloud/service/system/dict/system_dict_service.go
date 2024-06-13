@@ -110,6 +110,26 @@ func (srv SrvSystemDictServiceServer) SystemDictList(ctx context.Context, reques
 		condition["status"] = request.GetStatus()
 	}
 
+	paginationRequest := request.GetPagination()
+	if paginationRequest != nil {
+		// 当前页面
+		pageNum := paginationRequest.GetPageNum()
+		// 每页多少数据
+		pageSize := paginationRequest.GetPageSize()
+		if pageNum < 1 {
+			pageNum = 1
+		}
+		if pageSize < 1 {
+			pageSize = 10
+		}
+		// 分页数据
+		offset := pageSize * (pageNum - 1)
+		pagination := &sql.Pagination{
+			Offset: &offset,
+			Limit:  &pageSize,
+		}
+		condition["pagination"] = pagination
+	}
 	// 获取数据集合
 	list, err := dict.SystemDictList(ctx, condition)
 	if sql.ResultAccept(err) != nil {
@@ -127,5 +147,33 @@ func (srv SrvSystemDictServiceServer) SystemDictList(ctx context.Context, reques
 		Code: code.Success,
 		Msg:  code.StatusText(code.Success),
 		Data: res,
+	}, nil
+}
+
+// SystemDictListTotal 获取总数
+func (srv SrvSystemDictServiceServer) SystemDictListTotal(ctx context.Context, request *SystemDictListTotalRequest) (*SystemDictTotalResponse, error) {
+	// 数据库查询条件
+	condition := make(map[string]any)
+	// 构造查询条件
+	if request.DictType != nil {
+		condition["dictType"] = request.GetDictType()
+	}
+	if request.Status != nil {
+		condition["status"] = request.GetStatus()
+	}
+
+	// 获取数据集合
+	total, err := dict.SystemDictListTotal(ctx, condition)
+	if sql.ResultAccept(err) != nil {
+		globalLogger.Logger.WithFields(logrus.Fields{
+			"req": condition,
+			"err": err,
+		}).Error("Sql:字典数据表:system_dict:SystemDictListTotal")
+		return &SystemDictTotalResponse{}, status.Error(code.ConvertToGrpc(code.SqlError), err.Error())
+	}
+	return &SystemDictTotalResponse{
+		Code: code.Success,
+		Msg:  code.StatusText(code.Success),
+		Data: total,
 	}, nil
 }

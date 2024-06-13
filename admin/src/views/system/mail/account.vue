@@ -7,7 +7,7 @@
       :columns="columns"
       :request-api="getSystemMailAccountListApi"
       :request-auto="true"
-      :pagination="false"
+      :pagination="true"
       :search-col="12">
       <!-- 表格 header 按钮 -->
       <template #tableHeader>

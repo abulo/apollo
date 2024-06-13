@@ -2,7 +2,7 @@
 // versions:
 // - protoc-gen-go-grpc v1.4.0
 // - protoc             v5.27.1
-// source: region/region.proto
+// source: region.proto
 
 // region 地区表
 
@@ -302,5 +302,5 @@ var RegionService_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "region/region.proto",
+	Metadata: "region.proto",
 }

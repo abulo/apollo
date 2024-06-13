@@ -6,6 +6,7 @@ import (
 	"cloud/code"
 	"cloud/dao"
 	"cloud/initial"
+	"cloud/service/pagination"
 	"cloud/service/system/user"
 
 	globalLogger "github.com/abulo/ratel/v3/core/logger"
@@ -252,8 +253,8 @@ func SystemUserRecover(ctx context.Context, newCtx *app.RequestContext) {
 	})
 }
 
-// SystemUserSearch 列表数据
-func SystemUserSearch(ctx context.Context, newCtx *app.RequestContext) {
+// SystemUserListSimple 列表数据
+func SystemUserListSimple(ctx context.Context, newCtx *app.RequestContext) {
 	SystemUserList(ctx, newCtx)
 }
 
@@ -315,8 +316,10 @@ func SystemUserList(ctx context.Context, newCtx *app.RequestContext) {
 		return
 	}
 	var total int64
-	request.PageNum = proto.Int64(cast.ToInt64(newCtx.Query("pageNum")))
-	request.PageSize = proto.Int64(cast.ToInt64(newCtx.Query("pageSize")))
+	paginationRequest := &pagination.PaginationRequest{}
+	paginationRequest.PageNum = proto.Int64(cast.ToInt64(newCtx.Query("pageNum")))
+	paginationRequest.PageSize = proto.Int64(cast.ToInt64(newCtx.Query("pageSize")))
+	request.Pagination = paginationRequest
 	if resTotal.GetCode() == code.Success {
 		total = resTotal.GetData()
 	}
@@ -349,8 +352,8 @@ func SystemUserList(ctx context.Context, newCtx *app.RequestContext) {
 		"data": utils.H{
 			"total":    total,
 			"list":     list,
-			"pageNum":  request.PageNum,
-			"pageSize": request.PageSize,
+			"pageNum":  paginationRequest.PageNum,
+			"pageSize": paginationRequest.PageSize,
 		},
 	})
 }

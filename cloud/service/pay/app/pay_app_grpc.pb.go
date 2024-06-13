@@ -2,7 +2,7 @@
 // versions:
 // - protoc-gen-go-grpc v1.4.0
 // - protoc             v5.27.1
-// source: app/pay_app.proto
+// source: pay_app.proto
 
 // pay_app 支付应用信息
 
@@ -302,5 +302,5 @@ var PayAppService_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "app/pay_app.proto",
+	Metadata: "pay_app.proto",
 }

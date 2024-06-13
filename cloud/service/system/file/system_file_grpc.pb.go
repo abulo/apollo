@@ -2,7 +2,7 @@
 // versions:
 // - protoc-gen-go-grpc v1.4.0
 // - protoc             v5.27.1
-// source: file/system_file.proto
+// source: system_file.proto
 
 // system_file 文件管理
 
@@ -302,5 +302,5 @@ var SystemFileService_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "file/system_file.proto",
+	Metadata: "system_file.proto",
 }

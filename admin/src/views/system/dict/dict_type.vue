@@ -135,7 +135,7 @@ const statusEnum = getIntDictOptions("status");
 
 const columns: ColumnProps<SystemDictType.ResSystemDictTypeItem>[] = [
   { prop: "id", label: "编号", width: 100 },
-  { prop: "name", label: "字典名称" },
+  { prop: "name", label: "字典名称", search: { el: "input", span: 2 } },
   { prop: "type", label: "字典类型", search: { el: "input", span: 2 } },
   { prop: "status", label: "状态", tag: true, enum: statusEnum, search: { el: "select", span: 2 }, width: 100 },
   { prop: "remark", label: "备注" },

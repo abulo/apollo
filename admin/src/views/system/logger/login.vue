@@ -11,20 +11,34 @@
       :search-col="12">
       <!-- 表格 header 按钮 -->
       <template #tableHeader="scope">
-        <el-button
-          v-auth="'logger.SystemLoginLogDelete'"
-          type="danger"
-          :icon="Delete"
-          plain
-          :disabled="!scope.isSelected"
-          @click="handleDelete(scope.selectedListIds)">
-          删除
+        <el-button v-auth="'logger.SystemLoginLogDrop'" type="danger" :icon="Delete" @click="handleDrop(scope.selectedListIds)">
+          清空
         </el-button>
-        <el-button v-auth="'logger.SystemLoginLogDrop'" type="danger" :icon="Delete" @click="handleDrop"> 清空 </el-button>
+      </template>
+      <template #deleted="scope">
+        <DictTag type="delete" :value="scope.row.deleted" />
       </template>
       <template #operation="scope">
         <el-button v-auth="'logger.SystemLoginLog'" type="primary" link :icon="View" @click="handleItem(scope.row)">
           查看
+        </el-button>
+        <el-button
+          type="primary"
+          link
+          v-if="scope.row.deleted === 0"
+          v-auth="'logger.SystemLoginLogDelete'"
+          :icon="Delete"
+          @click="handleDelete(scope.row)">
+          删除
+        </el-button>
+        <el-button
+          type="primary"
+          link
+          v-if="scope.row.deleted === 1"
+          v-auth="'logger.SystemLoginLogRecover'"
+          :icon="Refresh"
+          @click="handleRecover(scope.row)">
+          恢复
         </el-button>
       </template>
     </ProTable>
@@ -63,19 +77,34 @@
   </div>
 </template>
 <script setup lang="tsx" name="systemLoggerLogin">
-import { ref } from "vue";
-import { ProTableInstance, ColumnProps } from "@/components/ProTable/interface";
-import { Delete, View } from "@element-plus/icons-vue";
+import { ref, reactive } from "vue";
+import { ProTableInstance, ColumnProps, SearchProps } from "@/components/ProTable/interface";
+import { Delete, View, Refresh } from "@element-plus/icons-vue";
 import ProTable from "@/components/ProTable/index.vue";
 import { SystemLoginLog } from "@/api/interface/systemLoginLog";
 import {
   getSystemLoginLogListApi,
   deleteSystemLoginLogApi,
   dropSystemLoginLogApi,
+  recoverSystemLoginLogApi,
   getSystemLoginLogItemApi
 } from "@/api/modules/systemLoginLog";
+import { getIntDictOptions } from "@/utils/dict";
+import { DictTag } from "@/components/DictTag";
 import { useHandleData } from "@/hooks/useHandleData";
 import { HasPermission } from "@/utils/permission";
+
+//删除状态
+const deletedEnum = getIntDictOptions("delete");
+// 表格配置项
+const deleteSearch = reactive<SearchProps>(
+  HasPermission("logger.SystemLoginLogDelete")
+    ? {
+        el: "switch",
+        span: 2
+      }
+    : {}
+);
 // 表格配置项
 const columns: ColumnProps<SystemLoginLog.ResSystemLoginLogItem>[] = [
   { type: "selection", fixed: "left", width: 70 },
@@ -92,6 +121,14 @@ const columns: ColumnProps<SystemLoginLog.ResSystemLoginLogItem>[] = [
       span: 4,
       props: { type: "datetimerange", valueFormat: "YYYY-MM-DD HH:mm:ss" }
     }
+  },
+  {
+    prop: "deleted",
+    label: "删除",
+    tag: true,
+    enum: deletedEnum,
+    search: deleteSearch,
+    width: 100
   },
   {
     prop: "operation",
@@ -112,22 +149,28 @@ const getTableList = (params: any) => {
 //table数据
 const proTable = ref<ProTableInstance>();
 
-// 批量删除用户信息
-const handleDelete = async (id: string[]) => {
-  const data = ref<SystemLoginLog.ReqSystemLoginLogDelete>({
-    ids: id.map(Number)
-  });
-  await useHandleData(deleteSystemLoginLogApi, data.value, "删除所选信息");
-  proTable.value?.clearSelection();
+// 删除按钮
+const handleDelete = async (row: SystemLoginLog.ResSystemLoginLogItem) => {
+  await useHandleData(deleteSystemLoginLogApi, Number(row.id), "删除日志");
   proTable.value?.getTableList();
 };
 
-const handleDrop = async () => {
+// 恢复按钮
+const handleRecover = async (row: SystemLoginLog.ResSystemLoginLogItem) => {
+  await useHandleData(recoverSystemLoginLogApi, Number(row.id), "恢复日志");
+  proTable.value?.getTableList();
+};
+
+const handleDrop = async (id: string[]) => {
   const data = ref<SystemLoginLog.ReqSystemLoginLogDrop>({});
   let newParams = proTable.value?.searchParam;
   let time = newParams?.loginTime as string[];
   time && (data.value.beginLoginTime = time[0]);
   time && (data.value.finishLoginTime = time[1]);
+  // 判断 ids 是不是空
+  if (id.length > 0) {
+    data.value.ids = id.map(Number);
+  }
   await useHandleData(dropSystemLoginLogApi, data.value, "清空日志");
   proTable.value?.clearSelection();
   proTable.value?.getTableList();
@@ -143,6 +186,7 @@ const systemLoginLogItemFrom = ref<SystemLoginLog.ResSystemLoginLogItem>({
   creator: "",
   createTime: "",
   updater: "",
+  deleted: 0,
   updateTime: ""
 });
 //弹出层标题
@@ -162,6 +206,7 @@ const reset = () => {
     creator: "",
     createTime: "",
     updater: "",
+    deleted: 0,
     updateTime: ""
   };
 };

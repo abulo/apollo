@@ -22,7 +22,7 @@ func RegionInitRoute(handle *xhertz.Server) {
 		auth.PUT("/region/:id/recover", region.RegionRecover)
 		// region->地区表->列表
 		auth.GET("/region", region.RegionList)
-		// region->地区表->搜索
-		auth.GET("/region/search", region.RegionSearch)
+		// region->地区表->精简列表
+		auth.GET("/region/simple", region.RegionListSimple)
 	}
 }

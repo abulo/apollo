@@ -48,7 +48,7 @@ func SystemMailLogDao(item *SystemMailLogObject) *dao.SystemMailLog {
 		daoItem.TemplateContent = item.TemplateContent // 邮件内容
 	}
 	if item != nil && item.TemplateParams != nil {
-		daoItem.TemplateParams = null.JSONFrom(item.GetTemplateParams()) // 参数数组
+		daoItem.TemplateParams = null.JSONFrom(item.GetTemplateParams()) // 邮件参数
 	}
 	if item != nil && item.SendStatus != nil {
 		daoItem.SendStatus = item.SendStatus // 发送状态

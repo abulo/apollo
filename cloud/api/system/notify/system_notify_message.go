@@ -7,6 +7,7 @@ import (
 	"cloud/code"
 	"cloud/dao"
 	"cloud/initial"
+	"cloud/service/pagination"
 	"cloud/service/system/notify"
 
 	globalLogger "github.com/abulo/ratel/v3/core/logger"
@@ -49,10 +50,10 @@ func SystemNotifyMessageCreate(ctx context.Context, newCtx *app.RequestContext) 
 		})
 		return
 	}
+	reqInfo.Deleted = proto.Int32(0)
 	reqInfo.TenantId = proto.Int64(newCtx.GetInt64("tenantId")) // 租户
 	reqInfo.Creator = null.StringFrom(newCtx.GetString("userName"))
 	reqInfo.CreateTime = null.DateTimeFrom(util.Now())
-	reqInfo.Deleted = proto.Int32(0)
 	request.Data = notify.SystemNotifyMessageProto(reqInfo)
 	// 执行服务
 	res, err := client.SystemNotifyMessageCreate(ctx, request)
@@ -105,6 +106,8 @@ func SystemNotifyMessageUpdate(ctx context.Context, newCtx *app.RequestContext) 
 	reqInfo.TenantId = proto.Int64(newCtx.GetInt64("tenantId")) // 租户
 	reqInfo.Updater = null.StringFrom(newCtx.GetString("userName"))
 	reqInfo.UpdateTime = null.DateTimeFrom(util.Now())
+	reqInfo.Creator = null.StringFromPtr(nil)
+	reqInfo.CreateTime = null.DateTimeFromPtr(nil)
 	request.Data = notify.SystemNotifyMessageProto(reqInfo)
 	// 执行服务
 	res, err := client.SystemNotifyMessageUpdate(ctx, request)
@@ -260,11 +263,10 @@ func SystemNotifyMessageList(ctx context.Context, newCtx *app.RequestContext) {
 	// 构造查询条件
 	request := &notify.SystemNotifyMessageListRequest{}
 	requestTotal := &notify.SystemNotifyMessageListTotalRequest{}
-
-	request.TenantId = proto.Int64(newCtx.GetInt64("tenantId"))      // 租户
-	requestTotal.TenantId = proto.Int64(newCtx.GetInt64("tenantId")) // 租户
-	request.Deleted = proto.Int32(0)
-	requestTotal.Deleted = proto.Int32(0)
+	request.TenantId = proto.Int64(newCtx.GetInt64("tenantId"))      // 租户ID
+	requestTotal.TenantId = proto.Int64(newCtx.GetInt64("tenantId")) // 租户ID
+	request.Deleted = proto.Int32(0)                                 // 删除状态
+	requestTotal.Deleted = proto.Int32(0)                            // 删除状态
 	if val, ok := newCtx.GetQuery("deleted"); ok {
 		if cast.ToBool(val) {
 			request.Deleted = nil
@@ -279,7 +281,6 @@ func SystemNotifyMessageList(ctx context.Context, newCtx *app.RequestContext) {
 		request.ReadStatus = proto.Int32(cast.ToInt32(val))      // 是否已读
 		requestTotal.ReadStatus = proto.Int32(cast.ToInt32(val)) // 是否已读
 	}
-
 	if val, ok := newCtx.GetQuery("beginReadTime"); ok {
 		request.BeginReadTime = timestamppb.New(cast.ToTimeInDefaultLocation(val, time.Local))      // 登录时间
 		requestTotal.BeginReadTime = timestamppb.New(cast.ToTimeInDefaultLocation(val, time.Local)) // 登录时间
@@ -304,8 +305,10 @@ func SystemNotifyMessageList(ctx context.Context, newCtx *app.RequestContext) {
 		return
 	}
 	var total int64
-	request.PageNum = proto.Int64(cast.ToInt64(newCtx.Query("pageNum")))
-	request.PageSize = proto.Int64(cast.ToInt64(newCtx.Query("pageSize")))
+	paginationRequest := &pagination.PaginationRequest{}
+	paginationRequest.PageNum = proto.Int64(cast.ToInt64(newCtx.Query("pageNum")))
+	paginationRequest.PageSize = proto.Int64(cast.ToInt64(newCtx.Query("pageSize")))
+	request.Pagination = paginationRequest
 	if resTotal.GetCode() == code.Success {
 		total = resTotal.GetData()
 	}
@@ -336,8 +339,8 @@ func SystemNotifyMessageList(ctx context.Context, newCtx *app.RequestContext) {
 		"data": utils.H{
 			"total":    total,
 			"list":     list,
-			"pageNum":  request.PageNum,
-			"pageSize": request.PageSize,
+			"pageNum":  paginationRequest.PageNum,
+			"pageSize": paginationRequest.PageSize,
 		},
 	})
 }

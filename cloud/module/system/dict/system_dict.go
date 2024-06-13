@@ -69,6 +69,13 @@ func SystemDictList(ctx context.Context, condition map[string]any) (res []dao.Sy
 		builder.Where("`status`", val)
 	}
 
+	if val, ok := condition["pagination"]; ok {
+		pagination := val.(*sql.Pagination)
+		if pagination != nil {
+			builder.Offset(pagination.GetOffset())
+			builder.Limit(pagination.GetLimit())
+		}
+	}
 	builder.OrderBy("`sort`", sql.ASC)
 	builder.OrderBy("`id`", sql.ASC)
 	query, args, err := builder.Rows()
@@ -76,5 +83,25 @@ func SystemDictList(ctx context.Context, condition map[string]any) (res []dao.Sy
 		return
 	}
 	err = db.QueryRows(ctx, query, args...).ToStruct(&res)
+	return
+}
+
+// SystemDictListTotal 查询列表数据总量
+func SystemDictListTotal(ctx context.Context, condition map[string]any) (res int64, err error) {
+	db := initial.Core.Store.LoadSQL("mysql").Read()
+	builder := sql.NewBuilder()
+	builder.Table("`system_dict`")
+	if val, ok := condition["dictType"]; ok {
+		builder.Where("`dict_type`", val)
+	}
+	if val, ok := condition["status"]; ok {
+		builder.Where("`status`", val)
+	}
+
+	query, args, err := builder.Count()
+	if err != nil {
+		return
+	}
+	res, err = db.Count(ctx, query, args...)
 	return
 }

@@ -31,8 +31,8 @@ export const recoverSystemTenantApi = (id: number) => {
   return http.put(PORT + `/system/tenant/${id}/recover`);
 };
 // 搜索租户
-export const getSystemTenantSearchApi = (params?: SystemTenant.ReqSystemTenantList) => {
-  return http.get<ResPage<SystemTenant.ResSystemTenantItem>>(PORT + `/system/tenant/search`, params);
+export const getSystemTenantListSimpleApi = (params?: SystemTenant.ReqSystemTenantList) => {
+  return http.get<ResPage<SystemTenant.ResSystemTenantItem>>(PORT + `/system/tenant/simple`, params);
 };
 // 获取租户用户列表
 export const getSystemTenantUserSearchApi = (id: number, params?: SystemUser.ReqSystemUserList) => {

@@ -11,20 +11,34 @@
       :search-col="12">
       <!-- 表格 header 按钮 -->
       <template #tableHeader="scope">
-        <el-button
-          v-auth="'logger.SystemOperateLogDelete'"
-          type="danger"
-          :icon="Delete"
-          plain
-          :disabled="!scope.isSelected"
-          @click="handleDelete(scope.selectedListIds)">
-          删除
+        <el-button v-auth="'logger.SystemOperateLogDrop'" type="danger" :icon="Delete" @click="handleDrop(scope.selectedListIds)">
+          清空
         </el-button>
-        <el-button v-auth="'logger.SystemOperateLogDrop'" type="danger" :icon="Delete" @click="handleDrop"> 清空 </el-button>
+      </template>
+      <template #deleted="scope">
+        <DictTag type="delete" :value="scope.row.deleted" />
       </template>
       <template #operation="scope">
         <el-button v-auth="'logger.SystemOperateLog'" type="primary" link :icon="View" @click="handleItem(scope.row)">
           查看
+        </el-button>
+        <el-button
+          type="primary"
+          link
+          v-if="scope.row.deleted === 0"
+          v-auth="'logger.SystemOperateLogDelete'"
+          :icon="Delete"
+          @click="handleDelete(scope.row)">
+          删除
+        </el-button>
+        <el-button
+          type="primary"
+          link
+          v-if="scope.row.deleted === 1"
+          v-auth="'logger.SystemOperateLogRecover'"
+          :icon="Refresh"
+          @click="handleRecover(scope.row)">
+          恢复
         </el-button>
       </template>
     </ProTable>
@@ -84,22 +98,36 @@
   </div>
 </template>
 <script setup lang="tsx" name="systemLoggerOperate">
-import { ref } from "vue";
-import { ProTableInstance, ColumnProps } from "@/components/ProTable/interface";
-import { Delete, View } from "@element-plus/icons-vue";
+import { ref, reactive } from "vue";
+import { ProTableInstance, ColumnProps, SearchProps } from "@/components/ProTable/interface";
+import { Delete, View, Refresh } from "@element-plus/icons-vue";
 import ProTable from "@/components/ProTable/index.vue";
 import { SystemOperateLog } from "@/api/interface/systemOperateLog";
 import {
   getSystemOperateLogListApi,
   deleteSystemOperateLogApi,
   dropSystemOperateLogApi,
+  recoverSystemOperateLogApi,
   getSystemOperateLogItemApi
 } from "@/api/modules/systemOperateLog";
+import { getIntDictOptions } from "@/utils/dict";
+import { DictTag } from "@/components/DictTag";
 import { useHandleData } from "@/hooks/useHandleData";
 import { HasPermission } from "@/utils/permission";
 //table数据
 const proTable = ref<ProTableInstance>();
 
+//删除状态
+const deletedEnum = getIntDictOptions("delete");
+// 表格配置项
+const deleteSearch = reactive<SearchProps>(
+  HasPermission("logger.SystemOperateLogDelete")
+    ? {
+        el: "switch",
+        span: 2
+      }
+    : {}
+);
 // 表格配置项
 const columns: ColumnProps<SystemOperateLog.ResSystemOperateLogItem>[] = [
   { type: "selection", fixed: "left", width: 70 },
@@ -124,6 +152,14 @@ const columns: ColumnProps<SystemOperateLog.ResSystemOperateLogItem>[] = [
   { prop: "channel", label: "渠道" },
   { prop: "result", label: "结果" },
   {
+    prop: "deleted",
+    label: "删除",
+    tag: true,
+    enum: deletedEnum,
+    search: deleteSearch,
+    width: 100
+  },
+  {
     prop: "operation",
     label: "操作",
     width: 150,
@@ -139,22 +175,28 @@ const getTableList = (params: any) => {
   return getSystemOperateLogListApi(newParams);
 };
 
-// 批量删除用户信息
-const handleDelete = async (id: string[]) => {
-  const data = ref<SystemOperateLog.ReqSystemOperateLogDelete>({
-    ids: id
-  });
-  await useHandleData(deleteSystemOperateLogApi, data.value, "删除所选信息");
-  proTable.value?.clearSelection();
+// 删除按钮
+const handleDelete = async (row: SystemOperateLog.ResSystemOperateLogItem) => {
+  await useHandleData(deleteSystemOperateLogApi, Number(row.id), "删除日志");
   proTable.value?.getTableList();
 };
 
-const handleDrop = async () => {
+// 恢复按钮
+const handleRecover = async (row: SystemOperateLog.ResSystemOperateLogItem) => {
+  await useHandleData(recoverSystemOperateLogApi, Number(row.id), "恢复日志");
+  proTable.value?.getTableList();
+};
+
+const handleDrop = async (id: string[]) => {
   const data = ref<SystemOperateLog.ReqSystemOperateLogDrop>({});
   let newParams = proTable.value?.searchParam;
-  let time = newParams?.timestamp as string[];
+  let time = newParams?.startTime as string[];
   time && (data.value.beginStartTime = time[0]);
-  time && (data.value.finishStartTime = time[1]);
+  time && (data.value.beginStartTime = time[1]);
+  // 判断 ids 是不是空
+  if (id.length > 0) {
+    data.value.ids = id.map(Number);
+  }
   await useHandleData(dropSystemOperateLogApi, data.value, "清空日志");
   proTable.value?.clearSelection();
   proTable.value?.getTableList();
@@ -174,6 +216,7 @@ const systemOperateLogItemFrom = ref<SystemOperateLog.ResSystemOperateLogItem>({
   duration: 0,
   channel: "",
   result: 0,
+  deleted: 0,
   creator: "",
   createTime: "",
   updater: "",
@@ -200,6 +243,7 @@ const reset = () => {
     duration: 0,
     channel: "",
     result: 0,
+    deleted: 0,
     creator: "",
     createTime: "",
     updater: "",

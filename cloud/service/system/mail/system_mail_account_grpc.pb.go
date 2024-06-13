@@ -2,7 +2,7 @@
 // versions:
 // - protoc-gen-go-grpc v1.4.0
 // - protoc             v5.27.1
-// source: mail/system_mail_account.proto
+// source: system_mail_account.proto
 
 // system_mail_account 邮箱账号表
 
@@ -21,12 +21,13 @@ import (
 const _ = grpc.SupportPackageIsVersion8
 
 const (
-	SystemMailAccountService_SystemMailAccountCreate_FullMethodName  = "/mail.SystemMailAccountService/SystemMailAccountCreate"
-	SystemMailAccountService_SystemMailAccountUpdate_FullMethodName  = "/mail.SystemMailAccountService/SystemMailAccountUpdate"
-	SystemMailAccountService_SystemMailAccountDelete_FullMethodName  = "/mail.SystemMailAccountService/SystemMailAccountDelete"
-	SystemMailAccountService_SystemMailAccount_FullMethodName        = "/mail.SystemMailAccountService/SystemMailAccount"
-	SystemMailAccountService_SystemMailAccountRecover_FullMethodName = "/mail.SystemMailAccountService/SystemMailAccountRecover"
-	SystemMailAccountService_SystemMailAccountList_FullMethodName    = "/mail.SystemMailAccountService/SystemMailAccountList"
+	SystemMailAccountService_SystemMailAccountCreate_FullMethodName    = "/mail.SystemMailAccountService/SystemMailAccountCreate"
+	SystemMailAccountService_SystemMailAccountUpdate_FullMethodName    = "/mail.SystemMailAccountService/SystemMailAccountUpdate"
+	SystemMailAccountService_SystemMailAccountDelete_FullMethodName    = "/mail.SystemMailAccountService/SystemMailAccountDelete"
+	SystemMailAccountService_SystemMailAccount_FullMethodName          = "/mail.SystemMailAccountService/SystemMailAccount"
+	SystemMailAccountService_SystemMailAccountRecover_FullMethodName   = "/mail.SystemMailAccountService/SystemMailAccountRecover"
+	SystemMailAccountService_SystemMailAccountList_FullMethodName      = "/mail.SystemMailAccountService/SystemMailAccountList"
+	SystemMailAccountService_SystemMailAccountListTotal_FullMethodName = "/mail.SystemMailAccountService/SystemMailAccountListTotal"
 )
 
 // SystemMailAccountServiceClient is the client API for SystemMailAccountService service.
@@ -41,6 +42,7 @@ type SystemMailAccountServiceClient interface {
 	SystemMailAccount(ctx context.Context, in *SystemMailAccountRequest, opts ...grpc.CallOption) (*SystemMailAccountResponse, error)
 	SystemMailAccountRecover(ctx context.Context, in *SystemMailAccountRecoverRequest, opts ...grpc.CallOption) (*SystemMailAccountRecoverResponse, error)
 	SystemMailAccountList(ctx context.Context, in *SystemMailAccountListRequest, opts ...grpc.CallOption) (*SystemMailAccountListResponse, error)
+	SystemMailAccountListTotal(ctx context.Context, in *SystemMailAccountListTotalRequest, opts ...grpc.CallOption) (*SystemMailAccountTotalResponse, error)
 }
 
 type systemMailAccountServiceClient struct {
@@ -111,6 +113,16 @@ func (c *systemMailAccountServiceClient) SystemMailAccountList(ctx context.Conte
 	return out, nil
 }
 
+func (c *systemMailAccountServiceClient) SystemMailAccountListTotal(ctx context.Context, in *SystemMailAccountListTotalRequest, opts ...grpc.CallOption) (*SystemMailAccountTotalResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(SystemMailAccountTotalResponse)
+	err := c.cc.Invoke(ctx, SystemMailAccountService_SystemMailAccountListTotal_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // SystemMailAccountServiceServer is the server API for SystemMailAccountService service.
 // All implementations must embed UnimplementedSystemMailAccountServiceServer
 // for forward compatibility
@@ -123,6 +135,7 @@ type SystemMailAccountServiceServer interface {
 	SystemMailAccount(context.Context, *SystemMailAccountRequest) (*SystemMailAccountResponse, error)
 	SystemMailAccountRecover(context.Context, *SystemMailAccountRecoverRequest) (*SystemMailAccountRecoverResponse, error)
 	SystemMailAccountList(context.Context, *SystemMailAccountListRequest) (*SystemMailAccountListResponse, error)
+	SystemMailAccountListTotal(context.Context, *SystemMailAccountListTotalRequest) (*SystemMailAccountTotalResponse, error)
 	mustEmbedUnimplementedSystemMailAccountServiceServer()
 }
 
@@ -147,6 +160,9 @@ func (UnimplementedSystemMailAccountServiceServer) SystemMailAccountRecover(cont
 }
 func (UnimplementedSystemMailAccountServiceServer) SystemMailAccountList(context.Context, *SystemMailAccountListRequest) (*SystemMailAccountListResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SystemMailAccountList not implemented")
+}
+func (UnimplementedSystemMailAccountServiceServer) SystemMailAccountListTotal(context.Context, *SystemMailAccountListTotalRequest) (*SystemMailAccountTotalResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SystemMailAccountListTotal not implemented")
 }
 func (UnimplementedSystemMailAccountServiceServer) mustEmbedUnimplementedSystemMailAccountServiceServer() {
 }
@@ -270,6 +286,24 @@ func _SystemMailAccountService_SystemMailAccountList_Handler(srv interface{}, ct
 	return interceptor(ctx, in, info, handler)
 }
 
+func _SystemMailAccountService_SystemMailAccountListTotal_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SystemMailAccountListTotalRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SystemMailAccountServiceServer).SystemMailAccountListTotal(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: SystemMailAccountService_SystemMailAccountListTotal_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SystemMailAccountServiceServer).SystemMailAccountListTotal(ctx, req.(*SystemMailAccountListTotalRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // SystemMailAccountService_ServiceDesc is the grpc.ServiceDesc for SystemMailAccountService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -301,7 +335,11 @@ var SystemMailAccountService_ServiceDesc = grpc.ServiceDesc{
 			MethodName: "SystemMailAccountList",
 			Handler:    _SystemMailAccountService_SystemMailAccountList_Handler,
 		},
+		{
+			MethodName: "SystemMailAccountListTotal",
+			Handler:    _SystemMailAccountService_SystemMailAccountListTotal_Handler,
+		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "mail/system_mail_account.proto",
+	Metadata: "system_mail_account.proto",
 }

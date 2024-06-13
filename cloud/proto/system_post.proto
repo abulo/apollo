@@ -1,0 +1,136 @@
+
+syntax = "proto3";
+// system_post 职位
+package post;
+option go_package = "cloud/service/system/post;post";
+import "google/protobuf/timestamp.proto";
+import "pagination.proto";
+
+// SystemPostObject 数据对象
+message SystemPostObject {
+	// @inject_tag: db:"id" json:"id"
+	optional int64 id = 1; //职位ID
+	// @inject_tag: db:"name" json:"name"
+	optional string name = 2; //职位名称
+	// @inject_tag: db:"sort" json:"sort"
+	optional int32 sort = 3; //显示顺序
+	// @inject_tag: db:"status" json:"status"
+	optional int32 status = 4; //状态
+	// @inject_tag: db:"deleted" json:"deleted"
+	optional int32 deleted = 5; //是否删除
+	// @inject_tag: db:"tenant_id" json:"tenantId"
+	optional int64 tenant_id = 6; //租户ID
+	// @inject_tag: db:"creator" json:"creator"
+	optional string creator = 7; //创建人
+	// @inject_tag: db:"create_time" json:"createTime"
+	google.protobuf.Timestamp create_time = 8; //创建时间
+	// @inject_tag: db:"updater" json:"updater"
+	optional string updater = 9; //更新人
+	// @inject_tag: db:"update_time" json:"updateTime"
+	google.protobuf.Timestamp update_time = 10; //更新时间
+}
+// SystemPostTotalResponse 列表数据总量
+message SystemPostTotalResponse {
+	int64 code = 1;
+	string msg = 2;
+	int64 data = 3;
+}
+// SystemPostCreateRequest 创建数据请求
+message SystemPostCreateRequest {
+	SystemPostObject data = 1;
+}
+// SystemPostCreateResponse 创建数据响应
+message SystemPostCreateResponse {
+	int64 code = 1;
+	string msg = 2;
+	int64 data = 3;
+}
+// SystemPostUpdateRequest 更新数据请求
+message SystemPostUpdateRequest {
+	// @inject_tag: db:"id" json:"id"
+	int64 id = 1; //职位ID
+	SystemPostObject data = 2;
+}
+// SystemPostUpdateResponse 更新数据响应
+message SystemPostUpdateResponse {
+	int64 code = 1;
+	string msg = 2;
+}
+// SystemPostDeleteRequest 删除数据请求
+message SystemPostDeleteRequest {
+	// @inject_tag: db:"id" json:"id"
+	int64 id = 1; //职位ID
+}
+// SystemPostDeleteResponse 删除数据响应
+message SystemPostDeleteResponse {
+	int64 code = 1;
+	string msg = 2;
+}
+// SystemPostRequest 查询单条数据请求
+message SystemPostRequest {
+	// @inject_tag: db:"id" json:"id"
+	int64 id = 1; //职位ID
+}
+// SystemPostResponse 查询单条数据响应
+message SystemPostResponse {
+	int64 code = 1;
+	string msg = 2;
+	SystemPostObject data = 3;
+}
+// SystemPostRecoverRequest 恢复数据请求
+message SystemPostRecoverRequest {
+	// @inject_tag: db:"id" json:"id"
+	int64 id = 1; //职位ID
+}
+// SystemPostRecoverResponse 删除数据响应
+message SystemPostRecoverResponse {
+	int64 code = 1;
+	string msg = 2;
+}
+// SystemPostListRequest 列表数据
+message SystemPostListRequest {
+	
+	// @inject_tag: db:"tenant_id" json:"tenantId"
+	optional int64 tenant_id = 1; // 租户ID
+	// @inject_tag: db:"deleted" json:"deleted"
+	optional int32 deleted = 2; // 是否删除
+	// @inject_tag: db:"status" json:"status"
+	optional int32 status = 3; // 状态
+	// @inject_tag: db:"name" json:"name"
+	optional string name = 4; // 职位名称
+
+	// @inject_tag: db:"pagination" json:"pagination"
+	optional pagination.PaginationRequest pagination = 5; // 分页
+}
+
+// SystemPostListResponse 数据响应
+message SystemPostListResponse {
+	int64 code = 1;
+  	string msg = 2;
+	repeated SystemPostObject data = 3;
+}
+// SystemPostListTotalRequest 列表数据
+message SystemPostListTotalRequest {
+	
+	// @inject_tag: db:"tenant_id" json:"tenantId"
+	optional int64 tenant_id = 1; // 租户ID
+	// @inject_tag: db:"deleted" json:"deleted"
+	optional int32 deleted = 2; // 是否删除
+	// @inject_tag: db:"status" json:"status"
+	optional int32 status = 3; // 状态
+	// @inject_tag: db:"name" json:"name"
+	optional string name = 4; // 职位名称
+
+}
+
+
+// SystemPostService 服务
+service SystemPostService{
+	rpc SystemPostCreate(SystemPostCreateRequest) returns (SystemPostCreateResponse);
+	rpc SystemPostUpdate(SystemPostUpdateRequest) returns (SystemPostUpdateResponse);
+	rpc SystemPostDelete(SystemPostDeleteRequest) returns (SystemPostDeleteResponse);
+	rpc SystemPost(SystemPostRequest) returns (SystemPostResponse);
+	rpc SystemPostRecover(SystemPostRecoverRequest) returns (SystemPostRecoverResponse);
+	rpc SystemPostList(SystemPostListRequest) returns (SystemPostListResponse);
+	rpc SystemPostListTotal(SystemPostListTotalRequest) returns (SystemPostTotalResponse);
+}

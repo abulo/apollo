@@ -2,7 +2,7 @@
 // versions:
 // - protoc-gen-go-grpc v1.4.0
 // - protoc             v5.27.1
-// source: channel/pay_channel.proto
+// source: pay_channel.proto
 
 // pay_channel 支付渠道
 
@@ -340,5 +340,5 @@ var PayChannelService_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "channel/pay_channel.proto",
+	Metadata: "pay_channel.proto",
 }

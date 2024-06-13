@@ -8,9 +8,14 @@ export const getSystemOperateLogListApi = (params?: SystemOperateLog.ReqSystemOp
   return http.get<ResPage<SystemOperateLog.ResSystemOperateLogItem>>(PORT + `/system/logger/operate`, params);
 };
 
+// 恢复
+export const recoverSystemOperateLogApi = (id: number) => {
+  return http.put(PORT + `/system/logger/operate/${id}/recover`);
+};
+
 // 删除
-export const deleteSystemOperateLogApi = (params: SystemOperateLog.ReqSystemOperateLogDelete) => {
-  return http.post(PORT + `/system/logger/operate/delete`, params);
+export const deleteSystemOperateLogApi = (id: number) => {
+  return http.delete(PORT + `/system/logger/operate/${id}/delete`);
 };
 
 // 单个数据

@@ -236,7 +236,7 @@ func SystemMenuRecover(ctx context.Context, newCtx *app.RequestContext) {
 	})
 }
 
-func SystemMenuSearch(ctx context.Context, newCtx *app.RequestContext) {
+func SystemMenuListSimple(ctx context.Context, newCtx *app.RequestContext) {
 	SystemMenuList(ctx, newCtx)
 }
 

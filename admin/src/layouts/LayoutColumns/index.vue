@@ -11,7 +11,7 @@
             v-for="item in menuList"
             :key="item.path"
             class="split-item"
-            :class="{ 'split-active': splitActive === item.path || `/${splitActive.split('/')[1]}` === item.path }"
+            :class="{ 'split-active': splitActive === item.path }"
             @click="changeSubMenu(item)">
             <el-icon>
               <component :is="item.meta.icon" />
@@ -55,7 +55,7 @@ import Main from "@/layouts/components/Main/index.vue";
 import ToolBarLeft from "@/layouts/components/Header/ToolBarLeft.vue";
 import ToolBarRight from "@/layouts/components/Header/ToolBarRight.vue";
 import SubMenu from "@/layouts/components/Menu/SubMenu.vue";
-
+import { findRootMenuByPath } from "@/utils/index";
 const title = import.meta.env.VITE_GLOB_APP_TITLE;
 
 const route = useRoute();
@@ -68,17 +68,21 @@ const menuList = computed(() => authStore.showMenuListGet);
 const activeMenu = computed(() => (route.meta.activeMenu ? route.meta.activeMenu : route.path) as string);
 
 const subMenuList = ref<Menu.MenuOptions[]>([]);
-const splitActive = ref("");
+const splitActive = ref();
+
+const getActiveHeaderMenu = () => {
+  const menuItem = findRootMenuByPath(authStore.authMenuList, route.path);
+  return menuItem?.path || "";
+};
+
 watch(
   () => [menuList, route],
   () => {
     // 当前菜单没有数据直接 return
     if (!menuList.value.length) return;
-    splitActive.value = route.path;
-    const menuItem = menuList.value.filter((item: Menu.MenuOptions) => {
-      return route.path === item.path || `/${route.path.split("/")[1]}` === item.path;
-    });
-    if (menuItem[0].children?.length) return (subMenuList.value = menuItem[0].children);
+    splitActive.value = getActiveHeaderMenu();
+    const menuItem = findRootMenuByPath(menuList.value, route.path);
+    if (menuItem?.children?.length) return (subMenuList.value = menuItem.children);
     subMenuList.value = [];
   },
   {
@@ -89,8 +93,8 @@ watch(
 
 // change SubMenu
 const changeSubMenu = (item: Menu.MenuOptions) => {
-  splitActive.value = item.path;
-  if (item.children?.length) return (subMenuList.value = item.children);
+  splitActive.value = findRootMenuByPath(menuList.value, item.path);
+  if (item?.children?.length) return (subMenuList.value = item.children);
   subMenuList.value = [];
   router.push(item.path);
 };

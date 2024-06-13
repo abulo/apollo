@@ -161,7 +161,7 @@ import { useHandleData, useHandleSet } from "@/hooks/useHandleData";
 import { SystemUser } from "@/api/interface/systemUser";
 import { getSystemUserItemApi } from "@/api/modules/systemUser";
 import { SystemTenantPackage } from "@/api/interface/systemTenantPackage";
-import { getSystemTenantPackageSearchApi } from "@/api/modules/systemTenantPackage";
+import { getSystemTenantPackageListSimpleApi } from "@/api/modules/systemTenantPackage";
 import { useRouter } from "vue-router";
 import { HOME_URL } from "@/config";
 import { getTimeState } from "@/utils";
@@ -420,7 +420,7 @@ const handleUser = (row: SystemUser.ResSystemUserItem) => {
 
 onMounted(async () => {
   // 获取接口数据
-  let { data } = await getSystemTenantPackageSearchApi();
+  let { data } = await getSystemTenantPackageListSimpleApi();
   if (data === null) {
     data = [] as SystemTenantPackage.ResSystemTenantPackageItem[];
   }

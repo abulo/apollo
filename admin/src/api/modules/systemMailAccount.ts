@@ -1,10 +1,11 @@
 import { PORT } from "@/api/config/servicePort";
 import http from "@/api";
+import { ResPage } from "@/api/interface/index";
 import { SystemMailAccount } from "@/api/interface/systemMailAccount";
 
 // 获取邮箱账号列表
 export const getSystemMailAccountListApi = (params?: SystemMailAccount.ReqSystemMailAccountList) => {
-  return http.get<SystemMailAccount.ResSystemMailAccountItem[]>(PORT + `/system/mail/account`, params);
+  return http.get<ResPage<SystemMailAccount.ResSystemMailAccountItem>>(PORT + `/system/mail/account`, params);
 };
 
 // 获取单个邮箱账号
@@ -33,6 +34,6 @@ export const recoverSystemMailAccountApi = (id: number) => {
 };
 
 // 搜索邮箱账号
-export const getSystemMailAccountSearchApi = (params?: SystemMailAccount.ReqSystemMailAccountList) => {
-  return http.get<SystemMailAccount.ResSystemMailAccountItem[]>(PORT + `/system/mail/account/search`, params);
+export const getSystemMailAccountListSimpleApi = (params?: SystemMailAccount.ReqSystemMailAccountList) => {
+  return http.get<SystemMailAccount.ResSystemMailAccountItem[]>(PORT + `/system/mail/account/simple`, params);
 };

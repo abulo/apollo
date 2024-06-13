@@ -54,10 +54,10 @@ func SystemOperateLogDao(item *SystemOperateLogObject) *dao.SystemOperateLog {
 		daoItem.Result = item.Result // 结果(0 成功/1 失败)
 	}
 	if item != nil && item.Deleted != nil {
-		daoItem.Deleted = item.Deleted // 是否删除
+		daoItem.Deleted = item.Deleted // 删除
 	}
 	if item != nil && item.TenantId != nil {
-		daoItem.TenantId = item.TenantId // 租户ID
+		daoItem.TenantId = item.TenantId // 租户
 	}
 	if item != nil && item.Creator != nil {
 		daoItem.Creator = null.StringFrom(item.GetCreator()) // 创建人

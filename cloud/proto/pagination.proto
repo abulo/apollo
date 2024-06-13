@@ -1,0 +1,12 @@
+syntax = "proto3";
+// pagination 分页组件
+package pagination;
+option go_package = "cloud/service/pagination;pagination";
+
+message PaginationRequest {
+    // @inject_tag: db:"page_num" json:"pageNum"
+	optional int64 page_num = 1;
+	// @inject_tag: db:"page_size" json:"pageSize"
+	optional int64 page_size = 2;
+}
+

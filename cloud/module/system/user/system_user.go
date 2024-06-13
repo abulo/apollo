@@ -134,11 +134,12 @@ func SystemUserList(ctx context.Context, condition map[string]any) (res []dao.Sy
 		builder.OrLike("`system_user`.`mobile`", "%"+cast.ToString(val)+"%")
 		builder.RightBracket()
 	}
-	if !util.Empty(condition["offset"]) {
-		builder.Offset(cast.ToInt64(condition["offset"]))
-	}
-	if !util.Empty(condition["limit"]) {
-		builder.Limit(cast.ToInt64(condition["limit"]))
+	if val, ok := condition["pagination"]; ok {
+		pagination := val.(*sql.Pagination)
+		if pagination != nil {
+			builder.Offset(pagination.GetOffset())
+			builder.Limit(pagination.GetLimit())
+		}
 	}
 	builder.GroupBy("`system_user`.`id`")
 	builder.OrderBy("`system_user`.`id`", sql.DESC)

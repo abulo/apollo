@@ -7,6 +7,8 @@ type SystemLoginLogDelete struct {
 }
 
 type SystemLoginLogDrop struct {
+	Ids             null.JSON     `json:"ids,omitempty"`             // 日志编号
+	Deleted         *int32        `json:"deleted,omitempty"`         // 删除
 	Username        *string       `json:"username,omitempty"`        // 用户账号
 	BeginLoginTime  null.DateTime `json:"beginLoginTime,omitempty"`  // 开始登录时间
 	FinishLoginTime null.DateTime `json:"finishLoginTime,omitempty"` // 结束登录时间
@@ -18,6 +20,8 @@ type SystemOperateLogDelete struct {
 }
 
 type SystemOperateLogDrop struct {
+	Ids             null.JSON     `json:"ids,omitempty"`             // 日志编号
+	Deleted         *int32        `json:"deleted,omitempty"`         // 删除
 	Username        *string       `json:"username,omitempty"`        // 用户账号
 	Module          *string       `json:"module,omitempty"`          // 模块名称
 	BeginStartTime  null.DateTime `json:"beginStartTime,omitempty"`  // 开始操作时间

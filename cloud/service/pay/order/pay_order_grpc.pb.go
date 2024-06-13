@@ -2,7 +2,7 @@
 // versions:
 // - protoc-gen-go-grpc v1.4.0
 // - protoc             v5.27.1
-// source: order/pay_order.proto
+// source: pay_order.proto
 
 // pay_order 支付订单
 
@@ -340,5 +340,5 @@ var PayOrderService_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "order/pay_order.proto",
+	Metadata: "pay_order.proto",
 }

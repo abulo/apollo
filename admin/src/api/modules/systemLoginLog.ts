@@ -8,9 +8,14 @@ export const getSystemLoginLogListApi = (params?: SystemLoginLog.ReqSystemLoginL
   return http.get<ResPage<SystemLoginLog.ResSystemLoginLogItem>>(PORT + `/system/logger/login`, params);
 };
 
+// 恢复
+export const recoverSystemLoginLogApi = (id: number) => {
+  return http.put(PORT + `/system/logger/login/${id}/recover`);
+};
+
 // 删除
-export const deleteSystemLoginLogApi = (params: SystemLoginLog.ReqSystemLoginLogDelete) => {
-  return http.post(PORT + `/system/logger/login/delete`, params);
+export const deleteSystemLoginLogApi = (id: number) => {
+  return http.delete(PORT + `/system/logger/login/${id}/delete`);
 };
 
 // 单个数据

@@ -6,8 +6,6 @@ import (
 	"context"
 
 	"github.com/abulo/ratel/v3/stores/sql"
-	"github.com/abulo/ratel/v3/util"
-	"github.com/spf13/cast"
 )
 
 // system_operate_log 操作日志
@@ -23,19 +21,29 @@ func SystemOperateLogCreate(ctx context.Context, data dao.SystemOperateLog) (res
 	return
 }
 
-// SystemOperateLogDelete 删除数据
-func SystemOperateLogDelete(ctx context.Context, ids []int64) (res int64, err error) {
+// SystemOperateLogUpdate 更新数据
+func SystemOperateLogUpdate(ctx context.Context, id int64, data dao.SystemOperateLog) (res int64, err error) {
 	db := initial.Core.Store.LoadSQL("mysql").Write()
 	builder := sql.NewBuilder()
-	id := make([]any, 0)
-	for _, v := range ids {
-		id = append(id, v)
-	}
-	query, args, err := builder.Table("`system_operate_log`").In("`id`", id...).Delete()
+	query, args, err := builder.Table("`system_operate_log`").Where("`id`", id).Update(data)
 	if err != nil {
 		return
 	}
-	res, err = db.Delete(ctx, query, args...)
+	res, err = db.Update(ctx, query, args...)
+	return
+}
+
+// SystemOperateLogDelete 删除数据
+func SystemOperateLogDelete(ctx context.Context, id int64) (res int64, err error) {
+	db := initial.Core.Store.LoadSQL("mysql").Write()
+	builder := sql.NewBuilder()
+	data := make(map[string]any)
+	data["deleted"] = 1
+	query, args, err := builder.Table("`system_operate_log`").Where("`id`", id).Update(data)
+	if err != nil {
+		return
+	}
+	res, err = db.Update(ctx, query, args...)
 	return
 }
 
@@ -51,11 +59,31 @@ func SystemOperateLog(ctx context.Context, id int64) (res dao.SystemOperateLog, 
 	return
 }
 
+// SystemOperateLogRecover 恢复数据
+func SystemOperateLogRecover(ctx context.Context, id int64) (res int64, err error) {
+	db := initial.Core.Store.LoadSQL("mysql").Write()
+	builder := sql.NewBuilder()
+	data := make(map[string]any)
+	data["deleted"] = 0
+	query, args, err := builder.Table("`system_operate_log`").Where("`id`", id).Update(data)
+	if err != nil {
+		return
+	}
+	res, err = db.Update(ctx, query, args...)
+	return
+}
+
 // SystemOperateLogList 查询列表数据
 func SystemOperateLogList(ctx context.Context, condition map[string]any) (res []dao.SystemOperateLog, err error) {
 	db := initial.Core.Store.LoadSQL("mysql").Read()
 	builder := sql.NewBuilder()
 	builder.Table("`system_operate_log`")
+	if val, ok := condition["tenantId"]; ok {
+		builder.Where("`tenant_id`", val)
+	}
+	if val, ok := condition["deleted"]; ok {
+		builder.Where("`deleted`", val)
+	}
 	if val, ok := condition["username"]; ok {
 		builder.Where("`username`", val)
 	}
@@ -72,11 +100,12 @@ func SystemOperateLogList(ctx context.Context, condition map[string]any) (res []
 		builder.Where("`result`", val)
 	}
 
-	if !util.Empty(condition["offset"]) {
-		builder.Offset(cast.ToInt64(condition["offset"]))
-	}
-	if !util.Empty(condition["limit"]) {
-		builder.Limit(cast.ToInt64(condition["limit"]))
+	if val, ok := condition["pagination"]; ok {
+		pagination := val.(*sql.Pagination)
+		if pagination != nil {
+			builder.Offset(pagination.GetOffset())
+			builder.Limit(pagination.GetLimit())
+		}
 	}
 	builder.OrderBy("`id`", sql.DESC)
 	query, args, err := builder.Rows()
@@ -92,6 +121,12 @@ func SystemOperateLogListTotal(ctx context.Context, condition map[string]any) (r
 	db := initial.Core.Store.LoadSQL("mysql").Read()
 	builder := sql.NewBuilder()
 	builder.Table("`system_operate_log`")
+	if val, ok := condition["tenantId"]; ok {
+		builder.Where("`tenant_id`", val)
+	}
+	if val, ok := condition["deleted"]; ok {
+		builder.Where("`deleted`", val)
+	}
 	if val, ok := condition["username"]; ok {
 		builder.Where("`username`", val)
 	}
@@ -116,11 +151,28 @@ func SystemOperateLogListTotal(ctx context.Context, condition map[string]any) (r
 	return
 }
 
-// SystemOperateLogDrop 清理数据
 func SystemOperateLogDrop(ctx context.Context, condition map[string]any) (res int64, err error) {
-	db := initial.Core.Store.LoadSQL("mysql").Read()
+	data := make(map[string]any)
+	data["deleted"] = 1
+	db := initial.Core.Store.LoadSQL("mysql").Write()
 	builder := sql.NewBuilder()
 	builder.Table("`system_operate_log`")
+	var query string
+	var args []any
+	if val, ok := condition["ids"]; ok {
+		ids := val.([]int64)
+		id := make([]any, 0)
+		for _, v := range ids {
+			id = append(id, v)
+		}
+		builder.In("`id`", id...)
+	}
+	if val, ok := condition["tenantId"]; ok {
+		builder.Where("`tenant_id`", val)
+	}
+	if val, ok := condition["deleted"]; ok {
+		builder.Where("`deleted`", val)
+	}
 	if val, ok := condition["username"]; ok {
 		builder.Where("`username`", val)
 	}
@@ -136,11 +188,10 @@ func SystemOperateLogDrop(ctx context.Context, condition map[string]any) (res in
 	if val, ok := condition["result"]; ok {
 		builder.Where("`result`", val)
 	}
-
-	query, args, err := builder.Delete()
+	query, args, err = builder.Update(data)
 	if err != nil {
 		return
 	}
-	res, err = db.Delete(ctx, query, args...)
+	res, err = db.Update(ctx, query, args...)
 	return
 }

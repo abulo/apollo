@@ -2,7 +2,7 @@
 // versions:
 // - protoc-gen-go-grpc v1.4.0
 // - protoc             v5.27.1
-// source: dict/system_dict.proto
+// source: system_dict.proto
 
 // system_dict 字典数据表
 
@@ -21,11 +21,12 @@ import (
 const _ = grpc.SupportPackageIsVersion8
 
 const (
-	SystemDictService_SystemDictCreate_FullMethodName = "/dict.SystemDictService/SystemDictCreate"
-	SystemDictService_SystemDictUpdate_FullMethodName = "/dict.SystemDictService/SystemDictUpdate"
-	SystemDictService_SystemDictDelete_FullMethodName = "/dict.SystemDictService/SystemDictDelete"
-	SystemDictService_SystemDict_FullMethodName       = "/dict.SystemDictService/SystemDict"
-	SystemDictService_SystemDictList_FullMethodName   = "/dict.SystemDictService/SystemDictList"
+	SystemDictService_SystemDictCreate_FullMethodName    = "/dict.SystemDictService/SystemDictCreate"
+	SystemDictService_SystemDictUpdate_FullMethodName    = "/dict.SystemDictService/SystemDictUpdate"
+	SystemDictService_SystemDictDelete_FullMethodName    = "/dict.SystemDictService/SystemDictDelete"
+	SystemDictService_SystemDict_FullMethodName          = "/dict.SystemDictService/SystemDict"
+	SystemDictService_SystemDictList_FullMethodName      = "/dict.SystemDictService/SystemDictList"
+	SystemDictService_SystemDictListTotal_FullMethodName = "/dict.SystemDictService/SystemDictListTotal"
 )
 
 // SystemDictServiceClient is the client API for SystemDictService service.
@@ -39,6 +40,7 @@ type SystemDictServiceClient interface {
 	SystemDictDelete(ctx context.Context, in *SystemDictDeleteRequest, opts ...grpc.CallOption) (*SystemDictDeleteResponse, error)
 	SystemDict(ctx context.Context, in *SystemDictRequest, opts ...grpc.CallOption) (*SystemDictResponse, error)
 	SystemDictList(ctx context.Context, in *SystemDictListRequest, opts ...grpc.CallOption) (*SystemDictListResponse, error)
+	SystemDictListTotal(ctx context.Context, in *SystemDictListTotalRequest, opts ...grpc.CallOption) (*SystemDictTotalResponse, error)
 }
 
 type systemDictServiceClient struct {
@@ -99,6 +101,16 @@ func (c *systemDictServiceClient) SystemDictList(ctx context.Context, in *System
 	return out, nil
 }
 
+func (c *systemDictServiceClient) SystemDictListTotal(ctx context.Context, in *SystemDictListTotalRequest, opts ...grpc.CallOption) (*SystemDictTotalResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(SystemDictTotalResponse)
+	err := c.cc.Invoke(ctx, SystemDictService_SystemDictListTotal_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // SystemDictServiceServer is the server API for SystemDictService service.
 // All implementations must embed UnimplementedSystemDictServiceServer
 // for forward compatibility
@@ -110,6 +122,7 @@ type SystemDictServiceServer interface {
 	SystemDictDelete(context.Context, *SystemDictDeleteRequest) (*SystemDictDeleteResponse, error)
 	SystemDict(context.Context, *SystemDictRequest) (*SystemDictResponse, error)
 	SystemDictList(context.Context, *SystemDictListRequest) (*SystemDictListResponse, error)
+	SystemDictListTotal(context.Context, *SystemDictListTotalRequest) (*SystemDictTotalResponse, error)
 	mustEmbedUnimplementedSystemDictServiceServer()
 }
 
@@ -131,6 +144,9 @@ func (UnimplementedSystemDictServiceServer) SystemDict(context.Context, *SystemD
 }
 func (UnimplementedSystemDictServiceServer) SystemDictList(context.Context, *SystemDictListRequest) (*SystemDictListResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SystemDictList not implemented")
+}
+func (UnimplementedSystemDictServiceServer) SystemDictListTotal(context.Context, *SystemDictListTotalRequest) (*SystemDictTotalResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SystemDictListTotal not implemented")
 }
 func (UnimplementedSystemDictServiceServer) mustEmbedUnimplementedSystemDictServiceServer() {}
 
@@ -235,6 +251,24 @@ func _SystemDictService_SystemDictList_Handler(srv interface{}, ctx context.Cont
 	return interceptor(ctx, in, info, handler)
 }
 
+func _SystemDictService_SystemDictListTotal_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SystemDictListTotalRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SystemDictServiceServer).SystemDictListTotal(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: SystemDictService_SystemDictListTotal_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SystemDictServiceServer).SystemDictListTotal(ctx, req.(*SystemDictListTotalRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // SystemDictService_ServiceDesc is the grpc.ServiceDesc for SystemDictService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -262,7 +296,11 @@ var SystemDictService_ServiceDesc = grpc.ServiceDesc{
 			MethodName: "SystemDictList",
 			Handler:    _SystemDictService_SystemDictList_Handler,
 		},
+		{
+			MethodName: "SystemDictListTotal",
+			Handler:    _SystemDictService_SystemDictListTotal_Handler,
+		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "dict/system_dict.proto",
+	Metadata: "system_dict.proto",
 }

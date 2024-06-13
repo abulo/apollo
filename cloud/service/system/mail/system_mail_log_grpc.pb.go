@@ -2,7 +2,7 @@
 // versions:
 // - protoc-gen-go-grpc v1.4.0
 // - protoc             v5.27.1
-// source: mail/system_mail_log.proto
+// source: system_mail_log.proto
 
 // system_mail_log 邮件日志表
 
@@ -340,5 +340,5 @@ var SystemMailLogService_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "mail/system_mail_log.proto",
+	Metadata: "system_mail_log.proto",
 }

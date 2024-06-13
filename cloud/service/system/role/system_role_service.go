@@ -139,6 +139,26 @@ func (srv SrvSystemRoleServiceServer) SystemRoleList(ctx context.Context, reques
 		condition["name"] = request.GetName()
 	}
 
+	paginationRequest := request.GetPagination()
+	if paginationRequest != nil {
+		// 当前页面
+		pageNum := paginationRequest.GetPageNum()
+		// 每页多少数据
+		pageSize := paginationRequest.GetPageSize()
+		if pageNum < 1 {
+			pageNum = 1
+		}
+		if pageSize < 1 {
+			pageSize = 10
+		}
+		// 分页数据
+		offset := pageSize * (pageNum - 1)
+		pagination := &sql.Pagination{
+			Offset: &offset,
+			Limit:  &pageSize,
+		}
+		condition["pagination"] = pagination
+	}
 	// 获取数据集合
 	list, err := role.SystemRoleList(ctx, condition)
 	if sql.ResultAccept(err) != nil {
@@ -158,6 +178,44 @@ func (srv SrvSystemRoleServiceServer) SystemRoleList(ctx context.Context, reques
 		Data: res,
 	}, nil
 }
+
+// SystemRoleListTotal 获取总数
+func (srv SrvSystemRoleServiceServer) SystemRoleListTotal(ctx context.Context, request *SystemRoleListTotalRequest) (*SystemRoleTotalResponse, error) {
+	// 数据库查询条件
+	condition := make(map[string]any)
+	// 构造查询条件
+	if request.TenantId != nil {
+		condition["tenantId"] = request.GetTenantId()
+	}
+	if request.Deleted != nil {
+		condition["deleted"] = request.GetDeleted()
+	}
+	if request.Type != nil {
+		condition["type"] = request.GetType()
+	}
+	if request.Status != nil {
+		condition["status"] = request.GetStatus()
+	}
+	if request.Name != nil {
+		condition["name"] = request.GetName()
+	}
+
+	// 获取数据集合
+	total, err := role.SystemRoleListTotal(ctx, condition)
+	if sql.ResultAccept(err) != nil {
+		globalLogger.Logger.WithFields(logrus.Fields{
+			"req": condition,
+			"err": err,
+		}).Error("Sql:系统角色:system_role:SystemRoleListTotal")
+		return &SystemRoleTotalResponse{}, status.Error(code.ConvertToGrpc(code.SqlError), err.Error())
+	}
+	return &SystemRoleTotalResponse{
+		Code: code.Success,
+		Msg:  code.StatusText(code.Success),
+		Data: total,
+	}, nil
+}
+
 func (srv SrvSystemRoleServiceServer) SystemRoleDataScopeCreate(ctx context.Context, request *SystemRoleDataScopeCreateRequest) (*SystemRoleDataScopeCreateResponse, error) {
 	id := request.GetId()
 	if id < 1 {

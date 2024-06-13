@@ -7,7 +7,6 @@ import (
 
 	"github.com/abulo/ratel/v3/stores/null"
 	"github.com/abulo/ratel/v3/stores/sql"
-	"github.com/abulo/ratel/v3/util"
 	"github.com/spf13/cast"
 	"google.golang.org/protobuf/proto"
 )
@@ -169,11 +168,12 @@ func SystemTenantList(ctx context.Context, condition map[string]any) (res []dao.
 		builder.Where("`system_tenant_package_id`", val)
 	}
 
-	if !util.Empty(condition["offset"]) {
-		builder.Offset(cast.ToInt64(condition["offset"]))
-	}
-	if !util.Empty(condition["limit"]) {
-		builder.Limit(cast.ToInt64(condition["limit"]))
+	if val, ok := condition["pagination"]; ok {
+		pagination := val.(*sql.Pagination)
+		if pagination != nil {
+			builder.Offset(pagination.GetOffset())
+			builder.Limit(pagination.GetLimit())
+		}
 	}
 	builder.OrderBy("`id`", sql.DESC)
 	query, args, err := builder.Rows()

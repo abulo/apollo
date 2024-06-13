@@ -40,17 +40,37 @@ func (srv SrvSystemLoginLogServiceServer) SystemLoginLogCreate(ctx context.Conte
 	}, nil
 }
 
-// SystemLoginLogDelete 删除数据
-func (srv SrvSystemLoginLogServiceServer) SystemLoginLogDelete(ctx context.Context, request *SystemLoginLogDeleteRequest) (*SystemLoginLogDeleteResponse, error) {
-	req := request.GetIds()
-	var ids []int64
-	if err := json.Unmarshal(req, &ids); err != nil {
-		return &SystemLoginLogDeleteResponse{}, status.Error(code.ConvertToGrpc(code.ParamInvalid), code.StatusText(code.ParamInvalid))
+// SystemLoginLogUpdate 更新数据
+func (srv SrvSystemLoginLogServiceServer) SystemLoginLogUpdate(ctx context.Context, request *SystemLoginLogUpdateRequest) (*SystemLoginLogUpdateResponse, error) {
+	id := request.GetId()
+	if id < 1 {
+		return &SystemLoginLogUpdateResponse{}, status.Error(code.ConvertToGrpc(code.ParamInvalid), code.StatusText(code.ParamInvalid))
 	}
-	_, err := logger.SystemLoginLogDelete(ctx, ids)
+	req := SystemLoginLogDao(request.GetData())
+	_, err := logger.SystemLoginLogUpdate(ctx, id, *req)
 	if sql.ResultAccept(err) != nil {
 		globalLogger.Logger.WithFields(logrus.Fields{
 			"req": req,
+			"err": err,
+		}).Error("Sql:登录日志:system_login_log:SystemLoginLogUpdate")
+		return &SystemLoginLogUpdateResponse{}, status.Error(code.ConvertToGrpc(code.SqlError), err.Error())
+	}
+	return &SystemLoginLogUpdateResponse{
+		Code: code.Success,
+		Msg:  code.StatusText(code.Success),
+	}, nil
+}
+
+// SystemLoginLogDelete 删除数据
+func (srv SrvSystemLoginLogServiceServer) SystemLoginLogDelete(ctx context.Context, request *SystemLoginLogDeleteRequest) (*SystemLoginLogDeleteResponse, error) {
+	id := request.GetId()
+	if id < 1 {
+		return &SystemLoginLogDeleteResponse{}, status.Error(code.ConvertToGrpc(code.ParamInvalid), code.StatusText(code.ParamInvalid))
+	}
+	_, err := logger.SystemLoginLogDelete(ctx, id)
+	if sql.ResultAccept(err) != nil {
+		globalLogger.Logger.WithFields(logrus.Fields{
+			"req": id,
 			"err": err,
 		}).Error("Sql:登录日志:system_login_log:SystemLoginLogDelete")
 		return &SystemLoginLogDeleteResponse{}, status.Error(code.ConvertToGrpc(code.SqlError), err.Error())
@@ -81,10 +101,36 @@ func (srv SrvSystemLoginLogServiceServer) SystemLoginLog(ctx context.Context, re
 		Data: SystemLoginLogProto(res),
 	}, nil
 }
+
+// SystemLoginLogRecover 恢复数据
+func (srv SrvSystemLoginLogServiceServer) SystemLoginLogRecover(ctx context.Context, request *SystemLoginLogRecoverRequest) (*SystemLoginLogRecoverResponse, error) {
+	id := request.GetId()
+	if id < 1 {
+		return &SystemLoginLogRecoverResponse{}, status.Error(code.ConvertToGrpc(code.ParamInvalid), code.StatusText(code.ParamInvalid))
+	}
+	_, err := logger.SystemLoginLogRecover(ctx, id)
+	if sql.ResultAccept(err) != nil {
+		globalLogger.Logger.WithFields(logrus.Fields{
+			"req": id,
+			"err": err,
+		}).Error("Sql:登录日志:system_login_log:SystemLoginLogRecover")
+		return &SystemLoginLogRecoverResponse{}, status.Error(code.ConvertToGrpc(code.SqlError), err.Error())
+	}
+	return &SystemLoginLogRecoverResponse{
+		Code: code.Success,
+		Msg:  code.StatusText(code.Success),
+	}, nil
+}
 func (srv SrvSystemLoginLogServiceServer) SystemLoginLogList(ctx context.Context, request *SystemLoginLogListRequest) (*SystemLoginLogListResponse, error) {
 	// 数据库查询条件
 	condition := make(map[string]any)
 	// 构造查询条件
+	if request.TenantId != nil {
+		condition["tenantId"] = request.GetTenantId()
+	}
+	if request.Deleted != nil {
+		condition["deleted"] = request.GetDeleted()
+	}
 	if request.Username != nil {
 		condition["username"] = request.GetUsername()
 	}
@@ -98,20 +144,26 @@ func (srv SrvSystemLoginLogServiceServer) SystemLoginLogList(ctx context.Context
 		condition["channel"] = request.GetChannel()
 	}
 
-	// 当前页面
-	pageNum := request.GetPageNum()
-	// 每页多少数据
-	pageSize := request.GetPageSize()
-	if pageNum < 1 {
-		pageNum = 1
+	paginationRequest := request.GetPagination()
+	if paginationRequest != nil {
+		// 当前页面
+		pageNum := paginationRequest.GetPageNum()
+		// 每页多少数据
+		pageSize := paginationRequest.GetPageSize()
+		if pageNum < 1 {
+			pageNum = 1
+		}
+		if pageSize < 1 {
+			pageSize = 10
+		}
+		// 分页数据
+		offset := pageSize * (pageNum - 1)
+		pagination := &sql.Pagination{
+			Offset: &offset,
+			Limit:  &pageSize,
+		}
+		condition["pagination"] = pagination
 	}
-	if pageSize < 1 {
-		pageSize = 10
-	}
-	// 分页数据
-	offset := pageSize * (pageNum - 1)
-	condition["offset"] = offset
-	condition["limit"] = pageSize
 	// 获取数据集合
 	list, err := logger.SystemLoginLogList(ctx, condition)
 	if sql.ResultAccept(err) != nil {
@@ -137,6 +189,12 @@ func (srv SrvSystemLoginLogServiceServer) SystemLoginLogListTotal(ctx context.Co
 	// 数据库查询条件
 	condition := make(map[string]any)
 	// 构造查询条件
+	if request.TenantId != nil {
+		condition["tenantId"] = request.GetTenantId()
+	}
+	if request.Deleted != nil {
+		condition["deleted"] = request.GetDeleted()
+	}
 	if request.Username != nil {
 		condition["username"] = request.GetUsername()
 	}
@@ -167,9 +225,22 @@ func (srv SrvSystemLoginLogServiceServer) SystemLoginLogListTotal(ctx context.Co
 }
 
 func (srv SrvSystemLoginLogServiceServer) SystemLoginLogDrop(ctx context.Context, request *SystemLoginLogDropRequest) (*SystemLoginLogDropResponse, error) {
-	// 数据库查询条件
 	condition := make(map[string]any)
 	// 构造查询条件
+	if request.Ids != nil {
+		req := request.GetIds()
+		var ids []int64
+		if err := json.Unmarshal(req, &ids); err != nil {
+			return &SystemLoginLogDropResponse{}, status.Error(code.ConvertToGrpc(code.ParamInvalid), code.StatusText(code.ParamInvalid))
+		}
+		condition["ids"] = ids
+	}
+	if request.TenantId != nil {
+		condition["tenantId"] = request.GetTenantId()
+	}
+	if request.Deleted != nil {
+		condition["deleted"] = request.GetDeleted()
+	}
 	if request.Username != nil {
 		condition["username"] = request.GetUsername()
 	}

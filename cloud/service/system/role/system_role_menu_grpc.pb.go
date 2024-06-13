@@ -2,7 +2,7 @@
 // versions:
 // - protoc-gen-go-grpc v1.4.0
 // - protoc             v5.27.1
-// source: role/system_role_menu.proto
+// source: system_role_menu.proto
 
 // system_role_menu 系统角色和系统菜单关联表
 
@@ -150,5 +150,5 @@ var SystemRoleMenuService_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "role/system_role_menu.proto",
+	Metadata: "system_role_menu.proto",
 }

@@ -6,6 +6,7 @@ import (
 	"cloud/code"
 	"cloud/dao"
 	"cloud/initial"
+	"cloud/service/pagination"
 	"cloud/service/system/mail"
 
 	globalLogger "github.com/abulo/ratel/v3/core/logger"
@@ -47,9 +48,9 @@ func SystemMailAccountCreate(ctx context.Context, newCtx *app.RequestContext) {
 		})
 		return
 	}
+	reqInfo.Deleted = proto.Int32(0)
 	reqInfo.Creator = null.StringFrom(newCtx.GetString("userName"))
 	reqInfo.CreateTime = null.DateTimeFrom(util.Now())
-	reqInfo.Deleted = proto.Int32(0)
 	request.Data = mail.SystemMailAccountProto(reqInfo)
 	// 执行服务
 	res, err := client.SystemMailAccountCreate(ctx, request)
@@ -101,6 +102,8 @@ func SystemMailAccountUpdate(ctx context.Context, newCtx *app.RequestContext) {
 	}
 	reqInfo.Updater = null.StringFrom(newCtx.GetString("userName"))
 	reqInfo.UpdateTime = null.DateTimeFrom(util.Now())
+	reqInfo.Creator = null.StringFromPtr(nil)
+	reqInfo.CreateTime = null.DateTimeFromPtr(nil)
 	request.Data = mail.SystemMailAccountProto(reqInfo)
 	// 执行服务
 	res, err := client.SystemMailAccountUpdate(ctx, request)
@@ -238,11 +241,6 @@ func SystemMailAccountRecover(ctx context.Context, newCtx *app.RequestContext) {
 	})
 }
 
-// SystemMailAccountSearch 列表数据
-func SystemMailAccountSearch(ctx context.Context, newCtx *app.RequestContext) {
-	SystemMailAccountList(ctx, newCtx)
-}
-
 // SystemMailAccountList 列表数据
 func SystemMailAccountList(ctx context.Context, newCtx *app.RequestContext) {
 	grpcClient, err := initial.Core.Client.LoadGrpc("grpc").Singleton()
@@ -260,7 +258,96 @@ func SystemMailAccountList(ctx context.Context, newCtx *app.RequestContext) {
 	client := mail.NewSystemMailAccountServiceClient(grpcClient)
 	// 构造查询条件
 	request := &mail.SystemMailAccountListRequest{}
+	requestTotal := &mail.SystemMailAccountListTotalRequest{}
+	request.Deleted = proto.Int32(0)      // 删除状态
+	requestTotal.Deleted = proto.Int32(0) // 删除状态
+	if val, ok := newCtx.GetQuery("deleted"); ok {
+		if cast.ToBool(val) {
+			request.Deleted = nil
+			requestTotal.Deleted = nil
+		}
+	}
+	if val, ok := newCtx.GetQuery("mail"); ok {
+		request.Mail = proto.String(val)      // 邮箱
+		requestTotal.Mail = proto.String(val) // 邮箱
+	}
+	if val, ok := newCtx.GetQuery("username"); ok {
+		request.Username = proto.String(val)      // 用户名
+		requestTotal.Username = proto.String(val) // 用户名
+	}
 
+	// 执行服务,获取数据量
+	resTotal, err := client.SystemMailAccountListTotal(ctx, requestTotal)
+	if err != nil {
+		globalLogger.Logger.WithFields(logrus.Fields{
+			"req": request,
+			"err": err,
+		}).Error("GrpcCall:邮箱账号表:system_mail_account:SystemMailAccountList")
+		fromError := status.Convert(err)
+		newCtx.JSON(consts.StatusOK, utils.H{
+			"code": code.ConvertToHttp(fromError.Code()),
+			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
+		})
+		return
+	}
+	var total int64
+	paginationRequest := &pagination.PaginationRequest{}
+	paginationRequest.PageNum = proto.Int64(cast.ToInt64(newCtx.Query("pageNum")))
+	paginationRequest.PageSize = proto.Int64(cast.ToInt64(newCtx.Query("pageSize")))
+	request.Pagination = paginationRequest
+	if resTotal.GetCode() == code.Success {
+		total = resTotal.GetData()
+	}
+	// 执行服务
+	res, err := client.SystemMailAccountList(ctx, request)
+	if err != nil {
+		globalLogger.Logger.WithFields(logrus.Fields{
+			"req": request,
+			"err": err,
+		}).Error("GrpcCall:邮箱账号表:system_mail_account:SystemMailAccountList")
+		fromError := status.Convert(err)
+		newCtx.JSON(consts.StatusOK, utils.H{
+			"code": code.ConvertToHttp(fromError.Code()),
+			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
+		})
+		return
+	}
+	var list []*dao.SystemMailAccount
+	if res.GetCode() == code.Success {
+		rpcList := res.GetData()
+		for _, item := range rpcList {
+			list = append(list, mail.SystemMailAccountDao(item))
+		}
+	}
+	newCtx.JSON(consts.StatusOK, utils.H{
+		"code": res.GetCode(),
+		"msg":  res.GetMsg(),
+		"data": utils.H{
+			"total":    total,
+			"list":     list,
+			"pageNum":  paginationRequest.PageNum,
+			"pageSize": paginationRequest.PageSize,
+		},
+	})
+}
+
+// SystemMailAccountListSimple 精简列表数据
+func SystemMailAccountListSimple(ctx context.Context, newCtx *app.RequestContext) {
+	grpcClient, err := initial.Core.Client.LoadGrpc("grpc").Singleton()
+	if err != nil {
+		globalLogger.Logger.WithFields(logrus.Fields{
+			"err": err,
+		}).Error("Grpc:邮箱账号表:system_mail_account:SystemMailAccountList")
+		newCtx.JSON(consts.StatusOK, utils.H{
+			"code": code.RPCError,
+			"msg":  code.StatusText(code.RPCError),
+		})
+		return
+	}
+	//链接服务
+	client := mail.NewSystemMailAccountServiceClient(grpcClient)
+	// 构造查询条件
+	request := &mail.SystemMailAccountListRequest{}
 	request.Deleted = proto.Int32(0) // 删除状态
 	if val, ok := newCtx.GetQuery("deleted"); ok {
 		if cast.ToBool(val) {

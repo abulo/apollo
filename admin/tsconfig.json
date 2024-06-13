@@ -38,6 +38,6 @@
     "build/**/*.ts",
     "build/**/*.d.ts",
     "vite.config.ts"
-  ],
+, "src/plugin/vxeTable.ts"  ],
   "exclude": ["node_modules", "dist", "**/*.js"]
 }

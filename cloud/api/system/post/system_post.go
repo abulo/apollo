@@ -6,6 +6,7 @@ import (
 	"cloud/code"
 	"cloud/dao"
 	"cloud/initial"
+	"cloud/service/pagination"
 	"cloud/service/system/post"
 
 	globalLogger "github.com/abulo/ratel/v3/core/logger"
@@ -48,7 +49,7 @@ func SystemPostCreate(ctx context.Context, newCtx *app.RequestContext) {
 		return
 	}
 	reqInfo.Deleted = proto.Int32(0)
-	reqInfo.TenantId = proto.Int64(newCtx.GetInt64("tenantId"))
+	reqInfo.TenantId = proto.Int64(newCtx.GetInt64("tenantId")) // 租户
 	reqInfo.Creator = null.StringFrom(newCtx.GetString("userName"))
 	reqInfo.CreateTime = null.DateTimeFrom(util.Now())
 	request.Data = post.SystemPostProto(reqInfo)
@@ -103,6 +104,8 @@ func SystemPostUpdate(ctx context.Context, newCtx *app.RequestContext) {
 	reqInfo.TenantId = proto.Int64(newCtx.GetInt64("tenantId")) // 租户
 	reqInfo.Updater = null.StringFrom(newCtx.GetString("userName"))
 	reqInfo.UpdateTime = null.DateTimeFrom(util.Now())
+	reqInfo.Creator = null.StringFromPtr(nil)
+	reqInfo.CreateTime = null.DateTimeFromPtr(nil)
 	request.Data = post.SystemPostProto(reqInfo)
 	// 执行服务
 	res, err := client.SystemPostUpdate(ctx, request)
@@ -240,10 +243,7 @@ func SystemPostRecover(ctx context.Context, newCtx *app.RequestContext) {
 	})
 }
 
-// SystemPostSearch 列表数据
-func SystemPostSearch(ctx context.Context, newCtx *app.RequestContext) {
-	SystemPostList(ctx, newCtx)
-}
+// SystemPostList 列表数据
 func SystemPostList(ctx context.Context, newCtx *app.RequestContext) {
 	grpcClient, err := initial.Core.Client.LoadGrpc("grpc").Singleton()
 	if err != nil {
@@ -260,7 +260,98 @@ func SystemPostList(ctx context.Context, newCtx *app.RequestContext) {
 	client := post.NewSystemPostServiceClient(grpcClient)
 	// 构造查询条件
 	request := &post.SystemPostListRequest{}
+	requestTotal := &post.SystemPostListTotalRequest{}
+	request.TenantId = proto.Int64(newCtx.GetInt64("tenantId"))      // 租户ID
+	requestTotal.TenantId = proto.Int64(newCtx.GetInt64("tenantId")) // 租户ID
+	request.Deleted = proto.Int32(0)                                 // 删除状态
+	requestTotal.Deleted = proto.Int32(0)                            // 删除状态
+	if val, ok := newCtx.GetQuery("deleted"); ok {
+		if cast.ToBool(val) {
+			request.Deleted = nil
+			requestTotal.Deleted = nil
+		}
+	}
+	if val, ok := newCtx.GetQuery("status"); ok {
+		request.Status = proto.Int32(cast.ToInt32(val))      // 状态
+		requestTotal.Status = proto.Int32(cast.ToInt32(val)) // 状态
+	}
+	if val, ok := newCtx.GetQuery("name"); ok {
+		request.Name = proto.String(val)      // 职位名称
+		requestTotal.Name = proto.String(val) // 职位名称
+	}
 
+	// 执行服务,获取数据量
+	resTotal, err := client.SystemPostListTotal(ctx, requestTotal)
+	if err != nil {
+		globalLogger.Logger.WithFields(logrus.Fields{
+			"req": request,
+			"err": err,
+		}).Error("GrpcCall:职位:system_post:SystemPostList")
+		fromError := status.Convert(err)
+		newCtx.JSON(consts.StatusOK, utils.H{
+			"code": code.ConvertToHttp(fromError.Code()),
+			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
+		})
+		return
+	}
+	var total int64
+	paginationRequest := &pagination.PaginationRequest{}
+	paginationRequest.PageNum = proto.Int64(cast.ToInt64(newCtx.Query("pageNum")))
+	paginationRequest.PageSize = proto.Int64(cast.ToInt64(newCtx.Query("pageSize")))
+	request.Pagination = paginationRequest
+	if resTotal.GetCode() == code.Success {
+		total = resTotal.GetData()
+	}
+	// 执行服务
+	res, err := client.SystemPostList(ctx, request)
+	if err != nil {
+		globalLogger.Logger.WithFields(logrus.Fields{
+			"req": request,
+			"err": err,
+		}).Error("GrpcCall:职位:system_post:SystemPostList")
+		fromError := status.Convert(err)
+		newCtx.JSON(consts.StatusOK, utils.H{
+			"code": code.ConvertToHttp(fromError.Code()),
+			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
+		})
+		return
+	}
+	var list []*dao.SystemPost
+	if res.GetCode() == code.Success {
+		rpcList := res.GetData()
+		for _, item := range rpcList {
+			list = append(list, post.SystemPostDao(item))
+		}
+	}
+	newCtx.JSON(consts.StatusOK, utils.H{
+		"code": res.GetCode(),
+		"msg":  res.GetMsg(),
+		"data": utils.H{
+			"total":    total,
+			"list":     list,
+			"pageNum":  paginationRequest.PageNum,
+			"pageSize": paginationRequest.PageSize,
+		},
+	})
+}
+
+// SystemPostListSimple 精简列表数据
+func SystemPostListSimple(ctx context.Context, newCtx *app.RequestContext) {
+	grpcClient, err := initial.Core.Client.LoadGrpc("grpc").Singleton()
+	if err != nil {
+		globalLogger.Logger.WithFields(logrus.Fields{
+			"err": err,
+		}).Error("Grpc:职位:system_post:SystemPostList")
+		newCtx.JSON(consts.StatusOK, utils.H{
+			"code": code.RPCError,
+			"msg":  code.StatusText(code.RPCError),
+		})
+		return
+	}
+	//链接服务
+	client := post.NewSystemPostServiceClient(grpcClient)
+	// 构造查询条件
+	request := &post.SystemPostListRequest{}
 	request.TenantId = proto.Int64(newCtx.GetInt64("tenantId")) // 租户ID
 	request.Deleted = proto.Int32(0)                            // 删除状态
 	if val, ok := newCtx.GetQuery("deleted"); ok {

@@ -132,6 +132,26 @@ func (srv SrvSystemTenantPackageServiceServer) SystemTenantPackageList(ctx conte
 	if request.Name != nil {
 		condition["name"] = request.GetName()
 	}
+	paginationRequest := request.GetPagination()
+	if paginationRequest != nil {
+		// 当前页面
+		pageNum := paginationRequest.GetPageNum()
+		// 每页多少数据
+		pageSize := paginationRequest.GetPageSize()
+		if pageNum < 1 {
+			pageNum = 1
+		}
+		if pageSize < 1 {
+			pageSize = 10
+		}
+		// 分页数据
+		offset := pageSize * (pageNum - 1)
+		pagination := &sql.Pagination{
+			Offset: &offset,
+			Limit:  &pageSize,
+		}
+		condition["pagination"] = pagination
+	}
 
 	// 获取数据集合
 	list, err := tenant.SystemTenantPackageList(ctx, condition)
@@ -150,5 +170,35 @@ func (srv SrvSystemTenantPackageServiceServer) SystemTenantPackageList(ctx conte
 		Code: code.Success,
 		Msg:  code.StatusText(code.Success),
 		Data: res,
+	}, nil
+}
+
+// SystemTenantPackageListTotal 获取总数
+func (srv SrvSystemTenantPackageServiceServer) SystemTenantPackageListTotal(ctx context.Context, request *SystemTenantPackageListTotalRequest) (*SystemTenantPackageTotalResponse, error) {
+	// 数据库查询条件
+	condition := make(map[string]any)
+	// 构造查询条件
+	if request.Deleted != nil {
+		condition["deleted"] = request.GetDeleted()
+	}
+	if request.Status != nil {
+		condition["status"] = request.GetStatus()
+	}
+	if request.Name != nil {
+		condition["name"] = request.GetName()
+	}
+	// 获取数据集合
+	total, err := tenant.SystemTenantPackageListTotal(ctx, condition)
+	if sql.ResultAccept(err) != nil {
+		globalLogger.Logger.WithFields(logrus.Fields{
+			"req": condition,
+			"err": err,
+		}).Error("Sql:租户:system_tenant_package:SystemTenantPackageListTotal")
+		return &SystemTenantPackageTotalResponse{}, status.Error(code.ConvertToGrpc(code.SqlError), err.Error())
+	}
+	return &SystemTenantPackageTotalResponse{
+		Code: code.Success,
+		Msg:  code.StatusText(code.Success),
+		Data: total,
 	}, nil
 }

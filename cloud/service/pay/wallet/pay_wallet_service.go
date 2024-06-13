@@ -8,6 +8,8 @@ import (
 	globalLogger "github.com/abulo/ratel/v3/core/logger"
 	"github.com/abulo/ratel/v3/server/xgrpc"
 	"github.com/abulo/ratel/v3/stores/sql"
+	"github.com/abulo/ratel/v3/util"
+	"github.com/pkg/errors"
 	"github.com/sirupsen/logrus"
 	"google.golang.org/grpc/status"
 )
@@ -119,6 +121,44 @@ func (srv SrvPayWalletServiceServer) PayWalletRecover(ctx context.Context, reque
 		Msg:  code.StatusText(code.Success),
 	}, nil
 }
+
+// PayWalletUser 查询单条数据
+func (srv SrvPayWalletServiceServer) PayWalletUser(ctx context.Context, request *PayWalletUserRequest) (*PayWalletUserResponse, error) {
+	// 数据库查询条件
+	condition := make(map[string]any)
+	// 构造查询条件
+	if request.TenantId != nil {
+		condition["tenantId"] = request.GetTenantId()
+	}
+	if request.UserType != nil {
+		condition["userType"] = request.GetUserType()
+	}
+	if request.UserId != nil {
+		condition["userId"] = request.GetUserId()
+	}
+
+	if util.Empty(condition) {
+		err := errors.New("condition is empty")
+		globalLogger.Logger.WithFields(logrus.Fields{
+			"req": condition,
+			"err": err,
+		}).Error("Sql:会员钱包表:pay_wallet:PayWalletUser")
+		return &PayWalletUserResponse{}, status.Error(code.ConvertToGrpc(code.SqlError), err.Error())
+	}
+	res, err := wallet.PayWalletUser(ctx, condition)
+	if sql.ResultAccept(err) != nil {
+		globalLogger.Logger.WithFields(logrus.Fields{
+			"req": condition,
+			"err": err,
+		}).Error("Sql:会员钱包表:pay_wallet:PayWalletUser")
+		return &PayWalletUserResponse{}, status.Error(code.ConvertToGrpc(code.SqlError), err.Error())
+	}
+	return &PayWalletUserResponse{
+		Code: code.Success,
+		Msg:  code.StatusText(code.Success),
+		Data: PayWalletProto(res),
+	}, nil
+}
 func (srv SrvPayWalletServiceServer) PayWalletList(ctx context.Context, request *PayWalletListRequest) (*PayWalletListResponse, error) {
 	// 数据库查询条件
 	condition := make(map[string]any)
@@ -136,20 +176,26 @@ func (srv SrvPayWalletServiceServer) PayWalletList(ctx context.Context, request 
 		condition["deleted"] = request.GetDeleted()
 	}
 
-	// 当前页面
-	pageNum := request.GetPageNum()
-	// 每页多少数据
-	pageSize := request.GetPageSize()
-	if pageNum < 1 {
-		pageNum = 1
+	paginationRequest := request.GetPagination()
+	if paginationRequest != nil {
+		// 当前页面
+		pageNum := paginationRequest.GetPageNum()
+		// 每页多少数据
+		pageSize := paginationRequest.GetPageSize()
+		if pageNum < 1 {
+			pageNum = 1
+		}
+		if pageSize < 1 {
+			pageSize = 10
+		}
+		// 分页数据
+		offset := pageSize * (pageNum - 1)
+		pagination := &sql.Pagination{
+			Offset: &offset,
+			Limit:  &pageSize,
+		}
+		condition["pagination"] = pagination
 	}
-	if pageSize < 1 {
-		pageSize = 10
-	}
-	// 分页数据
-	offset := pageSize * (pageNum - 1)
-	condition["offset"] = offset
-	condition["limit"] = pageSize
 	// 获取数据集合
 	list, err := wallet.PayWalletList(ctx, condition)
 	if sql.ResultAccept(err) != nil {

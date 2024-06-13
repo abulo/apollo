@@ -33,10 +33,10 @@ func SystemLoginLogDao(item *SystemLoginLogObject) *dao.SystemLoginLog {
 		daoItem.Channel = item.Channel // 渠道
 	}
 	if item != nil && item.Deleted != nil {
-		daoItem.Deleted = item.Deleted // 是否删除
+		daoItem.Deleted = item.Deleted // 删除
 	}
 	if item != nil && item.TenantId != nil {
-		daoItem.TenantId = item.TenantId // 租户ID
+		daoItem.TenantId = item.TenantId // 租户
 	}
 	if item != nil && item.Creator != nil {
 		daoItem.Creator = null.StringFrom(item.GetCreator()) // 创建人
