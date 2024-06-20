@@ -40,8 +40,8 @@ message RegionCreateResponse {
 }
 // RegionUpdateRequest 更新数据请求
 message RegionUpdateRequest {
-	// @inject_tag: db:"region_id" json:"regionId"
-	int64 region_id = 1; //区域编号
+	// @inject_tag: db:"id" json:"id"
+	int64 id = 1; //区域编号
 	RegionObject data = 2;
 }
 // RegionUpdateResponse 更新数据响应
@@ -51,8 +51,8 @@ message RegionUpdateResponse {
 }
 // RegionDeleteRequest 删除数据请求
 message RegionDeleteRequest {
-	// @inject_tag: db:"region_id" json:"regionId"
-	int64 region_id = 1; //区域编号
+	// @inject_tag: db:"id" json:"id"
+	int64 id = 1; //区域编号
 }
 // RegionDeleteResponse 删除数据响应
 message RegionDeleteResponse {
@@ -61,8 +61,8 @@ message RegionDeleteResponse {
 }
 // RegionRequest 查询单条数据请求
 message RegionRequest {
-	// @inject_tag: db:"region_id" json:"regionId"
-	int64 region_id = 1; //区域编号
+	// @inject_tag: db:"id" json:"id"
+	int64 id = 1; //区域编号
 }
 // RegionResponse 查询单条数据响应
 message RegionResponse {
@@ -72,8 +72,8 @@ message RegionResponse {
 }
 // RegionRecoverRequest 恢复数据请求
 message RegionRecoverRequest {
-	// @inject_tag: db:"region_id" json:"regionId"
-	int64 region_id = 1; //区域编号
+	// @inject_tag: db:"id" json:"id"
+	int64 id = 1; //区域编号
 }
 // RegionRecoverResponse 删除数据响应
 message RegionRecoverResponse {

@@ -188,6 +188,11 @@ const processTableData = computed(() => {
 // 监听页面 initParam 改化，重新获取表格数据
 watch(() => props.initParam, getTableList, { deep: true });
 
+// 监听 tableData.value 变化
+watch(tableData, () => {
+  console.log("改版了");
+});
+
 // 接收 columns 并设置为响应式
 const tableColumns = reactive<ColumnProps[]>(props.columns);
 

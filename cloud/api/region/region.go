@@ -82,9 +82,9 @@ func RegionUpdate(ctx context.Context, newCtx *app.RequestContext) {
 	}
 	//链接服务
 	client := region.NewRegionServiceClient(grpcClient)
-	regionId := cast.ToInt64(newCtx.Param("regionId"))
+	regionId := cast.ToInt64(newCtx.Param("id"))
 	request := &region.RegionUpdateRequest{}
-	request.RegionId = regionId
+	request.Id = regionId
 	// 数据绑定
 	var reqInfo dao.Region
 	if err := newCtx.BindAndValidate(&reqInfo); err != nil {
@@ -130,9 +130,9 @@ func RegionDelete(ctx context.Context, newCtx *app.RequestContext) {
 	}
 	//链接服务
 	client := region.NewRegionServiceClient(grpcClient)
-	regionId := cast.ToInt64(newCtx.Param("regionId"))
+	regionId := cast.ToInt64(newCtx.Param("id"))
 	request := &region.RegionDeleteRequest{}
-	request.RegionId = regionId
+	request.Id = regionId
 	// 执行服务
 	res, err := client.RegionDelete(ctx, request)
 	if err != nil {
@@ -169,9 +169,9 @@ func Region(ctx context.Context, newCtx *app.RequestContext) {
 	}
 	//链接服务
 	client := region.NewRegionServiceClient(grpcClient)
-	regionId := cast.ToInt64(newCtx.Param("regionId"))
+	regionId := cast.ToInt64(newCtx.Param("id"))
 	request := &region.RegionRequest{}
-	request.RegionId = regionId
+	request.Id = regionId
 	// 执行服务
 	res, err := client.Region(ctx, request)
 	if err != nil {
@@ -208,9 +208,9 @@ func RegionRecover(ctx context.Context, newCtx *app.RequestContext) {
 	}
 	//链接服务
 	client := region.NewRegionServiceClient(grpcClient)
-	regionId := cast.ToInt64(newCtx.Param("regionId"))
+	regionId := cast.ToInt64(newCtx.Param("id"))
 	request := &region.RegionRecoverRequest{}
-	request.RegionId = regionId
+	request.Id = regionId
 	// 执行服务
 	res, err := client.RegionRecover(ctx, request)
 	if err != nil {

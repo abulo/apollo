@@ -175,6 +175,9 @@ func (srv SrvPayWalletServiceServer) PayWalletList(ctx context.Context, request 
 	if request.Deleted != nil {
 		condition["deleted"] = request.GetDeleted()
 	}
+	if request.Username != nil {
+		condition["username"] = request.GetUsername()
+	}
 
 	paginationRequest := request.GetPagination()
 	if paginationRequest != nil {
@@ -205,9 +208,9 @@ func (srv SrvPayWalletServiceServer) PayWalletList(ctx context.Context, request 
 		}).Error("Sql:会员钱包表:pay_wallet:PayWalletList")
 		return &PayWalletListResponse{}, status.Error(code.ConvertToGrpc(code.SqlError), err.Error())
 	}
-	var res []*PayWalletObject
+	var res []*PayWalletCustomObject
 	for _, item := range list {
-		res = append(res, PayWalletProto(item))
+		res = append(res, PayWalletCustomProto(item))
 	}
 	return &PayWalletListResponse{
 		Code: code.Success,
@@ -232,6 +235,9 @@ func (srv SrvPayWalletServiceServer) PayWalletListTotal(ctx context.Context, req
 	}
 	if request.Deleted != nil {
 		condition["deleted"] = request.GetDeleted()
+	}
+	if request.Username != nil {
+		condition["username"] = request.GetUsername()
 	}
 
 	// 获取数据集合

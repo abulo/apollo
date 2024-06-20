@@ -224,7 +224,7 @@ const columns: ColumnProps<SystemTenantPackage.ResSystemTenantPackageItem>[] = [
 // 获取菜单树选项
 const getTreeSelect = async () => {
   menuSelect.value = [];
-  const { data } = await getSystemMenuListSimpleApi({ tree: 1 });
+  const { data } = await getSystemMenuListSimpleApi();
   menuSelect.value = data;
 };
 

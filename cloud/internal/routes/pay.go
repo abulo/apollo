@@ -86,5 +86,20 @@ func PayInitRoute(handle *xhertz.Server) {
 		// auth.GET("/pay/wallet/PayWalletUser/Item", wallet.PayWalletUser)
 		// pay_wallet->会员钱包表->列表
 		auth.GET("/pay/wallet", wallet.PayWalletList)
+
+		// pay_wallet_recharge_package->充值套餐表->创建
+		auth.POST("/pay/wallet/package", wallet.PayWalletRechargePackageCreate)
+		// pay_wallet_recharge_package->充值套餐表->更新
+		auth.PUT("/pay/wallet/package/:id/update", wallet.PayWalletRechargePackageUpdate)
+		// pay_wallet_recharge_package->充值套餐表->删除
+		auth.DELETE("/pay/wallet/package/:id/delete", wallet.PayWalletRechargePackageDelete)
+		// pay_wallet_recharge_package->充值套餐表->单条数据信息查看
+		auth.GET("/pay/wallet/package/:id/item", wallet.PayWalletRechargePackage)
+		// pay_wallet_recharge_package->充值套餐表->恢复
+		auth.PUT("/pay/wallet/package/:id/recover", wallet.PayWalletRechargePackageRecover)
+		// pay_wallet_recharge_package->充值套餐表->列表
+		auth.GET("/pay/wallet/package", wallet.PayWalletRechargePackageList)
+		// pay_wallet_recharge_package->充值套餐表->精简列表
+		auth.GET("/pay/wallet/package/simple", wallet.PayWalletRechargePackageListSimple)
 	}
 }

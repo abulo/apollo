@@ -18,3 +18,9 @@ type PayWallet struct {
 	Updater       null.String   `db:"updater" json:"updater"`              //varchar 更新人
 	UpdateTime    null.DateTime `db:"update_time" json:"updateTime"`       //datetime 更新时间
 }
+
+type PayWalletCustom struct {
+	// 继承 PayWallet
+	PayWallet
+	Username *string `db:"username" json:"username"` // 用户名称
+}

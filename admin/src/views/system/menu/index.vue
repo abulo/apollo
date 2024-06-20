@@ -1,6 +1,7 @@
 <template>
   <div class="table-box">
-    <VirtualTable
+    <ProTable
+      v-if="refreshTable"
       ref="proTable"
       title="菜单列表"
       row-key="id"
@@ -8,10 +9,7 @@
       :request-api="getSystemMenuListApi"
       :request-auto="true"
       :pagination="false"
-      :tree-config="{ transform: true, iconOpen: 'vxe-icon-arrow-down', iconClose: 'vxe-icon-arrow-right', reserve: true }"
-      :scroll-y="{ enabled: true }"
-      :init-param="initParam"
-      height="600"
+      :default-expand-all="isExpandAll"
       :search-col="12">
       <!-- 表格 header 按钮 -->
       <template #tableHeader>
@@ -72,7 +70,7 @@
           </template>
         </el-dropdown>
       </template>
-    </VirtualTable>
+    </ProTable>
     <!-- 新增/编辑弹窗 -->
     <el-dialog
       v-model="centerDialogVisible"
@@ -177,10 +175,10 @@
   </div>
 </template>
 <script setup lang="tsx" name="systemMenu">
-import { ref, reactive } from "vue";
-import { ProTableInstance, ColumnProps, SearchProps } from "@/components/VirtualTable/interface";
+import { ref, reactive, nextTick } from "vue";
+import { ProTableInstance, ColumnProps, SearchProps } from "@/components/ProTable/interface";
+import ProTable from "@/components/ProTable/index.vue";
 import { EditPen, CirclePlus, Sort, Delete, Refresh, DArrowRight } from "@element-plus/icons-vue";
-import VirtualTable from "@/components/VirtualTable/index.vue";
 import { SystemMenu } from "@/api/interface/systemMenu";
 import {
   getSystemMenuListApi,
@@ -196,15 +194,14 @@ import { getIntDictOptions } from "@/utils/dict";
 import { DictTag } from "@/components/DictTag";
 import { useHandleData, useHandleSet } from "@/hooks/useHandleData";
 import { HasPermission } from "@/utils/permission";
-// 获取展开了哪一行
-const treeExpand = ref<Number[]>();
-const initParam = reactive({ tree: 0 });
 //加载
 const loading = ref(false);
 //table数据
 const proTable = ref<ProTableInstance>();
-//是否展开，默认全部折叠
+// 是否展开，默认全部折叠
 const isExpandAll = ref(false);
+// 重新渲染表格状态
+const refreshTable = ref(true);
 //弹出层标题
 const title = ref();
 //是否显示弹出层
@@ -296,10 +293,12 @@ const keepAliveEnum = getIntDictOptions("menu.keepAlive");
 //全屏
 const fullScreenEnum = getIntDictOptions("menu.fullScreen");
 
-// 设置展开合并
 const toggleExpandAll = () => {
+  refreshTable.value = false;
   isExpandAll.value = !isExpandAll.value;
-  proTable.value?.element?.setAllTreeExpand(isExpandAll.value);
+  nextTick(() => {
+    refreshTable.value = true;
+  });
 };
 
 // 添加按钮
@@ -346,7 +345,7 @@ const handleRecover = async (row: SystemMenu.ResSystemMenuItem) => {
 // 获取菜单树选项
 const getTreeSelect = async () => {
   menuOptions.value = [];
-  const res = await getSystemMenuListApi({ tree: 1 });
+  const res = await getSystemMenuListApi();
   let obj: SystemMenu.ResSystemMenuList = {
     id: 0,
     name: "主类目",
@@ -405,27 +404,27 @@ const deleteSearch = reactive<SearchProps>(
 );
 
 const columns: ColumnProps<SystemMenu.ResSystemMenuList>[] = [
-  { field: "id", title: "编号", width: 100 },
-  { field: "name", title: "菜单名称", align: "left", treeNode: true },
-  { field: "type", title: "菜单类别", tag: true, enum: typeEnum, width: 100 },
-  { field: "icon", title: "菜单图标", width: 100 },
-  { field: "sort", title: "排序", width: 100 },
-  { field: "path", title: "路由地址" },
-  { field: "permission", title: "权限标识" },
-  { field: "component", title: "组件路径" },
-  { field: "componentName", title: "组件别名" },
-  { field: "status", title: "状态", tag: true, enum: statusEnum, search: { el: "select", span: 2 } },
+  { prop: "id", type: "", label: "编号", width: 100 },
+  { prop: "name", label: "菜单名称", align: "left" },
+  { prop: "type", label: "菜单类别", tag: true, enum: typeEnum, width: 100 },
+  { prop: "icon", label: "菜单图标", width: 100 },
+  { prop: "sort", label: "排序", width: 100 },
+  { prop: "path", label: "路由地址" },
+  { prop: "permission", label: "权限标识" },
+  { prop: "component", label: "组件路径" },
+  { prop: "componentName", label: "组件别名" },
+  { prop: "status", label: "状态", tag: true, enum: statusEnum, search: { el: "select", span: 2 } },
   {
-    field: "deleted",
-    title: "删除",
+    prop: "deleted",
+    label: "删除",
     tag: true,
     enum: deletedEnum,
     search: deleteSearch,
     width: 100
   },
   {
-    field: "operation",
-    title: "操作",
+    prop: "operation",
+    label: "操作",
     width: 160,
     fixed: "right",
     isShow: HasPermission("menu.SystemMenuUpdate", "menu.SystemMenuDelete", "menu.SystemMenuRecover", "menu.SystemMenuCreate")

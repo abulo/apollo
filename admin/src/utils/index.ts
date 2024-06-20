@@ -170,6 +170,17 @@ export function getShowMenuList(menuList: Menu.MenuOptions[]) {
 }
 
 /**
+ * @description 使用递归过滤出需要渲染在左侧菜单的列表 (需剔除 isHide == true 的菜单)
+ * @param menuItem  菜单项
+ * @returns  {Object} 返回处理后的菜单项
+ */
+export function getShowMenuItem(menuItem: Menu.MenuOptions) {
+  let newMenuItem: Menu.MenuOptions = JSON.parse(JSON.stringify(menuItem));
+  newMenuItem.children?.length && (newMenuItem.children = getShowMenuList(newMenuItem.children));
+  return newMenuItem;
+}
+
+/**
  * @description 使用递归找出所有面包屑存储到 pinia/vuex 中
  * @param {Array} menuList 菜单列表
  * @param {Array} parent 父级菜单

@@ -1,0 +1,138 @@
+
+syntax = "proto3";
+// pay_wallet_recharge_package 充值套餐表
+package wallet;
+option go_package = "cloud/service/pay/wallet;wallet";
+import "google/protobuf/timestamp.proto";
+import "pagination.proto";
+
+// PayWalletRechargePackageObject 数据对象
+message PayWalletRechargePackageObject {
+	// @inject_tag: db:"id" json:"id"
+	optional int64 id = 1; //编号
+	// @inject_tag: db:"name" json:"name"
+	optional string name = 2; //套餐名称
+	// @inject_tag: db:"pay_price" json:"payPrice"
+	optional int64 pay_price = 3; //支付金额
+	// @inject_tag: db:"bonus_price" json:"bonusPrice"
+	optional int64 bonus_price = 4; //赠送金额
+	// @inject_tag: db:"status" json:"status"
+	optional int32 status = 5; //状态
+	// @inject_tag: db:"deleted" json:"deleted"
+	optional int32 deleted = 6; //删除
+	// @inject_tag: db:"tenant_id" json:"tenantId"
+	optional int64 tenant_id = 7; //租户
+	// @inject_tag: db:"creator" json:"creator"
+	optional string creator = 8; //创建人
+	// @inject_tag: db:"create_time" json:"createTime"
+	google.protobuf.Timestamp create_time = 9; //创建时间
+	// @inject_tag: db:"updater" json:"updater"
+	optional string updater = 10; //更新人
+	// @inject_tag: db:"update_time" json:"updateTime"
+	google.protobuf.Timestamp update_time = 11; //更新时间
+}
+// PayWalletRechargePackageTotalResponse 列表数据总量
+message PayWalletRechargePackageTotalResponse {
+	int64 code = 1;
+	string msg = 2;
+	int64 data = 3;
+}
+// PayWalletRechargePackageCreateRequest 创建数据请求
+message PayWalletRechargePackageCreateRequest {
+	PayWalletRechargePackageObject data = 1;
+}
+// PayWalletRechargePackageCreateResponse 创建数据响应
+message PayWalletRechargePackageCreateResponse {
+	int64 code = 1;
+	string msg = 2;
+	int64 data = 3;
+}
+// PayWalletRechargePackageUpdateRequest 更新数据请求
+message PayWalletRechargePackageUpdateRequest {
+	// @inject_tag: db:"id" json:"id"
+	int64 id = 1; //编号
+	PayWalletRechargePackageObject data = 2;
+}
+// PayWalletRechargePackageUpdateResponse 更新数据响应
+message PayWalletRechargePackageUpdateResponse {
+	int64 code = 1;
+	string msg = 2;
+}
+// PayWalletRechargePackageDeleteRequest 删除数据请求
+message PayWalletRechargePackageDeleteRequest {
+	// @inject_tag: db:"id" json:"id"
+	int64 id = 1; //编号
+}
+// PayWalletRechargePackageDeleteResponse 删除数据响应
+message PayWalletRechargePackageDeleteResponse {
+	int64 code = 1;
+	string msg = 2;
+}
+// PayWalletRechargePackageRequest 查询单条数据请求
+message PayWalletRechargePackageRequest {
+	// @inject_tag: db:"id" json:"id"
+	int64 id = 1; //编号
+}
+// PayWalletRechargePackageResponse 查询单条数据响应
+message PayWalletRechargePackageResponse {
+	int64 code = 1;
+	string msg = 2;
+	PayWalletRechargePackageObject data = 3;
+}
+// PayWalletRechargePackageRecoverRequest 恢复数据请求
+message PayWalletRechargePackageRecoverRequest {
+	// @inject_tag: db:"id" json:"id"
+	int64 id = 1; //编号
+}
+// PayWalletRechargePackageRecoverResponse 删除数据响应
+message PayWalletRechargePackageRecoverResponse {
+	int64 code = 1;
+	string msg = 2;
+}
+// PayWalletRechargePackageListRequest 列表数据
+message PayWalletRechargePackageListRequest {
+	
+	// @inject_tag: db:"tenant_id" json:"tenantId"
+	optional int64 tenant_id = 1; // 租户
+	// @inject_tag: db:"deleted" json:"deleted"
+	optional int32 deleted = 2; // 删除
+	// @inject_tag: db:"status" json:"status"
+	optional int32 status = 3; // 状态
+	// @inject_tag: db:"name" json:"name"
+	optional string name = 4; // 套餐名称
+
+	// @inject_tag: db:"pagination" json:"pagination"
+	optional pagination.PaginationRequest pagination = 5; // 分页
+}
+
+// PayWalletRechargePackageListResponse 数据响应
+message PayWalletRechargePackageListResponse {
+	int64 code = 1;
+  	string msg = 2;
+	repeated PayWalletRechargePackageObject data = 3;
+}
+// PayWalletRechargePackageListTotalRequest 列表数据
+message PayWalletRechargePackageListTotalRequest {
+	
+	// @inject_tag: db:"tenant_id" json:"tenantId"
+	optional int64 tenant_id = 1; // 租户
+	// @inject_tag: db:"deleted" json:"deleted"
+	optional int32 deleted = 2; // 删除
+	// @inject_tag: db:"status" json:"status"
+	optional int32 status = 3; // 状态
+	// @inject_tag: db:"name" json:"name"
+	optional string name = 4; // 套餐名称
+
+}
+
+
+// PayWalletRechargePackageService 服务
+service PayWalletRechargePackageService{
+	rpc PayWalletRechargePackageCreate(PayWalletRechargePackageCreateRequest) returns (PayWalletRechargePackageCreateResponse);
+	rpc PayWalletRechargePackageUpdate(PayWalletRechargePackageUpdateRequest) returns (PayWalletRechargePackageUpdateResponse);
+	rpc PayWalletRechargePackageDelete(PayWalletRechargePackageDeleteRequest) returns (PayWalletRechargePackageDeleteResponse);
+	rpc PayWalletRechargePackage(PayWalletRechargePackageRequest) returns (PayWalletRechargePackageResponse);
+	rpc PayWalletRechargePackageRecover(PayWalletRechargePackageRecoverRequest) returns (PayWalletRechargePackageRecoverResponse);
+	rpc PayWalletRechargePackageList(PayWalletRechargePackageListRequest) returns (PayWalletRechargePackageListResponse);
+	rpc PayWalletRechargePackageListTotal(PayWalletRechargePackageListTotalRequest) returns (PayWalletRechargePackageTotalResponse);
+}

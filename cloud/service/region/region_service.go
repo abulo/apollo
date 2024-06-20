@@ -40,7 +40,7 @@ func (srv SrvRegionServiceServer) RegionCreate(ctx context.Context, request *Reg
 
 // RegionUpdate 更新数据
 func (srv SrvRegionServiceServer) RegionUpdate(ctx context.Context, request *RegionUpdateRequest) (*RegionUpdateResponse, error) {
-	regionId := request.GetRegionId()
+	regionId := request.GetId()
 	if regionId < 1 {
 		return &RegionUpdateResponse{}, status.Error(code.ConvertToGrpc(code.ParamInvalid), code.StatusText(code.ParamInvalid))
 	}
@@ -61,7 +61,7 @@ func (srv SrvRegionServiceServer) RegionUpdate(ctx context.Context, request *Reg
 
 // RegionDelete 删除数据
 func (srv SrvRegionServiceServer) RegionDelete(ctx context.Context, request *RegionDeleteRequest) (*RegionDeleteResponse, error) {
-	regionId := request.GetRegionId()
+	regionId := request.GetId()
 	if regionId < 1 {
 		return &RegionDeleteResponse{}, status.Error(code.ConvertToGrpc(code.ParamInvalid), code.StatusText(code.ParamInvalid))
 	}
@@ -81,7 +81,7 @@ func (srv SrvRegionServiceServer) RegionDelete(ctx context.Context, request *Reg
 
 // Region 查询单条数据
 func (srv SrvRegionServiceServer) Region(ctx context.Context, request *RegionRequest) (*RegionResponse, error) {
-	regionId := request.GetRegionId()
+	regionId := request.GetId()
 	if regionId < 1 {
 		return &RegionResponse{}, status.Error(code.ConvertToGrpc(code.ParamInvalid), code.StatusText(code.ParamInvalid))
 	}
@@ -102,7 +102,7 @@ func (srv SrvRegionServiceServer) Region(ctx context.Context, request *RegionReq
 
 // RegionRecover 恢复数据
 func (srv SrvRegionServiceServer) RegionRecover(ctx context.Context, request *RegionRecoverRequest) (*RegionRecoverResponse, error) {
-	regionId := request.GetRegionId()
+	regionId := request.GetId()
 	if regionId < 1 {
 		return &RegionRecoverResponse{}, status.Error(code.ConvertToGrpc(code.ParamInvalid), code.StatusText(code.ParamInvalid))
 	}

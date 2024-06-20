@@ -5,6 +5,7 @@ export namespace PayWallet {
     userType?: number; // 用户类型
     userId?: number; // 用户编号
     deleted?: number; // 删除
+    username?: string; // 用户名
   }
   export interface ResPayWalletItem {
     id: number; // 编号
@@ -20,5 +21,6 @@ export namespace PayWallet {
     createTime: string | undefined; // 创建时间
     updater: string | undefined; // 更新人
     updateTime: string | undefined; // 更新时间
+    username?: string; // 用户名
   }
 }

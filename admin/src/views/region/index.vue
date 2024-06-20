@@ -8,6 +8,8 @@
       :request-api="getRegionListApi"
       :request-auto="true"
       :pagination="false"
+      :column-config="{ resizable: true }"
+      :row-config="{ height: 45, isHover: true, keyField: 'id', useKey: true }"
       :tree-config="{ transform: true, iconOpen: 'vxe-icon-arrow-down', iconClose: 'vxe-icon-arrow-right', reserve: true }"
       :scroll-y="{ enabled: true }"
       :init-param="initParam"

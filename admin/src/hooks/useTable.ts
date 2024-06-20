@@ -61,7 +61,8 @@ export const useTable = (
       Object.assign(state.totalParam, initParam, isPageable ? pageParam.value : {});
       let { data } = await api({ ...state.searchInitParam, ...state.totalParam });
       dataCallBack && (data = dataCallBack(data));
-      state.tableData = isPageable ? (data.list == null ? [] : data.list) : data;
+      const currentData = isPageable ? (data.list == null ? [] : data.list) : data;
+      updateTableData(currentData);
       // 解构后台返回的分页数据 (如果有分页更新分页信息)
       if (isPageable) {
         const { pageNum, pageSize, total } = data;
@@ -70,6 +71,19 @@ export const useTable = (
     } catch (error) {
       requestError && requestError(error);
     }
+  };
+
+  /**
+   * @description 更新表格数据
+   * @param data
+   */
+  const updateTableData = (data: any) => {
+    // 删除 state.tableData 的数据
+    state.tableData.splice(0, state.tableData.length);
+    // 判断一下, 如果 data 为 null 或者 undefined, 又或者是空对象, 都直接赋值为 []
+    const currentData = data === null || data === undefined || Object.keys(data).length === 0 ? [] : data;
+    // 为了解决表格数据不刷新的问题，这里使用 Object.assign
+    Object.assign(state.tableData, currentData);
   };
 
   /**

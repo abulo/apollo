@@ -55,7 +55,7 @@ import Main from "@/layouts/components/Main/index.vue";
 import ToolBarLeft from "@/layouts/components/Header/ToolBarLeft.vue";
 import ToolBarRight from "@/layouts/components/Header/ToolBarRight.vue";
 import SubMenu from "@/layouts/components/Menu/SubMenu.vue";
-import { findRootMenuByPath } from "@/utils/index";
+import { findRootMenuByPath, getShowMenuItem } from "@/utils/index";
 const title = import.meta.env.VITE_GLOB_APP_TITLE;
 
 const route = useRoute();
@@ -70,8 +70,24 @@ const activeMenu = computed(() => (route.meta.activeMenu ? route.meta.activeMenu
 const subMenuList = ref<Menu.MenuOptions[]>([]);
 const splitActive = ref();
 
+const getRoutePath = () => {
+  let path = route.path;
+  const name = route.name;
+  if (route.matched.length > 0) {
+    for (let index = 0; index < route.matched.length; index++) {
+      const element = route.matched[index];
+      if (element.name == name) {
+        path = element.path;
+        break;
+      }
+    }
+  }
+  return path;
+};
+
 const getActiveHeaderMenu = () => {
-  const menuItem = findRootMenuByPath(authStore.authMenuList, route.path);
+  const path = getRoutePath();
+  const menuItem = findRootMenuByPath(authStore.authMenuList, path);
   return menuItem?.path || "";
 };
 
@@ -81,7 +97,9 @@ watch(
     // 当前菜单没有数据直接 return
     if (!menuList.value.length) return;
     splitActive.value = getActiveHeaderMenu();
-    const menuItem = findRootMenuByPath(menuList.value, route.path);
+    const path = getRoutePath();
+    // const menuItem = findRootMenuByPath(menuList.value, route.path);
+    const menuItem = getShowMenuItem(findRootMenuByPath(authStore.authMenuList, path) as Menu.MenuOptions);
     if (menuItem?.children?.length) return (subMenuList.value = menuItem.children);
     subMenuList.value = [];
   },

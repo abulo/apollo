@@ -8,6 +8,7 @@ import (
 	"github.com/abulo/ratel/v3/stores/sql"
 	"github.com/abulo/ratel/v3/util"
 	"github.com/pkg/errors"
+	"github.com/spf13/cast"
 )
 
 // pay_wallet 会员钱包表
@@ -103,21 +104,32 @@ func PayWalletUser(ctx context.Context, condition map[string]any) (res dao.PayWa
 }
 
 // PayWalletList 查询列表数据
-func PayWalletList(ctx context.Context, condition map[string]any) (res []dao.PayWallet, err error) {
+func PayWalletList(ctx context.Context, condition map[string]any) (res []dao.PayWalletCustom, err error) {
 	db := initial.Core.Store.LoadSQL("mysql").Read()
 	builder := sql.NewBuilder()
-	builder.Table("`pay_wallet`")
+	builder.Table("`pay_wallet`").Select("`pay_wallet`.*", "CASE WHEN pay_wallet.user_type = 1 THEN member.nickname WHEN pay_wallet.user_type = 0 THEN system_user.nickname  END AS username")
+	builder.LeftJoin("system_user", "pay_wallet.user_id = system_user.id AND pay_wallet.user_type = 0")
+	builder.LeftJoin("member", "pay_wallet.user_id = member.id AND pay_wallet.user_type = 1")
 	if val, ok := condition["tenantId"]; ok {
-		builder.Where("`tenant_id`", val)
+		builder.Where("`pay_wallet`.`tenant_id`", val)
 	}
 	if val, ok := condition["userType"]; ok {
-		builder.Where("`user_type`", val)
+		builder.Where("`pay_wallet`.`user_type`", val)
 	}
 	if val, ok := condition["userId"]; ok {
-		builder.Where("`user_id`", val)
+		builder.Where("`pay_wallet`.`user_id`", val)
 	}
 	if val, ok := condition["deleted"]; ok {
-		builder.Where("`deleted`", val)
+		builder.Where("`pay_wallet`.`deleted`", val)
+	}
+	if val, ok := condition["username"]; ok {
+		builder.And()
+		builder.LeftBracket()
+		builder.FirstLike("`system_user`.`username`", "%"+cast.ToString(val)+"%")
+		builder.OrLike("`system_user`.`nickname`", "%"+cast.ToString(val)+"%")
+		builder.OrLike("`system_user`.`mobile`", "%"+cast.ToString(val)+"%")
+		builder.OrLike("`member`.`nickname`", "%"+cast.ToString(val)+"%")
+		builder.RightBracket()
 	}
 
 	if val, ok := condition["pagination"]; ok {
@@ -127,7 +139,7 @@ func PayWalletList(ctx context.Context, condition map[string]any) (res []dao.Pay
 			builder.Limit(pagination.GetLimit())
 		}
 	}
-	builder.OrderBy("`id`", sql.DESC)
+	builder.OrderBy("`pay_wallet`.`id`", sql.DESC)
 	query, args, err := builder.Rows()
 	if err != nil {
 		return
@@ -141,17 +153,29 @@ func PayWalletListTotal(ctx context.Context, condition map[string]any) (res int6
 	db := initial.Core.Store.LoadSQL("mysql").Read()
 	builder := sql.NewBuilder()
 	builder.Table("`pay_wallet`")
+	builder.LeftJoin("system_user", "pay_wallet.user_id = system_user.id AND pay_wallet.user_type = 0")
+	builder.LeftJoin("member", "pay_wallet.user_id = member.id AND pay_wallet.user_type = 1")
 	if val, ok := condition["tenantId"]; ok {
-		builder.Where("`tenant_id`", val)
+		builder.Where("`pay_wallet`.`tenant_id`", val)
 	}
 	if val, ok := condition["userType"]; ok {
-		builder.Where("`user_type`", val)
+		builder.Where("`pay_wallet`.`user_type`", val)
 	}
 	if val, ok := condition["userId"]; ok {
-		builder.Where("`user_id`", val)
+		builder.Where("`pay_wallet`.`user_id`", val)
 	}
 	if val, ok := condition["deleted"]; ok {
-		builder.Where("`deleted`", val)
+		builder.Where("`pay_wallet`.`deleted`", val)
+	}
+
+	if val, ok := condition["username"]; ok {
+		builder.And()
+		builder.LeftBracket()
+		builder.FirstLike("`system_user`.`username`", "%"+cast.ToString(val)+"%")
+		builder.OrLike("`system_user`.`nickname`", "%"+cast.ToString(val)+"%")
+		builder.OrLike("`system_user`.`mobile`", "%"+cast.ToString(val)+"%")
+		builder.OrLike("`member`.`nickname`", "%"+cast.ToString(val)+"%")
+		builder.RightBracket()
 	}
 
 	query, args, err := builder.Count()

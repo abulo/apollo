@@ -21,15 +21,15 @@ import (
 	"google.golang.org/protobuf/proto"
 )
 
-// pay_wallet 会员钱包表
-// PayWalletCreate 创建数据
-func PayWalletCreate(ctx context.Context, newCtx *app.RequestContext) {
+// pay_wallet_recharge_package 充值套餐表
+// PayWalletRechargePackageCreate 创建数据
+func PayWalletRechargePackageCreate(ctx context.Context, newCtx *app.RequestContext) {
 	//判断这个服务能不能链接
 	grpcClient, err := initial.Core.Client.LoadGrpc("grpc").Singleton()
 	if err != nil {
 		globalLogger.Logger.WithFields(logrus.Fields{
 			"err": err,
-		}).Error("Grpc:会员钱包表:pay_wallet:PayWalletCreate")
+		}).Error("Grpc:充值套餐表:pay_wallet_recharge_package:PayWalletRechargePackageCreate")
 		newCtx.JSON(consts.StatusOK, utils.H{
 			"code": code.RPCError,
 			"msg":  code.StatusText(code.RPCError),
@@ -37,10 +37,10 @@ func PayWalletCreate(ctx context.Context, newCtx *app.RequestContext) {
 		return
 	}
 	//链接服务
-	client := wallet.NewPayWalletServiceClient(grpcClient)
-	request := &wallet.PayWalletCreateRequest{}
+	client := wallet.NewPayWalletRechargePackageServiceClient(grpcClient)
+	request := &wallet.PayWalletRechargePackageCreateRequest{}
 	// 数据绑定
-	var reqInfo dao.PayWallet
+	var reqInfo dao.PayWalletRechargePackage
 	if err := newCtx.BindAndValidate(&reqInfo); err != nil {
 		newCtx.JSON(consts.StatusOK, utils.H{
 			"code": code.ParamInvalid,
@@ -52,14 +52,14 @@ func PayWalletCreate(ctx context.Context, newCtx *app.RequestContext) {
 	reqInfo.TenantId = proto.Int64(newCtx.GetInt64("tenantId")) // 租户
 	reqInfo.Creator = null.StringFrom(newCtx.GetString("userName"))
 	reqInfo.CreateTime = null.DateTimeFrom(util.Now())
-	request.Data = wallet.PayWalletProto(reqInfo)
+	request.Data = wallet.PayWalletRechargePackageProto(reqInfo)
 	// 执行服务
-	res, err := client.PayWalletCreate(ctx, request)
+	res, err := client.PayWalletRechargePackageCreate(ctx, request)
 	if err != nil {
 		globalLogger.Logger.WithFields(logrus.Fields{
 			"req": request,
 			"err": err,
-		}).Error("GrpcCall:会员钱包表:pay_wallet:PayWalletCreate")
+		}).Error("GrpcCall:充值套餐表:pay_wallet_recharge_package:PayWalletRechargePackageCreate")
 		fromError := status.Convert(err)
 		newCtx.JSON(consts.StatusOK, utils.H{
 			"code": code.ConvertToHttp(fromError.Code()),
@@ -73,14 +73,14 @@ func PayWalletCreate(ctx context.Context, newCtx *app.RequestContext) {
 	})
 }
 
-// PayWalletUpdate 更新数据
-func PayWalletUpdate(ctx context.Context, newCtx *app.RequestContext) {
+// PayWalletRechargePackageUpdate 更新数据
+func PayWalletRechargePackageUpdate(ctx context.Context, newCtx *app.RequestContext) {
 	//判断这个服务能不能链接
 	grpcClient, err := initial.Core.Client.LoadGrpc("grpc").Singleton()
 	if err != nil {
 		globalLogger.Logger.WithFields(logrus.Fields{
 			"err": err,
-		}).Error("Grpc:会员钱包表:pay_wallet:PayWalletUpdate")
+		}).Error("Grpc:充值套餐表:pay_wallet_recharge_package:PayWalletRechargePackageUpdate")
 		newCtx.JSON(consts.StatusOK, utils.H{
 			"code": code.RPCError,
 			"msg":  code.StatusText(code.RPCError),
@@ -88,12 +88,12 @@ func PayWalletUpdate(ctx context.Context, newCtx *app.RequestContext) {
 		return
 	}
 	//链接服务
-	client := wallet.NewPayWalletServiceClient(grpcClient)
+	client := wallet.NewPayWalletRechargePackageServiceClient(grpcClient)
 	id := cast.ToInt64(newCtx.Param("id"))
-	request := &wallet.PayWalletUpdateRequest{}
+	request := &wallet.PayWalletRechargePackageUpdateRequest{}
 	request.Id = id
 	// 数据绑定
-	var reqInfo dao.PayWallet
+	var reqInfo dao.PayWalletRechargePackage
 	if err := newCtx.BindAndValidate(&reqInfo); err != nil {
 		newCtx.JSON(consts.StatusOK, utils.H{
 			"code": code.ParamInvalid,
@@ -106,14 +106,14 @@ func PayWalletUpdate(ctx context.Context, newCtx *app.RequestContext) {
 	reqInfo.UpdateTime = null.DateTimeFrom(util.Now())
 	reqInfo.Creator = null.StringFromPtr(nil)
 	reqInfo.CreateTime = null.DateTimeFromPtr(nil)
-	request.Data = wallet.PayWalletProto(reqInfo)
+	request.Data = wallet.PayWalletRechargePackageProto(reqInfo)
 	// 执行服务
-	res, err := client.PayWalletUpdate(ctx, request)
+	res, err := client.PayWalletRechargePackageUpdate(ctx, request)
 	if err != nil {
 		globalLogger.Logger.WithFields(logrus.Fields{
 			"req": request,
 			"err": err,
-		}).Error("GrpcCall:会员钱包表:pay_wallet:PayWalletUpdate")
+		}).Error("GrpcCall:充值套餐表:pay_wallet_recharge_package:PayWalletRechargePackageUpdate")
 		fromError := status.Convert(err)
 		newCtx.JSON(consts.StatusOK, utils.H{
 			"code": code.ConvertToHttp(fromError.Code()),
@@ -127,13 +127,13 @@ func PayWalletUpdate(ctx context.Context, newCtx *app.RequestContext) {
 	})
 }
 
-// PayWalletDelete 删除数据
-func PayWalletDelete(ctx context.Context, newCtx *app.RequestContext) {
+// PayWalletRechargePackageDelete 删除数据
+func PayWalletRechargePackageDelete(ctx context.Context, newCtx *app.RequestContext) {
 	grpcClient, err := initial.Core.Client.LoadGrpc("grpc").Singleton()
 	if err != nil {
 		globalLogger.Logger.WithFields(logrus.Fields{
 			"err": err,
-		}).Error("Grpc:会员钱包表:pay_wallet:PayWalletDelete")
+		}).Error("Grpc:充值套餐表:pay_wallet_recharge_package:PayWalletRechargePackageDelete")
 		newCtx.JSON(consts.StatusOK, utils.H{
 			"code": code.RPCError,
 			"msg":  code.StatusText(code.RPCError),
@@ -141,17 +141,17 @@ func PayWalletDelete(ctx context.Context, newCtx *app.RequestContext) {
 		return
 	}
 	//链接服务
-	client := wallet.NewPayWalletServiceClient(grpcClient)
+	client := wallet.NewPayWalletRechargePackageServiceClient(grpcClient)
 	id := cast.ToInt64(newCtx.Param("id"))
-	request := &wallet.PayWalletDeleteRequest{}
+	request := &wallet.PayWalletRechargePackageDeleteRequest{}
 	request.Id = id
 	// 执行服务
-	res, err := client.PayWalletDelete(ctx, request)
+	res, err := client.PayWalletRechargePackageDelete(ctx, request)
 	if err != nil {
 		globalLogger.Logger.WithFields(logrus.Fields{
 			"req": request,
 			"err": err,
-		}).Error("GrpcCall:会员钱包表:pay_wallet:PayWalletDelete")
+		}).Error("GrpcCall:充值套餐表:pay_wallet_recharge_package:PayWalletRechargePackageDelete")
 		fromError := status.Convert(err)
 		newCtx.JSON(consts.StatusOK, utils.H{
 			"code": code.ConvertToHttp(fromError.Code()),
@@ -165,14 +165,14 @@ func PayWalletDelete(ctx context.Context, newCtx *app.RequestContext) {
 	})
 }
 
-// PayWallet 查询单条数据
-func PayWallet(ctx context.Context, newCtx *app.RequestContext) {
+// PayWalletRechargePackage 查询单条数据
+func PayWalletRechargePackage(ctx context.Context, newCtx *app.RequestContext) {
 	//判断这个服务能不能链接
 	grpcClient, err := initial.Core.Client.LoadGrpc("grpc").Singleton()
 	if err != nil {
 		globalLogger.Logger.WithFields(logrus.Fields{
 			"err": err,
-		}).Error("Grpc:会员钱包表:pay_wallet:PayWallet")
+		}).Error("Grpc:充值套餐表:pay_wallet_recharge_package:PayWalletRechargePackage")
 		newCtx.JSON(consts.StatusOK, utils.H{
 			"code": code.RPCError,
 			"msg":  code.StatusText(code.RPCError),
@@ -180,17 +180,17 @@ func PayWallet(ctx context.Context, newCtx *app.RequestContext) {
 		return
 	}
 	//链接服务
-	client := wallet.NewPayWalletServiceClient(grpcClient)
+	client := wallet.NewPayWalletRechargePackageServiceClient(grpcClient)
 	id := cast.ToInt64(newCtx.Param("id"))
-	request := &wallet.PayWalletRequest{}
+	request := &wallet.PayWalletRechargePackageRequest{}
 	request.Id = id
 	// 执行服务
-	res, err := client.PayWallet(ctx, request)
+	res, err := client.PayWalletRechargePackage(ctx, request)
 	if err != nil {
 		globalLogger.Logger.WithFields(logrus.Fields{
 			"req": request,
 			"err": err,
-		}).Error("GrpcCall:会员钱包表:pay_wallet:PayWallet")
+		}).Error("GrpcCall:充值套餐表:pay_wallet_recharge_package:PayWalletRechargePackage")
 		fromError := status.Convert(err)
 		newCtx.JSON(consts.StatusOK, utils.H{
 			"code": code.ConvertToHttp(fromError.Code()),
@@ -201,17 +201,17 @@ func PayWallet(ctx context.Context, newCtx *app.RequestContext) {
 	newCtx.JSON(consts.StatusOK, utils.H{
 		"code": res.GetCode(),
 		"msg":  res.GetMsg(),
-		"data": wallet.PayWalletDao(res.GetData()),
+		"data": wallet.PayWalletRechargePackageDao(res.GetData()),
 	})
 }
 
-// PayWalletRecover 恢复数据
-func PayWalletRecover(ctx context.Context, newCtx *app.RequestContext) {
+// PayWalletRechargePackageRecover 恢复数据
+func PayWalletRechargePackageRecover(ctx context.Context, newCtx *app.RequestContext) {
 	grpcClient, err := initial.Core.Client.LoadGrpc("grpc").Singleton()
 	if err != nil {
 		globalLogger.Logger.WithFields(logrus.Fields{
 			"err": err,
-		}).Error("Grpc:会员钱包表:pay_wallet:PayWalletRecover")
+		}).Error("Grpc:充值套餐表:pay_wallet_recharge_package:PayWalletRechargePackageRecover")
 		newCtx.JSON(consts.StatusOK, utils.H{
 			"code": code.RPCError,
 			"msg":  code.StatusText(code.RPCError),
@@ -219,17 +219,17 @@ func PayWalletRecover(ctx context.Context, newCtx *app.RequestContext) {
 		return
 	}
 	//链接服务
-	client := wallet.NewPayWalletServiceClient(grpcClient)
+	client := wallet.NewPayWalletRechargePackageServiceClient(grpcClient)
 	id := cast.ToInt64(newCtx.Param("id"))
-	request := &wallet.PayWalletRecoverRequest{}
+	request := &wallet.PayWalletRechargePackageRecoverRequest{}
 	request.Id = id
 	// 执行服务
-	res, err := client.PayWalletRecover(ctx, request)
+	res, err := client.PayWalletRechargePackageRecover(ctx, request)
 	if err != nil {
 		globalLogger.Logger.WithFields(logrus.Fields{
 			"req": request,
 			"err": err,
-		}).Error("GrpcCall:会员钱包表:pay_wallet:PayWalletRecover")
+		}).Error("GrpcCall:充值套餐表:pay_wallet_recharge_package:PayWalletRechargePackageRecover")
 		fromError := status.Convert(err)
 		newCtx.JSON(consts.StatusOK, utils.H{
 			"code": code.ConvertToHttp(fromError.Code()),
@@ -243,14 +243,13 @@ func PayWalletRecover(ctx context.Context, newCtx *app.RequestContext) {
 	})
 }
 
-// PayWalletUser 查询单条数据
-func PayWalletUser(ctx context.Context, newCtx *app.RequestContext) {
-	//判断这个服务能不能链接
+// PayWalletRechargePackageList 列表数据
+func PayWalletRechargePackageList(ctx context.Context, newCtx *app.RequestContext) {
 	grpcClient, err := initial.Core.Client.LoadGrpc("grpc").Singleton()
 	if err != nil {
 		globalLogger.Logger.WithFields(logrus.Fields{
 			"err": err,
-		}).Error("Grpc:会员钱包表:pay_wallet:PayWalletUser")
+		}).Error("Grpc:充值套餐表:pay_wallet_recharge_package:PayWalletRechargePackageList")
 		newCtx.JSON(consts.StatusOK, utils.H{
 			"code": code.RPCError,
 			"msg":  code.StatusText(code.RPCError),
@@ -258,56 +257,10 @@ func PayWalletUser(ctx context.Context, newCtx *app.RequestContext) {
 		return
 	}
 	//链接服务
-	client := wallet.NewPayWalletServiceClient(grpcClient)
-	request := &wallet.PayWalletUserRequest{}
+	client := wallet.NewPayWalletRechargePackageServiceClient(grpcClient)
 	// 构造查询条件
-	request.TenantId = proto.Int64(newCtx.GetInt64("tenantId")) // 租户ID
-	if val, ok := newCtx.GetQuery("userType"); ok {
-		request.UserType = proto.Int32(cast.ToInt32(val)) // 用户类型
-	}
-	if val, ok := newCtx.GetQuery("userId"); ok {
-		request.UserId = proto.Int64(cast.ToInt64(val)) // 用户编号
-	}
-
-	// 执行服务
-	res, err := client.PayWalletUser(ctx, request)
-	if err != nil {
-		globalLogger.Logger.WithFields(logrus.Fields{
-			"req": request,
-			"err": err,
-		}).Error("GrpcCall:会员钱包表:pay_wallet:PayWalletUser")
-		fromError := status.Convert(err)
-		newCtx.JSON(consts.StatusOK, utils.H{
-			"code": code.ConvertToHttp(fromError.Code()),
-			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
-		})
-		return
-	}
-	newCtx.JSON(consts.StatusOK, utils.H{
-		"code": res.GetCode(),
-		"msg":  res.GetMsg(),
-		"data": wallet.PayWalletDao(res.GetData()),
-	})
-}
-
-// PayWalletList 列表数据
-func PayWalletList(ctx context.Context, newCtx *app.RequestContext) {
-	grpcClient, err := initial.Core.Client.LoadGrpc("grpc").Singleton()
-	if err != nil {
-		globalLogger.Logger.WithFields(logrus.Fields{
-			"err": err,
-		}).Error("Grpc:会员钱包表:pay_wallet:PayWalletList")
-		newCtx.JSON(consts.StatusOK, utils.H{
-			"code": code.RPCError,
-			"msg":  code.StatusText(code.RPCError),
-		})
-		return
-	}
-	//链接服务
-	client := wallet.NewPayWalletServiceClient(grpcClient)
-	// 构造查询条件
-	request := &wallet.PayWalletListRequest{}
-	requestTotal := &wallet.PayWalletListTotalRequest{}
+	request := &wallet.PayWalletRechargePackageListRequest{}
+	requestTotal := &wallet.PayWalletRechargePackageListTotalRequest{}
 
 	request.TenantId = proto.Int64(newCtx.GetInt64("tenantId"))      // 租户ID
 	requestTotal.TenantId = proto.Int64(newCtx.GetInt64("tenantId")) // 租户ID
@@ -319,26 +272,22 @@ func PayWalletList(ctx context.Context, newCtx *app.RequestContext) {
 			requestTotal.Deleted = nil
 		}
 	}
-	if val, ok := newCtx.GetQuery("userType"); ok {
-		request.UserType = proto.Int32(cast.ToInt32(val))      // 用户类型
-		requestTotal.UserType = proto.Int32(cast.ToInt32(val)) // 用户类型
+	if val, ok := newCtx.GetQuery("status"); ok {
+		request.Status = proto.Int32(cast.ToInt32(val))      // 状态
+		requestTotal.Status = proto.Int32(cast.ToInt32(val)) // 状态
 	}
-	if val, ok := newCtx.GetQuery("userId"); ok {
-		request.UserId = proto.Int64(cast.ToInt64(val))      // 用户编号
-		requestTotal.UserId = proto.Int64(cast.ToInt64(val)) // 用户编号
-	}
-	if val, ok := newCtx.GetQuery("username"); ok {
-		request.Username = proto.String(cast.ToString(val))      // 用户名称
-		requestTotal.Username = proto.String(cast.ToString(val)) // 用户名称
+	if val, ok := newCtx.GetQuery("name"); ok {
+		request.Name = proto.String(val)      // 套餐名称
+		requestTotal.Name = proto.String(val) // 套餐名称
 	}
 
 	// 执行服务,获取数据量
-	resTotal, err := client.PayWalletListTotal(ctx, requestTotal)
+	resTotal, err := client.PayWalletRechargePackageListTotal(ctx, requestTotal)
 	if err != nil {
 		globalLogger.Logger.WithFields(logrus.Fields{
 			"req": request,
 			"err": err,
-		}).Error("GrpcCall:会员钱包表:pay_wallet:PayWalletList")
+		}).Error("GrpcCall:充值套餐表:pay_wallet_recharge_package:PayWalletRechargePackageList")
 		fromError := status.Convert(err)
 		newCtx.JSON(consts.StatusOK, utils.H{
 			"code": code.ConvertToHttp(fromError.Code()),
@@ -355,12 +304,12 @@ func PayWalletList(ctx context.Context, newCtx *app.RequestContext) {
 		total = resTotal.GetData()
 	}
 	// 执行服务
-	res, err := client.PayWalletList(ctx, request)
+	res, err := client.PayWalletRechargePackageList(ctx, request)
 	if err != nil {
 		globalLogger.Logger.WithFields(logrus.Fields{
 			"req": request,
 			"err": err,
-		}).Error("GrpcCall:会员钱包表:pay_wallet:PayWalletList")
+		}).Error("GrpcCall:充值套餐表:pay_wallet_recharge_package:PayWalletRechargePackageList")
 		fromError := status.Convert(err)
 		newCtx.JSON(consts.StatusOK, utils.H{
 			"code": code.ConvertToHttp(fromError.Code()),
@@ -368,11 +317,11 @@ func PayWalletList(ctx context.Context, newCtx *app.RequestContext) {
 		})
 		return
 	}
-	var list []*dao.PayWalletCustom
+	var list []*dao.PayWalletRechargePackage
 	if res.GetCode() == code.Success {
 		rpcList := res.GetData()
 		for _, item := range rpcList {
-			list = append(list, wallet.PayWalletCustomDao(item))
+			list = append(list, wallet.PayWalletRechargePackageDao(item))
 		}
 	}
 	newCtx.JSON(consts.StatusOK, utils.H{
@@ -384,5 +333,64 @@ func PayWalletList(ctx context.Context, newCtx *app.RequestContext) {
 			"pageNum":  paginationRequest.PageNum,
 			"pageSize": paginationRequest.PageSize,
 		},
+	})
+}
+
+// PayWalletRechargePackageListSimple 精简列表数据
+func PayWalletRechargePackageListSimple(ctx context.Context, newCtx *app.RequestContext) {
+	grpcClient, err := initial.Core.Client.LoadGrpc("grpc").Singleton()
+	if err != nil {
+		globalLogger.Logger.WithFields(logrus.Fields{
+			"err": err,
+		}).Error("Grpc:充值套餐表:pay_wallet_recharge_package:PayWalletRechargePackageList")
+		newCtx.JSON(consts.StatusOK, utils.H{
+			"code": code.RPCError,
+			"msg":  code.StatusText(code.RPCError),
+		})
+		return
+	}
+	//链接服务
+	client := wallet.NewPayWalletRechargePackageServiceClient(grpcClient)
+	// 构造查询条件
+	request := &wallet.PayWalletRechargePackageListRequest{}
+
+	request.TenantId = proto.Int64(newCtx.GetInt64("tenantId")) // 租户ID
+	request.Deleted = proto.Int32(0)                            // 删除状态
+	if val, ok := newCtx.GetQuery("deleted"); ok {
+		if cast.ToBool(val) {
+			request.Deleted = nil
+		}
+	}
+	if val, ok := newCtx.GetQuery("status"); ok {
+		request.Status = proto.Int32(cast.ToInt32(val)) // 状态
+	}
+	if val, ok := newCtx.GetQuery("name"); ok {
+		request.Name = proto.String(val) // 套餐名称
+	}
+	// 执行服务
+	res, err := client.PayWalletRechargePackageList(ctx, request)
+	if err != nil {
+		globalLogger.Logger.WithFields(logrus.Fields{
+			"req": request,
+			"err": err,
+		}).Error("GrpcCall:充值套餐表:pay_wallet_recharge_package:PayWalletRechargePackageList")
+		fromError := status.Convert(err)
+		newCtx.JSON(consts.StatusOK, utils.H{
+			"code": code.ConvertToHttp(fromError.Code()),
+			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
+		})
+		return
+	}
+	var list []*dao.PayWalletRechargePackage
+	if res.GetCode() == code.Success {
+		rpcList := res.GetData()
+		for _, item := range rpcList {
+			list = append(list, wallet.PayWalletRechargePackageDao(item))
+		}
+	}
+	newCtx.JSON(consts.StatusOK, utils.H{
+		"code": res.GetCode(),
+		"msg":  res.GetMsg(),
+		"data": list,
 	})
 }

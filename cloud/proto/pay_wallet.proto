@@ -35,6 +35,40 @@ message PayWalletObject {
 	// @inject_tag: db:"update_time" json:"updateTime"
 	google.protobuf.Timestamp update_time = 13; //更新时间
 }
+
+// PayWalletCustomObject 自定义数据对象
+message PayWalletCustomObject {
+	// @inject_tag: db:"id" json:"id"
+	optional int64 id = 1; //编号
+	// @inject_tag: db:"user_id" json:"userId"
+	optional int64 user_id = 2; //用户编号
+	// @inject_tag: db:"user_type" json:"userType"
+	optional int32 user_type = 3; //用户类型
+	// @inject_tag: db:"balance" json:"balance"
+	optional int64 balance = 4; //余额，单位分
+	// @inject_tag: db:"total_expense" json:"totalExpense"
+	optional int64 total_expense = 5; //累计支出，单位分
+	// @inject_tag: db:"total_recharge" json:"totalRecharge"
+	optional int64 total_recharge = 6; //累计充值，单位分
+	// @inject_tag: db:"freeze_price" json:"freezePrice"
+	optional int64 freeze_price = 7; //冻结金额，单位分
+	// @inject_tag: db:"deleted" json:"deleted"
+	optional int32 deleted = 8; //删除
+	// @inject_tag: db:"tenant_id" json:"tenantId"
+	optional int64 tenant_id = 9; //租户
+	// @inject_tag: db:"creator" json:"creator"
+	optional string creator = 10; //创建人
+	// @inject_tag: db:"create_time" json:"createTime"
+	google.protobuf.Timestamp create_time = 11; //创建时间
+	// @inject_tag: db:"updater" json:"updater"
+	optional string updater = 12; //更新人
+	// @inject_tag: db:"update_time" json:"updateTime"
+	google.protobuf.Timestamp update_time = 13; //更新时间
+	// @inject_tag: db:"username" json:"username"
+	optional string username = 14; //用户名称
+}
+
+
 // PayWalletTotalResponse 列表数据总量
 message PayWalletTotalResponse {
 	int64 code = 1;
@@ -121,16 +155,18 @@ message PayWalletListRequest {
 	optional int64 user_id = 3; // 用户编号
 	// @inject_tag: db:"deleted" json:"deleted"
 	optional int32 deleted = 4; // 删除
+	// @inject_tag: db:"username" json:"username"
+	optional string username = 5; // 用户名称
 
 	// @inject_tag: db:"pagination" json:"pagination"
-	optional pagination.PaginationRequest pagination = 5; // 分页
+	optional pagination.PaginationRequest pagination = 6; // 分页
 }
 
 // PayWalletListResponse 数据响应
 message PayWalletListResponse {
 	int64 code = 1;
   	string msg = 2;
-	repeated PayWalletObject data = 3;
+	repeated PayWalletCustomObject data = 3;
 }
 // PayWalletListTotalRequest 列表数据
 message PayWalletListTotalRequest {
@@ -143,6 +179,8 @@ message PayWalletListTotalRequest {
 	optional int64 user_id = 3; // 用户编号
 	// @inject_tag: db:"deleted" json:"deleted"
 	optional int32 deleted = 4; // 删除
+	// @inject_tag: db:"username" json:"username"
+	optional string username = 5; // 用户名称
 
 }
 
