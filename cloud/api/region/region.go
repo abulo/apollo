@@ -286,19 +286,10 @@ func RegionList(ctx context.Context, newCtx *app.RequestContext) {
 			list = append(list, region.RegionDao(item))
 		}
 	}
-	var newList []*dao.Region
-	newList = list
-	tree := false
-	if val, ok := newCtx.GetQuery("tree"); ok {
-		tree = cast.ToBool(val)
-	}
-	if tree {
-		newList = RegionTree(list, 0)
-	}
 	newCtx.JSON(consts.StatusOK, utils.H{
 		"code": res.GetCode(),
 		"msg":  res.GetMsg(),
-		"data": newList,
+		"data": RegionTree(list, 0),
 	})
 }
 

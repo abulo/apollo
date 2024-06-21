@@ -1,15 +1,19 @@
 <template>
   <div class="table-box">
-    <ProTable
-      v-if="refreshTable"
+    <VirtualTable
       ref="proTable"
       title="菜单列表"
       row-key="id"
       :columns="columns"
       :request-api="getSystemMenuListApi"
+      :data-callback="getFlatList"
       :request-auto="true"
       :pagination="false"
-      :default-expand-all="isExpandAll"
+      :column-config="{ resizable: true }"
+      :row-config="{ height: 45, isHover: true, keyField: 'id', useKey: true }"
+      :tree-config="{ transform: true, iconOpen: 'vxe-icon-arrow-down', iconClose: 'vxe-icon-arrow-right', reserve: true }"
+      :scroll-y="{ enabled: true }"
+      height="600"
       :search-col="12">
       <!-- 表格 header 按钮 -->
       <template #tableHeader>
@@ -70,7 +74,7 @@
           </template>
         </el-dropdown>
       </template>
-    </ProTable>
+    </VirtualTable>
     <!-- 新增/编辑弹窗 -->
     <el-dialog
       v-model="centerDialogVisible"
@@ -175,10 +179,10 @@
   </div>
 </template>
 <script setup lang="tsx" name="systemMenu">
-import { ref, reactive, nextTick } from "vue";
-import { ProTableInstance, ColumnProps, SearchProps } from "@/components/ProTable/interface";
-import ProTable from "@/components/ProTable/index.vue";
+import { ref, reactive } from "vue";
+import { ProTableInstance, ColumnProps, SearchProps } from "@/components/VirtualTable/interface";
 import { EditPen, CirclePlus, Sort, Delete, Refresh, DArrowRight } from "@element-plus/icons-vue";
+import VirtualTable from "@/components/VirtualTable/index.vue";
 import { SystemMenu } from "@/api/interface/systemMenu";
 import {
   getSystemMenuListApi,
@@ -198,10 +202,8 @@ import { HasPermission } from "@/utils/permission";
 const loading = ref(false);
 //table数据
 const proTable = ref<ProTableInstance>();
-// 是否展开，默认全部折叠
+//是否展开，默认全部折叠
 const isExpandAll = ref(false);
-// 重新渲染表格状态
-const refreshTable = ref(true);
 //弹出层标题
 const title = ref();
 //是否显示弹出层
@@ -293,12 +295,10 @@ const keepAliveEnum = getIntDictOptions("menu.keepAlive");
 //全屏
 const fullScreenEnum = getIntDictOptions("menu.fullScreen");
 
+// 设置展开合并
 const toggleExpandAll = () => {
-  refreshTable.value = false;
   isExpandAll.value = !isExpandAll.value;
-  nextTick(() => {
-    refreshTable.value = true;
-  });
+  proTable.value?.element?.setAllTreeExpand(isExpandAll.value);
 };
 
 // 添加按钮
@@ -333,13 +333,13 @@ const handleUpdate = async (row: SystemMenu.ResSystemMenuItem) => {
 // 删除按钮
 const handleDelete = async (row: SystemMenu.ResSystemMenuItem) => {
   await useHandleData(deleteSystemMenuApi, Number(row.id), "删除菜单");
-  proTable.value?.getTableList();
+  reloadData();
 };
 
 // 恢复按钮
 const handleRecover = async (row: SystemMenu.ResSystemMenuItem) => {
   await useHandleData(recoverSystemMenuApi, Number(row.id), "恢复菜单");
-  proTable.value?.getTableList();
+  reloadData();
 };
 
 // 获取菜单树选项
@@ -375,6 +375,11 @@ const getTreeSelect = async () => {
   menuOptions.value.push(obj);
 };
 
+const getFlatList = (list: SystemMenu.ResSystemMenuList[]) => {
+  let newList: SystemMenu.ResSystemMenuList[] = JSON.parse(JSON.stringify(list));
+  return newList.flatMap(item => [item, ...(item.children ? getFlatList(item.children) : [])]);
+};
+
 // 提交数据
 const submitForm = (formEl: FormInstance | undefined) => {
   if (!formEl) return;
@@ -389,8 +394,14 @@ const submitForm = (formEl: FormInstance | undefined) => {
     }
     resetForm(formEl);
     loading.value = false;
-    proTable.value?.getTableList();
+    reloadData();
   });
+};
+//
+const reloadData = async () => {
+  const recordList = proTable.value?.element?.getTreeExpandRecords();
+  const { data } = await getSystemMenuListApi();
+  proTable.value?.element?.loadData(getFlatList(data));
 };
 
 // 表格配置项
@@ -404,27 +415,27 @@ const deleteSearch = reactive<SearchProps>(
 );
 
 const columns: ColumnProps<SystemMenu.ResSystemMenuList>[] = [
-  { prop: "id", type: "", label: "编号", width: 100 },
-  { prop: "name", label: "菜单名称", align: "left" },
-  { prop: "type", label: "菜单类别", tag: true, enum: typeEnum, width: 100 },
-  { prop: "icon", label: "菜单图标", width: 100 },
-  { prop: "sort", label: "排序", width: 100 },
-  { prop: "path", label: "路由地址" },
-  { prop: "permission", label: "权限标识" },
-  { prop: "component", label: "组件路径" },
-  { prop: "componentName", label: "组件别名" },
-  { prop: "status", label: "状态", tag: true, enum: statusEnum, search: { el: "select", span: 2 } },
+  { field: "id", title: "编号", width: 100 },
+  { field: "name", title: "菜单名称", align: "left", treeNode: true },
+  { field: "type", title: "菜单类别", tag: true, enum: typeEnum, width: 100 },
+  { field: "icon", title: "菜单图标", width: 100 },
+  { field: "sort", title: "排序", width: 100 },
+  { field: "path", title: "路由地址" },
+  { field: "permission", title: "权限标识" },
+  { field: "component", title: "组件路径" },
+  { field: "componentName", title: "组件别名" },
+  { field: "status", title: "状态", tag: true, enum: statusEnum, search: { el: "select", span: 2 } },
   {
-    prop: "deleted",
-    label: "删除",
+    field: "deleted",
+    title: "删除",
     tag: true,
     enum: deletedEnum,
     search: deleteSearch,
     width: 100
   },
   {
-    prop: "operation",
-    label: "操作",
+    field: "operation",
+    title: "操作",
     width: 160,
     fixed: "right",
     isShow: HasPermission("menu.SystemMenuUpdate", "menu.SystemMenuDelete", "menu.SystemMenuRecover", "menu.SystemMenuCreate")

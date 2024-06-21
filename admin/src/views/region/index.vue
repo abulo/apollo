@@ -6,13 +6,13 @@
       row-key="id"
       :columns="columns"
       :request-api="getRegionListApi"
+      :data-callback="getFlatList"
       :request-auto="true"
       :pagination="false"
       :column-config="{ resizable: true }"
       :row-config="{ height: 45, isHover: true, keyField: 'id', useKey: true }"
       :tree-config="{ transform: true, iconOpen: 'vxe-icon-arrow-down', iconClose: 'vxe-icon-arrow-right', reserve: true }"
       :scroll-y="{ enabled: true }"
-      :init-param="initParam"
       height="600"
       :search-col="12">
       <!-- 表格 header 按钮 -->
@@ -77,10 +77,10 @@
       draggable
       :lock-scroll="false"
       class="dialog-settings">
-      <el-form-item label="地区编号" prop="id">
-        <el-input v-model="regionItemFrom.id" placeholder="请输入地区编号" />
-      </el-form-item>
       <el-form ref="refRegionItemFrom" :model="regionItemFrom" :rules="rulesRegionItemFrom" label-width="100px">
+        <el-form-item label="地区编号" prop="id">
+          <el-input v-model="regionItemFrom.id" placeholder="请输入地区编号" />
+        </el-form-item>
         <el-form-item label="上级地区" prop="parentId">
           <el-tree-select
             v-model="regionItemFrom.parentId"
@@ -134,8 +134,6 @@ import { getIntDictOptions } from "@/utils/dict";
 import { DictTag } from "@/components/DictTag";
 import { useHandleData, useHandleSet } from "@/hooks/useHandleData";
 import { HasPermission } from "@/utils/permission";
-const initParam = reactive({ tree: 0 });
-
 //加载
 const loading = ref(false);
 //table数据
@@ -221,19 +219,19 @@ const handleUpdate = async (row: Region.ResRegionItem) => {
 // 删除按钮
 const handleDelete = async (row: Region.ResRegionItem) => {
   await useHandleData(deleteRegionApi, Number(row.id), "删除地区");
-  proTable.value?.getTableList();
+  reloadData();
 };
 
 // 恢复按钮
 const handleRecover = async (row: Region.ResRegionItem) => {
   await useHandleData(recoverRegionApi, Number(row.id), "恢复地区");
-  proTable.value?.getTableList();
+  reloadData();
 };
 
 // 获取地区树选项
 const getTreeSelect = async () => {
   regionOptions.value = [];
-  const res = await getRegionListApi({ tree: 1 });
+  const res = await getRegionListApi();
   let obj: Region.ResRegionList = {
     id: 0,
     name: "主类目",
@@ -244,6 +242,17 @@ const getTreeSelect = async () => {
     deleted: 0
   };
   regionOptions.value.push(obj);
+};
+
+const getFlatList = (list: Region.ResRegionList[]) => {
+  let newList: Region.ResRegionList[] = JSON.parse(JSON.stringify(list));
+  return newList.flatMap(item => [item, ...(item.children ? getFlatList(item.children) : [])]);
+};
+
+const reloadData = async () => {
+  const recordList = proTable.value?.element?.getTreeExpandRecords();
+  const { data } = await getRegionListApi();
+  proTable.value?.element?.loadData(getFlatList(data));
 };
 
 // 提交数据
@@ -260,7 +269,7 @@ const submitForm = (formEl: FormInstance | undefined) => {
     }
     resetForm(formEl);
     loading.value = false;
-    proTable.value?.getTableList();
+    reloadData();
   });
 };
 
