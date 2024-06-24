@@ -9,8 +9,8 @@ export const getSystemEntryLogListApi = (params?: SystemEntryLog.ReqSystemEntryL
 };
 
 // 删除
-export const deleteSystemEntryLogApi = (params: SystemEntryLog.ReqSystemEntryLogDelete) => {
-  return http.post(PORT + `/system/logger/entry/delete`, params);
+export const deleteSystemEntryLogApi = (id: string) => {
+  return http.delete(PORT + `/system/logger/entry/${id}/delete`);
 };
 
 // 单个数据

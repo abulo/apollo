@@ -122,7 +122,7 @@ func SystemInitRoute(handle *xhertz.Server) {
 		auth.POST("/system/logger/operate/drop", logger.SystemOperateLogDrop)
 
 		// system_entry_log -> 访问日志 -> 删除
-		auth.POST("/system/logger/entry/delete", logger.SystemEntryLogDelete)
+		auth.DELETE("/system/logger/entry/:id/delete", logger.SystemEntryLogDelete)
 		// system_entry_log -> 访问日志 -> 清空
 		auth.POST("/system/logger/entry/drop", logger.SystemEntryLogDrop)
 		// system_entry_log -> 访问日志 -> 单条数据信息查看

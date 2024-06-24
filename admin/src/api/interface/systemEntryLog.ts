@@ -15,10 +15,8 @@ export namespace SystemEntryLog {
     data: any; // 数据
     level: string; // 级别
   }
-  export interface ReqSystemEntryLogDelete {
-    systemEntryLogIds: string[]; // 访问日志编号
-  }
   export interface ReqSystemEntryLogDrop {
+    ids?: string[]; // 日志编号
     startTime?: string; // 开始时间
     endTime?: string; // 结束时间
   }

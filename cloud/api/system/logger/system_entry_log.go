@@ -19,27 +19,10 @@ import (
 
 // SystemEntryLogDelete 删除数据
 func SystemEntryLogDelete(ctx context.Context, newCtx *app.RequestContext) {
-	var reqInfo dao.SystemEntryLogDelete
-	if err := newCtx.BindAndValidate(&reqInfo); err != nil {
-		newCtx.JSON(consts.StatusOK, utils.H{
-			"code": code.ParamInvalid,
-			"msg":  code.StatusText(code.ParamInvalid),
-		})
-		return
-	}
-	var mongoIds []string
-	if err := json.Unmarshal(reqInfo.Ids.JSON, &mongoIds); err != nil {
-		newCtx.JSON(consts.StatusOK, utils.H{
-			"code": code.ParamInvalid,
-			"msg":  code.StatusText(code.ParamInvalid),
-		})
-		return
-	}
+	id := cast.ToString(newCtx.Param("id"))
 	systemEntryLogIds := make([]primitive.ObjectID, 0)
-	for _, mongoId := range mongoIds {
-		id, _ := primitive.ObjectIDFromHex(mongoId)
-		systemEntryLogIds = append(systemEntryLogIds, id)
-	}
+	mongoId, _ := primitive.ObjectIDFromHex(id)
+	systemEntryLogIds = append(systemEntryLogIds, mongoId)
 	if len(systemEntryLogIds) == 0 {
 		newCtx.JSON(consts.StatusOK, utils.H{
 			"code": code.ParamInvalid,
@@ -47,7 +30,6 @@ func SystemEntryLogDelete(ctx context.Context, newCtx *app.RequestContext) {
 		})
 		return
 	}
-
 	request := make(bson.D, 0)
 	request = util.ConvertBson(request, bson.E{Key: "_id", Value: bson.D{{Key: "$in", Value: systemEntryLogIds}}})
 	if _, err := logger.SystemEntryLogDelete(ctx, request); err != nil {
@@ -80,6 +62,23 @@ func SystemEntryLogDrop(ctx context.Context, newCtx *app.RequestContext) {
 	if reqInfo.EndTime.IsValid() {
 		request = util.ConvertBson(request, bson.E{Key: "timestamp", Value: bson.D{{Key: "$lte", Value: *reqInfo.EndTime.Ptr()}}})
 	}
+	if reqInfo.Ids.IsValid() {
+		var mongoIds []string
+		if err := json.Unmarshal(reqInfo.Ids.JSON, &mongoIds); err != nil {
+			newCtx.JSON(consts.StatusOK, utils.H{
+				"code": code.ParamInvalid,
+				"msg":  code.StatusText(code.ParamInvalid),
+			})
+			return
+		}
+		systemEntryLogIds := make([]primitive.ObjectID, 0)
+		for _, mongoId := range mongoIds {
+			id, _ := primitive.ObjectIDFromHex(mongoId)
+			systemEntryLogIds = append(systemEntryLogIds, id)
+		}
+		request = util.ConvertBson(request, bson.E{Key: "_id", Value: bson.D{{Key: "$in", Value: systemEntryLogIds}}})
+	}
+
 	if _, err := logger.SystemEntryLogDrop(ctx, request); err != nil {
 		newCtx.JSON(consts.StatusOK, utils.H{
 			"code": code.ParamInvalid,

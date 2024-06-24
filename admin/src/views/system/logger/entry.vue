@@ -11,20 +11,16 @@
       :search-col="12">
       <!-- 表格 header 按钮 -->
       <template #tableHeader="scope">
-        <el-button
-          v-auth="'logger.SystemEntryLogDelete'"
-          type="danger"
-          :icon="Delete"
-          plain
-          :disabled="!scope.isSelected"
-          @click="handleDelete(scope.selectedListIds)">
-          删除
+        <el-button v-auth="'logger.SystemEntryLogDrop'" type="danger" :icon="Delete" @click="handleDrop(scope.selectedListIds)">
+          清空
         </el-button>
-        <el-button v-auth="'logger.SystemEntryLogDrop'" type="danger" :icon="Delete" @click="handleDrop"> 清空 </el-button>
       </template>
       <template #operation="scope">
         <el-button v-auth="'logger.SystemEntryLog'" type="primary" link :icon="View" @click="handleItem(scope.row)">
           查看
+        </el-button>
+        <el-button type="primary" link v-auth="'logger.SystemEntryLogDelete'" :icon="Delete" @click="handleDelete(scope.row)">
+          删除
         </el-button>
       </template>
     </ProTable>
@@ -114,22 +110,22 @@ const getTableList = (params: any) => {
   return getSystemEntryLogListApi(newParams);
 };
 
-// 批量删除用户信息
-const handleDelete = async (id: string[]) => {
-  const data = ref<SystemEntryLog.ReqSystemEntryLogDelete>({
-    systemEntryLogIds: id
-  });
-  await useHandleData(deleteSystemEntryLogApi, data.value, "删除所选信息");
-  proTable.value?.clearSelection();
+// 删除按钮
+const handleDelete = async (row: SystemEntryLog.ResSystemEntryLogItem) => {
+  await useHandleData(deleteSystemEntryLogApi, String(row.id), "删除日志");
   proTable.value?.getTableList();
 };
 
-const handleDrop = async () => {
+const handleDrop = async (id: string[]) => {
   const data = ref<SystemEntryLog.ReqSystemEntryLogDrop>({});
   let newParams = proTable.value?.searchParam;
   let time = newParams?.timestamp as string[];
   time && (data.value.startTime = time[0]);
   time && (data.value.endTime = time[1]);
+  // 判断 ids 是不是空
+  if (id.length > 0) {
+    data.value.ids = id.map(String);
+  }
   await useHandleData(dropSystemEntryLogApi, data.value, "清空日志");
   proTable.value?.clearSelection();
   proTable.value?.getTableList();
