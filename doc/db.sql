@@ -11,7 +11,7 @@
  Target Server Version : 80400 (8.4.0)
  File Encoding         : 65001
 
- Date: 05/06/2024 12:21:03
+ Date: 24/06/2024 17:16:37
 */
 
 SET NAMES utf8mb4;
@@ -33,12 +33,13 @@ CREATE TABLE `member` (
   `updater` varchar(64) DEFAULT NULL COMMENT '更新人',
   `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='用户';
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='用户';
 
 -- ----------------------------
 -- Records of member
 -- ----------------------------
 BEGIN;
+INSERT INTO `member` (`id`, `nickname`, `avatar`, `birthday`, `gender`, `status`, `creator`, `create_time`, `updater`, `update_time`) VALUES (1, '22', NULL, '2024-06-18', 0, 0, NULL, '2024-06-18 21:54:19', NULL, '2024-06-18 21:54:19');
 COMMIT;
 
 -- ----------------------------
@@ -125,7 +126,7 @@ COMMIT;
 DROP TABLE IF EXISTS `pay_channel`;
 CREATE TABLE `pay_channel` (
   `id` bigint NOT NULL AUTO_INCREMENT COMMENT '商户编号',
-  `code` varchar(32) NOT NULL COMMENT '渠道编码',
+  `code` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '渠道编码',
   `status` tinyint NOT NULL DEFAULT '0' COMMENT '开启状态',
   `remark` varchar(255) DEFAULT NULL COMMENT '备注',
   `fee_rate` double NOT NULL DEFAULT '0' COMMENT '渠道费率，单位：百分比',
@@ -215,7 +216,7 @@ CREATE TABLE `pay_order` (
   `id` bigint NOT NULL AUTO_INCREMENT COMMENT '支付订单编号',
   `app_id` bigint NOT NULL COMMENT '应用编号',
   `channel_id` bigint NOT NULL COMMENT '渠道编号',
-  `channel_code` varchar(32) NOT NULL COMMENT '渠道编码',
+  `channel_code` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '渠道编码',
   `merchant_order_id` varchar(64) NOT NULL COMMENT '商户订单编号',
   `subject` varchar(64) NOT NULL COMMENT '商品标题',
   `body` varchar(128) NOT NULL COMMENT '商品描述',
@@ -258,7 +259,7 @@ CREATE TABLE `pay_order_extension` (
   `no` varchar(64) NOT NULL COMMENT '支付订单号',
   `order_id` bigint NOT NULL COMMENT '支付订单编号',
   `channel_id` bigint NOT NULL COMMENT '渠道编号',
-  `channel_code` varchar(32) NOT NULL COMMENT '渠道编码',
+  `channel_code` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '渠道编码',
   `user_ip` varchar(64) DEFAULT NULL COMMENT 'ip',
   `status` tinyint NOT NULL COMMENT '支付状态',
   `channel_extras` varchar(255) DEFAULT NULL COMMENT '支付渠道的额外参数',
@@ -319,6 +320,130 @@ CREATE TABLE `pay_refund` (
 
 -- ----------------------------
 -- Records of pay_refund
+-- ----------------------------
+BEGIN;
+COMMIT;
+
+-- ----------------------------
+-- Table structure for pay_wallet
+-- ----------------------------
+DROP TABLE IF EXISTS `pay_wallet`;
+CREATE TABLE `pay_wallet` (
+  `id` bigint NOT NULL AUTO_INCREMENT COMMENT '编号',
+  `user_id` bigint NOT NULL COMMENT '用户编号',
+  `user_type` tinyint NOT NULL DEFAULT '0' COMMENT '用户类型',
+  `balance` bigint NOT NULL DEFAULT '0' COMMENT '余额，单位分',
+  `total_expense` bigint NOT NULL DEFAULT '0' COMMENT '累计支出，单位分',
+  `total_recharge` bigint NOT NULL DEFAULT '0' COMMENT '累计充值，单位分',
+  `freeze_price` bigint NOT NULL DEFAULT '0' COMMENT '冻结金额，单位分',
+  `deleted` tinyint NOT NULL DEFAULT '0' COMMENT '删除',
+  `tenant_id` bigint NOT NULL COMMENT '租户',
+  `creator` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '创建人',
+  `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `updater` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '更新人',
+  `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  PRIMARY KEY (`id`) USING BTREE,
+  UNIQUE KEY `item:user` (`tenant_id`,`user_type`,`user_id`) USING BTREE,
+  KEY `idx:list` (`tenant_id`,`deleted`,`user_type`,`user_id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=DYNAMIC COMMENT='会员钱包表';
+
+-- ----------------------------
+-- Records of pay_wallet
+-- ----------------------------
+BEGIN;
+INSERT INTO `pay_wallet` (`id`, `user_id`, `user_type`, `balance`, `total_expense`, `total_recharge`, `freeze_price`, `deleted`, `tenant_id`, `creator`, `create_time`, `updater`, `update_time`) VALUES (1, 1, 1, 0, 0, 0, 0, 0, 1, NULL, '2024-06-18 21:54:50', NULL, '2024-06-18 21:54:50');
+INSERT INTO `pay_wallet` (`id`, `user_id`, `user_type`, `balance`, `total_expense`, `total_recharge`, `freeze_price`, `deleted`, `tenant_id`, `creator`, `create_time`, `updater`, `update_time`) VALUES (2, 1, 0, 0, 0, 0, 0, 0, 1, NULL, '2024-06-18 21:55:22', NULL, '2024-06-18 21:55:22');
+COMMIT;
+
+-- ----------------------------
+-- Table structure for pay_wallet_recharge
+-- ----------------------------
+DROP TABLE IF EXISTS `pay_wallet_recharge`;
+CREATE TABLE `pay_wallet_recharge` (
+  `id` bigint NOT NULL AUTO_INCREMENT COMMENT '编号',
+  `wallet_id` bigint NOT NULL COMMENT '会员钱包id',
+  `total_price` bigint NOT NULL COMMENT '用户实际到账余额，例如充 100 送 20，则该值是 120',
+  `pay_price` bigint NOT NULL COMMENT '实际支付金额',
+  `bonus_price` bigint NOT NULL DEFAULT '0' COMMENT '钱包赠送金额',
+  `package_id` bigint DEFAULT NULL COMMENT '充值套餐编号',
+  `pay_status` tinyint NOT NULL COMMENT '是否已支付：[0:未支付 1:已经支付过]',
+  `pay_order_id` bigint NOT NULL COMMENT '支付订单编号',
+  `pay_channel_code` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '支付成功的支付渠道',
+  `pay_time` datetime DEFAULT NULL COMMENT '订单支付时间',
+  `pay_refund_id` bigint DEFAULT NULL COMMENT '支付退款单编号',
+  `refund_total_price` bigint DEFAULT '0' COMMENT '退款金额，包含赠送金额',
+  `refund_pay_price` bigint DEFAULT '0' COMMENT '退款支付金额',
+  `refund_bonus_price` bigint DEFAULT '0' COMMENT '退款钱包赠送金额',
+  `refund_time` datetime DEFAULT NULL COMMENT '退款时间',
+  `refund_status` tinyint DEFAULT NULL COMMENT '退款状态',
+  `deleted` tinyint NOT NULL DEFAULT '0' COMMENT '删除',
+  `tenant_id` bigint NOT NULL COMMENT '租户',
+  `creator` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '创建人',
+  `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `updater` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '更新人',
+  `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  PRIMARY KEY (`id`) USING BTREE,
+  KEY `idx:list` (`tenant_id`,`deleted`,`wallet_id`,`package_id`,`pay_status`,`pay_order_id`,`pay_channel_code`,`pay_time`,`refund_status`,`pay_refund_id`,`refund_time`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=DYNAMIC COMMENT='会员钱包充值';
+
+-- ----------------------------
+-- Records of pay_wallet_recharge
+-- ----------------------------
+BEGIN;
+COMMIT;
+
+-- ----------------------------
+-- Table structure for pay_wallet_recharge_package
+-- ----------------------------
+DROP TABLE IF EXISTS `pay_wallet_recharge_package`;
+CREATE TABLE `pay_wallet_recharge_package` (
+  `id` bigint NOT NULL AUTO_INCREMENT COMMENT '编号',
+  `name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '套餐名称',
+  `pay_price` bigint NOT NULL COMMENT '支付金额',
+  `bonus_price` bigint NOT NULL COMMENT '赠送金额',
+  `status` tinyint NOT NULL COMMENT '状态',
+  `deleted` tinyint NOT NULL DEFAULT '0' COMMENT '删除',
+  `tenant_id` bigint NOT NULL COMMENT '租户',
+  `creator` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '创建人',
+  `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `updater` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '更新人',
+  `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  PRIMARY KEY (`id`) USING BTREE,
+  KEY `idx:list` (`tenant_id`,`deleted`,`status`,`name`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=DYNAMIC COMMENT='充值套餐表';
+
+-- ----------------------------
+-- Records of pay_wallet_recharge_package
+-- ----------------------------
+BEGIN;
+INSERT INTO `pay_wallet_recharge_package` (`id`, `name`, `pay_price`, `bonus_price`, `status`, `deleted`, `tenant_id`, `creator`, `create_time`, `updater`, `update_time`) VALUES (1, 's', 10005, 5001, 0, 0, 1, 'admin', '2024-06-19 01:06:38', 'admin', '2024-06-21 15:20:52');
+COMMIT;
+
+-- ----------------------------
+-- Table structure for pay_wallet_transaction
+-- ----------------------------
+DROP TABLE IF EXISTS `pay_wallet_transaction`;
+CREATE TABLE `pay_wallet_transaction` (
+  `id` bigint NOT NULL AUTO_INCREMENT COMMENT '编号',
+  `wallet_id` bigint NOT NULL COMMENT '会员钱包 id',
+  `biz_type` tinyint NOT NULL COMMENT '关联类型',
+  `biz_id` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '关联业务编号',
+  `no` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '流水号',
+  `title` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '流水标题',
+  `price` bigint NOT NULL COMMENT '交易金额, 单位分',
+  `balance` bigint NOT NULL COMMENT '余额, 单位分',
+  `deleted` tinyint NOT NULL DEFAULT '0' COMMENT '删除',
+  `tenant_id` bigint NOT NULL COMMENT '租户',
+  `creator` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '创建人',
+  `create_time` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `updater` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '更新人',
+  `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  PRIMARY KEY (`id`) USING BTREE,
+  KEY `idx:list` (`tenant_id`,`deleted`,`wallet_id`,`biz_type`,`biz_id`,`no`,`title`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci ROW_FORMAT=DYNAMIC COMMENT='会员钱包流水表';
+
+-- ----------------------------
+-- Records of pay_wallet_transaction
 -- ----------------------------
 BEGIN;
 COMMIT;
@@ -3827,7 +3952,7 @@ CREATE TABLE `system_dict` (
   `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`id`),
   KEY `list:data` (`dict_type`,`status`,`sort`)
-) ENGINE=InnoDB AUTO_INCREMENT=65 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='字典数据表';
+) ENGINE=InnoDB AUTO_INCREMENT=67 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='字典数据表';
 
 -- ----------------------------
 -- Records of system_dict
@@ -3897,6 +4022,8 @@ INSERT INTO `system_dict` (`id`, `sort`, `label`, `value`, `dict_type`, `status`
 INSERT INTO `system_dict` (`id`, `sort`, `label`, `value`, `dict_type`, `status`, `color_type`, `css_class`, `remark`, `creator`, `create_time`, `updater`, `update_time`) VALUES (62, 4, '请求失败', '4', 'pay.notifyStatus', 0, 'warning', '', '', 'admin', '2024-06-05 11:38:21', '', '2024-06-05 11:38:21');
 INSERT INTO `system_dict` (`id`, `sort`, `label`, `value`, `dict_type`, `status`, `color_type`, `css_class`, `remark`, `creator`, `create_time`, `updater`, `update_time`) VALUES (63, 0, '支付订单', '1', 'pay.notifyType', 0, 'primary', '', '', 'admin', '2024-06-05 11:40:13', '', '2024-06-05 11:43:03');
 INSERT INTO `system_dict` (`id`, `sort`, `label`, `value`, `dict_type`, `status`, `color_type`, `css_class`, `remark`, `creator`, `create_time`, `updater`, `update_time`) VALUES (64, 0, '退款订单', '2', 'pay.notifyType', 0, 'default', '', '', 'admin', '2024-06-05 11:40:25', '', '2024-06-05 11:42:56');
+INSERT INTO `system_dict` (`id`, `sort`, `label`, `value`, `dict_type`, `status`, `color_type`, `css_class`, `remark`, `creator`, `create_time`, `updater`, `update_time`) VALUES (65, 1, '会员', '1', 'pay.walletUserType', 0, 'success', '', '', 'admin', '2024-06-15 18:35:29', '', '2024-06-15 18:35:29');
+INSERT INTO `system_dict` (`id`, `sort`, `label`, `value`, `dict_type`, `status`, `color_type`, `css_class`, `remark`, `creator`, `create_time`, `updater`, `update_time`) VALUES (66, 0, '管理员', '0', 'pay.walletUserType', 0, 'default', '', '', 'admin', '2024-06-15 18:35:48', 'admin', '2024-06-15 18:35:58');
 COMMIT;
 
 -- ----------------------------
@@ -3916,7 +4043,7 @@ CREATE TABLE `system_dict_type` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `uniq:type` (`type`),
   KEY `idx:list` (`status`,`type`,`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='字典类型';
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='字典类型';
 
 -- ----------------------------
 -- Records of system_dict_type
@@ -3941,8 +4068,9 @@ INSERT INTO `system_dict_type` (`id`, `name`, `type`, `status`, `remark`, `creat
 INSERT INTO `system_dict_type` (`id`, `name`, `type`, `status`, `remark`, `creator`, `create_time`, `updater`, `update_time`) VALUES (18, '文件类型', 'file.type', 0, '', 'admin', '2024-05-17 18:47:43', '', '2024-05-17 18:47:43');
 INSERT INTO `system_dict_type` (`id`, `name`, `type`, `status`, `remark`, `creator`, `create_time`, `updater`, `update_time`) VALUES (19, '支付状态', 'pay.orderStatus', 0, '', 'admin', '2024-05-29 21:15:01', '', '2024-05-29 21:15:01');
 INSERT INTO `system_dict_type` (`id`, `name`, `type`, `status`, `remark`, `creator`, `create_time`, `updater`, `update_time`) VALUES (20, '退款订单状态', 'pay.refundStatus', 0, '', 'admin', '2024-05-30 09:07:36', '', '2024-05-30 09:07:36');
-INSERT INTO `system_dict_type` (`id`, `name`, `type`, `status`, `remark`, `creator`, `create_time`, `updater`, `update_time`) VALUES (21, '支付通知状态', 'pay.notifyStatus', 0, '', 'admin', '2024-06-05 11:36:36', '', '2024-06-05 11:36:36');
+INSERT INTO `system_dict_type` (`id`, `name`, `type`, `status`, `remark`, `creator`, `create_time`, `updater`, `update_time`) VALUES (21, '支付通知状态', 'pay.notifyStatus', 0, '', 'admin', '2024-06-05 11:36:36', 'admin', '2024-06-19 23:46:32');
 INSERT INTO `system_dict_type` (`id`, `name`, `type`, `status`, `remark`, `creator`, `create_time`, `updater`, `update_time`) VALUES (22, '支付通知类型', 'pay.notifyType', 0, '', 'admin', '2024-06-05 11:39:44', '', '2024-06-05 11:42:35');
+INSERT INTO `system_dict_type` (`id`, `name`, `type`, `status`, `remark`, `creator`, `create_time`, `updater`, `update_time`) VALUES (23, '钱包用户类型', 'pay.walletUserType', 0, '', 'admin', '2024-06-15 18:33:51', 'admin', '2024-06-19 23:46:17');
 COMMIT;
 
 -- ----------------------------
@@ -3969,6 +4097,18 @@ CREATE TABLE `system_file` (
 -- Records of system_file
 -- ----------------------------
 BEGIN;
+INSERT INTO `system_file` (`id`, `file_name`, `file_type`, `file_mime_type`, `file_size`, `file_path`, `tenant_id`, `creator`, `create_time`, `updater`, `update_time`) VALUES (4, 'ff', 1, 'image/png', 284597, '1/2024/05/17/66475b2af166cc1ea5d32511.png', 1, 'admin', '2024-05-17 21:27:06', 'admin', '2024-05-17 23:37:32');
+INSERT INTO `system_file` (`id`, `file_name`, `file_type`, `file_mime_type`, `file_size`, `file_path`, `tenant_id`, `creator`, `create_time`, `updater`, `update_time`) VALUES (6, 'ss', 1, 'image/png', 336373, '1/2024/05/17/66475c25f166cc1ea5d32513.png', 1, 'admin', '2024-05-17 21:31:17', 'admin', '2024-05-17 23:37:23');
+INSERT INTO `system_file` (`id`, `file_name`, `file_type`, `file_mime_type`, `file_size`, `file_path`, `tenant_id`, `creator`, `create_time`, `updater`, `update_time`) VALUES (7, '大赛申报表.pdf', 5, 'application/pdf', 1186067, '1/2024/05/17/664779def166cc1ea5d32514.pdf', 1, 'admin', '2024-05-17 23:38:06', NULL, '2024-05-17 23:38:06');
+INSERT INTO `system_file` (`id`, `file_name`, `file_type`, `file_mime_type`, `file_size`, `file_path`, `tenant_id`, `creator`, `create_time`, `updater`, `update_time`) VALUES (8, '航天创意比赛-创意设计方案模板-20240105111513 (1).pdf', 5, 'application/pdf', 144762, '1/2024/05/17/66477a49f166cc1ea5d32519.pdf', 1, 'admin', '2024-05-17 23:39:53', NULL, '2024-05-17 23:39:53');
+INSERT INTO `system_file` (`id`, `file_name`, `file_type`, `file_mime_type`, `file_size`, `file_path`, `tenant_id`, `creator`, `create_time`, `updater`, `update_time`) VALUES (9, '航天创意比赛-创意设计方案模板-20240105111513 (1).docx', 2, 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 17808, '1/2024/05/17/66477a4ff166cc1ea5d3251a.docx', 1, 'admin', '2024-05-17 23:39:59', NULL, '2024-05-17 23:39:59');
+INSERT INTO `system_file` (`id`, `file_name`, `file_type`, `file_mime_type`, `file_size`, `file_path`, `tenant_id`, `creator`, `create_time`, `updater`, `update_time`) VALUES (10, 'Dear Ann.docx', 2, 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 11398, '1/2024/05/17/66477a5cf166cc1ea5d3251b.docx', 1, 'admin', '2024-05-17 23:40:12', NULL, '2024-05-17 23:40:13');
+INSERT INTO `system_file` (`id`, `file_name`, `file_type`, `file_mime_type`, `file_size`, `file_path`, `tenant_id`, `creator`, `create_time`, `updater`, `update_time`) VALUES (11, '周光虎的简历.pdf', 5, 'application/pdf', 122479, '1/2024/05/17/66477a7cf166cc1ea5d3251c.pdf', 1, 'admin', '2024-05-17 23:40:44', NULL, '2024-05-17 23:40:44');
+INSERT INTO `system_file` (`id`, `file_name`, `file_type`, `file_mime_type`, `file_size`, `file_path`, `tenant_id`, `creator`, `create_time`, `updater`, `update_time`) VALUES (12, '课时消耗统计表2023-9-2024-2-最新.xls', 3, 'application/vnd.ms-excel', 130048, '1/2024/05/18/6648601f78e0f332605acec1.xls', 1, 'admin', '2024-05-18 16:00:31', NULL, '2024-05-18 16:01:53');
+INSERT INTO `system_file` (`id`, `file_name`, `file_type`, `file_mime_type`, `file_size`, `file_path`, `tenant_id`, `creator`, `create_time`, `updater`, `update_time`) VALUES (13, '周子钦待盖章.pdf', 5, 'application/pdf', 417482, '1/2024/05/18/66486225ed78decce6084f43.pdf', 1, 'admin', '2024-05-18 16:09:09', NULL, '2024-05-18 16:09:09');
+INSERT INTO `system_file` (`id`, `file_name`, `file_type`, `file_mime_type`, `file_size`, `file_path`, `tenant_id`, `creator`, `create_time`, `updater`, `update_time`) VALUES (14, '课时消耗统计表2023-9-2024-2.xls', 3, 'application/vnd.ms-excel', 117760, '1/2024/05/18/66486230ed78decce6084f44.xls', 1, 'admin', '2024-05-18 16:09:20', NULL, '2024-05-18 16:09:20');
+INSERT INTO `system_file` (`id`, `file_name`, `file_type`, `file_mime_type`, `file_size`, `file_path`, `tenant_id`, `creator`, `create_time`, `updater`, `update_time`) VALUES (15, '教育部学历证书电子注册备案表_何智佳.pdf', 5, 'application/pdf', 465884, '1/2024/05/18/66486253ed78decce6084f45.pdf', 1, 'admin', '2024-05-18 16:09:55', NULL, '2024-05-18 16:09:55');
+INSERT INTO `system_file` (`id`, `file_name`, `file_type`, `file_mime_type`, `file_size`, `file_path`, `tenant_id`, `creator`, `create_time`, `updater`, `update_time`) VALUES (16, '大赛申报表.pdf', 5, 'application/pdf', 1186067, '1/2024/05/18/664887a1fb46176655df8ab8.pdf', 1, 'admin', '2024-05-18 18:49:05', NULL, '2024-05-18 18:49:05');
 COMMIT;
 
 -- ----------------------------
@@ -3990,13 +4130,12 @@ CREATE TABLE `system_login_log` (
   `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`id`),
   KEY `idx:list` (`tenant_id`,`deleted`,`username`,`login_time`,`channel`)
-) ENGINE=InnoDB AUTO_INCREMENT=60 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='登录日志';
+) ENGINE=InnoDB AUTO_INCREMENT=110 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='登录日志';
 
 -- ----------------------------
 -- Records of system_login_log
 -- ----------------------------
 BEGIN;
-
 COMMIT;
 
 -- ----------------------------
@@ -4051,7 +4190,7 @@ CREATE TABLE `system_mail_log` (
   `creator` varchar(64) DEFAULT NULL COMMENT '创建者',
   `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `updater` varchar(64) DEFAULT NULL COMMENT '更新者',
-  `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间',
   `deleted` tinyint NOT NULL DEFAULT '0' COMMENT '是否删除',
   PRIMARY KEY (`id`),
   KEY `idx:list` (`deleted`,`send_status`,`send_time`,`template_title`,`user_id`,`user_type`,`account_id`,`template_code`) USING BTREE
@@ -4081,7 +4220,7 @@ CREATE TABLE `system_mail_template` (
   `creator` varchar(64) DEFAULT NULL COMMENT '创建者',
   `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `updater` varchar(64) DEFAULT NULL COMMENT '更新者',
-  `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间',
   `deleted` tinyint NOT NULL DEFAULT '0' COMMENT '是否删除',
   PRIMARY KEY (`id`),
   KEY `idx:list` (`deleted`,`status`,`title`,`name`,`code`,`account_id`)
@@ -4124,13 +4263,13 @@ CREATE TABLE `system_menu` (
   `deleted` tinyint NOT NULL DEFAULT '0' COMMENT '是否删除',
   PRIMARY KEY (`id`),
   KEY `list:parent` (`deleted`,`status`,`type`,`sort`,`parent_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=197 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='系统菜单';
+) ENGINE=InnoDB AUTO_INCREMENT=218 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='系统菜单';
 
 -- ----------------------------
 -- Records of system_menu
 -- ----------------------------
 BEGIN;
-INSERT INTO `system_menu` (`id`, `name`, `permission`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `status`, `hide`, `link`, `keep_alive`, `affix`, `active_path`, `full_screen`, `redirect`, `creator`, `create_time`, `updater`, `update_time`, `deleted`) VALUES (1, '首页', 'home', 2, 1, 0, '/home/index', 'HomeFilled', '/home/index', 'home', 0, 0, '', 1, 1, '', 0, '', 'admin', '2023-09-26 13:44:46', 'admin', '2024-02-27 23:48:11', 0);
+INSERT INTO `system_menu` (`id`, `name`, `permission`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `status`, `hide`, `link`, `keep_alive`, `affix`, `active_path`, `full_screen`, `redirect`, `creator`, `create_time`, `updater`, `update_time`, `deleted`) VALUES (1, '首页', 'home', 2, 1, 0, '/home/index', 'HomeFilled', '/home/index', 'home', 0, 0, '', 1, 1, '', 0, '', 'admin', '2023-09-26 13:44:46', 'admin', '2024-06-21 08:38:15', 0);
 INSERT INTO `system_menu` (`id`, `name`, `permission`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `status`, `hide`, `link`, `keep_alive`, `affix`, `active_path`, `full_screen`, `redirect`, `creator`, `create_time`, `updater`, `update_time`, `deleted`) VALUES (2, '系统设置', '', 1, 2, 0, '/system', 'Tools', '', '', 0, 0, '', 1, 0, '', 0, '/system/menu', 'admin', '2023-08-08 15:17:56', 'admin', '2024-02-28 09:15:06', 0);
 INSERT INTO `system_menu` (`id`, `name`, `permission`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `status`, `hide`, `link`, `keep_alive`, `affix`, `active_path`, `full_screen`, `redirect`, `creator`, `create_time`, `updater`, `update_time`, `deleted`) VALUES (3, '菜单管理', '', 2, 21, 2, '/system/menu', 'Menu', '/system/menu/index', 'systemMenu', 0, 0, '', 1, 0, '', 0, '', 'admin', '2023-07-18 20:02:04', 'admin', '2024-03-01 09:42:22', 0);
 INSERT INTO `system_menu` (`id`, `name`, `permission`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `status`, `hide`, `link`, `keep_alive`, `affix`, `active_path`, `full_screen`, `redirect`, `creator`, `create_time`, `updater`, `update_time`, `deleted`) VALUES (4, '菜单新增', 'menu.SystemMenuCreate', 3, 1, 3, '', '', '', '', 0, 0, '', 0, 0, '', 0, '', '', '2024-02-25 16:22:08', '', '2024-02-25 08:22:08', 0);
@@ -4162,9 +4301,9 @@ INSERT INTO `system_menu` (`id`, `name`, `permission`, `type`, `sort`, `parent_i
 INSERT INTO `system_menu` (`id`, `name`, `permission`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `status`, `hide`, `link`, `keep_alive`, `affix`, `active_path`, `full_screen`, `redirect`, `creator`, `create_time`, `updater`, `update_time`, `deleted`) VALUES (74, '登录日志删除', 'logger.SystemLoginLogDelete', 3, 1, 70, '', '', '', '', 0, 0, '', 1, 0, '', 0, '', 'admin', '2023-07-17 17:54:11', 'admin', '2024-02-28 17:53:07', 0);
 INSERT INTO `system_menu` (`id`, `name`, `permission`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `status`, `hide`, `link`, `keep_alive`, `affix`, `active_path`, `full_screen`, `redirect`, `creator`, `create_time`, `updater`, `update_time`, `deleted`) VALUES (75, '登录日志清空', 'logger.SystemLoginLogDrop', 3, 1, 70, '', '', '', '', 0, 0, '', 1, 0, '', 0, '', 'admin', '2023-07-17 17:54:39', 'admin', '2024-02-28 17:53:26', 0);
 INSERT INTO `system_menu` (`id`, `name`, `permission`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `status`, `hide`, `link`, `keep_alive`, `affix`, `active_path`, `full_screen`, `redirect`, `creator`, `create_time`, `updater`, `update_time`, `deleted`) VALUES (76, '登录日志查看', 'logger.SystemLoginLog', 3, 1, 70, '', '', '', '', 0, 0, '', 1, 0, '', 0, '', 'admin', '2023-07-17 17:55:02', 'admin', '2024-02-28 17:53:47', 0);
-INSERT INTO `system_menu` (`id`, `name`, `permission`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `status`, `hide`, `link`, `keep_alive`, `affix`, `active_path`, `full_screen`, `redirect`, `creator`, `create_time`, `updater`, `update_time`, `deleted`) VALUES (77, '系统日志', '', 2, 1, 68, '/system/logger/entry', 'DocumentRemove', '/system/logger/entry', 'systemLoggerEntry', 0, 0, '', 1, 0, '', 0, '', 'admin', '2023-07-18 19:14:50', 'admin', '2024-03-01 09:45:09', 0);
+INSERT INTO `system_menu` (`id`, `name`, `permission`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `status`, `hide`, `link`, `keep_alive`, `affix`, `active_path`, `full_screen`, `redirect`, `creator`, `create_time`, `updater`, `update_time`, `deleted`) VALUES (77, '系统日志', '', 2, 1, 68, '/system/logger/entry', 'DocumentRemove', '/system/logger/entry', 'systemLoggerEntry', 0, 0, '', 1, 0, '', 0, '', 'admin', '2023-07-18 19:14:50', 'admin', '2024-06-21 08:46:31', 0);
 INSERT INTO `system_menu` (`id`, `name`, `permission`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `status`, `hide`, `link`, `keep_alive`, `affix`, `active_path`, `full_screen`, `redirect`, `creator`, `create_time`, `updater`, `update_time`, `deleted`) VALUES (78, '系统日志删除', 'logger.SystemEntryLogDelete', 3, 1, 77, '', '', '', '', 0, 0, '', 1, 0, '', 0, '', 'admin', '2023-07-18 14:28:41', 'admin', '2024-02-28 17:50:48', 0);
-INSERT INTO `system_menu` (`id`, `name`, `permission`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `status`, `hide`, `link`, `keep_alive`, `affix`, `active_path`, `full_screen`, `redirect`, `creator`, `create_time`, `updater`, `update_time`, `deleted`) VALUES (79, '系统日志查看', 'logger.SystemEntryLog', 3, 0, 77, '', '', '', '', 0, 0, '', 0, 0, '', 0, '', 'admin', '2024-02-28 17:51:16', 'admin', '2024-03-23 13:35:53', 0);
+INSERT INTO `system_menu` (`id`, `name`, `permission`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `status`, `hide`, `link`, `keep_alive`, `affix`, `active_path`, `full_screen`, `redirect`, `creator`, `create_time`, `updater`, `update_time`, `deleted`) VALUES (79, '系统日志查看', 'logger.SystemEntryLog', 3, 0, 77, '', '', '', '', 0, 0, '', 0, 0, '', 0, '', 'admin', '2024-02-28 17:51:16', 'admin', '2024-06-21 00:11:33', 0);
 INSERT INTO `system_menu` (`id`, `name`, `permission`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `status`, `hide`, `link`, `keep_alive`, `affix`, `active_path`, `full_screen`, `redirect`, `creator`, `create_time`, `updater`, `update_time`, `deleted`) VALUES (80, '系统日志清空', 'logger.SystemEntryLogDrop', 3, 0, 77, '', '', '', '', 0, 0, '', 0, 0, '', 0, '', 'admin', '2024-02-28 17:51:38', '', '2024-02-28 09:51:38', 0);
 INSERT INTO `system_menu` (`id`, `name`, `permission`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `status`, `hide`, `link`, `keep_alive`, `affix`, `active_path`, `full_screen`, `redirect`, `creator`, `create_time`, `updater`, `update_time`, `deleted`) VALUES (81, '用户列表', 'user.SystemUserList', 3, 0, 21, '', '', '', '', 0, 0, '', 0, 0, '', 0, '', 'admin', '2024-03-01 09:41:17', 'admin', '2024-03-01 09:41:34', 0);
 INSERT INTO `system_menu` (`id`, `name`, `permission`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `status`, `hide`, `link`, `keep_alive`, `affix`, `active_path`, `full_screen`, `redirect`, `creator`, `create_time`, `updater`, `update_time`, `deleted`) VALUES (82, '菜单列表', 'menu.SystemMenuList', 3, 0, 3, '', '', '', '', 0, 0, '', 0, 0, '', 0, '', 'admin', '2024-03-01 09:42:10', '', '2024-03-01 09:42:10', 0);
@@ -4255,7 +4394,7 @@ INSERT INTO `system_menu` (`id`, `name`, `permission`, `type`, `sort`, `parent_i
 INSERT INTO `system_menu` (`id`, `name`, `permission`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `status`, `hide`, `link`, `keep_alive`, `affix`, `active_path`, `full_screen`, `redirect`, `creator`, `create_time`, `updater`, `update_time`, `deleted`) VALUES (169, '记录删除', 'mail.SystemMailLogDelete', 3, 0, 157, '', '', '', '', 0, 0, '', 0, 0, '', 0, '', 'admin', '2024-05-08 10:17:30', '', '2024-05-08 10:17:30', 0);
 INSERT INTO `system_menu` (`id`, `name`, `permission`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `status`, `hide`, `link`, `keep_alive`, `affix`, `active_path`, `full_screen`, `redirect`, `creator`, `create_time`, `updater`, `update_time`, `deleted`) VALUES (170, '记录恢复', 'mail.SystemMailLogRecover', 3, 0, 157, '', '', '', '', 0, 0, '', 0, 0, '', 0, '', 'admin', '2024-05-08 10:17:56', '', '2024-05-08 10:17:56', 0);
 INSERT INTO `system_menu` (`id`, `name`, `permission`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `status`, `hide`, `link`, `keep_alive`, `affix`, `active_path`, `full_screen`, `redirect`, `creator`, `create_time`, `updater`, `update_time`, `deleted`) VALUES (171, '记录查看', 'mail.SystemMailLog', 3, 0, 157, '', '', '', '', 0, 0, '', 0, 0, '', 0, '', 'admin', '2024-05-08 10:18:30', '', '2024-05-08 10:18:30', 0);
-INSERT INTO `system_menu` (`id`, `name`, `permission`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `status`, `hide`, `link`, `keep_alive`, `affix`, `active_path`, `full_screen`, `redirect`, `creator`, `create_time`, `updater`, `update_time`, `deleted`) VALUES (172, '支付管理', '', 1, 3, 0, '/pay', 'Money', '', '', 0, 0, '', 0, 0, '', 0, '/pay/app', 'admin', '2024-05-13 23:40:09', 'admin', '2024-05-13 23:45:05', 0);
+INSERT INTO `system_menu` (`id`, `name`, `permission`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `status`, `hide`, `link`, `keep_alive`, `affix`, `active_path`, `full_screen`, `redirect`, `creator`, `create_time`, `updater`, `update_time`, `deleted`) VALUES (172, '支付管理', '', 1, 3, 0, '/pay', 'Money', '', '', 0, 0, '', 0, 0, '', 0, '/pay/app', 'admin', '2024-05-13 23:40:09', 'admin', '2024-06-19 23:25:43', 0);
 INSERT INTO `system_menu` (`id`, `name`, `permission`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `status`, `hide`, `link`, `keep_alive`, `affix`, `active_path`, `full_screen`, `redirect`, `creator`, `create_time`, `updater`, `update_time`, `deleted`) VALUES (173, '应用管理', '', 2, 1, 172, '/pay/app', 'Cellphone', '/pay/app/index', 'payApp', 0, 0, '', 1, 0, '', 0, '', 'admin', '2024-05-13 23:42:50', 'admin', '2024-05-13 23:44:46', 0);
 INSERT INTO `system_menu` (`id`, `name`, `permission`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `status`, `hide`, `link`, `keep_alive`, `affix`, `active_path`, `full_screen`, `redirect`, `creator`, `create_time`, `updater`, `update_time`, `deleted`) VALUES (174, '应用列表', 'app.PayAppList', 3, 0, 173, '', '', '', '', 0, 0, '', 0, 0, '', 0, '', 'admin', '2024-05-13 23:47:17', '', '2024-05-13 23:47:17', 0);
 INSERT INTO `system_menu` (`id`, `name`, `permission`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `status`, `hide`, `link`, `keep_alive`, `affix`, `active_path`, `full_screen`, `redirect`, `creator`, `create_time`, `updater`, `update_time`, `deleted`) VALUES (175, '应用新增', 'app.PayAppCreate', 3, 1, 173, '', '', '', '', 0, 0, '', 0, 0, '', 0, '', 'admin', '2024-05-13 23:47:49', 'admin', '2024-05-13 23:48:25', 0);
@@ -4276,10 +4415,31 @@ INSERT INTO `system_menu` (`id`, `name`, `permission`, `type`, `sort`, `parent_i
 INSERT INTO `system_menu` (`id`, `name`, `permission`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `status`, `hide`, `link`, `keep_alive`, `affix`, `active_path`, `full_screen`, `redirect`, `creator`, `create_time`, `updater`, `update_time`, `deleted`) VALUES (190, '退款订单列表', 'refund.PayRefundList', 3, 0, 189, '', '', '', '', 0, 0, '', 0, 0, '', 0, '', 'admin', '2024-05-30 09:13:29', '', '2024-05-30 09:13:29', 0);
 INSERT INTO `system_menu` (`id`, `name`, `permission`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `status`, `hide`, `link`, `keep_alive`, `affix`, `active_path`, `full_screen`, `redirect`, `creator`, `create_time`, `updater`, `update_time`, `deleted`) VALUES (191, '退款订单删除', 'refund.PayRefundDelete', 3, 0, 189, '', '', '', '', 0, 0, '', 0, 0, '', 0, '', 'admin', '2024-05-30 09:13:53', '', '2024-05-30 09:13:53', 0);
 INSERT INTO `system_menu` (`id`, `name`, `permission`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `status`, `hide`, `link`, `keep_alive`, `affix`, `active_path`, `full_screen`, `redirect`, `creator`, `create_time`, `updater`, `update_time`, `deleted`) VALUES (192, '退款订单恢复', 'order.PayOrderRecover', 3, 0, 189, '', '', '', '', 0, 0, '', 0, 0, '', 0, '', 'admin', '2024-05-30 09:14:11', '', '2024-05-30 09:14:11', 0);
-INSERT INTO `system_menu` (`id`, `name`, `permission`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `status`, `hide`, `link`, `keep_alive`, `affix`, `active_path`, `full_screen`, `redirect`, `creator`, `create_time`, `updater`, `update_time`, `deleted`) VALUES (193, '通知回调', '', 2, 4, 172, '/pay/notify', 'DocumentCopy', '/pay/notify/index', '', 0, 0, '', 1, 0, 'payNotifyTask', 0, '', 'admin', '2024-06-05 12:18:25', '', '2024-06-05 12:18:26', 0);
+INSERT INTO `system_menu` (`id`, `name`, `permission`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `status`, `hide`, `link`, `keep_alive`, `affix`, `active_path`, `full_screen`, `redirect`, `creator`, `create_time`, `updater`, `update_time`, `deleted`) VALUES (193, '通知回调', '', 2, 4, 172, '/pay/notify', 'DocumentCopy', '/pay/notify/index', 'payNotifyTask', 0, 0, '', 1, 0, '', 0, '', 'admin', '2024-06-05 12:18:25', 'admin', '2024-06-06 23:35:31', 0);
 INSERT INTO `system_menu` (`id`, `name`, `permission`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `status`, `hide`, `link`, `keep_alive`, `affix`, `active_path`, `full_screen`, `redirect`, `creator`, `create_time`, `updater`, `update_time`, `deleted`) VALUES (194, '通知回调列表', 'notify.PayNotifyTaskList', 3, 0, 193, '', '', '', '', 0, 0, '', 0, 0, '', 0, '', 'admin', '2024-06-05 12:19:08', '', '2024-06-05 12:19:08', 0);
 INSERT INTO `system_menu` (`id`, `name`, `permission`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `status`, `hide`, `link`, `keep_alive`, `affix`, `active_path`, `full_screen`, `redirect`, `creator`, `create_time`, `updater`, `update_time`, `deleted`) VALUES (195, '通知回调删除', 'notify.PayNotifyTaskDelete', 3, 0, 193, '', '', '', '', 0, 0, '', 0, 0, '', 0, '', 'admin', '2024-06-05 12:19:33', '', '2024-06-05 12:19:33', 0);
 INSERT INTO `system_menu` (`id`, `name`, `permission`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `status`, `hide`, `link`, `keep_alive`, `affix`, `active_path`, `full_screen`, `redirect`, `creator`, `create_time`, `updater`, `update_time`, `deleted`) VALUES (196, '通知回调恢复', 'notify.PayNotifyTaskRecover', 3, 0, 193, '', '', '', '', 0, 0, '', 0, 0, '', 0, '', 'admin', '2024-06-05 12:19:55', '', '2024-06-05 12:19:55', 0);
+INSERT INTO `system_menu` (`id`, `name`, `permission`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `status`, `hide`, `link`, `keep_alive`, `affix`, `active_path`, `full_screen`, `redirect`, `creator`, `create_time`, `updater`, `update_time`, `deleted`) VALUES (197, '登录日志恢复', 'logger.SystemLoginLogRecover', 3, 0, 70, '', '', '', '', 0, 0, '', 0, 0, '', 0, '', 'admin', '2024-06-13 18:04:15', '', '2024-06-13 18:04:15', 0);
+INSERT INTO `system_menu` (`id`, `name`, `permission`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `status`, `hide`, `link`, `keep_alive`, `affix`, `active_path`, `full_screen`, `redirect`, `creator`, `create_time`, `updater`, `update_time`, `deleted`) VALUES (198, '操作日志恢复', 'logger.SystemOperateLogRecover', 3, 0, 69, '', '', '', '', 0, 0, '', 0, 0, '', 0, '', 'admin', '2024-06-13 18:55:29', '', '2024-06-13 18:55:29', 0);
+INSERT INTO `system_menu` (`id`, `name`, `permission`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `status`, `hide`, `link`, `keep_alive`, `affix`, `active_path`, `full_screen`, `redirect`, `creator`, `create_time`, `updater`, `update_time`, `deleted`) VALUES (199, '账户管理', '', 2, 0, 209, '/pay/wallet/index', 'WalletFilled', '/pay/wallet/index', 'payWallet', 0, 0, '', 1, 0, '', 0, '', 'admin', '2024-06-15 13:50:55', 'admin', '2024-06-20 00:28:13', 0);
+INSERT INTO `system_menu` (`id`, `name`, `permission`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `status`, `hide`, `link`, `keep_alive`, `affix`, `active_path`, `full_screen`, `redirect`, `creator`, `create_time`, `updater`, `update_time`, `deleted`) VALUES (200, '钱包列表', 'wallet.PayWalletList', 3, 0, 199, '', '', '', '', 0, 0, '', 0, 0, '', 0, '', 'admin', '2024-06-18 22:51:55', '', '2024-06-18 22:51:55', 0);
+INSERT INTO `system_menu` (`id`, `name`, `permission`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `status`, `hide`, `link`, `keep_alive`, `affix`, `active_path`, `full_screen`, `redirect`, `creator`, `create_time`, `updater`, `update_time`, `deleted`) VALUES (201, '钱包删除', 'wallet.PayWalletDelete', 3, 0, 199, '', '', '', '', 0, 0, '', 0, 0, '', 0, '', 'admin', '2024-06-18 22:54:46', '', '2024-06-18 22:54:46', 0);
+INSERT INTO `system_menu` (`id`, `name`, `permission`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `status`, `hide`, `link`, `keep_alive`, `affix`, `active_path`, `full_screen`, `redirect`, `creator`, `create_time`, `updater`, `update_time`, `deleted`) VALUES (202, '钱包恢复', 'wallet.PayWalletRecover', 3, 0, 199, '', '', '', '', 0, 0, '', 0, 0, '', 0, '', 'admin', '2024-06-18 22:55:10', '', '2024-06-18 22:55:10', 0);
+INSERT INTO `system_menu` (`id`, `name`, `permission`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `status`, `hide`, `link`, `keep_alive`, `affix`, `active_path`, `full_screen`, `redirect`, `creator`, `create_time`, `updater`, `update_time`, `deleted`) VALUES (203, '充值套餐', '', 2, 0, 209, '/pay/wallet/package', 'Dessert', '/pay/wallet/package', 'payWalletRechargePackage', 0, 0, '', 1, 0, '', 0, '', 'admin', '2024-06-18 23:27:39', 'admin', '2024-06-20 00:27:54', 0);
+INSERT INTO `system_menu` (`id`, `name`, `permission`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `status`, `hide`, `link`, `keep_alive`, `affix`, `active_path`, `full_screen`, `redirect`, `creator`, `create_time`, `updater`, `update_time`, `deleted`) VALUES (204, '充值套餐列表', 'wallet.PayWalletRechargePackageList', 3, 0, 203, '', '', '', '', 0, 0, '', 0, 0, '', 0, '', 'admin', '2024-06-18 23:28:15', '', '2024-06-18 23:28:15', 0);
+INSERT INTO `system_menu` (`id`, `name`, `permission`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `status`, `hide`, `link`, `keep_alive`, `affix`, `active_path`, `full_screen`, `redirect`, `creator`, `create_time`, `updater`, `update_time`, `deleted`) VALUES (205, '充值套餐新增', 'wallet.PayWalletRechargePackageCreate', 3, 0, 203, '', '', '', '', 0, 0, '', 0, 0, '', 0, '', 'admin', '2024-06-18 23:28:58', 'admin', '2024-06-18 23:29:23', 0);
+INSERT INTO `system_menu` (`id`, `name`, `permission`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `status`, `hide`, `link`, `keep_alive`, `affix`, `active_path`, `full_screen`, `redirect`, `creator`, `create_time`, `updater`, `update_time`, `deleted`) VALUES (206, '充值套餐编辑', 'wallet.PayWalletRechargePackageUpdate', 3, 0, 203, '', '', '', '', 0, 0, '', 0, 0, '', 0, '', 'admin', '2024-06-18 23:29:52', '', '2024-06-18 23:29:52', 0);
+INSERT INTO `system_menu` (`id`, `name`, `permission`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `status`, `hide`, `link`, `keep_alive`, `affix`, `active_path`, `full_screen`, `redirect`, `creator`, `create_time`, `updater`, `update_time`, `deleted`) VALUES (207, '充值套餐删除', 'wallet.PayWalletRechargePackageDelete', 3, 0, 203, '', '', '', '', 0, 0, '', 0, 0, '', 0, '', 'admin', '2024-06-18 23:30:13', '', '2024-06-18 23:30:13', 0);
+INSERT INTO `system_menu` (`id`, `name`, `permission`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `status`, `hide`, `link`, `keep_alive`, `affix`, `active_path`, `full_screen`, `redirect`, `creator`, `create_time`, `updater`, `update_time`, `deleted`) VALUES (208, '充值套餐恢复', 'wallet.PayWalletRechargePackageRecover', 3, 0, 203, '', '', '', '', 0, 0, '', 0, 0, '', 0, '', 'admin', '2024-06-18 23:30:33', '', '2024-06-18 23:30:33', 0);
+INSERT INTO `system_menu` (`id`, `name`, `permission`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `status`, `hide`, `link`, `keep_alive`, `affix`, `active_path`, `full_screen`, `redirect`, `creator`, `create_time`, `updater`, `update_time`, `deleted`) VALUES (209, '钱包管理', '', 1, 0, 172, '/pay/wallet', 'Folder', '', '', 0, 0, '', 0, 0, '', 0, '/pay/wallet/index', 'admin', '2024-06-19 01:58:40', 'admin', '2024-06-20 23:54:20', 0);
+INSERT INTO `system_menu` (`id`, `name`, `permission`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `status`, `hide`, `link`, `keep_alive`, `affix`, `active_path`, `full_screen`, `redirect`, `creator`, `create_time`, `updater`, `update_time`, `deleted`) VALUES (210, '钱包充值', '', 2, 0, 199, '/pay/wallet/:walletId/recharge', 'Present', '/pay/wallet/recharge', 'payWalletRecharge', 0, 1, '', 1, 0, '/pay/wallet/index', 0, '', 'admin', '2024-06-24 15:39:53', 'admin', '2024-06-24 16:17:29', 0);
+INSERT INTO `system_menu` (`id`, `name`, `permission`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `status`, `hide`, `link`, `keep_alive`, `affix`, `active_path`, `full_screen`, `redirect`, `creator`, `create_time`, `updater`, `update_time`, `deleted`) VALUES (211, '钱包充值列表', 'wallet.PayWalletRechargeList', 3, 0, 210, '', '', '', '', 0, 0, '', 0, 0, '', 0, '', 'admin', '2024-06-24 15:41:44', '', '2024-06-24 15:41:44', 0);
+INSERT INTO `system_menu` (`id`, `name`, `permission`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `status`, `hide`, `link`, `keep_alive`, `affix`, `active_path`, `full_screen`, `redirect`, `creator`, `create_time`, `updater`, `update_time`, `deleted`) VALUES (212, '钱包充值删除', 'wallet.PayWalletRechargeDelete', 3, 0, 210, '', '', '', '', 0, 0, '', 0, 0, '', 0, '', 'admin', '2024-06-24 15:42:11', '', '2024-06-24 15:42:11', 0);
+INSERT INTO `system_menu` (`id`, `name`, `permission`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `status`, `hide`, `link`, `keep_alive`, `affix`, `active_path`, `full_screen`, `redirect`, `creator`, `create_time`, `updater`, `update_time`, `deleted`) VALUES (213, '钱包充值恢复', 'wallet.PayWalletRechargeRecover', 3, 0, 210, '', '', '', '', 0, 0, '', 0, 0, '', 0, '', 'admin', '2024-06-24 15:42:32', '', '2024-06-24 15:42:32', 0);
+INSERT INTO `system_menu` (`id`, `name`, `permission`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `status`, `hide`, `link`, `keep_alive`, `affix`, `active_path`, `full_screen`, `redirect`, `creator`, `create_time`, `updater`, `update_time`, `deleted`) VALUES (214, '钱包流水', '', 2, 0, 199, '/pay/wallet/:walletId/transaction', 'Tickets', '/pay/wallet/transaction', 'payWalletTransaction', 0, 1, '', 1, 0, '/pay/wallet/index', 0, '', 'admin', '2024-06-24 16:53:40', '', '2024-06-24 16:53:40', 0);
+INSERT INTO `system_menu` (`id`, `name`, `permission`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `status`, `hide`, `link`, `keep_alive`, `affix`, `active_path`, `full_screen`, `redirect`, `creator`, `create_time`, `updater`, `update_time`, `deleted`) VALUES (215, '钱包流水列表', 'wallet.PayWalletTransactionList', 3, 0, 214, '', '', '', '', 0, 0, '', 0, 0, '', 0, '', 'admin', '2024-06-24 16:54:19', '', '2024-06-24 16:54:19', 0);
+INSERT INTO `system_menu` (`id`, `name`, `permission`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `status`, `hide`, `link`, `keep_alive`, `affix`, `active_path`, `full_screen`, `redirect`, `creator`, `create_time`, `updater`, `update_time`, `deleted`) VALUES (216, '钱包流水删除', 'wallet.PayWalletTransactionDelete', 3, 0, 214, '', '', '', '', 0, 0, '', 0, 0, '', 0, '', 'admin', '2024-06-24 16:54:42', '', '2024-06-24 16:54:42', 0);
+INSERT INTO `system_menu` (`id`, `name`, `permission`, `type`, `sort`, `parent_id`, `path`, `icon`, `component`, `component_name`, `status`, `hide`, `link`, `keep_alive`, `affix`, `active_path`, `full_screen`, `redirect`, `creator`, `create_time`, `updater`, `update_time`, `deleted`) VALUES (217, '钱包流水恢复', 'wallet.PayWalletTransactionRecover', 3, 0, 214, '', '', '', '', 0, 0, '', 0, 0, '', 0, '', 'admin', '2024-06-24 16:55:04', '', '2024-06-24 16:55:04', 0);
 COMMIT;
 
 -- ----------------------------
@@ -4395,13 +4555,12 @@ CREATE TABLE `system_operate_log` (
   `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`id`),
   KEY `idx:list` (`tenant_id`,`deleted`,`username`,`module`,`start_time`,`result`)
-) ENGINE=InnoDB AUTO_INCREMENT=1029 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='操作日志';
+) ENGINE=InnoDB AUTO_INCREMENT=3570 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='操作日志';
 
 -- ----------------------------
 -- Records of system_operate_log
 -- ----------------------------
 BEGIN;
-
 COMMIT;
 
 -- ----------------------------
