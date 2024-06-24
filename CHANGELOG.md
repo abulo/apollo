@@ -1,5 +1,37 @@
 # 更新日志
 
+## [v1.0.3](https://github.com/abulo/appllo/compare/v1.0.2...v1.0.3) (2024-06-24)
+### feat✨:引入新功能
+- feat✨: 钱包管理, 钱包充值, 钱包流程  ([fc2f4fe](https://github.com/abulo/appllo/commit/fc2f4fe))
+- feat✨: 钱包充值,充值套餐功能  ([ef87a5b](https://github.com/abulo/appllo/commit/ef87a5b))
+
+### fix🐛:修复 bug
+- fix🐛: 解决使用 vxe-table 中在修改和添加之后数据绑定的问题  ([a0c969f](https://github.com/abulo/appllo/commit/a0c969f))
+- fix🐛: 修复LayoutMixed模式下菜单激活状态 bug  ([15dbbc3](https://github.com/abulo/appllo/commit/15dbbc3))
+
+### style💄:更新UI样式文件
+- style💄: 修改路径大小写问题  ([05a59a6](https://github.com/abulo/appllo/commit/05a59a6))
+
+### docs📝:添加/更新文档
+- docs📝: 数据库脚本  ([9079c32](https://github.com/abulo/appllo/commit/9079c32))
+- docs📝: 修改部分字段属性  ([f33b31b](https://github.com/abulo/appllo/commit/f33b31b))
+- docs📝: 新增数据库表,修改部分表结构  ([70d421a](https://github.com/abulo/appllo/commit/70d421a))
+- docs📝: 更新日志  ([1f1a44d](https://github.com/abulo/appllo/commit/1f1a44d))
+
+### perf👌:提高性能/优化
+- perf👌: 系统日志删除  ([3a77a9d](https://github.com/abulo/appllo/commit/3a77a9d))
+- perf👌: 升级核心框架  ([5f0543c](https://github.com/abulo/appllo/commit/5f0543c))
+- perf👌: 升级prettier  ([69dbec9](https://github.com/abulo/appllo/commit/69dbec9))
+- perf👌: 升级 ratel 版本  ([2b71021](https://github.com/abulo/appllo/commit/2b71021))
+
+### config🔧:修改配置文件
+- config🔧: CI/CD流程调整  ([23c2fe2](https://github.com/abulo/appllo/commit/23c2fe2))
+
+### others:其他
+- format🥚: grpc 文件格式化 9a33e61
+- format🥚: 代码格式化 cbbea6c
+
+
 ## [v1.0.2](https://github.com/abulo/appllo/compare/v1.0.1...v1.0.2) (2024-06-05)
 ### feat✨:引入新功能
 - feat✨: 通知回调服务端  ([d978852](https://github.com/abulo/appllo/commit/d978852))
