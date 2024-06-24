@@ -1,0 +1,193 @@
+
+syntax = "proto3";
+// pay_wallet_recharge 会员钱包充值
+package wallet;
+option go_package = "cloud/service/pay/wallet;wallet";
+import "google/protobuf/timestamp.proto";
+import "pagination.proto";
+
+// PayWalletRechargeObject 数据对象
+message PayWalletRechargeObject {
+	// @inject_tag: db:"id" json:"id"
+	optional int64 id = 1; //编号
+	// @inject_tag: db:"wallet_id" json:"walletId"
+	optional int64 wallet_id = 2; //会员钱包id
+	// @inject_tag: db:"total_price" json:"totalPrice"
+	optional int64 total_price = 3; //用户实际到账余额，例如充 100 送 20，则该值是 120
+	// @inject_tag: db:"pay_price" json:"payPrice"
+	optional int64 pay_price = 4; //实际支付金额
+	// @inject_tag: db:"bonus_price" json:"bonusPrice"
+	optional int64 bonus_price = 5; //钱包赠送金额
+	// @inject_tag: db:"package_id" json:"packageId"
+	optional int64 package_id = 6; //充值套餐编号
+	// @inject_tag: db:"pay_status" json:"payStatus"
+	optional int32 pay_status = 7; //是否已支付：[0:未支付 1:已经支付过]
+	// @inject_tag: db:"pay_order_id" json:"payOrderId"
+	optional int64 pay_order_id = 8; //支付订单编号
+	// @inject_tag: db:"pay_channel_code" json:"payChannelCode"
+	optional string pay_channel_code = 9; //支付成功的支付渠道
+	// @inject_tag: db:"pay_time" json:"payTime"
+	google.protobuf.Timestamp pay_time = 10; //订单支付时间
+	// @inject_tag: db:"pay_refund_id" json:"payRefundId"
+	optional int64 pay_refund_id = 11; //支付退款单编号
+	// @inject_tag: db:"refund_total_price" json:"refundTotalPrice"
+	optional int64 refund_total_price = 12; //退款金额，包含赠送金额
+	// @inject_tag: db:"refund_pay_price" json:"refundPayPrice"
+	optional int64 refund_pay_price = 13; //退款支付金额
+	// @inject_tag: db:"refund_bonus_price" json:"refundBonusPrice"
+	optional int64 refund_bonus_price = 14; //退款钱包赠送金额
+	// @inject_tag: db:"refund_time" json:"refundTime"
+	google.protobuf.Timestamp refund_time = 15; //退款时间
+	// @inject_tag: db:"refund_status" json:"refundStatus"
+	optional int32 refund_status = 16; //退款状态
+	// @inject_tag: db:"deleted" json:"deleted"
+	optional int32 deleted = 17; //删除
+	// @inject_tag: db:"tenant_id" json:"tenantId"
+	optional int64 tenant_id = 18; //租户
+	// @inject_tag: db:"creator" json:"creator"
+	optional string creator = 19; //创建人
+	// @inject_tag: db:"create_time" json:"createTime"
+	google.protobuf.Timestamp create_time = 20; //创建时间
+	// @inject_tag: db:"updater" json:"updater"
+	optional string updater = 21; //更新人
+	// @inject_tag: db:"update_time" json:"updateTime"
+	google.protobuf.Timestamp update_time = 22; //更新时间
+}
+// PayWalletRechargeTotalResponse 列表数据总量
+message PayWalletRechargeTotalResponse {
+	int64 code = 1;
+	string msg = 2;
+	int64 data = 3;
+}
+// PayWalletRechargeCreateRequest 创建数据请求
+message PayWalletRechargeCreateRequest {
+	PayWalletRechargeObject data = 1;
+}
+// PayWalletRechargeCreateResponse 创建数据响应
+message PayWalletRechargeCreateResponse {
+	int64 code = 1;
+	string msg = 2;
+	int64 data = 3;
+}
+// PayWalletRechargeUpdateRequest 更新数据请求
+message PayWalletRechargeUpdateRequest {
+	// @inject_tag: db:"id" json:"id"
+	int64 id = 1; //编号
+	PayWalletRechargeObject data = 2;
+}
+// PayWalletRechargeUpdateResponse 更新数据响应
+message PayWalletRechargeUpdateResponse {
+	int64 code = 1;
+	string msg = 2;
+}
+// PayWalletRechargeDeleteRequest 删除数据请求
+message PayWalletRechargeDeleteRequest {
+	// @inject_tag: db:"id" json:"id"
+	int64 id = 1; //编号
+}
+// PayWalletRechargeDeleteResponse 删除数据响应
+message PayWalletRechargeDeleteResponse {
+	int64 code = 1;
+	string msg = 2;
+}
+// PayWalletRechargeRequest 查询单条数据请求
+message PayWalletRechargeRequest {
+	// @inject_tag: db:"id" json:"id"
+	int64 id = 1; //编号
+}
+// PayWalletRechargeResponse 查询单条数据响应
+message PayWalletRechargeResponse {
+	int64 code = 1;
+	string msg = 2;
+	PayWalletRechargeObject data = 3;
+}
+// PayWalletRechargeRecoverRequest 恢复数据请求
+message PayWalletRechargeRecoverRequest {
+	// @inject_tag: db:"id" json:"id"
+	int64 id = 1; //编号
+}
+// PayWalletRechargeRecoverResponse 删除数据响应
+message PayWalletRechargeRecoverResponse {
+	int64 code = 1;
+	string msg = 2;
+}
+// PayWalletRechargeListRequest 列表数据
+message PayWalletRechargeListRequest {
+	// @inject_tag: db:"tenant_id" json:"tenantId"
+	optional int64 tenant_id = 1; // 租户
+	// @inject_tag: db:"deleted" json:"deleted"
+	optional int32 deleted = 2; // 删除
+	// @inject_tag: db:"wallet_id" json:"walletId"
+	optional int64 wallet_id = 3; // 会员钱包id
+	// @inject_tag: db:"package_id" json:"packageId"
+	optional int64 package_id = 4; // 充值套餐编号
+	// @inject_tag: db:"pay_status" json:"payStatus"
+	optional int32 pay_status = 5; // 是否已支付：[0:未支付 1:已经支付过]
+	// @inject_tag: db:"pay_order_id" json:"payOrderId"
+	optional int64 pay_order_id = 6; // 支付订单编号
+	// @inject_tag: db:"pay_channel_code" json:"payChannelCode"
+	optional string pay_channel_code = 7; // 支付成功的支付渠道
+	// @inject_tag: db:"begin_pay_time" json:"beginPayTime"
+	optional google.protobuf.Timestamp begin_pay_time = 8; // 订单支付时间
+	// @inject_tag: db:"finish_pay_time" json:"finishPayTime"
+	optional google.protobuf.Timestamp finish_pay_time = 9; // 订单支付时间
+	// @inject_tag: db:"refund_status" json:"refundStatus"
+	optional int32 refund_status = 10; // 退款状态
+	// @inject_tag: db:"pay_refund_id" json:"payRefundId"
+	optional int64 pay_refund_id = 11; // 支付退款单编号
+	// @inject_tag: db:"begin_refund_time" json:"beginRefundTime"
+	optional google.protobuf.Timestamp begin_refund_time = 12; // 退款时间
+	// @inject_tag: db:"finish_refund_time" json:"finishRefundTime"
+	optional google.protobuf.Timestamp finish_refund_time = 13; // 退款时间
+	// @inject_tag: db:"pagination" json:"pagination"
+	optional pagination.PaginationRequest pagination = 14; // 分页
+}
+
+// PayWalletRechargeListResponse 数据响应
+message PayWalletRechargeListResponse {
+	int64 code = 1;
+  	string msg = 2;
+	repeated PayWalletRechargeObject data = 3;
+}
+// PayWalletRechargeListTotalRequest 列表数据
+message PayWalletRechargeListTotalRequest {
+	// @inject_tag: db:"tenant_id" json:"tenantId"
+	optional int64 tenant_id = 1; // 租户
+	// @inject_tag: db:"deleted" json:"deleted"
+	optional int32 deleted = 2; // 删除
+	// @inject_tag: db:"wallet_id" json:"walletId"
+	optional int64 wallet_id = 3; // 会员钱包id
+	// @inject_tag: db:"package_id" json:"packageId"
+	optional int64 package_id = 4; // 充值套餐编号
+	// @inject_tag: db:"pay_status" json:"payStatus"
+	optional int32 pay_status = 5; // 是否已支付：[0:未支付 1:已经支付过]
+	// @inject_tag: db:"pay_order_id" json:"payOrderId"
+	optional int64 pay_order_id = 6; // 支付订单编号
+	// @inject_tag: db:"pay_channel_code" json:"payChannelCode"
+	optional string pay_channel_code = 7; // 支付成功的支付渠道
+	// @inject_tag: db:"begin_pay_time" json:"beginPayTime"
+	optional google.protobuf.Timestamp begin_pay_time = 8; // 订单支付时间
+	// @inject_tag: db:"finish_pay_time" json:"finishPayTime"
+	optional google.protobuf.Timestamp finish_pay_time = 9; // 订单支付时间
+	// @inject_tag: db:"refund_status" json:"refundStatus"
+	optional int32 refund_status = 10; // 退款状态
+	// @inject_tag: db:"pay_refund_id" json:"payRefundId"
+	optional int64 pay_refund_id = 11; // 支付退款单编号
+	// @inject_tag: db:"begin_refund_time" json:"beginRefundTime"
+	optional google.protobuf.Timestamp begin_refund_time = 12; // 退款时间
+	// @inject_tag: db:"finish_refund_time" json:"finishRefundTime"
+	optional google.protobuf.Timestamp finish_refund_time = 13; // 退款时间
+
+}
+
+
+// PayWalletRechargeService 服务
+service PayWalletRechargeService{
+	rpc PayWalletRechargeCreate(PayWalletRechargeCreateRequest) returns (PayWalletRechargeCreateResponse);
+	rpc PayWalletRechargeUpdate(PayWalletRechargeUpdateRequest) returns (PayWalletRechargeUpdateResponse);
+	rpc PayWalletRechargeDelete(PayWalletRechargeDeleteRequest) returns (PayWalletRechargeDeleteResponse);
+	rpc PayWalletRecharge(PayWalletRechargeRequest) returns (PayWalletRechargeResponse);
+	rpc PayWalletRechargeRecover(PayWalletRechargeRecoverRequest) returns (PayWalletRechargeRecoverResponse);
+	rpc PayWalletRechargeList(PayWalletRechargeListRequest) returns (PayWalletRechargeListResponse);
+	rpc PayWalletRechargeListTotal(PayWalletRechargeListTotalRequest) returns (PayWalletRechargeTotalResponse);
+}

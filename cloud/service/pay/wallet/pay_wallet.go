@@ -149,6 +149,12 @@ func PayWalletCustomDao(item *PayWalletCustomObject) *dao.PayWalletCustom {
 	if item != nil && item.Username != nil {
 		daoItem.Username = item.Username // 用户名称
 	}
+	if item != nil && item.Nickname != nil {
+		daoItem.Nickname = item.Nickname // 用户昵称
+	}
+	if item != nil && item.Mobile != nil {
+		daoItem.Mobile = item.Mobile // 手机号
+	}
 
 	return daoItem
 }
@@ -197,6 +203,12 @@ func PayWalletCustomProto(item dao.PayWalletCustom) *PayWalletCustomObject {
 	}
 	if item.Username != nil {
 		res.Username = item.Username
+	}
+	if item.Nickname != nil {
+		res.Nickname = item.Nickname
+	}
+	if item.Mobile != nil {
+		res.Mobile = item.Mobile
 	}
 
 	return res

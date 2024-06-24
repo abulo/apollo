@@ -22,5 +22,7 @@ export namespace PayWallet {
     updater: string | undefined; // 更新人
     updateTime: string | undefined; // 更新时间
     username?: string; // 用户名
+    nickname?: string; // 昵称
+    mobile?: string; // 手机号
   }
 }

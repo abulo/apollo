@@ -5,8 +5,11 @@ import qs from "qs";
 let pendingMap = new Map<string, AbortController>();
 
 // 序列化参数
-export const getPendingUrl = (config: CustomAxiosRequestConfig) =>
-  [config.method, config.url, qs.stringify(config.data), qs.stringify(config.params)].join("&");
+export const getPendingUrl = (config: CustomAxiosRequestConfig) => {
+  let data = config.data;
+  if (typeof data === "string") data = JSON.parse(data);
+  return [config.method, config.url, qs.stringify(data), qs.stringify(config.params)].join("&");
+};
 
 export class AxiosCanceler {
   /**
@@ -32,6 +35,7 @@ export class AxiosCanceler {
     // 如果在 pending 中存在当前请求标识，需要取消当前请求
     const controller = pendingMap.get(url);
     controller && controller.abort();
+    pendingMap.delete(url);
   }
 
   /**

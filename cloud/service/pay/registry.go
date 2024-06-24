@@ -49,4 +49,12 @@ func Registry(server *xgrpc.Server) {
 	wallet.RegisterPayWalletRechargePackageServiceServer(server.Server, &wallet.SrvPayWalletRechargePackageServiceServer{
 		Server: server,
 	})
+	// 会员钱包流水表->pay_wallet_transaction
+	wallet.RegisterPayWalletTransactionServiceServer(server.Server, &wallet.SrvPayWalletTransactionServiceServer{
+		Server: server,
+	})
+	// 会员钱包充值->pay_wallet_recharge
+	wallet.RegisterPayWalletRechargeServiceServer(server.Server, &wallet.SrvPayWalletRechargeServiceServer{
+		Server: server,
+	})
 }

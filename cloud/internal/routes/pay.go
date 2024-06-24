@@ -87,6 +87,24 @@ func PayInitRoute(handle *xhertz.Server) {
 		// pay_wallet->会员钱包表->列表
 		auth.GET("/pay/wallet", wallet.PayWalletList)
 
+		// pay_wallet_recharge->会员钱包充值->删除
+		auth.DELETE("/pay/wallet/:walletId/recharge/:id/delete", wallet.PayWalletRechargeDelete)
+		// pay_wallet_recharge->会员钱包充值->单条数据信息查看
+		auth.GET("/pay/wallet/:walletId/recharge/:id/item", wallet.PayWalletRecharge)
+		// pay_wallet_recharge->会员钱包充值->恢复
+		auth.PUT("/pay/wallet/:walletId/recharge/:id/recover", wallet.PayWalletRechargeRecover)
+		// pay_wallet_recharge->会员钱包充值->列表
+		auth.GET("/pay/wallet/:walletId/recharge", wallet.PayWalletRechargeList)
+
+		// pay_wallet_transaction->会员钱包流水表->删除
+		auth.DELETE("/pay/wallet/:walletId/transaction/:id/delete", wallet.PayWalletTransactionDelete)
+		// pay_wallet_transaction->会员钱包流水表->单条数据信息查看
+		auth.GET("/pay/wallet/:walletId/transaction/:id/item", wallet.PayWalletTransaction)
+		// pay_wallet_transaction->会员钱包流水表->恢复
+		auth.PUT("/pay/wallet/:walletId/transaction/:id/recover", wallet.PayWalletTransactionRecover)
+		// pay_wallet_transaction->会员钱包流水表->列表
+		auth.GET("/pay/wallet/:walletId/transaction", wallet.PayWalletTransactionList)
+
 		// pay_wallet_recharge_package->充值套餐表->创建
 		auth.POST("/pay/wallet/package", wallet.PayWalletRechargePackageCreate)
 		// pay_wallet_recharge_package->充值套餐表->更新

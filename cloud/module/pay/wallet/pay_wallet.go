@@ -107,9 +107,11 @@ func PayWalletUser(ctx context.Context, condition map[string]any) (res dao.PayWa
 func PayWalletList(ctx context.Context, condition map[string]any) (res []dao.PayWalletCustom, err error) {
 	db := initial.Core.Store.LoadSQL("mysql").Read()
 	builder := sql.NewBuilder()
-	builder.Table("`pay_wallet`").Select("`pay_wallet`.*", "CASE WHEN pay_wallet.user_type = 1 THEN member.nickname WHEN pay_wallet.user_type = 0 THEN system_user.nickname  END AS username")
+	builder.Table("`pay_wallet`").Select("`pay_wallet`.*", "CASE WHEN pay_wallet.user_type = 1 THEN member.nickname WHEN pay_wallet.user_type = 0 THEN system_user.nickname  END AS nickname", "CASE WHEN pay_wallet.user_type = 1 THEN username_auth.identifier WHEN pay_wallet.user_type = 0 THEN system_user.username END AS username", "CASE WHEN pay_wallet.user_type = 1 THEN mobile_auth.identifier WHEN pay_wallet.user_type = 0 THEN system_user.mobile END AS mobile")
 	builder.LeftJoin("system_user", "pay_wallet.user_id = system_user.id AND pay_wallet.user_type = 0")
 	builder.LeftJoin("member", "pay_wallet.user_id = member.id AND pay_wallet.user_type = 1")
+	builder.LeftJoin("member_auth as username_auth", "pay_wallet.user_id = username_auth.member_id AND pay_wallet.user_type = 1 AND username_auth.identity_type = 0")
+	builder.LeftJoin("member_auth as mobile_auth", "pay_wallet.user_id = mobile_auth.member_id AND pay_wallet.user_type = 1 AND mobile_auth.identity_type = 1")
 	if val, ok := condition["tenantId"]; ok {
 		builder.Where("`pay_wallet`.`tenant_id`", val)
 	}
@@ -129,6 +131,8 @@ func PayWalletList(ctx context.Context, condition map[string]any) (res []dao.Pay
 		builder.OrLike("`system_user`.`nickname`", "%"+cast.ToString(val)+"%")
 		builder.OrLike("`system_user`.`mobile`", "%"+cast.ToString(val)+"%")
 		builder.OrLike("`member`.`nickname`", "%"+cast.ToString(val)+"%")
+		builder.OrLike("`username_auth`.`identifier`", "%"+cast.ToString(val)+"%")
+		builder.OrLike("`mobile_auth`.`identifier`", "%"+cast.ToString(val)+"%")
 		builder.RightBracket()
 	}
 
@@ -155,6 +159,8 @@ func PayWalletListTotal(ctx context.Context, condition map[string]any) (res int6
 	builder.Table("`pay_wallet`")
 	builder.LeftJoin("system_user", "pay_wallet.user_id = system_user.id AND pay_wallet.user_type = 0")
 	builder.LeftJoin("member", "pay_wallet.user_id = member.id AND pay_wallet.user_type = 1")
+	builder.LeftJoin("member_auth as username_auth", "pay_wallet.user_id = username_auth.member_id AND pay_wallet.user_type = 1 AND username_auth.identity_type = 0")
+	builder.LeftJoin("member_auth as mobile_auth", "pay_wallet.user_id = mobile_auth.member_id AND pay_wallet.user_type = 1 AND mobile_auth.identity_type = 1")
 	if val, ok := condition["tenantId"]; ok {
 		builder.Where("`pay_wallet`.`tenant_id`", val)
 	}
@@ -175,6 +181,8 @@ func PayWalletListTotal(ctx context.Context, condition map[string]any) (res int6
 		builder.OrLike("`system_user`.`nickname`", "%"+cast.ToString(val)+"%")
 		builder.OrLike("`system_user`.`mobile`", "%"+cast.ToString(val)+"%")
 		builder.OrLike("`member`.`nickname`", "%"+cast.ToString(val)+"%")
+		builder.OrLike("`username_auth`.`identifier`", "%"+cast.ToString(val)+"%")
+		builder.OrLike("`mobile_auth`.`identifier`", "%"+cast.ToString(val)+"%")
 		builder.RightBracket()
 	}
 

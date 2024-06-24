@@ -66,6 +66,10 @@ message PayWalletCustomObject {
 	google.protobuf.Timestamp update_time = 13; //更新时间
 	// @inject_tag: db:"username" json:"username"
 	optional string username = 14; //用户名称
+	// @inject_tag: db:"nickname" json:"nickname"
+	optional string nickname = 15; //昵称
+	// @inject_tag: db:"mobile" json:"mobile"
+	optional string mobile = 16; //手机号
 }
 
 

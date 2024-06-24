@@ -82,10 +82,10 @@
   </div>
 </template>
 <script setup lang="ts" name="systemDict">
-import { useRoute } from "vue-router";
 import { onMounted, reactive, ref } from "vue";
 import { CirclePlus, EditPen, Delete, Remove } from "@element-plus/icons-vue";
 import { FormInstance, FormRules } from "element-plus";
+import { useRoute } from "vue-router";
 import { useTabsStore } from "@/stores/modules/tabs";
 import { useKeepAliveStore } from "@/stores/modules/keepAlive";
 import ProTable from "@/components/ProTable/index.vue";
