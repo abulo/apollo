@@ -5,7 +5,7 @@ go 1.22
 toolchain go1.22.4
 
 require (
-	github.com/abulo/ratel/v3 v3.7.25
+	github.com/abulo/ratel/v3 v3.7.26
 	github.com/cloudwego/hertz v0.9.1
 	github.com/fsnotify/fsnotify v1.7.0
 	github.com/golang-jwt/jwt/v5 v5.2.1
@@ -14,7 +14,7 @@ require (
 	github.com/pkg/errors v0.9.1
 	github.com/sirupsen/logrus v1.9.3
 	github.com/spf13/cast v1.6.0
-	go.mongodb.org/mongo-driver v1.15.0
+	go.mongodb.org/mongo-driver v1.15.1
 	google.golang.org/grpc v1.64.0
 	google.golang.org/protobuf v1.34.2
 )
@@ -58,7 +58,7 @@ require (
 	github.com/google/uuid v1.6.0 // indirect
 	github.com/gookit/color v1.5.4 // indirect
 	github.com/gookit/goutil v0.6.15 // indirect
-	github.com/gorilla/websocket v1.5.2 // indirect
+	github.com/gorilla/websocket v1.5.3 // indirect
 	github.com/grpc-ecosystem/go-grpc-prometheus v1.2.0 // indirect
 	github.com/henrylee2cn/ameda v1.4.10 // indirect
 	github.com/henrylee2cn/goutil v0.0.0-20210127050712-89660552f6f8 // indirect
@@ -120,7 +120,7 @@ require (
 	golang.org/x/term v0.21.0 // indirect
 	golang.org/x/text v0.16.0 // indirect
 	google.golang.org/genproto/googleapis/api v0.0.0-20240318140521-94a12d6c2237 // indirect
-	google.golang.org/genproto/googleapis/rpc v0.0.0-20240610135401-a8a62080eff3 // indirect
+	google.golang.org/genproto/googleapis/rpc v0.0.0-20240617180043-68d350f18fd4 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
 
