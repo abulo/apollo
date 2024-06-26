@@ -109,7 +109,7 @@ export function formatBefore(oldDate) {
   let res = "";
   if (d2 > 0) {
     //是几天前
-    const days = Number(d2 / 86400);
+    const days = parseInt(d2 / 86400 + "");
     if (days === 1) {
       res = "昨天";
     } else if (days === 2) {
@@ -119,15 +119,15 @@ export function formatBefore(oldDate) {
     }
   } else {
     //是今天
-    const hours = Number(d1 / 3600);
+    const hours = parseInt(d1 / 3600 + "");
     if (hours > 0) {
       res = hours + "小时前";
     } else {
-      const minutes = Number(d1 / 60);
+      const minutes = parseInt(d1 / 60 + "");
       if (minutes > 0) {
         res = minutes + "分钟前";
       } else {
-        const seconds = Number(d1);
+        const seconds = d1;
         if (seconds > 10) {
           res = seconds + "秒前";
         } else {
