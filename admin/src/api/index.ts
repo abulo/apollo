@@ -52,7 +52,7 @@ class RequestHttp {
         config.loading ?? (config.loading = true);
         config.loading && showFullScreenLoading();
         if (config.headers && typeof config.headers.set === "function") {
-          config.headers.set("x-access-token", userStore.token);
+          config.headers.set("X-Access-Token", userStore.token);
         }
         return config;
       },

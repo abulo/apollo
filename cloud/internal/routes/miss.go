@@ -14,5 +14,6 @@ func MissInitRoute(handle *xhertz.Server) {
 		miss.GET("/captcha", captcha.CaptchaGenerate)
 		// 用户登录
 		miss.POST("/login", user.SystemUserLogin)
+
 	}
 }

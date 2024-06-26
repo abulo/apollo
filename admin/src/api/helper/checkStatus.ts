@@ -16,18 +16,18 @@ export const checkStatus = (status: number) => {
       break;
     case 401:
       ElMessage.error("登录失效！请您重新登录");
-    // ElMessageBox.confirm("登录失效！请您重新登录", "系统提示", {
-    //   showCancelButton: false,
-    //   closeOnClickModal: false,
-    //   showClose: false,
-    //   confirmButtonText: "重新登录",
-    //   type: "warning"
-    // }).then(() => {
-    //   const userStore = useUserStore();
-    //   userStore.setToken("");
-    //   router.replace(LOGIN_URL);
-    // });
-    // break;
+      // ElMessageBox.confirm("登录失效！请您重新登录", "系统提示", {
+      //   showCancelButton: false,
+      //   closeOnClickModal: false,
+      //   showClose: false,
+      //   confirmButtonText: "重新登录",
+      //   type: "warning"
+      // }).then(() => {
+      //   const userStore = useUserStore();
+      //   userStore.setToken("");
+      //   router.replace(LOGIN_URL);
+      // });
+      break;
     case 403:
       ElMessage.error("当前账号无权限访问！");
       break;

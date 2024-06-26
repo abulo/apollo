@@ -7,6 +7,7 @@ import (
 	"cloud/api/system/logger"
 	"cloud/api/system/mail"
 	"cloud/api/system/menu"
+	"cloud/api/system/monitor"
 	"cloud/api/system/notice"
 	"cloud/api/system/notify"
 	"cloud/api/system/post"
@@ -311,5 +312,11 @@ func SystemInitRoute(handle *xhertz.Server) {
 		auth.GET("/system/file/:id/item", file.SystemFile)
 		// system_file->文件管理->列表
 		auth.GET("/system/file", file.SystemFileList)
+
+		// 监控数据-动态数据
+		auth.GET("/monitor/trend", monitor.Trend)
+		// 监控数据-运行信息
+		auth.GET("/monitor/run", monitor.RunInfo)
+
 	}
 }
