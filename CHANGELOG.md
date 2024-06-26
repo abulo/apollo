@@ -1,5 +1,13 @@
 # 更新日志
 
+## [v1.0.4](https://github.com/abulo/appllo/compare/v1.0.3...v1.0.4) (2024-06-27)
+### feat✨:引入新功能
+- feat✨: 新增系统检查  ([86a20e8](https://github.com/abulo/appllo/commit/86a20e8))
+
+### docs📝:添加/更新文档
+- docs📝: 更新文档  ([d33fec7](https://github.com/abulo/appllo/commit/d33fec7))
+
+
 ## [v1.0.3](https://github.com/abulo/appllo/compare/v1.0.2...v1.0.3) (2024-06-24)
 ### feat✨:引入新功能
 - feat✨: 钱包管理, 钱包充值, 钱包流程  ([fc2f4fe](https://github.com/abulo/appllo/commit/fc2f4fe))
