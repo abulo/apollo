@@ -5,12 +5,12 @@ name: Release Vue
 
 on:
   push:
+    branches: ["tenant"]
     tags:
       - 'v*' # 推送标签，比如 v1.0, v20.15.10
 
 # on:
 #   push:
-#     branches: ["tenant"]
 #     paths:
 #       - "admin/**"
 #   pull_request:
