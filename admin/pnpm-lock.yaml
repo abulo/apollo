@@ -42,11 +42,11 @@ importers:
         specifier: ^1.3.1
         version: 1.3.1
       echarts:
-        specifier: ^5.5.0
-        version: 5.5.0
+        specifier: ^5.5.1
+        version: 5.5.1
       echarts-liquidfill:
         specifier: ^3.1.0
-        version: 3.1.0(echarts@5.5.0)
+        version: 3.1.0(echarts@5.5.1)
       element-plus:
         specifier: ^2.7.6
         version: 2.7.6(vue@3.4.30(typescript@5.5.2))
@@ -96,8 +96,8 @@ importers:
         specifier: ^4.1.0
         version: 4.1.0(vue@3.4.30(typescript@5.5.2))
       vxe-pc-ui:
-        specifier: ^4.0.36
-        version: 4.0.36
+        specifier: ^4.0.37
+        version: 4.0.37
       vxe-table:
         specifier: ^4.7.36
         version: 4.7.36
@@ -1603,8 +1603,8 @@ packages:
   '@vueuse/shared@9.13.0':
     resolution: {integrity: sha512-UrnhU+Cnufu4S6JLCPZnkWh0WwZGUp72ktOF2DFptMlOs3TOdVv8xJN53zhHGARmVOsz5KqOls09+J1NR6sBKw==}
 
-  '@vxe-ui/core@1.0.8':
-    resolution: {integrity: sha512-UpRYX3h6tHDVC06ppN0I9Disjwts5j6FPWzufpqBsn7U/doEb64ObRZ64tzkUgFjbT3uDtJS5yRkONqQHq2Ayw==}
+  '@vxe-ui/core@1.0.9':
+    resolution: {integrity: sha512-sxQ7NybJT1BZ5PL703NqpBCmmF6PsZMtcXnXRNtGDLGT5NpDKGqcArxBHmt0QqkijfGQ8dpwtXHvfqwR4/vqgA==}
 
   '@wangeditor/basic-modules@1.1.7':
     resolution: {integrity: sha512-cY9CPkLJaqF05STqfpZKWG4LpxTMeGSIIF1fHvfm/mz+JXatCagjdkbxdikOuKYlxDdeqvOeBmsUBItufDLXZg==}
@@ -2400,8 +2400,8 @@ packages:
     peerDependencies:
       echarts: ^5.0.1
 
-  echarts@5.5.0:
-    resolution: {integrity: sha512-rNYnNCzqDAPCr4m/fqyUFv7fD9qIsd50S6GDFgO1DxZhncCsNsG7IfUlAlvZe5oSEQxtsjnHiUuppzccry93Xw==}
+  echarts@5.5.1:
+    resolution: {integrity: sha512-Fce8upazaAXUVUVsjgV6mBnGuqgO+JNDlcgF79Dksy4+wgGpQB2lmYoO4TSweFg/mZITdpGHomw/cNBJZj1icA==}
 
   ejs@3.1.10:
     resolution: {integrity: sha512-UeJmFfOrAQS8OJWPZ4qtgHyWExa088/MtK5UEyoJGFH67cDEXkZSviOiKRCZ4Xij0zxI3JECgYs3oKx+AizQBA==}
@@ -4870,8 +4870,8 @@ packages:
     peerDependencies:
       vue: ^3.0.1
 
-  vxe-pc-ui@4.0.36:
-    resolution: {integrity: sha512-uhPb8oby6YQQIfbeV7ukVs1xQ5reqiIe+2wb0sArK8HzvyM2H8g6AjOvxZ/U+lwnC+Rio8aqkrQ5sYAPAElYCQ==}
+  vxe-pc-ui@4.0.37:
+    resolution: {integrity: sha512-Tg3XEIZ/F/KBzli1tkdg8sEcgULCcFrfMTEBPVrnrW+gJMlot/87R8Dgr5cknGzQLeOKUodVEg+tbwnCeWI2wA==}
 
   vxe-table-plugin-element@4.0.4:
     resolution: {integrity: sha512-TKhx4Bi45kdXRa9PyjdDtOjQuA9We+ASDdZez/d3DB7p2tFvBwVNnyvwYHT+kJntAeq0pOchmhsYhZeVADMAuw==}
@@ -5034,8 +5034,8 @@ packages:
     resolution: {integrity: sha512-9bnSc/HEW2uRy67wc+T8UwauLuPJVn28jb+GtJY16iiKWyvmYJRXVT4UamsAEGQfPohgr2q4Tq0sQbQlxTfi1g==}
     engines: {node: '>=12.20'}
 
-  zrender@5.5.0:
-    resolution: {integrity: sha512-O3MilSi/9mwoovx77m6ROZM7sXShR/O/JIanvzTwjN3FORfLSr81PsUGd7jlaYOeds9d8tw82oP44+3YucVo+w==}
+  zrender@5.6.0:
+    resolution: {integrity: sha512-uzgraf4njmmHAbEUxMJ8Oxg+P3fT04O+9p7gY+wJRVxo8Ge+KmYv0WJev945EH4wFuc4OY2NLXz46FZrWS9xJg==}
 
 snapshots:
 
@@ -6630,7 +6630,7 @@ snapshots:
       - '@vue/composition-api'
       - vue
 
-  '@vxe-ui/core@1.0.8':
+  '@vxe-ui/core@1.0.9':
     dependencies:
       dom-zindex: 1.0.4
       xe-utils: 3.5.27
@@ -7490,14 +7490,14 @@ snapshots:
 
   driver.js@1.3.1: {}
 
-  echarts-liquidfill@3.1.0(echarts@5.5.0):
+  echarts-liquidfill@3.1.0(echarts@5.5.1):
     dependencies:
-      echarts: 5.5.0
+      echarts: 5.5.1
 
-  echarts@5.5.0:
+  echarts@5.5.1:
     dependencies:
       tslib: 2.3.0
-      zrender: 5.5.0
+      zrender: 5.6.0
 
   ejs@3.1.10:
     dependencies:
@@ -10135,9 +10135,9 @@ snapshots:
       sortablejs: 1.14.0
       vue: 3.4.30(typescript@5.5.2)
 
-  vxe-pc-ui@4.0.36:
+  vxe-pc-ui@4.0.37:
     dependencies:
-      '@vxe-ui/core': 1.0.8
+      '@vxe-ui/core': 1.0.9
 
   vxe-table-plugin-element@4.0.4(vxe-table@4.7.36):
     dependencies:
@@ -10145,7 +10145,7 @@ snapshots:
 
   vxe-table@4.7.36:
     dependencies:
-      vxe-pc-ui: 4.0.36
+      vxe-pc-ui: 4.0.37
 
   webidl-conversions@4.0.2: {}
 
@@ -10363,6 +10363,6 @@ snapshots:
 
   yocto-queue@1.0.0: {}
 
-  zrender@5.5.0:
+  zrender@5.6.0:
     dependencies:
       tslib: 2.3.0

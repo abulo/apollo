@@ -2,7 +2,7 @@
   <div>
     <div class="card mb10">
       <h4 class="title">基础信息</h4>
-      <Grid :gap="[20, 0]">
+      <Grid :gap="[20, 0]" cols="4">
         <GridItem v-for="(item, index) in monitorTrendItem.head" :index="index" :key="index">
           <el-card shadow="never">
             <template #header>
@@ -81,26 +81,62 @@
     <div class="card mb10">
       <h4 class="title">服务器信息</h4>
       <el-descriptions :column="3" border>
-        <el-descriptions-item label="服务器名称"> {{ monitorRunItem.hostname }} </el-descriptions-item>
-        <el-descriptions-item label="操作系统"> {{ monitorRunItem.os }} </el-descriptions-item>
-        <el-descriptions-item label="平台"> {{ monitorRunItem.platform }} </el-descriptions-item>
-        <el-descriptions-item label="架构"> {{ monitorRunItem.arch }} </el-descriptions-item>
-        <el-descriptions-item label="公网 IP"> {{ monitorRunItem.publicIP }}</el-descriptions-item>
-        <el-descriptions-item label="内网 IP"> {{ monitorRunItem.intranetIP }} </el-descriptions-item>
+        <el-descriptions-item label="服务器名称">
+          <el-tag type="info">{{ monitorRunItem.hostname }} </el-tag>
+        </el-descriptions-item>
+        <el-descriptions-item label="操作系统">
+          <el-tag type="info">{{ monitorRunItem.os }}</el-tag>
+        </el-descriptions-item>
+        <el-descriptions-item label="平台">
+          <el-tag type="info">{{ monitorRunItem.platform }}</el-tag>
+        </el-descriptions-item>
+        <el-descriptions-item label="架构">
+          <el-tag type="info">{{ monitorRunItem.arch }}</el-tag>
+        </el-descriptions-item>
+        <el-descriptions-item label="公网 IP">
+          <el-tag type="info">{{ monitorRunItem.publicIP }}</el-tag>
+        </el-descriptions-item>
+        <el-descriptions-item label="内网 IP">
+          <el-tag type="info">{{ monitorRunItem.intranetIP }}</el-tag>
+        </el-descriptions-item>
       </el-descriptions>
     </div>
     <div class="card mb10">
       <h4 class="title">服务信息</h4>
       <el-descriptions :column="4" border>
-        <el-descriptions-item label="Go 版本"> {{ monitorRunItem.goVersion }} </el-descriptions-item>
-        <el-descriptions-item label="Go 架构"> {{ monitorRunItem.goArch }} </el-descriptions-item>
-        <el-descriptions-item label="Go 运行内存"> {{ monitorRunItem.goMem }} </el-descriptions-item>
-        <el-descriptions-item label="Go 协程数"> {{ monitorRunItem.goroutine }} </el-descriptions-item>
-        <el-descriptions-item label="Ratel 版本"> {{ monitorRunItem.ratelVersion }} </el-descriptions-item>
-        <el-descriptions-item label="编译版本"> {{ monitorRunItem.buildVersion }} </el-descriptions-item>
-        <el-descriptions-item label="编译时间"> {{ formatToDateTime(monitorRunItem.buildTime) }} </el-descriptions-item>
-        <el-descriptions-item label="启动时间"> {{ formatToDateTime(monitorRunItem.launchTime) }} </el-descriptions-item>
-        <el-descriptions-item label="运行时长"> {{ formatBefore(new Date(monitorRunItem.launchTime)) }} </el-descriptions-item>
+        <el-descriptions-item label="Go 版本">
+          <el-tag type="info">{{ monitorRunItem.goVersion }} </el-tag>
+        </el-descriptions-item>
+        <el-descriptions-item label="Go 架构">
+          <el-tag type="info">{{ monitorRunItem.goArch }} </el-tag>
+        </el-descriptions-item>
+        <el-descriptions-item label="Go 运行内存">
+          <el-tag type="info">{{ monitorRunItem.goMem }} </el-tag>
+        </el-descriptions-item>
+        <el-descriptions-item label="Go 协程数">
+          <el-tag type="info">{{ monitorRunItem.goroutine }} </el-tag>
+        </el-descriptions-item>
+        <el-descriptions-item label="Ratel 版本">
+          <el-tag type="info">{{ monitorRunItem.ratelVersion }} </el-tag>
+        </el-descriptions-item>
+        <el-descriptions-item label="编译版本">
+          <el-tag type="info">{{ monitorRunItem.buildVersion }} </el-tag>
+        </el-descriptions-item>
+        <el-descriptions-item label="编译时间">
+          <el-tag type="info">
+            {{ formatToDateTime(monitorRunItem.buildTime) }}
+          </el-tag>
+        </el-descriptions-item>
+        <el-descriptions-item label="启动时间">
+          <el-tag type="info">
+            {{ formatToDateTime(monitorRunItem.launchTime) }}
+          </el-tag>
+        </el-descriptions-item>
+        <el-descriptions-item label="运行时长">
+          <el-tag type="info">
+            {{ formatBefore(new Date(monitorRunItem.launchTime)) }}
+          </el-tag>
+        </el-descriptions-item>
       </el-descriptions>
     </div>
     <div class="card mb10">
