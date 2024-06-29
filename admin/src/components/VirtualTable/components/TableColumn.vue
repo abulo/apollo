@@ -34,13 +34,13 @@ const RenderTableColumn = (item: ColumnProps) => {
             default: (scope: RenderScope<any>) => {
               if (item._children) return item._children.map(child => RenderTableColumn(child));
               if (item.render) return item.render(scope);
-              if (slots[handleProp(item.field!)]) return slots[handleProp(item.field!)]!(scope);
+              if (item.field && slots[handleProp(item.field)]) return slots[handleProp(item.field)]!(scope);
               if (item.tag) return <el-tag type={getTagType(item, scope)}>{renderCellData(item, scope)}</el-tag>;
               return renderCellData(item, scope);
             },
             header: (scope: HeaderRenderScope<any>) => {
               if (item.headerRender) return item.headerRender(scope);
-              if (slots[`${handleProp(item.field!)}Header`]) return slots[`${handleProp(item.field!)}Header`]!(scope);
+              if (item.field && slots[`${handleProp(item.field)}Header`]) return slots[`${handleProp(item.field)}Header`]!(scope);
               return item.title;
             }
           }}
