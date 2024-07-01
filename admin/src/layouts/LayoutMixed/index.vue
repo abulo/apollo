@@ -41,7 +41,7 @@
 
 <script setup lang="ts" name="layoutVertical">
 import { ref, computed, watch } from "vue";
-import { useRoute, useRouter } from "vue-router";
+import { useRoute, useRouter, RouteLocationMatched } from "vue-router";
 import { useAuthStore } from "@/stores/modules/auth";
 import { useGlobalStore } from "@/stores/modules/global";
 import Main from "@/layouts/components/Main/index.vue";
@@ -61,24 +61,25 @@ const asideBoxWidth = computed(() => {
   return isCollapse.value ? 65 : 210;
 });
 const menuList = computed(() => authStore.showMenuListGet);
-const activeMenu = computed(() => (route.meta.activeMenu ? route.meta.activeMenu : route.meta.id) as string);
+const activeMenu = computed(() => (route.meta.activeMenu ? route.meta.activeMenu : String(route.meta.id)) as string);
 const subMenuList = ref<Menu.MenuOptions[]>([]);
 const activeHeaderMenu = ref("");
+const flatMenuList = computed(() => authStore.flatMenuListGet);
 const getRouteItem = () => {
   const name = route.name;
-  let routeItem: RouteLocationNormalizedLoadedGeneric = null;
+  let routeItemId: number = 0;
   for (const item of route.matched) {
     if (item.name == name) {
-      routeItem = item;
+      routeItemId = Number(item.meta.id);
       break;
     }
   }
-  return routeItem as Menu.MenuOptions;
+  return flatMenuList.value.find(item => item.meta.id === routeItemId);
 };
 const getActiveHeaderMenu = () => {
-  const routeItem = getRouteItem();
+  const routeItem = getRouteItem() as Menu.MenuOptions;
   const menuItem = findRootMenuByPath(authStore.authMenuList, routeItem);
-  return menuItem?.meta?.id || "";
+  return String(menuItem?.meta?.id) || "";
 };
 watch(
   () => [menuList, route],
@@ -86,7 +87,7 @@ watch(
     // 当前菜单没有数据直接 return
     if (!menuList.value.length) return;
     activeHeaderMenu.value = getActiveHeaderMenu();
-    const routeItem = getRouteItem();
+    const routeItem = getRouteItem() as Menu.MenuOptions;
     const menuItem = getShowMenuItem(findRootMenuByPath(authStore.authMenuList, routeItem) as Menu.MenuOptions);
     if (menuItem?.children?.length) return (subMenuList.value = menuItem.children);
     subMenuList.value = [];

@@ -48,7 +48,7 @@ const route = useRoute();
 const router = useRouter();
 const authStore = useAuthStore();
 const menuList = computed(() => authStore.showMenuListGet);
-const activeMenu = computed(() => (route.meta.activeMenu ? route.meta.activeMenu : route.meta.id) as string);
+const activeMenu = computed(() => (route.meta.activeMenu ? route.meta.activeMenu : String(route.meta.id)) as string);
 
 const handleClickMenu = (subItem: Menu.MenuOptions) => {
   if (subItem.meta.isLink) return window.open(subItem.meta.isLink, "_blank");
