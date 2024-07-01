@@ -8,8 +8,8 @@
       </div>
       <el-menu mode="horizontal" :router="false" :default-active="activeMenu">
         <!-- 不能直接使用 SubMenu 组件，无法触发 el-menu 隐藏省略功能 -->
-        <template v-for="subItem in menuList" :key="subItem.path">
-          <el-sub-menu v-if="subItem.children?.length" :key="subItem.path" :index="subItem.path + 'el-sub-menu'">
+        <template v-for="subItem in menuList" :key="subItem.meta.id">
+          <el-sub-menu v-if="subItem.children?.length" :key="subItem.meta.id" :index="subItem.meta.id + 'el-sub-menu'">
             <template #title>
               <el-icon>
                 <component :is="subItem.meta.icon" />
@@ -18,7 +18,7 @@
             </template>
             <SubMenu :menu-list="subItem.children" />
           </el-sub-menu>
-          <el-menu-item v-else :key="subItem.path + 'el-menu-item'" :index="subItem.path" @click="handleClickMenu(subItem)">
+          <el-menu-item v-else :key="subItem.meta.id + 'el-menu-item'" :index="subItem.meta.id" @click="handleClickMenu(subItem)">
             <el-icon>
               <component :is="subItem.meta.icon" />
             </el-icon>
@@ -48,7 +48,7 @@ const route = useRoute();
 const router = useRouter();
 const authStore = useAuthStore();
 const menuList = computed(() => authStore.showMenuListGet);
-const activeMenu = computed(() => (route.meta.activeMenu ? route.meta.activeMenu : route.path) as string);
+const activeMenu = computed(() => (route.meta.activeMenu ? route.meta.activeMenu : route.meta.id) as string);
 
 const handleClickMenu = (subItem: Menu.MenuOptions) => {
   if (subItem.meta.isLink) return window.open(subItem.meta.isLink, "_blank");

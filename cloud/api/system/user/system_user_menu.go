@@ -64,6 +64,12 @@ func SystemUserMenuDao(item *menu.SystemMenuObject) *dao.SystemMenuTree {
 	if !util.Empty(item.ActivePath) {
 		daoMetaItem.ActiveMenu = item.GetActivePath() // 激活菜单
 	}
+	if !util.Empty(item.Id) {
+		daoMetaItem.Id = item.GetId() // 菜单ID
+	}
+	if !util.Empty(item.ParentId) {
+		daoMetaItem.ParentId = item.GetParentId() // 父菜单ID
+	}
 	daoItem.Meta = daoMetaItem
 	return daoItem
 }
@@ -123,6 +129,7 @@ func SystemUserMenu(ctx context.Context, newCtx *app.RequestContext) {
 	var list []*dao.SystemMenuTree
 	var menuIds []int64
 	var currentMenuIds []int64 // 当前租户所有的菜单 id
+
 	if cast.ToInt64(tenantPackageId) != 0 {
 		menuRequest.Deleted = proto.Int32(0)
 		menuRequest.Status = proto.Int32(0)
@@ -153,10 +160,11 @@ func SystemUserMenu(ctx context.Context, newCtx *app.RequestContext) {
 		})
 		return
 	}
-
+	menuListMap := make(map[int64]*dao.SystemMenuTree)
 	if menuRes.GetCode() == code.Success {
 		rpcList := menuRes.GetData()
 		for _, item := range rpcList {
+			menuListMap[cast.ToInt64(item.Id)] = SystemUserMenuDao(item)
 			currentMenuIds = append(currentMenuIds, *item.Id)
 			if cast.ToInt64(tenantPackageId) != 0 {
 				if !util.InArray(*item.Id, menuIds) {
@@ -204,6 +212,10 @@ func SystemUserMenu(ctx context.Context, newCtx *app.RequestContext) {
 	for _, item := range list {
 		if item.Type == 3 {
 			continue
+		}
+		parentId := item.ParentId
+		if val, ok := menuListMap[parentId]; ok {
+			item.Meta.ActiveMenu = val.Path
 		}
 		if util.InArray(item.Id, currentMenuIds) {
 			curList = append(curList, item)

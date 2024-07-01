@@ -170,9 +170,10 @@ export function getShowMenuList(menuList: Menu.MenuOptions[]) {
 }
 
 /**
- * @description 使用递归过滤出需要渲染在左侧菜单的列表 (需剔除 isHide == true 的菜单)
- * @param menuItem  菜单项
- * @returns  {Object} 返回处理后的菜单项
+ *
+ * @export
+ * @param {Menu.MenuOptions} menuItem
+ * @return {*}
  */
 export function getShowMenuItem(menuItem: Menu.MenuOptions) {
   let newMenuItem: Menu.MenuOptions = JSON.parse(JSON.stringify(menuItem));
@@ -232,13 +233,13 @@ export function findMenuByPath(menuList: Menu.MenuOptions[], path: string): Menu
  * @param {String} path 当前访问地址
  * @returns {Object | null}
  */
-export function findRootMenuByPath(menuList: Menu.MenuOptions[], path: string): Menu.MenuOptions | null {
+export function findRootMenuByPath(menuList: Menu.MenuOptions[], targetItem: Menu.MenuOptions): Menu.MenuOptions | null {
   // 根节点菜单
   let rootMenu: Menu.MenuOptions | null = null;
   for (const item of menuList) {
-    if (item.path === path) return item;
+    if (item.meta.id === targetItem.meta.id) return item;
     if (item.children) {
-      const res = findRootMenuByPath(item.children, path);
+      const res = findRootMenuByPath(item.children, targetItem);
       if (res) {
         rootMenu = item;
         break;
@@ -247,6 +248,35 @@ export function findRootMenuByPath(menuList: Menu.MenuOptions[], path: string): 
   }
   return rootMenu;
 }
+/**
+ * @description 找出menuItem的所有父级
+ * @param {Object} menuItem 菜单对象
+ * @param {Array} menuList 菜单列表
+ * @returns {Array | null}
+ */
+export function findParents(menu: Menu.MenuOptions[], targetItem: Menu.MenuOptions): Menu.MenuOptions[] {
+  const path: Menu.MenuOptions[] = [];
+
+  const recursiveFind = (menu: Menu.MenuOptions[], targetItem: Menu.MenuOptions): boolean => {
+    for (const item of menu) {
+      if (item.path === targetItem.path) {
+        path.push(item);
+        return true;
+      }
+      if (item.children && recursiveFind(item.children, targetItem)) {
+        path.push(item);
+        return true;
+      }
+    }
+    return false;
+  };
+
+  recursiveFind(menu, targetItem);
+
+  // path 倒序
+  return path.reverse();
+}
+
 /**
  * @description 使用递归过滤需要缓存的菜单 name (该函数暂未使用)
  * @param {Array} menuList 所有菜单列表

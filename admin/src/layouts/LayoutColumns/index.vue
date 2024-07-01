@@ -9,9 +9,9 @@
         <div class="split-list">
           <div
             v-for="item in menuList"
-            :key="item.path"
+            :key="item.meta.id"
             class="split-item"
-            :class="{ 'split-active': splitActive === item.path }"
+            :class="{ 'split-active': splitActive === item.meta.id }"
             @click="changeSubMenu(item)">
             <el-icon>
               <component :is="item.meta.icon" />
@@ -65,30 +65,27 @@ const globalStore = useGlobalStore();
 const accordion = computed(() => globalStore.accordion);
 const isCollapse = computed(() => globalStore.isCollapse);
 const menuList = computed(() => authStore.showMenuListGet);
-const activeMenu = computed(() => (route.meta.activeMenu ? route.meta.activeMenu : route.path) as string);
+const activeMenu = computed(() => (route.meta.activeMenu ? route.meta.activeMenu : route.meta.id) as string);
 
 const subMenuList = ref<Menu.MenuOptions[]>([]);
 const splitActive = ref();
 
-const getRoutePath = () => {
-  let path = route.path;
+const getRouteItem = () => {
   const name = route.name;
-  if (route.matched.length > 0) {
-    for (let index = 0; index < route.matched.length; index++) {
-      const element = route.matched[index];
-      if (element.name == name) {
-        path = element.path;
-        break;
-      }
+  let routeItem: RouteLocationNormalizedLoadedGeneric = null;
+  for (const item of route.matched) {
+    if (item.name == name) {
+      routeItem = item;
+      break;
     }
   }
-  return path;
+  return routeItem as Menu.MenuOptions;
 };
 
 const getActiveHeaderMenu = () => {
-  const path = getRoutePath();
-  const menuItem = findRootMenuByPath(authStore.authMenuList, path);
-  return menuItem?.path || "";
+  const routeItem = getRouteItem();
+  const menuItem = findRootMenuByPath(authStore.authMenuList, routeItem);
+  return menuItem?.meta?.id || "";
 };
 
 watch(
@@ -97,9 +94,8 @@ watch(
     // 当前菜单没有数据直接 return
     if (!menuList.value.length) return;
     splitActive.value = getActiveHeaderMenu();
-    const path = getRoutePath();
-    // const menuItem = findRootMenuByPath(menuList.value, route.path);
-    const menuItem = getShowMenuItem(findRootMenuByPath(authStore.authMenuList, path) as Menu.MenuOptions);
+    const routeItem = getRouteItem();
+    const menuItem = getShowMenuItem(findRootMenuByPath(authStore.authMenuList, routeItem) as Menu.MenuOptions);
     if (menuItem?.children?.length) return (subMenuList.value = menuItem.children);
     subMenuList.value = [];
   },
@@ -111,7 +107,8 @@ watch(
 
 // change SubMenu
 const changeSubMenu = (item: Menu.MenuOptions) => {
-  splitActive.value = findRootMenuByPath(menuList.value, item.path);
+  let actionRouteItem = findRootMenuByPath(menuList.value, item);
+  splitActive.value = actionRouteItem?.meta?.id || "";
   if (item?.children?.length) return (subMenuList.value = item.children);
   subMenuList.value = [];
   router.push(item.path);

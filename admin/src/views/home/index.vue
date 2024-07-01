@@ -2,7 +2,7 @@
   <div>
     <div class="card mb10">
       <h4 class="title">基础信息</h4>
-      <Grid :gap="[20, 0]" cols="4">
+      <Grid :gap="[20, 0]" :cols="4">
         <GridItem v-for="(item, index) in monitorTrendItem.head" :index="index" :key="index">
           <el-card shadow="never">
             <template #header>

@@ -23,7 +23,7 @@
       <el-header>
         <ToolBarLeft />
         <el-menu mode="horizontal" :router="false" :default-active="activeHeaderMenu">
-          <el-menu-item v-for="item in menuList" :key="item.path" :index="item.path" @click="changeSubMenu(item)">
+          <el-menu-item v-for="item in menuList" :key="item.meta.id" :index="item.meta.id" @click="changeSubMenu(item)">
             <el-icon>
               <component :is="item.meta.icon"></component>
             </el-icon>
@@ -61,27 +61,24 @@ const asideBoxWidth = computed(() => {
   return isCollapse.value ? 65 : 210;
 });
 const menuList = computed(() => authStore.showMenuListGet);
-const activeMenu = computed(() => (route.meta.activeMenu ? route.meta.activeMenu : route.path) as string);
+const activeMenu = computed(() => (route.meta.activeMenu ? route.meta.activeMenu : route.meta.id) as string);
 const subMenuList = ref<Menu.MenuOptions[]>([]);
 const activeHeaderMenu = ref("");
-const getRoutePath = () => {
-  let path = route.path;
+const getRouteItem = () => {
   const name = route.name;
-  if (route.matched.length > 0) {
-    for (let index = 0; index < route.matched.length; index++) {
-      const element = route.matched[index];
-      if (element.name == name) {
-        path = element.path;
-        break;
-      }
+  let routeItem: RouteLocationNormalizedLoadedGeneric = null;
+  for (const item of route.matched) {
+    if (item.name == name) {
+      routeItem = item;
+      break;
     }
   }
-  return path;
+  return routeItem as Menu.MenuOptions;
 };
 const getActiveHeaderMenu = () => {
-  const path = getRoutePath();
-  const menuItem = findRootMenuByPath(authStore.authMenuList, path);
-  return menuItem?.path || "";
+  const routeItem = getRouteItem();
+  const menuItem = findRootMenuByPath(authStore.authMenuList, routeItem);
+  return menuItem?.meta?.id || "";
 };
 watch(
   () => [menuList, route],
@@ -89,8 +86,8 @@ watch(
     // 当前菜单没有数据直接 return
     if (!menuList.value.length) return;
     activeHeaderMenu.value = getActiveHeaderMenu();
-    const path = getRoutePath();
-    const menuItem = getShowMenuItem(findRootMenuByPath(authStore.authMenuList, path) as Menu.MenuOptions);
+    const routeItem = getRouteItem();
+    const menuItem = getShowMenuItem(findRootMenuByPath(authStore.authMenuList, routeItem) as Menu.MenuOptions);
     if (menuItem?.children?.length) return (subMenuList.value = menuItem.children);
     subMenuList.value = [];
   },
