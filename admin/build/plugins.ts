@@ -9,6 +9,8 @@ import vueJsx from "@vitejs/plugin-vue-jsx";
 import eslintPlugin from "vite-plugin-eslint";
 import viteCompression from "vite-plugin-compression";
 import vueSetupExtend from "unplugin-vue-setup-extend-plus/vite";
+import NextDevTools from "vite-plugin-vue-devtools";
+
 /**
  * 创建 vite 插件
  * @param viteEnv
