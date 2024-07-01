@@ -5,7 +5,6 @@ name: Release Golang
 
 on:
   push:
-    branches: ["tenant"]
     tags:
       - 'v*' # 推送标签，比如 v1.0, v20.15.10
 # on:
