@@ -148,7 +148,7 @@ func SystemUserMenu(ctx context.Context, newCtx *app.RequestContext) {
 	}
 	// 执行服务
 	menuRes, menuErr := menuClient.SystemMenuList(ctx, menuRequest)
-	if err != nil {
+	if menuErr != nil {
 		globalLogger.Logger.WithFields(logrus.Fields{
 			"req": menuRequest,
 			"err": menuErr,
@@ -315,7 +315,7 @@ func SystemUserBtn(ctx context.Context, newCtx *app.RequestContext) {
 	}
 	// 执行服务
 	menuRes, menuErr := menuClient.SystemMenuList(ctx, menuRequest)
-	if err != nil {
+	if menuErr != nil {
 		globalLogger.Logger.WithFields(logrus.Fields{
 			"req": menuRequest,
 			"err": menuErr,
@@ -375,11 +375,9 @@ func SystemUserBtn(ctx context.Context, newCtx *app.RequestContext) {
 			}
 		}
 	}
-	var curList []*menu.SystemMenuObject
 	var list []string
 	for _, item := range listMenu {
 		if util.InArray(*item.Id, currentMenuIds) {
-			curList = append(curList, item)
 			if !util.Empty(item.GetPermission()) {
 				list = append(list, item.GetPermission())
 			}
