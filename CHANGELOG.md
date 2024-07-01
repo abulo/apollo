@@ -1,5 +1,44 @@
 # 更新日志
 
+## [v1.0.7](https://github.com/abulo/appllo/compare/v1.0.6...v1.0.7) (2024-07-01)
+### feat✨:引入新功能
+- feat✨: 添加插件  ([207fee4](https://github.com/abulo/appllo/commit/207fee4))
+
+### fix🐛:修复 bug
+- fix🐛: 修复参数为使用问题  ([9707804](https://github.com/abulo/appllo/commit/9707804))
+- fix🐛: 修复诸多问题  ([8a22083](https://github.com/abulo/appllo/commit/8a22083))
+
+### perf👌:提高性能/优化
+- perf👌: 删除刷新验证码 loading 状态  ([045c429](https://github.com/abulo/appllo/commit/045c429))
+- perf👌: 前端框架第三方库升级  ([962f32f](https://github.com/abulo/appllo/commit/962f32f))
+
+### config🔧:修改配置文件
+- config🔧: CI/CD流程修改  ([5ee7a58](https://github.com/abulo/appllo/commit/5ee7a58))
+
+
+## [v1.0.6](https://github.com/abulo/appllo/compare/v1.0.5...v1.0.6) (2024-06-29)
+### feat✨:引入新功能
+- feat✨: 添加vite-plugin-vue-devtools  ([8d7e740](https://github.com/abulo/appllo/commit/8d7e740))
+
+### fix🐛:修复 bug
+- fix🐛: 诸多 bug  ([c38c43a](https://github.com/abulo/appllo/commit/c38c43a))
+- fix🐛:  fix axiosCancel bug  ([cead00e](https://github.com/abulo/appllo/commit/cead00e))
+
+### config🔧:修改配置文件
+- config🔧: CI/CD  ([6b92576](https://github.com/abulo/appllo/commit/6b92576))
+
+### others:其他
+- format🥚: 项目信息 cae212c
+
+
+## [v1.0.5](https://github.com/abulo/appllo/compare/v1.0.4...v1.0.5) (2024-06-27)
+### fix🐛:修复 bug
+- fix🐛: 修改数据类型错误  ([bbb6fc5](https://github.com/abulo/appllo/commit/bbb6fc5))
+
+### docs📝:添加/更新文档
+- docs📝: 更新文档  ([551a97f](https://github.com/abulo/appllo/commit/551a97f))
+
+
 ## [v1.0.4](https://github.com/abulo/appllo/compare/v1.0.3...v1.0.4) (2024-06-27)
 ### feat✨:引入新功能
 - feat✨: 新增系统检查  ([86a20e8](https://github.com/abulo/appllo/commit/86a20e8))
