@@ -10,6 +10,8 @@ type SystemMenuTreeMeta struct {
 	IsAffix     bool   `json:"isAffix"`              // 是否固定
 	IsKeepAlive bool   `json:"isKeepAlive"`          // 是否缓存
 	ActiveMenu  string `json:"activeMenu,omitempty"` // 激活菜单
+	Id          int64  `json:"id"`                   // 菜单ID
+	ParentId    int64  `json:"parentId"`             // 父菜单ID
 }
 
 // SystemMenuTreeRes 菜单数据

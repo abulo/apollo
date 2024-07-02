@@ -64,6 +64,12 @@ func SystemUserMenuDao(item *menu.SystemMenuObject) *dao.SystemMenuTree {
 	if !util.Empty(item.ActivePath) {
 		daoMetaItem.ActiveMenu = item.GetActivePath() // 激活菜单
 	}
+	if !util.Empty(item.Id) {
+		daoMetaItem.Id = item.GetId() // 菜单ID
+	}
+	if !util.Empty(item.ParentId) {
+		daoMetaItem.ParentId = item.GetParentId() // 父菜单ID
+	}
 	daoItem.Meta = daoMetaItem
 	return daoItem
 }
@@ -141,7 +147,7 @@ func SystemUserMenu(ctx context.Context, newCtx *app.RequestContext) {
 	}
 	// 执行服务
 	menuRes, menuErr := menuClient.SystemMenuList(ctx, menuRequest)
-	if err != nil {
+	if menuErr != nil {
 		globalLogger.Logger.WithFields(logrus.Fields{
 			"req": menuRequest,
 			"err": menuErr,
@@ -153,10 +159,11 @@ func SystemUserMenu(ctx context.Context, newCtx *app.RequestContext) {
 		})
 		return
 	}
-
+	// menuListMap := make(map[int64]*dao.SystemMenuTree)
 	if menuRes.GetCode() == code.Success {
 		rpcList := menuRes.GetData()
 		for _, item := range rpcList {
+			// menuListMap[cast.ToInt64(item.Id)] = SystemUserMenuDao(item)
 			currentMenuIds = append(currentMenuIds, *item.Id)
 			if cast.ToInt64(tenantPackageId) != 0 {
 				if !util.InArray(*item.Id, menuIds) {
@@ -205,6 +212,10 @@ func SystemUserMenu(ctx context.Context, newCtx *app.RequestContext) {
 		if item.Type == 3 {
 			continue
 		}
+		// parentId := item.ParentId
+		// if val, ok := menuListMap[parentId]; ok {
+		// 	item.Meta.ActiveMenu = val.Path
+		// }
 		if util.InArray(item.Id, currentMenuIds) {
 			curList = append(curList, item)
 		}
@@ -303,7 +314,7 @@ func SystemUserBtn(ctx context.Context, newCtx *app.RequestContext) {
 	}
 	// 执行服务
 	menuRes, menuErr := menuClient.SystemMenuList(ctx, menuRequest)
-	if err != nil {
+	if menuErr != nil {
 		globalLogger.Logger.WithFields(logrus.Fields{
 			"req": menuRequest,
 			"err": menuErr,
@@ -363,11 +374,9 @@ func SystemUserBtn(ctx context.Context, newCtx *app.RequestContext) {
 			}
 		}
 	}
-	var curList []*menu.SystemMenuObject
 	var list []string
 	for _, item := range listMenu {
 		if util.InArray(*item.Id, currentMenuIds) {
-			curList = append(curList, item)
 			if !util.Empty(item.GetPermission()) {
 				list = append(list, item.GetPermission())
 			}

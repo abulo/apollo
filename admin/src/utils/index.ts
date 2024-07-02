@@ -247,6 +247,36 @@ export function findRootMenuByPath(menuList: Menu.MenuOptions[], path: string): 
   }
   return rootMenu;
 }
+
+/**
+ * @description 找出menuItem的所有父级
+ * @param {Object} menuItem 菜单对象
+ * @param {Array} menuList 菜单列表
+ * @returns {Array | null}
+ */
+export function findParents(menu: Menu.MenuOptions[], targetItem: Menu.MenuOptions): Menu.MenuOptions[] {
+  const path: Menu.MenuOptions[] = [];
+
+  const recursiveFind = (menu: Menu.MenuOptions[], targetItem: Menu.MenuOptions): boolean => {
+    for (const item of menu) {
+      if (item.path === targetItem.path) {
+        path.push(item);
+        return true;
+      }
+      if (item.children && recursiveFind(item.children, targetItem)) {
+        path.push(item);
+        return true;
+      }
+    }
+    return false;
+  };
+
+  recursiveFind(menu, targetItem);
+
+  // path 倒序
+  return path.reverse();
+}
+
 /**
  * @description 使用递归过滤需要缓存的菜单 name (该函数暂未使用)
  * @param {Array} menuList 所有菜单列表

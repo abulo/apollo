@@ -48,6 +48,8 @@ watch(
     if (route.meta.isFull) return;
     tabsMenuValue.value = route.fullPath;
     const tabsParams = {
+      id: route.meta.id as number,
+      parentId: route.meta.parentId as number,
       icon: route.meta.icon as string,
       title: route.meta.title as string,
       path: route.fullPath,
@@ -65,6 +67,8 @@ const initTabs = () => {
   authStore.flatMenuListGet.forEach(item => {
     if (item.meta.isAffix && !item.meta.isHide && !item.meta.isFull) {
       const tabsParams = {
+        id: item.meta.id,
+        parentId: item.meta.parentId,
         icon: item.meta.icon,
         title: item.meta.title,
         path: item.path,
