@@ -233,9 +233,9 @@ export function findMenuByPath(menuList: Menu.MenuOptions[], path: string): Menu
  * @param {String} path 当前访问地址
  * @returns {Object | null}
  */
-export function findRootMenuByPath(menuList: Menu.MenuOptions[], targetItem: Menu.MenuOptions): Menu.MenuOptions | null {
+export function findRootMenuByPath(menuList: Menu.MenuOptions[], targetItem: Menu.MenuOptions): Menu.MenuOptions {
   // 根节点菜单
-  let rootMenu: Menu.MenuOptions | null = null;
+  let rootMenu: Menu.MenuOptions = null;
   for (const item of menuList) {
     if (item.meta.id === targetItem.meta.id) return item;
     if (item.children) {
@@ -246,7 +246,7 @@ export function findRootMenuByPath(menuList: Menu.MenuOptions[], targetItem: Men
       }
     }
   }
-  return rootMenu;
+  return rootMenu as Menu.MenuOptions;
 }
 /**
  * @description 找出menuItem的所有父级

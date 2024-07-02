@@ -1,6 +1,6 @@
 <template>
   <template v-for="subItem in menuList" :key="subItem.meta.id">
-    <el-sub-menu v-if="subItem.children?.length" :index="subItem.meta.id">
+    <el-sub-menu v-if="subItem.children?.length" :index="subItem.meta.id" :key="subItem.meta.id">
       <template #title>
         <el-icon v-if="subItem.meta.icon">
           <component :is="subItem.meta.icon" />

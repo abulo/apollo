@@ -53,7 +53,7 @@ const globalStore = useGlobalStore();
 const accordion = computed(() => globalStore.accordion);
 const isCollapse = computed(() => globalStore.isCollapse);
 const menuList = computed(() => authStore.showMenuListGet);
-const activeMenu = computed(() => (route.meta.activeMenu ? route.meta.activeMenu : String(route.meta.id)) as string);
+const activeMenu = computed(() => (route.meta.activeMenu ? route.meta.activeMenu : String(route.meta.id)));
 </script>
 
 <style scoped lang="scss">

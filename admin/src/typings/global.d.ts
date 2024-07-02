@@ -9,8 +9,8 @@ declare namespace Menu {
     children?: MenuOptions[];
   }
   interface MetaProps {
-    id?: number;
-    parentId?: number;
+    id: number;
+    parentId: number;
     icon: string;
     title: string;
     customTitle?: string;

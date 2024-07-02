@@ -2,7 +2,12 @@
   <div class="tabs-box">
     <div class="tabs-menu">
       <el-tabs v-model="tabsMenuValue" type="card" @tab-click="tabClick" @tab-remove="tabRemove">
-        <el-tab-pane v-for="item in tabsMenuList" :key="item.path" :label="item.title" :name="item.path" :closable="item.close">
+        <el-tab-pane
+          v-for="item in tabsMenuList"
+          :key="Number(item.id)"
+          :label="item.title"
+          :name="item.path"
+          :closable="item.close">
           <template #label>
             <el-icon v-if="item.icon && tabsIcon" class="tabs-icon">
               <component :is="item.icon" />
@@ -32,7 +37,7 @@ const tabStore = useTabsStore();
 const authStore = useAuthStore();
 const globalStore = useGlobalStore();
 
-const tabsMenuValue = ref(route.fullPath);
+const tabsMenuValue = ref(Number(route.meta?.id));
 const tabsMenuList = computed(() => tabStore.tabsMenuList);
 const tabsIcon = computed(() => globalStore.tabsIcon);
 
