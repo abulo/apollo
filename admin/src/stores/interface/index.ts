@@ -34,8 +34,6 @@ export interface UserState {
 
 /* tabsMenuProps */
 export interface TabsMenuProps {
-  id: number;
-  parentId: number;
   icon: string;
   title: string;
   path: string;
