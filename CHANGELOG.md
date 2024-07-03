@@ -1,12 +1,26 @@
 # 更新日志
 
-## [v1.0.7](https://github.com/abulo/appllo/compare/v1.0.6...v1.0.7) (2024-07-01)
+## [v1.0.8](https://github.com/abulo/appllo/compare/v1.0.7...v1.0.8) (2024-07-03)
+### fix🐛:修复 bug
+- fix🐛: 删除tabsMenuProps不用参数  ([d2ac428](https://github.com/abulo/appllo/commit/d2ac428))
+- fix🐛: 诸多 bug  ([7764a10](https://github.com/abulo/appllo/commit/7764a10))
+- fix🐛: 修复导航栏激活状态问题  ([e49e6ab](https://github.com/abulo/appllo/commit/e49e6ab))
+- fix🐛: 诸多 bug  ([660fdf6](https://github.com/abulo/appllo/commit/660fdf6))
+- fix🐛: 诸多 bug  ([2e62852](https://github.com/abulo/appllo/commit/2e62852))
+- fix🐛: 导航栏 bug  ([bf0ec12](https://github.com/abulo/appllo/commit/bf0ec12))
+
+
+## [v1.0.7](https://github.com/abulo/appllo/compare/v1.0.6...v1.0.7) (2024-07-02)
 ### feat✨:引入新功能
 - feat✨: 添加插件  ([207fee4](https://github.com/abulo/appllo/commit/207fee4))
 
 ### fix🐛:修复 bug
+- fix🐛: 菜单 bug  ([ad2ed14](https://github.com/abulo/appllo/commit/ad2ed14))
 - fix🐛: 修复参数为使用问题  ([9707804](https://github.com/abulo/appllo/commit/9707804))
 - fix🐛: 修复诸多问题  ([8a22083](https://github.com/abulo/appllo/commit/8a22083))
+
+### docs📝:添加/更新文档
+- docs📝: 更新文档  ([f3583d5](https://github.com/abulo/appllo/commit/f3583d5))
 
 ### perf👌:提高性能/优化
 - perf👌: 删除刷新验证码 loading 状态  ([045c429](https://github.com/abulo/appllo/commit/045c429))
