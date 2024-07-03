@@ -38,25 +38,20 @@ import { useAuthStore } from "@/stores/modules/auth";
 import { useRouter } from "vue-router";
 import { useDebounceFn } from "@vueuse/core";
 import { findParents } from "@/utils/index";
-
 const router = useRouter();
 const authStore = useAuthStore();
 const authMenuList = computed(() => authStore.authMenuListGet);
 const menuList = computed(() => authStore.flatMenuListGet.filter(item => !item.meta.isHide));
-
 onMounted(() => {
   document.addEventListener("keydown", keyboardOperation);
 });
-
 onUnmounted(() => {
   document.removeEventListener("keydown", keyboardOperation);
 });
-
 const activePath = ref("");
 const mouseoverMenuItem = (menu: Menu.MenuOptions) => {
   activePath.value = menu.path;
 };
-
 const menuInputRef = ref<InputInstance | null>(null);
 const isShowSearch = ref<boolean>(false);
 const searchMenu = ref<string>("");
@@ -68,7 +63,6 @@ const handleOpen = () => {
     });
   });
 };
-
 const searchList = ref<Menu.MenuOptions[]>([]);
 const updateSearchList = () => {
   searchList.value = searchMenu.value
@@ -77,7 +71,7 @@ const updateSearchList = () => {
           item.path.toLowerCase().includes(searchMenu.value.toLowerCase()) ||
           item.meta.title.toLowerCase().includes(searchMenu.value.toLowerCase())
         ) {
-          if (!item.meta?.isHide && item.path) {
+          if (!item.meta?.isHide && item.path && item.component) {
             let titleList = findParents(authMenuList.value, item).map((item: Menu.MenuOptions) => item.meta.title);
             if (titleList.length > 0) {
               item.meta.customTitle = titleList.join(" / ");
@@ -89,11 +83,8 @@ const updateSearchList = () => {
     : [];
   activePath.value = searchList.value.length ? searchList.value[0].path : "";
 };
-
 const debouncedUpdateSearchList = useDebounceFn(updateSearchList, 300);
-
 watch(searchMenu, debouncedUpdateSearchList);
-
 const menuListRef = ref<Element | null>(null);
 const keyPressUpOrDown = (direction: number) => {
   const length = searchList.value.length;
@@ -107,7 +98,6 @@ const keyPressUpOrDown = (direction: number) => {
     menuListRef.value.scrollTop = newIndex * menuItemHeight;
   });
 };
-
 const keyboardOperation = (event: KeyboardEvent) => {
   if (event.key === "ArrowUp") {
     event.preventDefault();
@@ -120,7 +110,6 @@ const keyboardOperation = (event: KeyboardEvent) => {
     handleClickMenu();
   }
 };
-
 const handleClickMenu = () => {
   const menu = searchList.value.find(item => item.path === activePath.value);
   if (!menu) return;

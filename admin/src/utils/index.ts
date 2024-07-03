@@ -170,10 +170,9 @@ export function getShowMenuList(menuList: Menu.MenuOptions[]) {
 }
 
 /**
- *
- * @export
- * @param {Menu.MenuOptions} menuItem
- * @return {*}
+ * @description 使用递归过滤出需要渲染在左侧菜单的列表 (需剔除 isHide == true 的菜单)
+ * @param menuItem  菜单项
+ * @returns  {Object} 返回处理后的菜单项
  */
 export function getShowMenuItem(menuItem: Menu.MenuOptions) {
   let newMenuItem: Menu.MenuOptions = JSON.parse(JSON.stringify(menuItem));
@@ -233,21 +232,22 @@ export function findMenuByPath(menuList: Menu.MenuOptions[], path: string): Menu
  * @param {String} path 当前访问地址
  * @returns {Object | null}
  */
-export function findRootMenuByPath(menuList: Menu.MenuOptions[], targetItem: Menu.MenuOptions): Menu.MenuOptions {
+export function findRootMenuByPath(menuList: Menu.MenuOptions[], path: string): Menu.MenuOptions | null {
   // 根节点菜单
-  let rootMenu: Menu.MenuOptions = null;
+  let rootMenu: Menu.MenuOptions | null = null;
   for (const item of menuList) {
-    if (item.meta.id === targetItem.meta.id) return item;
+    if (item.path === path) return item;
     if (item.children) {
-      const res = findRootMenuByPath(item.children, targetItem);
+      const res = findRootMenuByPath(item.children, path);
       if (res) {
         rootMenu = item;
         break;
       }
     }
   }
-  return rootMenu as Menu.MenuOptions;
+  return rootMenu;
 }
+
 /**
  * @description 找出menuItem的所有父级
  * @param {Object} menuItem 菜单对象
