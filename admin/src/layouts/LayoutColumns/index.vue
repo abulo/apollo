@@ -74,10 +74,9 @@ const getRoutePath = () => {
   let path = route.path;
   const name = route.name;
   if (route.matched.length > 0) {
-    for (let index = 0; index < route.matched.length; index++) {
-      const element = route.matched[index];
-      if (element.name == name) {
-        path = element.path;
+    for (const item of route.matched) {
+      if (item.name == name) {
+        path = item.path;
         break;
       }
     }

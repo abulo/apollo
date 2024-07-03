@@ -7,8 +7,8 @@ export const useGlobalStore = defineStore({
   id: "geeker-global",
   // 修改默认值之后，需清除 localStorage 数据
   state: (): GlobalState => ({
-    // 布局模式 (纵向：vertical | 经典：classic | 横向：transverse | 分栏：columns)
-    layout: "vertical",
+    // 布局模式 (纵向：vertical | 经典：classic | 横向：transverse | 分栏：columns | mixed: 混合)
+    layout: "mixed",
     // element 组件大小
     assemblySize: "default",
     // 当前系统语言

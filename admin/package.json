@@ -65,7 +65,7 @@
     "vue-router": "^4.4.0",
     "vue-types": "^5.1.2",
     "vuedraggable": "^4.1.0",
-    "vxe-pc-ui": "^4.0.44",
+    "vxe-pc-ui": "^4.0.45",
     "vxe-table": "^4.7.36",
     "vxe-table-plugin-element": "^4.0.4"
   },
@@ -105,7 +105,7 @@
     "stylelint-config-standard-scss": "^13.1.0",
     "typescript": "^5.5.3",
     "unplugin-vue-setup-extend-plus": "^1.0.1",
-    "vite": "^5.3.2",
+    "vite": "^5.3.3",
     "vite-plugin-compression": "^0.5.1",
     "vite-plugin-eslint": "^1.8.1",
     "vite-plugin-html": "^3.2.2",

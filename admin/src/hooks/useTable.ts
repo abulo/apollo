@@ -101,7 +101,7 @@ export const useTable = (
         nowSearchParam[key] = state.searchParam[key];
       }
     }
-    Object.assign(state.totalParam, nowSearchParam, isPageable ? pageParam.value : {});
+    Object.assign(state.totalParam, nowSearchParam);
   };
 
   /**

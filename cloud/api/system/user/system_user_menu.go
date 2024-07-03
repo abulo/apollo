@@ -64,12 +64,6 @@ func SystemUserMenuDao(item *menu.SystemMenuObject) *dao.SystemMenuTree {
 	if !util.Empty(item.ActivePath) {
 		daoMetaItem.ActiveMenu = item.GetActivePath() // 激活菜单
 	}
-	if !util.Empty(item.Id) {
-		daoMetaItem.Id = item.GetId() // 菜单ID
-	}
-	if !util.Empty(item.ParentId) {
-		daoMetaItem.ParentId = item.GetParentId() // 父菜单ID
-	}
 	daoItem.Meta = daoMetaItem
 	return daoItem
 }
