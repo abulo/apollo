@@ -229,8 +229,8 @@ const reset = () => {
   isUserOpenPopover.value = false;
 };
 
-const getFlatList = (list: SystemDept.ResSystemDeptItem[]) => {
-  let newList: SystemDept.ResSystemDeptItem[] = JSON.parse(JSON.stringify(list));
+const getFlatList = (list: SystemDept.ResSystemDeptList[]) => {
+  let newList: SystemDept.ResSystemDeptList[] = JSON.parse(JSON.stringify(list));
   return newList.flatMap(item => [item, ...(item.children ? getFlatList(item.children) : [])]);
 };
 
