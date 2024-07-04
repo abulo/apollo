@@ -1,5 +1,10 @@
 # 更新日志
 
+## [v1.0.9](https://github.com/abulo/appllo/compare/v1.0.8...v1.0.9) (2024-07-04)
+### fix🐛:修复 bug
+- fix🐛: 租户权限 bug  ([b8d0ac8](https://github.com/abulo/appllo/commit/b8d0ac8))
+
+
 ## [v1.0.8](https://github.com/abulo/appllo/compare/v1.0.7...v1.0.8) (2024-07-03)
 ### fix🐛:修复 bug
 - fix🐛: 删除tabsMenuProps不用参数  ([d2ac428](https://github.com/abulo/appllo/commit/d2ac428))
@@ -8,6 +13,12 @@
 - fix🐛: 诸多 bug  ([660fdf6](https://github.com/abulo/appllo/commit/660fdf6))
 - fix🐛: 诸多 bug  ([2e62852](https://github.com/abulo/appllo/commit/2e62852))
 - fix🐛: 导航栏 bug  ([bf0ec12](https://github.com/abulo/appllo/commit/bf0ec12))
+
+### docs📝:添加/更新文档
+- docs📝: 更新文档  ([09353a0](https://github.com/abulo/appllo/commit/09353a0))
+
+### config🔧:修改配置文件
+- config🔧: CI/CD  ([4f0aee3](https://github.com/abulo/appllo/commit/4f0aee3))
 
 
 ## [v1.0.7](https://github.com/abulo/appllo/compare/v1.0.6...v1.0.7) (2024-07-02)
