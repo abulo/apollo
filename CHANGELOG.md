@@ -2,7 +2,14 @@
 
 ## [v1.0.9](https://github.com/abulo/appllo/compare/v1.0.8...v1.0.9) (2024-07-04)
 ### fix🐛:修复 bug
+- fix🐛: 扁平化数组  ([b53db1a](https://github.com/abulo/appllo/commit/b53db1a))
 - fix🐛: 租户权限 bug  ([b8d0ac8](https://github.com/abulo/appllo/commit/b8d0ac8))
+
+### docs📝:添加/更新文档
+- docs📝: 更新文档  ([0edcdea](https://github.com/abulo/appllo/commit/0edcdea))
+
+### perf👌:提高性能/优化
+- perf👌: 升级框架  ([38087f1](https://github.com/abulo/appllo/commit/38087f1))
 
 
 ## [v1.0.8](https://github.com/abulo/appllo/compare/v1.0.7...v1.0.8) (2024-07-03)
