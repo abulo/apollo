@@ -65,7 +65,7 @@
     "vue-router": "^4.4.0",
     "vue-types": "^5.1.2",
     "vuedraggable": "^4.1.0",
-    "vxe-pc-ui": "^4.0.45",
+    "vxe-pc-ui": "^4.0.48",
     "vxe-table": "^4.7.36",
     "vxe-table-plugin-element": "^4.0.4"
   },

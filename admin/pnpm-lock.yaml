@@ -96,8 +96,8 @@ importers:
         specifier: ^4.1.0
         version: 4.1.0(vue@3.4.31(typescript@5.5.3))
       vxe-pc-ui:
-        specifier: ^4.0.45
-        version: 4.0.45
+        specifier: ^4.0.48
+        version: 4.0.48
       vxe-table:
         specifier: ^4.7.36
         version: 4.7.36
@@ -5016,8 +5016,8 @@ packages:
     peerDependencies:
       vue: ^3.0.1
 
-  vxe-pc-ui@4.0.45:
-    resolution: {integrity: sha512-JFT9sT+L+fdn2B5iVP3/2xsFxzXzl8l7dSTdEj+rL9q+HA7iYAPK+iBJIRcGCYH0QnViwFP7gN4TAJ1z3nJDhg==}
+  vxe-pc-ui@4.0.48:
+    resolution: {integrity: sha512-eJ77syCHX08cnz/RUzP0+pgn0/Fw54LD6oXXkAtd/xn3v3Um/SKXci+yfR+275uGSiABVufDYWNH9o3aSVkGaQ==}
 
   vxe-table-plugin-element@4.0.4:
     resolution: {integrity: sha512-TKhx4Bi45kdXRa9PyjdDtOjQuA9We+ASDdZez/d3DB7p2tFvBwVNnyvwYHT+kJntAeq0pOchmhsYhZeVADMAuw==}
@@ -10448,7 +10448,7 @@ snapshots:
       sortablejs: 1.14.0
       vue: 3.4.31(typescript@5.5.3)
 
-  vxe-pc-ui@4.0.45:
+  vxe-pc-ui@4.0.48:
     dependencies:
       '@vxe-ui/core': 1.0.12
 
@@ -10458,7 +10458,7 @@ snapshots:
 
   vxe-table@4.7.36:
     dependencies:
-      vxe-pc-ui: 4.0.45
+      vxe-pc-ui: 4.0.48
 
   webidl-conversions@4.0.2: {}
 
