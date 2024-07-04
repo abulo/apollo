@@ -22,6 +22,39 @@ import (
 )
 
 // system_notice 通知公告表
+
+// SystemNotice 查询单条数据
+func SystemNoticeItem(ctx context.Context, newCtx *app.RequestContext) (*notice.SystemNoticeResponse, error) {
+	//判断这个服务能不能链接
+	grpcClient, err := initial.Core.Client.LoadGrpc("grpc").Singleton()
+	if err != nil {
+		globalLogger.Logger.WithFields(logrus.Fields{
+			"err": err,
+		}).Error("Grpc:通知公告表:system_notice:SystemNotice")
+		return nil, status.Error(code.ConvertToGrpc(code.RPCError), code.StatusText(code.RPCError))
+	}
+	//链接服务
+	client := notice.NewSystemNoticeServiceClient(grpcClient)
+	id := cast.ToInt64(newCtx.Param("id"))
+	request := &notice.SystemNoticeRequest{}
+	request.Id = id
+	// 执行服务
+	res, err := client.SystemNotice(ctx, request)
+	if err != nil {
+		globalLogger.Logger.WithFields(logrus.Fields{
+			"req": request,
+			"err": err,
+		}).Error("GrpcCall:通知公告表:system_notice:SystemNotice")
+		return nil, err
+	}
+	tenantId := cast.ToInt64(newCtx.GetInt64("tenantId"))
+	data := notice.SystemNoticeDao(res.GetData())
+	if cast.ToInt64(data.TenantId) != tenantId {
+		return nil, status.Error(code.ConvertToGrpc(code.NoPermission), code.StatusText(code.NoPermission))
+	}
+	return res, nil
+}
+
 // SystemNoticeCreate 创建数据
 func SystemNoticeCreate(ctx context.Context, newCtx *app.RequestContext) {
 	//判断这个服务能不能链接
@@ -75,6 +108,14 @@ func SystemNoticeCreate(ctx context.Context, newCtx *app.RequestContext) {
 
 // SystemNoticeUpdate 更新数据
 func SystemNoticeUpdate(ctx context.Context, newCtx *app.RequestContext) {
+	if _, err := SystemNoticeItem(ctx, newCtx); err != nil {
+		fromError := status.Convert(err)
+		newCtx.JSON(consts.StatusOK, utils.H{
+			"code": code.ConvertToHttp(fromError.Code()),
+			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
+		})
+		return
+	}
 	//判断这个服务能不能链接
 	grpcClient, err := initial.Core.Client.LoadGrpc("grpc").Singleton()
 	if err != nil {
@@ -129,6 +170,14 @@ func SystemNoticeUpdate(ctx context.Context, newCtx *app.RequestContext) {
 
 // SystemNoticeDelete 删除数据
 func SystemNoticeDelete(ctx context.Context, newCtx *app.RequestContext) {
+	if _, err := SystemNoticeItem(ctx, newCtx); err != nil {
+		fromError := status.Convert(err)
+		newCtx.JSON(consts.StatusOK, utils.H{
+			"code": code.ConvertToHttp(fromError.Code()),
+			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
+		})
+		return
+	}
 	grpcClient, err := initial.Core.Client.LoadGrpc("grpc").Singleton()
 	if err != nil {
 		globalLogger.Logger.WithFields(logrus.Fields{
@@ -168,29 +217,8 @@ func SystemNoticeDelete(ctx context.Context, newCtx *app.RequestContext) {
 // SystemNotice 查询单条数据
 func SystemNotice(ctx context.Context, newCtx *app.RequestContext) {
 	//判断这个服务能不能链接
-	grpcClient, err := initial.Core.Client.LoadGrpc("grpc").Singleton()
+	res, err := SystemNoticeItem(ctx, newCtx)
 	if err != nil {
-		globalLogger.Logger.WithFields(logrus.Fields{
-			"err": err,
-		}).Error("Grpc:通知公告表:system_notice:SystemNotice")
-		newCtx.JSON(consts.StatusOK, utils.H{
-			"code": code.RPCError,
-			"msg":  code.StatusText(code.RPCError),
-		})
-		return
-	}
-	//链接服务
-	client := notice.NewSystemNoticeServiceClient(grpcClient)
-	id := cast.ToInt64(newCtx.Param("id"))
-	request := &notice.SystemNoticeRequest{}
-	request.Id = id
-	// 执行服务
-	res, err := client.SystemNotice(ctx, request)
-	if err != nil {
-		globalLogger.Logger.WithFields(logrus.Fields{
-			"req": request,
-			"err": err,
-		}).Error("GrpcCall:通知公告表:system_notice:SystemNotice")
 		fromError := status.Convert(err)
 		newCtx.JSON(consts.StatusOK, utils.H{
 			"code": code.ConvertToHttp(fromError.Code()),
@@ -207,6 +235,14 @@ func SystemNotice(ctx context.Context, newCtx *app.RequestContext) {
 
 // SystemNoticeRecover 恢复数据
 func SystemNoticeRecover(ctx context.Context, newCtx *app.RequestContext) {
+	if _, err := SystemNoticeItem(ctx, newCtx); err != nil {
+		fromError := status.Convert(err)
+		newCtx.JSON(consts.StatusOK, utils.H{
+			"code": code.ConvertToHttp(fromError.Code()),
+			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
+		})
+		return
+	}
 	grpcClient, err := initial.Core.Client.LoadGrpc("grpc").Singleton()
 	if err != nil {
 		globalLogger.Logger.WithFields(logrus.Fields{

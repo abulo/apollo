@@ -8,6 +8,7 @@ import (
 	globalLogger "github.com/abulo/ratel/v3/core/logger"
 	"github.com/abulo/ratel/v3/server/xgrpc"
 	"github.com/abulo/ratel/v3/stores/sql"
+	"github.com/abulo/ratel/v3/util"
 	"github.com/sirupsen/logrus"
 	"google.golang.org/grpc/status"
 )
@@ -154,10 +155,10 @@ func (srv SrvPayRefundServiceServer) PayRefundList(ctx context.Context, request 
 		condition["status"] = request.GetStatus()
 	}
 	if request.BeginCreateTime != nil {
-		condition["beginCreateTime"] = request.GetBeginCreateTime()
+		condition["beginCreateTime"] = util.Date("Y-m-d H:i:s", util.GrpcTime(request.GetBeginCreateTime()))
 	}
 	if request.FinishCreateTime != nil {
-		condition["finishCreateTime"] = request.GetFinishCreateTime()
+		condition["finishCreateTime"] = util.Date("Y-m-d H:i:s", util.GrpcTime(request.GetFinishCreateTime()))
 	}
 
 	paginationRequest := request.GetPagination()
@@ -236,10 +237,10 @@ func (srv SrvPayRefundServiceServer) PayRefundListTotal(ctx context.Context, req
 		condition["status"] = request.GetStatus()
 	}
 	if request.BeginCreateTime != nil {
-		condition["beginCreateTime"] = request.GetBeginCreateTime()
+		condition["beginCreateTime"] = util.Date("Y-m-d H:i:s", util.GrpcTime(request.GetBeginCreateTime()))
 	}
 	if request.FinishCreateTime != nil {
-		condition["finishCreateTime"] = request.GetFinishCreateTime()
+		condition["finishCreateTime"] = util.Date("Y-m-d H:i:s", util.GrpcTime(request.GetFinishCreateTime()))
 	}
 
 	// 获取数据集合

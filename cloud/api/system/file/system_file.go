@@ -75,6 +75,39 @@ func FileType(buf []byte) (kind types.Type, fileType int32, err error) {
 }
 
 // system_file 文件管理
+
+// SystemFileItem 查询单条数据
+func SystemFileItem(ctx context.Context, newCtx *app.RequestContext) (*file.SystemFileResponse, error) {
+	//判断这个服务能不能链接
+	grpcClient, err := initial.Core.Client.LoadGrpc("grpc").Singleton()
+	if err != nil {
+		globalLogger.Logger.WithFields(logrus.Fields{
+			"err": err,
+		}).Error("Grpc:文件管理:system_file:SystemFileItem")
+		return nil, status.Error(code.ConvertToGrpc(code.RPCError), code.StatusText(code.RPCError))
+	}
+	//链接服务
+	client := file.NewSystemFileServiceClient(grpcClient)
+	id := cast.ToInt64(newCtx.Param("id"))
+	request := &file.SystemFileRequest{}
+	request.Id = id
+	// 执行服务
+	res, err := client.SystemFile(ctx, request)
+	if err != nil {
+		globalLogger.Logger.WithFields(logrus.Fields{
+			"req": request,
+			"err": err,
+		}).Error("GrpcCall:文件管理:system_file:SystemFile")
+		return nil, err
+	}
+	tenantId := cast.ToInt64(newCtx.GetInt64("tenantId"))
+	data := file.SystemFileDao(res.GetData())
+	if cast.ToInt64(data.TenantId) != tenantId {
+		return nil, status.Error(code.ConvertToGrpc(code.NoPermission), code.StatusText(code.NoPermission))
+	}
+	return res, nil
+}
+
 // SystemFileCreate 创建数据
 func SystemFileCreate(ctx context.Context, newCtx *app.RequestContext) {
 	//判断这个服务能不能链接
@@ -181,6 +214,14 @@ func SystemFileCreate(ctx context.Context, newCtx *app.RequestContext) {
 
 // SystemFileUpdate 更新数据
 func SystemFileUpdate(ctx context.Context, newCtx *app.RequestContext) {
+	if _, err := SystemFileItem(ctx, newCtx); err != nil {
+		fromError := status.Convert(err)
+		newCtx.JSON(consts.StatusOK, utils.H{
+			"code": code.ConvertToHttp(fromError.Code()),
+			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
+		})
+		return
+	}
 	//判断这个服务能不能链接
 	grpcClient, err := initial.Core.Client.LoadGrpc("grpc").Singleton()
 	if err != nil {
@@ -235,6 +276,14 @@ func SystemFileUpdate(ctx context.Context, newCtx *app.RequestContext) {
 
 // SystemFileDelete 删除数据
 func SystemFileDelete(ctx context.Context, newCtx *app.RequestContext) {
+	if _, err := SystemFileItem(ctx, newCtx); err != nil {
+		fromError := status.Convert(err)
+		newCtx.JSON(consts.StatusOK, utils.H{
+			"code": code.ConvertToHttp(fromError.Code()),
+			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
+		})
+		return
+	}
 	grpcClient, err := initial.Core.Client.LoadGrpc("grpc").Singleton()
 	if err != nil {
 		globalLogger.Logger.WithFields(logrus.Fields{
@@ -307,30 +356,8 @@ func SystemFileDelete(ctx context.Context, newCtx *app.RequestContext) {
 
 // SystemFile 查询单条数据
 func SystemFile(ctx context.Context, newCtx *app.RequestContext) {
-	//判断这个服务能不能链接
-	grpcClient, err := initial.Core.Client.LoadGrpc("grpc").Singleton()
+	res, err := SystemFileItem(ctx, newCtx)
 	if err != nil {
-		globalLogger.Logger.WithFields(logrus.Fields{
-			"err": err,
-		}).Error("Grpc:文件管理:system_file:SystemFile")
-		newCtx.JSON(consts.StatusOK, utils.H{
-			"code": code.RPCError,
-			"msg":  code.StatusText(code.RPCError),
-		})
-		return
-	}
-	//链接服务
-	client := file.NewSystemFileServiceClient(grpcClient)
-	id := cast.ToInt64(newCtx.Param("id"))
-	request := &file.SystemFileRequest{}
-	request.Id = id
-	// 执行服务
-	res, err := client.SystemFile(ctx, request)
-	if err != nil {
-		globalLogger.Logger.WithFields(logrus.Fields{
-			"req": request,
-			"err": err,
-		}).Error("GrpcCall:文件管理:system_file:SystemFile")
 		fromError := status.Convert(err)
 		newCtx.JSON(consts.StatusOK, utils.H{
 			"code": code.ConvertToHttp(fromError.Code()),

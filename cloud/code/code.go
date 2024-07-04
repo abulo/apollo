@@ -26,6 +26,7 @@ var (
 	SqlError              = int64(2001) // SQL错误
 	RedisError            = int64(2002) // Redis错误
 	UnavailableError      = int64(2003) // 数据不可用
+	NoPermission          = int64(2004) // 无权限
 
 	//状态码对应的信息
 	statusText = map[int64]string{
@@ -50,6 +51,7 @@ var (
 		NotFound:              "未找到",
 		LoginFail:             "登录失败",
 		UnavailableError:      "数据不可用",
+		NoPermission:          "无权限",
 	}
 )
 

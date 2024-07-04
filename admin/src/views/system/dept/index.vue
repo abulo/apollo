@@ -6,12 +6,14 @@
       row-key="id"
       :columns="columns"
       :request-api="getSystemDeptListApi"
+      :data-callback="getFlatList"
       :request-auto="true"
       :pagination="false"
-      :tree-config="{ transform: true, iconOpen: 'vxe-icon-arrow-down', iconClose: 'vxe-icon-arrow-right' }"
+      :column-config="{ resizable: true }"
+      :row-config="{ height: 45, isHover: true, keyField: 'id', useKey: true }"
+      :tree-config="{ transform: true, iconOpen: 'vxe-icon-arrow-down', iconClose: 'vxe-icon-arrow-right', reserve: true }"
       :scroll-y="{ enabled: true }"
       height="600"
-      :init-param="initDeptParam"
       :search-col="12">
       <!-- 表格 header 按钮 -->
       <template #tableHeader>
@@ -168,7 +170,6 @@ import { getIntDictOptions } from "@/utils/dict";
 import { DictTag } from "@/components/DictTag";
 import { useHandleData, useHandleSet } from "@/hooks/useHandleData";
 import { HasPermission } from "@/utils/permission";
-const initDeptParam = reactive({ tree: 0 });
 
 //菜单状态
 const statusEnum = getIntDictOptions("status");
@@ -227,6 +228,12 @@ const reset = () => {
   userItem.value = "点击选择";
   isUserOpenPopover.value = false;
 };
+
+const getFlatList = (list: SystemDept.ResSystemDeptItem[]) => {
+  let newList: SystemDept.ResSystemDeptItem[] = JSON.parse(JSON.stringify(list));
+  return newList.flatMap(item => [item, ...(item.children ? getFlatList(item.children) : [])]);
+};
+
 // 设置展开合并
 const toggleExpandAll = () => {
   isExpandAll.value = !isExpandAll.value;
@@ -254,7 +261,7 @@ const handleAdd = (row?: SystemDept.ResSystemDeptItem) => {
 // 获取部门树选项
 const getTreeSelect = async () => {
   deptSelect.value = [];
-  const { data } = await getSystemDeptListApi({ tree: 1 });
+  const { data } = await getSystemDeptListApi();
   let obj: SystemDept.ResSystemDeptList = {
     id: 0,
     name: "顶级部门",

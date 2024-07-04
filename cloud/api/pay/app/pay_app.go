@@ -23,6 +23,39 @@ import (
 )
 
 // pay_app 支付应用信息
+
+// PayApp 查询单条数据
+func PayAppItem(ctx context.Context, newCtx *app.RequestContext) (*serviceApp.PayAppResponse, error) {
+	//判断这个服务能不能链接
+	grpcClient, err := initial.Core.Client.LoadGrpc("grpc").Singleton()
+	if err != nil {
+		globalLogger.Logger.WithFields(logrus.Fields{
+			"err": err,
+		}).Error("Grpc:支付应用信息:pay_app:PayApp")
+		return nil, status.Error(code.ConvertToGrpc(code.RPCError), code.StatusText(code.RPCError))
+	}
+	//链接服务
+	client := serviceApp.NewPayAppServiceClient(grpcClient)
+	id := cast.ToInt64(newCtx.Param("id"))
+	request := &serviceApp.PayAppRequest{}
+	request.Id = id
+	// 执行服务
+	res, err := client.PayApp(ctx, request)
+	if err != nil {
+		globalLogger.Logger.WithFields(logrus.Fields{
+			"req": request,
+			"err": err,
+		}).Error("GrpcCall:支付应用信息:pay_app:PayApp")
+		return nil, err
+	}
+	tenantId := cast.ToInt64(newCtx.GetInt64("tenantId"))
+	data := serviceApp.PayAppDao(res.GetData())
+	if cast.ToInt64(data.TenantId) != tenantId {
+		return nil, status.Error(code.ConvertToGrpc(code.NoPermission), code.StatusText(code.NoPermission))
+	}
+	return res, nil
+}
+
 // PayAppCreate 创建数据
 func PayAppCreate(ctx context.Context, newCtx *app.RequestContext) {
 	//判断这个服务能不能链接
@@ -76,6 +109,14 @@ func PayAppCreate(ctx context.Context, newCtx *app.RequestContext) {
 
 // PayAppUpdate 更新数据
 func PayAppUpdate(ctx context.Context, newCtx *app.RequestContext) {
+	if _, err := PayAppItem(ctx, newCtx); err != nil {
+		fromError := status.Convert(err)
+		newCtx.JSON(consts.StatusOK, utils.H{
+			"code": code.ConvertToHttp(fromError.Code()),
+			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
+		})
+		return
+	}
 	//判断这个服务能不能链接
 	grpcClient, err := initial.Core.Client.LoadGrpc("grpc").Singleton()
 	if err != nil {
@@ -128,6 +169,14 @@ func PayAppUpdate(ctx context.Context, newCtx *app.RequestContext) {
 
 // PayAppDelete 删除数据
 func PayAppDelete(ctx context.Context, newCtx *app.RequestContext) {
+	if _, err := PayAppItem(ctx, newCtx); err != nil {
+		fromError := status.Convert(err)
+		newCtx.JSON(consts.StatusOK, utils.H{
+			"code": code.ConvertToHttp(fromError.Code()),
+			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
+		})
+		return
+	}
 	grpcClient, err := initial.Core.Client.LoadGrpc("grpc").Singleton()
 	if err != nil {
 		globalLogger.Logger.WithFields(logrus.Fields{
@@ -166,30 +215,8 @@ func PayAppDelete(ctx context.Context, newCtx *app.RequestContext) {
 
 // PayApp 查询单条数据
 func PayApp(ctx context.Context, newCtx *app.RequestContext) {
-	//判断这个服务能不能链接
-	grpcClient, err := initial.Core.Client.LoadGrpc("grpc").Singleton()
+	res, err := PayAppItem(ctx, newCtx)
 	if err != nil {
-		globalLogger.Logger.WithFields(logrus.Fields{
-			"err": err,
-		}).Error("Grpc:支付应用信息:pay_app:PayApp")
-		newCtx.JSON(consts.StatusOK, utils.H{
-			"code": code.RPCError,
-			"msg":  code.StatusText(code.RPCError),
-		})
-		return
-	}
-	//链接服务
-	client := serviceApp.NewPayAppServiceClient(grpcClient)
-	id := cast.ToInt64(newCtx.Param("id"))
-	request := &serviceApp.PayAppRequest{}
-	request.Id = id
-	// 执行服务
-	res, err := client.PayApp(ctx, request)
-	if err != nil {
-		globalLogger.Logger.WithFields(logrus.Fields{
-			"req": request,
-			"err": err,
-		}).Error("GrpcCall:支付应用信息:pay_app:PayApp")
 		fromError := status.Convert(err)
 		newCtx.JSON(consts.StatusOK, utils.H{
 			"code": code.ConvertToHttp(fromError.Code()),
@@ -206,6 +233,14 @@ func PayApp(ctx context.Context, newCtx *app.RequestContext) {
 
 // PayAppRecover 恢复数据
 func PayAppRecover(ctx context.Context, newCtx *app.RequestContext) {
+	if _, err := PayAppItem(ctx, newCtx); err != nil {
+		fromError := status.Convert(err)
+		newCtx.JSON(consts.StatusOK, utils.H{
+			"code": code.ConvertToHttp(fromError.Code()),
+			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
+		})
+		return
+	}
 	grpcClient, err := initial.Core.Client.LoadGrpc("grpc").Singleton()
 	if err != nil {
 		globalLogger.Logger.WithFields(logrus.Fields{

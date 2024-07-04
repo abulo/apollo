@@ -22,6 +22,39 @@ import (
 )
 
 // system_post 职位
+
+// SystemPostItem 查询单条数据
+func SystemPostItem(ctx context.Context, newCtx *app.RequestContext) (*post.SystemPostResponse, error) {
+	//判断这个服务能不能链接
+	grpcClient, err := initial.Core.Client.LoadGrpc("grpc").Singleton()
+	if err != nil {
+		globalLogger.Logger.WithFields(logrus.Fields{
+			"err": err,
+		}).Error("Grpc:职位:system_post:SystemPost")
+		return nil, status.Error(code.ConvertToGrpc(code.RPCError), code.StatusText(code.RPCError))
+	}
+	//链接服务
+	client := post.NewSystemPostServiceClient(grpcClient)
+	id := cast.ToInt64(newCtx.Param("id"))
+	request := &post.SystemPostRequest{}
+	request.Id = id
+	// 执行服务
+	res, err := client.SystemPost(ctx, request)
+	if err != nil {
+		globalLogger.Logger.WithFields(logrus.Fields{
+			"req": request,
+			"err": err,
+		}).Error("GrpcCall:职位:system_post:SystemPost")
+		return nil, err
+	}
+	tenantId := cast.ToInt64(newCtx.GetInt64("tenantId"))
+	data := post.SystemPostDao(res.GetData())
+	if cast.ToInt64(data.TenantId) != tenantId {
+		return nil, status.Error(code.ConvertToGrpc(code.NoPermission), code.StatusText(code.NoPermission))
+	}
+	return res, nil
+}
+
 // SystemPostCreate 创建数据
 func SystemPostCreate(ctx context.Context, newCtx *app.RequestContext) {
 	//判断这个服务能不能链接
@@ -75,6 +108,14 @@ func SystemPostCreate(ctx context.Context, newCtx *app.RequestContext) {
 
 // SystemPostUpdate 更新数据
 func SystemPostUpdate(ctx context.Context, newCtx *app.RequestContext) {
+	if _, err := SystemPostItem(ctx, newCtx); err != nil {
+		fromError := status.Convert(err)
+		newCtx.JSON(consts.StatusOK, utils.H{
+			"code": code.ConvertToHttp(fromError.Code()),
+			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
+		})
+		return
+	}
 	//判断这个服务能不能链接
 	grpcClient, err := initial.Core.Client.LoadGrpc("grpc").Singleton()
 	if err != nil {
@@ -129,6 +170,14 @@ func SystemPostUpdate(ctx context.Context, newCtx *app.RequestContext) {
 
 // SystemPostDelete 删除数据
 func SystemPostDelete(ctx context.Context, newCtx *app.RequestContext) {
+	if _, err := SystemPostItem(ctx, newCtx); err != nil {
+		fromError := status.Convert(err)
+		newCtx.JSON(consts.StatusOK, utils.H{
+			"code": code.ConvertToHttp(fromError.Code()),
+			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
+		})
+		return
+	}
 	grpcClient, err := initial.Core.Client.LoadGrpc("grpc").Singleton()
 	if err != nil {
 		globalLogger.Logger.WithFields(logrus.Fields{
@@ -167,30 +216,8 @@ func SystemPostDelete(ctx context.Context, newCtx *app.RequestContext) {
 
 // SystemPost 查询单条数据
 func SystemPost(ctx context.Context, newCtx *app.RequestContext) {
-	//判断这个服务能不能链接
-	grpcClient, err := initial.Core.Client.LoadGrpc("grpc").Singleton()
+	res, err := SystemPostItem(ctx, newCtx)
 	if err != nil {
-		globalLogger.Logger.WithFields(logrus.Fields{
-			"err": err,
-		}).Error("Grpc:职位:system_post:SystemPost")
-		newCtx.JSON(consts.StatusOK, utils.H{
-			"code": code.RPCError,
-			"msg":  code.StatusText(code.RPCError),
-		})
-		return
-	}
-	//链接服务
-	client := post.NewSystemPostServiceClient(grpcClient)
-	id := cast.ToInt64(newCtx.Param("id"))
-	request := &post.SystemPostRequest{}
-	request.Id = id
-	// 执行服务
-	res, err := client.SystemPost(ctx, request)
-	if err != nil {
-		globalLogger.Logger.WithFields(logrus.Fields{
-			"req": request,
-			"err": err,
-		}).Error("GrpcCall:职位:system_post:SystemPost")
 		fromError := status.Convert(err)
 		newCtx.JSON(consts.StatusOK, utils.H{
 			"code": code.ConvertToHttp(fromError.Code()),
@@ -207,6 +234,14 @@ func SystemPost(ctx context.Context, newCtx *app.RequestContext) {
 
 // SystemPostRecover 恢复数据
 func SystemPostRecover(ctx context.Context, newCtx *app.RequestContext) {
+	if _, err := SystemPostItem(ctx, newCtx); err != nil {
+		fromError := status.Convert(err)
+		newCtx.JSON(consts.StatusOK, utils.H{
+			"code": code.ConvertToHttp(fromError.Code()),
+			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
+		})
+		return
+	}
 	grpcClient, err := initial.Core.Client.LoadGrpc("grpc").Singleton()
 	if err != nil {
 		globalLogger.Logger.WithFields(logrus.Fields{

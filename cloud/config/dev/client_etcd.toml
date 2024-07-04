@@ -11,7 +11,7 @@
         ConnectTimeout = "3s" # 连接超时时间
         Secure = false
         AutoSyncInterval = "0s" #自动同步member list的间隔
-        Prefix = "ratel" # 服务端注册到etcd的key前缀，配置客户端时候应该保持一致
+        Prefix = "Apollo" # 服务端注册到etcd的key前缀，配置客户端时候应该保持一致
         EnableTrace = true
 
 [[proxyetcd]]

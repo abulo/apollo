@@ -22,6 +22,39 @@ import (
 )
 
 // system_user 系统用户
+
+// SystemUserItem 查询单条数据
+func SystemUserItem(ctx context.Context, newCtx *app.RequestContext) (*user.SystemUserResponse, error) {
+	//判断这个服务能不能链接
+	grpcClient, err := initial.Core.Client.LoadGrpc("grpc").Singleton()
+	if err != nil {
+		globalLogger.Logger.WithFields(logrus.Fields{
+			"err": err,
+		}).Error("Grpc:系统用户:system_user:SystemUser")
+		return nil, status.Error(code.ConvertToGrpc(code.RPCError), code.StatusText(code.RPCError))
+	}
+	//链接服务
+	client := user.NewSystemUserServiceClient(grpcClient)
+	id := cast.ToInt64(newCtx.Param("id"))
+	request := &user.SystemUserRequest{}
+	request.Id = id
+	// 执行服务
+	res, err := client.SystemUser(ctx, request)
+	if err != nil {
+		globalLogger.Logger.WithFields(logrus.Fields{
+			"req": request,
+			"err": err,
+		}).Error("GrpcCall:系统用户:system_user:SystemUser")
+		return nil, err
+	}
+	tenantId := cast.ToInt64(newCtx.GetInt64("tenantId"))
+	data := userInfo(res.GetData())
+	if cast.ToInt64(data.TenantId) != tenantId {
+		return nil, status.Error(code.ConvertToGrpc(code.NoPermission), code.StatusText(code.NoPermission))
+	}
+	return res, nil
+}
+
 // SystemUserCreate 创建数据
 func SystemUserCreate(ctx context.Context, newCtx *app.RequestContext) {
 	//判断这个服务能不能链接
@@ -78,6 +111,14 @@ func SystemUserCreate(ctx context.Context, newCtx *app.RequestContext) {
 
 // SystemUserUpdate 更新数据
 func SystemUserUpdate(ctx context.Context, newCtx *app.RequestContext) {
+	if _, err := SystemUserItem(ctx, newCtx); err != nil {
+		fromError := status.Convert(err)
+		newCtx.JSON(consts.StatusOK, utils.H{
+			"code": code.ConvertToHttp(fromError.Code()),
+			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
+		})
+		return
+	}
 	//判断这个服务能不能链接
 	grpcClient, err := initial.Core.Client.LoadGrpc("grpc").Singleton()
 	if err != nil {
@@ -133,6 +174,14 @@ func SystemUserUpdate(ctx context.Context, newCtx *app.RequestContext) {
 
 // SystemUserDelete 删除数据
 func SystemUserDelete(ctx context.Context, newCtx *app.RequestContext) {
+	if _, err := SystemUserItem(ctx, newCtx); err != nil {
+		fromError := status.Convert(err)
+		newCtx.JSON(consts.StatusOK, utils.H{
+			"code": code.ConvertToHttp(fromError.Code()),
+			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
+		})
+		return
+	}
 	grpcClient, err := initial.Core.Client.LoadGrpc("grpc").Singleton()
 	if err != nil {
 		globalLogger.Logger.WithFields(logrus.Fields{
@@ -171,30 +220,8 @@ func SystemUserDelete(ctx context.Context, newCtx *app.RequestContext) {
 
 // SystemUser 查询单条数据
 func SystemUser(ctx context.Context, newCtx *app.RequestContext) {
-	//判断这个服务能不能链接
-	grpcClient, err := initial.Core.Client.LoadGrpc("grpc").Singleton()
+	res, err := SystemUserItem(ctx, newCtx)
 	if err != nil {
-		globalLogger.Logger.WithFields(logrus.Fields{
-			"err": err,
-		}).Error("Grpc:系统用户:system_user:SystemUser")
-		newCtx.JSON(consts.StatusOK, utils.H{
-			"code": code.RPCError,
-			"msg":  code.StatusText(code.RPCError),
-		})
-		return
-	}
-	//链接服务
-	client := user.NewSystemUserServiceClient(grpcClient)
-	id := cast.ToInt64(newCtx.Param("id"))
-	request := &user.SystemUserRequest{}
-	request.Id = id
-	// 执行服务
-	res, err := client.SystemUser(ctx, request)
-	if err != nil {
-		globalLogger.Logger.WithFields(logrus.Fields{
-			"req": request,
-			"err": err,
-		}).Error("GrpcCall:系统用户:system_user:SystemUser")
 		fromError := status.Convert(err)
 		newCtx.JSON(consts.StatusOK, utils.H{
 			"code": code.ConvertToHttp(fromError.Code()),
@@ -217,6 +244,14 @@ func userInfo(item *user.SystemUserObject) *dao.SystemUser {
 
 // SystemUserRecover 恢复数据
 func SystemUserRecover(ctx context.Context, newCtx *app.RequestContext) {
+	if _, err := SystemUserItem(ctx, newCtx); err != nil {
+		fromError := status.Convert(err)
+		newCtx.JSON(consts.StatusOK, utils.H{
+			"code": code.ConvertToHttp(fromError.Code()),
+			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
+		})
+		return
+	}
 	grpcClient, err := initial.Core.Client.LoadGrpc("grpc").Singleton()
 	if err != nil {
 		globalLogger.Logger.WithFields(logrus.Fields{
@@ -360,6 +395,14 @@ func SystemUserList(ctx context.Context, newCtx *app.RequestContext) {
 
 // SystemUserPassword 更新密码
 func SystemUserPassword(ctx context.Context, newCtx *app.RequestContext) {
+	if _, err := SystemUserItem(ctx, newCtx); err != nil {
+		fromError := status.Convert(err)
+		newCtx.JSON(consts.StatusOK, utils.H{
+			"code": code.ConvertToHttp(fromError.Code()),
+			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
+		})
+		return
+	}
 	//判断这个服务能不能链接
 	grpcClient, err := initial.Core.Client.LoadGrpc("grpc").Singleton()
 	if err != nil {

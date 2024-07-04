@@ -24,6 +24,38 @@ import (
 )
 
 // system_login_log 登录日志
+// SystemLoginLogItem 查询单条数据
+func SystemLoginLogItem(ctx context.Context, newCtx *app.RequestContext) (*logger.SystemLoginLogResponse, error) {
+	//判断这个服务能不能链接
+	grpcClient, err := initial.Core.Client.LoadGrpc("grpc").Singleton()
+	if err != nil {
+		globalLogger.Logger.WithFields(logrus.Fields{
+			"err": err,
+		}).Error("Grpc:登录日志:system_login_log:SystemLoginLog")
+		return nil, status.Error(code.ConvertToGrpc(code.RPCError), code.StatusText(code.RPCError))
+	}
+	//链接服务
+	client := logger.NewSystemLoginLogServiceClient(grpcClient)
+	id := cast.ToInt64(newCtx.Param("id"))
+	request := &logger.SystemLoginLogRequest{}
+	request.Id = id
+	// 执行服务
+	res, err := client.SystemLoginLog(ctx, request)
+	if err != nil {
+		globalLogger.Logger.WithFields(logrus.Fields{
+			"req": request,
+			"err": err,
+		}).Error("GrpcCall:登录日志:system_login_log:SystemLoginLog")
+		return nil, err
+	}
+	tenantId := cast.ToInt64(newCtx.GetInt64("tenantId"))
+	data := logger.SystemLoginLogDao(res.GetData())
+	if cast.ToInt64(data.TenantId) != tenantId {
+		return nil, status.Error(code.ConvertToGrpc(code.NoPermission), code.StatusText(code.NoPermission))
+	}
+	return res, nil
+}
+
 // SystemLoginLogCreate 创建数据
 func SystemLoginLogCreate(ctx context.Context, newCtx *app.RequestContext) {
 	//判断这个服务能不能链接
@@ -77,6 +109,14 @@ func SystemLoginLogCreate(ctx context.Context, newCtx *app.RequestContext) {
 
 // SystemLoginLogUpdate 更新数据
 func SystemLoginLogUpdate(ctx context.Context, newCtx *app.RequestContext) {
+	if _, err := SystemLoginLogItem(ctx, newCtx); err != nil {
+		fromError := status.Convert(err)
+		newCtx.JSON(consts.StatusOK, utils.H{
+			"code": code.ConvertToHttp(fromError.Code()),
+			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
+		})
+		return
+	}
 	//判断这个服务能不能链接
 	grpcClient, err := initial.Core.Client.LoadGrpc("grpc").Singleton()
 	if err != nil {
@@ -131,6 +171,14 @@ func SystemLoginLogUpdate(ctx context.Context, newCtx *app.RequestContext) {
 
 // SystemLoginLogDelete 删除数据
 func SystemLoginLogDelete(ctx context.Context, newCtx *app.RequestContext) {
+	if _, err := SystemLoginLogItem(ctx, newCtx); err != nil {
+		fromError := status.Convert(err)
+		newCtx.JSON(consts.StatusOK, utils.H{
+			"code": code.ConvertToHttp(fromError.Code()),
+			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
+		})
+		return
+	}
 	grpcClient, err := initial.Core.Client.LoadGrpc("grpc").Singleton()
 	if err != nil {
 		globalLogger.Logger.WithFields(logrus.Fields{
@@ -169,30 +217,8 @@ func SystemLoginLogDelete(ctx context.Context, newCtx *app.RequestContext) {
 
 // SystemLoginLog 查询单条数据
 func SystemLoginLog(ctx context.Context, newCtx *app.RequestContext) {
-	//判断这个服务能不能链接
-	grpcClient, err := initial.Core.Client.LoadGrpc("grpc").Singleton()
+	res, err := SystemLoginLogItem(ctx, newCtx)
 	if err != nil {
-		globalLogger.Logger.WithFields(logrus.Fields{
-			"err": err,
-		}).Error("Grpc:登录日志:system_login_log:SystemLoginLog")
-		newCtx.JSON(consts.StatusOK, utils.H{
-			"code": code.RPCError,
-			"msg":  code.StatusText(code.RPCError),
-		})
-		return
-	}
-	//链接服务
-	client := logger.NewSystemLoginLogServiceClient(grpcClient)
-	id := cast.ToInt64(newCtx.Param("id"))
-	request := &logger.SystemLoginLogRequest{}
-	request.Id = id
-	// 执行服务
-	res, err := client.SystemLoginLog(ctx, request)
-	if err != nil {
-		globalLogger.Logger.WithFields(logrus.Fields{
-			"req": request,
-			"err": err,
-		}).Error("GrpcCall:登录日志:system_login_log:SystemLoginLog")
 		fromError := status.Convert(err)
 		newCtx.JSON(consts.StatusOK, utils.H{
 			"code": code.ConvertToHttp(fromError.Code()),
@@ -209,6 +235,14 @@ func SystemLoginLog(ctx context.Context, newCtx *app.RequestContext) {
 
 // SystemLoginLogRecover 恢复数据
 func SystemLoginLogRecover(ctx context.Context, newCtx *app.RequestContext) {
+	if _, err := SystemLoginLogItem(ctx, newCtx); err != nil {
+		fromError := status.Convert(err)
+		newCtx.JSON(consts.StatusOK, utils.H{
+			"code": code.ConvertToHttp(fromError.Code()),
+			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
+		})
+		return
+	}
 	grpcClient, err := initial.Core.Client.LoadGrpc("grpc").Singleton()
 	if err != nil {
 		globalLogger.Logger.WithFields(logrus.Fields{

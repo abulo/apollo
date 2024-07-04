@@ -22,6 +22,37 @@ import (
 )
 
 // pay_wallet 会员钱包表
+// PayWalletItem 查询单条数据
+func PayWalletItem(ctx context.Context, newCtx *app.RequestContext, id int64) (*wallet.PayWalletResponse, error) {
+	//判断这个服务能不能链接
+	grpcClient, err := initial.Core.Client.LoadGrpc("grpc").Singleton()
+	if err != nil {
+		globalLogger.Logger.WithFields(logrus.Fields{
+			"err": err,
+		}).Error("Grpc:会员钱包表:pay_wallet:PayWallet")
+		return nil, status.Error(code.ConvertToGrpc(code.RPCError), code.StatusText(code.RPCError))
+	}
+	//链接服务
+	client := wallet.NewPayWalletServiceClient(grpcClient)
+	request := &wallet.PayWalletRequest{}
+	request.Id = id
+	// 执行服务
+	res, err := client.PayWallet(ctx, request)
+	if err != nil {
+		globalLogger.Logger.WithFields(logrus.Fields{
+			"req": request,
+			"err": err,
+		}).Error("GrpcCall:会员钱包表:pay_wallet:PayWallet")
+		return nil, err
+	}
+	tenantId := cast.ToInt64(newCtx.GetInt64("tenantId"))
+	data := wallet.PayWalletDao(res.GetData())
+	if cast.ToInt64(data.TenantId) != tenantId {
+		return nil, status.Error(code.ConvertToGrpc(code.NoPermission), code.StatusText(code.NoPermission))
+	}
+	return res, nil
+}
+
 // PayWalletCreate 创建数据
 func PayWalletCreate(ctx context.Context, newCtx *app.RequestContext) {
 	//判断这个服务能不能链接
@@ -75,6 +106,15 @@ func PayWalletCreate(ctx context.Context, newCtx *app.RequestContext) {
 
 // PayWalletUpdate 更新数据
 func PayWalletUpdate(ctx context.Context, newCtx *app.RequestContext) {
+	id := cast.ToInt64(newCtx.Param("id"))
+	if _, err := PayWalletItem(ctx, newCtx, id); err != nil {
+		fromError := status.Convert(err)
+		newCtx.JSON(consts.StatusOK, utils.H{
+			"code": code.ConvertToHttp(fromError.Code()),
+			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
+		})
+		return
+	}
 	//判断这个服务能不能链接
 	grpcClient, err := initial.Core.Client.LoadGrpc("grpc").Singleton()
 	if err != nil {
@@ -89,7 +129,6 @@ func PayWalletUpdate(ctx context.Context, newCtx *app.RequestContext) {
 	}
 	//链接服务
 	client := wallet.NewPayWalletServiceClient(grpcClient)
-	id := cast.ToInt64(newCtx.Param("id"))
 	request := &wallet.PayWalletUpdateRequest{}
 	request.Id = id
 	// 数据绑定
@@ -129,6 +168,15 @@ func PayWalletUpdate(ctx context.Context, newCtx *app.RequestContext) {
 
 // PayWalletDelete 删除数据
 func PayWalletDelete(ctx context.Context, newCtx *app.RequestContext) {
+	id := cast.ToInt64(newCtx.Param("id"))
+	if _, err := PayWalletItem(ctx, newCtx, id); err != nil {
+		fromError := status.Convert(err)
+		newCtx.JSON(consts.StatusOK, utils.H{
+			"code": code.ConvertToHttp(fromError.Code()),
+			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
+		})
+		return
+	}
 	grpcClient, err := initial.Core.Client.LoadGrpc("grpc").Singleton()
 	if err != nil {
 		globalLogger.Logger.WithFields(logrus.Fields{
@@ -142,7 +190,6 @@ func PayWalletDelete(ctx context.Context, newCtx *app.RequestContext) {
 	}
 	//链接服务
 	client := wallet.NewPayWalletServiceClient(grpcClient)
-	id := cast.ToInt64(newCtx.Param("id"))
 	request := &wallet.PayWalletDeleteRequest{}
 	request.Id = id
 	// 执行服务
@@ -167,30 +214,9 @@ func PayWalletDelete(ctx context.Context, newCtx *app.RequestContext) {
 
 // PayWallet 查询单条数据
 func PayWallet(ctx context.Context, newCtx *app.RequestContext) {
-	//判断这个服务能不能链接
-	grpcClient, err := initial.Core.Client.LoadGrpc("grpc").Singleton()
-	if err != nil {
-		globalLogger.Logger.WithFields(logrus.Fields{
-			"err": err,
-		}).Error("Grpc:会员钱包表:pay_wallet:PayWallet")
-		newCtx.JSON(consts.StatusOK, utils.H{
-			"code": code.RPCError,
-			"msg":  code.StatusText(code.RPCError),
-		})
-		return
-	}
-	//链接服务
-	client := wallet.NewPayWalletServiceClient(grpcClient)
 	id := cast.ToInt64(newCtx.Param("id"))
-	request := &wallet.PayWalletRequest{}
-	request.Id = id
-	// 执行服务
-	res, err := client.PayWallet(ctx, request)
+	res, err := PayWalletItem(ctx, newCtx, id)
 	if err != nil {
-		globalLogger.Logger.WithFields(logrus.Fields{
-			"req": request,
-			"err": err,
-		}).Error("GrpcCall:会员钱包表:pay_wallet:PayWallet")
 		fromError := status.Convert(err)
 		newCtx.JSON(consts.StatusOK, utils.H{
 			"code": code.ConvertToHttp(fromError.Code()),
@@ -207,6 +233,15 @@ func PayWallet(ctx context.Context, newCtx *app.RequestContext) {
 
 // PayWalletRecover 恢复数据
 func PayWalletRecover(ctx context.Context, newCtx *app.RequestContext) {
+	id := cast.ToInt64(newCtx.Param("id"))
+	if _, err := PayWalletItem(ctx, newCtx, id); err != nil {
+		fromError := status.Convert(err)
+		newCtx.JSON(consts.StatusOK, utils.H{
+			"code": code.ConvertToHttp(fromError.Code()),
+			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
+		})
+		return
+	}
 	grpcClient, err := initial.Core.Client.LoadGrpc("grpc").Singleton()
 	if err != nil {
 		globalLogger.Logger.WithFields(logrus.Fields{
@@ -220,7 +255,6 @@ func PayWalletRecover(ctx context.Context, newCtx *app.RequestContext) {
 	}
 	//链接服务
 	client := wallet.NewPayWalletServiceClient(grpcClient)
-	id := cast.ToInt64(newCtx.Param("id"))
 	request := &wallet.PayWalletRecoverRequest{}
 	request.Id = id
 	// 执行服务

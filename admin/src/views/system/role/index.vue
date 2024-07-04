@@ -489,7 +489,7 @@ const submitMenuForm = (formEl: FormInstance | undefined) => {
 // 获取部门树选项
 const getDeptTreeSelect = async () => {
   deptOptions.value = [];
-  const { data } = await getSystemDeptListSimpleApi({ tree: 1 });
+  const { data } = await getSystemDeptListSimpleApi();
   deptOptions.value = data;
 };
 

@@ -8,6 +8,7 @@ import (
 	globalLogger "github.com/abulo/ratel/v3/core/logger"
 	"github.com/abulo/ratel/v3/server/xgrpc"
 	"github.com/abulo/ratel/v3/stores/sql"
+	"github.com/abulo/ratel/v3/util"
 	"github.com/sirupsen/logrus"
 	"google.golang.org/grpc/status"
 )
@@ -145,10 +146,10 @@ func (srv SrvPayWalletRechargeServiceServer) PayWalletRechargeList(ctx context.C
 		condition["payChannelCode"] = request.GetPayChannelCode()
 	}
 	if request.BeginPayTime != nil {
-		condition["beginPayTime"] = request.GetBeginPayTime()
+		condition["beginPayTime"] = util.Date("Y-m-d H:i:s", util.GrpcTime(request.GetBeginPayTime()))
 	}
 	if request.FinishPayTime != nil {
-		condition["finishPayTime"] = request.GetFinishPayTime()
+		condition["finishPayTime"] = util.Date("Y-m-d H:i:s", util.GrpcTime(request.GetFinishPayTime()))
 	}
 	if request.RefundStatus != nil {
 		condition["refundStatus"] = request.GetRefundStatus()
@@ -157,10 +158,10 @@ func (srv SrvPayWalletRechargeServiceServer) PayWalletRechargeList(ctx context.C
 		condition["payRefundId"] = request.GetPayRefundId()
 	}
 	if request.BeginRefundTime != nil {
-		condition["beginRefundTime"] = request.GetBeginRefundTime()
+		condition["beginRefundTime"] = util.Date("Y-m-d H:i:s", util.GrpcTime(request.GetBeginRefundTime()))
 	}
 	if request.FinishRefundTime != nil {
-		condition["finishRefundTime"] = request.GetFinishRefundTime()
+		condition["finishRefundTime"] = util.Date("Y-m-d H:i:s", util.GrpcTime(request.GetFinishRefundTime()))
 	}
 
 	paginationRequest := request.GetPagination()
@@ -230,10 +231,10 @@ func (srv SrvPayWalletRechargeServiceServer) PayWalletRechargeListTotal(ctx cont
 		condition["payChannelCode"] = request.GetPayChannelCode()
 	}
 	if request.BeginPayTime != nil {
-		condition["beginPayTime"] = request.GetBeginPayTime()
+		condition["beginPayTime"] = util.Date("Y-m-d H:i:s", util.GrpcTime(request.GetBeginPayTime()))
 	}
 	if request.FinishPayTime != nil {
-		condition["finishPayTime"] = request.GetFinishPayTime()
+		condition["finishPayTime"] = util.Date("Y-m-d H:i:s", util.GrpcTime(request.GetFinishPayTime()))
 	}
 	if request.RefundStatus != nil {
 		condition["refundStatus"] = request.GetRefundStatus()
@@ -242,10 +243,10 @@ func (srv SrvPayWalletRechargeServiceServer) PayWalletRechargeListTotal(ctx cont
 		condition["payRefundId"] = request.GetPayRefundId()
 	}
 	if request.BeginRefundTime != nil {
-		condition["beginRefundTime"] = request.GetBeginRefundTime()
+		condition["beginRefundTime"] = util.Date("Y-m-d H:i:s", util.GrpcTime(request.GetBeginRefundTime()))
 	}
 	if request.FinishRefundTime != nil {
-		condition["finishRefundTime"] = request.GetFinishRefundTime()
+		condition["finishRefundTime"] = util.Date("Y-m-d H:i:s", util.GrpcTime(request.GetFinishRefundTime()))
 	}
 
 	// 获取数据集合

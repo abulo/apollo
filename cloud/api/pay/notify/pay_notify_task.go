@@ -24,6 +24,39 @@ import (
 )
 
 // pay_notify_task 商户支付-任务通知
+
+// PayNotifyTask 查询单条数据
+func PayNotifyTaskItem(ctx context.Context, newCtx *app.RequestContext) (*notify.PayNotifyTaskResponse, error) {
+	//判断这个服务能不能链接
+	grpcClient, err := initial.Core.Client.LoadGrpc("grpc").Singleton()
+	if err != nil {
+		globalLogger.Logger.WithFields(logrus.Fields{
+			"err": err,
+		}).Error("Grpc:商户支付-任务通知:pay_notify_task:PayNotifyTask")
+		return nil, status.Error(code.ConvertToGrpc(code.RPCError), code.StatusText(code.RPCError))
+	}
+	//链接服务
+	client := notify.NewPayNotifyTaskServiceClient(grpcClient)
+	id := cast.ToInt64(newCtx.Param("id"))
+	request := &notify.PayNotifyTaskRequest{}
+	request.Id = id
+	// 执行服务
+	res, err := client.PayNotifyTask(ctx, request)
+	if err != nil {
+		globalLogger.Logger.WithFields(logrus.Fields{
+			"req": request,
+			"err": err,
+		}).Error("GrpcCall:商户支付-任务通知:pay_notify_task:PayNotifyTask")
+		return nil, err
+	}
+	tenantId := cast.ToInt64(newCtx.GetInt64("tenantId"))
+	data := notify.PayNotifyTaskDao(res.GetData())
+	if cast.ToInt64(data.TenantId) != tenantId {
+		return nil, status.Error(code.ConvertToGrpc(code.NoPermission), code.StatusText(code.NoPermission))
+	}
+	return res, nil
+}
+
 // PayNotifyTaskCreate 创建数据
 func PayNotifyTaskCreate(ctx context.Context, newCtx *app.RequestContext) {
 	//判断这个服务能不能链接
@@ -77,6 +110,14 @@ func PayNotifyTaskCreate(ctx context.Context, newCtx *app.RequestContext) {
 
 // PayNotifyTaskUpdate 更新数据
 func PayNotifyTaskUpdate(ctx context.Context, newCtx *app.RequestContext) {
+	if _, err := PayNotifyTaskItem(ctx, newCtx); err != nil {
+		fromError := status.Convert(err)
+		newCtx.JSON(consts.StatusOK, utils.H{
+			"code": code.ConvertToHttp(fromError.Code()),
+			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
+		})
+		return
+	}
 	//判断这个服务能不能链接
 	grpcClient, err := initial.Core.Client.LoadGrpc("grpc").Singleton()
 	if err != nil {
@@ -131,6 +172,14 @@ func PayNotifyTaskUpdate(ctx context.Context, newCtx *app.RequestContext) {
 
 // PayNotifyTaskDelete 删除数据
 func PayNotifyTaskDelete(ctx context.Context, newCtx *app.RequestContext) {
+	if _, err := PayNotifyTaskItem(ctx, newCtx); err != nil {
+		fromError := status.Convert(err)
+		newCtx.JSON(consts.StatusOK, utils.H{
+			"code": code.ConvertToHttp(fromError.Code()),
+			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
+		})
+		return
+	}
 	grpcClient, err := initial.Core.Client.LoadGrpc("grpc").Singleton()
 	if err != nil {
 		globalLogger.Logger.WithFields(logrus.Fields{
@@ -182,17 +231,9 @@ func PayNotifyTask(ctx context.Context, newCtx *app.RequestContext) {
 		return
 	}
 	//链接服务
-	client := notify.NewPayNotifyTaskServiceClient(grpcClient)
 	id := cast.ToInt64(newCtx.Param("id"))
-	request := &notify.PayNotifyTaskRequest{}
-	request.Id = id
-	// 执行服务
-	res, err := client.PayNotifyTask(ctx, request)
+	res, err := PayNotifyTaskItem(ctx, newCtx)
 	if err != nil {
-		globalLogger.Logger.WithFields(logrus.Fields{
-			"req": request,
-			"err": err,
-		}).Error("GrpcCall:商户支付-任务通知:pay_notify_task:PayNotifyTask")
 		fromError := status.Convert(err)
 		newCtx.JSON(consts.StatusOK, utils.H{
 			"code": code.ConvertToHttp(fromError.Code()),
@@ -224,6 +265,14 @@ func PayNotifyTask(ctx context.Context, newCtx *app.RequestContext) {
 
 // PayNotifyTaskRecover 恢复数据
 func PayNotifyTaskRecover(ctx context.Context, newCtx *app.RequestContext) {
+	if _, err := PayNotifyTaskItem(ctx, newCtx); err != nil {
+		fromError := status.Convert(err)
+		newCtx.JSON(consts.StatusOK, utils.H{
+			"code": code.ConvertToHttp(fromError.Code()),
+			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
+		})
+		return
+	}
 	grpcClient, err := initial.Core.Client.LoadGrpc("grpc").Singleton()
 	if err != nil {
 		globalLogger.Logger.WithFields(logrus.Fields{

@@ -34,17 +34,8 @@ func PayWalletTransactionDelete(ctx context.Context, newCtx *app.RequestContext)
 		return
 	}
 	//链接服务
-	clientWallet := wallet.NewPayWalletServiceClient(grpcClient)
 	walletId := cast.ToInt64(newCtx.Param("walletId"))
-	requestWallet := &wallet.PayWalletRequest{}
-	requestWallet.Id = walletId
-	// 执行服务
-	_, err = clientWallet.PayWallet(ctx, requestWallet)
-	if err != nil {
-		globalLogger.Logger.WithFields(logrus.Fields{
-			"req": requestWallet,
-			"err": err,
-		}).Error("GrpcCall:会员钱包表:pay_wallet:PayWallet")
+	if _, err := PayWalletItem(ctx, newCtx, walletId); err != nil {
 		fromError := status.Convert(err)
 		newCtx.JSON(consts.StatusOK, utils.H{
 			"code": code.ConvertToHttp(fromError.Code()),
@@ -72,7 +63,7 @@ func PayWalletTransactionDelete(ctx context.Context, newCtx *app.RequestContext)
 		return
 	}
 	item := wallet.PayWalletTransactionDao(transactionItem.GetData())
-	if item.WalletId != proto.Int64(walletId) {
+	if cast.ToInt64(item.WalletId) != walletId {
 		newCtx.JSON(consts.StatusOK, utils.H{
 			"code": code.ParamInvalid,
 			"msg":  code.StatusText(code.ParamInvalid),
@@ -116,17 +107,8 @@ func PayWalletTransaction(ctx context.Context, newCtx *app.RequestContext) {
 		return
 	}
 	//链接服务
-	clientWallet := wallet.NewPayWalletServiceClient(grpcClient)
 	walletId := cast.ToInt64(newCtx.Param("walletId"))
-	requestWallet := &wallet.PayWalletRequest{}
-	requestWallet.Id = walletId
-	// 执行服务
-	_, err = clientWallet.PayWallet(ctx, requestWallet)
-	if err != nil {
-		globalLogger.Logger.WithFields(logrus.Fields{
-			"req": requestWallet,
-			"err": err,
-		}).Error("GrpcCall:会员钱包表:pay_wallet:PayWallet")
+	if _, err := PayWalletItem(ctx, newCtx, walletId); err != nil {
 		fromError := status.Convert(err)
 		newCtx.JSON(consts.StatusOK, utils.H{
 			"code": code.ConvertToHttp(fromError.Code()),
@@ -155,7 +137,7 @@ func PayWalletTransaction(ctx context.Context, newCtx *app.RequestContext) {
 		return
 	}
 	item := wallet.PayWalletTransactionDao(transactionItem.GetData())
-	if item.WalletId != proto.Int64(walletId) {
+	if cast.ToInt64(item.WalletId) != walletId {
 		newCtx.JSON(consts.StatusOK, utils.H{
 			"code": code.ParamInvalid,
 			"msg":  code.StatusText(code.ParamInvalid),
@@ -200,17 +182,8 @@ func PayWalletTransactionRecover(ctx context.Context, newCtx *app.RequestContext
 		return
 	}
 	//链接服务
-	clientWallet := wallet.NewPayWalletServiceClient(grpcClient)
 	walletId := cast.ToInt64(newCtx.Param("walletId"))
-	requestWallet := &wallet.PayWalletRequest{}
-	requestWallet.Id = walletId
-	// 执行服务
-	_, err = clientWallet.PayWallet(ctx, requestWallet)
-	if err != nil {
-		globalLogger.Logger.WithFields(logrus.Fields{
-			"req": requestWallet,
-			"err": err,
-		}).Error("GrpcCall:会员钱包表:pay_wallet:PayWallet")
+	if _, err := PayWalletItem(ctx, newCtx, walletId); err != nil {
 		fromError := status.Convert(err)
 		newCtx.JSON(consts.StatusOK, utils.H{
 			"code": code.ConvertToHttp(fromError.Code()),
@@ -239,7 +212,7 @@ func PayWalletTransactionRecover(ctx context.Context, newCtx *app.RequestContext
 		return
 	}
 	item := wallet.PayWalletTransactionDao(transactionItem.GetData())
-	if item.WalletId != proto.Int64(walletId) {
+	if cast.ToInt64(item.WalletId) != walletId {
 		newCtx.JSON(consts.StatusOK, utils.H{
 			"code": code.ParamInvalid,
 			"msg":  code.StatusText(code.ParamInvalid),
@@ -283,17 +256,9 @@ func PayWalletTransactionList(ctx context.Context, newCtx *app.RequestContext) {
 		return
 	}
 	//链接服务
-	clientWallet := wallet.NewPayWalletServiceClient(grpcClient)
+	//链接服务
 	walletId := cast.ToInt64(newCtx.Param("walletId"))
-	requestWallet := &wallet.PayWalletRequest{}
-	requestWallet.Id = walletId
-	// 执行服务
-	_, err = clientWallet.PayWallet(ctx, requestWallet)
-	if err != nil {
-		globalLogger.Logger.WithFields(logrus.Fields{
-			"req": requestWallet,
-			"err": err,
-		}).Error("GrpcCall:会员钱包表:pay_wallet:PayWallet")
+	if _, err := PayWalletItem(ctx, newCtx, walletId); err != nil {
 		fromError := status.Convert(err)
 		newCtx.JSON(consts.StatusOK, utils.H{
 			"code": code.ConvertToHttp(fromError.Code()),

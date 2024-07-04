@@ -24,6 +24,39 @@ import (
 )
 
 // pay_refund 退款订单
+
+// PayRefundItem 查询单条数据
+func PayRefundItem(ctx context.Context, newCtx *app.RequestContext) (*refund.PayRefundResponse, error) {
+	//判断这个服务能不能链接
+	grpcClient, err := initial.Core.Client.LoadGrpc("grpc").Singleton()
+	if err != nil {
+		globalLogger.Logger.WithFields(logrus.Fields{
+			"err": err,
+		}).Error("Grpc:退款订单:pay_refund:PayRefund")
+		return nil, status.Error(code.ConvertToGrpc(code.RPCError), code.StatusText(code.RPCError))
+	}
+	//链接服务
+	client := refund.NewPayRefundServiceClient(grpcClient)
+	id := cast.ToInt64(newCtx.Param("id"))
+	request := &refund.PayRefundRequest{}
+	request.Id = id
+	// 执行服务
+	res, err := client.PayRefund(ctx, request)
+	if err != nil {
+		globalLogger.Logger.WithFields(logrus.Fields{
+			"req": request,
+			"err": err,
+		}).Error("GrpcCall:退款订单:pay_refund:PayRefund")
+		return nil, err
+	}
+	tenantId := cast.ToInt64(newCtx.GetInt64("tenantId"))
+	data := refund.PayRefundDao(res.GetData())
+	if cast.ToInt64(data.TenantId) != tenantId {
+		return nil, status.Error(code.ConvertToGrpc(code.NoPermission), code.StatusText(code.NoPermission))
+	}
+	return res, nil
+}
+
 // PayRefundCreate 创建数据
 func PayRefundCreate(ctx context.Context, newCtx *app.RequestContext) {
 	//判断这个服务能不能链接
@@ -77,6 +110,14 @@ func PayRefundCreate(ctx context.Context, newCtx *app.RequestContext) {
 
 // PayRefundUpdate 更新数据
 func PayRefundUpdate(ctx context.Context, newCtx *app.RequestContext) {
+	if _, err := PayRefundItem(ctx, newCtx); err != nil {
+		fromError := status.Convert(err)
+		newCtx.JSON(consts.StatusOK, utils.H{
+			"code": code.ConvertToHttp(fromError.Code()),
+			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
+		})
+		return
+	}
 	//判断这个服务能不能链接
 	grpcClient, err := initial.Core.Client.LoadGrpc("grpc").Singleton()
 	if err != nil {
@@ -131,6 +172,14 @@ func PayRefundUpdate(ctx context.Context, newCtx *app.RequestContext) {
 
 // PayRefundDelete 删除数据
 func PayRefundDelete(ctx context.Context, newCtx *app.RequestContext) {
+	if _, err := PayRefundItem(ctx, newCtx); err != nil {
+		fromError := status.Convert(err)
+		newCtx.JSON(consts.StatusOK, utils.H{
+			"code": code.ConvertToHttp(fromError.Code()),
+			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
+		})
+		return
+	}
 	grpcClient, err := initial.Core.Client.LoadGrpc("grpc").Singleton()
 	if err != nil {
 		globalLogger.Logger.WithFields(logrus.Fields{
@@ -169,30 +218,8 @@ func PayRefundDelete(ctx context.Context, newCtx *app.RequestContext) {
 
 // PayRefund 查询单条数据
 func PayRefund(ctx context.Context, newCtx *app.RequestContext) {
-	//判断这个服务能不能链接
-	grpcClient, err := initial.Core.Client.LoadGrpc("grpc").Singleton()
+	res, err := PayRefundItem(ctx, newCtx)
 	if err != nil {
-		globalLogger.Logger.WithFields(logrus.Fields{
-			"err": err,
-		}).Error("Grpc:退款订单:pay_refund:PayRefund")
-		newCtx.JSON(consts.StatusOK, utils.H{
-			"code": code.RPCError,
-			"msg":  code.StatusText(code.RPCError),
-		})
-		return
-	}
-	//链接服务
-	client := refund.NewPayRefundServiceClient(grpcClient)
-	id := cast.ToInt64(newCtx.Param("id"))
-	request := &refund.PayRefundRequest{}
-	request.Id = id
-	// 执行服务
-	res, err := client.PayRefund(ctx, request)
-	if err != nil {
-		globalLogger.Logger.WithFields(logrus.Fields{
-			"req": request,
-			"err": err,
-		}).Error("GrpcCall:退款订单:pay_refund:PayRefund")
 		fromError := status.Convert(err)
 		newCtx.JSON(consts.StatusOK, utils.H{
 			"code": code.ConvertToHttp(fromError.Code()),
@@ -209,6 +236,14 @@ func PayRefund(ctx context.Context, newCtx *app.RequestContext) {
 
 // PayRefundRecover 恢复数据
 func PayRefundRecover(ctx context.Context, newCtx *app.RequestContext) {
+	if _, err := PayRefundItem(ctx, newCtx); err != nil {
+		fromError := status.Convert(err)
+		newCtx.JSON(consts.StatusOK, utils.H{
+			"code": code.ConvertToHttp(fromError.Code()),
+			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
+		})
+		return
+	}
 	grpcClient, err := initial.Core.Client.LoadGrpc("grpc").Singleton()
 	if err != nil {
 		globalLogger.Logger.WithFields(logrus.Fields{

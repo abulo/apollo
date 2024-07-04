@@ -22,6 +22,39 @@ import (
 )
 
 // system_role 系统角色
+
+// SystemRoleItem 查询单条数据
+func SystemRoleItem(ctx context.Context, newCtx *app.RequestContext) (*role.SystemRoleResponse, error) {
+	//判断这个服务能不能链接
+	grpcClient, err := initial.Core.Client.LoadGrpc("grpc").Singleton()
+	if err != nil {
+		globalLogger.Logger.WithFields(logrus.Fields{
+			"err": err,
+		}).Error("Grpc:系统角色:system_role:SystemRole")
+		return nil, status.Error(code.ConvertToGrpc(code.RPCError), code.StatusText(code.RPCError))
+	}
+	//链接服务
+	client := role.NewSystemRoleServiceClient(grpcClient)
+	id := cast.ToInt64(newCtx.Param("id"))
+	request := &role.SystemRoleRequest{}
+	request.Id = id
+	// 执行服务
+	res, err := client.SystemRole(ctx, request)
+	if err != nil {
+		globalLogger.Logger.WithFields(logrus.Fields{
+			"req": request,
+			"err": err,
+		}).Error("GrpcCall:系统角色:system_role:SystemRole")
+		return nil, err
+	}
+	tenantId := cast.ToInt64(newCtx.GetInt64("tenantId"))
+	data := role.SystemRoleDao(res.GetData())
+	if cast.ToInt64(data.TenantId) != tenantId {
+		return nil, status.Error(code.ConvertToGrpc(code.NoPermission), code.StatusText(code.NoPermission))
+	}
+	return res, nil
+}
+
 // SystemRoleCreate 创建数据
 func SystemRoleCreate(ctx context.Context, newCtx *app.RequestContext) {
 	//判断这个服务能不能链接
@@ -75,6 +108,14 @@ func SystemRoleCreate(ctx context.Context, newCtx *app.RequestContext) {
 
 // SystemRoleUpdate 更新数据
 func SystemRoleUpdate(ctx context.Context, newCtx *app.RequestContext) {
+	if _, err := SystemRoleItem(ctx, newCtx); err != nil {
+		fromError := status.Convert(err)
+		newCtx.JSON(consts.StatusOK, utils.H{
+			"code": code.ConvertToHttp(fromError.Code()),
+			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
+		})
+		return
+	}
 	//判断这个服务能不能链接
 	grpcClient, err := initial.Core.Client.LoadGrpc("grpc").Singleton()
 	if err != nil {
@@ -127,6 +168,14 @@ func SystemRoleUpdate(ctx context.Context, newCtx *app.RequestContext) {
 
 // SystemRoleDelete 删除数据
 func SystemRoleDelete(ctx context.Context, newCtx *app.RequestContext) {
+	if _, err := SystemRoleItem(ctx, newCtx); err != nil {
+		fromError := status.Convert(err)
+		newCtx.JSON(consts.StatusOK, utils.H{
+			"code": code.ConvertToHttp(fromError.Code()),
+			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
+		})
+		return
+	}
 	grpcClient, err := initial.Core.Client.LoadGrpc("grpc").Singleton()
 	if err != nil {
 		globalLogger.Logger.WithFields(logrus.Fields{
@@ -165,30 +214,8 @@ func SystemRoleDelete(ctx context.Context, newCtx *app.RequestContext) {
 
 // SystemRole 查询单条数据
 func SystemRole(ctx context.Context, newCtx *app.RequestContext) {
-	//判断这个服务能不能链接
-	grpcClient, err := initial.Core.Client.LoadGrpc("grpc").Singleton()
+	res, err := SystemRoleItem(ctx, newCtx)
 	if err != nil {
-		globalLogger.Logger.WithFields(logrus.Fields{
-			"err": err,
-		}).Error("Grpc:系统角色:system_role:SystemRole")
-		newCtx.JSON(consts.StatusOK, utils.H{
-			"code": code.RPCError,
-			"msg":  code.StatusText(code.RPCError),
-		})
-		return
-	}
-	//链接服务
-	client := role.NewSystemRoleServiceClient(grpcClient)
-	id := cast.ToInt64(newCtx.Param("id"))
-	request := &role.SystemRoleRequest{}
-	request.Id = id
-	// 执行服务
-	res, err := client.SystemRole(ctx, request)
-	if err != nil {
-		globalLogger.Logger.WithFields(logrus.Fields{
-			"req": request,
-			"err": err,
-		}).Error("GrpcCall:系统角色:system_role:SystemRole")
 		fromError := status.Convert(err)
 		newCtx.JSON(consts.StatusOK, utils.H{
 			"code": code.ConvertToHttp(fromError.Code()),
@@ -205,6 +232,14 @@ func SystemRole(ctx context.Context, newCtx *app.RequestContext) {
 
 // SystemRoleRecover 恢复数据
 func SystemRoleRecover(ctx context.Context, newCtx *app.RequestContext) {
+	if _, err := SystemRoleItem(ctx, newCtx); err != nil {
+		fromError := status.Convert(err)
+		newCtx.JSON(consts.StatusOK, utils.H{
+			"code": code.ConvertToHttp(fromError.Code()),
+			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
+		})
+		return
+	}
 	grpcClient, err := initial.Core.Client.LoadGrpc("grpc").Singleton()
 	if err != nil {
 		globalLogger.Logger.WithFields(logrus.Fields{

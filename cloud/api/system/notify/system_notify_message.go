@@ -24,6 +24,39 @@ import (
 )
 
 // system_notify_message 站内信消息表
+
+// SystemNotifyMessageItem 查询单条数据
+func SystemNotifyMessageItem(ctx context.Context, newCtx *app.RequestContext) (*notify.SystemNotifyMessageResponse, error) {
+	//判断这个服务能不能链接
+	grpcClient, err := initial.Core.Client.LoadGrpc("grpc").Singleton()
+	if err != nil {
+		globalLogger.Logger.WithFields(logrus.Fields{
+			"err": err,
+		}).Error("Grpc:站内信消息表:system_notify_message:SystemNotifyMessage")
+		return nil, status.Error(code.ConvertToGrpc(code.RPCError), code.StatusText(code.RPCError))
+	}
+	//链接服务
+	client := notify.NewSystemNotifyMessageServiceClient(grpcClient)
+	id := cast.ToInt64(newCtx.Param("id"))
+	request := &notify.SystemNotifyMessageRequest{}
+	request.Id = id
+	// 执行服务
+	res, err := client.SystemNotifyMessage(ctx, request)
+	if err != nil {
+		globalLogger.Logger.WithFields(logrus.Fields{
+			"req": request,
+			"err": err,
+		}).Error("GrpcCall:站内信消息表:system_notify_message:SystemNotifyMessage")
+		return nil, err
+	}
+	tenantId := cast.ToInt64(newCtx.GetInt64("tenantId"))
+	data := notify.SystemNotifyMessageDao(res.GetData())
+	if cast.ToInt64(data.TenantId) != tenantId {
+		return nil, status.Error(code.ConvertToGrpc(code.NoPermission), code.StatusText(code.NoPermission))
+	}
+	return res, nil
+}
+
 // SystemNotifyMessageCreate 创建数据
 func SystemNotifyMessageCreate(ctx context.Context, newCtx *app.RequestContext) {
 	//判断这个服务能不能链接
@@ -77,6 +110,14 @@ func SystemNotifyMessageCreate(ctx context.Context, newCtx *app.RequestContext) 
 
 // SystemNotifyMessageUpdate 更新数据
 func SystemNotifyMessageUpdate(ctx context.Context, newCtx *app.RequestContext) {
+	if _, err := SystemNotifyMessageItem(ctx, newCtx); err != nil {
+		fromError := status.Convert(err)
+		newCtx.JSON(consts.StatusOK, utils.H{
+			"code": code.ConvertToHttp(fromError.Code()),
+			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
+		})
+		return
+	}
 	//判断这个服务能不能链接
 	grpcClient, err := initial.Core.Client.LoadGrpc("grpc").Singleton()
 	if err != nil {
@@ -131,6 +172,14 @@ func SystemNotifyMessageUpdate(ctx context.Context, newCtx *app.RequestContext) 
 
 // SystemNotifyMessageDelete 删除数据
 func SystemNotifyMessageDelete(ctx context.Context, newCtx *app.RequestContext) {
+	if _, err := SystemNotifyMessageItem(ctx, newCtx); err != nil {
+		fromError := status.Convert(err)
+		newCtx.JSON(consts.StatusOK, utils.H{
+			"code": code.ConvertToHttp(fromError.Code()),
+			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
+		})
+		return
+	}
 	grpcClient, err := initial.Core.Client.LoadGrpc("grpc").Singleton()
 	if err != nil {
 		globalLogger.Logger.WithFields(logrus.Fields{
@@ -169,30 +218,8 @@ func SystemNotifyMessageDelete(ctx context.Context, newCtx *app.RequestContext) 
 
 // SystemNotifyMessage 查询单条数据
 func SystemNotifyMessage(ctx context.Context, newCtx *app.RequestContext) {
-	//判断这个服务能不能链接
-	grpcClient, err := initial.Core.Client.LoadGrpc("grpc").Singleton()
+	res, err := SystemNotifyMessageItem(ctx, newCtx)
 	if err != nil {
-		globalLogger.Logger.WithFields(logrus.Fields{
-			"err": err,
-		}).Error("Grpc:站内信消息表:system_notify_message:SystemNotifyMessage")
-		newCtx.JSON(consts.StatusOK, utils.H{
-			"code": code.RPCError,
-			"msg":  code.StatusText(code.RPCError),
-		})
-		return
-	}
-	//链接服务
-	client := notify.NewSystemNotifyMessageServiceClient(grpcClient)
-	id := cast.ToInt64(newCtx.Param("id"))
-	request := &notify.SystemNotifyMessageRequest{}
-	request.Id = id
-	// 执行服务
-	res, err := client.SystemNotifyMessage(ctx, request)
-	if err != nil {
-		globalLogger.Logger.WithFields(logrus.Fields{
-			"req": request,
-			"err": err,
-		}).Error("GrpcCall:站内信消息表:system_notify_message:SystemNotifyMessage")
 		fromError := status.Convert(err)
 		newCtx.JSON(consts.StatusOK, utils.H{
 			"code": code.ConvertToHttp(fromError.Code()),
@@ -209,6 +236,14 @@ func SystemNotifyMessage(ctx context.Context, newCtx *app.RequestContext) {
 
 // SystemNotifyMessageRecover 恢复数据
 func SystemNotifyMessageRecover(ctx context.Context, newCtx *app.RequestContext) {
+	if _, err := SystemNotifyMessageItem(ctx, newCtx); err != nil {
+		fromError := status.Convert(err)
+		newCtx.JSON(consts.StatusOK, utils.H{
+			"code": code.ConvertToHttp(fromError.Code()),
+			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
+		})
+		return
+	}
 	grpcClient, err := initial.Core.Client.LoadGrpc("grpc").Singleton()
 	if err != nil {
 		globalLogger.Logger.WithFields(logrus.Fields{

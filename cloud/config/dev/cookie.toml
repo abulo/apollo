@@ -1,6 +1,6 @@
 [cookie]
     #每一个应用独有标识
-    appKey = "apollo"
+    appKey = "Apollo"
     #过期时间
     expires=180000
     #路径
@@ -12,6 +12,6 @@
     #HttpOnly属性
     httpOnly=true
     #hashKey
-    hashKey="cookies_hashKey"
+    hashKey="cookies_hashKey_Apollo"
     #blockKey
-    blockKey="cookies_blockKey" 
+    blockKey="cookies_blockKey_Apollo"

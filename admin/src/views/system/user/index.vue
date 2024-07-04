@@ -575,7 +575,7 @@ const submitForm = (formEl: FormInstance | undefined) => {
 // 部门树选择
 const deptList = ref<SystemDept.ResSystemDeptList[]>([]);
 const getTreeFilter = async () => {
-  const { data } = await getSystemDeptListSimpleApi({ tree: 1 });
+  const { data } = await getSystemDeptListSimpleApi();
   deptList.value = data;
 };
 

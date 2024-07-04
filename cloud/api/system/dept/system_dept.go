@@ -21,6 +21,38 @@ import (
 )
 
 // system_dept 部门
+// SystemDeptItem 查询单条数据
+func SystemDeptItem(ctx context.Context, newCtx *app.RequestContext) (*dept.SystemDeptResponse, error) {
+	//判断这个服务能不能链接
+	grpcClient, err := initial.Core.Client.LoadGrpc("grpc").Singleton()
+	if err != nil {
+		globalLogger.Logger.WithFields(logrus.Fields{
+			"err": err,
+		}).Error("Grpc:部门:system_dept:SystemDept")
+		return nil, status.Error(code.ConvertToGrpc(code.RPCError), code.StatusText(code.RPCError))
+	}
+	//链接服务
+	client := dept.NewSystemDeptServiceClient(grpcClient)
+	id := cast.ToInt64(newCtx.Param("id"))
+	request := &dept.SystemDeptRequest{}
+	request.Id = id
+	// 执行服务
+	res, err := client.SystemDept(ctx, request)
+	if err != nil {
+		globalLogger.Logger.WithFields(logrus.Fields{
+			"req": request,
+			"err": err,
+		}).Error("GrpcCall:部门:system_dept:SystemDept")
+		return nil, err
+	}
+	tenantId := cast.ToInt64(newCtx.GetInt64("tenantId"))
+	data := dept.SystemDeptDao(res.GetData())
+	if cast.ToInt64(data.TenantId) != tenantId {
+		return nil, status.Error(code.ConvertToGrpc(code.NoPermission), code.StatusText(code.NoPermission))
+	}
+	return res, nil
+}
+
 // SystemDeptCreate 创建数据
 func SystemDeptCreate(ctx context.Context, newCtx *app.RequestContext) {
 	//判断这个服务能不能链接
@@ -74,6 +106,14 @@ func SystemDeptCreate(ctx context.Context, newCtx *app.RequestContext) {
 
 // SystemDeptUpdate 更新数据
 func SystemDeptUpdate(ctx context.Context, newCtx *app.RequestContext) {
+	if _, err := SystemDeptItem(ctx, newCtx); err != nil {
+		fromError := status.Convert(err)
+		newCtx.JSON(consts.StatusOK, utils.H{
+			"code": code.ConvertToHttp(fromError.Code()),
+			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
+		})
+		return
+	}
 	//判断这个服务能不能链接
 	grpcClient, err := initial.Core.Client.LoadGrpc("grpc").Singleton()
 	if err != nil {
@@ -128,6 +168,14 @@ func SystemDeptUpdate(ctx context.Context, newCtx *app.RequestContext) {
 
 // SystemDeptDelete 删除数据
 func SystemDeptDelete(ctx context.Context, newCtx *app.RequestContext) {
+	if _, err := SystemDeptItem(ctx, newCtx); err != nil {
+		fromError := status.Convert(err)
+		newCtx.JSON(consts.StatusOK, utils.H{
+			"code": code.ConvertToHttp(fromError.Code()),
+			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
+		})
+		return
+	}
 	grpcClient, err := initial.Core.Client.LoadGrpc("grpc").Singleton()
 	if err != nil {
 		globalLogger.Logger.WithFields(logrus.Fields{
@@ -166,30 +214,8 @@ func SystemDeptDelete(ctx context.Context, newCtx *app.RequestContext) {
 
 // SystemDept 查询单条数据
 func SystemDept(ctx context.Context, newCtx *app.RequestContext) {
-	//判断这个服务能不能链接
-	grpcClient, err := initial.Core.Client.LoadGrpc("grpc").Singleton()
+	res, err := SystemDeptItem(ctx, newCtx)
 	if err != nil {
-		globalLogger.Logger.WithFields(logrus.Fields{
-			"err": err,
-		}).Error("Grpc:部门:system_dept:SystemDept")
-		newCtx.JSON(consts.StatusOK, utils.H{
-			"code": code.RPCError,
-			"msg":  code.StatusText(code.RPCError),
-		})
-		return
-	}
-	//链接服务
-	client := dept.NewSystemDeptServiceClient(grpcClient)
-	id := cast.ToInt64(newCtx.Param("id"))
-	request := &dept.SystemDeptRequest{}
-	request.Id = id
-	// 执行服务
-	res, err := client.SystemDept(ctx, request)
-	if err != nil {
-		globalLogger.Logger.WithFields(logrus.Fields{
-			"req": request,
-			"err": err,
-		}).Error("GrpcCall:部门:system_dept:SystemDept")
 		fromError := status.Convert(err)
 		newCtx.JSON(consts.StatusOK, utils.H{
 			"code": code.ConvertToHttp(fromError.Code()),
@@ -206,6 +232,14 @@ func SystemDept(ctx context.Context, newCtx *app.RequestContext) {
 
 // SystemDeptRecover 恢复数据
 func SystemDeptRecover(ctx context.Context, newCtx *app.RequestContext) {
+	if _, err := SystemDeptItem(ctx, newCtx); err != nil {
+		fromError := status.Convert(err)
+		newCtx.JSON(consts.StatusOK, utils.H{
+			"code": code.ConvertToHttp(fromError.Code()),
+			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
+		})
+		return
+	}
 	grpcClient, err := initial.Core.Client.LoadGrpc("grpc").Singleton()
 	if err != nil {
 		globalLogger.Logger.WithFields(logrus.Fields{
@@ -300,20 +334,10 @@ func SystemDeptList(ctx context.Context, newCtx *app.RequestContext) {
 			list = append(list, dept.SystemDeptDao(item))
 		}
 	}
-	var newList []*dao.SystemDept
-	newList = list
-	tree := false
-	if val, ok := newCtx.GetQuery("tree"); ok {
-		tree = cast.ToBool(val)
-	}
-	if tree {
-		newList = SystemDeptTree(list, 0)
-	}
-
 	newCtx.JSON(consts.StatusOK, utils.H{
 		"code": res.GetCode(),
 		"msg":  res.GetMsg(),
-		"data": newList,
+		"data": SystemDeptTree(list, 0),
 	})
 }
 
