@@ -1,0 +1,4 @@
+[encrypt]
+    Disable = false # 是否开启
+    SecretKey = "aaaaaaaaaaaaaaaa" # 加密密钥
+    Iv = "ba79295cdabd3a86" # 加密向量

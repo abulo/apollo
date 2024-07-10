@@ -6,6 +6,7 @@ import (
 	"cloud/code"
 	"cloud/dao"
 	"cloud/initial"
+	"cloud/internal/response"
 	"cloud/service/pagination"
 	"cloud/service/system/notify"
 
@@ -30,7 +31,7 @@ func SystemNotifyTemplateCreate(ctx context.Context, newCtx *app.RequestContext)
 		globalLogger.Logger.WithFields(logrus.Fields{
 			"err": err,
 		}).Error("Grpc:站内信模板表:system_notify_template:SystemNotifyTemplateCreate")
-		newCtx.JSON(consts.StatusOK, utils.H{
+		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.RPCError,
 			"msg":  code.StatusText(code.RPCError),
 		})
@@ -42,7 +43,7 @@ func SystemNotifyTemplateCreate(ctx context.Context, newCtx *app.RequestContext)
 	// 数据绑定
 	var reqInfo dao.SystemNotifyTemplate
 	if err := newCtx.BindAndValidate(&reqInfo); err != nil {
-		newCtx.JSON(consts.StatusOK, utils.H{
+		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.ParamInvalid,
 			"msg":  code.StatusText(code.ParamInvalid),
 		})
@@ -60,13 +61,13 @@ func SystemNotifyTemplateCreate(ctx context.Context, newCtx *app.RequestContext)
 			"err": err,
 		}).Error("GrpcCall:站内信模板表:system_notify_template:SystemNotifyTemplateCreate")
 		fromError := status.Convert(err)
-		newCtx.JSON(consts.StatusOK, utils.H{
+		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.ConvertToHttp(fromError.Code()),
 			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
 		})
 		return
 	}
-	newCtx.JSON(consts.StatusOK, utils.H{
+	response.JSON(newCtx, consts.StatusOK, utils.H{
 		"code": res.GetCode(),
 		"msg":  res.GetMsg(),
 	})
@@ -80,7 +81,7 @@ func SystemNotifyTemplateUpdate(ctx context.Context, newCtx *app.RequestContext)
 		globalLogger.Logger.WithFields(logrus.Fields{
 			"err": err,
 		}).Error("Grpc:站内信模板表:system_notify_template:SystemNotifyTemplateUpdate")
-		newCtx.JSON(consts.StatusOK, utils.H{
+		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.RPCError,
 			"msg":  code.StatusText(code.RPCError),
 		})
@@ -94,7 +95,7 @@ func SystemNotifyTemplateUpdate(ctx context.Context, newCtx *app.RequestContext)
 	// 数据绑定
 	var reqInfo dao.SystemNotifyTemplate
 	if err := newCtx.BindAndValidate(&reqInfo); err != nil {
-		newCtx.JSON(consts.StatusOK, utils.H{
+		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.ParamInvalid,
 			"msg":  code.StatusText(code.ParamInvalid),
 		})
@@ -113,13 +114,13 @@ func SystemNotifyTemplateUpdate(ctx context.Context, newCtx *app.RequestContext)
 			"err": err,
 		}).Error("GrpcCall:站内信模板表:system_notify_template:SystemNotifyTemplateUpdate")
 		fromError := status.Convert(err)
-		newCtx.JSON(consts.StatusOK, utils.H{
+		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.ConvertToHttp(fromError.Code()),
 			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
 		})
 		return
 	}
-	newCtx.JSON(consts.StatusOK, utils.H{
+	response.JSON(newCtx, consts.StatusOK, utils.H{
 		"code": res.GetCode(),
 		"msg":  res.GetMsg(),
 	})
@@ -132,7 +133,7 @@ func SystemNotifyTemplateDelete(ctx context.Context, newCtx *app.RequestContext)
 		globalLogger.Logger.WithFields(logrus.Fields{
 			"err": err,
 		}).Error("Grpc:站内信模板表:system_notify_template:SystemNotifyTemplateDelete")
-		newCtx.JSON(consts.StatusOK, utils.H{
+		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.RPCError,
 			"msg":  code.StatusText(code.RPCError),
 		})
@@ -151,13 +152,13 @@ func SystemNotifyTemplateDelete(ctx context.Context, newCtx *app.RequestContext)
 			"err": err,
 		}).Error("GrpcCall:站内信模板表:system_notify_template:SystemNotifyTemplateDelete")
 		fromError := status.Convert(err)
-		newCtx.JSON(consts.StatusOK, utils.H{
+		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.ConvertToHttp(fromError.Code()),
 			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
 		})
 		return
 	}
-	newCtx.JSON(consts.StatusOK, utils.H{
+	response.JSON(newCtx, consts.StatusOK, utils.H{
 		"code": res.GetCode(),
 		"msg":  res.GetMsg(),
 	})
@@ -171,7 +172,7 @@ func SystemNotifyTemplate(ctx context.Context, newCtx *app.RequestContext) {
 		globalLogger.Logger.WithFields(logrus.Fields{
 			"err": err,
 		}).Error("Grpc:站内信模板表:system_notify_template:SystemNotifyTemplate")
-		newCtx.JSON(consts.StatusOK, utils.H{
+		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.RPCError,
 			"msg":  code.StatusText(code.RPCError),
 		})
@@ -190,13 +191,13 @@ func SystemNotifyTemplate(ctx context.Context, newCtx *app.RequestContext) {
 			"err": err,
 		}).Error("GrpcCall:站内信模板表:system_notify_template:SystemNotifyTemplate")
 		fromError := status.Convert(err)
-		newCtx.JSON(consts.StatusOK, utils.H{
+		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.ConvertToHttp(fromError.Code()),
 			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
 		})
 		return
 	}
-	newCtx.JSON(consts.StatusOK, utils.H{
+	response.JSON(newCtx, consts.StatusOK, utils.H{
 		"code": res.GetCode(),
 		"msg":  res.GetMsg(),
 		"data": notify.SystemNotifyTemplateDao(res.GetData()),
@@ -210,7 +211,7 @@ func SystemNotifyTemplateRecover(ctx context.Context, newCtx *app.RequestContext
 		globalLogger.Logger.WithFields(logrus.Fields{
 			"err": err,
 		}).Error("Grpc:站内信模板表:system_notify_template:SystemNotifyTemplateRecover")
-		newCtx.JSON(consts.StatusOK, utils.H{
+		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.RPCError,
 			"msg":  code.StatusText(code.RPCError),
 		})
@@ -229,13 +230,13 @@ func SystemNotifyTemplateRecover(ctx context.Context, newCtx *app.RequestContext
 			"err": err,
 		}).Error("GrpcCall:站内信模板表:system_notify_template:SystemNotifyTemplateRecover")
 		fromError := status.Convert(err)
-		newCtx.JSON(consts.StatusOK, utils.H{
+		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.ConvertToHttp(fromError.Code()),
 			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
 		})
 		return
 	}
-	newCtx.JSON(consts.StatusOK, utils.H{
+	response.JSON(newCtx, consts.StatusOK, utils.H{
 		"code": res.GetCode(),
 		"msg":  res.GetMsg(),
 	})
@@ -248,7 +249,7 @@ func SystemNotifyTemplateList(ctx context.Context, newCtx *app.RequestContext) {
 		globalLogger.Logger.WithFields(logrus.Fields{
 			"err": err,
 		}).Error("Grpc:站内信模板表:system_notify_template:SystemNotifyTemplateList")
-		newCtx.JSON(consts.StatusOK, utils.H{
+		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.RPCError,
 			"msg":  code.StatusText(code.RPCError),
 		})
@@ -289,7 +290,7 @@ func SystemNotifyTemplateList(ctx context.Context, newCtx *app.RequestContext) {
 			"err": err,
 		}).Error("GrpcCall:站内信模板表:system_notify_template:SystemNotifyTemplateList")
 		fromError := status.Convert(err)
-		newCtx.JSON(consts.StatusOK, utils.H{
+		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.ConvertToHttp(fromError.Code()),
 			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
 		})
@@ -311,7 +312,7 @@ func SystemNotifyTemplateList(ctx context.Context, newCtx *app.RequestContext) {
 			"err": err,
 		}).Error("GrpcCall:站内信模板表:system_notify_template:SystemNotifyTemplateList")
 		fromError := status.Convert(err)
-		newCtx.JSON(consts.StatusOK, utils.H{
+		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.ConvertToHttp(fromError.Code()),
 			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
 		})
@@ -324,7 +325,7 @@ func SystemNotifyTemplateList(ctx context.Context, newCtx *app.RequestContext) {
 			list = append(list, notify.SystemNotifyTemplateDao(item))
 		}
 	}
-	newCtx.JSON(consts.StatusOK, utils.H{
+	response.JSON(newCtx, consts.StatusOK, utils.H{
 		"code": res.GetCode(),
 		"msg":  res.GetMsg(),
 		"data": utils.H{

@@ -6,6 +6,7 @@ import (
 	"cloud/code"
 	"cloud/dao"
 	"cloud/initial"
+	"cloud/internal/response"
 	"cloud/service/system/user"
 
 	globalLogger "github.com/abulo/ratel/v3/core/logger"
@@ -29,7 +30,7 @@ func SystemUserPostCreate(ctx context.Context, newCtx *app.RequestContext) {
 		globalLogger.Logger.WithFields(logrus.Fields{
 			"err": err,
 		}).Error("Grpc:系统用户职位:system_user_post:SystemUserPostCreate")
-		newCtx.JSON(consts.StatusOK, utils.H{
+		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.RPCError,
 			"msg":  code.StatusText(code.RPCError),
 		})
@@ -41,7 +42,7 @@ func SystemUserPostCreate(ctx context.Context, newCtx *app.RequestContext) {
 	// 数据绑定
 	var reqInfo dao.SystemUserPostCustom
 	if err := newCtx.BindAndValidate(&reqInfo); err != nil {
-		newCtx.JSON(consts.StatusOK, utils.H{
+		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.ParamInvalid,
 			"msg":  code.StatusText(code.ParamInvalid),
 		})
@@ -64,13 +65,13 @@ func SystemUserPostCreate(ctx context.Context, newCtx *app.RequestContext) {
 			"err": err,
 		}).Error("GrpcCall:系统用户职位:system_user_post:SystemUserPostCreate")
 		fromError := status.Convert(err)
-		newCtx.JSON(consts.StatusOK, utils.H{
+		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.ConvertToHttp(fromError.Code()),
 			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
 		})
 		return
 	}
-	newCtx.JSON(consts.StatusOK, utils.H{
+	response.JSON(newCtx, consts.StatusOK, utils.H{
 		"code": res.GetCode(),
 		"msg":  res.GetMsg(),
 	})
@@ -83,7 +84,7 @@ func SystemUserPostList(ctx context.Context, newCtx *app.RequestContext) {
 		globalLogger.Logger.WithFields(logrus.Fields{
 			"err": err,
 		}).Error("Grpc:系统用户职位:system_user_post:SystemUserPostList")
-		newCtx.JSON(consts.StatusOK, utils.H{
+		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.RPCError,
 			"msg":  code.StatusText(code.RPCError),
 		})
@@ -112,7 +113,7 @@ func SystemUserPostList(ctx context.Context, newCtx *app.RequestContext) {
 			"err": err,
 		}).Error("GrpcCall:系统用户职位:system_user_post:SystemUserPostList")
 		fromError := status.Convert(err)
-		newCtx.JSON(consts.StatusOK, utils.H{
+		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.ConvertToHttp(fromError.Code()),
 			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
 		})
@@ -125,7 +126,7 @@ func SystemUserPostList(ctx context.Context, newCtx *app.RequestContext) {
 			listPost = append(listPost, *item.PostId)
 		}
 	}
-	newCtx.JSON(consts.StatusOK, utils.H{
+	response.JSON(newCtx, consts.StatusOK, utils.H{
 		"code": res.GetCode(),
 		"msg":  res.GetMsg(),
 		"data": utils.H{

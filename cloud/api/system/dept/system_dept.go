@@ -6,6 +6,7 @@ import (
 	"cloud/code"
 	"cloud/dao"
 	"cloud/initial"
+	"cloud/internal/response"
 	"cloud/service/system/dept"
 
 	globalLogger "github.com/abulo/ratel/v3/core/logger"
@@ -61,7 +62,7 @@ func SystemDeptCreate(ctx context.Context, newCtx *app.RequestContext) {
 		globalLogger.Logger.WithFields(logrus.Fields{
 			"err": err,
 		}).Error("Grpc:部门:system_dept:SystemDeptCreate")
-		newCtx.JSON(consts.StatusOK, utils.H{
+		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.RPCError,
 			"msg":  code.StatusText(code.RPCError),
 		})
@@ -73,7 +74,7 @@ func SystemDeptCreate(ctx context.Context, newCtx *app.RequestContext) {
 	// 数据绑定
 	var reqInfo dao.SystemDept
 	if err := newCtx.BindAndValidate(&reqInfo); err != nil {
-		newCtx.JSON(consts.StatusOK, utils.H{
+		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.ParamInvalid,
 			"msg":  code.StatusText(code.ParamInvalid),
 		})
@@ -92,13 +93,13 @@ func SystemDeptCreate(ctx context.Context, newCtx *app.RequestContext) {
 			"err": err,
 		}).Error("GrpcCall:部门:system_dept:SystemDeptCreate")
 		fromError := status.Convert(err)
-		newCtx.JSON(consts.StatusOK, utils.H{
+		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.ConvertToHttp(fromError.Code()),
 			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
 		})
 		return
 	}
-	newCtx.JSON(consts.StatusOK, utils.H{
+	response.JSON(newCtx, consts.StatusOK, utils.H{
 		"code": res.GetCode(),
 		"msg":  res.GetMsg(),
 	})
@@ -108,7 +109,7 @@ func SystemDeptCreate(ctx context.Context, newCtx *app.RequestContext) {
 func SystemDeptUpdate(ctx context.Context, newCtx *app.RequestContext) {
 	if _, err := SystemDeptItem(ctx, newCtx); err != nil {
 		fromError := status.Convert(err)
-		newCtx.JSON(consts.StatusOK, utils.H{
+		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.ConvertToHttp(fromError.Code()),
 			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
 		})
@@ -120,7 +121,7 @@ func SystemDeptUpdate(ctx context.Context, newCtx *app.RequestContext) {
 		globalLogger.Logger.WithFields(logrus.Fields{
 			"err": err,
 		}).Error("Grpc:部门:system_dept:SystemDeptUpdate")
-		newCtx.JSON(consts.StatusOK, utils.H{
+		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.RPCError,
 			"msg":  code.StatusText(code.RPCError),
 		})
@@ -134,7 +135,7 @@ func SystemDeptUpdate(ctx context.Context, newCtx *app.RequestContext) {
 	// 数据绑定
 	var reqInfo dao.SystemDept
 	if err := newCtx.BindAndValidate(&reqInfo); err != nil {
-		newCtx.JSON(consts.StatusOK, utils.H{
+		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.ParamInvalid,
 			"msg":  code.StatusText(code.ParamInvalid),
 		})
@@ -154,13 +155,13 @@ func SystemDeptUpdate(ctx context.Context, newCtx *app.RequestContext) {
 			"err": err,
 		}).Error("GrpcCall:部门:system_dept:SystemDeptUpdate")
 		fromError := status.Convert(err)
-		newCtx.JSON(consts.StatusOK, utils.H{
+		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.ConvertToHttp(fromError.Code()),
 			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
 		})
 		return
 	}
-	newCtx.JSON(consts.StatusOK, utils.H{
+	response.JSON(newCtx, consts.StatusOK, utils.H{
 		"code": res.GetCode(),
 		"msg":  res.GetMsg(),
 	})
@@ -170,7 +171,7 @@ func SystemDeptUpdate(ctx context.Context, newCtx *app.RequestContext) {
 func SystemDeptDelete(ctx context.Context, newCtx *app.RequestContext) {
 	if _, err := SystemDeptItem(ctx, newCtx); err != nil {
 		fromError := status.Convert(err)
-		newCtx.JSON(consts.StatusOK, utils.H{
+		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.ConvertToHttp(fromError.Code()),
 			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
 		})
@@ -181,7 +182,7 @@ func SystemDeptDelete(ctx context.Context, newCtx *app.RequestContext) {
 		globalLogger.Logger.WithFields(logrus.Fields{
 			"err": err,
 		}).Error("Grpc:部门:system_dept:SystemDeptDelete")
-		newCtx.JSON(consts.StatusOK, utils.H{
+		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.RPCError,
 			"msg":  code.StatusText(code.RPCError),
 		})
@@ -200,13 +201,13 @@ func SystemDeptDelete(ctx context.Context, newCtx *app.RequestContext) {
 			"err": err,
 		}).Error("GrpcCall:部门:system_dept:SystemDeptDelete")
 		fromError := status.Convert(err)
-		newCtx.JSON(consts.StatusOK, utils.H{
+		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.ConvertToHttp(fromError.Code()),
 			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
 		})
 		return
 	}
-	newCtx.JSON(consts.StatusOK, utils.H{
+	response.JSON(newCtx, consts.StatusOK, utils.H{
 		"code": res.GetCode(),
 		"msg":  res.GetMsg(),
 	})
@@ -217,13 +218,13 @@ func SystemDept(ctx context.Context, newCtx *app.RequestContext) {
 	res, err := SystemDeptItem(ctx, newCtx)
 	if err != nil {
 		fromError := status.Convert(err)
-		newCtx.JSON(consts.StatusOK, utils.H{
+		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.ConvertToHttp(fromError.Code()),
 			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
 		})
 		return
 	}
-	newCtx.JSON(consts.StatusOK, utils.H{
+	response.JSON(newCtx, consts.StatusOK, utils.H{
 		"code": res.GetCode(),
 		"msg":  res.GetMsg(),
 		"data": dept.SystemDeptDao(res.GetData()),
@@ -234,7 +235,7 @@ func SystemDept(ctx context.Context, newCtx *app.RequestContext) {
 func SystemDeptRecover(ctx context.Context, newCtx *app.RequestContext) {
 	if _, err := SystemDeptItem(ctx, newCtx); err != nil {
 		fromError := status.Convert(err)
-		newCtx.JSON(consts.StatusOK, utils.H{
+		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.ConvertToHttp(fromError.Code()),
 			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
 		})
@@ -245,7 +246,7 @@ func SystemDeptRecover(ctx context.Context, newCtx *app.RequestContext) {
 		globalLogger.Logger.WithFields(logrus.Fields{
 			"err": err,
 		}).Error("Grpc:部门:system_dept:SystemDeptRecover")
-		newCtx.JSON(consts.StatusOK, utils.H{
+		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.RPCError,
 			"msg":  code.StatusText(code.RPCError),
 		})
@@ -264,13 +265,13 @@ func SystemDeptRecover(ctx context.Context, newCtx *app.RequestContext) {
 			"err": err,
 		}).Error("GrpcCall:部门:system_dept:SystemDeptRecover")
 		fromError := status.Convert(err)
-		newCtx.JSON(consts.StatusOK, utils.H{
+		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.ConvertToHttp(fromError.Code()),
 			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
 		})
 		return
 	}
-	newCtx.JSON(consts.StatusOK, utils.H{
+	response.JSON(newCtx, consts.StatusOK, utils.H{
 		"code": res.GetCode(),
 		"msg":  res.GetMsg(),
 	})
@@ -287,7 +288,7 @@ func SystemDeptList(ctx context.Context, newCtx *app.RequestContext) {
 		globalLogger.Logger.WithFields(logrus.Fields{
 			"err": err,
 		}).Error("Grpc:部门:system_dept:SystemDeptList")
-		newCtx.JSON(consts.StatusOK, utils.H{
+		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.RPCError,
 			"msg":  code.StatusText(code.RPCError),
 		})
@@ -321,7 +322,7 @@ func SystemDeptList(ctx context.Context, newCtx *app.RequestContext) {
 			"err": err,
 		}).Error("GrpcCall:部门:system_dept:SystemDeptList")
 		fromError := status.Convert(err)
-		newCtx.JSON(consts.StatusOK, utils.H{
+		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.ConvertToHttp(fromError.Code()),
 			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
 		})
@@ -334,7 +335,7 @@ func SystemDeptList(ctx context.Context, newCtx *app.RequestContext) {
 			list = append(list, dept.SystemDeptDao(item))
 		}
 	}
-	newCtx.JSON(consts.StatusOK, utils.H{
+	response.JSON(newCtx, consts.StatusOK, utils.H{
 		"code": res.GetCode(),
 		"msg":  res.GetMsg(),
 		"data": SystemDeptTree(list, 0),

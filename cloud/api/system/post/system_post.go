@@ -6,6 +6,7 @@ import (
 	"cloud/code"
 	"cloud/dao"
 	"cloud/initial"
+	"cloud/internal/response"
 	"cloud/service/pagination"
 	"cloud/service/system/post"
 
@@ -63,7 +64,7 @@ func SystemPostCreate(ctx context.Context, newCtx *app.RequestContext) {
 		globalLogger.Logger.WithFields(logrus.Fields{
 			"err": err,
 		}).Error("Grpc:职位:system_post:SystemPostCreate")
-		newCtx.JSON(consts.StatusOK, utils.H{
+		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.RPCError,
 			"msg":  code.StatusText(code.RPCError),
 		})
@@ -75,7 +76,7 @@ func SystemPostCreate(ctx context.Context, newCtx *app.RequestContext) {
 	// 数据绑定
 	var reqInfo dao.SystemPost
 	if err := newCtx.BindAndValidate(&reqInfo); err != nil {
-		newCtx.JSON(consts.StatusOK, utils.H{
+		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.ParamInvalid,
 			"msg":  code.StatusText(code.ParamInvalid),
 		})
@@ -94,13 +95,13 @@ func SystemPostCreate(ctx context.Context, newCtx *app.RequestContext) {
 			"err": err,
 		}).Error("GrpcCall:职位:system_post:SystemPostCreate")
 		fromError := status.Convert(err)
-		newCtx.JSON(consts.StatusOK, utils.H{
+		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.ConvertToHttp(fromError.Code()),
 			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
 		})
 		return
 	}
-	newCtx.JSON(consts.StatusOK, utils.H{
+	response.JSON(newCtx, consts.StatusOK, utils.H{
 		"code": res.GetCode(),
 		"msg":  res.GetMsg(),
 	})
@@ -110,7 +111,7 @@ func SystemPostCreate(ctx context.Context, newCtx *app.RequestContext) {
 func SystemPostUpdate(ctx context.Context, newCtx *app.RequestContext) {
 	if _, err := SystemPostItem(ctx, newCtx); err != nil {
 		fromError := status.Convert(err)
-		newCtx.JSON(consts.StatusOK, utils.H{
+		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.ConvertToHttp(fromError.Code()),
 			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
 		})
@@ -122,7 +123,7 @@ func SystemPostUpdate(ctx context.Context, newCtx *app.RequestContext) {
 		globalLogger.Logger.WithFields(logrus.Fields{
 			"err": err,
 		}).Error("Grpc:职位:system_post:SystemPostUpdate")
-		newCtx.JSON(consts.StatusOK, utils.H{
+		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.RPCError,
 			"msg":  code.StatusText(code.RPCError),
 		})
@@ -136,7 +137,7 @@ func SystemPostUpdate(ctx context.Context, newCtx *app.RequestContext) {
 	// 数据绑定
 	var reqInfo dao.SystemPost
 	if err := newCtx.BindAndValidate(&reqInfo); err != nil {
-		newCtx.JSON(consts.StatusOK, utils.H{
+		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.ParamInvalid,
 			"msg":  code.StatusText(code.ParamInvalid),
 		})
@@ -156,13 +157,13 @@ func SystemPostUpdate(ctx context.Context, newCtx *app.RequestContext) {
 			"err": err,
 		}).Error("GrpcCall:职位:system_post:SystemPostUpdate")
 		fromError := status.Convert(err)
-		newCtx.JSON(consts.StatusOK, utils.H{
+		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.ConvertToHttp(fromError.Code()),
 			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
 		})
 		return
 	}
-	newCtx.JSON(consts.StatusOK, utils.H{
+	response.JSON(newCtx, consts.StatusOK, utils.H{
 		"code": res.GetCode(),
 		"msg":  res.GetMsg(),
 	})
@@ -172,7 +173,7 @@ func SystemPostUpdate(ctx context.Context, newCtx *app.RequestContext) {
 func SystemPostDelete(ctx context.Context, newCtx *app.RequestContext) {
 	if _, err := SystemPostItem(ctx, newCtx); err != nil {
 		fromError := status.Convert(err)
-		newCtx.JSON(consts.StatusOK, utils.H{
+		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.ConvertToHttp(fromError.Code()),
 			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
 		})
@@ -183,7 +184,7 @@ func SystemPostDelete(ctx context.Context, newCtx *app.RequestContext) {
 		globalLogger.Logger.WithFields(logrus.Fields{
 			"err": err,
 		}).Error("Grpc:职位:system_post:SystemPostDelete")
-		newCtx.JSON(consts.StatusOK, utils.H{
+		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.RPCError,
 			"msg":  code.StatusText(code.RPCError),
 		})
@@ -202,13 +203,13 @@ func SystemPostDelete(ctx context.Context, newCtx *app.RequestContext) {
 			"err": err,
 		}).Error("GrpcCall:职位:system_post:SystemPostDelete")
 		fromError := status.Convert(err)
-		newCtx.JSON(consts.StatusOK, utils.H{
+		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.ConvertToHttp(fromError.Code()),
 			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
 		})
 		return
 	}
-	newCtx.JSON(consts.StatusOK, utils.H{
+	response.JSON(newCtx, consts.StatusOK, utils.H{
 		"code": res.GetCode(),
 		"msg":  res.GetMsg(),
 	})
@@ -219,13 +220,13 @@ func SystemPost(ctx context.Context, newCtx *app.RequestContext) {
 	res, err := SystemPostItem(ctx, newCtx)
 	if err != nil {
 		fromError := status.Convert(err)
-		newCtx.JSON(consts.StatusOK, utils.H{
+		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.ConvertToHttp(fromError.Code()),
 			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
 		})
 		return
 	}
-	newCtx.JSON(consts.StatusOK, utils.H{
+	response.JSON(newCtx, consts.StatusOK, utils.H{
 		"code": res.GetCode(),
 		"msg":  res.GetMsg(),
 		"data": post.SystemPostDao(res.GetData()),
@@ -236,7 +237,7 @@ func SystemPost(ctx context.Context, newCtx *app.RequestContext) {
 func SystemPostRecover(ctx context.Context, newCtx *app.RequestContext) {
 	if _, err := SystemPostItem(ctx, newCtx); err != nil {
 		fromError := status.Convert(err)
-		newCtx.JSON(consts.StatusOK, utils.H{
+		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.ConvertToHttp(fromError.Code()),
 			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
 		})
@@ -247,7 +248,7 @@ func SystemPostRecover(ctx context.Context, newCtx *app.RequestContext) {
 		globalLogger.Logger.WithFields(logrus.Fields{
 			"err": err,
 		}).Error("Grpc:职位:system_post:SystemPostRecover")
-		newCtx.JSON(consts.StatusOK, utils.H{
+		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.RPCError,
 			"msg":  code.StatusText(code.RPCError),
 		})
@@ -266,13 +267,13 @@ func SystemPostRecover(ctx context.Context, newCtx *app.RequestContext) {
 			"err": err,
 		}).Error("GrpcCall:职位:system_post:SystemPostRecover")
 		fromError := status.Convert(err)
-		newCtx.JSON(consts.StatusOK, utils.H{
+		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.ConvertToHttp(fromError.Code()),
 			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
 		})
 		return
 	}
-	newCtx.JSON(consts.StatusOK, utils.H{
+	response.JSON(newCtx, consts.StatusOK, utils.H{
 		"code": res.GetCode(),
 		"msg":  res.GetMsg(),
 	})
@@ -285,7 +286,7 @@ func SystemPostList(ctx context.Context, newCtx *app.RequestContext) {
 		globalLogger.Logger.WithFields(logrus.Fields{
 			"err": err,
 		}).Error("Grpc:职位:system_post:SystemPostList")
-		newCtx.JSON(consts.StatusOK, utils.H{
+		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.RPCError,
 			"msg":  code.StatusText(code.RPCError),
 		})
@@ -323,7 +324,7 @@ func SystemPostList(ctx context.Context, newCtx *app.RequestContext) {
 			"err": err,
 		}).Error("GrpcCall:职位:system_post:SystemPostList")
 		fromError := status.Convert(err)
-		newCtx.JSON(consts.StatusOK, utils.H{
+		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.ConvertToHttp(fromError.Code()),
 			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
 		})
@@ -345,7 +346,7 @@ func SystemPostList(ctx context.Context, newCtx *app.RequestContext) {
 			"err": err,
 		}).Error("GrpcCall:职位:system_post:SystemPostList")
 		fromError := status.Convert(err)
-		newCtx.JSON(consts.StatusOK, utils.H{
+		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.ConvertToHttp(fromError.Code()),
 			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
 		})
@@ -358,7 +359,7 @@ func SystemPostList(ctx context.Context, newCtx *app.RequestContext) {
 			list = append(list, post.SystemPostDao(item))
 		}
 	}
-	newCtx.JSON(consts.StatusOK, utils.H{
+	response.JSON(newCtx, consts.StatusOK, utils.H{
 		"code": res.GetCode(),
 		"msg":  res.GetMsg(),
 		"data": utils.H{
@@ -377,7 +378,7 @@ func SystemPostListSimple(ctx context.Context, newCtx *app.RequestContext) {
 		globalLogger.Logger.WithFields(logrus.Fields{
 			"err": err,
 		}).Error("Grpc:职位:system_post:SystemPostList")
-		newCtx.JSON(consts.StatusOK, utils.H{
+		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.RPCError,
 			"msg":  code.StatusText(code.RPCError),
 		})
@@ -409,7 +410,7 @@ func SystemPostListSimple(ctx context.Context, newCtx *app.RequestContext) {
 			"err": err,
 		}).Error("GrpcCall:职位:system_post:SystemPostList")
 		fromError := status.Convert(err)
-		newCtx.JSON(consts.StatusOK, utils.H{
+		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.ConvertToHttp(fromError.Code()),
 			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
 		})
@@ -422,7 +423,7 @@ func SystemPostListSimple(ctx context.Context, newCtx *app.RequestContext) {
 			list = append(list, post.SystemPostDao(item))
 		}
 	}
-	newCtx.JSON(consts.StatusOK, utils.H{
+	response.JSON(newCtx, consts.StatusOK, utils.H{
 		"code": res.GetCode(),
 		"msg":  res.GetMsg(),
 		"data": list,

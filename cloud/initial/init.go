@@ -8,6 +8,7 @@ import (
 	"github.com/abulo/ratel/v3/registry"
 	"github.com/abulo/ratel/v3/stores/proxy"
 	"github.com/abulo/ratel/v3/util"
+	"golang.org/x/time/rate"
 	"google.golang.org/grpc"
 )
 
@@ -21,6 +22,7 @@ type Initial struct {
 	GrpcClient     *grpc.ClientConn
 	RegistryClient registry.Registry
 	Local          *time.Location
+	Limiter        *rate.Limiter
 }
 
 // Core 系统

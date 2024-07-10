@@ -1,6 +1,7 @@
 package monitor
 
 import (
+	"cloud/internal/response"
 	"context"
 	"fmt"
 	"io"
@@ -314,7 +315,7 @@ func RunInfo(ctx context.Context, newCtx *app.RequestContext) {
 		"goMem":        FileSize(int64(gm.Sys)),
 		"goSize":       DirSize(pwd),
 	}
-	newCtx.JSON(consts.StatusOK, utils.H{
+	response.JSON(newCtx, consts.StatusOK, utils.H{
 		"code": http.StatusOK,
 		"msg":  "",
 		"data": data,
@@ -436,7 +437,7 @@ func Trend(ctx context.Context, newCtx *app.RequestContext) {
 		"net":  nets,
 	}
 
-	newCtx.JSON(consts.StatusOK, utils.H{
+	response.JSON(newCtx, consts.StatusOK, utils.H{
 		"code": http.StatusOK,
 		"msg":  "",
 		"data": data,

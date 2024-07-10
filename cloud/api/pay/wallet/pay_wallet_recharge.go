@@ -7,6 +7,7 @@ import (
 	"cloud/code"
 	"cloud/dao"
 	"cloud/initial"
+	"cloud/internal/response"
 	"cloud/service/pagination"
 	"cloud/service/pay/wallet"
 
@@ -29,7 +30,7 @@ func PayWalletRechargeDelete(ctx context.Context, newCtx *app.RequestContext) {
 		globalLogger.Logger.WithFields(logrus.Fields{
 			"err": err,
 		}).Error("Grpc:会员钱包充值:pay_wallet_recharge:PayWalletRechargeDelete")
-		newCtx.JSON(consts.StatusOK, utils.H{
+		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.RPCError,
 			"msg":  code.StatusText(code.RPCError),
 		})
@@ -40,7 +41,7 @@ func PayWalletRechargeDelete(ctx context.Context, newCtx *app.RequestContext) {
 	walletId := cast.ToInt64(newCtx.Param("walletId"))
 	if _, err := PayWalletItem(ctx, newCtx, walletId); err != nil {
 		fromError := status.Convert(err)
-		newCtx.JSON(consts.StatusOK, utils.H{
+		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.ConvertToHttp(fromError.Code()),
 			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
 		})
@@ -61,7 +62,7 @@ func PayWalletRechargeDelete(ctx context.Context, newCtx *app.RequestContext) {
 			"err": err,
 		}).Error("GrpcCall:会员钱包充值:pay_wallet_recharge:PayWalletRecharge")
 		fromError := status.Convert(err)
-		newCtx.JSON(consts.StatusOK, utils.H{
+		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.ConvertToHttp(fromError.Code()),
 			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
 		})
@@ -69,7 +70,7 @@ func PayWalletRechargeDelete(ctx context.Context, newCtx *app.RequestContext) {
 	}
 	item := wallet.PayWalletRechargeDao(rechargeItem.GetData())
 	if cast.ToInt64(item.WalletId) != walletId {
-		newCtx.JSON(consts.StatusOK, utils.H{
+		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.ParamInvalid,
 			"msg":  code.StatusText(code.ParamInvalid),
 		})
@@ -86,13 +87,13 @@ func PayWalletRechargeDelete(ctx context.Context, newCtx *app.RequestContext) {
 			"err": err,
 		}).Error("GrpcCall:会员钱包充值:pay_wallet_recharge:PayWalletRechargeDelete")
 		fromError := status.Convert(err)
-		newCtx.JSON(consts.StatusOK, utils.H{
+		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.ConvertToHttp(fromError.Code()),
 			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
 		})
 		return
 	}
-	newCtx.JSON(consts.StatusOK, utils.H{
+	response.JSON(newCtx, consts.StatusOK, utils.H{
 		"code": res.GetCode(),
 		"msg":  res.GetMsg(),
 	})
@@ -106,7 +107,7 @@ func PayWalletRecharge(ctx context.Context, newCtx *app.RequestContext) {
 		globalLogger.Logger.WithFields(logrus.Fields{
 			"err": err,
 		}).Error("Grpc:会员钱包充值:pay_wallet_recharge:PayWalletRecharge")
-		newCtx.JSON(consts.StatusOK, utils.H{
+		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.RPCError,
 			"msg":  code.StatusText(code.RPCError),
 		})
@@ -117,7 +118,7 @@ func PayWalletRecharge(ctx context.Context, newCtx *app.RequestContext) {
 	walletId := cast.ToInt64(newCtx.Param("walletId"))
 	if _, err := PayWalletItem(ctx, newCtx, walletId); err != nil {
 		fromError := status.Convert(err)
-		newCtx.JSON(consts.StatusOK, utils.H{
+		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.ConvertToHttp(fromError.Code()),
 			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
 		})
@@ -137,7 +138,7 @@ func PayWalletRecharge(ctx context.Context, newCtx *app.RequestContext) {
 			"err": err,
 		}).Error("GrpcCall:会员钱包充值:pay_wallet_recharge:PayWalletRecharge")
 		fromError := status.Convert(err)
-		newCtx.JSON(consts.StatusOK, utils.H{
+		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.ConvertToHttp(fromError.Code()),
 			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
 		})
@@ -146,13 +147,13 @@ func PayWalletRecharge(ctx context.Context, newCtx *app.RequestContext) {
 
 	item := wallet.PayWalletRechargeDao(res.GetData())
 	if cast.ToInt64(item.WalletId) != walletId {
-		newCtx.JSON(consts.StatusOK, utils.H{
+		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.ParamInvalid,
 			"msg":  code.StatusText(code.ParamInvalid),
 		})
 		return
 	}
-	newCtx.JSON(consts.StatusOK, utils.H{
+	response.JSON(newCtx, consts.StatusOK, utils.H{
 		"code": res.GetCode(),
 		"msg":  res.GetMsg(),
 		"data": item,
@@ -166,7 +167,7 @@ func PayWalletRechargeRecover(ctx context.Context, newCtx *app.RequestContext) {
 		globalLogger.Logger.WithFields(logrus.Fields{
 			"err": err,
 		}).Error("Grpc:会员钱包充值:pay_wallet_recharge:PayWalletRechargeRecover")
-		newCtx.JSON(consts.StatusOK, utils.H{
+		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.RPCError,
 			"msg":  code.StatusText(code.RPCError),
 		})
@@ -177,7 +178,7 @@ func PayWalletRechargeRecover(ctx context.Context, newCtx *app.RequestContext) {
 	//链接服务
 	if _, err := PayWalletItem(ctx, newCtx, walletId); err != nil {
 		fromError := status.Convert(err)
-		newCtx.JSON(consts.StatusOK, utils.H{
+		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.ConvertToHttp(fromError.Code()),
 			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
 		})
@@ -198,7 +199,7 @@ func PayWalletRechargeRecover(ctx context.Context, newCtx *app.RequestContext) {
 			"err": err,
 		}).Error("GrpcCall:会员钱包充值:pay_wallet_recharge:PayWalletRecharge")
 		fromError := status.Convert(err)
-		newCtx.JSON(consts.StatusOK, utils.H{
+		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.ConvertToHttp(fromError.Code()),
 			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
 		})
@@ -206,7 +207,7 @@ func PayWalletRechargeRecover(ctx context.Context, newCtx *app.RequestContext) {
 	}
 	item := wallet.PayWalletRechargeDao(rechargeItem.GetData())
 	if cast.ToInt64(item.WalletId) != walletId {
-		newCtx.JSON(consts.StatusOK, utils.H{
+		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.ParamInvalid,
 			"msg":  code.StatusText(code.ParamInvalid),
 		})
@@ -223,13 +224,13 @@ func PayWalletRechargeRecover(ctx context.Context, newCtx *app.RequestContext) {
 			"err": err,
 		}).Error("GrpcCall:会员钱包充值:pay_wallet_recharge:PayWalletRechargeRecover")
 		fromError := status.Convert(err)
-		newCtx.JSON(consts.StatusOK, utils.H{
+		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.ConvertToHttp(fromError.Code()),
 			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
 		})
 		return
 	}
-	newCtx.JSON(consts.StatusOK, utils.H{
+	response.JSON(newCtx, consts.StatusOK, utils.H{
 		"code": res.GetCode(),
 		"msg":  res.GetMsg(),
 	})
@@ -242,7 +243,7 @@ func PayWalletRechargeList(ctx context.Context, newCtx *app.RequestContext) {
 		globalLogger.Logger.WithFields(logrus.Fields{
 			"err": err,
 		}).Error("Grpc:会员钱包充值:pay_wallet_recharge:PayWalletRechargeList")
-		newCtx.JSON(consts.StatusOK, utils.H{
+		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.RPCError,
 			"msg":  code.StatusText(code.RPCError),
 		})
@@ -252,7 +253,7 @@ func PayWalletRechargeList(ctx context.Context, newCtx *app.RequestContext) {
 	walletId := cast.ToInt64(newCtx.Param("walletId"))
 	if _, err := PayWalletItem(ctx, newCtx, walletId); err != nil {
 		fromError := status.Convert(err)
-		newCtx.JSON(consts.StatusOK, utils.H{
+		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.ConvertToHttp(fromError.Code()),
 			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
 		})
@@ -324,7 +325,7 @@ func PayWalletRechargeList(ctx context.Context, newCtx *app.RequestContext) {
 			"err": err,
 		}).Error("GrpcCall:会员钱包充值:pay_wallet_recharge:PayWalletRechargeList")
 		fromError := status.Convert(err)
-		newCtx.JSON(consts.StatusOK, utils.H{
+		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.ConvertToHttp(fromError.Code()),
 			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
 		})
@@ -346,7 +347,7 @@ func PayWalletRechargeList(ctx context.Context, newCtx *app.RequestContext) {
 			"err": err,
 		}).Error("GrpcCall:会员钱包充值:pay_wallet_recharge:PayWalletRechargeList")
 		fromError := status.Convert(err)
-		newCtx.JSON(consts.StatusOK, utils.H{
+		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.ConvertToHttp(fromError.Code()),
 			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
 		})
@@ -359,7 +360,7 @@ func PayWalletRechargeList(ctx context.Context, newCtx *app.RequestContext) {
 			list = append(list, wallet.PayWalletRechargeDao(item))
 		}
 	}
-	newCtx.JSON(consts.StatusOK, utils.H{
+	response.JSON(newCtx, consts.StatusOK, utils.H{
 		"code": res.GetCode(),
 		"msg":  res.GetMsg(),
 		"data": utils.H{

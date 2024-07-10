@@ -6,6 +6,7 @@ import (
 	"cloud/code"
 	"cloud/dao"
 	"cloud/initial"
+	"cloud/internal/response"
 	"cloud/service/pagination"
 	"cloud/service/pay/wallet"
 
@@ -62,7 +63,7 @@ func PayWalletRechargePackageCreate(ctx context.Context, newCtx *app.RequestCont
 		globalLogger.Logger.WithFields(logrus.Fields{
 			"err": err,
 		}).Error("Grpc:充值套餐表:pay_wallet_recharge_package:PayWalletRechargePackageCreate")
-		newCtx.JSON(consts.StatusOK, utils.H{
+		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.RPCError,
 			"msg":  code.StatusText(code.RPCError),
 		})
@@ -74,7 +75,7 @@ func PayWalletRechargePackageCreate(ctx context.Context, newCtx *app.RequestCont
 	// 数据绑定
 	var reqInfo dao.PayWalletRechargePackage
 	if err := newCtx.BindAndValidate(&reqInfo); err != nil {
-		newCtx.JSON(consts.StatusOK, utils.H{
+		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.ParamInvalid,
 			"msg":  code.StatusText(code.ParamInvalid),
 		})
@@ -93,13 +94,13 @@ func PayWalletRechargePackageCreate(ctx context.Context, newCtx *app.RequestCont
 			"err": err,
 		}).Error("GrpcCall:充值套餐表:pay_wallet_recharge_package:PayWalletRechargePackageCreate")
 		fromError := status.Convert(err)
-		newCtx.JSON(consts.StatusOK, utils.H{
+		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.ConvertToHttp(fromError.Code()),
 			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
 		})
 		return
 	}
-	newCtx.JSON(consts.StatusOK, utils.H{
+	response.JSON(newCtx, consts.StatusOK, utils.H{
 		"code": res.GetCode(),
 		"msg":  res.GetMsg(),
 	})
@@ -109,7 +110,7 @@ func PayWalletRechargePackageCreate(ctx context.Context, newCtx *app.RequestCont
 func PayWalletRechargePackageUpdate(ctx context.Context, newCtx *app.RequestContext) {
 	if _, err := PayWalletRechargePackageItem(ctx, newCtx); err != nil {
 		fromError := status.Convert(err)
-		newCtx.JSON(consts.StatusOK, utils.H{
+		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.ConvertToHttp(fromError.Code()),
 			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
 		})
@@ -121,7 +122,7 @@ func PayWalletRechargePackageUpdate(ctx context.Context, newCtx *app.RequestCont
 		globalLogger.Logger.WithFields(logrus.Fields{
 			"err": err,
 		}).Error("Grpc:充值套餐表:pay_wallet_recharge_package:PayWalletRechargePackageUpdate")
-		newCtx.JSON(consts.StatusOK, utils.H{
+		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.RPCError,
 			"msg":  code.StatusText(code.RPCError),
 		})
@@ -135,7 +136,7 @@ func PayWalletRechargePackageUpdate(ctx context.Context, newCtx *app.RequestCont
 	// 数据绑定
 	var reqInfo dao.PayWalletRechargePackage
 	if err := newCtx.BindAndValidate(&reqInfo); err != nil {
-		newCtx.JSON(consts.StatusOK, utils.H{
+		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.ParamInvalid,
 			"msg":  code.StatusText(code.ParamInvalid),
 		})
@@ -155,13 +156,13 @@ func PayWalletRechargePackageUpdate(ctx context.Context, newCtx *app.RequestCont
 			"err": err,
 		}).Error("GrpcCall:充值套餐表:pay_wallet_recharge_package:PayWalletRechargePackageUpdate")
 		fromError := status.Convert(err)
-		newCtx.JSON(consts.StatusOK, utils.H{
+		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.ConvertToHttp(fromError.Code()),
 			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
 		})
 		return
 	}
-	newCtx.JSON(consts.StatusOK, utils.H{
+	response.JSON(newCtx, consts.StatusOK, utils.H{
 		"code": res.GetCode(),
 		"msg":  res.GetMsg(),
 	})
@@ -171,7 +172,7 @@ func PayWalletRechargePackageUpdate(ctx context.Context, newCtx *app.RequestCont
 func PayWalletRechargePackageDelete(ctx context.Context, newCtx *app.RequestContext) {
 	if _, err := PayWalletRechargePackageItem(ctx, newCtx); err != nil {
 		fromError := status.Convert(err)
-		newCtx.JSON(consts.StatusOK, utils.H{
+		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.ConvertToHttp(fromError.Code()),
 			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
 		})
@@ -182,7 +183,7 @@ func PayWalletRechargePackageDelete(ctx context.Context, newCtx *app.RequestCont
 		globalLogger.Logger.WithFields(logrus.Fields{
 			"err": err,
 		}).Error("Grpc:充值套餐表:pay_wallet_recharge_package:PayWalletRechargePackageDelete")
-		newCtx.JSON(consts.StatusOK, utils.H{
+		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.RPCError,
 			"msg":  code.StatusText(code.RPCError),
 		})
@@ -201,13 +202,13 @@ func PayWalletRechargePackageDelete(ctx context.Context, newCtx *app.RequestCont
 			"err": err,
 		}).Error("GrpcCall:充值套餐表:pay_wallet_recharge_package:PayWalletRechargePackageDelete")
 		fromError := status.Convert(err)
-		newCtx.JSON(consts.StatusOK, utils.H{
+		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.ConvertToHttp(fromError.Code()),
 			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
 		})
 		return
 	}
-	newCtx.JSON(consts.StatusOK, utils.H{
+	response.JSON(newCtx, consts.StatusOK, utils.H{
 		"code": res.GetCode(),
 		"msg":  res.GetMsg(),
 	})
@@ -219,13 +220,13 @@ func PayWalletRechargePackage(ctx context.Context, newCtx *app.RequestContext) {
 	res, err := PayWalletRechargePackageItem(ctx, newCtx)
 	if err != nil {
 		fromError := status.Convert(err)
-		newCtx.JSON(consts.StatusOK, utils.H{
+		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.ConvertToHttp(fromError.Code()),
 			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
 		})
 		return
 	}
-	newCtx.JSON(consts.StatusOK, utils.H{
+	response.JSON(newCtx, consts.StatusOK, utils.H{
 		"code": res.GetCode(),
 		"msg":  res.GetMsg(),
 		"data": wallet.PayWalletRechargePackageDao(res.GetData()),
@@ -236,7 +237,7 @@ func PayWalletRechargePackage(ctx context.Context, newCtx *app.RequestContext) {
 func PayWalletRechargePackageRecover(ctx context.Context, newCtx *app.RequestContext) {
 	if _, err := PayWalletRechargePackageItem(ctx, newCtx); err != nil {
 		fromError := status.Convert(err)
-		newCtx.JSON(consts.StatusOK, utils.H{
+		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.ConvertToHttp(fromError.Code()),
 			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
 		})
@@ -247,7 +248,7 @@ func PayWalletRechargePackageRecover(ctx context.Context, newCtx *app.RequestCon
 		globalLogger.Logger.WithFields(logrus.Fields{
 			"err": err,
 		}).Error("Grpc:充值套餐表:pay_wallet_recharge_package:PayWalletRechargePackageRecover")
-		newCtx.JSON(consts.StatusOK, utils.H{
+		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.RPCError,
 			"msg":  code.StatusText(code.RPCError),
 		})
@@ -266,13 +267,13 @@ func PayWalletRechargePackageRecover(ctx context.Context, newCtx *app.RequestCon
 			"err": err,
 		}).Error("GrpcCall:充值套餐表:pay_wallet_recharge_package:PayWalletRechargePackageRecover")
 		fromError := status.Convert(err)
-		newCtx.JSON(consts.StatusOK, utils.H{
+		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.ConvertToHttp(fromError.Code()),
 			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
 		})
 		return
 	}
-	newCtx.JSON(consts.StatusOK, utils.H{
+	response.JSON(newCtx, consts.StatusOK, utils.H{
 		"code": res.GetCode(),
 		"msg":  res.GetMsg(),
 	})
@@ -285,7 +286,7 @@ func PayWalletRechargePackageList(ctx context.Context, newCtx *app.RequestContex
 		globalLogger.Logger.WithFields(logrus.Fields{
 			"err": err,
 		}).Error("Grpc:充值套餐表:pay_wallet_recharge_package:PayWalletRechargePackageList")
-		newCtx.JSON(consts.StatusOK, utils.H{
+		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.RPCError,
 			"msg":  code.StatusText(code.RPCError),
 		})
@@ -324,7 +325,7 @@ func PayWalletRechargePackageList(ctx context.Context, newCtx *app.RequestContex
 			"err": err,
 		}).Error("GrpcCall:充值套餐表:pay_wallet_recharge_package:PayWalletRechargePackageList")
 		fromError := status.Convert(err)
-		newCtx.JSON(consts.StatusOK, utils.H{
+		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.ConvertToHttp(fromError.Code()),
 			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
 		})
@@ -346,7 +347,7 @@ func PayWalletRechargePackageList(ctx context.Context, newCtx *app.RequestContex
 			"err": err,
 		}).Error("GrpcCall:充值套餐表:pay_wallet_recharge_package:PayWalletRechargePackageList")
 		fromError := status.Convert(err)
-		newCtx.JSON(consts.StatusOK, utils.H{
+		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.ConvertToHttp(fromError.Code()),
 			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
 		})
@@ -359,7 +360,7 @@ func PayWalletRechargePackageList(ctx context.Context, newCtx *app.RequestContex
 			list = append(list, wallet.PayWalletRechargePackageDao(item))
 		}
 	}
-	newCtx.JSON(consts.StatusOK, utils.H{
+	response.JSON(newCtx, consts.StatusOK, utils.H{
 		"code": res.GetCode(),
 		"msg":  res.GetMsg(),
 		"data": utils.H{
@@ -378,7 +379,7 @@ func PayWalletRechargePackageListSimple(ctx context.Context, newCtx *app.Request
 		globalLogger.Logger.WithFields(logrus.Fields{
 			"err": err,
 		}).Error("Grpc:充值套餐表:pay_wallet_recharge_package:PayWalletRechargePackageList")
-		newCtx.JSON(consts.StatusOK, utils.H{
+		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.RPCError,
 			"msg":  code.StatusText(code.RPCError),
 		})
@@ -410,7 +411,7 @@ func PayWalletRechargePackageListSimple(ctx context.Context, newCtx *app.Request
 			"err": err,
 		}).Error("GrpcCall:充值套餐表:pay_wallet_recharge_package:PayWalletRechargePackageList")
 		fromError := status.Convert(err)
-		newCtx.JSON(consts.StatusOK, utils.H{
+		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.ConvertToHttp(fromError.Code()),
 			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
 		})
@@ -423,7 +424,7 @@ func PayWalletRechargePackageListSimple(ctx context.Context, newCtx *app.Request
 			list = append(list, wallet.PayWalletRechargePackageDao(item))
 		}
 	}
-	newCtx.JSON(consts.StatusOK, utils.H{
+	response.JSON(newCtx, consts.StatusOK, utils.H{
 		"code": res.GetCode(),
 		"msg":  res.GetMsg(),
 		"data": list,

@@ -3,6 +3,7 @@ package captcha
 import (
 	"cloud/code"
 	"cloud/initial"
+	"cloud/internal/response"
 	"cloud/service/captcha"
 	"context"
 
@@ -22,7 +23,7 @@ func CaptchaGenerate(ctx context.Context, newCtx *app.RequestContext) {
 		globalLogger.Logger.WithFields(logrus.Fields{
 			"err": err,
 		}).Error("Grpc:验证码:CaptchaGenerate")
-		newCtx.JSON(consts.StatusOK, utils.H{
+		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.RPCError,
 			"msg":  code.StatusText(code.RPCError),
 		})
@@ -39,20 +40,20 @@ func CaptchaGenerate(ctx context.Context, newCtx *app.RequestContext) {
 			"err": err,
 		}).Error("GrpcCall:验证码:CaptchaGenerate")
 		fromError := status.Convert(err)
-		newCtx.JSON(consts.StatusOK, utils.H{
+		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.ConvertToHttp(fromError.Code()),
 			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
 		})
 		return
 	}
 	if res.GetCode() != code.Success {
-		newCtx.JSON(consts.StatusOK, utils.H{
+		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": res.GetCode(),
 			"msg":  code.StatusText(res.GetCode()),
 		})
 		return
 	}
-	newCtx.JSON(consts.StatusOK, utils.H{
+	response.JSON(newCtx, consts.StatusOK, utils.H{
 		"code": code.Success,
 		"msg":  code.StatusText(code.Success),
 		"data": utils.H{

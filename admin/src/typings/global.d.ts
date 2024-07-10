@@ -54,6 +54,9 @@ declare interface ViteEnv {
   VITE_OPEN: boolean;
   VITE_REPORT: boolean;
   VITE_DEVTOOLS: boolean;
+  VITE_ENCRYPT: boolean;
+  VITE_ENCRYPT_SECRET_KEY: string;
+  VITE_ENCRYPT_IV: string;
   VITE_ROUTER_MODE: "hash" | "history";
   VITE_BUILD_COMPRESS: "gzip" | "brotli" | "gzip,brotli" | "none";
   VITE_BUILD_COMPRESS_DELETE_ORIGIN_FILE: boolean;

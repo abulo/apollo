@@ -4,6 +4,7 @@ import (
 	"cloud/code"
 	"cloud/dao"
 	"cloud/initial"
+	"cloud/internal/response"
 	"cloud/internal/tools"
 	"context"
 	"encoding/json"
@@ -32,7 +33,7 @@ func AuthMiddleware() app.HandlerFunc {
 		// startTime = cast.ToTime(util.Date("Y-m-d H:i:s", startTime))
 		authHeader := newCtx.Request.Header.Get("X-Access-Token")
 		if util.Empty(authHeader) {
-			newCtx.JSON(consts.StatusUnauthorized, utils.H{
+			response.JSON(newCtx, consts.StatusUnauthorized, utils.H{
 				"code": code.TokenEmptyError,
 				"msg":  code.StatusText(code.TokenEmptyError),
 			})
@@ -42,7 +43,7 @@ func AuthMiddleware() app.HandlerFunc {
 		// 按空格分割
 		parts := util.Explode(".", authHeader)
 		if len(parts) != 3 {
-			newCtx.JSON(consts.StatusUnauthorized, utils.H{
+			response.JSON(newCtx, consts.StatusUnauthorized, utils.H{
 				"code": code.TokenInvalidError,
 				"msg":  code.StatusText(code.TokenInvalidError),
 			})
@@ -51,7 +52,7 @@ func AuthMiddleware() app.HandlerFunc {
 		}
 		rsp, err := tools.ParseToken(authHeader)
 		if err != nil {
-			newCtx.JSON(consts.StatusUnauthorized, utils.H{
+			response.JSON(newCtx, consts.StatusUnauthorized, utils.H{
 				"code": code.TokenInvalidError,
 				"msg":  code.StatusText(code.TokenInvalidError),
 			})
@@ -82,7 +83,7 @@ func AuthMiddleware() app.HandlerFunc {
 					if util.InArray(methodName, permissionList) {
 						newCtx.Next(ctx)
 					} else {
-						newCtx.JSON(consts.StatusForbidden, utils.H{
+						response.JSON(newCtx, consts.StatusForbidden, utils.H{
 							"code": code.TokenInvalidError,
 							"msg":  code.StatusText(code.TokenInvalidError),
 						})

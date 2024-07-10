@@ -3,6 +3,7 @@ package logger
 import (
 	"cloud/code"
 	"cloud/dao"
+	"cloud/internal/response"
 	"cloud/module/system/logger"
 	"context"
 	"encoding/json"
@@ -24,7 +25,7 @@ func SystemEntryLogDelete(ctx context.Context, newCtx *app.RequestContext) {
 	mongoId, _ := primitive.ObjectIDFromHex(id)
 	systemEntryLogIds = append(systemEntryLogIds, mongoId)
 	if len(systemEntryLogIds) == 0 {
-		newCtx.JSON(consts.StatusOK, utils.H{
+		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.ParamInvalid,
 			"msg":  code.StatusText(code.ParamInvalid),
 		})
@@ -33,13 +34,13 @@ func SystemEntryLogDelete(ctx context.Context, newCtx *app.RequestContext) {
 	request := make(bson.D, 0)
 	request = util.ConvertBson(request, bson.E{Key: "_id", Value: bson.D{{Key: "$in", Value: systemEntryLogIds}}})
 	if _, err := logger.SystemEntryLogDelete(ctx, request); err != nil {
-		newCtx.JSON(consts.StatusOK, utils.H{
+		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.ParamInvalid,
 			"msg":  code.StatusText(code.ParamInvalid),
 		})
 		return
 	}
-	newCtx.JSON(consts.StatusOK, utils.H{
+	response.JSON(newCtx, consts.StatusOK, utils.H{
 		"code": code.Success,
 		"msg":  code.StatusText(code.Success),
 	})
@@ -49,7 +50,7 @@ func SystemEntryLogDelete(ctx context.Context, newCtx *app.RequestContext) {
 func SystemEntryLogDrop(ctx context.Context, newCtx *app.RequestContext) {
 	var reqInfo dao.SystemEntryLogDrop
 	if err := newCtx.BindAndValidate(&reqInfo); err != nil {
-		newCtx.JSON(consts.StatusOK, utils.H{
+		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.ParamInvalid,
 			"msg":  code.StatusText(code.ParamInvalid),
 		})
@@ -65,7 +66,7 @@ func SystemEntryLogDrop(ctx context.Context, newCtx *app.RequestContext) {
 	if reqInfo.Ids.IsValid() {
 		var mongoIds []string
 		if err := json.Unmarshal(reqInfo.Ids.JSON, &mongoIds); err != nil {
-			newCtx.JSON(consts.StatusOK, utils.H{
+			response.JSON(newCtx, consts.StatusOK, utils.H{
 				"code": code.ParamInvalid,
 				"msg":  code.StatusText(code.ParamInvalid),
 			})
@@ -80,13 +81,13 @@ func SystemEntryLogDrop(ctx context.Context, newCtx *app.RequestContext) {
 	}
 
 	if _, err := logger.SystemEntryLogDrop(ctx, request); err != nil {
-		newCtx.JSON(consts.StatusOK, utils.H{
+		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.ParamInvalid,
 			"msg":  code.StatusText(code.ParamInvalid),
 		})
 		return
 	}
-	newCtx.JSON(consts.StatusOK, utils.H{
+	response.JSON(newCtx, consts.StatusOK, utils.H{
 		"code": code.Success,
 		"msg":  code.StatusText(code.Success),
 	})
@@ -121,7 +122,7 @@ func SystemEntryLogList(ctx context.Context, newCtx *app.RequestContext) {
 	pageSize := cast.ToInt64(newCtx.Query("pageSize"))
 	total, _ := logger.SystemEntryLogListTotal(ctx, request)
 	list, _ := logger.SystemEntryLogList(ctx, request, pageNum, pageSize)
-	newCtx.JSON(consts.StatusOK, utils.H{
+	response.JSON(newCtx, consts.StatusOK, utils.H{
 		"code": 200,
 		"msg":  "OK",
 		"data": utils.H{
@@ -140,13 +141,13 @@ func SystemEntryLog(ctx context.Context, newCtx *app.RequestContext) {
 	id, _ := primitive.ObjectIDFromHex(systemEntryId)
 	res, err := logger.SystemEntryLog(ctx, id)
 	if err != nil {
-		newCtx.JSON(consts.StatusOK, utils.H{
+		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.ParamInvalid,
 			"msg":  code.StatusText(code.ParamInvalid),
 		})
 		return
 	}
-	newCtx.JSON(consts.StatusOK, utils.H{
+	response.JSON(newCtx, consts.StatusOK, utils.H{
 		"code": code.Success,
 		"msg":  code.StatusText(code.Success),
 		"data": res,

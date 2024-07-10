@@ -7,6 +7,7 @@ import (
 	"cloud/code"
 	"cloud/dao"
 	"cloud/initial"
+	"cloud/internal/response"
 	"cloud/service/pagination"
 	"cloud/service/system/notify"
 
@@ -65,7 +66,7 @@ func SystemNotifyMessageCreate(ctx context.Context, newCtx *app.RequestContext) 
 		globalLogger.Logger.WithFields(logrus.Fields{
 			"err": err,
 		}).Error("Grpc:站内信消息表:system_notify_message:SystemNotifyMessageCreate")
-		newCtx.JSON(consts.StatusOK, utils.H{
+		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.RPCError,
 			"msg":  code.StatusText(code.RPCError),
 		})
@@ -77,7 +78,7 @@ func SystemNotifyMessageCreate(ctx context.Context, newCtx *app.RequestContext) 
 	// 数据绑定
 	var reqInfo dao.SystemNotifyMessage
 	if err := newCtx.BindAndValidate(&reqInfo); err != nil {
-		newCtx.JSON(consts.StatusOK, utils.H{
+		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.ParamInvalid,
 			"msg":  code.StatusText(code.ParamInvalid),
 		})
@@ -96,13 +97,13 @@ func SystemNotifyMessageCreate(ctx context.Context, newCtx *app.RequestContext) 
 			"err": err,
 		}).Error("GrpcCall:站内信消息表:system_notify_message:SystemNotifyMessageCreate")
 		fromError := status.Convert(err)
-		newCtx.JSON(consts.StatusOK, utils.H{
+		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.ConvertToHttp(fromError.Code()),
 			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
 		})
 		return
 	}
-	newCtx.JSON(consts.StatusOK, utils.H{
+	response.JSON(newCtx, consts.StatusOK, utils.H{
 		"code": res.GetCode(),
 		"msg":  res.GetMsg(),
 	})
@@ -112,7 +113,7 @@ func SystemNotifyMessageCreate(ctx context.Context, newCtx *app.RequestContext) 
 func SystemNotifyMessageUpdate(ctx context.Context, newCtx *app.RequestContext) {
 	if _, err := SystemNotifyMessageItem(ctx, newCtx); err != nil {
 		fromError := status.Convert(err)
-		newCtx.JSON(consts.StatusOK, utils.H{
+		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.ConvertToHttp(fromError.Code()),
 			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
 		})
@@ -124,7 +125,7 @@ func SystemNotifyMessageUpdate(ctx context.Context, newCtx *app.RequestContext) 
 		globalLogger.Logger.WithFields(logrus.Fields{
 			"err": err,
 		}).Error("Grpc:站内信消息表:system_notify_message:SystemNotifyMessageUpdate")
-		newCtx.JSON(consts.StatusOK, utils.H{
+		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.RPCError,
 			"msg":  code.StatusText(code.RPCError),
 		})
@@ -138,7 +139,7 @@ func SystemNotifyMessageUpdate(ctx context.Context, newCtx *app.RequestContext) 
 	// 数据绑定
 	var reqInfo dao.SystemNotifyMessage
 	if err := newCtx.BindAndValidate(&reqInfo); err != nil {
-		newCtx.JSON(consts.StatusOK, utils.H{
+		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.ParamInvalid,
 			"msg":  code.StatusText(code.ParamInvalid),
 		})
@@ -158,13 +159,13 @@ func SystemNotifyMessageUpdate(ctx context.Context, newCtx *app.RequestContext) 
 			"err": err,
 		}).Error("GrpcCall:站内信消息表:system_notify_message:SystemNotifyMessageUpdate")
 		fromError := status.Convert(err)
-		newCtx.JSON(consts.StatusOK, utils.H{
+		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.ConvertToHttp(fromError.Code()),
 			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
 		})
 		return
 	}
-	newCtx.JSON(consts.StatusOK, utils.H{
+	response.JSON(newCtx, consts.StatusOK, utils.H{
 		"code": res.GetCode(),
 		"msg":  res.GetMsg(),
 	})
@@ -174,7 +175,7 @@ func SystemNotifyMessageUpdate(ctx context.Context, newCtx *app.RequestContext) 
 func SystemNotifyMessageDelete(ctx context.Context, newCtx *app.RequestContext) {
 	if _, err := SystemNotifyMessageItem(ctx, newCtx); err != nil {
 		fromError := status.Convert(err)
-		newCtx.JSON(consts.StatusOK, utils.H{
+		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.ConvertToHttp(fromError.Code()),
 			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
 		})
@@ -185,7 +186,7 @@ func SystemNotifyMessageDelete(ctx context.Context, newCtx *app.RequestContext) 
 		globalLogger.Logger.WithFields(logrus.Fields{
 			"err": err,
 		}).Error("Grpc:站内信消息表:system_notify_message:SystemNotifyMessageDelete")
-		newCtx.JSON(consts.StatusOK, utils.H{
+		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.RPCError,
 			"msg":  code.StatusText(code.RPCError),
 		})
@@ -204,13 +205,13 @@ func SystemNotifyMessageDelete(ctx context.Context, newCtx *app.RequestContext) 
 			"err": err,
 		}).Error("GrpcCall:站内信消息表:system_notify_message:SystemNotifyMessageDelete")
 		fromError := status.Convert(err)
-		newCtx.JSON(consts.StatusOK, utils.H{
+		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.ConvertToHttp(fromError.Code()),
 			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
 		})
 		return
 	}
-	newCtx.JSON(consts.StatusOK, utils.H{
+	response.JSON(newCtx, consts.StatusOK, utils.H{
 		"code": res.GetCode(),
 		"msg":  res.GetMsg(),
 	})
@@ -221,13 +222,13 @@ func SystemNotifyMessage(ctx context.Context, newCtx *app.RequestContext) {
 	res, err := SystemNotifyMessageItem(ctx, newCtx)
 	if err != nil {
 		fromError := status.Convert(err)
-		newCtx.JSON(consts.StatusOK, utils.H{
+		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.ConvertToHttp(fromError.Code()),
 			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
 		})
 		return
 	}
-	newCtx.JSON(consts.StatusOK, utils.H{
+	response.JSON(newCtx, consts.StatusOK, utils.H{
 		"code": res.GetCode(),
 		"msg":  res.GetMsg(),
 		"data": notify.SystemNotifyMessageDao(res.GetData()),
@@ -238,7 +239,7 @@ func SystemNotifyMessage(ctx context.Context, newCtx *app.RequestContext) {
 func SystemNotifyMessageRecover(ctx context.Context, newCtx *app.RequestContext) {
 	if _, err := SystemNotifyMessageItem(ctx, newCtx); err != nil {
 		fromError := status.Convert(err)
-		newCtx.JSON(consts.StatusOK, utils.H{
+		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.ConvertToHttp(fromError.Code()),
 			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
 		})
@@ -249,7 +250,7 @@ func SystemNotifyMessageRecover(ctx context.Context, newCtx *app.RequestContext)
 		globalLogger.Logger.WithFields(logrus.Fields{
 			"err": err,
 		}).Error("Grpc:站内信消息表:system_notify_message:SystemNotifyMessageRecover")
-		newCtx.JSON(consts.StatusOK, utils.H{
+		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.RPCError,
 			"msg":  code.StatusText(code.RPCError),
 		})
@@ -268,13 +269,13 @@ func SystemNotifyMessageRecover(ctx context.Context, newCtx *app.RequestContext)
 			"err": err,
 		}).Error("GrpcCall:站内信消息表:system_notify_message:SystemNotifyMessageRecover")
 		fromError := status.Convert(err)
-		newCtx.JSON(consts.StatusOK, utils.H{
+		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.ConvertToHttp(fromError.Code()),
 			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
 		})
 		return
 	}
-	newCtx.JSON(consts.StatusOK, utils.H{
+	response.JSON(newCtx, consts.StatusOK, utils.H{
 		"code": res.GetCode(),
 		"msg":  res.GetMsg(),
 	})
@@ -287,7 +288,7 @@ func SystemNotifyMessageList(ctx context.Context, newCtx *app.RequestContext) {
 		globalLogger.Logger.WithFields(logrus.Fields{
 			"err": err,
 		}).Error("Grpc:站内信消息表:system_notify_message:SystemNotifyMessageList")
-		newCtx.JSON(consts.StatusOK, utils.H{
+		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.RPCError,
 			"msg":  code.StatusText(code.RPCError),
 		})
@@ -333,7 +334,7 @@ func SystemNotifyMessageList(ctx context.Context, newCtx *app.RequestContext) {
 			"err": err,
 		}).Error("GrpcCall:站内信消息表:system_notify_message:SystemNotifyMessageList")
 		fromError := status.Convert(err)
-		newCtx.JSON(consts.StatusOK, utils.H{
+		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.ConvertToHttp(fromError.Code()),
 			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
 		})
@@ -355,7 +356,7 @@ func SystemNotifyMessageList(ctx context.Context, newCtx *app.RequestContext) {
 			"err": err,
 		}).Error("GrpcCall:站内信消息表:system_notify_message:SystemNotifyMessageList")
 		fromError := status.Convert(err)
-		newCtx.JSON(consts.StatusOK, utils.H{
+		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.ConvertToHttp(fromError.Code()),
 			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
 		})
@@ -368,7 +369,7 @@ func SystemNotifyMessageList(ctx context.Context, newCtx *app.RequestContext) {
 			list = append(list, notify.SystemNotifyMessageDao(item))
 		}
 	}
-	newCtx.JSON(consts.StatusOK, utils.H{
+	response.JSON(newCtx, consts.StatusOK, utils.H{
 		"code": res.GetCode(),
 		"msg":  res.GetMsg(),
 		"data": utils.H{

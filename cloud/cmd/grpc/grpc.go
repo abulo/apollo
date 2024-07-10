@@ -32,6 +32,7 @@ func init() {
 	global.InitSql()
 	global.InitRegistry()
 	global.InitTrace()
+	global.InitRate()
 }
 
 var BuildVersion string // 编译版本

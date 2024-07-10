@@ -27,6 +27,8 @@ var (
 	RedisError            = int64(2002) // Redis错误
 	UnavailableError      = int64(2003) // 数据不可用
 	NoPermission          = int64(2004) // 无权限
+	EncryptError          = int64(2005) // 加密错误
+	DecryptError          = int64(2006) // 解密错误
 
 	//状态码对应的信息
 	statusText = map[int64]string{
@@ -52,6 +54,8 @@ var (
 		LoginFail:             "登录失败",
 		UnavailableError:      "数据不可用",
 		NoPermission:          "无权限",
+		EncryptError:          "加密错误",
+		DecryptError:          "解密错误",
 	}
 )
 

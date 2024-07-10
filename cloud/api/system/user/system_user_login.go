@@ -4,6 +4,7 @@ import (
 	"cloud/code"
 	"cloud/dao"
 	"cloud/initial"
+	"cloud/internal/response"
 	"cloud/internal/tools"
 	"cloud/service/captcha"
 	"cloud/service/system/menu"
@@ -31,7 +32,7 @@ func SystemUserLogin(ctx context.Context, newCtx *app.RequestContext) {
 	//1.验证参数必传
 	var req dao.SystemUserLogin
 	if err := newCtx.BindAndValidate(&req); err != nil {
-		newCtx.JSON(consts.StatusOK, utils.H{
+		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.ParamInvalid,
 			"msg":  code.StatusText(code.ParamInvalid),
 		})
@@ -44,7 +45,7 @@ func SystemUserLogin(ctx context.Context, newCtx *app.RequestContext) {
 		globalLogger.Logger.WithFields(logrus.Fields{
 			"err": err,
 		}).Error("Grpc:用户信息表:system_user:SystemUserLogin")
-		newCtx.JSON(consts.StatusOK, utils.H{
+		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.RPCError,
 			"msg":  code.StatusText(code.RPCError),
 		})
@@ -64,21 +65,21 @@ func SystemUserLogin(ctx context.Context, newCtx *app.RequestContext) {
 			"err": err,
 		}).Error("GrpcCall:用户信息表:system_user:SystemUserLogin")
 		fromError := status.Convert(err)
-		newCtx.JSON(consts.StatusOK, utils.H{
+		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.ConvertToHttp(fromError.Code()),
 			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
 		})
 		return
 	}
 	if resCaptcha.GetCode() != code.Success {
-		newCtx.JSON(consts.StatusOK, utils.H{
+		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": resCaptcha.GetCode(),
 			"msg":  resCaptcha.GetMsg(),
 		})
 		return
 	}
 	if !resCaptcha.GetData().GetResult() {
-		newCtx.JSON(consts.StatusOK, utils.H{
+		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.VerifyCodeError,
 			"msg":  code.StatusText(code.VerifyCodeError),
 		})
@@ -96,7 +97,7 @@ func SystemUserLogin(ctx context.Context, newCtx *app.RequestContext) {
 			"err": err,
 		}).Error("GrpcCall:用户信息表:system_user:SystemUserLogin")
 		fromError := status.Convert(err)
-		newCtx.JSON(consts.StatusOK, utils.H{
+		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.ConvertToHttp(fromError.Code()),
 			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
 		})
@@ -105,7 +106,7 @@ func SystemUserLogin(ctx context.Context, newCtx *app.RequestContext) {
 	//4.生成 token
 	userInfo := res.GetData()
 	if userInfo.Id == nil {
-		newCtx.JSON(consts.StatusOK, utils.H{
+		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.LoginFail,
 			"msg":  code.StatusText(code.LoginFail),
 		})
@@ -113,7 +114,7 @@ func SystemUserLogin(ctx context.Context, newCtx *app.RequestContext) {
 	}
 	// 比对密码
 	if req.Password != userInfo.GetPassword() {
-		newCtx.JSON(consts.StatusOK, utils.H{
+		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.LoginFail,
 			"msg":  code.StatusText(code.LoginFail),
 		})
@@ -131,7 +132,7 @@ func SystemUserLogin(ctx context.Context, newCtx *app.RequestContext) {
 			"req": requestCaptcha,
 			"err": err,
 		}).Error("GrpcCall:用户信息表:system_user:SystemUserLogin")
-		newCtx.JSON(consts.StatusOK, utils.H{
+		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.TokenError,
 			"msg":  code.StatusText(code.TokenError),
 		})
@@ -172,7 +173,7 @@ func SystemUserLogin(ctx context.Context, newCtx *app.RequestContext) {
 			"err": tenantErr,
 		}).Error("GrpcCall:租户:system_tenant:SystemTenant")
 		fromError := status.Convert(tenantErr)
-		newCtx.JSON(consts.StatusOK, utils.H{
+		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.ConvertToHttp(fromError.Code()),
 			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
 		})
@@ -180,7 +181,7 @@ func SystemUserLogin(ctx context.Context, newCtx *app.RequestContext) {
 	}
 	// 判断这个有没有值
 	if tenantRes.GetCode() != code.Success {
-		newCtx.JSON(consts.StatusOK, utils.H{
+		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.RPCError,
 			"msg":  code.StatusText(code.RPCError),
 		})
@@ -223,7 +224,7 @@ func SystemUserLogin(ctx context.Context, newCtx *app.RequestContext) {
 			"err": menuErr,
 		}).Error("GrpcCall:系统菜单:system_menu:SystemMenuList")
 		fromError := status.Convert(menuErr)
-		newCtx.JSON(consts.StatusOK, utils.H{
+		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.ConvertToHttp(fromError.Code()),
 			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
 		})
@@ -289,7 +290,7 @@ func SystemUserLogin(ctx context.Context, newCtx *app.RequestContext) {
 	keyMenu := util.NewReplacer(initial.Core.Config.String("Cache.SystemUser.Permission"), ":UserId", userInfo.GetId())
 	permission, _ := json.Marshal(permissionList)
 	redisHandler.Set(ctx, keyMenu, cast.ToString(permission), time.Duration(second)*time.Second)
-	newCtx.JSON(consts.StatusOK, utils.H{
+	response.JSON(newCtx, consts.StatusOK, utils.H{
 		"code": res.GetCode(),
 		"msg":  res.GetMsg(),
 		"data": utils.H{

@@ -6,6 +6,7 @@ import (
 	"cloud/code"
 	"cloud/dao"
 	"cloud/initial"
+	"cloud/internal/response"
 	"cloud/service/pay/channel"
 
 	globalLogger "github.com/abulo/ratel/v3/core/logger"
@@ -26,7 +27,7 @@ func PayChannelCreate(ctx context.Context, newCtx *app.RequestContext) {
 	// 数据绑定
 	var reqInfo dao.PayChannel
 	if err := newCtx.BindAndValidate(&reqInfo); err != nil {
-		newCtx.JSON(consts.StatusOK, utils.H{
+		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.ParamInvalid,
 			"msg":  code.StatusText(code.ParamInvalid),
 		})
@@ -38,7 +39,7 @@ func PayChannelCreate(ctx context.Context, newCtx *app.RequestContext) {
 		globalLogger.Logger.WithFields(logrus.Fields{
 			"err": err,
 		}).Error("Grpc:支付渠道:pay_channel:PayChannelCreate")
-		newCtx.JSON(consts.StatusOK, utils.H{
+		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.RPCError,
 			"msg":  code.StatusText(code.RPCError),
 		})
@@ -61,7 +62,7 @@ func PayChannelCreate(ctx context.Context, newCtx *app.RequestContext) {
 			"err": err,
 		}).Error("GrpcCall:支付渠道:pay_channel:PayChannelCode")
 		fromError := status.Convert(err)
-		newCtx.JSON(consts.StatusOK, utils.H{
+		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.ConvertToHttp(fromError.Code()),
 			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
 		})
@@ -85,7 +86,7 @@ func PayChannelCreate(ctx context.Context, newCtx *app.RequestContext) {
 				"err": err,
 			}).Error("GrpcCall:支付渠道:pay_channel:PayChannelCreate")
 			fromError := status.Convert(err)
-			newCtx.JSON(consts.StatusOK, utils.H{
+			response.JSON(newCtx, consts.StatusOK, utils.H{
 				"code": code.ConvertToHttp(fromError.Code()),
 				"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
 			})
@@ -107,7 +108,7 @@ func PayChannelCreate(ctx context.Context, newCtx *app.RequestContext) {
 				"err": err,
 			}).Error("GrpcCall:支付渠道:pay_channel:PayChannelUpdate")
 			fromError := status.Convert(err)
-			newCtx.JSON(consts.StatusOK, utils.H{
+			response.JSON(newCtx, consts.StatusOK, utils.H{
 				"code": code.ConvertToHttp(fromError.Code()),
 				"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
 			})
@@ -116,7 +117,7 @@ func PayChannelCreate(ctx context.Context, newCtx *app.RequestContext) {
 		httpCode, httpMsg = res.GetCode(), res.GetMsg()
 	}
 
-	newCtx.JSON(consts.StatusOK, utils.H{
+	response.JSON(newCtx, consts.StatusOK, utils.H{
 		"code": httpCode,
 		"msg":  httpMsg,
 	})
@@ -130,7 +131,7 @@ func PayChannel(ctx context.Context, newCtx *app.RequestContext) {
 		globalLogger.Logger.WithFields(logrus.Fields{
 			"err": err,
 		}).Error("Grpc:支付渠道:pay_channel:PayChannel")
-		newCtx.JSON(consts.StatusOK, utils.H{
+		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.RPCError,
 			"msg":  code.StatusText(code.RPCError),
 		})
@@ -154,7 +155,7 @@ func PayChannel(ctx context.Context, newCtx *app.RequestContext) {
 			"err": err,
 		}).Error("GrpcCall:支付渠道:pay_channel:PayChannelCode")
 		fromError := status.Convert(err)
-		newCtx.JSON(consts.StatusOK, utils.H{
+		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.ConvertToHttp(fromError.Code()),
 			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
 		})
@@ -166,13 +167,13 @@ func PayChannel(ctx context.Context, newCtx *app.RequestContext) {
 			"err": err,
 		}).Error("GrpcCall:支付渠道:pay_channel:PayChannel")
 		fromError := status.Convert(err)
-		newCtx.JSON(consts.StatusOK, utils.H{
+		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.ConvertToHttp(fromError.Code()),
 			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
 		})
 		return
 	}
-	newCtx.JSON(consts.StatusOK, utils.H{
+	response.JSON(newCtx, consts.StatusOK, utils.H{
 		"code": res.GetCode(),
 		"msg":  res.GetMsg(),
 		"data": channel.PayChannelDao(res.GetData()),

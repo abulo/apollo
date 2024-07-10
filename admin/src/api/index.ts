@@ -13,6 +13,7 @@ import { ResultEnum } from "@/enums/httpEnum";
 import { checkStatus } from "./helper/checkStatus";
 import { AxiosCanceler } from "./helper/axiosCancel";
 import { useUserStore } from "@/stores/modules/user";
+import { Decrypt, Encrypt } from "@/utils/secret";
 import router from "@/routers";
 
 export interface CustomAxiosRequestConfig extends InternalAxiosRequestConfig {
@@ -30,13 +31,18 @@ const config = {
 };
 
 const axiosCanceler = new AxiosCanceler();
+// 是否开启加密
+const encrypt: boolean = JSON.parse(String(import.meta.env.VITE_ENCRYPT));
+// 加密秘钥
+const encryptSecretKey: string = import.meta.env.VITE_ENCRYPT_SECRET_KEY as string;
+// 加密向量
+const encryptIv: string = import.meta.env.VITE_ENCRYPT_IV as string;
 
 class RequestHttp {
   service: AxiosInstance;
   public constructor(config: AxiosRequestConfig) {
     // instantiation
     this.service = axios.create(config);
-
     /**
      * @description 请求拦截器
      * 客户端发送请求 -> [请求拦截器] -> 服务器
@@ -53,6 +59,18 @@ class RequestHttp {
         config.loading && showFullScreenLoading();
         if (config.headers && typeof config.headers.set === "function") {
           config.headers.set("X-Access-Token", userStore.token);
+        }
+        if (config.params && encrypt) {
+          // 首先需要判断一下 config.params 是否为对象，如果是对象才进行加密
+          if (Object.keys(config.params).length) {
+            config.params = { params: Encrypt(JSON.stringify(config.params), encryptSecretKey, encryptIv) };
+          }
+        }
+        if (config.data && encrypt) {
+          // 需要判断一下不是文件上传
+          if (config.data instanceof Object && !(config.data instanceof FormData)) {
+            config.data = { params: Encrypt(JSON.stringify(config.data), encryptSecretKey, encryptIv) };
+          }
         }
         return config;
       },
@@ -71,6 +89,10 @@ class RequestHttp {
         const userStore = useUserStore();
         axiosCanceler.removePending(config);
         tryHideFullScreenLoading();
+        // 判断一下 data 里面有没有 data 属性，如果有, 说明去使用解密函数
+        if (data.data && encrypt) {
+          data.data = JSON.parse(Decrypt(data.data, encryptSecretKey, encryptIv));
+        }
         // 登录失效
         if (data.code == ResultEnum.OVERDUE) {
           userStore.setToken("");

@@ -4,6 +4,7 @@ import (
 	"cloud/code"
 	"cloud/dao"
 	"cloud/initial"
+	"cloud/internal/response"
 	"cloud/service/system/menu"
 	"cloud/service/system/role"
 	"cloud/service/system/tenant"
@@ -75,7 +76,7 @@ func SystemUserMenu(ctx context.Context, newCtx *app.RequestContext) {
 		globalLogger.Logger.WithFields(logrus.Fields{
 			"err": err,
 		}).Error("Grpc:菜单权限表:system_menu:SystemUserMenu")
-		newCtx.JSON(consts.StatusOK, utils.H{
+		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.RPCError,
 			"msg":  code.StatusText(code.RPCError),
 		})
@@ -96,7 +97,7 @@ func SystemUserMenu(ctx context.Context, newCtx *app.RequestContext) {
 			"err": tenantErr,
 		}).Error("GrpcCall:租户:system_tenant:SystemTenant")
 		fromError := status.Convert(tenantErr)
-		newCtx.JSON(consts.StatusOK, utils.H{
+		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.ConvertToHttp(fromError.Code()),
 			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
 		})
@@ -104,7 +105,7 @@ func SystemUserMenu(ctx context.Context, newCtx *app.RequestContext) {
 	}
 	// 判断这个有没有值
 	if tenantRes.GetCode() != code.Success {
-		newCtx.JSON(consts.StatusOK, utils.H{
+		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.RPCError,
 			"msg":  code.StatusText(code.RPCError),
 		})
@@ -147,7 +148,7 @@ func SystemUserMenu(ctx context.Context, newCtx *app.RequestContext) {
 			"err": menuErr,
 		}).Error("GrpcCall:系统菜单:system_menu:SystemMenuList")
 		fromError := status.Convert(menuErr)
-		newCtx.JSON(consts.StatusOK, utils.H{
+		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.ConvertToHttp(fromError.Code()),
 			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
 		})
@@ -215,7 +216,7 @@ func SystemUserMenu(ctx context.Context, newCtx *app.RequestContext) {
 		}
 	}
 	newList := SystemUserMenuTree(curList, 0)
-	newCtx.JSON(consts.StatusOK, utils.H{
+	response.JSON(newCtx, consts.StatusOK, utils.H{
 		"code": menuRes.GetCode(),
 		"msg":  menuRes.GetMsg(),
 		"data": newList,
@@ -242,7 +243,7 @@ func SystemUserBtn(ctx context.Context, newCtx *app.RequestContext) {
 		globalLogger.Logger.WithFields(logrus.Fields{
 			"err": err,
 		}).Error("Grpc:菜单权限表:system_menu:SystemUserMenu")
-		newCtx.JSON(consts.StatusOK, utils.H{
+		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.RPCError,
 			"msg":  code.StatusText(code.RPCError),
 		})
@@ -263,7 +264,7 @@ func SystemUserBtn(ctx context.Context, newCtx *app.RequestContext) {
 			"err": tenantErr,
 		}).Error("GrpcCall:租户:system_tenant:SystemTenant")
 		fromError := status.Convert(tenantErr)
-		newCtx.JSON(consts.StatusOK, utils.H{
+		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.ConvertToHttp(fromError.Code()),
 			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
 		})
@@ -271,7 +272,7 @@ func SystemUserBtn(ctx context.Context, newCtx *app.RequestContext) {
 	}
 	// 判断这个有没有值
 	if tenantRes.GetCode() != code.Success {
-		newCtx.JSON(consts.StatusOK, utils.H{
+		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.RPCError,
 			"msg":  code.StatusText(code.RPCError),
 		})
@@ -314,7 +315,7 @@ func SystemUserBtn(ctx context.Context, newCtx *app.RequestContext) {
 			"err": menuErr,
 		}).Error("GrpcCall:系统菜单:system_menu:SystemMenuList")
 		fromError := status.Convert(menuErr)
-		newCtx.JSON(consts.StatusOK, utils.H{
+		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.ConvertToHttp(fromError.Code()),
 			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
 		})
@@ -385,7 +386,7 @@ func SystemUserBtn(ctx context.Context, newCtx *app.RequestContext) {
 			resList[tmp[0]] = append(resList[tmp[0]], v)
 		}
 	}
-	newCtx.JSON(consts.StatusOK, utils.H{
+	response.JSON(newCtx, consts.StatusOK, utils.H{
 		"code": menuRes.GetCode(),
 		"msg":  menuRes.GetMsg(),
 		"data": resList,

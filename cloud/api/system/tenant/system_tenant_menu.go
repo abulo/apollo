@@ -4,6 +4,7 @@ import (
 	"cloud/code"
 	"cloud/dao"
 	"cloud/initial"
+	"cloud/internal/response"
 	"cloud/service/system/menu"
 	"cloud/service/system/tenant"
 	"context"
@@ -27,7 +28,7 @@ func SystemMenuList(ctx context.Context, newCtx *app.RequestContext) {
 		globalLogger.Logger.WithFields(logrus.Fields{
 			"err": err,
 		}).Error("Grpc:系统菜单:system_menu:SystemMenuList")
-		newCtx.JSON(consts.StatusOK, utils.H{
+		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.RPCError,
 			"msg":  code.StatusText(code.RPCError),
 		})
@@ -46,7 +47,7 @@ func SystemMenuList(ctx context.Context, newCtx *app.RequestContext) {
 			"err": tenantErr,
 		}).Error("GrpcCall:租户:system_tenant:SystemTenant")
 		fromError := status.Convert(tenantErr)
-		newCtx.JSON(consts.StatusOK, utils.H{
+		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.ConvertToHttp(fromError.Code()),
 			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
 		})
@@ -54,7 +55,7 @@ func SystemMenuList(ctx context.Context, newCtx *app.RequestContext) {
 	}
 	// 判断这个有没有值
 	if tenantRes.GetCode() != code.Success {
-		newCtx.JSON(consts.StatusOK, utils.H{
+		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.RPCError,
 			"msg":  code.StatusText(code.RPCError),
 		})
@@ -97,7 +98,7 @@ func SystemMenuList(ctx context.Context, newCtx *app.RequestContext) {
 			"err": menuErr,
 		}).Error("GrpcCall:系统菜单:system_menu:SystemMenuList")
 		fromError := status.Convert(menuErr)
-		newCtx.JSON(consts.StatusOK, utils.H{
+		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.ConvertToHttp(fromError.Code()),
 			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
 		})
@@ -115,7 +116,7 @@ func SystemMenuList(ctx context.Context, newCtx *app.RequestContext) {
 		}
 	}
 	newList := SystemMenuTree(list, 0)
-	newCtx.JSON(consts.StatusOK, utils.H{
+	response.JSON(newCtx, consts.StatusOK, utils.H{
 		"code": menuRes.GetCode(),
 		"msg":  menuRes.GetMsg(),
 		"data": newList,
