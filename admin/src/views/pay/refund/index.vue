@@ -331,5 +331,5 @@ async () => {
 };
 </script>
 <style lang="scss">
-@import "@/styles/custom.scss";
+@import "@/styles/custom";
 </style>

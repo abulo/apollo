@@ -221,5 +221,5 @@ const handleItem = async (row: SystemLoginLog.ResSystemLoginLogItem) => {
 };
 </script>
 <style lang="scss">
-@import "@/styles/custom.scss";
+@import "@/styles/custom";
 </style>

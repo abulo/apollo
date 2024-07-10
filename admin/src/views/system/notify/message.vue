@@ -225,5 +225,5 @@ const handleItem = async (row: SystemNotifyMessage.ResSystemNotifyMessageItem) =
 </script>
 
 <style lang="scss">
-@import "@/styles/custom.scss";
+@import "@/styles/custom";
 </style>

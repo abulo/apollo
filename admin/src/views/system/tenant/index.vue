@@ -437,6 +437,6 @@ onMounted(async () => {
 </script>
 
 <style lang="scss">
-@import "@/styles/custom.scss";
-@import "@/styles/popover.scss";
+@import "@/styles/custom";
+@import "@/styles/popover";
 </style>

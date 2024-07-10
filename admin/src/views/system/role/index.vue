@@ -556,5 +556,5 @@ const submitScopeForm = (formEl: FormInstance | undefined) => {
 </script>
 
 <style lang="scss">
-@import "@/styles/custom.scss";
+@import "@/styles/custom";
 </style>

@@ -224,5 +224,5 @@ const handleUpdate = async (row: SystemPost.ResSystemPostItem) => {
 </script>
 
 <style lang="scss">
-@import "@/styles/custom.scss";
+@import "@/styles/custom";
 </style>

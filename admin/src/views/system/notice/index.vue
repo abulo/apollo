@@ -237,5 +237,5 @@ const handleUpdate = async (row: SystemNotice.ResSystemNoticeItem) => {
 </script>
 
 <style lang="scss">
-@import "@/styles/custom.scss";
+@import "@/styles/custom";
 </style>

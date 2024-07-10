@@ -296,7 +296,7 @@ const newLoad = (rows: Monitor.Load[]) => {
 </script>
 
 <style lang="scss" scoped>
-@import "@/styles/custom.scss";
+@import "@/styles/custom";
 .card {
   .title {
     margin: 0 0 15px;
