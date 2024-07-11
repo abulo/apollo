@@ -10,6 +10,8 @@ import (
 	"cloud/service/region"
 
 	globalLogger "github.com/abulo/ratel/v3/core/logger"
+	"github.com/abulo/ratel/v3/stores/null"
+	"github.com/abulo/ratel/v3/util"
 	"github.com/cloudwego/hertz/pkg/app"
 	"github.com/cloudwego/hertz/pkg/common/utils"
 	"github.com/cloudwego/hertz/pkg/protocol/consts"
@@ -46,6 +48,8 @@ func RegionCreate(ctx context.Context, newCtx *app.RequestContext) {
 		})
 		return
 	}
+	reqInfo.Creator = null.StringFrom(newCtx.GetString("userName"))
+	reqInfo.CreateTime = null.DateTimeFrom(util.Now())
 	request.Data = region.RegionProto(reqInfo)
 	// 执行服务
 	res, err := client.RegionCreate(ctx, request)
@@ -95,6 +99,11 @@ func RegionUpdate(ctx context.Context, newCtx *app.RequestContext) {
 		})
 		return
 	}
+	reqInfo.Id = nil
+	reqInfo.Updater = null.StringFrom(newCtx.GetString("userName"))
+	reqInfo.UpdateTime = null.DateTimeFrom(util.Now())
+	reqInfo.Creator = null.StringFromPtr(nil)
+	reqInfo.CreateTime = null.DateTimeFromPtr(nil)
 	request.Data = region.RegionProto(reqInfo)
 	// 执行服务
 	res, err := client.RegionUpdate(ctx, request)

@@ -142,6 +142,7 @@ func PayWalletRechargePackageUpdate(ctx context.Context, newCtx *app.RequestCont
 		})
 		return
 	}
+	reqInfo.Id = nil
 	reqInfo.TenantId = proto.Int64(newCtx.GetInt64("tenantId")) // 租户
 	reqInfo.Updater = null.StringFrom(newCtx.GetString("userName"))
 	reqInfo.UpdateTime = null.DateTimeFrom(util.Now())
