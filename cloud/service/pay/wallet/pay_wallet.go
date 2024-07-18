@@ -150,7 +150,7 @@ func PayWalletCustomDao(item *PayWalletCustomObject) *dao.PayWalletCustom {
 		daoItem.Username = item.Username // 用户名称
 	}
 	if item != nil && item.Nickname != nil {
-		daoItem.Nickname = item.Nickname // 用户昵称
+		daoItem.Nickname = item.Nickname // 用户名称
 	}
 	if item != nil && item.Mobile != nil {
 		daoItem.Mobile = item.Mobile // 手机号

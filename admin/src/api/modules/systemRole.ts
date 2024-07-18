@@ -46,12 +46,3 @@ export const getSystemRoleMenuListApi = (id: number, params?: SystemRole.ReqSyst
 export const addSystemRoleMenuApi = (id: number, params: SystemRole.ResSystemRoleMenuItem) => {
   return http.post(PORT + `/system/role/${id}/menu`, params);
 };
-
-// 数据范围
-export const getSystemRoleScopeListApi = (id: number) => {
-  return http.get<SystemRole.ResSystemRoleScopeItem>(PORT + `/system/role/${id}/scope`);
-};
-// 添加数据范围
-export const addSystemRoleScopeApi = (id: number, params: SystemRole.ResSystemRoleScopeItem) => {
-  return http.post(PORT + `/system/role/${id}/scope`, params);
-};

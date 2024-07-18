@@ -138,7 +138,7 @@ const deleteSearch = reactive<SearchProps>(
     : {}
 );
 const columns: ColumnProps<SystemPost.ResSystemPostItem>[] = [
-  { prop: "id", label: "编号", width: 100 },
+  { prop: "id", label: "编号", width: 100, fixed: "left" },
   { prop: "name", label: "岗位名称", search: { el: "input", span: 2, props: { placeholder: "请输入名称" } } },
   { prop: "sort", label: "岗位顺序" },
   { prop: "status", label: "状态", tag: true, enum: statusEnum, search: { el: "tree-select", span: 2 } },

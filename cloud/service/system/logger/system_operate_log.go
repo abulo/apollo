@@ -71,6 +71,9 @@ func SystemOperateLogDao(item *SystemOperateLogObject) *dao.SystemOperateLog {
 	if item != nil && item.UpdateTime != nil {
 		daoItem.UpdateTime = null.DateTimeFrom(util.GrpcTime(item.UpdateTime)) // 更新时间
 	}
+	if item != nil && item.UserId != nil {
+		daoItem.UserId = item.UserId // 用户id
+	}
 
 	return daoItem
 }
@@ -134,6 +137,9 @@ func SystemOperateLogProto(item dao.SystemOperateLog) *SystemOperateLogObject {
 	}
 	if item.UpdateTime.IsValid() {
 		res.UpdateTime = timestamppb.New(*item.UpdateTime.Ptr())
+	}
+	if item.UserId != nil {
+		res.UserId = item.UserId
 	}
 
 	return res

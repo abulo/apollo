@@ -15,7 +15,7 @@ type SystemUserLogin struct {
 type SystemUserToken struct {
 	UserId   int64  `json:"userId"`   // 用户ID
 	UserName string `json:"userName"` // 用户名
-	NickName string `json:"nickName"` // 用户昵称
+	NickName string `json:"nickName"` // 用户名称
 	TenantId int64  `json:"tenantId"` // 租户ID
 	jwt.RegisteredClaims
 }

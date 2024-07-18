@@ -2,6 +2,7 @@ package user
 
 import (
 	"context"
+	"encoding/json"
 
 	"cloud/code"
 	"cloud/dao"
@@ -308,8 +309,28 @@ func SystemUserList(ctx context.Context, newCtx *app.RequestContext) {
 		})
 		return
 	}
+
 	//链接服务
 	client := user.NewSystemUserServiceClient(grpcClient)
+
+	userDataScopeReq := &user.SystemUserRoleDataScopeRequest{}
+	userDataScopeReq.UserId = newCtx.GetInt64("userId")
+	userDataScopeReq.TenantId = newCtx.GetInt64("tenantId")
+	userRes, err := client.SystemUserRoleDataScope(ctx, userDataScopeReq)
+	if err != nil {
+		globalLogger.Logger.WithFields(logrus.Fields{
+			"req": userDataScopeReq,
+			"err": err,
+		}).Error("GrpcCall:部门:system_dept:SystemDeptList")
+		fromError := status.Convert(err)
+		response.JSON(newCtx, consts.StatusOK, utils.H{
+			"code": code.ConvertToHttp(fromError.Code()),
+			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
+		})
+		return
+	}
+	userScope := user.SystemUserRoleDataScopeDao(userRes.GetData())
+
 	// 构造查询条件
 	request := &user.SystemUserListRequest{}
 	requestTotal := &user.SystemUserListTotalRequest{}
@@ -337,6 +358,15 @@ func SystemUserList(ctx context.Context, newCtx *app.RequestContext) {
 		request.DeptId = proto.Int64(cast.ToInt64(val))      // 用户状态（0正常 1停用）
 		requestTotal.DeptId = proto.Int64(cast.ToInt64(val)) // 用户状态（0正常 1停用）
 	}
+
+	request.UserId = proto.Int64(newCtx.GetInt64("userId"))      // 用户ID
+	requestTotal.UserId = proto.Int64(newCtx.GetInt64("userId")) // 用户ID
+
+	request.DataScope = userScope.DataScope
+	requestTotal.DataScope = userScope.DataScope
+	dataScopeDept, _ := json.Marshal(userScope.DataScopeDept)
+	request.DataScopeDept = dataScopeDept
+	requestTotal.DataScopeDept = dataScopeDept
 
 	// 执行服务,获取数据量
 	resTotal, err := client.SystemUserListTotal(ctx, requestTotal)

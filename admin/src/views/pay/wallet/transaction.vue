@@ -80,7 +80,7 @@ const deleteSearch = reactive<SearchProps>(
 );
 
 const columns: ColumnProps<PayWalletTransaction.ResPayWalletTransactionItem>[] = [
-  { prop: "id", label: "编号" },
+  { prop: "id", label: "编号", fixed: "left" },
   { prop: "bizType", label: "关联类型", search: { el: "input", span: 2, props: { placeholder: "请输入关联类型" } } },
   { prop: "bizId", label: "关联业务编号", search: { el: "input", span: 2, props: { placeholder: "请输入关联业务编号" } } },
   { prop: "no", label: "流水号", search: { el: "input", span: 2, props: { placeholder: "请输入流水号" } } },

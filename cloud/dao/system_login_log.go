@@ -6,6 +6,7 @@ import "github.com/abulo/ratel/v3/stores/null"
 type SystemLoginLog struct {
 	Id         *int64        `db:"id" json:"id"`                  //bigint 主键,PRI
 	Username   *string       `db:"username" json:"username"`      //varchar 用户账号
+	UserId     *int64        `db:"user_id" json:"userId"`         //bigint 用户id
 	UserIp     *string       `db:"user_ip" json:"userIp"`         //varchar 用户ip
 	UserAgent  null.String   `db:"user_agent" json:"userAgent"`   //varchar UA
 	LoginTime  null.DateTime `db:"login_time" json:"loginTime"`   //datetime 登录时间

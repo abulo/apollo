@@ -2,6 +2,7 @@ package logger
 
 import (
 	"context"
+	"encoding/json"
 	"time"
 
 	"cloud/code"
@@ -10,6 +11,7 @@ import (
 	"cloud/internal/response"
 	"cloud/service/pagination"
 	"cloud/service/system/logger"
+	"cloud/service/system/user"
 
 	globalLogger "github.com/abulo/ratel/v3/core/logger"
 	"github.com/abulo/ratel/v3/stores/null"
@@ -294,6 +296,27 @@ func SystemOperateLogList(ctx context.Context, newCtx *app.RequestContext) {
 		})
 		return
 	}
+
+	//链接服务
+	clientUser := user.NewSystemUserServiceClient(grpcClient)
+
+	userDataScopeReq := &user.SystemUserRoleDataScopeRequest{}
+	userDataScopeReq.UserId = newCtx.GetInt64("userId")
+	userDataScopeReq.TenantId = newCtx.GetInt64("tenantId")
+	userRes, err := clientUser.SystemUserRoleDataScope(ctx, userDataScopeReq)
+	if err != nil {
+		globalLogger.Logger.WithFields(logrus.Fields{
+			"req": userDataScopeReq,
+			"err": err,
+		}).Error("GrpcCall:部门:system_dept:SystemDeptList")
+		fromError := status.Convert(err)
+		response.JSON(newCtx, consts.StatusOK, utils.H{
+			"code": code.ConvertToHttp(fromError.Code()),
+			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
+		})
+		return
+	}
+	userScope := user.SystemUserRoleDataScopeDao(userRes.GetData())
 	//链接服务
 	client := logger.NewSystemOperateLogServiceClient(grpcClient)
 	// 构造查询条件
@@ -331,6 +354,19 @@ func SystemOperateLogList(ctx context.Context, newCtx *app.RequestContext) {
 		request.Result = proto.Int32(cast.ToInt32(val))      // 结果(0 成功/1 失败)
 		requestTotal.Result = proto.Int32(cast.ToInt32(val)) // 结果(0 成功/1 失败)
 	}
+	if val, ok := newCtx.GetQuery("deptId"); ok {
+		request.DeptId = proto.Int64(cast.ToInt64(val))      // 用户状态（0正常 1停用）
+		requestTotal.DeptId = proto.Int64(cast.ToInt64(val)) // 用户状态（0正常 1停用）
+	}
+
+	request.UserId = proto.Int64(newCtx.GetInt64("userId"))      // 用户ID
+	requestTotal.UserId = proto.Int64(newCtx.GetInt64("userId")) // 用户ID
+
+	request.DataScope = userScope.DataScope
+	requestTotal.DataScope = userScope.DataScope
+	dataScopeDept, _ := json.Marshal(userScope.DataScopeDept)
+	request.DataScopeDept = dataScopeDept
+	requestTotal.DataScopeDept = dataScopeDept
 
 	// 执行服务,获取数据量
 	resTotal, err := client.SystemOperateLogListTotal(ctx, requestTotal)

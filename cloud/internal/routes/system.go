@@ -41,25 +41,8 @@ func SystemInitRoute(handle *xhertz.Server) {
 		auth.GET("/system/user/menu", user.SystemUserMenu)
 		// system_user->用户信息表->菜单权限
 		auth.GET("/system/user/btn", user.SystemUserBtn)
-
-		// system_user_post->系统用户职位->创建
-		auth.POST("/system/user/:id/post", user.SystemUserPostCreate)
-		// system_user_post->系统用户职位->列表
-		auth.GET("/system/user/:id/post", user.SystemUserPostList)
-
-		// system_user_role->系统用户和系统角色关联表->创建
-		auth.POST("/system/user/:id/role", user.SystemUserRoleCreate)
-		// system_user_role->系统用户和系统角色关联表->列表
-		auth.GET("/system/user/:id/role", user.SystemUserRoleList)
-
-		// system_user_dept->系统用户部门->创建
-		auth.POST("/system/user/:id/dept", user.SystemUserDeptCreate)
-		// system_user_dept->系统用户部门->列表
-		auth.GET("/system/user/:id/dept", user.SystemUserDeptList)
-
 		// system_user->用户信息表->密码修改
 		auth.PUT("/system/user/:id/password", user.SystemUserPassword)
-
 		// system_menu->系统菜单->列表
 		auth.GET("/system/menu", menu.SystemMenuList)
 		// system_menu->系统菜单->创建
@@ -182,6 +165,8 @@ func SystemInitRoute(handle *xhertz.Server) {
 		auth.GET("/system/dept", dept.SystemDeptList)
 		// system_dept->部门->精简列表
 		auth.GET("/system/dept/simple", dept.SystemDeptListSimple)
+		// system_dept->部门->部门列表
+		auth.GET("/system/dept/label", dept.SystemDeptListLabel)
 
 		// system_post->职位->创建
 		auth.POST("/system/post", post.SystemPostCreate)
@@ -217,10 +202,6 @@ func SystemInitRoute(handle *xhertz.Server) {
 		auth.GET("/system/role/:id/menu", role.SystemRoleMenuList)
 		// system_role->系统角色->角色菜单
 		auth.POST("/system/role/:id/menu", role.SystemRoleMenuCreate)
-		// system_role->系统角色->数据范围
-		auth.GET("/system/role/:id/scope", role.SystemRoleDataScope)
-		// system_role->系统角色->数据范围
-		auth.POST("/system/role/:id/scope", role.SystemRoleDataScopeCreate)
 
 		// system_notice->通知公告表->创建
 		auth.POST("/system/notice", notice.SystemNoticeCreate)

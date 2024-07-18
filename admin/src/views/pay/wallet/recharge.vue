@@ -105,7 +105,7 @@ const payOrderStatusEnum = getIntDictOptions("pay.orderStatus");
 const payRefundStatusEnum = getIntDictOptions("pay.refundStatus");
 
 const columns: ColumnProps<PayWalletRecharge.ResPayWalletRechargeItem>[] = [
-  { prop: "id", label: "编号" },
+  { prop: "id", label: "编号", fixed: "left" },
   {
     prop: "-",
     label: "支付",

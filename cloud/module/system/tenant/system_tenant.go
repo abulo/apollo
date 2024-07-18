@@ -29,7 +29,7 @@ func SystemTenantCreate(ctx context.Context, data dao.SystemTenant) (res int64, 
 			return err
 		}
 		// 插入租户管理员信息
-		var user dao.SystemUser
+		var user dao.SystemUserCustom
 		user.Username = data.Username
 		user.Password = data.Password
 		user.Nickname = null.StringFrom(cast.ToString(data.Name))

@@ -166,7 +166,7 @@ const deleteSearch = reactive<SearchProps>(
 );
 
 const columns: ColumnProps<SystemMailLog.ResSystemMailLogItem>[] = [
-  { prop: "id", label: "编号", width: 100 },
+  { prop: "id", label: "编号", width: 100, fixed: "left" },
   { prop: "userType", label: "会员类型", tag: true, enum: userTypeEnum, search: { el: "select", span: 2 } },
   { prop: "userId", label: "用户编号", search: { el: "input", span: 2, props: { placeholder: "请输入用户编号" } } },
   { prop: "accountId", label: "邮箱账号", tag: true, enum: accountEnum, search: { el: "select", span: 2 } },

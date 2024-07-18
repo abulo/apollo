@@ -124,7 +124,7 @@ const payWalletItemFrom = ref<PayWallet.ResPayWalletItem>({
   updater: undefined, // 更新人
   updateTime: undefined, // 更新时间
   username: "", // 用户
-  nickname: "", // 用户昵称
+  nickname: "", // 用户名称
   mobile: "" // 手机号
 });
 //删除状态
@@ -141,8 +141,8 @@ const deleteSearch = reactive<SearchProps>(
 );
 
 const columns: ColumnProps<PayWallet.ResPayWalletItem>[] = [
-  { prop: "id", label: "编号" },
-  { prop: "username", label: "用户昵称", search: { el: "input", span: 2, props: { placeholder: "昵称/用户名/手机号" } } },
+  { prop: "id", label: "编号", fixed: "left" },
+  { prop: "username", label: "用户名称", search: { el: "input", span: 2, props: { placeholder: "昵称/用户名/手机号" } } },
   { prop: "userType", label: "用户类型", tag: true, enum: userType, search: { el: "select", span: 2 } },
   { prop: "balance", label: "余额" },
   { prop: "totalExpense", label: "累计支出" },
@@ -180,7 +180,7 @@ const reset = () => {
     updater: undefined, // 更新人
     updateTime: undefined, // 更新时间
     username: "", // 用户
-    nickname: "", // 用户昵称
+    nickname: "", // 用户名称
     mobile: "" // 手机号
   };
 };

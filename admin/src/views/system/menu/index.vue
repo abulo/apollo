@@ -399,7 +399,7 @@ const submitForm = (formEl: FormInstance | undefined) => {
 };
 //
 const reloadData = async () => {
-  const recordList = proTable.value?.element?.getTreeExpandRecords();
+  // const recordList = proTable.value?.element?.getTreeExpandRecords();
   const { data } = await getSystemMenuListApi();
   proTable.value?.element?.loadData(getFlatList(data));
 };
@@ -415,7 +415,7 @@ const deleteSearch = reactive<SearchProps>(
 );
 
 const columns: ColumnProps<SystemMenu.ResSystemMenuList>[] = [
-  { field: "id", title: "编号", width: 100 },
+  { field: "id", title: "编号", width: 100, fixed: "left" },
   { field: "name", title: "菜单名称", align: "left", treeNode: true },
   { field: "type", title: "菜单类别", tag: true, enum: typeEnum, width: 100 },
   { field: "icon", title: "菜单图标", width: 100 },

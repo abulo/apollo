@@ -31,9 +31,9 @@ export namespace SystemUser {
     password: string | undefined; //用户密码
     status: number; // 用户状态（0正常 1停用）
     deleted: number; // 是否删除(0否 1是)
-    roleIds: number[] | undefined; // 角色
-    deptIds: number[] | undefined; // 部门
-    postIds: number[] | undefined; // 岗位
+    deptIds: number[] | undefined;
+    postIds: number[] | undefined;
+    roleIds: number[] | undefined;
   }
   export interface ReqSystemUserPassword {
     password: string;

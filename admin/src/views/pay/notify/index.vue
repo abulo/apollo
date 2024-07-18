@@ -176,7 +176,7 @@ const deleteSearch = reactive<SearchProps>(
 );
 
 const columns: ColumnProps<PayNotifyTask.ResPayNotifyTaskItem>[] = [
-  { prop: "id", label: "任务编号" },
+  { prop: "id", label: "任务编号", fixed: "left" },
   {
     prop: "appId",
     label: "应用编号",

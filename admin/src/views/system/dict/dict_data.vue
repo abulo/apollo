@@ -184,14 +184,14 @@ const colorTypeOptions = ref([
 const dictTypeEnum = ref([]);
 // 表头信息
 const columns: ColumnProps<SystemDict.ResSystemDictItem>[] = [
-  { prop: "id", label: "编号", width: 100 },
+  { prop: "id", label: "编号", width: 100, fixed: "left" },
   { prop: "label", label: "数据标签" },
   { prop: "value", label: "数据键值" },
   {
     prop: "dictType",
     label: "字典类型",
     enum: dictTypeEnum,
-    search: { el: "tree-select", span: 2, defaultValue: systemDictType.value }
+    search: { el: "select", span: 2, defaultValue: systemDictType.value }
   },
   { prop: "colorType", label: "颜色类型", tag: true, enum: colorTypeOptions, width: 100 },
   { prop: "cssClass", label: "CSS Class" },

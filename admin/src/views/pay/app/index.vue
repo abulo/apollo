@@ -479,7 +479,7 @@ const channelRender = (scope: RenderScope<PayApp.ResPayAppItem>, channelCode: st
 };
 
 const columns: ColumnProps<PayApp.ResPayAppItem>[] = [
-  { prop: "id", label: "编号", width: 100 },
+  { prop: "id", label: "编号", fixed: "left", width: 100 },
   { prop: "name", label: "应用名称", search: { el: "input", span: 2, props: { placeholder: "请输入名称" } } },
   {
     prop: "-",

@@ -7,6 +7,7 @@ export namespace SystemLoginLog {
     beginLoginTime?: string; // 开始登录时间
     finishLoginTime?: string; // 结束登录时间
     channel?: string; // 渠道
+    deptId?: number; // 部门
   }
   export interface ResSystemLoginLogItem {
     id: number; // id

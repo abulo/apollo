@@ -14,13 +14,9 @@ export namespace SystemRole {
     status: number; // 状态
     remark: string; // 备注
     deleted: number; // 删除
-  }
-  export interface ResSystemRoleScopeItem {
-    id: number; // 角色编号
     dataScope: number | undefined; // 数据范围（1：全部数据权限 2：自定数据权限 3：本部门数据权限 4：本部门及以下数据权限）
     dataScopeDept: number[] | undefined; //数据范围(指定部门数组)
   }
-
   export interface ReqSystemRoleMenuItem {
     deleted?: number; // 删除
     menuId?: number; // 菜单

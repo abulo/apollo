@@ -159,7 +159,7 @@ const deleteSearch = reactive<SearchProps>(
     : {}
 );
 const columns: ColumnProps<SystemMailAccount.ResSystemMailAccountItem>[] = [
-  { prop: "id", label: "编号", width: 100 },
+  { prop: "id", label: "编号", width: 100, fixed: "left" },
   { prop: "mail", label: "邮箱", search: { el: "input", span: 2, props: { placeholder: "请输入" } } },
   { prop: "username", label: "用户名", search: { el: "input", span: 2, props: { placeholder: "请输入" } } },
   { prop: "host", label: "服务器域名" },

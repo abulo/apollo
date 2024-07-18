@@ -289,28 +289,50 @@ func RegionList(ctx context.Context, newCtx *app.RequestContext) {
 		})
 		return
 	}
-	var list []*dao.Region
+	var list []dao.Region
 	if res.GetCode() == code.Success {
 		rpcList := res.GetData()
 		for _, item := range rpcList {
-			list = append(list, region.RegionDao(item))
+			list = append(list, *region.RegionDao(item))
 		}
 	}
 	response.JSON(newCtx, consts.StatusOK, utils.H{
 		"code": res.GetCode(),
 		"msg":  res.GetMsg(),
-		"data": RegionTree(list, 0),
+		"data": RegionTree(list),
 	})
 }
 
 // RegionTree 树形菜单
-func RegionTree(list []*dao.Region, pid int64) []*dao.Region {
-	var tree []*dao.Region
-	for _, item := range list {
-		if *item.ParentId == pid {
-			item.Children = RegionTree(list, *item.Id)
-			tree = append(tree, item)
+// func RegionTree(list []*dao.Region, pid int64) []*dao.Region {
+// 	var tree []*dao.Region
+// 	for _, item := range list {
+// 		if *item.ParentId == pid {
+// 			item.Children = RegionTree(list, *item.Id)
+// 			tree = append(tree, item)
+// 		}
+// 	}
+// 	return tree
+// }
+
+func RegionTree(regions []dao.Region) []*dao.Region {
+	deptMap := make(map[int64]*dao.Region)
+	parentMap := make(map[int64]bool)
+	var roots []*dao.Region
+	for i := range regions {
+		deptMap[*regions[i].Id] = &regions[i]
+		parentMap[*regions[i].ParentId] = true
+	}
+	for i := range regions {
+		department := &regions[i]
+		if _, ok := deptMap[*department.ParentId]; !ok {
+			roots = append(roots, department)
+		} else {
+			if parent, ok := deptMap[*department.ParentId]; ok {
+				parent.Children = append(parent.Children, department)
+			}
 		}
 	}
-	return tree
+
+	return roots
 }

@@ -143,6 +143,20 @@ func (srv SrvSystemLoginLogServiceServer) SystemLoginLogList(ctx context.Context
 	if request.Channel != nil {
 		condition["channel"] = request.GetChannel()
 	}
+	if request.DeptId != nil {
+		condition["deptId"] = request.GetDeptId()
+	}
+	if request.UserId != nil {
+		condition["userId"] = request.GetUserId()
+	}
+	if request.DataScope != nil {
+		condition["dataScope"] = request.GetDataScope()
+	}
+	if request.DataScopeDept != nil {
+		var deptIds []int64
+		json.Unmarshal(request.GetDataScopeDept(), &deptIds)
+		condition["dataScopeDept"] = deptIds
+	}
 
 	paginationRequest := request.GetPagination()
 	if paginationRequest != nil {
@@ -206,6 +220,20 @@ func (srv SrvSystemLoginLogServiceServer) SystemLoginLogListTotal(ctx context.Co
 	}
 	if request.Channel != nil {
 		condition["channel"] = request.GetChannel()
+	}
+	if request.DeptId != nil {
+		condition["deptId"] = request.GetDeptId()
+	}
+	if request.UserId != nil {
+		condition["userId"] = request.GetUserId()
+	}
+	if request.DataScope != nil {
+		condition["dataScope"] = request.GetDataScope()
+	}
+	if request.DataScopeDept != nil {
+		var deptIds []int64
+		json.Unmarshal(request.GetDataScopeDept(), &deptIds)
+		condition["dataScopeDept"] = deptIds
 	}
 
 	// 获取数据集合

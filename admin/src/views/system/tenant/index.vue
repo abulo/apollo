@@ -233,7 +233,7 @@ const deleteSearch = reactive<SearchProps>(
     : {}
 );
 const columns: ColumnProps<SystemTenant.ResSystemTenantItem>[] = [
-  { prop: "id", label: "编号", width: 100 },
+  { prop: "id", label: "编号", width: 100, fixed: "left" },
   { prop: "name", label: "租户名", search: { el: "input", span: 2 } },
   {
     prop: "tenantPackageId",
@@ -287,9 +287,9 @@ const userOpenPopover = () => {
 };
 // 定义用户数据
 const userColumns: ColumnProps<SystemUser.ResSystemUserItem>[] = [
-  { prop: "id", label: "编码" },
+  { prop: "id", label: "编码", fixed: "left" },
   { prop: "username", label: "用户名", search: { el: "input", span: 2, props: { placeholder: "请输入用户名/昵称/手机号" } } },
-  { prop: "nickname", label: "用户昵称" },
+  { prop: "nickname", label: "用户名称" },
   {
     prop: "operation",
     label: "操作",

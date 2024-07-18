@@ -140,27 +140,3 @@ func SystemRoleListTotal(ctx context.Context, condition map[string]any) (res int
 	res, err = db.Count(ctx, query, args...)
 	return
 }
-
-// SystemRoleDataScopeCreate 创建数据
-func SystemRoleDataScopeCreate(ctx context.Context, id int64, data dao.SystemRoleDataScope) (res int64, err error) {
-	db := initial.Core.Store.LoadSQL("mysql").Write()
-	builder := sql.NewBuilder()
-	query, args, err := builder.Table("`system_role`").Where("`id`", id).Update(data)
-	if err != nil {
-		return
-	}
-	res, err = db.Update(ctx, query, args...)
-	return
-}
-
-// SystemRoleDataScope 查询单条数据
-func SystemRoleDataScope(ctx context.Context, id int64) (res dao.SystemRoleDataScope, err error) {
-	db := initial.Core.Store.LoadSQL("mysql").Read()
-	builder := sql.NewBuilder()
-	query, args, err := builder.Table("`system_role`").Where("`id`", id).Row()
-	if err != nil {
-		return
-	}
-	err = db.QueryRow(ctx, query, args...).ToStruct(&res)
-	return
-}

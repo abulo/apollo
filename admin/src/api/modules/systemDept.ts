@@ -29,3 +29,7 @@ export const recoverSystemDeptApi = (id: number) => {
 export const getSystemDeptListSimpleApi = (params?: SystemDept.ReqSystemDeptList) => {
   return http.get<SystemDept.ResSystemDeptList[]>(PORT + `/system/dept/simple`, params);
 };
+
+export const getSystemDeptListLabelApi = (params?: SystemDept.ReqSystemDeptList) => {
+  return http.get<SystemDept.ResSystemDeptList[]>(PORT + `/system/dept/label`, params);
+};

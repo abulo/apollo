@@ -294,13 +294,13 @@ const handleUpdate = async (row: SystemDept.ResSystemDeptItem) => {
 // 删除按钮
 const handleDelete = async (row: SystemDept.ResSystemDeptItem) => {
   await useHandleData(deleteSystemDeptApi, Number(row.id), "删除部门");
-  proTable.value?.getTableList();
+  reloadData();
 };
 
 // 恢复按钮
 const handleRecover = async (row: SystemDept.ResSystemDeptItem) => {
   await useHandleData(recoverSystemDeptApi, Number(row.id), "恢复部门");
-  proTable.value?.getTableList();
+  reloadData();
 };
 
 // 提交数据
@@ -317,7 +317,7 @@ const submitForm = (formEl: FormInstance | undefined) => {
     }
     resetForm(formEl);
     loading.value = false;
-    proTable.value?.getTableList();
+    reloadData();
   });
 };
 // 表格配置项
@@ -331,7 +331,7 @@ const deleteSearch = reactive<VirtualSearchProps>(
 );
 // 表格配置项
 const columns: VirtualColumnProps<SystemDept.ResSystemDeptList>[] = [
-  { field: "id", title: "编号", width: 100 },
+  { field: "id", title: "编号", width: 100, fixed: "left" },
   { field: "name", title: "部门名称", align: "left", treeNode: true },
   { field: "sort", title: "排序" },
   { field: "status", title: "状态", tag: true, enum: statusEnum, search: { el: "select", span: 2 } },
@@ -360,9 +360,9 @@ const userOpenPopover = () => {
 };
 // 定义用户数据
 const userColumns: ColumnProps<SystemUser.ResSystemUserItem>[] = [
-  { prop: "id", label: "编码" },
+  { prop: "id", label: "编码", fixed: "left" },
   { prop: "username", label: "用户名", search: { el: "input", span: 2, props: { placeholder: "请输入用户名/昵称/手机号" } } },
-  { prop: "nickname", label: "用户昵称" },
+  { prop: "nickname", label: "用户名称" },
   {
     prop: "operation",
     label: "操作",
@@ -384,6 +384,12 @@ const handleUser = (row: SystemUser.ResSystemUserItem) => {
   userItem.value = row.nickname;
   systemDeptItemFrom.value.userId = Number(row.id);
   isUserOpenPopover.value = false;
+};
+
+const reloadData = async () => {
+  // const recordList = proTable.value?.element?.getTreeExpandRecords();
+  const { data } = await getSystemDeptListApi();
+  proTable.value?.element?.loadData(getFlatList(data));
 };
 </script>
 

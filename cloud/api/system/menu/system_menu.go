@@ -286,28 +286,50 @@ func SystemMenuList(ctx context.Context, newCtx *app.RequestContext) {
 		})
 		return
 	}
-	var list []*dao.SystemMenu
+	var list []dao.SystemMenu
 	if res.GetCode() == code.Success {
 		rpcList := res.GetData()
 		for _, item := range rpcList {
-			list = append(list, menu.SystemMenuDao(item))
+			list = append(list, *menu.SystemMenuDao(item))
 		}
 	}
 	response.JSON(newCtx, consts.StatusOK, utils.H{
 		"code": res.GetCode(),
 		"msg":  res.GetMsg(),
-		"data": SystemMenuTree(list, 0),
+		"data": SystemMenuTree(list),
 	})
 }
 
 // SystemMenuTree 树形菜单
-func SystemMenuTree(list []*dao.SystemMenu, pid int64) []*dao.SystemMenu {
-	var tree []*dao.SystemMenu
-	for _, item := range list {
-		if *item.ParentId == pid {
-			item.Children = SystemMenuTree(list, *item.Id)
-			tree = append(tree, item)
+// func SystemMenuTree(list []*dao.SystemMenu, pid int64) []*dao.SystemMenu {
+// 	var tree []*dao.SystemMenu
+// 	for _, item := range list {
+// 		if *item.ParentId == pid {
+// 			item.Children = SystemMenuTree(list, *item.Id)
+// 			tree = append(tree, item)
+// 		}
+// 	}
+// 	return tree
+// }
+
+func SystemMenuTree(menus []dao.SystemMenu) []*dao.SystemMenu {
+	deptMap := make(map[int64]*dao.SystemMenu)
+	parentMap := make(map[int64]bool)
+	var roots []*dao.SystemMenu
+	for i := range menus {
+		deptMap[*menus[i].Id] = &menus[i]
+		parentMap[*menus[i].ParentId] = true
+	}
+	for i := range menus {
+		department := &menus[i]
+		if _, ok := deptMap[*department.ParentId]; !ok {
+			roots = append(roots, department)
+		} else {
+			if parent, ok := deptMap[*department.ParentId]; ok {
+				parent.Children = append(parent.Children, department)
+			}
 		}
 	}
-	return tree
+
+	return roots
 }

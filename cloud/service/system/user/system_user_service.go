@@ -4,6 +4,7 @@ import (
 	"cloud/code"
 	"cloud/module/system/user"
 	"context"
+	"encoding/json"
 
 	globalLogger "github.com/abulo/ratel/v3/core/logger"
 	"github.com/abulo/ratel/v3/server/xgrpc"
@@ -172,6 +173,17 @@ func (srv SrvSystemUserServiceServer) SystemUserList(ctx context.Context, reques
 	if request.DeptId != nil {
 		condition["deptId"] = request.GetDeptId()
 	}
+	if request.UserId != nil {
+		condition["userId"] = request.GetUserId()
+	}
+	if request.DataScope != nil {
+		condition["dataScope"] = request.GetDataScope()
+	}
+	if request.DataScopeDept != nil {
+		var deptIds []int64
+		json.Unmarshal(request.GetDataScopeDept(), &deptIds)
+		condition["dataScopeDept"] = deptIds
+	}
 
 	paginationRequest := request.GetPagination()
 	if paginationRequest != nil {
@@ -233,6 +245,17 @@ func (srv SrvSystemUserServiceServer) SystemUserListTotal(ctx context.Context, r
 	if request.DeptId != nil {
 		condition["deptId"] = request.GetDeptId()
 	}
+	if request.UserId != nil {
+		condition["userId"] = request.GetUserId()
+	}
+	if request.DataScope != nil {
+		condition["dataScope"] = request.GetDataScope()
+	}
+	if request.DataScopeDept != nil {
+		var deptIds []int64
+		json.Unmarshal(request.GetDataScopeDept(), &deptIds)
+		condition["dataScopeDept"] = deptIds
+	}
 
 	// 获取数据集合
 	total, err := user.SystemUserListTotal(ctx, condition)
@@ -272,5 +295,29 @@ func (srv SrvSystemUserServiceServer) SystemUserPassword(ctx context.Context, re
 	return &SystemUserPasswordResponse{
 		Code: code.Success,
 		Msg:  code.StatusText(code.Success),
+	}, nil
+}
+
+func (srv SrvSystemUserServiceServer) SystemUserRoleDataScope(ctx context.Context, request *SystemUserRoleDataScopeRequest) (*SystemUserRoleDataScopeResponse, error) {
+	userId := request.GetUserId()
+	if userId < 1 {
+		return &SystemUserRoleDataScopeResponse{}, status.Error(code.ConvertToGrpc(code.ParamInvalid), code.StatusText(code.ParamInvalid))
+	}
+	tenantId := request.GetTenantId()
+	if tenantId < 1 {
+		return &SystemUserRoleDataScopeResponse{}, status.Error(code.ConvertToGrpc(code.ParamInvalid), code.StatusText(code.ParamInvalid))
+	}
+	res, err := user.SystemUserDataScope(ctx, tenantId, userId)
+	if sql.ResultAccept(err) != nil {
+		globalLogger.Logger.WithFields(logrus.Fields{
+			"req": request,
+			"err": err,
+		}).Error("Sql:系统用户:system_user:SystemUserRoleDataScope")
+		return &SystemUserRoleDataScopeResponse{}, status.Error(code.ConvertToGrpc(code.SqlError), err.Error())
+	}
+	return &SystemUserRoleDataScopeResponse{
+		Code: code.Success,
+		Msg:  code.StatusText(code.Success),
+		Data: SystemUserRoleDataScopeProto(res),
 	}, nil
 }

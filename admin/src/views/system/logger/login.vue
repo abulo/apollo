@@ -1,83 +1,86 @@
 <template>
-  <div class="table-box">
-    <ProTable
-      ref="proTable"
-      title="登录日志列表"
-      row-key="id"
-      :columns="columns"
-      :request-api="getTableList"
-      :request-auto="true"
-      :pagination="true"
-      :search-col="12">
-      <!-- 表格 header 按钮 -->
-      <template #tableHeader="scope">
-        <el-button v-auth="'logger.SystemLoginLogDrop'" type="danger" :icon="Delete" @click="handleDrop(scope.selectedListIds)">
-          清空
-        </el-button>
-      </template>
-      <template #deleted="scope">
-        <DictTag type="delete" :value="scope.row.deleted" />
-      </template>
-      <template #operation="scope">
-        <el-button v-auth="'logger.SystemLoginLog'" type="primary" link :icon="View" @click="handleItem(scope.row)">
-          查看
-        </el-button>
-        <el-button
-          type="primary"
-          link
-          v-if="scope.row.deleted === 0"
-          v-auth="'logger.SystemLoginLogDelete'"
-          :icon="Delete"
-          @click="handleDelete(scope.row)">
-          删除
-        </el-button>
-        <el-button
-          type="primary"
-          link
-          v-if="scope.row.deleted === 1"
-          v-auth="'logger.SystemLoginLogRecover'"
-          :icon="Refresh"
-          @click="handleRecover(scope.row)">
-          恢复
-        </el-button>
-      </template>
-    </ProTable>
-    <el-dialog
-      v-model="centerDialogVisible"
-      :title="title"
-      width="40%"
-      destroy-on-close
-      align-center
-      center
-      append-to-body
-      draggable
-      :lock-scroll="false"
-      class="dialog-settings">
-      <el-descriptions :column="1" border>
-        <el-descriptions-item label="日志主键" min-width="120">
-          {{ systemLoginLogItemFrom.id }}
-        </el-descriptions-item>
-        <el-descriptions-item label="用户账号">
-          {{ systemLoginLogItemFrom.username }}
-        </el-descriptions-item>
-        <el-descriptions-item label="用户ip">
-          {{ systemLoginLogItemFrom.userIp }}
-        </el-descriptions-item>
-        <el-descriptions-item label="UA">
-          {{ systemLoginLogItemFrom.userAgent }}
-        </el-descriptions-item>
-        <el-descriptions-item label="渠道">
-          {{ systemLoginLogItemFrom.channel }}
-        </el-descriptions-item>
-        <el-descriptions-item label="登录时间">
-          {{ systemLoginLogItemFrom.loginTime }}
-        </el-descriptions-item>
-      </el-descriptions>
-    </el-dialog>
+  <div class="main-box">
+    <TreeFilter label="name" :data="deptList" :default-value="initParam.deptId" @change="changeDept" />
+    <div class="table-box">
+      <ProTable
+        ref="proTable"
+        title="登录日志列表"
+        row-key="id"
+        :columns="columns"
+        :request-api="getTableList"
+        :request-auto="true"
+        :pagination="true"
+        :search-col="12">
+        <!-- 表格 header 按钮 -->
+        <template #tableHeader="scope">
+          <el-button v-auth="'logger.SystemLoginLogDrop'" type="danger" :icon="Delete" @click="handleDrop(scope.selectedListIds)">
+            清空
+          </el-button>
+        </template>
+        <template #deleted="scope">
+          <DictTag type="delete" :value="scope.row.deleted" />
+        </template>
+        <template #operation="scope">
+          <el-button v-auth="'logger.SystemLoginLog'" type="primary" link :icon="View" @click="handleItem(scope.row)">
+            查看
+          </el-button>
+          <el-button
+            type="primary"
+            link
+            v-if="scope.row.deleted === 0"
+            v-auth="'logger.SystemLoginLogDelete'"
+            :icon="Delete"
+            @click="handleDelete(scope.row)">
+            删除
+          </el-button>
+          <el-button
+            type="primary"
+            link
+            v-if="scope.row.deleted === 1"
+            v-auth="'logger.SystemLoginLogRecover'"
+            :icon="Refresh"
+            @click="handleRecover(scope.row)">
+            恢复
+          </el-button>
+        </template>
+      </ProTable>
+      <el-dialog
+        v-model="centerDialogVisible"
+        :title="title"
+        width="40%"
+        destroy-on-close
+        align-center
+        center
+        append-to-body
+        draggable
+        :lock-scroll="false"
+        class="dialog-settings">
+        <el-descriptions :column="1" border>
+          <el-descriptions-item label="日志主键" min-width="120">
+            {{ systemLoginLogItemFrom.id }}
+          </el-descriptions-item>
+          <el-descriptions-item label="用户账号">
+            {{ systemLoginLogItemFrom.username }}
+          </el-descriptions-item>
+          <el-descriptions-item label="用户ip">
+            {{ systemLoginLogItemFrom.userIp }}
+          </el-descriptions-item>
+          <el-descriptions-item label="UA">
+            {{ systemLoginLogItemFrom.userAgent }}
+          </el-descriptions-item>
+          <el-descriptions-item label="渠道">
+            {{ systemLoginLogItemFrom.channel }}
+          </el-descriptions-item>
+          <el-descriptions-item label="登录时间">
+            {{ systemLoginLogItemFrom.loginTime }}
+          </el-descriptions-item>
+        </el-descriptions>
+      </el-dialog>
+    </div>
   </div>
 </template>
 <script setup lang="tsx" name="systemLoggerLogin">
-import { ref, reactive } from "vue";
+import { ref, reactive, onMounted } from "vue";
 import { ProTableInstance, ColumnProps, SearchProps } from "@/components/ProTable/interface";
 import { Delete, View, Refresh } from "@element-plus/icons-vue";
 import ProTable from "@/components/ProTable/index.vue";
@@ -93,6 +96,9 @@ import { getIntDictOptions } from "@/utils/dict";
 import { DictTag } from "@/components/DictTag";
 import { useHandleData } from "@/hooks/useHandleData";
 import { HasPermission } from "@/utils/permission";
+import TreeFilter from "@/components/TreeFilter/index.vue";
+import { SystemDept } from "@/api/interface/systemDept";
+import { getSystemDeptListSimpleApi } from "@/api/modules/systemDept";
 
 //删除状态
 const deletedEnum = getIntDictOptions("delete");
@@ -148,6 +154,21 @@ const getTableList = (params: any) => {
 };
 //table数据
 const proTable = ref<ProTableInstance>();
+
+const initParam = reactive({ deptId: "" });
+// 部门树选择
+const deptList = ref<SystemDept.ResSystemDeptList[]>([]);
+
+const getTreeFilter = async () => {
+  const { data } = await getSystemDeptListSimpleApi();
+  deptList.value = data;
+};
+// 树形筛选切换
+const changeDept = (val: string) => {
+  proTable.value!.pageable.pageNum = 1;
+  initParam.deptId = val;
+  proTable.value?.getTableList();
+};
 
 // 删除按钮
 const handleDelete = async (row: SystemLoginLog.ResSystemLoginLogItem) => {
@@ -219,6 +240,10 @@ const handleItem = async (row: SystemLoginLog.ResSystemLoginLogItem) => {
   const { data } = await getSystemLoginLogItemApi(row.id);
   systemLoginLogItemFrom.value = data;
 };
+
+onMounted(() => {
+  getTreeFilter();
+});
 </script>
 <style lang="scss">
 @import "@/styles/custom";

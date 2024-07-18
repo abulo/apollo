@@ -2,6 +2,7 @@ package user
 
 import (
 	"cloud/dao"
+	"encoding/json"
 
 	"github.com/abulo/ratel/v3/stores/null"
 	"github.com/abulo/ratel/v3/util"
@@ -50,16 +51,51 @@ func SystemUserDao(item *SystemUserObject) *dao.SystemUser {
 	if item != nil && item.UpdateTime != nil {
 		daoItem.UpdateTime = null.DateTimeFrom(util.GrpcTime(item.UpdateTime)) // 更新时间
 	}
-	// if item != nil && item.DeptIds != nil {
-	// 	daoItem.DeptIds = null.JSONFrom(item.GetDeptIds())
-	// }
-	// if item != nil && item.PostIds != nil {
-	// 	daoItem.PostIds = null.JSONFrom(item.GetPostIds())
-	// }
-	// if item != nil && item.RoleIds != nil {
-	// 	daoItem.RoleIds = null.JSONFrom(item.GetRoleIds())
-	// }
-
+	if item != nil && item.DeptIds != nil {
+		// 这里需要将数据去重一下
+		var deptIds []int64
+		var deptIdsNew []int64
+		var deptIdsByte []byte
+		if err := json.Unmarshal(item.GetDeptIds(), &deptIds); err == nil {
+			for _, deptId := range deptIds {
+				if !util.InArray(deptId, deptIdsNew) {
+					deptIdsNew = append(deptIdsNew, deptId)
+				}
+			}
+			deptIdsByte, _ = json.Marshal(deptIdsNew)
+		}
+		daoItem.DeptIds = null.JSONFrom(deptIdsByte)
+	}
+	if item != nil && item.PostIds != nil {
+		// 这里需要将数据去重一下
+		var postIds []int64
+		var postIdsNew []int64
+		var postIdsByte []byte
+		if err := json.Unmarshal(item.GetPostIds(), &postIds); err == nil {
+			for _, postId := range postIds {
+				if !util.InArray(postId, postIdsNew) {
+					postIdsNew = append(postIdsNew, postId)
+				}
+			}
+			postIdsByte, _ = json.Marshal(postIdsNew)
+		}
+		daoItem.PostIds = null.JSONFrom(postIdsByte)
+	}
+	if item != nil && item.RoleIds != nil {
+		// 这里需要将数据去重一下
+		var roleIds []int64
+		var roleIdsNew []int64
+		var roleIdsByte []byte
+		if err := json.Unmarshal(item.GetRoleIds(), &roleIds); err == nil {
+			for _, roleId := range roleIds {
+				if !util.InArray(roleId, roleIdsNew) {
+					roleIdsNew = append(roleIdsNew, roleId)
+				}
+			}
+			roleIdsByte, _ = json.Marshal(roleIdsNew)
+		}
+		daoItem.RoleIds = null.JSONFrom(roleIdsByte)
+	}
 	return daoItem
 }
 
@@ -102,15 +138,42 @@ func SystemUserProto(item dao.SystemUser) *SystemUserObject {
 	if item.UpdateTime.IsValid() {
 		res.UpdateTime = timestamppb.New(*item.UpdateTime.Ptr())
 	}
-	// if item.DeptIds.IsValid() {
-	// 	res.DeptIds = *item.DeptIds.Ptr()
-	// }
-	// if item.PostIds.IsValid() {
-	// 	res.PostIds = *item.PostIds.Ptr()
-	// }
-	// if item.RoleIds.IsValid() {
-	// 	res.RoleIds = *item.RoleIds.Ptr()
-	// }
+	if item.DeptIds.IsValid() {
+		res.DeptIds = *item.DeptIds.Ptr()
+	}
+	if item.PostIds.IsValid() {
+		res.PostIds = *item.PostIds.Ptr()
+	}
+	if item.RoleIds.IsValid() {
+		res.RoleIds = *item.RoleIds.Ptr()
+	}
 
 	return res
+}
+
+func SystemUserRoleDataScopeProto(item dao.SystemUserRoleDataScope) *SystemUserRoleDataScopeObject {
+	res := &SystemUserRoleDataScopeObject{}
+	if item.DataScope != nil {
+		res.DataScope = item.DataScope
+	}
+	if item.DataScopeDept != nil {
+		jsString, _ := json.Marshal(item.DataScopeDept)
+		res.DataScopeDept = jsString
+	}
+	return res
+}
+
+func SystemUserRoleDataScopeDao(item *SystemUserRoleDataScopeObject) *dao.SystemUserRoleDataScope {
+	daoItem := &dao.SystemUserRoleDataScope{}
+	if item != nil && item.DataScope != nil {
+		daoItem.DataScope = item.DataScope // 用户编号
+	}
+	if item != nil && item.DataScopeDept != nil {
+		// 这里需要将数据去重一下
+		var dataScope []int64
+		if err := json.Unmarshal(item.GetDataScopeDept(), &dataScope); err == nil {
+			daoItem.DataScopeDept = dataScope
+		}
+	}
+	return daoItem
 }

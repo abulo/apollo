@@ -23,18 +23,6 @@ func Registry(server *xgrpc.Server) {
 	user.RegisterSystemUserServiceServer(server.Server, &user.SrvSystemUserServiceServer{
 		Server: server,
 	})
-	// 系统用户职位->system_user_post
-	user.RegisterSystemUserPostServiceServer(server.Server, &user.SrvSystemUserPostServiceServer{
-		Server: server,
-	})
-	// 系统用户和系统角色关联表->system_user_role
-	user.RegisterSystemUserRoleServiceServer(server.Server, &user.SrvSystemUserRoleServiceServer{
-		Server: server,
-	})
-	// 系统用户部门->system_user_dept
-	user.RegisterSystemUserDeptServiceServer(server.Server, &user.SrvSystemUserDeptServiceServer{
-		Server: server,
-	})
 	// 系统菜单->system_menu
 	menu.RegisterSystemMenuServiceServer(server.Server, &menu.SrvSystemMenuServiceServer{
 		Server: server,

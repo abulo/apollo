@@ -200,7 +200,7 @@ const deleteSearch = reactive<SearchProps>(
 );
 
 const columns: ColumnProps<PayOrder.ResPayOrderItem>[] = [
-  { prop: "id", label: "编号" },
+  { prop: "id", label: "编号", fixed: "left" },
   {
     prop: "createTime",
     label: "创建时间",

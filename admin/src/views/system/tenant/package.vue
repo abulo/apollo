@@ -196,7 +196,7 @@ const deleteSearch = reactive<SearchProps>(
 );
 // 配置数据列表
 const columns: ColumnProps<SystemTenantPackage.ResSystemTenantPackageItem>[] = [
-  { prop: "id", label: "编号", width: 100 },
+  { prop: "id", label: "编号", width: 100, fixed: "left" },
   { prop: "name", label: "套餐名称", search: { el: "input", span: 2 } },
   { prop: "status", label: "状态", tag: true, enum: statusEnum, search: { el: "select", span: 2 }, width: 100 },
   { prop: "remark", label: "备注" },

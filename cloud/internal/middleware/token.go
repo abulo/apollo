@@ -103,7 +103,8 @@ func AuthMiddleware() app.HandlerFunc {
 			channel = append(channel, "unknown")
 		}
 		var systemOperateLog dao.SystemOperateLog
-		systemOperateLog.Username = proto.String(rsp.UserName)                                         //用户名称
+		systemOperateLog.Username = proto.String(rsp.UserName)
+		systemOperateLog.UserId = proto.Int64(rsp.UserId)                                              //用户名称
 		systemOperateLog.Module = nil                                                                  //模块标题
 		systemOperateLog.RequestMethod = proto.String(cast.ToString(newCtx.Request.Method()))          //请求方法名
 		systemOperateLog.RequestUrl = proto.String(cast.ToString(newCtx.Request.URI().RequestURI()))   //请求地址

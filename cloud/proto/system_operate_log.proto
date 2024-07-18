@@ -46,6 +46,8 @@ message SystemOperateLogObject {
 	optional string updater = 18; //更新人
 	// @inject_tag: db:"update_time" json:"updateTime"
 	google.protobuf.Timestamp update_time = 19; //更新时间
+	// @inject_tag: db:"user_id" json:"userId"
+	optional int64 user_id = 20; //用户id
 }
 // SystemOperateLogTotalResponse 列表数据总量
 message SystemOperateLogTotalResponse {
@@ -121,8 +123,16 @@ message SystemOperateLogListRequest {
 	google.protobuf.Timestamp finish_start_time = 6; // 操作开始时间
 	// @inject_tag: db:"result" json:"result"
 	optional int32 result = 7; // 结果(0 成功/1 失败)
+	// @inject_tag: db:"dept_id" json:"deptId"
+	optional int64 dept_id = 8; // 租户ID
+	// @inject_tag: db:"user_id" json:"userId"
+	optional int64 user_id = 9; // 当前登录的用户 ID
+	// @inject_tag: db:"data_scope" json:"dataScope"
+	optional int32 data_scope = 10; //数据范围（1：全部数据权限 2：自定数据权限 3：本部门数据权限 4：本部门及以下数据权限）
+	// @inject_tag: db:"data_scope_dept" json:"dataScopeDept"
+	optional bytes data_scope_dept = 11; //数据范围(指定部门数组)
 	// @inject_tag: db:"pagination" json:"pagination"
-	optional pagination.PaginationRequest pagination = 8; // 分页
+	optional pagination.PaginationRequest pagination = 12; // 分页
 }
 
 // SystemOperateLogListResponse 数据响应
@@ -147,6 +157,14 @@ message SystemOperateLogListTotalRequest {
 	google.protobuf.Timestamp finish_start_time = 6; // 操作开始时间
 	// @inject_tag: db:"result" json:"result"
 	optional int32 result = 7; // 结果(0 成功/1 失败)
+	// @inject_tag: db:"dept_id" json:"deptId"
+	optional int64 dept_id = 8; // 租户ID
+	// @inject_tag: db:"user_id" json:"userId"
+	optional int64 user_id = 9; // 当前登录的用户 ID
+	// @inject_tag: db:"data_scope" json:"dataScope"
+	optional int32 data_scope = 10; //数据范围（1：全部数据权限 2：自定数据权限 3：本部门数据权限 4：本部门及以下数据权限）
+	// @inject_tag: db:"data_scope_dept" json:"dataScopeDept"
+	optional bytes data_scope_dept = 11; //数据范围(指定部门数组)
 }
 
 

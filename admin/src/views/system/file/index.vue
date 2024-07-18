@@ -34,13 +34,10 @@
       </template>
       <template #fileName="scope">
         <span>{{ scope.row.fileName }}</span>
-        <div v-if="scope.row.fileType == 1">
-          <el-image style="width: 100px" :src="FileUrl(scope.row.filePath)" />
-        </div>
       </template>
       <template #view="scope">
-        <el-button type="primary" link :icon="View" @click="handleItem(scope.row)" v-if="scope.row.fileType != 4">
-          预览
+        <el-button type="primary" link @click="handleItem(scope.row)" v-if="scope.row.fileType != 4">
+          <FileIcons :name="scope.row.fileName" :is-folder="false" width="30" height="30" />
         </el-button>
       </template>
       <!-- 菜单操作 -->
@@ -90,7 +87,7 @@
 <script setup lang="ts" name="systemFile">
 import { ref, reactive } from "vue";
 import { ProTableInstance, ColumnProps } from "@/components/ProTable/interface";
-import { EditPen, CirclePlus, Delete, Refresh, View } from "@element-plus/icons-vue";
+import { EditPen, CirclePlus, Delete, Refresh } from "@element-plus/icons-vue";
 import ProTable from "@/components/ProTable/index.vue";
 import { SystemFile } from "@/api/interface/systemFile";
 import { getSystemFileListApi, deleteSystemFileApi, addSystemFileApi, updateSystemFileApi } from "@/api/modules/systemFile";
@@ -105,6 +102,7 @@ import VueOfficeExcel from "@vue-office/excel";
 import VueOfficePdf from "@vue-office/pdf";
 import "@vue-office/docx/lib/index.css";
 import "@vue-office/excel/lib/index.css";
+import FileIcons from "file-icons-vue";
 //弹出层标题
 const title = ref();
 //table数据
@@ -126,10 +124,10 @@ const systemFileItemFrom = ref<SystemFile.ResSystemFileItem>({
 //文件类型
 const typeEnum = getIntDictOptions("file.type");
 const columns: ColumnProps<SystemFile.ResSystemFileItem>[] = [
-  { prop: "id", label: "编号", width: 100 },
+  { prop: "id", label: "编号", width: 100, fixed: "left" },
   { prop: "fileName", label: "文件名称", search: { el: "input", span: 2, props: { placeholder: "请输入标题" } } },
-  { prop: "view", label: "预览" },
-  { prop: "fileType", label: "文件类型", tag: true, enum: typeEnum, search: { el: "select", span: 2 } },
+  { prop: "view", label: "预览", width: 100 },
+  { prop: "fileType", label: "文件类型", tag: true, enum: typeEnum, search: { el: "select", span: 2 }, isShow: false },
   { prop: "fileSize", label: "文件大小" },
   {
     prop: "operation",

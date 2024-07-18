@@ -150,7 +150,7 @@ const deleteSearch = reactive<SearchProps>(
     : {}
 );
 const columns: ColumnProps<SystemNotice.ResSystemNoticeItem>[] = [
-  { prop: "id", label: "编号", width: 100 },
+  { prop: "id", label: "编号", width: 100, fixed: "left" },
   { prop: "title", label: "公告标题", search: { el: "input", span: 2, props: { placeholder: "请输入标题" } } },
   { prop: "type", label: "公告类型", tag: true, enum: typeEnum, search: { el: "select", span: 2 } },
   { prop: "status", label: "状态", tag: true, enum: statusEnum, search: { el: "select", span: 2 } },

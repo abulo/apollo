@@ -32,13 +32,36 @@ message SystemUserObject {
 	optional string updater = 11; //更新人
 	// @inject_tag: db:"update_time" json:"updateTime"
 	google.protobuf.Timestamp update_time = 12; //更新时间
-	// @inject_tag: db:"role_ids" json:"roleIds"
-	optional bytes role_ids = 13; //角色ID
-	// @inject_tag: db:"post_ids" json:"postIds"
-	optional bytes post_ids = 14; //岗位ID
 	// @inject_tag: db:"dept_ids" json:"deptIds"
-	optional bytes dept_ids = 15; //租户ID
+	optional bytes dept_ids = 13; //部门ID
+	// @inject_tag: db:"post_ids" json:"postIds"
+	optional bytes post_ids = 14; //职位 id
+	// @inject_tag: db:"role_ids" json:"roleIds"
+	optional bytes role_ids = 15; //角色编号 id
 }
+
+message SystemUserRoleDataScopeObject 	{
+	// @inject_tag: db:"data_scope" json:"dataScope"
+	optional int32 data_scope = 1; //数据范围（1：全部数据权限 2：自定数据权限 3：本部门数据权限 4：本部门及以下数据权限）
+	// @inject_tag: db:"data_scope_dept" json:"dataScopeDept"
+	optional bytes data_scope_dept = 2; //数据范围(指定部门数组)
+}
+
+// SystemUserRoleRequest 创建数据请求
+message SystemUserRoleDataScopeRequest {
+	// @inject_tag: db:"tenant_id" json:"tenantId"
+	int64 tenant_id = 1; //租户ID
+	// @inject_tag: db:"user_id" json:"userId"
+	int64 user_id = 2; //用户ID
+}
+
+// SystemUserRoleResponse 创建数据响应
+message SystemUserRoleDataScopeResponse {
+	int64 code = 1;
+	string msg = 2;
+	SystemUserRoleDataScopeObject data = 3;
+}
+
 // SystemUserTotalResponse 列表数据总量
 message SystemUserTotalResponse {
 	int64 code = 1;
@@ -121,9 +144,14 @@ message SystemUserListRequest {
 	optional int32 status = 4; // 用户状态（0正常 1停用）
 	// @inject_tag: db:"dept_id" json:"deptId"
 	optional int64 dept_id = 5; // 租户ID
-
+	// @inject_tag: db:"user_id" json:"userId"
+	optional int64 user_id = 6; // 当前登录的用户 ID
+	// @inject_tag: db:"data_scope" json:"dataScope"
+	optional int32 data_scope = 7; //数据范围（1：全部数据权限 2：自定数据权限 3：本部门数据权限 4：本部门及以下数据权限）
+	// @inject_tag: db:"data_scope_dept" json:"dataScopeDept"
+	optional bytes data_scope_dept = 8; //数据范围(指定部门数组)
 	// @inject_tag: db:"pagination" json:"pagination"
-	optional pagination.PaginationRequest pagination = 6; // 分页
+	optional pagination.PaginationRequest pagination = 9; // 分页
 }
 
 // SystemUserListResponse 数据响应
@@ -144,6 +172,12 @@ message SystemUserListTotalRequest {
 	optional int32 status = 4; // 用户状态（0正常 1停用）
 	// @inject_tag: db:"dept_id" json:"deptId"
 	optional int64 dept_id = 5; // 租户ID
+	// @inject_tag: db:"user_id" json:"userId"
+	optional int64 user_id = 6; // 当前登录的用户 ID
+	// @inject_tag: db:"data_scope" json:"dataScope"
+	optional int32 data_scope = 7; //数据范围（1：全部数据权限 2：自定数据权限 3：本部门数据权限 4：本部门及以下数据权限）
+	// @inject_tag: db:"data_scope_dept" json:"dataScopeDept"
+	optional bytes data_scope_dept = 8; //数据范围(指定部门数组)
 }
 
 
@@ -173,4 +207,5 @@ service SystemUserService{
 	rpc SystemUserList(SystemUserListRequest) returns (SystemUserListResponse);
 	rpc SystemUserListTotal(SystemUserListTotalRequest) returns (SystemUserTotalResponse);
 	rpc SystemUserPassword(SystemUserPasswordRequest) returns (SystemUserPasswordResponse);
+	rpc SystemUserRoleDataScope(SystemUserRoleDataScopeRequest) returns (SystemUserRoleDataScopeResponse);
 }

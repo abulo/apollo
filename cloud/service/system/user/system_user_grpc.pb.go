@@ -21,15 +21,16 @@ import (
 const _ = grpc.SupportPackageIsVersion8
 
 const (
-	SystemUserService_SystemUserCreate_FullMethodName    = "/user.SystemUserService/SystemUserCreate"
-	SystemUserService_SystemUserUpdate_FullMethodName    = "/user.SystemUserService/SystemUserUpdate"
-	SystemUserService_SystemUserDelete_FullMethodName    = "/user.SystemUserService/SystemUserDelete"
-	SystemUserService_SystemUser_FullMethodName          = "/user.SystemUserService/SystemUser"
-	SystemUserService_SystemUserRecover_FullMethodName   = "/user.SystemUserService/SystemUserRecover"
-	SystemUserService_SystemUserLogin_FullMethodName     = "/user.SystemUserService/SystemUserLogin"
-	SystemUserService_SystemUserList_FullMethodName      = "/user.SystemUserService/SystemUserList"
-	SystemUserService_SystemUserListTotal_FullMethodName = "/user.SystemUserService/SystemUserListTotal"
-	SystemUserService_SystemUserPassword_FullMethodName  = "/user.SystemUserService/SystemUserPassword"
+	SystemUserService_SystemUserCreate_FullMethodName        = "/user.SystemUserService/SystemUserCreate"
+	SystemUserService_SystemUserUpdate_FullMethodName        = "/user.SystemUserService/SystemUserUpdate"
+	SystemUserService_SystemUserDelete_FullMethodName        = "/user.SystemUserService/SystemUserDelete"
+	SystemUserService_SystemUser_FullMethodName              = "/user.SystemUserService/SystemUser"
+	SystemUserService_SystemUserRecover_FullMethodName       = "/user.SystemUserService/SystemUserRecover"
+	SystemUserService_SystemUserLogin_FullMethodName         = "/user.SystemUserService/SystemUserLogin"
+	SystemUserService_SystemUserList_FullMethodName          = "/user.SystemUserService/SystemUserList"
+	SystemUserService_SystemUserListTotal_FullMethodName     = "/user.SystemUserService/SystemUserListTotal"
+	SystemUserService_SystemUserPassword_FullMethodName      = "/user.SystemUserService/SystemUserPassword"
+	SystemUserService_SystemUserRoleDataScope_FullMethodName = "/user.SystemUserService/SystemUserRoleDataScope"
 )
 
 // SystemUserServiceClient is the client API for SystemUserService service.
@@ -47,6 +48,7 @@ type SystemUserServiceClient interface {
 	SystemUserList(ctx context.Context, in *SystemUserListRequest, opts ...grpc.CallOption) (*SystemUserListResponse, error)
 	SystemUserListTotal(ctx context.Context, in *SystemUserListTotalRequest, opts ...grpc.CallOption) (*SystemUserTotalResponse, error)
 	SystemUserPassword(ctx context.Context, in *SystemUserPasswordRequest, opts ...grpc.CallOption) (*SystemUserPasswordResponse, error)
+	SystemUserRoleDataScope(ctx context.Context, in *SystemUserRoleDataScopeRequest, opts ...grpc.CallOption) (*SystemUserRoleDataScopeResponse, error)
 }
 
 type systemUserServiceClient struct {
@@ -147,6 +149,16 @@ func (c *systemUserServiceClient) SystemUserPassword(ctx context.Context, in *Sy
 	return out, nil
 }
 
+func (c *systemUserServiceClient) SystemUserRoleDataScope(ctx context.Context, in *SystemUserRoleDataScopeRequest, opts ...grpc.CallOption) (*SystemUserRoleDataScopeResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(SystemUserRoleDataScopeResponse)
+	err := c.cc.Invoke(ctx, SystemUserService_SystemUserRoleDataScope_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // SystemUserServiceServer is the server API for SystemUserService service.
 // All implementations must embed UnimplementedSystemUserServiceServer
 // for forward compatibility
@@ -162,6 +174,7 @@ type SystemUserServiceServer interface {
 	SystemUserList(context.Context, *SystemUserListRequest) (*SystemUserListResponse, error)
 	SystemUserListTotal(context.Context, *SystemUserListTotalRequest) (*SystemUserTotalResponse, error)
 	SystemUserPassword(context.Context, *SystemUserPasswordRequest) (*SystemUserPasswordResponse, error)
+	SystemUserRoleDataScope(context.Context, *SystemUserRoleDataScopeRequest) (*SystemUserRoleDataScopeResponse, error)
 	mustEmbedUnimplementedSystemUserServiceServer()
 }
 
@@ -195,6 +208,9 @@ func (UnimplementedSystemUserServiceServer) SystemUserListTotal(context.Context,
 }
 func (UnimplementedSystemUserServiceServer) SystemUserPassword(context.Context, *SystemUserPasswordRequest) (*SystemUserPasswordResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SystemUserPassword not implemented")
+}
+func (UnimplementedSystemUserServiceServer) SystemUserRoleDataScope(context.Context, *SystemUserRoleDataScopeRequest) (*SystemUserRoleDataScopeResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SystemUserRoleDataScope not implemented")
 }
 func (UnimplementedSystemUserServiceServer) mustEmbedUnimplementedSystemUserServiceServer() {}
 
@@ -371,6 +387,24 @@ func _SystemUserService_SystemUserPassword_Handler(srv interface{}, ctx context.
 	return interceptor(ctx, in, info, handler)
 }
 
+func _SystemUserService_SystemUserRoleDataScope_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SystemUserRoleDataScopeRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SystemUserServiceServer).SystemUserRoleDataScope(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: SystemUserService_SystemUserRoleDataScope_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SystemUserServiceServer).SystemUserRoleDataScope(ctx, req.(*SystemUserRoleDataScopeRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // SystemUserService_ServiceDesc is the grpc.ServiceDesc for SystemUserService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -413,6 +447,10 @@ var SystemUserService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "SystemUserPassword",
 			Handler:    _SystemUserService_SystemUserPassword_Handler,
+		},
+		{
+			MethodName: "SystemUserRoleDataScope",
+			Handler:    _SystemUserService_SystemUserRoleDataScope_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

@@ -21,15 +21,13 @@ import (
 const _ = grpc.SupportPackageIsVersion8
 
 const (
-	SystemRoleService_SystemRoleCreate_FullMethodName          = "/role.SystemRoleService/SystemRoleCreate"
-	SystemRoleService_SystemRoleUpdate_FullMethodName          = "/role.SystemRoleService/SystemRoleUpdate"
-	SystemRoleService_SystemRoleDelete_FullMethodName          = "/role.SystemRoleService/SystemRoleDelete"
-	SystemRoleService_SystemRole_FullMethodName                = "/role.SystemRoleService/SystemRole"
-	SystemRoleService_SystemRoleRecover_FullMethodName         = "/role.SystemRoleService/SystemRoleRecover"
-	SystemRoleService_SystemRoleList_FullMethodName            = "/role.SystemRoleService/SystemRoleList"
-	SystemRoleService_SystemRoleListTotal_FullMethodName       = "/role.SystemRoleService/SystemRoleListTotal"
-	SystemRoleService_SystemRoleDataScopeCreate_FullMethodName = "/role.SystemRoleService/SystemRoleDataScopeCreate"
-	SystemRoleService_SystemRoleDataScope_FullMethodName       = "/role.SystemRoleService/SystemRoleDataScope"
+	SystemRoleService_SystemRoleCreate_FullMethodName    = "/role.SystemRoleService/SystemRoleCreate"
+	SystemRoleService_SystemRoleUpdate_FullMethodName    = "/role.SystemRoleService/SystemRoleUpdate"
+	SystemRoleService_SystemRoleDelete_FullMethodName    = "/role.SystemRoleService/SystemRoleDelete"
+	SystemRoleService_SystemRole_FullMethodName          = "/role.SystemRoleService/SystemRole"
+	SystemRoleService_SystemRoleRecover_FullMethodName   = "/role.SystemRoleService/SystemRoleRecover"
+	SystemRoleService_SystemRoleList_FullMethodName      = "/role.SystemRoleService/SystemRoleList"
+	SystemRoleService_SystemRoleListTotal_FullMethodName = "/role.SystemRoleService/SystemRoleListTotal"
 )
 
 // SystemRoleServiceClient is the client API for SystemRoleService service.
@@ -45,8 +43,6 @@ type SystemRoleServiceClient interface {
 	SystemRoleRecover(ctx context.Context, in *SystemRoleRecoverRequest, opts ...grpc.CallOption) (*SystemRoleRecoverResponse, error)
 	SystemRoleList(ctx context.Context, in *SystemRoleListRequest, opts ...grpc.CallOption) (*SystemRoleListResponse, error)
 	SystemRoleListTotal(ctx context.Context, in *SystemRoleListTotalRequest, opts ...grpc.CallOption) (*SystemRoleTotalResponse, error)
-	SystemRoleDataScopeCreate(ctx context.Context, in *SystemRoleDataScopeCreateRequest, opts ...grpc.CallOption) (*SystemRoleDataScopeCreateResponse, error)
-	SystemRoleDataScope(ctx context.Context, in *SystemRoleDataScopeRequest, opts ...grpc.CallOption) (*SystemRoleDataScopeResponse, error)
 }
 
 type systemRoleServiceClient struct {
@@ -127,26 +123,6 @@ func (c *systemRoleServiceClient) SystemRoleListTotal(ctx context.Context, in *S
 	return out, nil
 }
 
-func (c *systemRoleServiceClient) SystemRoleDataScopeCreate(ctx context.Context, in *SystemRoleDataScopeCreateRequest, opts ...grpc.CallOption) (*SystemRoleDataScopeCreateResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(SystemRoleDataScopeCreateResponse)
-	err := c.cc.Invoke(ctx, SystemRoleService_SystemRoleDataScopeCreate_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *systemRoleServiceClient) SystemRoleDataScope(ctx context.Context, in *SystemRoleDataScopeRequest, opts ...grpc.CallOption) (*SystemRoleDataScopeResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(SystemRoleDataScopeResponse)
-	err := c.cc.Invoke(ctx, SystemRoleService_SystemRoleDataScope_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 // SystemRoleServiceServer is the server API for SystemRoleService service.
 // All implementations must embed UnimplementedSystemRoleServiceServer
 // for forward compatibility
@@ -160,8 +136,6 @@ type SystemRoleServiceServer interface {
 	SystemRoleRecover(context.Context, *SystemRoleRecoverRequest) (*SystemRoleRecoverResponse, error)
 	SystemRoleList(context.Context, *SystemRoleListRequest) (*SystemRoleListResponse, error)
 	SystemRoleListTotal(context.Context, *SystemRoleListTotalRequest) (*SystemRoleTotalResponse, error)
-	SystemRoleDataScopeCreate(context.Context, *SystemRoleDataScopeCreateRequest) (*SystemRoleDataScopeCreateResponse, error)
-	SystemRoleDataScope(context.Context, *SystemRoleDataScopeRequest) (*SystemRoleDataScopeResponse, error)
 	mustEmbedUnimplementedSystemRoleServiceServer()
 }
 
@@ -189,12 +163,6 @@ func (UnimplementedSystemRoleServiceServer) SystemRoleList(context.Context, *Sys
 }
 func (UnimplementedSystemRoleServiceServer) SystemRoleListTotal(context.Context, *SystemRoleListTotalRequest) (*SystemRoleTotalResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SystemRoleListTotal not implemented")
-}
-func (UnimplementedSystemRoleServiceServer) SystemRoleDataScopeCreate(context.Context, *SystemRoleDataScopeCreateRequest) (*SystemRoleDataScopeCreateResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method SystemRoleDataScopeCreate not implemented")
-}
-func (UnimplementedSystemRoleServiceServer) SystemRoleDataScope(context.Context, *SystemRoleDataScopeRequest) (*SystemRoleDataScopeResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method SystemRoleDataScope not implemented")
 }
 func (UnimplementedSystemRoleServiceServer) mustEmbedUnimplementedSystemRoleServiceServer() {}
 
@@ -335,42 +303,6 @@ func _SystemRoleService_SystemRoleListTotal_Handler(srv interface{}, ctx context
 	return interceptor(ctx, in, info, handler)
 }
 
-func _SystemRoleService_SystemRoleDataScopeCreate_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(SystemRoleDataScopeCreateRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(SystemRoleServiceServer).SystemRoleDataScopeCreate(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: SystemRoleService_SystemRoleDataScopeCreate_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(SystemRoleServiceServer).SystemRoleDataScopeCreate(ctx, req.(*SystemRoleDataScopeCreateRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _SystemRoleService_SystemRoleDataScope_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(SystemRoleDataScopeRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(SystemRoleServiceServer).SystemRoleDataScope(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: SystemRoleService_SystemRoleDataScope_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(SystemRoleServiceServer).SystemRoleDataScope(ctx, req.(*SystemRoleDataScopeRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 // SystemRoleService_ServiceDesc is the grpc.ServiceDesc for SystemRoleService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -405,14 +337,6 @@ var SystemRoleService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "SystemRoleListTotal",
 			Handler:    _SystemRoleService_SystemRoleListTotal_Handler,
-		},
-		{
-			MethodName: "SystemRoleDataScopeCreate",
-			Handler:    _SystemRoleService_SystemRoleDataScopeCreate_Handler,
-		},
-		{
-			MethodName: "SystemRoleDataScope",
-			Handler:    _SystemRoleService_SystemRoleDataScope_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

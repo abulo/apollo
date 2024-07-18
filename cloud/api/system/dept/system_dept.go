@@ -8,6 +8,7 @@ import (
 	"cloud/initial"
 	"cloud/internal/response"
 	"cloud/service/system/dept"
+	"cloud/service/system/user"
 
 	globalLogger "github.com/abulo/ratel/v3/core/logger"
 	"github.com/abulo/ratel/v3/stores/null"
@@ -279,7 +280,145 @@ func SystemDeptRecover(ctx context.Context, newCtx *app.RequestContext) {
 }
 
 func SystemDeptListSimple(ctx context.Context, newCtx *app.RequestContext) {
-	SystemDeptList(ctx, newCtx)
+	grpcClient, err := initial.Core.Client.LoadGrpc("grpc").Singleton()
+	if err != nil {
+		globalLogger.Logger.WithFields(logrus.Fields{
+			"err": err,
+		}).Error("Grpc:部门:system_dept:SystemDeptList")
+		response.JSON(newCtx, consts.StatusOK, utils.H{
+			"code": code.RPCError,
+			"msg":  code.StatusText(code.RPCError),
+		})
+		return
+	}
+	//链接服务
+	client := dept.NewSystemDeptServiceClient(grpcClient)
+	// 构造查询条件
+	request := &dept.SystemDeptListRequest{}
+	request.TenantId = proto.Int64(newCtx.GetInt64("tenantId")) // 租户ID
+	request.Deleted = proto.Int32(0)                            // 删除状态
+	if val, ok := newCtx.GetQuery("deleted"); ok {
+		if cast.ToBool(val) {
+			request.Deleted = nil
+		}
+	}
+	if val, ok := newCtx.GetQuery("status"); ok {
+		request.Status = proto.Int32(cast.ToInt32(val)) // 部门状态
+	}
+	if val, ok := newCtx.GetQuery("parentId"); ok {
+		request.ParentId = proto.Int64(cast.ToInt64(val)) // 父部门ID
+	}
+	if val, ok := newCtx.GetQuery("name"); ok {
+		request.Name = proto.String(val) // 部门名称
+	}
+	// 执行服务
+	res, err := client.SystemDeptList(ctx, request)
+	if err != nil {
+		globalLogger.Logger.WithFields(logrus.Fields{
+			"req": request,
+			"err": err,
+		}).Error("GrpcCall:部门:system_dept:SystemDeptList")
+		fromError := status.Convert(err)
+		response.JSON(newCtx, consts.StatusOK, utils.H{
+			"code": code.ConvertToHttp(fromError.Code()),
+			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
+		})
+		return
+	}
+	var list []dao.SystemDept
+
+	clientUser := user.NewSystemUserServiceClient(grpcClient)
+	userReq := &user.SystemUserRoleDataScopeRequest{}
+	userReq.UserId = newCtx.GetInt64("userId")
+	userReq.TenantId = newCtx.GetInt64("tenantId")
+	userRes, err := clientUser.SystemUserRoleDataScope(ctx, userReq)
+	if err != nil {
+		globalLogger.Logger.WithFields(logrus.Fields{
+			"req": request,
+			"err": err,
+		}).Error("GrpcCall:部门:system_dept:SystemDeptList")
+		fromError := status.Convert(err)
+		response.JSON(newCtx, consts.StatusOK, utils.H{
+			"code": code.ConvertToHttp(fromError.Code()),
+			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
+		})
+		return
+	}
+	userScope := user.SystemUserRoleDataScopeDao(userRes.GetData())
+	if res.GetCode() == code.Success {
+		rpcList := res.GetData()
+		for _, item := range rpcList {
+			if util.InArray(*item.Id, userScope.DataScopeDept) {
+				list = append(list, *dept.SystemDeptDao(item))
+			}
+		}
+	}
+	response.JSON(newCtx, consts.StatusOK, utils.H{
+		"code": res.GetCode(),
+		"msg":  res.GetMsg(),
+		"data": SystemDeptTree(list),
+	})
+}
+
+func SystemDeptListLabel(ctx context.Context, newCtx *app.RequestContext) {
+	grpcClient, err := initial.Core.Client.LoadGrpc("grpc").Singleton()
+	if err != nil {
+		globalLogger.Logger.WithFields(logrus.Fields{
+			"err": err,
+		}).Error("Grpc:部门:system_dept:SystemDeptList")
+		response.JSON(newCtx, consts.StatusOK, utils.H{
+			"code": code.RPCError,
+			"msg":  code.StatusText(code.RPCError),
+		})
+		return
+	}
+	//链接服务
+	client := dept.NewSystemDeptServiceClient(grpcClient)
+	// 构造查询条件
+	request := &dept.SystemDeptListRequest{}
+	request.TenantId = proto.Int64(newCtx.GetInt64("tenantId")) // 租户ID
+	request.Deleted = proto.Int32(0)                            // 删除状态
+	if val, ok := newCtx.GetQuery("deleted"); ok {
+		if cast.ToBool(val) {
+			request.Deleted = nil
+		}
+	}
+	if val, ok := newCtx.GetQuery("status"); ok {
+		request.Status = proto.Int32(cast.ToInt32(val)) // 部门状态
+	}
+	if val, ok := newCtx.GetQuery("parentId"); ok {
+		request.ParentId = proto.Int64(cast.ToInt64(val)) // 父部门ID
+	}
+	if val, ok := newCtx.GetQuery("name"); ok {
+		request.Name = proto.String(val) // 部门名称
+	}
+	// 执行服务
+	res, err := client.SystemDeptList(ctx, request)
+	if err != nil {
+		globalLogger.Logger.WithFields(logrus.Fields{
+			"req": request,
+			"err": err,
+		}).Error("GrpcCall:部门:system_dept:SystemDeptList")
+		fromError := status.Convert(err)
+		response.JSON(newCtx, consts.StatusOK, utils.H{
+			"code": code.ConvertToHttp(fromError.Code()),
+			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
+		})
+		return
+	}
+	var list []dao.SystemDept
+
+	if res.GetCode() == code.Success {
+		rpcList := res.GetData()
+		for _, item := range rpcList {
+			list = append(list, *dept.SystemDeptDao(item))
+		}
+	}
+	response.JSON(newCtx, consts.StatusOK, utils.H{
+		"code": res.GetCode(),
+		"msg":  res.GetMsg(),
+		"data": SystemDeptTree(list),
+	})
 }
 
 // SystemDeptList 列表数据
@@ -329,28 +468,38 @@ func SystemDeptList(ctx context.Context, newCtx *app.RequestContext) {
 		})
 		return
 	}
-	var list []*dao.SystemDept
+	var list []dao.SystemDept
 	if res.GetCode() == code.Success {
 		rpcList := res.GetData()
 		for _, item := range rpcList {
-			list = append(list, dept.SystemDeptDao(item))
+			list = append(list, *dept.SystemDeptDao(item))
 		}
 	}
 	response.JSON(newCtx, consts.StatusOK, utils.H{
 		"code": res.GetCode(),
 		"msg":  res.GetMsg(),
-		"data": SystemDeptTree(list, 0),
+		"data": SystemDeptTree(list),
 	})
 }
 
-// SystemDeptTree 树形菜单
-func SystemDeptTree(list []*dao.SystemDept, pid int64) []*dao.SystemDept {
-	var tree []*dao.SystemDept
-	for _, item := range list {
-		if *item.ParentId == pid {
-			item.Children = SystemDeptTree(list, *item.Id)
-			tree = append(tree, item)
+func SystemDeptTree(departments []dao.SystemDept) []*dao.SystemDept {
+	deptMap := make(map[int64]*dao.SystemDept)
+	parentMap := make(map[int64]bool)
+	var roots []*dao.SystemDept
+	for i := range departments {
+		deptMap[*departments[i].Id] = &departments[i]
+		parentMap[*departments[i].ParentId] = true
+	}
+	for i := range departments {
+		department := &departments[i]
+		if _, ok := deptMap[*department.ParentId]; !ok {
+			roots = append(roots, department)
+		} else {
+			if parent, ok := deptMap[*department.ParentId]; ok {
+				parent.Children = append(parent.Children, department)
+			}
 		}
 	}
-	return tree
+
+	return roots
 }

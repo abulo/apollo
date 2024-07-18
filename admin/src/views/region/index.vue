@@ -284,7 +284,7 @@ const deleteSearch = reactive<SearchProps>(
 );
 
 const columns: ColumnProps<Region.ResRegionList>[] = [
-  { field: "id", title: "地区编号", width: 100 },
+  { field: "id", title: "地区编号", width: 100, fixed: "left" },
   { field: "name", title: "地区名称", align: "left", treeNode: true },
   { field: "sort", title: "排序", width: 100 },
   { field: "status", title: "状态", width: 100, tag: true, enum: statusEnum, search: { el: "select", span: 2 } },

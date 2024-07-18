@@ -34,34 +34,10 @@ message SystemRoleObject {
 	optional string updater = 12; //更新者
 	// @inject_tag: db:"update_time" json:"updateTime"
 	google.protobuf.Timestamp update_time = 13; //更新时间
-}
-
-// SystemRoleDataScopeObject 数据对象
-message SystemRoleDataScopeObject {
-	// @inject_tag: db:"id" json:"id"
-	optional int64 id = 1; //角色编号
 	// @inject_tag: db:"data_scope" json:"dataScope"
-	optional int32 data_scope = 2; //数据范围（1：全部数据权限 2：自定数据权限 3：本部门数据权限 4：本部门及以下数据权限）
+	optional int32 data_scope = 14; //数据范围（1：全部数据权限 2：自定数据权限 3：本部门数据权限 4：本部门及以下数据权限）
 	// @inject_tag: db:"data_scope_dept" json:"dataScopeDept"
-	optional bytes data_scope_dept = 3; //数据范围(指定部门数组)
-	// @inject_tag: db:"updater" json:"updater"
-	optional string updater = 4; //更新者
-	// @inject_tag: db:"update_time" json:"updateTime"
-	google.protobuf.Timestamp update_time = 5; //更新时间
-}
-
-// SystemRoleDataScopeCreateRequest 创建数据请求
-message SystemRoleDataScopeCreateRequest {
-	// @inject_tag: db:"id" json:"id"
-	int64 id = 1; //角色编号
-	SystemRoleDataScopeObject data = 2;
-}
-
-// SystemRoleDataScopeCreateResponse 创建数据响应
-message SystemRoleDataScopeCreateResponse {
-	int64 code = 1;
-	string msg = 2;
-	int64 data = 3;
+	optional bytes data_scope_dept = 15; //数据范围(指定部门数组)
 }
 
 // SystemRoleTotalResponse 列表数据总量
@@ -124,7 +100,6 @@ message SystemRoleRecoverResponse {
 }
 // SystemRoleListRequest 列表数据
 message SystemRoleListRequest {
-	
 	// @inject_tag: db:"tenant_id" json:"tenantId"
 	optional int64 tenant_id = 1; // 租户
 	// @inject_tag: db:"deleted" json:"deleted"
@@ -148,7 +123,6 @@ message SystemRoleListResponse {
 }
 // SystemRoleListTotalRequest 列表数据
 message SystemRoleListTotalRequest {
-	
 	// @inject_tag: db:"tenant_id" json:"tenantId"
 	optional int64 tenant_id = 1; // 租户
 	// @inject_tag: db:"deleted" json:"deleted"
@@ -162,19 +136,6 @@ message SystemRoleListTotalRequest {
 
 }
 
-// SystemRoleDataScopeRequest 查询单条数据请求
-message SystemRoleDataScopeRequest {
-	// @inject_tag: db:"id" json:"id"
-	int64 id = 1; //角色编号
-}
-// SystemRoleDataScopeResponse 查询单条数据响应
-message SystemRoleDataScopeResponse {
-	int64 code = 1;
-	string msg = 2;
-	SystemRoleDataScopeObject data = 3;
-}
-
-
 // SystemRoleService 服务
 service SystemRoleService{
 	rpc SystemRoleCreate(SystemRoleCreateRequest) returns (SystemRoleCreateResponse);
@@ -184,6 +145,4 @@ service SystemRoleService{
 	rpc SystemRoleRecover(SystemRoleRecoverRequest) returns (SystemRoleRecoverResponse);
 	rpc SystemRoleList(SystemRoleListRequest) returns (SystemRoleListResponse);
 	rpc SystemRoleListTotal(SystemRoleListTotalRequest) returns (SystemRoleTotalResponse);
-	rpc SystemRoleDataScopeCreate(SystemRoleDataScopeCreateRequest) returns (SystemRoleDataScopeCreateResponse);
-	rpc SystemRoleDataScope(SystemRoleDataScopeRequest) returns (SystemRoleDataScopeResponse);
 }

@@ -23,6 +23,6 @@ type PayWalletCustom struct {
 	// 继承 PayWallet
 	PayWallet
 	Username *string `db:"username" json:"username"` // 用户名称
-	Nickname *string `db:"nickname" json:"nickname"` // 用户昵称
+	Nickname *string `db:"nickname" json:"nickname"` // 用户名称
 	Mobile   *string `db:"mobile" json:"mobile"`     // 手机号
 }

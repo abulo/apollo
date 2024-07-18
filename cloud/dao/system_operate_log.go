@@ -6,6 +6,7 @@ import "github.com/abulo/ratel/v3/stores/null"
 type SystemOperateLog struct {
 	Id            *int64        `db:"id" json:"id"`                        //bigint 主键,PRI
 	Username      *string       `db:"username" json:"username"`            //varchar 用户账号
+	UserId        *int64        `db:"user_id" json:"userId"`               //bigint 用户id
 	Module        *string       `db:"module" json:"module"`                //varchar 模块名称
 	RequestMethod *string       `db:"request_method" json:"requestMethod"` //varchar 请求方法名
 	RequestUrl    *string       `db:"request_url" json:"requestUrl"`       //varchar 请求地址

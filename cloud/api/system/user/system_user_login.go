@@ -142,6 +142,7 @@ func SystemUserLogin(ctx context.Context, newCtx *app.RequestContext) {
 	nowTime := util.Now()
 	var systemLoginLog dao.SystemLoginLog
 	systemLoginLog.Username = userInfo.Username
+	systemLoginLog.UserId = userInfo.Id
 	systemLoginLog.Channel = proto.String("WEB")
 	systemLoginLog.UserIp = proto.String(newCtx.ClientIP())
 	systemLoginLog.UserAgent = null.StringFrom(cast.ToString(newCtx.Request.Header.UserAgent()))
@@ -245,35 +246,34 @@ func SystemUserLogin(ctx context.Context, newCtx *app.RequestContext) {
 		}
 	}
 	if systemUserId != *tenantItem.UserId.Ptr() {
-		//链接服务
-		userRoleClient := user.NewSystemUserRoleServiceClient(grpcClient)
-		// 构造查询条件
-		userRoleRequest := &user.SystemUserRoleListRequest{}
-		userRoleRequest.UserId = proto.Int64(systemUserId) // 系统用户 ID
-		userRoleRequest.TenantId = proto.Int64(tenantId)   // 租户
-		userRoleRequest.Deleted = proto.Int32(0)           // 删除
+
+		userItem := user.SystemUserDao(userInfo)
+		var userRoleIds []int64
+		err = json.Unmarshal(userItem.RoleIds.JSON, &userRoleIds)
+		if err != nil {
+			response.JSON(newCtx, consts.StatusOK, utils.H{
+				"code": code.SystemError,
+				"msg":  code.StatusText(code.SystemError),
+			})
+			return
+		}
 
 		roleMenuClient := role.NewSystemRoleMenuServiceClient(grpcClient)
-		if userRoleRes, err := userRoleClient.SystemUserRoleList(ctx, userRoleRequest); err == nil {
-			if userRoleRes.GetCode() == code.Success {
-				rpcUserRoleList := userRoleRes.GetData()
-				for _, item := range rpcUserRoleList {
-					systemRoleId := item.GetRoleId()
-					//链接服务
-					roleMenuRequest := &role.SystemRoleMenuListRequest{}
-					roleMenuRequest.TenantId = proto.Int64(tenantId)   // 租户ID
-					roleMenuRequest.Deleted = proto.Int32(0)           // 删除状态
-					roleMenuRequest.RoleId = proto.Int64(systemRoleId) // 角色ID
-					if roleMenuRes, err := roleMenuClient.SystemRoleMenuList(ctx, roleMenuRequest); err == nil {
-						if roleMenuRes.GetCode() == code.Success {
-							rpcRoleMenuList := roleMenuRes.GetData()
-							var newCurrentMenuIds []int64
-							for _, item := range rpcRoleMenuList {
-								newCurrentMenuIds = append(newCurrentMenuIds, *item.MenuId)
-							}
-							currentMenuIds = newCurrentMenuIds
-						}
+		for _, item := range userRoleIds {
+			systemRoleId := item
+			//链接服务
+			roleMenuRequest := &role.SystemRoleMenuListRequest{}
+			roleMenuRequest.TenantId = proto.Int64(tenantId)   // 租户ID
+			roleMenuRequest.Deleted = proto.Int32(0)           // 删除状态
+			roleMenuRequest.RoleId = proto.Int64(systemRoleId) // 角色ID
+			if roleMenuRes, err := roleMenuClient.SystemRoleMenuList(ctx, roleMenuRequest); err == nil {
+				if roleMenuRes.GetCode() == code.Success {
+					rpcRoleMenuList := roleMenuRes.GetData()
+					var newCurrentMenuIds []int64
+					for _, item := range rpcRoleMenuList {
+						newCurrentMenuIds = append(newCurrentMenuIds, *item.MenuId)
 					}
+					currentMenuIds = newCurrentMenuIds
 				}
 			}
 		}

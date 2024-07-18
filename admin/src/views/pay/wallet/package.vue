@@ -166,7 +166,7 @@ const deleteSearch = reactive<SearchProps>(
 );
 
 const columns: ColumnProps<PayWalletRechargePackage.ResPayWalletRechargePackageItem>[] = [
-  { prop: "id", label: "编号" },
+  { prop: "id", label: "编号", fixed: "left" },
   { prop: "name", label: "套餐名称", search: { el: "input", span: 2, props: { placeholder: "请输入套餐名称" } } },
   { prop: "payPrice", label: "支付金额" },
   { prop: "bonusPrice", label: "赠送金额" },

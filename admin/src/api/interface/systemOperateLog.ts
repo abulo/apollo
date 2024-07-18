@@ -8,6 +8,7 @@ export namespace SystemOperateLog {
     beginStartTime?: string; // 开始操作时间
     finishStartTime?: string; // 结束操作时间
     result?: number; // 结果(0 成功/1 失败)
+    deptId?: number; // 部门
   }
   export interface ResSystemOperateLogItem {
     id: number; // id

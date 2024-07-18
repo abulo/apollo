@@ -1,6 +1,6 @@
 <template>
   <div class="main-box">
-    <TreeFilter label="name" title="部门列表" :data="deptList" :default-value="initParam.deptId" @change="changeDept" />
+    <TreeFilter label="name" :data="deptList" :default-value="initParam.deptId" @change="changeDept" />
     <div class="table-box">
       <ProTable
         ref="proTable"
@@ -22,6 +22,27 @@
         <template #deleted="scope">
           <DictTag type="delete" :value="scope.row.deleted" />
         </template>
+        <template #postIds="scope">
+          <p class="order-font" v-for="postId in scope.row.postIds" :key="postId">
+            <el-tag type="info">
+              {{ postSelect.find(item => item.id === Number(postId))?.name }}
+            </el-tag>
+          </p>
+        </template>
+        <template #roleIds="scope">
+          <p class="order-font" v-for="roleId in scope.row.roleIds" :key="roleId">
+            <el-tag type="info">
+              {{ roleSelect.find(item => item.id === Number(roleId))?.name }}
+            </el-tag>
+          </p>
+        </template>
+        <template #deptIds="scope">
+          <p class="order-font" v-for="deptId in scope.row.deptIds" :key="deptId">
+            <el-tag type="info">
+              {{ getFlatList(deptTree).find(item => item.id === Number(deptId))?.name }}
+            </el-tag>
+          </p>
+        </template>
         <!-- 菜单操作 -->
         <template #operation="scope">
           <el-button v-auth="'user.SystemUserUpdate'" type="primary" link :icon="EditPen" @click="handleUpdate(scope.row)">
@@ -29,14 +50,7 @@
           </el-button>
           <el-dropdown trigger="click">
             <el-button
-              v-auth="[
-                'user.SystemUserRoleList',
-                'user.SystemUserDeptList',
-                'user.SystemUserPostList',
-                'user.SystemUserPassword',
-                'user.SystemUserDelete',
-                'user.SystemUserRecover'
-              ]"
+              v-auth="['user.SystemUserPassword', 'user.SystemUserDelete', 'user.SystemUserRecover']"
               type="primary"
               link
               :icon="DArrowRight">
@@ -44,15 +58,6 @@
             </el-button>
             <template #dropdown>
               <el-dropdown-menu>
-                <el-dropdown-item v-auth="'user.SystemUserRoleList'" :icon="CircleCheck" @click="handleRole(scope.row)">
-                  分配角色
-                </el-dropdown-item>
-                <el-dropdown-item v-auth="'user.SystemUserDeptList'" :icon="CircleCheck" @click="handleDept(scope.row)">
-                  分配部门
-                </el-dropdown-item>
-                <el-dropdown-item v-auth="'user.SystemUserPostList'" :icon="CircleCheck" @click="handlePost(scope.row)">
-                  分配职位
-                </el-dropdown-item>
                 <el-dropdown-item v-auth="'user.SystemUserPassword'" :icon="Key" @click="handlePassword(scope.row)">
                   重置密码
                 </el-dropdown-item>
@@ -106,11 +111,48 @@
               </el-radio-button>
             </el-radio-group>
           </el-form-item>
-          <!-- <el-form-item label="用户角色">
+          <el-form-item label="角色" prop="roleIds">
             <el-select v-model="systemUserItemFrom.roleIds" multiple placeholder="请选择角色">
-              <el-option v-for="item in roleList" :key="item.id" :label="item.name" :value="item.id" />
+              <el-option v-for="item in roleSelect" :key="item.id" :label="item.name" :value="item.id" />
             </el-select>
-          </el-form-item> -->
+          </el-form-item>
+          <el-form-item label="职位" prop="postIds">
+            <el-select v-model="systemUserItemFrom.postIds" multiple placeholder="请选择职位">
+              <el-option v-for="item in postSelect" :key="item.id" :label="item.name" :value="item.id" />
+            </el-select>
+          </el-form-item>
+
+          <el-form-item label="部门" prop="deptIds" v-model="systemUserItemFrom.deptIds">
+            <el-card class="cardHeight">
+              <template #header>
+                全选/不选:
+                <el-switch v-model="deptNodeAll" active-text="是" inactive-text="否" inline-prompt @change="handleDataNodeAll" />
+                展开/折叠:
+                <el-switch
+                  v-model="deptExpand"
+                  active-text="展开"
+                  inactive-text="折叠"
+                  inline-prompt
+                  @change="handleDataExpand" />
+                关联/不关联:
+                <el-switch
+                  v-model="deptStrictly"
+                  active-text="关联"
+                  inactive-text="不关联"
+                  inline-prompt
+                  @change="handleDataStrictly" />
+              </template>
+              <el-tree
+                ref="deptRef"
+                :data="deptSelect"
+                :props="defaultProps"
+                :list="systemUserItemFrom.deptIds"
+                empty-text="加载中，请稍候"
+                node-key="id"
+                :check-strictly="deptCheckStrictly"
+                show-checkbox />
+            </el-card>
+          </el-form-item>
         </el-form>
         <template #footer>
           <span class="dialog-footer">
@@ -119,121 +161,16 @@
           </span>
         </template>
       </el-dialog>
-      <el-dialog
-        v-model="centerRoleDialogVisible"
-        :title="titleRole"
-        width="40%"
-        destroy-on-close
-        align-center
-        center
-        append-to-body
-        draggable
-        :lock-scroll="false"
-        class="dialog-settings">
-        <el-form
-          ref="refSystemUserRoleItemFrom"
-          :model="systemUserRoleItemFrom"
-          :rules="rulesSystemUserRoleItemFrom"
-          label-width="100px">
-          <el-form-item label="用户名">
-            <el-tag>{{ systemUserItemFrom.username }}</el-tag>
-          </el-form-item>
-          <el-form-item label="角色" prop="roleIds">
-            <el-select v-model="systemUserRoleItemFrom.roleIds" multiple placeholder="请选择角色">
-              <el-option v-for="item in roleSelect" :key="item.id" :label="item.name" :value="item.id" />
-            </el-select>
-          </el-form-item>
-        </el-form>
-        <template #footer>
-          <span class="dialog-footer">
-            <el-button @click="resetRoleForm(refSystemUserRoleItemFrom)">取消</el-button>
-            <el-button type="primary" :loading="loading" @click="submitRoleForm(refSystemUserRoleItemFrom)">确定</el-button>
-          </span>
-        </template>
-      </el-dialog>
-
-      <el-dialog
-        v-model="centerPostDialogVisible"
-        :title="titlePost"
-        width="40%"
-        destroy-on-close
-        align-center
-        center
-        append-to-body
-        draggable
-        :lock-scroll="false"
-        class="dialog-settings">
-        <el-form
-          ref="refSystemUserPostItemFrom"
-          :model="systemUserPostItemFrom"
-          :rules="rulesSystemUserPostItemFrom"
-          label-width="100px">
-          <el-form-item label="用户名">
-            <el-tag>{{ systemUserItemFrom.username }}</el-tag>
-          </el-form-item>
-          <el-form-item label="职位" prop="postIds">
-            <el-select v-model="systemUserPostItemFrom.postIds" multiple placeholder="请选择职位">
-              <el-option v-for="item in postSelect" :key="item.id" :label="item.name" :value="item.id" />
-            </el-select>
-          </el-form-item>
-        </el-form>
-        <template #footer>
-          <span class="dialog-footer">
-            <el-button @click="resetPostForm(refSystemUserPostItemFrom)">取消</el-button>
-            <el-button type="primary" :loading="loading" @click="submitPostForm(refSystemUserPostItemFrom)">确定</el-button>
-          </span>
-        </template>
-      </el-dialog>
-
-      <el-dialog
-        v-model="centerDeptDialogVisible"
-        :title="titleDept"
-        width="40%"
-        destroy-on-close
-        align-center
-        center
-        append-to-body
-        draggable
-        :lock-scroll="false"
-        class="dialog-settings">
-        <el-form
-          ref="refSystemUserDeptItemFrom"
-          :model="systemUserDeptItemFrom"
-          :rules="rulesSystemUserDeptItemFrom"
-          label-width="100px">
-          <el-form-item label="用户名">
-            <el-tag>{{ systemUserItemFrom.username }}</el-tag>
-          </el-form-item>
-          <el-form-item label="部门" prop="deptIds">
-            <el-tree-select
-              v-model="systemUserDeptItemFrom.deptIds"
-              :data="deptSelect"
-              :props="{ value: 'id', label: 'name' }"
-              value-key="id"
-              node-key="id"
-              placeholder="请选择"
-              default-expand-all
-              multiple
-              check-strictly
-              :render-after-expand="false" />
-          </el-form-item>
-        </el-form>
-        <template #footer>
-          <span class="dialog-footer">
-            <el-button @click="resetDeptForm(refSystemUserDeptItemFrom)">取消</el-button>
-            <el-button type="primary" :loading="loading" @click="submitDeptForm(refSystemUserDeptItemFrom)">确定</el-button>
-          </span>
-        </template>
-      </el-dialog>
     </div>
   </div>
 </template>
 <script setup lang="ts" name="systemUser">
 import { onMounted, ref, reactive } from "vue";
+import { useTimeoutFn } from "@vueuse/core";
 import { ColumnProps, ProTableInstance, SearchProps } from "@/components/ProTable/interface";
 import { DictTag } from "@/components/DictTag";
 import { EditPen, CirclePlus, Delete, DArrowRight, Refresh, CircleCheck, Key } from "@element-plus/icons-vue";
-import { FormInstance, FormRules, ElMessage, ElMessageBox } from "element-plus";
+import { FormInstance, FormRules, ElMessage, ElMessageBox, ElTree } from "element-plus";
 import ProTable from "@/components/ProTable/index.vue";
 import { SystemUser } from "@/api/interface/systemUser";
 import {
@@ -246,21 +183,16 @@ import {
   putSystemUserPasswordApi
 } from "@/api/modules/systemUser";
 import { getIntDictOptions } from "@/utils/dict";
-import { SystemRole } from "@/api/interface/systemRole";
-import { SystemUserRole } from "@/api/interface/systemUserRole";
-import { getSystemRoleListSimpleApi } from "@/api/modules/systemRole";
-import { getSystemUserRoleListApi, addSystemUserRoleApi } from "@/api/modules/systemUserRole";
-import { useHandleData, useHandleSet } from "@/hooks/useHandleData";
 import TreeFilter from "@/components/TreeFilter/index.vue";
+import { SystemRole } from "@/api/interface/systemRole";
+import { getSystemRoleListSimpleApi } from "@/api/modules/systemRole";
 import { SystemDept } from "@/api/interface/systemDept";
-import { getSystemDeptListSimpleApi } from "@/api/modules/systemDept";
+import { getSystemDeptListSimpleApi, getSystemDeptListLabelApi } from "@/api/modules/systemDept";
 import { SystemPost } from "@/api/interface/systemPost";
 import { getSystemPostListSimpleApi } from "@/api/modules/systemPost";
-import { SystemUserPost } from "@/api/interface/systemUserPost";
-import { getSystemUserPostListApi, addSystemUserPostApi } from "@/api/modules/systemUserPost";
-import { SystemUserDept } from "@/api/interface/systemUserDept";
-import { getSystemUserDeptListApi, addSystemUserDeptApi } from "@/api/modules/systemUserDept";
 import { HasPermission } from "@/utils/permission";
+import { useHandleData, useHandleSet } from "@/hooks/useHandleData";
+import Node from "element-plus/es/components/tree/src/model/node";
 
 const initParam = reactive({ deptId: "" });
 //加载
@@ -274,6 +206,20 @@ const centerDialogVisible = ref(false);
 // 状态
 const statusEnum = getIntDictOptions("status");
 const deletedEnum = getIntDictOptions("delete");
+const userDeptId = ref<Number[]>([]);
+
+//部门树选项
+const deptOptions = ref<SystemDept.ResSystemDeptList[]>([]);
+const deptNodeAll = ref(false); // 全选/全不选
+const deptRef = ref<InstanceType<typeof ElTree>>();
+const deptExpand = ref(false); // 展开/折叠
+const deptStrictly = ref(true); // 关联/不关联
+const deptCheckStrictly = ref(true);
+const defaultProps = {
+  children: "children",
+  label: "name",
+  value: "id"
+};
 
 //数据接口
 const systemUserItemFrom = ref<SystemUser.ResSystemUserItem>({
@@ -284,9 +230,9 @@ const systemUserItemFrom = ref<SystemUser.ResSystemUserItem>({
   password: "",
   status: 0,
   deleted: 0,
-  roleIds: undefined,
-  deptIds: undefined,
-  postIds: undefined
+  roleIds: [],
+  deptIds: [],
+  postIds: []
 });
 //校验
 const refSystemUserItemFrom = ref<FormInstance>();
@@ -294,8 +240,21 @@ const refSystemUserItemFrom = ref<FormInstance>();
 const rulesSystemUserItemFrom = reactive<FormRules>({
   username: [{ required: true, message: "用户名称不能为空", trigger: "blur" }],
   nickname: [{ required: true, message: "用户昵称不能为空", trigger: "blur" }],
-  password: [{ required: true, message: "用户密码不能为空", trigger: "blur" }]
+  password: [{ required: true, message: "用户密码不能为空", trigger: "blur" }],
+  mobile: [{ required: true, message: "用户手机不能为空", trigger: "blur" }],
+  status: [{ required: true, message: "用户状态不能为空", trigger: "blur" }],
+  deptIds: [{ required: true, message: "用户部门不能为空", trigger: "blur" }],
+  roleIds: [{ required: true, message: "用户角色不能为空", trigger: "blur" }],
+  postIds: [{ required: true, message: "用户职位不能为空", trigger: "blur" }]
 });
+
+const deptTree = ref<SystemDept.ResSystemDeptList[]>([]);
+//部门树选项
+const deptSelect = ref<SystemDept.ResSystemDeptList[]>([]);
+// 职位列表
+const postSelect = ref<SystemPost.ResSystemPostItem[]>([]);
+// 角色列表
+const roleSelect = ref<SystemRole.ResSystemRoleItem[]>([]);
 
 // 表格配置项
 const deleteSearch = reactive<SearchProps>(
@@ -308,9 +267,13 @@ const deleteSearch = reactive<SearchProps>(
 );
 // 定义列表
 const columns: ColumnProps<SystemUser.ResSystemUserItem>[] = [
-  { prop: "id", label: "编号" },
+  { prop: "id", label: "编号", fixed: "left" },
   { prop: "username", label: "用户名", search: { el: "input", span: 2 } },
   { prop: "nickname", label: "用户昵称" },
+  { prop: "mobile", label: "用户手机" },
+  { prop: "deptIds", label: "部门" },
+  { prop: "postIds", label: "职位" },
+  { prop: "roleIds", label: "角色" },
   { prop: "status", label: "状态", tag: true, enum: statusEnum, search: { el: "select", span: 2 } },
   {
     prop: "deleted",
@@ -325,15 +288,7 @@ const columns: ColumnProps<SystemUser.ResSystemUserItem>[] = [
     label: "操作",
     width: 160,
     fixed: "right",
-    isShow: HasPermission(
-      "user.SystemUserRoleList",
-      "user.SystemUserDeptList",
-      "user.SystemUserPostList",
-      "user.SystemUserPassword",
-      "user.SystemUserDelete",
-      "user.SystemUserUpdate",
-      "user.SystemUserRecover"
-    )
+    isShow: HasPermission("user.SystemUserPassword", "user.SystemUserDelete", "user.SystemUserUpdate", "user.SystemUserRecover")
   }
 ];
 
@@ -348,176 +303,39 @@ const reset = () => {
     password: "",
     status: 0,
     deleted: 0,
-    roleIds: undefined,
-    deptIds: undefined,
-    postIds: undefined
-  };
-  systemUserRoleItemFrom.value = {
-    userId: 0,
-    roleIds: []
-  };
-  systemUserPostItemFrom.value = {
-    userId: 0,
+    roleIds: [],
+    deptIds: [],
     postIds: []
   };
-  systemUserDeptItemFrom.value = {
-    userId: 0,
-    deptIds: []
-  };
-};
-// 弹出层标题
-const titleDept = ref();
-// 弹出层标题
-const centerDeptDialogVisible = ref(false);
-//部门树选项
-const deptSelect = ref<SystemDept.ResSystemDeptList[]>([]);
-// 当前用户的职位
-const systemUserDeptItemFrom = ref<SystemUserDept.ResSystemUserDeptItem>({
-  userId: 0,
-  deptIds: []
-});
-//校验
-const refSystemUserDeptItemFrom = ref<FormInstance>();
-//校验
-const rulesSystemUserDeptItemFrom = reactive<FormRules>({
-  deptIds: [{ required: true, message: "用户部门不能为空", trigger: "blur" }]
-});
-
-// 部门处理
-const handleDept = async (row: SystemUser.ResSystemUserItem) => {
-  reset();
-  titleDept.value = "分配部门";
-  centerDeptDialogVisible.value = true;
-  // 获取用户信息
-  systemUserItemFrom.value = row;
-  const deptList = await getSystemDeptListSimpleApi();
-  deptSelect.value = deptList.data;
-  // 获取用户当前的部门
-  const userDeptItem = await getSystemUserDeptListApi(Number(row.id));
-  systemUserDeptItemFrom.value = userDeptItem.data;
+  deptNodeAll.value = false;
+  deptExpand.value = false;
+  deptRef.value?.setCheckedNodes([]);
+  deptStrictly.value = true;
+  deptCheckStrictly.value = true;
+  userDeptId.value = [];
 };
 
-// resetForm
-const resetDeptForm = (formEl: FormInstance | undefined) => {
-  centerDeptDialogVisible.value = false;
-  if (!formEl) return;
-  formEl.resetFields();
+/** 全选/全不选 */
+const handleDataNodeAll = () => {
+  let data = deptNodeAll.value ? deptOptions.value : [];
+  deptRef.value!.setCheckedNodes(data as unknown as Node[]);
 };
 
-// 提交数据
-const submitDeptForm = (formEl: FormInstance | undefined) => {
-  if (!formEl) return;
-  formEl.validate(async valid => {
-    if (!valid) return;
-    loading.value = true;
-    const data = systemUserDeptItemFrom.value as unknown as SystemUserDept.ResSystemUserDeptItem;
-    await useHandleSet(addSystemUserDeptApi, data.userId, data, "分配部门");
-    resetDeptForm(formEl);
-    loading.value = false;
-    proTable.value?.getTableList();
-  });
+/** 展开/折叠全部 */
+const handleDataExpand = () => {
+  const nodes = deptRef.value?.store.nodesMap;
+  for (let node in nodes) {
+    if (nodes[node].expanded === deptExpand.value) {
+      continue;
+    }
+    nodes[node].expanded = deptExpand.value;
+  }
 };
-
-// 弹出层辩题
-const titlePost = ref();
-// 是否显示弹出层
-const centerPostDialogVisible = ref(false);
-// 职位列表
-const postSelect = ref<SystemPost.ResSystemPostItem[]>([]);
-// 当前用户的职位
-const systemUserPostItemFrom = ref<SystemUserPost.ResSystemUserPostItem>({
-  userId: 0,
-  postIds: []
-});
-//校验
-const refSystemUserPostItemFrom = ref<FormInstance>();
-//校验
-const rulesSystemUserPostItemFrom = reactive<FormRules>({
-  postIds: [{ required: true, message: "用户职位不能为空", trigger: "blur" }]
-});
-// 职位处理
-const handlePost = async (row: SystemUser.ResSystemUserItem) => {
-  reset();
-  titlePost.value = "分配职位";
-  centerPostDialogVisible.value = true;
-  // 获取用户信息
-  systemUserItemFrom.value = row;
-  const postList = await getSystemPostListSimpleApi();
-  postSelect.value = postList.data;
-  // 获取用户当前的职位
-  const userPostItem = await getSystemUserPostListApi(Number(row.id));
-  systemUserPostItemFrom.value = userPostItem.data;
-};
-// resetForm
-const resetPostForm = (formEl: FormInstance | undefined) => {
-  centerPostDialogVisible.value = false;
-  if (!formEl) return;
-  formEl.resetFields();
-};
-// 提交数据
-const submitPostForm = (formEl: FormInstance | undefined) => {
-  if (!formEl) return;
-  formEl.validate(async valid => {
-    if (!valid) return;
-    loading.value = true;
-    const data = systemUserPostItemFrom.value as unknown as SystemUserPost.ResSystemUserPostItem;
-    await useHandleSet(addSystemUserPostApi, data.userId, data, "分配职位");
-    resetPostForm(formEl);
-    loading.value = false;
-    proTable.value?.getTableList();
-  });
-};
-
-//弹出层标题
-const titleRole = ref();
-//是否显示弹出层
-const centerRoleDialogVisible = ref(false);
-// 角色列表
-const roleSelect = ref<SystemRole.ResSystemRoleItem[]>([]);
-// 当前用户的角色
-const systemUserRoleItemFrom = ref<SystemUserRole.ResSystemUserRoleItem>({
-  userId: 0,
-  roleIds: []
-});
-//校验
-const refSystemUserRoleItemFrom = ref<FormInstance>();
-//校验
-const rulesSystemUserRoleItemFrom = reactive<FormRules>({
-  roleIds: [{ required: true, message: "用户角色不能为空", trigger: "blur" }]
-});
-// 角色处理
-const handleRole = async (row: SystemUser.ResSystemUserItem) => {
-  reset();
-  titleRole.value = "分配角色";
-  centerRoleDialogVisible.value = true;
-  // 获取用户信息
-  systemUserItemFrom.value = row;
-  const roleList = await getSystemRoleListSimpleApi();
-  roleSelect.value = roleList.data;
-  // 获取用户当前的角色
-  const userRoleItem = await getSystemUserRoleListApi(Number(row.id));
-  systemUserRoleItemFrom.value = userRoleItem.data;
-};
-
-// resetForm
-const resetRoleForm = (formEl: FormInstance | undefined) => {
-  centerRoleDialogVisible.value = false;
-  if (!formEl) return;
-  formEl.resetFields();
-};
-
-// 提交数据
-const submitRoleForm = (formEl: FormInstance | undefined) => {
-  if (!formEl) return;
-  formEl.validate(async valid => {
-    if (!valid) return;
-    loading.value = true;
-    const data = systemUserRoleItemFrom.value as unknown as SystemUserRole.ResSystemUserRoleItem;
-    await useHandleSet(addSystemUserRoleApi, data.userId, data, "分配角色");
-    resetRoleForm(formEl);
-    loading.value = false;
-    proTable.value?.getTableList();
-  });
+// 关联/不关联
+const handleDataStrictly = () => {
+  // let data = [];
+  deptCheckStrictly.value = !deptStrictly.value;
+  // deptRef.value!.setCheckedNodes(data as unknown as Node[]);
 };
 
 // 添加按钮
@@ -527,6 +345,11 @@ const handleAdd = () => {
   centerDialogVisible.value = true;
 };
 
+const getFlatList = (list: SystemDept.ResSystemDeptList[]) => {
+  let newList: SystemDept.ResSystemDeptList[] = JSON.parse(JSON.stringify(list));
+  return newList.flatMap(item => [item, ...(item.children ? getFlatList(item.children) : [])]);
+};
+
 // 编辑按钮
 const handleUpdate = async (row: SystemUser.ResSystemUserItem) => {
   reset();
@@ -534,6 +357,28 @@ const handleUpdate = async (row: SystemUser.ResSystemUserItem) => {
   centerDialogVisible.value = true;
   const { data } = await getSystemUserItemApi(Number(row.id));
   systemUserItemFrom.value = data;
+  const deptListData = await getSystemDeptListSimpleApi();
+  deptSelect.value = deptListData.data;
+  const postList = await getSystemPostListSimpleApi();
+  postSelect.value = postList.data;
+  const roleList = await getSystemRoleListSimpleApi();
+  roleSelect.value = roleList.data;
+
+  const dataScopeDept = data.deptIds;
+  useTimeoutFn(() => {
+    dataScopeDept?.forEach((deptId: number) => {
+      deptRef.value?.setChecked(deptId, true, false);
+    });
+  }, 200);
+
+  const currUserDept = data.deptIds as unknown as Number[];
+  const curDept = getFlatList(deptListData.data) as SystemDept.ResSystemDeptList[];
+  // 遍历 curDept
+  curDept.forEach(item => {
+    if (!currUserDept.includes(item.id)) {
+      userDeptId.value.push(item.id);
+    }
+  });
 };
 
 // 删除按钮
@@ -561,6 +406,16 @@ const submitForm = (formEl: FormInstance | undefined) => {
     if (!valid) return;
     loading.value = true;
     const data = systemUserItemFrom.value as unknown as SystemUser.ResSystemUserItem;
+    data.deptIds = [];
+    data.deptIds = [
+      ...(deptRef.value!.getCheckedKeys(false) as unknown as Array<number>), // 获得当前选中节点
+      ...(deptRef.value!.getHalfCheckedKeys() as unknown as Array<number>) // 获得半选中的父节点
+    ];
+    // 判断userDeptId有没有值
+    if (userDeptId.value.length > 0) {
+      // 有值的话 需要将 数组添加到 data.deptIds
+      data.deptIds = [...(data.deptIds as unknown as Array<number>), ...(userDeptId.value as unknown as Array<number>)];
+    }
     if (data.id !== undefined) {
       delete data.password;
       await useHandleSet(updateSystemUserApi, data.id, data, "修改用户");
@@ -577,6 +432,14 @@ const deptList = ref<SystemDept.ResSystemDeptList[]>([]);
 const getTreeFilter = async () => {
   const { data } = await getSystemDeptListSimpleApi();
   deptList.value = data;
+  const deptListData = await getSystemDeptListSimpleApi();
+  deptSelect.value = deptListData.data;
+  const postList = await getSystemPostListSimpleApi();
+  postSelect.value = postList.data;
+  const roleList = await getSystemRoleListSimpleApi();
+  roleSelect.value = roleList.data;
+  const deptTreeData = await getSystemDeptListLabelApi();
+  deptTree.value = deptTreeData.data;
 };
 
 // 树形筛选切换

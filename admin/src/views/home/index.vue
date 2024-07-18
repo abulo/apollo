@@ -165,7 +165,6 @@
 <script setup lang="ts" name="home">
 import { ref } from "vue";
 import { useIntervalFn } from "@vueuse/core";
-import { fetchEventData } from "@/api/sse";
 import { useRoute } from "vue-router";
 import Grid from "@/components/Grid/index.vue";
 import GridItem from "@/components/Grid/components/GridItem.vue";
