@@ -6,7 +6,6 @@ import (
 	"crypto/sha256"
 	"encoding/base64"
 	"encoding/hex"
-	"fmt"
 )
 
 // AesSimpleEncrypt encrypts data with key using AES algorithm.
@@ -24,7 +23,6 @@ func AesSimpleEncrypt(data, key string) string {
 func AesCBCEncrypt(data, key, iv string, paddingMode PaddingMode) string {
 	block, err := aes.NewCipher([]byte(key))
 	if err != nil {
-		fmt.Println(err)
 		return ""
 	}
 

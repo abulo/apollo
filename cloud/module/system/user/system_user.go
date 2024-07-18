@@ -386,6 +386,7 @@ func SystemUserList(ctx context.Context, condition map[string]any) (res []dao.Sy
 		"JSON_ARRAYAGG(system_user_post.post_id) AS post_ids",
 		"JSON_ARRAYAGG(system_user_role.role_id) AS role_ids ")
 	builder.LeftJoin("`system_user_dept`", "`system_user`.`id` = `system_user_dept`.`user_id`   AND system_user.tenant_id = system_user_dept.tenant_id")
+	builder.LeftJoin("`system_dept`", "`system_dept`.tenant_id = system_user_dept.tenant_id  AND system_dept.deleted = 0 ")
 	builder.LeftJoin("`system_user_post`", "`system_user`.`id` = `system_user_post`.`user_id`  AND system_user.tenant_id = system_user_post.tenant_id")
 	builder.LeftJoin("`system_user_role`", "`system_user`.`id` = `system_user_role`.`user_id`  AND system_user.tenant_id = system_user_role.tenant_id")
 
@@ -502,6 +503,7 @@ func SystemUserListTotal(ctx context.Context, condition map[string]any) (res int
 	builder.Table("`system_user`")
 	builder.Select("`system_user`.*")
 	builder.LeftJoin("`system_user_dept`", "`system_user`.`id` = `system_user_dept`.`user_id`   AND system_user.tenant_id = system_user_dept.tenant_id")
+	builder.LeftJoin("`system_dept`", "`system_dept`.tenant_id = system_user_dept.tenant_id  AND system_dept.deleted = 0 ")
 	builder.LeftJoin("`system_user_post`", "`system_user`.`id` = `system_user_post`.`user_id`  AND system_user.tenant_id = system_user_post.tenant_id")
 	builder.LeftJoin("`system_user_role`", "`system_user`.`id` = `system_user_role`.`user_id`  AND system_user.tenant_id = system_user_role.tenant_id")
 	builder.Select("`system_user`.`id`", "`system_user`.`tenant_id`")
@@ -626,7 +628,15 @@ func SystemUserPassword(ctx context.Context, id int64, password string) (res int
 func SystemDeptListRecursive(ctx context.Context, id int64) (res []dao.SystemDept, err error) {
 	db := initial.Core.Store.LoadSQL("mysql").Read()
 	query := "WITH RECURSIVE filter_system_dept AS (SELECT `id`,`name`,`parent_id`,`sort`,`user_id`,`phone`,`email`,`status`,`deleted`,`tenant_id`,`creator`,`create_time`,`updater`,`update_time` FROM `system_dept` WHERE `id`=? UNION ALL SELECT d.* FROM system_dept AS d INNER JOIN filter_system_dept f ON d.parent_id=f.id) SELECT filter_system_dept.* FROM filter_system_dept"
-	err = db.QueryRows(ctx, query, id).ToStruct(&res)
+	var deptList []dao.SystemDept
+	err = db.QueryRows(ctx, query, id).ToStruct(&deptList)
+	if err == nil {
+		for _, v := range deptList {
+			if cast.ToInt32(v.Deleted) == 0 {
+				res = append(res, v)
+			}
+		}
+	}
 	return
 }
 
@@ -644,6 +654,9 @@ func SystemUserDataScope(ctx context.Context, tenantId, userId int64) (res dao.S
 	superDept := make([]int64, 0)
 	for _, v := range deptList {
 		superDept = append(superDept, *v.Id)
+	}
+	if len(superDept) < 1 {
+		superDept = append(superDept, 0)
 	}
 	if tenantItem.UserId.IsValid() && cast.ToInt64(tenantItem.UserId.Ptr()) == userId {
 		// 如果是租户管理员, 则数据权限为全部数据权限
@@ -728,6 +741,9 @@ func SystemUserDataScope(ctx context.Context, tenantId, userId int64) (res dao.S
 		res.DataScopeDept = deptTree
 	} else { // 仅仅自己
 		res.DataScopeDept = dept
+	}
+	if len(res.DataScopeDept) < 1 {
+		res.DataScopeDept = append(res.DataScopeDept, 0)
 	}
 	res.DataScope = proto.Int32(dataScope)
 	// res.DataScopeDept = dataScopeDept

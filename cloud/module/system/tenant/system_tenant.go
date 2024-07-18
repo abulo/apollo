@@ -3,6 +3,7 @@ package tenant
 import (
 	"cloud/dao"
 	"cloud/initial"
+	"cloud/module/system/dept"
 	"context"
 
 	"github.com/abulo/ratel/v3/stores/null"
@@ -51,9 +52,7 @@ func SystemTenantCreate(ctx context.Context, data dao.SystemTenant) (res int64, 
 		if err != nil {
 			return err
 		}
-
 		// 绑定用户和租户的关系
-
 		var userTenant dao.SystemUserTenant
 		userTenant.UserId = proto.Int64(userId)
 		userTenant.TenantId = proto.Int64(id)
@@ -63,7 +62,7 @@ func SystemTenantCreate(ctx context.Context, data dao.SystemTenant) (res int64, 
 		userTenant.Updater = data.Updater
 		userTenant.UpdateTime = data.UpdateTime
 		builder = sql.NewBuilder()
-		query, args, err = builder.Table("`system_user_tenant`").Insert(user)
+		query, args, err = builder.Table("`system_user_tenant`").Insert(userTenant)
 		if err != nil {
 			return err
 		}
@@ -85,6 +84,45 @@ func SystemTenantCreate(ctx context.Context, data dao.SystemTenant) (res int64, 
 		if err != nil {
 			return err
 		}
+		builder = sql.NewBuilder()
+		//需要创建一个部门
+		var dept dao.SystemDept
+		dept.Name = data.Name
+		dept.ParentId = proto.Int64(0)
+		dept.Sort = proto.Int32(1)
+		dept.UserId = null.Int64From(userId)
+		dept.Status = proto.Int32(0)
+		dept.TenantId = proto.Int64(id)
+		dept.Deleted = proto.Int32(0)
+		dept.Creator = data.Creator
+		dept.CreateTime = data.CreateTime
+		dept.Updater = data.Updater
+		dept.UpdateTime = data.UpdateTime
+		query, args, err = builder.Table("`system_dept`").Insert(dept)
+		if err != nil {
+			return err
+		}
+		deptId, err := session.Insert(ctx, query, args...)
+		if err != nil {
+			return err
+		}
+		var userDept dao.SystemUserDept
+		userDept.DeptId = proto.Int64(deptId)
+		userDept.UserId = proto.Int64(userId)
+		userDept.TenantId = proto.Int64(id)
+		userDept.Deleted = proto.Int32(0)
+		userDept.Creator = data.Creator
+		userDept.CreateTime = data.CreateTime
+		userDept.Updater = data.Updater
+		userDept.UpdateTime = data.UpdateTime
+		query, args, err = builder.Table("`system_user_dept`").Insert(userDept)
+		if err != nil {
+			return err
+		}
+		_, err = session.Insert(ctx, query, args...)
+		if err != nil {
+			return err
+		}
 		res = id
 		return nil
 	})
@@ -95,6 +133,74 @@ func SystemTenantCreate(ctx context.Context, data dao.SystemTenant) (res int64, 
 // SystemTenantUpdate 更新数据
 func SystemTenantUpdate(ctx context.Context, id int64, data dao.SystemTenant) (res int64, err error) {
 	db := initial.Core.Store.LoadSQL("mysql").Write()
+	tenantItem, err := SystemTenant(ctx, id)
+	if err != nil {
+		return 0, err
+	}
+	if !data.UserId.IsValid() {
+		data.UserId = tenantItem.UserId
+	}
+	if data.Name != nil {
+		data.Name = tenantItem.Name
+	}
+
+	// 查询部门
+	deptCondition := make(map[string]any)
+	deptCondition["tenantId"] = id
+	deptCondition["deleted"] = 0
+	var deptItem dao.SystemDept
+	deptData, err := dept.SystemDeptList(ctx, deptCondition)
+	if err == nil {
+		deptItem = deptData[0]
+	} else {
+		// 去创建一个
+		deptItem.Name = data.Name
+		deptItem.ParentId = proto.Int64(0)
+		deptItem.Sort = proto.Int32(1)
+		deptItem.UserId = data.UserId
+		deptItem.Status = proto.Int32(0)
+		deptItem.Deleted = proto.Int32(0)
+		deptItem.TenantId = proto.Int64(id)
+		deptItem.Creator = data.Creator
+		deptItem.CreateTime = data.CreateTime
+		deptItem.Updater = data.Updater
+		deptItem.UpdateTime = data.UpdateTime
+		deptId, err := dept.SystemDeptCreate(ctx, deptItem)
+		if err != nil {
+			return 0, err
+		}
+		deptItem.Id = proto.Int64(deptId)
+	}
+
+	userDeptCondition := make(map[string]any)
+	userDeptCondition["tenantId"] = id
+	userDeptCondition["deleted"] = 0
+	userDeptCondition["userId"] = data.UserId.Ptr()
+	total, err := dept.SystemUserDeptTotal(ctx, userDeptCondition)
+	if err != nil {
+		return 0, err
+	}
+	if total < 1 {
+		var userDept dao.SystemUserDept
+		userDept.DeptId = deptItem.Id
+		userDept.UserId = data.UserId.Ptr()
+		userDept.TenantId = proto.Int64(id)
+		userDept.Deleted = proto.Int32(0)
+		userDept.Creator = data.Creator
+		userDept.CreateTime = data.CreateTime
+		userDept.Updater = data.Updater
+		userDept.UpdateTime = data.UpdateTime
+		builder := sql.NewBuilder()
+		query, args, err := builder.Table("`system_user_dept`").Insert(userDept)
+		if err != nil {
+			return 0, err
+		}
+		_, err = db.Insert(ctx, query, args...)
+		if err != nil {
+			return 0, err
+		}
+	}
+
 	builder := sql.NewBuilder()
 	query, args, err := builder.Table("`system_tenant`").Where("`id`", id).Update(data)
 	if err != nil {

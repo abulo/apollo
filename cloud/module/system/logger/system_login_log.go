@@ -89,6 +89,7 @@ func SystemLoginLogList(ctx context.Context, condition map[string]any) (res []da
 	builder.Table("`system_login_log`")
 	builder.Select("`system_login_log`.*")
 	builder.LeftJoin("`system_user_dept`", "system_login_log.tenant_id = system_user_dept.tenant_id AND `system_login_log`.`user_id` = `system_user_dept`.`user_id` ")
+	builder.LeftJoin("`system_dept`", "`system_dept`.tenant_id = system_user_dept.tenant_id  AND system_dept.deleted = 0 ")
 	if val, ok := condition["tenantId"]; ok {
 		builder.Where("`system_login_log`.`tenant_id`", val)
 	}
@@ -204,6 +205,7 @@ func SystemLoginLogListTotal(ctx context.Context, condition map[string]any) (res
 	builder.Table("`system_login_log`")
 	builder.Select("`system_login_log`.*")
 	builder.LeftJoin("`system_user_dept`", "system_login_log.tenant_id = system_user_dept.tenant_id AND `system_login_log`.`user_id` = `system_user_dept`.`user_id` ")
+	builder.LeftJoin("`system_dept`", "`system_dept`.tenant_id = system_user_dept.tenant_id  AND system_dept.deleted = 0")
 
 	if val, ok := condition["tenantId"]; ok {
 		builder.Where("`system_login_log`.`tenant_id`", val)

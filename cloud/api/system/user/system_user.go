@@ -331,6 +331,14 @@ func SystemUserList(ctx context.Context, newCtx *app.RequestContext) {
 	}
 	userScope := user.SystemUserRoleDataScopeDao(userRes.GetData())
 
+	if len(userScope.DataScopeDept) < 1 {
+		response.JSON(newCtx, consts.StatusOK, utils.H{
+			"code": code.DeptError,
+			"msg":  code.StatusText(code.DeptError),
+		})
+		return
+	}
+
 	// 构造查询条件
 	request := &user.SystemUserListRequest{}
 	requestTotal := &user.SystemUserListTotalRequest{}
@@ -367,7 +375,6 @@ func SystemUserList(ctx context.Context, newCtx *app.RequestContext) {
 	dataScopeDept, _ := json.Marshal(userScope.DataScopeDept)
 	request.DataScopeDept = dataScopeDept
 	requestTotal.DataScopeDept = dataScopeDept
-
 	// 执行服务,获取数据量
 	resTotal, err := client.SystemUserListTotal(ctx, requestTotal)
 	if err != nil {

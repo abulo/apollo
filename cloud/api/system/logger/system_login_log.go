@@ -315,6 +315,13 @@ func SystemLoginLogList(ctx context.Context, newCtx *app.RequestContext) {
 		return
 	}
 	userScope := user.SystemUserRoleDataScopeDao(userRes.GetData())
+	if len(userScope.DataScopeDept) < 1 {
+		response.JSON(newCtx, consts.StatusOK, utils.H{
+			"code": code.DeptError,
+			"msg":  code.StatusText(code.DeptError),
+		})
+		return
+	}
 
 	//链接服务
 	client := logger.NewSystemLoginLogServiceClient(grpcClient)

@@ -141,3 +141,28 @@ func SystemDeptListTotal(ctx context.Context, condition map[string]any) (res int
 	res, err = db.Count(ctx, query, args...)
 	return
 }
+
+func SystemUserDeptTotal(ctx context.Context, condition map[string]any) (res int64, err error) {
+	db := initial.Core.Store.LoadSQL("mysql").Read()
+	builder := sql.NewBuilder()
+	builder.Table("`system_user_dept`")
+	if val, ok := condition["tenantId"]; ok {
+		builder.Where("`tenant_id`", val)
+	}
+	if val, ok := condition["deleted"]; ok {
+		builder.Where("`deleted`", val)
+	}
+	if val, ok := condition["userId"]; ok {
+		builder.Where("`user_id`", val)
+	}
+	if val, ok := condition["deptId"]; ok {
+		builder.Where("`dept_id`", val)
+	}
+
+	query, args, err := builder.Count()
+	if err != nil {
+		return
+	}
+	res, err = db.Count(ctx, query, args...)
+	return
+}

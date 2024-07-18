@@ -25,21 +25,21 @@
         <template #postIds="scope">
           <p class="order-font" v-for="postId in scope.row.postIds" :key="postId">
             <el-tag type="info">
-              {{ postSelect.find(item => item.id === Number(postId))?.name }}
+              {{ postSelect && postSelect.find(item => item.id === Number(postId))?.name }}
             </el-tag>
           </p>
         </template>
         <template #roleIds="scope">
           <p class="order-font" v-for="roleId in scope.row.roleIds" :key="roleId">
             <el-tag type="info">
-              {{ roleSelect.find(item => item.id === Number(roleId))?.name }}
+              {{ roleSelect && roleSelect.find(item => item.id === Number(roleId))?.name }}
             </el-tag>
           </p>
         </template>
         <template #deptIds="scope">
           <p class="order-font" v-for="deptId in scope.row.deptIds" :key="deptId">
             <el-tag type="info">
-              {{ getFlatList(deptTree).find(item => item.id === Number(deptId))?.name }}
+              {{ deptTree && getFlatList(deptTree).find(item => item.id === Number(deptId))?.name }}
             </el-tag>
           </p>
         </template>

@@ -6,8 +6,10 @@ import (
 	"cloud/initial"
 	"cloud/internal/response"
 	"cloud/service/pagination"
+	"cloud/service/system/tenant"
 	"cloud/service/system/user"
 	"context"
+	"encoding/json"
 
 	globalLogger "github.com/abulo/ratel/v3/core/logger"
 	"github.com/abulo/ratel/v3/util"
@@ -33,6 +35,52 @@ func SystemUserList(ctx context.Context, newCtx *app.RequestContext) {
 		})
 		return
 	}
+	id := cast.ToInt64(newCtx.Param("id"))
+
+	clientTenant := tenant.NewSystemTenantServiceClient(grpcClient)
+	requestTenant := &tenant.SystemTenantRequest{}
+	requestTenant.Id = id
+	// 执行服务
+	resTenant, err := clientTenant.SystemTenant(ctx, requestTenant)
+	if err != nil {
+		globalLogger.Logger.WithFields(logrus.Fields{
+			"req": requestTenant,
+			"err": err,
+		}).Error("GrpcCall:租户:system_tenant:SystemTenant")
+		fromError := status.Convert(err)
+		response.JSON(newCtx, consts.StatusOK, utils.H{
+			"code": code.ConvertToHttp(fromError.Code()),
+			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
+		})
+		return
+	}
+	tenantItem := tenant.SystemTenantDao(resTenant.GetData())
+
+	clientUser := user.NewSystemUserServiceClient(grpcClient)
+	userDataScopeReq := &user.SystemUserRoleDataScopeRequest{}
+	userDataScopeReq.UserId = *tenantItem.UserId.Ptr()
+	userDataScopeReq.TenantId = id
+	userRes, err := clientUser.SystemUserRoleDataScope(ctx, userDataScopeReq)
+	if err != nil {
+		globalLogger.Logger.WithFields(logrus.Fields{
+			"req": userDataScopeReq,
+			"err": err,
+		}).Error("GrpcCall:部门:system_dept:SystemDeptList")
+		fromError := status.Convert(err)
+		response.JSON(newCtx, consts.StatusOK, utils.H{
+			"code": code.ConvertToHttp(fromError.Code()),
+			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
+		})
+		return
+	}
+	userScope := user.SystemUserRoleDataScopeDao(userRes.GetData())
+	if len(userScope.DataScopeDept) < 1 {
+		response.JSON(newCtx, consts.StatusOK, utils.H{
+			"code": code.DeptError,
+			"msg":  code.StatusText(code.DeptError),
+		})
+		return
+	}
 	//链接服务
 	client := user.NewSystemUserServiceClient(grpcClient)
 	// 构造查询条件
@@ -43,7 +91,7 @@ func SystemUserList(ctx context.Context, newCtx *app.RequestContext) {
 		request.Username = proto.String(val)      // 用户名称
 		requestTotal.Username = proto.String(val) // 用户名称
 	}
-	id := cast.ToInt64(newCtx.Param("id"))
+
 	request.TenantId = proto.Int64(id)      // 租户ID
 	requestTotal.TenantId = proto.Int64(id) // 租户ID
 	request.Deleted = proto.Int32(0)        // 删除状态
@@ -64,11 +112,20 @@ func SystemUserList(ctx context.Context, newCtx *app.RequestContext) {
 		requestTotal.DeptId = proto.Int64(cast.ToInt64(val)) // 用户状态（0正常 1停用）
 	}
 
+	request.UserId = tenantItem.UserId.Ptr()      // 用户ID
+	requestTotal.UserId = tenantItem.UserId.Ptr() // 用户ID
+
+	request.DataScope = userScope.DataScope
+	requestTotal.DataScope = userScope.DataScope
+	dataScopeDept, _ := json.Marshal(userScope.DataScopeDept)
+	request.DataScopeDept = dataScopeDept
+	requestTotal.DataScopeDept = dataScopeDept
+
 	// 执行服务,获取数据量
 	resTotal, err := client.SystemUserListTotal(ctx, requestTotal)
 	if err != nil {
 		globalLogger.Logger.WithFields(logrus.Fields{
-			"req": request,
+			"req": requestTotal,
 			"err": err,
 		}).Error("GrpcCall:系统用户:system_user:SystemUserList")
 		fromError := status.Convert(err)
