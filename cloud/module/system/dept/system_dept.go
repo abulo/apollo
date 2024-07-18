@@ -113,6 +113,38 @@ func SystemDeptList(ctx context.Context, condition map[string]any) (res []dao.Sy
 	return
 }
 
+// SystemDeptList 查询列表数据
+func SystemDeptItem(ctx context.Context, condition map[string]any) (res dao.SystemDept, err error) {
+	db := initial.Core.Store.LoadSQL("mysql").Read()
+	builder := sql.NewBuilder()
+	builder.Table("`system_dept`")
+	if val, ok := condition["tenantId"]; ok {
+		builder.Where("`tenant_id`", val)
+	}
+	if val, ok := condition["deleted"]; ok {
+		builder.Where("`deleted`", val)
+	}
+	if val, ok := condition["status"]; ok {
+		builder.Where("`status`", val)
+	}
+	if val, ok := condition["parentId"]; ok {
+		builder.Where("`parent_id`", val)
+	}
+	if val, ok := condition["name"]; ok {
+		builder.Like("`name`", "%"+cast.ToString(val)+"%")
+	}
+
+	builder.OrderBy("`parent_id`", sql.ASC)
+	builder.OrderBy("`sort`", sql.ASC)
+	builder.OrderBy("`id`", sql.ASC)
+	query, args, err := builder.Row()
+	if err != nil {
+		return
+	}
+	err = db.QueryRow(ctx, query, args...).ToStruct(&res)
+	return
+}
+
 // SystemDeptListTotal 查询列表数据总量
 func SystemDeptListTotal(ctx context.Context, condition map[string]any) (res int64, err error) {
 	db := initial.Core.Store.LoadSQL("mysql").Read()

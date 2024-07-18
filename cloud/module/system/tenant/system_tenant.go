@@ -149,9 +149,9 @@ func SystemTenantUpdate(ctx context.Context, id int64, data dao.SystemTenant) (r
 	deptCondition["tenantId"] = id
 	deptCondition["deleted"] = 0
 	var deptItem dao.SystemDept
-	deptData, err := dept.SystemDeptList(ctx, deptCondition)
+	deptData, err := dept.SystemDeptItem(ctx, deptCondition)
 	if err == nil {
-		deptItem = deptData[0]
+		deptItem = deptData
 	} else {
 		// 去创建一个
 		deptItem.Name = data.Name
@@ -204,7 +204,7 @@ func SystemTenantUpdate(ctx context.Context, id int64, data dao.SystemTenant) (r
 	builder := sql.NewBuilder()
 	query, args, err := builder.Table("`system_tenant`").Where("`id`", id).Update(data)
 	if err != nil {
-		return
+		return 0, err
 	}
 	res, err = db.Update(ctx, query, args...)
 	return
