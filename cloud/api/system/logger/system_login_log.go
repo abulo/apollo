@@ -28,18 +28,17 @@ import (
 
 // system_login_log 登录日志
 // SystemLoginLogItem 查询单条数据
-func SystemLoginLogItem(ctx context.Context, newCtx *app.RequestContext) (*logger.SystemLoginLogResponse, error) {
+func SystemLoginLogItem(ctx context.Context, newCtx *app.RequestContext, id int64) (*logger.SystemLoginLogResponse, error) {
 	//判断这个服务能不能链接
 	grpcClient, err := initial.Core.Client.LoadGrpc("grpc").Singleton()
 	if err != nil {
 		globalLogger.Logger.WithFields(logrus.Fields{
 			"err": err,
-		}).Error("Grpc:登录日志:system_login_log:SystemLoginLog")
+		}).Error("Grpc:登录日志:system_login_log:SystemLoginLogItem")
 		return nil, status.Error(code.ConvertToGrpc(code.RPCError), code.StatusText(code.RPCError))
 	}
 	//链接服务
 	client := logger.NewSystemLoginLogServiceClient(grpcClient)
-	id := cast.ToInt64(newCtx.Param("id"))
 	request := &logger.SystemLoginLogRequest{}
 	request.Id = id
 	// 执行服务
@@ -48,7 +47,7 @@ func SystemLoginLogItem(ctx context.Context, newCtx *app.RequestContext) (*logge
 		globalLogger.Logger.WithFields(logrus.Fields{
 			"req": request,
 			"err": err,
-		}).Error("GrpcCall:登录日志:system_login_log:SystemLoginLog")
+		}).Error("GrpcCall:登录日志:system_login_log:SystemLoginLogItem")
 		return nil, err
 	}
 	tenantId := cast.ToInt64(newCtx.GetInt64("tenantId"))
@@ -85,6 +84,7 @@ func SystemLoginLogCreate(ctx context.Context, newCtx *app.RequestContext) {
 		})
 		return
 	}
+	reqInfo.Id = nil
 	reqInfo.Deleted = proto.Int32(0)
 	reqInfo.TenantId = proto.Int64(newCtx.GetInt64("tenantId")) // 租户
 	reqInfo.Creator = null.StringFrom(newCtx.GetString("userName"))
@@ -112,7 +112,8 @@ func SystemLoginLogCreate(ctx context.Context, newCtx *app.RequestContext) {
 
 // SystemLoginLogUpdate 更新数据
 func SystemLoginLogUpdate(ctx context.Context, newCtx *app.RequestContext) {
-	if _, err := SystemLoginLogItem(ctx, newCtx); err != nil {
+	id := cast.ToInt64(newCtx.Param("id"))
+	if _, err := SystemLoginLogItem(ctx, newCtx, id); err != nil {
 		fromError := status.Convert(err)
 		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.ConvertToHttp(fromError.Code()),
@@ -134,7 +135,6 @@ func SystemLoginLogUpdate(ctx context.Context, newCtx *app.RequestContext) {
 	}
 	//链接服务
 	client := logger.NewSystemLoginLogServiceClient(grpcClient)
-	id := cast.ToInt64(newCtx.Param("id"))
 	request := &logger.SystemLoginLogUpdateRequest{}
 	request.Id = id
 	// 数据绑定
@@ -146,6 +146,7 @@ func SystemLoginLogUpdate(ctx context.Context, newCtx *app.RequestContext) {
 		})
 		return
 	}
+	reqInfo.Id = nil
 	reqInfo.TenantId = proto.Int64(newCtx.GetInt64("tenantId")) // 租户
 	reqInfo.Updater = null.StringFrom(newCtx.GetString("userName"))
 	reqInfo.UpdateTime = null.DateTimeFrom(util.Now())
@@ -174,7 +175,8 @@ func SystemLoginLogUpdate(ctx context.Context, newCtx *app.RequestContext) {
 
 // SystemLoginLogDelete 删除数据
 func SystemLoginLogDelete(ctx context.Context, newCtx *app.RequestContext) {
-	if _, err := SystemLoginLogItem(ctx, newCtx); err != nil {
+	id := cast.ToInt64(newCtx.Param("id"))
+	if _, err := SystemLoginLogItem(ctx, newCtx, id); err != nil {
 		fromError := status.Convert(err)
 		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.ConvertToHttp(fromError.Code()),
@@ -195,7 +197,6 @@ func SystemLoginLogDelete(ctx context.Context, newCtx *app.RequestContext) {
 	}
 	//链接服务
 	client := logger.NewSystemLoginLogServiceClient(grpcClient)
-	id := cast.ToInt64(newCtx.Param("id"))
 	request := &logger.SystemLoginLogDeleteRequest{}
 	request.Id = id
 	// 执行服务
@@ -220,7 +221,9 @@ func SystemLoginLogDelete(ctx context.Context, newCtx *app.RequestContext) {
 
 // SystemLoginLog 查询单条数据
 func SystemLoginLog(ctx context.Context, newCtx *app.RequestContext) {
-	res, err := SystemLoginLogItem(ctx, newCtx)
+	id := cast.ToInt64(newCtx.Param("id"))
+	// 执行服务
+	res, err := SystemLoginLogItem(ctx, newCtx, id)
 	if err != nil {
 		fromError := status.Convert(err)
 		response.JSON(newCtx, consts.StatusOK, utils.H{
@@ -238,7 +241,8 @@ func SystemLoginLog(ctx context.Context, newCtx *app.RequestContext) {
 
 // SystemLoginLogRecover 恢复数据
 func SystemLoginLogRecover(ctx context.Context, newCtx *app.RequestContext) {
-	if _, err := SystemLoginLogItem(ctx, newCtx); err != nil {
+	id := cast.ToInt64(newCtx.Param("id"))
+	if _, err := SystemLoginLogItem(ctx, newCtx, id); err != nil {
 		fromError := status.Convert(err)
 		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.ConvertToHttp(fromError.Code()),
@@ -259,7 +263,6 @@ func SystemLoginLogRecover(ctx context.Context, newCtx *app.RequestContext) {
 	}
 	//链接服务
 	client := logger.NewSystemLoginLogServiceClient(grpcClient)
-	id := cast.ToInt64(newCtx.Param("id"))
 	request := &logger.SystemLoginLogRecoverRequest{}
 	request.Id = id
 	// 执行服务
@@ -269,6 +272,52 @@ func SystemLoginLogRecover(ctx context.Context, newCtx *app.RequestContext) {
 			"req": request,
 			"err": err,
 		}).Error("GrpcCall:登录日志:system_login_log:SystemLoginLogRecover")
+		fromError := status.Convert(err)
+		response.JSON(newCtx, consts.StatusOK, utils.H{
+			"code": code.ConvertToHttp(fromError.Code()),
+			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
+		})
+		return
+	}
+	response.JSON(newCtx, consts.StatusOK, utils.H{
+		"code": res.GetCode(),
+		"msg":  res.GetMsg(),
+	})
+}
+
+// SystemLoginLogDrop 清理数据
+func SystemLoginLogDrop(ctx context.Context, newCtx *app.RequestContext) {
+	id := cast.ToInt64(newCtx.Param("id"))
+	if _, err := SystemLoginLogItem(ctx, newCtx, id); err != nil {
+		fromError := status.Convert(err)
+		response.JSON(newCtx, consts.StatusOK, utils.H{
+			"code": code.ConvertToHttp(fromError.Code()),
+			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
+		})
+		return
+	}
+	grpcClient, err := initial.Core.Client.LoadGrpc("grpc").Singleton()
+	if err != nil {
+		globalLogger.Logger.WithFields(logrus.Fields{
+			"err": err,
+		}).Error("Grpc:登录日志:system_login_log:SystemLoginLogDrop")
+		response.JSON(newCtx, consts.StatusOK, utils.H{
+			"code": code.RPCError,
+			"msg":  code.StatusText(code.RPCError),
+		})
+		return
+	}
+	//链接服务
+	client := logger.NewSystemLoginLogServiceClient(grpcClient)
+	request := &logger.SystemLoginLogDropRequest{}
+	request.Id = id
+	// 执行服务
+	res, err := client.SystemLoginLogDrop(ctx, request)
+	if err != nil {
+		globalLogger.Logger.WithFields(logrus.Fields{
+			"req": request,
+			"err": err,
+		}).Error("GrpcCall:登录日志:system_login_log:SystemLoginLogDrop")
 		fromError := status.Convert(err)
 		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.ConvertToHttp(fromError.Code()),
@@ -322,13 +371,11 @@ func SystemLoginLogList(ctx context.Context, newCtx *app.RequestContext) {
 		})
 		return
 	}
-
 	//链接服务
 	client := logger.NewSystemLoginLogServiceClient(grpcClient)
 	// 构造查询条件
 	request := &logger.SystemLoginLogListRequest{}
 	requestTotal := &logger.SystemLoginLogListTotalRequest{}
-
 	request.TenantId = proto.Int64(newCtx.GetInt64("tenantId")) // 租户ID
 	requestTotal.TenantId = proto.Int64(newCtx.GetInt64("tenantId"))
 	request.Deleted = proto.Int32(0)      // 删除状态
@@ -339,7 +386,6 @@ func SystemLoginLogList(ctx context.Context, newCtx *app.RequestContext) {
 			requestTotal.Deleted = nil
 		}
 	}
-
 	if val, ok := newCtx.GetQuery("username"); ok {
 		request.Username = proto.String(val)      // 用户账号
 		requestTotal.Username = proto.String(val) // 用户账号
@@ -356,10 +402,16 @@ func SystemLoginLogList(ctx context.Context, newCtx *app.RequestContext) {
 		request.Channel = proto.String(val)      // 渠道
 		requestTotal.Channel = proto.String(val) // 渠道
 	}
-
+	if val, ok := newCtx.GetQuery("userId"); ok {
+		request.UserId = proto.Int64(cast.ToInt64(val))      //
+		requestTotal.UserId = proto.Int64(cast.ToInt64(val)) //
+	}
 	request.UserId = proto.Int64(newCtx.GetInt64("userId"))      // 用户ID
 	requestTotal.UserId = proto.Int64(newCtx.GetInt64("userId")) // 用户ID
-
+	if val, ok := newCtx.GetQuery("deptId"); ok {
+		request.DeptId = proto.Int64(cast.ToInt64(val))      // 部门
+		requestTotal.DeptId = proto.Int64(cast.ToInt64(val)) // 部门
+	}
 	request.DataScope = userScope.DataScope
 	requestTotal.DataScope = userScope.DataScope
 	dataScopeDept, _ := json.Marshal(userScope.DataScopeDept)
@@ -421,32 +473,16 @@ func SystemLoginLogList(ctx context.Context, newCtx *app.RequestContext) {
 	})
 }
 
-// SystemLoginLogDropProto 数据绑定
-func SystemLoginLogDropProto(item dao.SystemLoginLogDrop) *logger.SystemLoginLogDropRequest {
-	res := &logger.SystemLoginLogDropRequest{}
-	if item.Username != nil {
-		res.Username = item.Username
+// SystemLoginLogMultipleDelete 批量删除数据
+func SystemLoginLogMultipleDelete(ctx context.Context, newCtx *app.RequestContext) {
+	var reqInfo dao.SystemLoginLogMultiple
+	if err := newCtx.BindAndValidate(&reqInfo); err != nil {
+		response.JSON(newCtx, consts.StatusOK, utils.H{
+			"code": code.ParamInvalid,
+			"msg":  code.StatusText(code.ParamInvalid),
+		})
+		return
 	}
-	if item.Channel != nil {
-		res.Channel = item.Channel
-	}
-	if item.BeginLoginTime.IsValid() {
-		res.BeginLoginTime = timestamppb.New(*item.BeginLoginTime.Ptr())
-	}
-	if item.FinishLoginTime.IsValid() {
-		res.FinishLoginTime = timestamppb.New(*item.FinishLoginTime.Ptr())
-	}
-	if item.Deleted != nil {
-		res.Deleted = item.Deleted
-	}
-	if item.Ids.IsValid() {
-		res.Ids = *item.Ids.Ptr()
-	}
-	return res
-}
-
-// SystemLoginLogDrop 清空数据
-func SystemLoginLogDrop(ctx context.Context, newCtx *app.RequestContext) {
 	grpcClient, err := initial.Core.Client.LoadGrpc("grpc").Singleton()
 	if err != nil {
 		globalLogger.Logger.WithFields(logrus.Fields{
@@ -460,8 +496,34 @@ func SystemLoginLogDrop(ctx context.Context, newCtx *app.RequestContext) {
 	}
 	//链接服务
 	client := logger.NewSystemLoginLogServiceClient(grpcClient)
-	// 构造查询条件
-	var reqInfo dao.SystemLoginLogDrop
+	request := &logger.SystemLoginLogMultipleRequest{}
+	request.TenantId = proto.Int64(newCtx.GetInt64("tenantId")) // 租户
+	if reqInfo.Ids.IsValid() {
+		request.Ids = *reqInfo.Ids.Ptr()
+	}
+	// 执行服务
+	res, err := client.SystemLoginLogMultipleDelete(ctx, request)
+	if err != nil {
+		globalLogger.Logger.WithFields(logrus.Fields{
+			"req": request,
+			"err": err,
+		}).Error("GrpcCall:登录日志:system_login_log:SystemLoginLogMultipleDelete")
+		fromError := status.Convert(err)
+		response.JSON(newCtx, consts.StatusOK, utils.H{
+			"code": code.ConvertToHttp(fromError.Code()),
+			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
+		})
+		return
+	}
+	response.JSON(newCtx, consts.StatusOK, utils.H{
+		"code": res.GetCode(),
+		"msg":  res.GetMsg(),
+	})
+}
+
+// SystemLoginLogMultipleRecover 批量恢复数据
+func SystemLoginLogMultipleRecover(ctx context.Context, newCtx *app.RequestContext) {
+	var reqInfo dao.SystemLoginLogMultiple
 	if err := newCtx.BindAndValidate(&reqInfo); err != nil {
 		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.ParamInvalid,
@@ -469,15 +531,79 @@ func SystemLoginLogDrop(ctx context.Context, newCtx *app.RequestContext) {
 		})
 		return
 	}
-	request := SystemLoginLogDropProto(reqInfo)
+	grpcClient, err := initial.Core.Client.LoadGrpc("grpc").Singleton()
+	if err != nil {
+		globalLogger.Logger.WithFields(logrus.Fields{
+			"err": err,
+		}).Error("Grpc:登录日志:system_login_log:SystemLoginLogDrop")
+		response.JSON(newCtx, consts.StatusOK, utils.H{
+			"code": code.RPCError,
+			"msg":  code.StatusText(code.RPCError),
+		})
+		return
+	}
+	//链接服务
+	client := logger.NewSystemLoginLogServiceClient(grpcClient)
+	request := &logger.SystemLoginLogMultipleRequest{}
 	request.TenantId = proto.Int64(newCtx.GetInt64("tenantId")) // 租户
+	if reqInfo.Ids.IsValid() {
+		request.Ids = *reqInfo.Ids.Ptr()
+	}
 	// 执行服务
-	res, err := client.SystemLoginLogDrop(ctx, request)
+	res, err := client.SystemLoginLogMultipleRecover(ctx, request)
 	if err != nil {
 		globalLogger.Logger.WithFields(logrus.Fields{
 			"req": request,
 			"err": err,
-		}).Error("GrpcCall:登录日志:system_login_log:SystemLoginLogDrop")
+		}).Error("GrpcCall:登录日志:system_login_log:SystemLoginLogMultipleRecover")
+		fromError := status.Convert(err)
+		response.JSON(newCtx, consts.StatusOK, utils.H{
+			"code": code.ConvertToHttp(fromError.Code()),
+			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
+		})
+		return
+	}
+	response.JSON(newCtx, consts.StatusOK, utils.H{
+		"code": res.GetCode(),
+		"msg":  res.GetMsg(),
+	})
+}
+
+// SystemLoginLogMultipleDrop 批量清理数据
+func SystemLoginLogMultipleDrop(ctx context.Context, newCtx *app.RequestContext) {
+	var reqInfo dao.SystemLoginLogMultiple
+	if err := newCtx.BindAndValidate(&reqInfo); err != nil {
+		response.JSON(newCtx, consts.StatusOK, utils.H{
+			"code": code.ParamInvalid,
+			"msg":  code.StatusText(code.ParamInvalid),
+		})
+		return
+	}
+	grpcClient, err := initial.Core.Client.LoadGrpc("grpc").Singleton()
+	if err != nil {
+		globalLogger.Logger.WithFields(logrus.Fields{
+			"err": err,
+		}).Error("Grpc:登录日志:system_login_log:SystemLoginLogDrop")
+		response.JSON(newCtx, consts.StatusOK, utils.H{
+			"code": code.RPCError,
+			"msg":  code.StatusText(code.RPCError),
+		})
+		return
+	}
+	//链接服务
+	client := logger.NewSystemLoginLogServiceClient(grpcClient)
+	request := &logger.SystemLoginLogMultipleRequest{}
+	request.TenantId = proto.Int64(newCtx.GetInt64("tenantId")) // 租户
+	if reqInfo.Ids.IsValid() {
+		request.Ids = *reqInfo.Ids.Ptr()
+	}
+	// 执行服务
+	res, err := client.SystemLoginLogMultipleDrop(ctx, request)
+	if err != nil {
+		globalLogger.Logger.WithFields(logrus.Fields{
+			"req": request,
+			"err": err,
+		}).Error("GrpcCall:登录日志:system_login_log:SystemLoginLogMultipleDrop")
 		fromError := status.Convert(err)
 		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.ConvertToHttp(fromError.Code()),

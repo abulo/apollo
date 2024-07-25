@@ -4,7 +4,7 @@ import "github.com/abulo/ratel/v3/stores/null"
 
 // SystemUserDept 系统用户部门 system_user_dept
 type SystemUserDept struct {
-	Id         *int64        `db:"id" json:"id"`                  //bigint 编号,PRI
+	Id         *int64        `db:"id,-" json:"id"`                //bigint 编号,PRI
 	UserId     *int64        `db:"user_id" json:"userId"`         //bigint 系统用户 id
 	DeptId     *int64        `db:"dept_id" json:"deptId"`         //bigint 部门 id
 	Deleted    *int32        `db:"deleted" json:"deleted"`        //tinyint 删除

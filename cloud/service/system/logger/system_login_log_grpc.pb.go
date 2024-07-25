@@ -21,14 +21,17 @@ import (
 const _ = grpc.SupportPackageIsVersion8
 
 const (
-	SystemLoginLogService_SystemLoginLogCreate_FullMethodName    = "/logger.SystemLoginLogService/SystemLoginLogCreate"
-	SystemLoginLogService_SystemLoginLogUpdate_FullMethodName    = "/logger.SystemLoginLogService/SystemLoginLogUpdate"
-	SystemLoginLogService_SystemLoginLogDelete_FullMethodName    = "/logger.SystemLoginLogService/SystemLoginLogDelete"
-	SystemLoginLogService_SystemLoginLogDrop_FullMethodName      = "/logger.SystemLoginLogService/SystemLoginLogDrop"
-	SystemLoginLogService_SystemLoginLog_FullMethodName          = "/logger.SystemLoginLogService/SystemLoginLog"
-	SystemLoginLogService_SystemLoginLogRecover_FullMethodName   = "/logger.SystemLoginLogService/SystemLoginLogRecover"
-	SystemLoginLogService_SystemLoginLogList_FullMethodName      = "/logger.SystemLoginLogService/SystemLoginLogList"
-	SystemLoginLogService_SystemLoginLogListTotal_FullMethodName = "/logger.SystemLoginLogService/SystemLoginLogListTotal"
+	SystemLoginLogService_SystemLoginLogCreate_FullMethodName          = "/logger.SystemLoginLogService/SystemLoginLogCreate"
+	SystemLoginLogService_SystemLoginLogUpdate_FullMethodName          = "/logger.SystemLoginLogService/SystemLoginLogUpdate"
+	SystemLoginLogService_SystemLoginLogDelete_FullMethodName          = "/logger.SystemLoginLogService/SystemLoginLogDelete"
+	SystemLoginLogService_SystemLoginLog_FullMethodName                = "/logger.SystemLoginLogService/SystemLoginLog"
+	SystemLoginLogService_SystemLoginLogRecover_FullMethodName         = "/logger.SystemLoginLogService/SystemLoginLogRecover"
+	SystemLoginLogService_SystemLoginLogDrop_FullMethodName            = "/logger.SystemLoginLogService/SystemLoginLogDrop"
+	SystemLoginLogService_SystemLoginLogList_FullMethodName            = "/logger.SystemLoginLogService/SystemLoginLogList"
+	SystemLoginLogService_SystemLoginLogListTotal_FullMethodName       = "/logger.SystemLoginLogService/SystemLoginLogListTotal"
+	SystemLoginLogService_SystemLoginLogMultipleDelete_FullMethodName  = "/logger.SystemLoginLogService/SystemLoginLogMultipleDelete"
+	SystemLoginLogService_SystemLoginLogMultipleRecover_FullMethodName = "/logger.SystemLoginLogService/SystemLoginLogMultipleRecover"
+	SystemLoginLogService_SystemLoginLogMultipleDrop_FullMethodName    = "/logger.SystemLoginLogService/SystemLoginLogMultipleDrop"
 )
 
 // SystemLoginLogServiceClient is the client API for SystemLoginLogService service.
@@ -40,11 +43,14 @@ type SystemLoginLogServiceClient interface {
 	SystemLoginLogCreate(ctx context.Context, in *SystemLoginLogCreateRequest, opts ...grpc.CallOption) (*SystemLoginLogCreateResponse, error)
 	SystemLoginLogUpdate(ctx context.Context, in *SystemLoginLogUpdateRequest, opts ...grpc.CallOption) (*SystemLoginLogUpdateResponse, error)
 	SystemLoginLogDelete(ctx context.Context, in *SystemLoginLogDeleteRequest, opts ...grpc.CallOption) (*SystemLoginLogDeleteResponse, error)
-	SystemLoginLogDrop(ctx context.Context, in *SystemLoginLogDropRequest, opts ...grpc.CallOption) (*SystemLoginLogDropResponse, error)
 	SystemLoginLog(ctx context.Context, in *SystemLoginLogRequest, opts ...grpc.CallOption) (*SystemLoginLogResponse, error)
 	SystemLoginLogRecover(ctx context.Context, in *SystemLoginLogRecoverRequest, opts ...grpc.CallOption) (*SystemLoginLogRecoverResponse, error)
+	SystemLoginLogDrop(ctx context.Context, in *SystemLoginLogDropRequest, opts ...grpc.CallOption) (*SystemLoginLogDropResponse, error)
 	SystemLoginLogList(ctx context.Context, in *SystemLoginLogListRequest, opts ...grpc.CallOption) (*SystemLoginLogListResponse, error)
 	SystemLoginLogListTotal(ctx context.Context, in *SystemLoginLogListTotalRequest, opts ...grpc.CallOption) (*SystemLoginLogTotalResponse, error)
+	SystemLoginLogMultipleDelete(ctx context.Context, in *SystemLoginLogMultipleRequest, opts ...grpc.CallOption) (*SystemLoginLogMultipleResponse, error)
+	SystemLoginLogMultipleRecover(ctx context.Context, in *SystemLoginLogMultipleRequest, opts ...grpc.CallOption) (*SystemLoginLogMultipleResponse, error)
+	SystemLoginLogMultipleDrop(ctx context.Context, in *SystemLoginLogMultipleRequest, opts ...grpc.CallOption) (*SystemLoginLogMultipleResponse, error)
 }
 
 type systemLoginLogServiceClient struct {
@@ -85,16 +91,6 @@ func (c *systemLoginLogServiceClient) SystemLoginLogDelete(ctx context.Context, 
 	return out, nil
 }
 
-func (c *systemLoginLogServiceClient) SystemLoginLogDrop(ctx context.Context, in *SystemLoginLogDropRequest, opts ...grpc.CallOption) (*SystemLoginLogDropResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(SystemLoginLogDropResponse)
-	err := c.cc.Invoke(ctx, SystemLoginLogService_SystemLoginLogDrop_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 func (c *systemLoginLogServiceClient) SystemLoginLog(ctx context.Context, in *SystemLoginLogRequest, opts ...grpc.CallOption) (*SystemLoginLogResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(SystemLoginLogResponse)
@@ -109,6 +105,16 @@ func (c *systemLoginLogServiceClient) SystemLoginLogRecover(ctx context.Context,
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(SystemLoginLogRecoverResponse)
 	err := c.cc.Invoke(ctx, SystemLoginLogService_SystemLoginLogRecover_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *systemLoginLogServiceClient) SystemLoginLogDrop(ctx context.Context, in *SystemLoginLogDropRequest, opts ...grpc.CallOption) (*SystemLoginLogDropResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(SystemLoginLogDropResponse)
+	err := c.cc.Invoke(ctx, SystemLoginLogService_SystemLoginLogDrop_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -135,6 +141,36 @@ func (c *systemLoginLogServiceClient) SystemLoginLogListTotal(ctx context.Contex
 	return out, nil
 }
 
+func (c *systemLoginLogServiceClient) SystemLoginLogMultipleDelete(ctx context.Context, in *SystemLoginLogMultipleRequest, opts ...grpc.CallOption) (*SystemLoginLogMultipleResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(SystemLoginLogMultipleResponse)
+	err := c.cc.Invoke(ctx, SystemLoginLogService_SystemLoginLogMultipleDelete_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *systemLoginLogServiceClient) SystemLoginLogMultipleRecover(ctx context.Context, in *SystemLoginLogMultipleRequest, opts ...grpc.CallOption) (*SystemLoginLogMultipleResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(SystemLoginLogMultipleResponse)
+	err := c.cc.Invoke(ctx, SystemLoginLogService_SystemLoginLogMultipleRecover_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *systemLoginLogServiceClient) SystemLoginLogMultipleDrop(ctx context.Context, in *SystemLoginLogMultipleRequest, opts ...grpc.CallOption) (*SystemLoginLogMultipleResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(SystemLoginLogMultipleResponse)
+	err := c.cc.Invoke(ctx, SystemLoginLogService_SystemLoginLogMultipleDrop_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // SystemLoginLogServiceServer is the server API for SystemLoginLogService service.
 // All implementations must embed UnimplementedSystemLoginLogServiceServer
 // for forward compatibility
@@ -144,11 +180,14 @@ type SystemLoginLogServiceServer interface {
 	SystemLoginLogCreate(context.Context, *SystemLoginLogCreateRequest) (*SystemLoginLogCreateResponse, error)
 	SystemLoginLogUpdate(context.Context, *SystemLoginLogUpdateRequest) (*SystemLoginLogUpdateResponse, error)
 	SystemLoginLogDelete(context.Context, *SystemLoginLogDeleteRequest) (*SystemLoginLogDeleteResponse, error)
-	SystemLoginLogDrop(context.Context, *SystemLoginLogDropRequest) (*SystemLoginLogDropResponse, error)
 	SystemLoginLog(context.Context, *SystemLoginLogRequest) (*SystemLoginLogResponse, error)
 	SystemLoginLogRecover(context.Context, *SystemLoginLogRecoverRequest) (*SystemLoginLogRecoverResponse, error)
+	SystemLoginLogDrop(context.Context, *SystemLoginLogDropRequest) (*SystemLoginLogDropResponse, error)
 	SystemLoginLogList(context.Context, *SystemLoginLogListRequest) (*SystemLoginLogListResponse, error)
 	SystemLoginLogListTotal(context.Context, *SystemLoginLogListTotalRequest) (*SystemLoginLogTotalResponse, error)
+	SystemLoginLogMultipleDelete(context.Context, *SystemLoginLogMultipleRequest) (*SystemLoginLogMultipleResponse, error)
+	SystemLoginLogMultipleRecover(context.Context, *SystemLoginLogMultipleRequest) (*SystemLoginLogMultipleResponse, error)
+	SystemLoginLogMultipleDrop(context.Context, *SystemLoginLogMultipleRequest) (*SystemLoginLogMultipleResponse, error)
 	mustEmbedUnimplementedSystemLoginLogServiceServer()
 }
 
@@ -165,20 +204,29 @@ func (UnimplementedSystemLoginLogServiceServer) SystemLoginLogUpdate(context.Con
 func (UnimplementedSystemLoginLogServiceServer) SystemLoginLogDelete(context.Context, *SystemLoginLogDeleteRequest) (*SystemLoginLogDeleteResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SystemLoginLogDelete not implemented")
 }
-func (UnimplementedSystemLoginLogServiceServer) SystemLoginLogDrop(context.Context, *SystemLoginLogDropRequest) (*SystemLoginLogDropResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method SystemLoginLogDrop not implemented")
-}
 func (UnimplementedSystemLoginLogServiceServer) SystemLoginLog(context.Context, *SystemLoginLogRequest) (*SystemLoginLogResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SystemLoginLog not implemented")
 }
 func (UnimplementedSystemLoginLogServiceServer) SystemLoginLogRecover(context.Context, *SystemLoginLogRecoverRequest) (*SystemLoginLogRecoverResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SystemLoginLogRecover not implemented")
 }
+func (UnimplementedSystemLoginLogServiceServer) SystemLoginLogDrop(context.Context, *SystemLoginLogDropRequest) (*SystemLoginLogDropResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SystemLoginLogDrop not implemented")
+}
 func (UnimplementedSystemLoginLogServiceServer) SystemLoginLogList(context.Context, *SystemLoginLogListRequest) (*SystemLoginLogListResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SystemLoginLogList not implemented")
 }
 func (UnimplementedSystemLoginLogServiceServer) SystemLoginLogListTotal(context.Context, *SystemLoginLogListTotalRequest) (*SystemLoginLogTotalResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SystemLoginLogListTotal not implemented")
+}
+func (UnimplementedSystemLoginLogServiceServer) SystemLoginLogMultipleDelete(context.Context, *SystemLoginLogMultipleRequest) (*SystemLoginLogMultipleResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SystemLoginLogMultipleDelete not implemented")
+}
+func (UnimplementedSystemLoginLogServiceServer) SystemLoginLogMultipleRecover(context.Context, *SystemLoginLogMultipleRequest) (*SystemLoginLogMultipleResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SystemLoginLogMultipleRecover not implemented")
+}
+func (UnimplementedSystemLoginLogServiceServer) SystemLoginLogMultipleDrop(context.Context, *SystemLoginLogMultipleRequest) (*SystemLoginLogMultipleResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SystemLoginLogMultipleDrop not implemented")
 }
 func (UnimplementedSystemLoginLogServiceServer) mustEmbedUnimplementedSystemLoginLogServiceServer() {}
 
@@ -247,24 +295,6 @@ func _SystemLoginLogService_SystemLoginLogDelete_Handler(srv interface{}, ctx co
 	return interceptor(ctx, in, info, handler)
 }
 
-func _SystemLoginLogService_SystemLoginLogDrop_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(SystemLoginLogDropRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(SystemLoginLogServiceServer).SystemLoginLogDrop(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: SystemLoginLogService_SystemLoginLogDrop_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(SystemLoginLogServiceServer).SystemLoginLogDrop(ctx, req.(*SystemLoginLogDropRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 func _SystemLoginLogService_SystemLoginLog_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(SystemLoginLogRequest)
 	if err := dec(in); err != nil {
@@ -297,6 +327,24 @@ func _SystemLoginLogService_SystemLoginLogRecover_Handler(srv interface{}, ctx c
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(SystemLoginLogServiceServer).SystemLoginLogRecover(ctx, req.(*SystemLoginLogRecoverRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _SystemLoginLogService_SystemLoginLogDrop_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SystemLoginLogDropRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SystemLoginLogServiceServer).SystemLoginLogDrop(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: SystemLoginLogService_SystemLoginLogDrop_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SystemLoginLogServiceServer).SystemLoginLogDrop(ctx, req.(*SystemLoginLogDropRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -337,6 +385,60 @@ func _SystemLoginLogService_SystemLoginLogListTotal_Handler(srv interface{}, ctx
 	return interceptor(ctx, in, info, handler)
 }
 
+func _SystemLoginLogService_SystemLoginLogMultipleDelete_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SystemLoginLogMultipleRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SystemLoginLogServiceServer).SystemLoginLogMultipleDelete(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: SystemLoginLogService_SystemLoginLogMultipleDelete_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SystemLoginLogServiceServer).SystemLoginLogMultipleDelete(ctx, req.(*SystemLoginLogMultipleRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _SystemLoginLogService_SystemLoginLogMultipleRecover_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SystemLoginLogMultipleRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SystemLoginLogServiceServer).SystemLoginLogMultipleRecover(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: SystemLoginLogService_SystemLoginLogMultipleRecover_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SystemLoginLogServiceServer).SystemLoginLogMultipleRecover(ctx, req.(*SystemLoginLogMultipleRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _SystemLoginLogService_SystemLoginLogMultipleDrop_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SystemLoginLogMultipleRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SystemLoginLogServiceServer).SystemLoginLogMultipleDrop(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: SystemLoginLogService_SystemLoginLogMultipleDrop_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SystemLoginLogServiceServer).SystemLoginLogMultipleDrop(ctx, req.(*SystemLoginLogMultipleRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // SystemLoginLogService_ServiceDesc is the grpc.ServiceDesc for SystemLoginLogService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -357,10 +459,6 @@ var SystemLoginLogService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _SystemLoginLogService_SystemLoginLogDelete_Handler,
 		},
 		{
-			MethodName: "SystemLoginLogDrop",
-			Handler:    _SystemLoginLogService_SystemLoginLogDrop_Handler,
-		},
-		{
 			MethodName: "SystemLoginLog",
 			Handler:    _SystemLoginLogService_SystemLoginLog_Handler,
 		},
@@ -369,12 +467,28 @@ var SystemLoginLogService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _SystemLoginLogService_SystemLoginLogRecover_Handler,
 		},
 		{
+			MethodName: "SystemLoginLogDrop",
+			Handler:    _SystemLoginLogService_SystemLoginLogDrop_Handler,
+		},
+		{
 			MethodName: "SystemLoginLogList",
 			Handler:    _SystemLoginLogService_SystemLoginLogList_Handler,
 		},
 		{
 			MethodName: "SystemLoginLogListTotal",
 			Handler:    _SystemLoginLogService_SystemLoginLogListTotal_Handler,
+		},
+		{
+			MethodName: "SystemLoginLogMultipleDelete",
+			Handler:    _SystemLoginLogService_SystemLoginLogMultipleDelete_Handler,
+		},
+		{
+			MethodName: "SystemLoginLogMultipleRecover",
+			Handler:    _SystemLoginLogService_SystemLoginLogMultipleRecover_Handler,
+		},
+		{
+			MethodName: "SystemLoginLogMultipleDrop",
+			Handler:    _SystemLoginLogService_SystemLoginLogMultipleDrop_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

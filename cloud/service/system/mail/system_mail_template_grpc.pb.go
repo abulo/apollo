@@ -26,6 +26,7 @@ const (
 	SystemMailTemplateService_SystemMailTemplateDelete_FullMethodName    = "/mail.SystemMailTemplateService/SystemMailTemplateDelete"
 	SystemMailTemplateService_SystemMailTemplate_FullMethodName          = "/mail.SystemMailTemplateService/SystemMailTemplate"
 	SystemMailTemplateService_SystemMailTemplateRecover_FullMethodName   = "/mail.SystemMailTemplateService/SystemMailTemplateRecover"
+	SystemMailTemplateService_SystemMailTemplateDrop_FullMethodName      = "/mail.SystemMailTemplateService/SystemMailTemplateDrop"
 	SystemMailTemplateService_SystemMailTemplateList_FullMethodName      = "/mail.SystemMailTemplateService/SystemMailTemplateList"
 	SystemMailTemplateService_SystemMailTemplateListTotal_FullMethodName = "/mail.SystemMailTemplateService/SystemMailTemplateListTotal"
 )
@@ -41,6 +42,7 @@ type SystemMailTemplateServiceClient interface {
 	SystemMailTemplateDelete(ctx context.Context, in *SystemMailTemplateDeleteRequest, opts ...grpc.CallOption) (*SystemMailTemplateDeleteResponse, error)
 	SystemMailTemplate(ctx context.Context, in *SystemMailTemplateRequest, opts ...grpc.CallOption) (*SystemMailTemplateResponse, error)
 	SystemMailTemplateRecover(ctx context.Context, in *SystemMailTemplateRecoverRequest, opts ...grpc.CallOption) (*SystemMailTemplateRecoverResponse, error)
+	SystemMailTemplateDrop(ctx context.Context, in *SystemMailTemplateDropRequest, opts ...grpc.CallOption) (*SystemMailTemplateDropResponse, error)
 	SystemMailTemplateList(ctx context.Context, in *SystemMailTemplateListRequest, opts ...grpc.CallOption) (*SystemMailTemplateListResponse, error)
 	SystemMailTemplateListTotal(ctx context.Context, in *SystemMailTemplateListTotalRequest, opts ...grpc.CallOption) (*SystemMailTemplateTotalResponse, error)
 }
@@ -103,6 +105,16 @@ func (c *systemMailTemplateServiceClient) SystemMailTemplateRecover(ctx context.
 	return out, nil
 }
 
+func (c *systemMailTemplateServiceClient) SystemMailTemplateDrop(ctx context.Context, in *SystemMailTemplateDropRequest, opts ...grpc.CallOption) (*SystemMailTemplateDropResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(SystemMailTemplateDropResponse)
+	err := c.cc.Invoke(ctx, SystemMailTemplateService_SystemMailTemplateDrop_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *systemMailTemplateServiceClient) SystemMailTemplateList(ctx context.Context, in *SystemMailTemplateListRequest, opts ...grpc.CallOption) (*SystemMailTemplateListResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(SystemMailTemplateListResponse)
@@ -134,6 +146,7 @@ type SystemMailTemplateServiceServer interface {
 	SystemMailTemplateDelete(context.Context, *SystemMailTemplateDeleteRequest) (*SystemMailTemplateDeleteResponse, error)
 	SystemMailTemplate(context.Context, *SystemMailTemplateRequest) (*SystemMailTemplateResponse, error)
 	SystemMailTemplateRecover(context.Context, *SystemMailTemplateRecoverRequest) (*SystemMailTemplateRecoverResponse, error)
+	SystemMailTemplateDrop(context.Context, *SystemMailTemplateDropRequest) (*SystemMailTemplateDropResponse, error)
 	SystemMailTemplateList(context.Context, *SystemMailTemplateListRequest) (*SystemMailTemplateListResponse, error)
 	SystemMailTemplateListTotal(context.Context, *SystemMailTemplateListTotalRequest) (*SystemMailTemplateTotalResponse, error)
 	mustEmbedUnimplementedSystemMailTemplateServiceServer()
@@ -157,6 +170,9 @@ func (UnimplementedSystemMailTemplateServiceServer) SystemMailTemplate(context.C
 }
 func (UnimplementedSystemMailTemplateServiceServer) SystemMailTemplateRecover(context.Context, *SystemMailTemplateRecoverRequest) (*SystemMailTemplateRecoverResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SystemMailTemplateRecover not implemented")
+}
+func (UnimplementedSystemMailTemplateServiceServer) SystemMailTemplateDrop(context.Context, *SystemMailTemplateDropRequest) (*SystemMailTemplateDropResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SystemMailTemplateDrop not implemented")
 }
 func (UnimplementedSystemMailTemplateServiceServer) SystemMailTemplateList(context.Context, *SystemMailTemplateListRequest) (*SystemMailTemplateListResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SystemMailTemplateList not implemented")
@@ -268,6 +284,24 @@ func _SystemMailTemplateService_SystemMailTemplateRecover_Handler(srv interface{
 	return interceptor(ctx, in, info, handler)
 }
 
+func _SystemMailTemplateService_SystemMailTemplateDrop_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SystemMailTemplateDropRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SystemMailTemplateServiceServer).SystemMailTemplateDrop(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: SystemMailTemplateService_SystemMailTemplateDrop_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SystemMailTemplateServiceServer).SystemMailTemplateDrop(ctx, req.(*SystemMailTemplateDropRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _SystemMailTemplateService_SystemMailTemplateList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(SystemMailTemplateListRequest)
 	if err := dec(in); err != nil {
@@ -330,6 +364,10 @@ var SystemMailTemplateService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "SystemMailTemplateRecover",
 			Handler:    _SystemMailTemplateService_SystemMailTemplateRecover_Handler,
+		},
+		{
+			MethodName: "SystemMailTemplateDrop",
+			Handler:    _SystemMailTemplateService_SystemMailTemplateDrop_Handler,
 		},
 		{
 			MethodName: "SystemMailTemplateList",

@@ -1,16 +1,21 @@
+// system_post 职位
+import { ReqPage } from "./index";
 export namespace SystemPost {
-  // 接口请求数据
-  export interface ReqSystemPostList {
-    name?: string; // 名称
-    deleted?: number; //是否删除
-    status?: number; //状态
+  export interface ReqSystemPostList extends ReqPage {
+    deleted?: number; // 是否删除
+    status?: number; // 状态
+    name?: string; // 职位名称
   }
-  // 单个数据接口
   export interface ResSystemPostItem {
     id: number; // 职位ID
     name: string; // 职位名称
     sort: number; // 显示顺序
-    status: number; // 职位状态
+    status: number; // 状态
     deleted: number; // 是否删除
+    tenantId: number; // 租户ID
+    creator: string | undefined; // 创建人
+    createTime: string | undefined; // 创建时间
+    updater: string | undefined; // 更新人
+    updateTime: string | undefined; // 更新时间
   }
 }

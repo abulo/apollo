@@ -4,7 +4,7 @@ import "github.com/abulo/ratel/v3/stores/null"
 
 // SystemTenant 租户 system_tenant
 type SystemTenant struct {
-	Id              *int64        `db:"id" json:"id"`                             //bigint 租户编号,PRI
+	Id              *int64        `db:"id,-" json:"id"`                           //bigint 租户编号,PRI
 	Name            *string       `db:"name" json:"name"`                         //varchar 租户名称
 	UserId          null.Int64    `db:"user_id" json:"userId"`                    //bigint 联系人ID
 	ContactName     *string       `db:"contact_name" json:"contactName"`          //varchar 联系人
@@ -19,6 +19,6 @@ type SystemTenant struct {
 	CreateTime      null.DateTime `db:"create_time" json:"createTime"`            //datetime 创建时间
 	Updater         null.String   `db:"updater" json:"updater"`                   //varchar 更新人
 	UpdateTime      null.DateTime `db:"update_time" json:"updateTime"`            //datetime 更新时间
-	Username        *string       `json:"username,omitempty"`                     //varchar 用户名称
-	Password        *string       `json:"password,omitempty"`                     //varchar 用户密码
+	Username        *string       `db:"username,-" json:"username,omitempty"`     //varchar 用户名称
+	Password        *string       `db:"password,-" json:"password,omitempty"`     //varchar 用户密码
 }

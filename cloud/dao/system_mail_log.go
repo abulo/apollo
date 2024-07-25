@@ -4,7 +4,7 @@ import "github.com/abulo/ratel/v3/stores/null"
 
 // SystemMailLog 邮件日志表 system_mail_log
 type SystemMailLog struct {
-	Id               *int64        `db:"id" json:"id"`                              //bigint 编号,PRI
+	Id               *int64        `db:"id,-" json:"id"`                            //bigint 编号,PRI
 	UserId           null.Int64    `db:"user_id" json:"userId"`                     //bigint 用户编号
 	UserType         null.Int32    `db:"user_type" json:"userType"`                 //tinyint 用户类型
 	ToMail           *string       `db:"to_mail" json:"toMail"`                     //varchar 接收邮箱地址
@@ -25,4 +25,9 @@ type SystemMailLog struct {
 	Updater          null.String   `db:"updater" json:"updater"`                    //varchar 更新者
 	UpdateTime       null.DateTime `db:"update_time" json:"updateTime"`             //datetime 更新时间
 	Deleted          *int32        `db:"deleted" json:"deleted"`                    //tinyint 是否删除
+}
+
+// SystemMailLogMultiple  多选
+type SystemMailLogMultiple struct {
+	Ids null.JSON `json:"ids,omitempty"` // 日志编号
 }

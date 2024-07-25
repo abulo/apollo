@@ -119,6 +119,26 @@ func (srv SrvSystemNotifyTemplateServiceServer) SystemNotifyTemplateRecover(ctx 
 		Msg:  code.StatusText(code.Success),
 	}, nil
 }
+
+// SystemNotifyTemplateDrop 清理数据
+func (srv SrvSystemNotifyTemplateServiceServer) SystemNotifyTemplateDrop(ctx context.Context, request *SystemNotifyTemplateDropRequest) (*SystemNotifyTemplateDropResponse, error) {
+	id := request.GetId()
+	if id < 1 {
+		return &SystemNotifyTemplateDropResponse{}, status.Error(code.ConvertToGrpc(code.ParamInvalid), code.StatusText(code.ParamInvalid))
+	}
+	_, err := notify.SystemNotifyTemplateDrop(ctx, id)
+	if sql.ResultAccept(err) != nil {
+		globalLogger.Logger.WithFields(logrus.Fields{
+			"req": id,
+			"err": err,
+		}).Error("Sql:站内信模板表:system_notify_template:SystemNotifyTemplateDrop")
+		return &SystemNotifyTemplateDropResponse{}, status.Error(code.ConvertToGrpc(code.SqlError), err.Error())
+	}
+	return &SystemNotifyTemplateDropResponse{
+		Code: code.Success,
+		Msg:  code.StatusText(code.Success),
+	}, nil
+}
 func (srv SrvSystemNotifyTemplateServiceServer) SystemNotifyTemplateList(ctx context.Context, request *SystemNotifyTemplateListRequest) (*SystemNotifyTemplateListResponse, error) {
 	// 数据库查询条件
 	condition := make(map[string]any)

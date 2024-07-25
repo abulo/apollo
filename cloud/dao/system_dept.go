@@ -4,7 +4,7 @@ import "github.com/abulo/ratel/v3/stores/null"
 
 // SystemDept 部门 system_dept
 type SystemDept struct {
-	Id         *int64        `db:"id" json:"id"`                  //bigint 部门ID,PRI
+	Id         *int64        `db:"id,-" json:"id"`                //bigint 部门ID,PRI
 	Name       *string       `db:"name" json:"name"`              //varchar 部门名称
 	ParentId   *int64        `db:"parent_id" json:"parentId"`     //bigint 父部门ID
 	Sort       *int32        `db:"sort" json:"sort"`              //int 显示顺序

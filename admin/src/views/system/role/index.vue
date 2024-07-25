@@ -13,21 +13,16 @@
       <template #tableHeader>
         <el-button v-auth="'role.SystemRoleCreate'" type="primary" :icon="CirclePlus" @click="handleAdd">新增</el-button>
       </template>
-      <!-- 状态-->
-      <template #status="scope">
-        <DictTag type="status" :value="scope.row.status" />
-      </template>
       <!-- 删除状态 -->
       <template #deleted="scope">
         <DictTag type="delete" :value="scope.row.deleted" />
       </template>
+      <!-- 菜单操作 -->
       <template #operation="scope">
-        <el-button v-auth="'role.SystemRoleUpdate'" type="primary" link :icon="EditPen" @click="handleUpdate(scope.row)">
-          编辑
-        </el-button>
+        <el-button v-auth="'role.SystemRole'" type="primary" link :icon="View" @click="handleItem(scope.row)"> 查看 </el-button>
         <el-dropdown trigger="click">
           <el-button
-            v-auth="['role.SystemRoleMenuList', 'role.SystemRoleRecover', 'role.SystemRoleDelete']"
+            v-auth="['role.SystemRoleUpdate', 'role.SystemRoleDelete', 'role.SystemRoleRecover', 'role.SystemRoleDrop']"
             type="primary"
             link
             :icon="DArrowRight">
@@ -35,8 +30,8 @@
           </el-button>
           <template #dropdown>
             <el-dropdown-menu>
-              <el-dropdown-item v-auth="'role.SystemRoleMenuList'" :icon="Menu" @click="handleMenu(scope.row)">
-                菜单权限
+              <el-dropdown-item v-auth="'role.SystemRoleUpdate'" :icon="EditPen" @click="handleUpdate(scope.row)">
+                编辑
               </el-dropdown-item>
               <el-dropdown-item
                 v-if="scope.row.deleted === 0"
@@ -49,15 +44,21 @@
                 v-if="scope.row.deleted === 1"
                 v-auth="'role.SystemRoleRecover'"
                 :icon="Refresh"
-                @click="handleDelete(scope.row)">
+                @click="handleRecover(scope.row)">
                 恢复
+              </el-dropdown-item>
+              <el-dropdown-item
+                v-if="scope.row.deleted === 1"
+                v-auth="'role.SystemRoleDrop'"
+                :icon="DeleteFilled"
+                @click="handleDrop(scope.row)">
+                清理
               </el-dropdown-item>
             </el-dropdown-menu>
           </template>
         </el-dropdown>
       </template>
     </ProTable>
-    <!-- 添加或者修改 -->
     <el-dialog
       v-model="centerDialogVisible"
       :title="title"
@@ -71,27 +72,44 @@
       class="dialog-settings">
       <el-form ref="refSystemRoleItemFrom" :model="systemRoleItemFrom" :rules="rulesSystemRoleItemFrom" label-width="100px">
         <el-form-item label="角色名称" prop="name">
-          <el-input v-model="systemRoleItemFrom.name" />
+          <el-input v-model="systemRoleItemFrom.name" :disabled="disabled" />
         </el-form-item>
         <el-form-item label="角色编码" prop="code">
-          <el-input v-model="systemRoleItemFrom.code" placeholder="请输入角色编码" />
+          <el-input v-model="systemRoleItemFrom.code" :disabled="disabled" />
         </el-form-item>
-        <el-form-item label="角色顺序" prop="sort">
-          <el-input-number v-model="systemRoleItemFrom.sort" controls-position="right" :min="0" />
+        <el-form-item label="显示顺序" prop="sort">
+          <el-input-number v-model="systemRoleItemFrom.sort" controls-position="right" :min="0" :disabled="disabled" />
         </el-form-item>
         <el-form-item label="状态" prop="status">
           <el-radio-group v-model="systemRoleItemFrom.status">
-            <el-radio-button v-for="dict in statusEnum" :key="Number(dict.value)" :value="dict.value">
+            <el-radio-button v-for="dict in statusEnum" :key="Number(dict.value)" :value="dict.value" :disabled="disabled">
               {{ dict.label }}
             </el-radio-button>
           </el-radio-group>
         </el-form-item>
+        <el-form-item label="菜单权限" prop="menuIds">
+          <el-card class="cardHeight">
+            <template #header>
+              全选/全不选:
+              <el-switch v-model="menuNodeAll" active-text="是" inactive-text="否" inline-prompt @change="handleMenuNodeAll" />
+              全部展开/折叠:
+              <el-switch v-model="menuExpand" active-text="展开" inactive-text="折叠" inline-prompt @change="handleMenuExpand" />
+            </template>
+            <el-tree
+              ref="menuRef"
+              :data="menuList"
+              :props="menuProps"
+              :list="systemRoleItemFrom.menuIds"
+              empty-text="加载中，请稍候"
+              node-key="id"
+              show-checkbox />
+          </el-card>
+        </el-form-item>
         <el-form-item label="权限类别" prop="dataScope">
-          <el-select v-model="systemRoleItemFrom.dataScope">
+          <el-select v-model="systemRoleItemFrom.dataScope" :disabled="disabled">
             <el-option v-for="dict in dataScopeEnum" :key="Number(dict.value)" :label="dict.label" :value="Number(dict.value)" />
           </el-select>
         </el-form-item>
-
         <el-form-item
           v-model="systemRoleItemFrom.dataScopeDept"
           v-if="systemRoleItemFrom.dataScope === 2"
@@ -100,94 +118,32 @@
           <el-card class="cardHeight">
             <template #header>
               全选/不选:
-              <el-switch v-model="deptNodeAll" active-text="是" inactive-text="否" inline-prompt @change="handleDataNodeAll" />
+              <el-switch v-model="deptNodeAll" active-text="是" inactive-text="否" inline-prompt @change="handleDeptNodeAll" />
               展开/折叠:
-              <el-switch v-model="deptExpand" active-text="展开" inactive-text="折叠" inline-prompt @change="handleDataExpand" />
-              关联/不关联:
-              <el-switch
-                v-model="deptStrictly"
-                active-text="关联"
-                inactive-text="不关联"
-                inline-prompt
-                @change="handleDataStrictly" />
+              <el-switch v-model="deptExpand" active-text="展开" inactive-text="折叠" inline-prompt @change="handleDeptExpand" />
+              父子联动:
+              <el-switch v-model="checkStrictly" active-text="是" inactive-text="否" inline-prompt />
             </template>
             <el-tree
               ref="deptRef"
-              :data="deptOptions"
-              :props="defaultProps"
+              :data="deptList"
+              :props="deptProps"
               :list="systemRoleItemFrom.dataScopeDept"
               empty-text="加载中，请稍候"
+              :disabled="disabled"
+              :check-strictly="!checkStrictly"
               node-key="id"
-              :check-strictly="deptCheckStrictly"
               show-checkbox />
           </el-card>
         </el-form-item>
-
         <el-form-item label="备注" prop="remark">
-          <el-input v-model="systemRoleItemFrom.remark" placeholder="请输备注" type="textarea" />
+          <el-input v-model="systemRoleItemFrom.remark" :disabled="disabled" />
         </el-form-item>
       </el-form>
-      <template #footer>
+      <template #footer v-if="!disabled">
         <span class="dialog-footer">
           <el-button @click="resetForm(refSystemRoleItemFrom)">取消</el-button>
           <el-button type="primary" :loading="loading" @click="submitForm(refSystemRoleItemFrom)">确定</el-button>
-        </span>
-      </template>
-    </el-dialog>
-    <!-- 菜单权限 -->
-    <el-dialog
-      v-model="centerMenuDialogVisible"
-      :title="titleMenu"
-      width="40%"
-      destroy-on-close
-      align-center
-      center
-      append-to-body
-      draggable
-      :lock-scroll="false"
-      class="dialog-settings">
-      <el-form
-        ref="refSystemRoleMenuItemFrom"
-        :model="systemRoleMenuItemFrom"
-        :rules="rulesSystemRoleMenuItemFrom"
-        label-width="100px">
-        <el-form-item label="角色名称">
-          <el-tag>{{ systemRoleItemFrom.name }}</el-tag>
-        </el-form-item>
-        <el-form-item label="角色编码">
-          <el-tag>{{ systemRoleItemFrom.code }}</el-tag>
-        </el-form-item>
-        <el-form-item label="菜单权限">
-          <el-card class="cardHeight">
-            <template #header>
-              全选/全不选:
-              <el-switch v-model="menuNodeAll" active-text="是" inactive-text="否" inline-prompt @change="handleMenuNodeAll" />
-              全部展开/折叠:
-              <el-switch v-model="menuExpand" active-text="展开" inactive-text="折叠" inline-prompt @change="handleMenuExpand" />
-              关联/不关联:
-              <el-switch
-                v-model="menuStrictly"
-                active-text="关联"
-                inactive-text="不关联"
-                inline-prompt
-                @change="handleMenuStrictly" />
-            </template>
-            <el-tree
-              ref="menuRef"
-              :data="menuOptions"
-              :props="defaultProps"
-              :list="systemRoleMenuItemFrom.menuIds"
-              empty-text="加载中，请稍候"
-              node-key="id"
-              :check-strictly="menuCheckStrictly"
-              show-checkbox />
-          </el-card>
-        </el-form-item>
-      </el-form>
-      <template #footer>
-        <span class="dialog-footer">
-          <el-button @click="resetMenuForm(refSystemRoleMenuItemFrom)">取消</el-button>
-          <el-button type="primary" :loading="loading" @click="submitMenuForm(refSystemRoleMenuItemFrom)">确定</el-button>
         </span>
       </template>
     </el-dialog>
@@ -195,116 +151,115 @@
 </template>
 <script setup lang="ts" name="systemRole">
 import { ref, reactive } from "vue";
-import { useTimeoutFn } from "@vueuse/core";
 import { ProTableInstance, ColumnProps, SearchProps } from "@/components/ProTable/interface";
-import { EditPen, CirclePlus, Delete, DataBoard, DArrowRight, Menu, Refresh } from "@element-plus/icons-vue";
+import { EditPen, CirclePlus, Delete, Refresh, DeleteFilled, View, DArrowRight } from "@element-plus/icons-vue";
 import ProTable from "@/components/ProTable/index.vue";
-import { DictTag } from "@/components/DictTag";
-import { FormInstance, FormRules, ElTree, ElMessage } from "element-plus";
-import Node from "element-plus/es/components/tree/src/model/node";
 import { SystemRole } from "@/api/interface/systemRole";
 import {
   getSystemRoleListApi,
   deleteSystemRoleApi,
-  getSystemRoleItemApi,
+  dropSystemRoleApi,
+  recoverSystemRoleApi,
+  getSystemRoleApi,
   addSystemRoleApi,
-  updateSystemRoleApi,
-  getSystemRoleMenuListApi,
-  addSystemRoleMenuApi
+  updateSystemRoleApi
 } from "@/api/modules/systemRole";
-import { SystemMenu } from "@/api/interface/systemMenu";
-import { getSystemTenantMenuListApi } from "@/api/modules/systemTenant";
-import { SystemDept } from "@/api/interface/systemDept";
-import { getSystemDeptListSimpleApi } from "@/api/modules/systemDept";
+import { FormInstance, FormRules, ElTree, ElMessage } from "element-plus";
 import { getIntDictOptions } from "@/utils/dict";
+import { DictTag } from "@/components/DictTag";
 import { useHandleData, useHandleSet } from "@/hooks/useHandleData";
 import { HasPermission } from "@/utils/permission";
-//加载
-const loading = ref(false);
-//table数据
-const proTable = ref<ProTableInstance>();
-//弹出层标题
-const title = ref();
-//是否显示弹出层
-const centerDialogVisible = ref(false);
-// 默认
-const defaultProps = {
+import { SystemMenu } from "@/api/interface/systemMenu";
+import { SystemDept } from "@/api/interface/systemDept";
+import { getSystemTenantMenuListApi } from "@/api/modules/systemTenant";
+import { getSystemDeptListSimpleApi } from "@/api/modules/systemDept";
+import { useTimeoutFn } from "@vueuse/core";
+import Node from "element-plus/es/components/tree/src/model/node";
+const deptProps = {
   children: "children",
   label: "name",
   value: "id"
 };
-//弹出层标题
-const titleMenu = ref();
-//是否显示弹出层
-const centerMenuDialogVisible = ref(false);
-//部门树选项
-const menuOptions = ref<SystemMenu.ResSystemMenuList[]>([]);
-const menuNodeAll = ref(false); // 全选/全不选
+
+const deptRef = ref<InstanceType<typeof ElTree>>();
+const deptList = ref<SystemDept.ResSystemDeptItem[]>([]);
+const deptNodeAll = ref(false); // 全选/全不选
+const deptExpand = ref(false); // 展开/折叠
+const checkStrictly = ref(true); // 是否严格模式，即父子不关联
+
+const menuProps = {
+  children: "children",
+  label: "name",
+  value: "id"
+};
+
 const menuRef = ref<InstanceType<typeof ElTree>>();
+const menuList = ref<SystemMenu.ResSystemMenuItem[]>([]);
+const menuNodeAll = ref(false); // 全选/全不选
 const menuExpand = ref(false); // 展开/折叠
 
-//部门树选项
-const deptOptions = ref<SystemDept.ResSystemDeptList[]>([]);
-const deptNodeAll = ref(false); // 全选/全不选
-const deptRef = ref<InstanceType<typeof ElTree>>();
-const deptExpand = ref(false); // 展开/折叠
-const deptStrictly = ref(true); // 关联/不关联
-const deptCheckStrictly = ref(true);
-const menuStrictly = ref(true); // 关联/不关联
-const menuCheckStrictly = ref(true);
-
+const disabled = ref(true);
+//加载
+const loading = ref(false);
+//弹出层标题
+const title = ref();
+//table数据
+const proTable = ref<ProTableInstance>();
+//是否显示弹出层
+const centerDialogVisible = ref(false);
 //数据接口
 const systemRoleItemFrom = ref<SystemRole.ResSystemRoleItem>({
-  id: 0, //bigint 角色ID,PRI
-  name: "", //varchar 角色名称
-  code: "", //varchar 角色权限字符串
-  sort: 0, //int 显示顺序
-  status: 0, //tinyint 角色状态（0正常 1停用）
-  type: 2, //tinyint 角色类型(1内置/2定义)
-  remark: "", //varchar 备注
-  deleted: 0, //tinyint 删除标志
+  id: 0, // 角色编号
+  name: "", // 角色名称
+  code: "", // 角色权限字符串
+  sort: 0, // 显示顺序
   dataScope: undefined, // 数据范围（1：全部数据权限 2：自定数据权限 3：本部门数据权限 4：本部门及以下数据权限）
-  dataScopeDept: undefined //数据范围(指定部门数组)
+  dataScopeDept: undefined, // 数据范围(指定部门数组)
+  status: 0, // 角色状态（0正常 1停用）
+  type: 0, // 角色类型(1内置/2定义)
+  remark: undefined, // 备注
+  deleted: 0, // 删除
+  tenantId: 0, // 租户
+  creator: undefined, // 创建者
+  createTime: undefined, // 创建时间
+  updater: undefined, // 更新者
+  updateTime: undefined, // 更新时间
+  menuIds: []
 });
-// 校验
+//校验
 const refSystemRoleItemFrom = ref<FormInstance>();
+//校验
 const rulesSystemRoleItemFrom = reactive<FormRules>({
   name: [{ required: true, message: "角色标题不能为空", trigger: "blur" }],
   code: [{ required: true, message: "角色编码不能为空", trigger: "change" }],
   sort: [{ required: true, message: "角色顺序不能为空", trigger: "change" }],
   status: [{ required: true, message: "角色状态不能为空", trigger: "change" }],
-  remark: [{ required: false, message: "角色内容不能为空", trigger: "blur" }],
-  dataScope: [{ required: true, message: "必须选择", trigger: "change" }]
-});
-
-const systemRoleMenuItemFrom = ref<SystemRole.ResSystemRoleMenuItem>({
-  menuIds: [], //json 关联的菜单编号
-  roleId: 0 //bigint 租户编号
-});
-const refSystemRoleMenuItemFrom = ref<FormInstance>();
-const rulesSystemRoleMenuItemFrom = reactive<FormRules>({
+  dataScope: [{ required: true, message: "必须选择", trigger: "change" }],
   menuIds: [{ required: true, message: "必须选择", trigger: "change" }]
 });
-
 // 状态
 const statusEnum = getIntDictOptions("status");
 // 数据权限
 const dataScopeEnum = getIntDictOptions("role.scope");
 // 删除状态
 const deletedEnum = getIntDictOptions("delete");
-
 // 表格配置项
 const deleteSearch = reactive<SearchProps>(
   HasPermission("role.SystemRoleDelete")
     ? {
         el: "switch",
-        span: 2
+        span: 2,
+        props: {
+          activeValue: 1,
+          inactiveValue: 0
+        }
       }
     : {}
 );
+
 const columns: ColumnProps<SystemRole.ResSystemRoleItem>[] = [
   { prop: "id", label: "编号", width: 100, fixed: "left" },
-  { prop: "name", label: "角色名称" },
+  { prop: "name", label: "角色名称", search: { el: "input", span: 2, props: { placeholder: "请输入名称" } } },
   { prop: "code", label: "角色编码" },
   { prop: "sort", label: "角色顺序" },
   { prop: "remark", label: "角色备注" },
@@ -317,40 +272,54 @@ const columns: ColumnProps<SystemRole.ResSystemRoleItem>[] = [
     search: deleteSearch,
     width: 100
   },
+  { prop: "creator", label: "创建者" },
+  { prop: "createTime", label: "创建时间" },
+  { prop: "updater", label: "更新者" },
+  { prop: "updateTime", label: "更新时间" },
   {
     prop: "operation",
     label: "操作",
-    width: 160,
+    width: 150,
     fixed: "right",
-    isShow: HasPermission("role.SystemRoleMenuList", "role.SystemRoleRecover", "role.SystemRoleDelete", "role.SystemRoleUpdate")
+    isShow: HasPermission(
+      "role.SystemRoleUpdate",
+      "role.SystemRoleDelete",
+      "role.SystemRoleDrop",
+      "role.SystemRoleRecover",
+      "role.SystemRole"
+    )
   }
 ];
+
 // 重置数据
 const reset = () => {
   loading.value = false;
   systemRoleItemFrom.value = {
-    id: 0, //bigint 角色ID,PRI
-    name: "", //varchar 角色名称
-    code: "", //varchar 角色权限字符串
-    sort: 0, //int 显示顺序
-    status: 0, //tinyint 角色状态（0正常 1停用）
-    type: 2, //tinyint 角色类型(1内置/2定义)
-    remark: "", //varchar 备注
-    deleted: 0, //tinyint 删除标志
+    id: 0, // 角色编号
+    name: "", // 角色名称
+    code: "", // 角色权限字符串
+    sort: 0, // 显示顺序
     dataScope: undefined, // 数据范围（1：全部数据权限 2：自定数据权限 3：本部门数据权限 4：本部门及以下数据权限）
-    dataScopeDept: undefined //数据范围(指定部门数组)
+    dataScopeDept: undefined, // 数据范围(指定部门数组)
+    status: 0, // 角色状态（0正常 1停用）
+    type: 0, // 角色类型(1内置/2定义)
+    remark: undefined, // 备注
+    deleted: 0, // 删除
+    tenantId: 0, // 租户
+    creator: undefined, // 创建者
+    createTime: undefined, // 创建时间
+    updater: undefined, // 更新者
+    updateTime: undefined, // 更新时间
+    menuIds: []
   };
+  disabled.value = true;
   menuNodeAll.value = false;
   menuExpand.value = false;
-  menuRef.value?.setCheckedNodes([]);
   deptNodeAll.value = false;
   deptExpand.value = false;
-  deptRef.value?.setCheckedNodes([]);
-  deptStrictly.value = true;
-  deptCheckStrictly.value = true;
-  menuStrictly.value = true;
-  menuCheckStrictly.value = true;
+  checkStrictly.value = true;
 };
+
 // resetForm
 const resetForm = (formEl: FormInstance | undefined) => {
   centerDialogVisible.value = false;
@@ -365,7 +334,10 @@ const submitForm = (formEl: FormInstance | undefined) => {
     if (!valid) return;
     loading.value = true;
     const data = systemRoleItemFrom.value as unknown as SystemRole.ResSystemRoleItem;
-    data.dataScopeDept = [];
+    data.menuIds = [
+      ...(menuRef.value!.getCheckedKeys(false) as unknown as Array<number>), // 获得当前选中节点
+      ...(menuRef.value!.getHalfCheckedKeys() as unknown as Array<number>) // 获得半选中的父节点
+    ];
     if (data.dataScope === 2) {
       data.dataScopeDept = [
         ...(deptRef.value!.getCheckedKeys(false) as unknown as Array<number>), // 获得当前选中节点
@@ -391,47 +363,84 @@ const submitForm = (formEl: FormInstance | undefined) => {
     proTable.value?.getTableList();
   });
 };
-
+// 清理按钮
+const handleDrop = async (row: SystemRole.ResSystemRoleItem) => {
+  await useHandleData(dropSystemRoleApi, Number(row.id), "清理角色");
+  proTable.value?.getTableList();
+};
 // 删除按钮
 const handleDelete = async (row: SystemRole.ResSystemRoleItem) => {
   await useHandleData(deleteSystemRoleApi, Number(row.id), "删除角色");
   proTable.value?.getTableList();
 };
-
+// 恢复按钮
+const handleRecover = async (row: SystemRole.ResSystemRoleItem) => {
+  await useHandleData(recoverSystemRoleApi, Number(row.id), "恢复角色");
+  proTable.value?.getTableList();
+};
 // 添加按钮
 const handleAdd = () => {
   title.value = "新增角色";
   centerDialogVisible.value = true;
   reset();
-  getDeptTreeSelect();
+  getMenuList();
+  getDeptList();
+  disabled.value = false;
 };
-
 // 编辑按钮
 const handleUpdate = async (row: SystemRole.ResSystemRoleItem) => {
   title.value = "编辑角色";
   centerDialogVisible.value = true;
   reset();
-  const { data } = await getSystemRoleItemApi(Number(row.id));
+  const { data } = await getSystemRoleApi(Number(row.id));
   systemRoleItemFrom.value = data;
-  getDeptTreeSelect();
-  const dataScopeDept = data.dataScopeDept;
+  getMenuList();
+  getDeptList();
   useTimeoutFn(() => {
-    dataScopeDept?.forEach((deptId: number) => {
+    data?.dataScopeDept?.forEach((deptId: number) => {
       deptRef.value?.setChecked(deptId, true, false);
     });
+    data?.menuIds?.forEach((menuId: number) => {
+      menuRef.value?.setChecked(menuId, true, false);
+    });
   }, 200);
+  disabled.value = false;
+};
+// 查看按钮
+const handleItem = async (row: SystemRole.ResSystemRoleItem) => {
+  title.value = "查看角色";
+  centerDialogVisible.value = true;
+  reset();
+  const { data } = await getSystemRoleApi(Number(row.id));
+  systemRoleItemFrom.value = data;
+  getMenuList();
+  getDeptList();
+  useTimeoutFn(() => {
+    data?.dataScopeDept?.forEach((deptId: number) => {
+      deptRef.value?.setChecked(deptId, true, false);
+    });
+    data?.menuIds?.forEach((menuId: number) => {
+      menuRef.value?.setChecked(menuId, true, false);
+    });
+  }, 200);
+  disabled.value = true;
 };
 
-// 获取菜单树选项
-const getMenuTreeSelect = async () => {
-  menuOptions.value = [];
+const getMenuList = async () => {
+  menuList.value = [];
   const { data } = await getSystemTenantMenuListApi();
-  menuOptions.value = data;
+  menuList.value = data;
+};
+
+const getDeptList = async () => {
+  deptList.value = [];
+  const { data } = await getSystemDeptListSimpleApi();
+  deptList.value = data;
 };
 
 // 全选/全不选
 const handleMenuNodeAll = () => {
-  let data = menuNodeAll.value ? menuOptions.value : [];
+  let data = menuNodeAll.value ? menuList.value : [];
   menuRef.value!.setCheckedNodes(data as unknown as Node[]);
 };
 
@@ -446,77 +455,14 @@ const handleMenuExpand = () => {
   }
 };
 
-const handleMenu = async (row: SystemRole.ResSystemRoleItem) => {
-  titleMenu.value = "菜单权限";
-  centerMenuDialogVisible.value = true;
-  reset();
-  getMenuTreeSelect();
-  const { data } = await getSystemRoleMenuListApi(Number(row.id));
-  systemRoleItemFrom.value = row;
-  systemRoleMenuItemFrom.value = data;
-  const menuIds = data.menuIds;
-  useTimeoutFn(() => {
-    menuIds?.forEach((menuId: number) => {
-      menuRef.value?.setChecked(menuId, true, false);
-    });
-  }, 200);
-  menuCheckStrictly.value = true;
-  menuStrictly.value = true;
-};
-
-// 重置
-const resetMenuForm = (formEl: FormInstance | undefined) => {
-  centerMenuDialogVisible.value = false;
-  if (!formEl) return;
-  formEl.resetFields();
-};
-
-// 提交数据
-const submitMenuForm = (formEl: FormInstance | undefined) => {
-  if (!formEl) return;
-  formEl.validate(async valid => {
-    if (!valid) return;
-    loading.value = true;
-    const data = systemRoleMenuItemFrom.value as unknown as SystemRole.ResSystemRoleMenuItem;
-    data.menuIds = [
-      ...(menuRef.value!.getCheckedKeys(false) as unknown as Array<number>), // 获得当前选中节点
-      ...(menuRef.value!.getHalfCheckedKeys() as unknown as Array<number>) // 获得半选中的父节点
-    ];
-    await useHandleSet(addSystemRoleMenuApi, data.roleId, data, "绑定菜单权限");
-    resetMenuForm(formEl);
-    loading.value = false;
-    proTable.value?.getTableList();
-  });
-};
-
-// 获取部门树选项
-const getDeptTreeSelect = async () => {
-  deptOptions.value = [];
-  const { data } = await getSystemDeptListSimpleApi();
-  deptOptions.value = data;
-};
-
-/** 全选/全不选 */
-const handleDataNodeAll = () => {
-  let data = deptNodeAll.value ? deptOptions.value : [];
+// 全选/全不选
+const handleDeptNodeAll = () => {
+  let data = deptNodeAll.value ? deptList.value : [];
   deptRef.value!.setCheckedNodes(data as unknown as Node[]);
 };
 
-// 关联/不关联
-const handleDataStrictly = () => {
-  // let data = [];
-  deptCheckStrictly.value = !deptStrictly.value;
-  // deptRef.value!.setCheckedNodes(data as unknown as Node[]);
-};
-
-const handleMenuStrictly = () => {
-  // let data = [];
-  menuCheckStrictly.value = !menuStrictly.value;
-  // menuRef.value!.setCheckedNodes(data as unknown as Node[]);
-};
-
-/** 展开/折叠全部 */
-const handleDataExpand = () => {
+// 展开/折叠全部
+const handleDeptExpand = () => {
   const nodes = deptRef.value?.store.nodesMap;
   for (let node in nodes) {
     if (nodes[node].expanded === deptExpand.value) {
@@ -526,7 +472,6 @@ const handleDataExpand = () => {
   }
 };
 </script>
-
 <style lang="scss">
 @import "@/styles/custom";
 </style>

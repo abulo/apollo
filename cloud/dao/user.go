@@ -4,7 +4,7 @@ import "github.com/abulo/ratel/v3/stores/null"
 
 // User 用户 user
 type User struct {
-	Id         *int64        `db:"id" json:"id"`                  //bigint 用户编号,PRI
+	Id         *int64        `db:"id,-" json:"id"`                //bigint 用户编号,PRI
 	Nickname   null.String   `db:"nickname" json:"nickname"`      //varchar 用户名称
 	Avatar     null.String   `db:"avatar" json:"avatar"`          //varchar 用户头像
 	Birthday   null.Date     `db:"birthday" json:"birthday"`      //date 用户生日

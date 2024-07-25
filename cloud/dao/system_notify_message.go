@@ -4,7 +4,7 @@ import "github.com/abulo/ratel/v3/stores/null"
 
 // SystemNotifyMessage 站内信消息表 system_notify_message
 type SystemNotifyMessage struct {
-	Id               *int64        `db:"id" json:"id"`                              //bigint 用户ID,PRI
+	Id               *int64        `db:"id,-" json:"id"`                            //bigint 消息,PRI
 	UserId           *int64        `db:"user_id" json:"userId"`                     //bigint 用户id
 	UserType         *int32        `db:"user_type" json:"userType"`                 //tinyint 用户类型
 	TemplateId       *int64        `db:"template_id" json:"templateId"`             //bigint 模版编号
@@ -21,4 +21,9 @@ type SystemNotifyMessage struct {
 	CreateTime       null.DateTime `db:"create_time" json:"createTime"`             //datetime 创建时间
 	Updater          null.String   `db:"updater" json:"updater"`                    //varchar 更新人
 	UpdateTime       null.DateTime `db:"update_time" json:"updateTime"`             //datetime 更新时间
+}
+
+// SystemNotifyMessageMultiple  多选
+type SystemNotifyMessageMultiple struct {
+	Ids null.JSON `json:"ids,omitempty"` // 日志编号
 }

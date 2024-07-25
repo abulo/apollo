@@ -119,6 +119,26 @@ func (srv SrvSystemMailTemplateServiceServer) SystemMailTemplateRecover(ctx cont
 		Msg:  code.StatusText(code.Success),
 	}, nil
 }
+
+// SystemMailTemplateDrop 清理数据
+func (srv SrvSystemMailTemplateServiceServer) SystemMailTemplateDrop(ctx context.Context, request *SystemMailTemplateDropRequest) (*SystemMailTemplateDropResponse, error) {
+	id := request.GetId()
+	if id < 1 {
+		return &SystemMailTemplateDropResponse{}, status.Error(code.ConvertToGrpc(code.ParamInvalid), code.StatusText(code.ParamInvalid))
+	}
+	_, err := mail.SystemMailTemplateDrop(ctx, id)
+	if sql.ResultAccept(err) != nil {
+		globalLogger.Logger.WithFields(logrus.Fields{
+			"req": id,
+			"err": err,
+		}).Error("Sql:邮件模版表:system_mail_template:SystemMailTemplateDrop")
+		return &SystemMailTemplateDropResponse{}, status.Error(code.ConvertToGrpc(code.SqlError), err.Error())
+	}
+	return &SystemMailTemplateDropResponse{
+		Code: code.Success,
+		Msg:  code.StatusText(code.Success),
+	}, nil
+}
 func (srv SrvSystemMailTemplateServiceServer) SystemMailTemplateList(ctx context.Context, request *SystemMailTemplateListRequest) (*SystemMailTemplateListResponse, error) {
 	// 数据库查询条件
 	condition := make(map[string]any)

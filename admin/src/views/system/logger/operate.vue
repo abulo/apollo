@@ -4,51 +4,96 @@
     <div class="table-box">
       <ProTable
         ref="proTable"
-        title="系统日志列表"
+        title="操作日志列表"
         row-key="id"
         :columns="columns"
-        :request-api="getTableList"
+        :request-api="getCustomSystemOperateLogListApi"
         :request-auto="true"
         :pagination="true"
+        :init-params="initParam"
         :search-col="12">
         <!-- 表格 header 按钮 -->
         <template #tableHeader="scope">
-          <el-button
-            v-auth="'logger.SystemOperateLogDrop'"
-            type="danger"
-            :icon="Delete"
-            @click="handleDrop(scope.selectedListIds)">
-            清空
-          </el-button>
+          <el-dropdown trigger="click" class="table-el-dropdown">
+            <el-button
+              type="danger"
+              v-auth="[
+                'logger.SystemOperateLogMultipleDelete',
+                'logger.SystemOperateLogMultipleRecover',
+                'logger.SystemOperateLogMultipleDrop'
+              ]"
+              :icon="ArrowDownBold"
+              plain
+              :disabled="!scope.isSelected">
+              操作
+            </el-button>
+            <template #dropdown>
+              <el-dropdown-menu>
+                <el-dropdown-item
+                  v-auth="'logger.SystemOperateLogMultipleDelete'"
+                  :icon="Delete"
+                  @click="handleMultipleDelete(scope.selectedListIds)">
+                  删除
+                </el-dropdown-item>
+                <el-dropdown-item
+                  v-auth="'logger.SystemOperateLogMultipleDrop'"
+                  :icon="DeleteFilled"
+                  @click="handleMultipleDrop(scope.selectedListIds)">
+                  清理
+                </el-dropdown-item>
+                <el-dropdown-item
+                  v-auth="'logger.SystemOperateLogMultipleRecover'"
+                  :icon="Refresh"
+                  @click="handleMultipleRecover(scope.selectedListIds)">
+                  恢复
+                </el-dropdown-item>
+              </el-dropdown-menu>
+            </template>
+          </el-dropdown>
         </template>
+        <!-- 删除状态 -->
         <template #deleted="scope">
           <DictTag type="delete" :value="scope.row.deleted" />
         </template>
-        <template #result="scope">
-          <DictTag type="operate.status" :value="scope.row.result" />
-        </template>
+        <!-- 菜单操作 -->
         <template #operation="scope">
           <el-button v-auth="'logger.SystemOperateLog'" type="primary" link :icon="View" @click="handleItem(scope.row)">
             查看
           </el-button>
-          <el-button
-            type="primary"
-            link
-            v-if="scope.row.deleted === 0"
-            v-auth="'logger.SystemOperateLogDelete'"
-            :icon="Delete"
-            @click="handleDelete(scope.row)">
-            删除
-          </el-button>
-          <el-button
-            type="primary"
-            link
-            v-if="scope.row.deleted === 1"
-            v-auth="'logger.SystemOperateLogRecover'"
-            :icon="Refresh"
-            @click="handleRecover(scope.row)">
-            恢复
-          </el-button>
+          <el-dropdown trigger="click">
+            <el-button
+              v-auth="['logger.SystemOperateLogDelete', 'logger.SystemOperateLogRecover', 'logger.SystemOperateLogDrop']"
+              type="primary"
+              link
+              :icon="DArrowRight">
+              更多
+            </el-button>
+            <template #dropdown>
+              <el-dropdown-menu>
+                <el-dropdown-item
+                  v-if="scope.row.deleted === 0"
+                  v-auth="'logger.SystemOperateLogDelete'"
+                  :icon="Delete"
+                  @click="handleDelete(scope.row)">
+                  删除
+                </el-dropdown-item>
+                <el-dropdown-item
+                  v-if="scope.row.deleted === 1"
+                  v-auth="'logger.SystemOperateLogRecover'"
+                  :icon="Refresh"
+                  @click="handleRecover(scope.row)">
+                  恢复
+                </el-dropdown-item>
+                <el-dropdown-item
+                  v-if="scope.row.deleted === 1"
+                  v-auth="'logger.SystemOperateLogDrop'"
+                  :icon="DeleteFilled"
+                  @click="handleDrop(scope.row)">
+                  清理
+                </el-dropdown-item>
+              </el-dropdown-menu>
+            </template>
+          </el-dropdown>
         </template>
       </ProTable>
       <el-dialog
@@ -107,43 +152,59 @@
     </div>
   </div>
 </template>
-<script setup lang="tsx" name="systemLoggerOperate">
+<script setup lang="ts" name="systemOperateLog">
 import { ref, reactive, onMounted } from "vue";
 import { ProTableInstance, ColumnProps, SearchProps } from "@/components/ProTable/interface";
-import { Delete, View, Refresh } from "@element-plus/icons-vue";
+import { Delete, Refresh, DeleteFilled, View, DArrowRight, ArrowDownBold } from "@element-plus/icons-vue";
 import ProTable from "@/components/ProTable/index.vue";
 import { SystemOperateLog } from "@/api/interface/systemOperateLog";
 import {
   getSystemOperateLogListApi,
   deleteSystemOperateLogApi,
+  deleteSystemOperateLogMultipleApi,
   dropSystemOperateLogApi,
+  dropSystemOperateLogMultipleApi,
   recoverSystemOperateLogApi,
-  getSystemOperateLogItemApi
+  recoverSystemOperateLogMultipleApi,
+  getSystemOperateLogApi
 } from "@/api/modules/systemOperateLog";
+import { FormInstance, FormRules } from "element-plus";
 import { getIntDictOptions } from "@/utils/dict";
 import { DictTag } from "@/components/DictTag";
-import { useHandleData } from "@/hooks/useHandleData";
+import { useHandleData, useHandleSet } from "@/hooks/useHandleData";
 import { HasPermission } from "@/utils/permission";
 import TreeFilter from "@/components/TreeFilter/index.vue";
 import { SystemDept } from "@/api/interface/systemDept";
 import { getSystemDeptListSimpleApi } from "@/api/modules/systemDept";
-
+//弹出层标题
+const title = ref();
 //table数据
 const proTable = ref<ProTableInstance>();
-const initParam = reactive({ deptId: "" });
-// 部门树选择
-const deptList = ref<SystemDept.ResSystemDeptList[]>([]);
-
-const getTreeFilter = async () => {
-  const { data } = await getSystemDeptListSimpleApi();
-  deptList.value = data;
-};
-// 树形筛选切换
-const changeDept = (val: string) => {
-  proTable.value!.pageable.pageNum = 1;
-  initParam.deptId = val;
-  proTable.value?.getTableList();
-};
+//是否显示弹出层
+const centerDialogVisible = ref(false);
+//数据接口
+const systemOperateLogItemFrom = ref<SystemOperateLog.ResSystemOperateLogItem>({
+  id: 0, // 主键
+  username: "", // 用户账号
+  module: "", // 模块名称
+  requestMethod: "", // 请求方法名
+  requestUrl: "", // 请求地址
+  userIp: "", // 用户 ip
+  userAgent: undefined, // UA
+  goMethod: "", // 方法名
+  goMethodArgs: undefined, // 方法的参数
+  startTime: "", // 操作开始时间
+  duration: 0, // 执行时长
+  channel: "", // 渠道
+  result: 0, // 结果(0 成功/1 失败)
+  userId: 0, // 用户 ID
+  deleted: 0, // 删除
+  tenantId: 0, // 租户
+  creator: undefined, // 创建人
+  createTime: undefined, // 创建时间
+  updater: undefined, // 更新人
+  updateTime: undefined // 更新时间
+});
 // 操作状态
 const operateStatusEnum = getIntDictOptions("operate.status");
 //删除状态
@@ -153,11 +214,15 @@ const deleteSearch = reactive<SearchProps>(
   HasPermission("logger.SystemOperateLogDelete")
     ? {
         el: "switch",
-        span: 2
+        span: 2,
+        props: {
+          activeValue: 1,
+          inactiveValue: 0
+        }
       }
     : {}
 );
-// 表格配置项
+
 const columns: ColumnProps<SystemOperateLog.ResSystemOperateLogItem>[] = [
   { type: "selection", fixed: "left", width: 70 },
   { prop: "id", label: "编号" },
@@ -193,10 +258,82 @@ const columns: ColumnProps<SystemOperateLog.ResSystemOperateLogItem>[] = [
     label: "操作",
     width: 150,
     fixed: "right",
-    isShow: HasPermission("logger.SystemOperateLog")
+    isShow: HasPermission(
+      "logger.SystemOperateLogDelete",
+      "logger.SystemOperateLogDrop",
+      "logger.SystemOperateLogRecover",
+      "logger.SystemOperateLog"
+    )
   }
 ];
-const getTableList = (params: any) => {
+
+// 重置数据
+const reset = () => {
+  systemOperateLogItemFrom.value = {
+    id: 0, // 主键
+    username: "", // 用户账号
+    module: "", // 模块名称
+    requestMethod: "", // 请求方法名
+    requestUrl: "", // 请求地址
+    userIp: "", // 用户 ip
+    userAgent: undefined, // UA
+    goMethod: "", // 方法名
+    goMethodArgs: undefined, // 方法的参数
+    startTime: "", // 操作开始时间
+    duration: 0, // 执行时长
+    channel: "", // 渠道
+    result: 0, // 结果(0 成功/1 失败)
+    userId: 0, // 用户 ID
+    deleted: 0, // 删除
+    tenantId: 0, // 租户
+    creator: undefined, // 创建人
+    createTime: undefined, // 创建时间
+    updater: undefined, // 更新人
+    updateTime: undefined // 更新时间
+  };
+};
+
+// 清理按钮
+const handleDrop = async (row: SystemOperateLog.ResSystemOperateLogItem) => {
+  await useHandleData(dropSystemOperateLogApi, Number(row.id), "清理操作日志");
+  proTable.value?.getTableList();
+};
+// 删除按钮
+const handleDelete = async (row: SystemOperateLog.ResSystemOperateLogItem) => {
+  await useHandleData(deleteSystemOperateLogApi, Number(row.id), "删除操作日志");
+  proTable.value?.getTableList();
+};
+// 恢复按钮
+const handleRecover = async (row: SystemOperateLog.ResSystemOperateLogItem) => {
+  await useHandleData(recoverSystemOperateLogApi, Number(row.id), "恢复操作日志");
+  proTable.value?.getTableList();
+};
+// 查看按钮
+const handleItem = async (row: SystemOperateLog.ResSystemOperateLogItem) => {
+  title.value = "查看操作日志";
+  centerDialogVisible.value = true;
+  reset();
+  const { data } = await getSystemOperateLogApi(Number(row.id));
+  systemOperateLogItemFrom.value = data;
+};
+const initParam = reactive({ deptId: "" });
+// 部门树选择
+const deptList = ref<SystemDept.ResSystemDeptItem[]>([]);
+
+const getTreeFilter = async () => {
+  const { data } = await getSystemDeptListSimpleApi();
+  deptList.value = data;
+};
+// 树形筛选切换
+const changeDept = (val: string) => {
+  initParam.deptId = val;
+  proTable.value!.pageable.pageNum = 1;
+  proTable.value!.searchInitParam.deptId = val;
+  proTable.value?.getTableList();
+};
+
+// 自定义搜索
+const getCustomSystemOperateLogListApi = (params: any) => {
   let newParams = JSON.parse(JSON.stringify(params));
   newParams.startTime && (newParams.beginStartTime = newParams.startTime[0]);
   newParams.startTime && (newParams.finishStartTime = newParams.startTime[1]);
@@ -204,89 +341,37 @@ const getTableList = (params: any) => {
   return getSystemOperateLogListApi(newParams);
 };
 
-// 删除按钮
-const handleDelete = async (row: SystemOperateLog.ResSystemOperateLogItem) => {
-  await useHandleData(deleteSystemOperateLogApi, Number(row.id), "删除日志");
-  proTable.value?.getTableList();
-};
-
-// 恢复按钮
-const handleRecover = async (row: SystemOperateLog.ResSystemOperateLogItem) => {
-  await useHandleData(recoverSystemOperateLogApi, Number(row.id), "恢复日志");
-  proTable.value?.getTableList();
-};
-
-const handleDrop = async (id: string[]) => {
-  const data = ref<SystemOperateLog.ReqSystemOperateLogDrop>({});
-  let newParams = proTable.value?.searchParam;
-  let time = newParams?.startTime as string[];
-  time && (data.value.beginStartTime = time[0]);
-  time && (data.value.beginStartTime = time[1]);
-  // 判断 ids 是不是空
-  if (id.length > 0) {
-    data.value.ids = id.map(Number);
+// 批量删除
+const handleMultipleDelete = async (ids: string[]) => {
+  const data = ref<SystemOperateLog.ReqSystemOperateLogMultiple>({});
+  if (ids.length > 0) {
+    data.value.ids = ids.map(Number);
   }
-  await useHandleData(dropSystemOperateLogApi, data.value, "清空日志");
+  await useHandleData(deleteSystemOperateLogMultipleApi, data.value, "删除登录日志");
   proTable.value?.clearSelection();
   proTable.value?.getTableList();
 };
 
-const systemOperateLogItemFrom = ref<SystemOperateLog.ResSystemOperateLogItem>({
-  id: 0,
-  username: "",
-  module: "",
-  requestMethod: "",
-  requestUrl: "",
-  userIp: "",
-  userAgent: "",
-  goMethod: "",
-  goMethodArgs: "",
-  startTime: "",
-  duration: 0,
-  channel: "",
-  result: 0,
-  deleted: 0,
-  creator: "",
-  createTime: "",
-  updater: "",
-  updateTime: ""
-});
-//弹出层标题
-const title = ref();
-//是否显示弹出层
-const centerDialogVisible = ref(false);
-
-// 重置数据
-const reset = () => {
-  systemOperateLogItemFrom.value = {
-    id: 0,
-    username: "",
-    module: "",
-    requestMethod: "",
-    requestUrl: "",
-    userIp: "",
-    userAgent: "",
-    goMethod: "",
-    goMethodArgs: "",
-    startTime: "",
-    duration: 0,
-    channel: "",
-    result: 0,
-    deleted: 0,
-    creator: "",
-    createTime: "",
-    updater: "",
-    updateTime: ""
-  };
+// 批量恢复
+const handleMultipleRecover = async (ids: string[]) => {
+  const data = ref<SystemOperateLog.ReqSystemOperateLogMultiple>({});
+  if (ids.length > 0) {
+    data.value.ids = ids.map(Number);
+  }
+  await useHandleData(recoverSystemOperateLogMultipleApi, data.value, "恢复登录日志");
+  proTable.value?.clearSelection();
+  proTable.value?.getTableList();
 };
 
-// 编辑按钮
-const handleItem = async (row: SystemOperateLog.ResSystemOperateLogItem) => {
-  title.value = "查看信息";
-  centerDialogVisible.value = true;
-  reset();
-  const { data } = await getSystemOperateLogItemApi(row.id);
-  systemOperateLogItemFrom.value = data;
+// 批量清理
+const handleMultipleDrop = async (ids: string[]) => {
+  const data = ref<SystemOperateLog.ReqSystemOperateLogMultiple>({});
+  if (ids.length > 0) {
+    data.value.ids = ids.map(Number);
+  }
+  await useHandleData(dropSystemOperateLogMultipleApi, data.value, "清理登录日志");
+  proTable.value?.clearSelection();
+  proTable.value?.getTableList();
 };
 onMounted(() => {
   getTreeFilter();

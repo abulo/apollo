@@ -119,6 +119,28 @@ func (srv SrvSystemTenantPackageServiceServer) SystemTenantPackageRecover(ctx co
 		Msg:  code.StatusText(code.Success),
 	}, nil
 }
+
+// SystemTenantPackageDrop 清理数据
+func (srv SrvSystemTenantPackageServiceServer) SystemTenantPackageDrop(ctx context.Context, request *SystemTenantPackageDropRequest) (*SystemTenantPackageDropResponse, error) {
+	id := request.GetId()
+	if id < 1 {
+		return &SystemTenantPackageDropResponse{}, status.Error(code.ConvertToGrpc(code.ParamInvalid), code.StatusText(code.ParamInvalid))
+	}
+	_, err := tenant.SystemTenantPackageDrop(ctx, id)
+	if sql.ResultAccept(err) != nil {
+		globalLogger.Logger.WithFields(logrus.Fields{
+			"req": id,
+			"err": err,
+		}).Error("Sql:租户套餐包:system_tenant_package:SystemTenantPackageDrop")
+		return &SystemTenantPackageDropResponse{}, status.Error(code.ConvertToGrpc(code.SqlError), err.Error())
+	}
+	return &SystemTenantPackageDropResponse{
+		Code: code.Success,
+		Msg:  code.StatusText(code.Success),
+	}, nil
+}
+
+// SystemTenantPackageList 列表数据
 func (srv SrvSystemTenantPackageServiceServer) SystemTenantPackageList(ctx context.Context, request *SystemTenantPackageListRequest) (*SystemTenantPackageListResponse, error) {
 	// 数据库查询条件
 	condition := make(map[string]any)
@@ -132,6 +154,7 @@ func (srv SrvSystemTenantPackageServiceServer) SystemTenantPackageList(ctx conte
 	if request.Name != nil {
 		condition["name"] = request.GetName()
 	}
+
 	paginationRequest := request.GetPagination()
 	if paginationRequest != nil {
 		// 当前页面
@@ -152,7 +175,6 @@ func (srv SrvSystemTenantPackageServiceServer) SystemTenantPackageList(ctx conte
 		}
 		condition["pagination"] = pagination
 	}
-
 	// 获取数据集合
 	list, err := tenant.SystemTenantPackageList(ctx, condition)
 	if sql.ResultAccept(err) != nil {
@@ -187,13 +209,14 @@ func (srv SrvSystemTenantPackageServiceServer) SystemTenantPackageListTotal(ctx 
 	if request.Name != nil {
 		condition["name"] = request.GetName()
 	}
+
 	// 获取数据集合
 	total, err := tenant.SystemTenantPackageListTotal(ctx, condition)
 	if sql.ResultAccept(err) != nil {
 		globalLogger.Logger.WithFields(logrus.Fields{
 			"req": condition,
 			"err": err,
-		}).Error("Sql:租户:system_tenant_package:SystemTenantPackageListTotal")
+		}).Error("Sql:租户套餐包:system_tenant_package:SystemTenantPackageListTotal")
 		return &SystemTenantPackageTotalResponse{}, status.Error(code.ConvertToGrpc(code.SqlError), err.Error())
 	}
 	return &SystemTenantPackageTotalResponse{

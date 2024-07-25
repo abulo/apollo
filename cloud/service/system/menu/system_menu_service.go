@@ -119,6 +119,28 @@ func (srv SrvSystemMenuServiceServer) SystemMenuRecover(ctx context.Context, req
 		Msg:  code.StatusText(code.Success),
 	}, nil
 }
+
+// SystemMenuDrop 清理数据
+func (srv SrvSystemMenuServiceServer) SystemMenuDrop(ctx context.Context, request *SystemMenuDropRequest) (*SystemMenuDropResponse, error) {
+	id := request.GetId()
+	if id < 1 {
+		return &SystemMenuDropResponse{}, status.Error(code.ConvertToGrpc(code.ParamInvalid), code.StatusText(code.ParamInvalid))
+	}
+	_, err := menu.SystemMenuDrop(ctx, id)
+	if sql.ResultAccept(err) != nil {
+		globalLogger.Logger.WithFields(logrus.Fields{
+			"req": id,
+			"err": err,
+		}).Error("Sql:系统菜单:system_menu:SystemMenuDrop")
+		return &SystemMenuDropResponse{}, status.Error(code.ConvertToGrpc(code.SqlError), err.Error())
+	}
+	return &SystemMenuDropResponse{
+		Code: code.Success,
+		Msg:  code.StatusText(code.Success),
+	}, nil
+}
+
+// SystemMenuList 查询列表数据
 func (srv SrvSystemMenuServiceServer) SystemMenuList(ctx context.Context, request *SystemMenuListRequest) (*SystemMenuListResponse, error) {
 	// 数据库查询条件
 	condition := make(map[string]any)

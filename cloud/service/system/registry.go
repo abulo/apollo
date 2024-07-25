@@ -39,10 +39,6 @@ func Registry(server *xgrpc.Server) {
 	role.RegisterSystemRoleServiceServer(server.Server, &role.SrvSystemRoleServiceServer{
 		Server: server,
 	})
-	// 系统角色和系统菜单关联表->system_role_menu
-	role.RegisterSystemRoleMenuServiceServer(server.Server, &role.SrvSystemRoleMenuServiceServer{
-		Server: server,
-	})
 	// 登录日志->system_login_log
 	logger.RegisterSystemLoginLogServiceServer(server.Server, &logger.SrvSystemLoginLogServiceServer{
 		Server: server,

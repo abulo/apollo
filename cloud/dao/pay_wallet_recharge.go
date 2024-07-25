@@ -4,7 +4,7 @@ import "github.com/abulo/ratel/v3/stores/null"
 
 // PayWalletRecharge 会员钱包充值 pay_wallet_recharge
 type PayWalletRecharge struct {
-	Id               *int64        `db:"id" json:"id"`                               //bigint 编号,PRI
+	Id               *int64        `db:"id,-" json:"id"`                             //bigint 编号,PRI
 	WalletId         *int64        `db:"wallet_id" json:"walletId"`                  //bigint 会员钱包id
 	TotalPrice       *int64        `db:"total_price" json:"totalPrice"`              //bigint 用户实际到账余额，例如充 100 送 20，则该值是 120
 	PayPrice         *int64        `db:"pay_price" json:"payPrice"`                  //bigint 实际支付金额

@@ -26,6 +26,7 @@ const (
 	SystemMenuService_SystemMenuDelete_FullMethodName    = "/menu.SystemMenuService/SystemMenuDelete"
 	SystemMenuService_SystemMenu_FullMethodName          = "/menu.SystemMenuService/SystemMenu"
 	SystemMenuService_SystemMenuRecover_FullMethodName   = "/menu.SystemMenuService/SystemMenuRecover"
+	SystemMenuService_SystemMenuDrop_FullMethodName      = "/menu.SystemMenuService/SystemMenuDrop"
 	SystemMenuService_SystemMenuList_FullMethodName      = "/menu.SystemMenuService/SystemMenuList"
 	SystemMenuService_SystemMenuListTotal_FullMethodName = "/menu.SystemMenuService/SystemMenuListTotal"
 )
@@ -41,6 +42,7 @@ type SystemMenuServiceClient interface {
 	SystemMenuDelete(ctx context.Context, in *SystemMenuDeleteRequest, opts ...grpc.CallOption) (*SystemMenuDeleteResponse, error)
 	SystemMenu(ctx context.Context, in *SystemMenuRequest, opts ...grpc.CallOption) (*SystemMenuResponse, error)
 	SystemMenuRecover(ctx context.Context, in *SystemMenuRecoverRequest, opts ...grpc.CallOption) (*SystemMenuRecoverResponse, error)
+	SystemMenuDrop(ctx context.Context, in *SystemMenuDropRequest, opts ...grpc.CallOption) (*SystemMenuDropResponse, error)
 	SystemMenuList(ctx context.Context, in *SystemMenuListRequest, opts ...grpc.CallOption) (*SystemMenuListResponse, error)
 	SystemMenuListTotal(ctx context.Context, in *SystemMenuListTotalRequest, opts ...grpc.CallOption) (*SystemMenuTotalResponse, error)
 }
@@ -103,6 +105,16 @@ func (c *systemMenuServiceClient) SystemMenuRecover(ctx context.Context, in *Sys
 	return out, nil
 }
 
+func (c *systemMenuServiceClient) SystemMenuDrop(ctx context.Context, in *SystemMenuDropRequest, opts ...grpc.CallOption) (*SystemMenuDropResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(SystemMenuDropResponse)
+	err := c.cc.Invoke(ctx, SystemMenuService_SystemMenuDrop_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *systemMenuServiceClient) SystemMenuList(ctx context.Context, in *SystemMenuListRequest, opts ...grpc.CallOption) (*SystemMenuListResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(SystemMenuListResponse)
@@ -134,6 +146,7 @@ type SystemMenuServiceServer interface {
 	SystemMenuDelete(context.Context, *SystemMenuDeleteRequest) (*SystemMenuDeleteResponse, error)
 	SystemMenu(context.Context, *SystemMenuRequest) (*SystemMenuResponse, error)
 	SystemMenuRecover(context.Context, *SystemMenuRecoverRequest) (*SystemMenuRecoverResponse, error)
+	SystemMenuDrop(context.Context, *SystemMenuDropRequest) (*SystemMenuDropResponse, error)
 	SystemMenuList(context.Context, *SystemMenuListRequest) (*SystemMenuListResponse, error)
 	SystemMenuListTotal(context.Context, *SystemMenuListTotalRequest) (*SystemMenuTotalResponse, error)
 	mustEmbedUnimplementedSystemMenuServiceServer()
@@ -157,6 +170,9 @@ func (UnimplementedSystemMenuServiceServer) SystemMenu(context.Context, *SystemM
 }
 func (UnimplementedSystemMenuServiceServer) SystemMenuRecover(context.Context, *SystemMenuRecoverRequest) (*SystemMenuRecoverResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SystemMenuRecover not implemented")
+}
+func (UnimplementedSystemMenuServiceServer) SystemMenuDrop(context.Context, *SystemMenuDropRequest) (*SystemMenuDropResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SystemMenuDrop not implemented")
 }
 func (UnimplementedSystemMenuServiceServer) SystemMenuList(context.Context, *SystemMenuListRequest) (*SystemMenuListResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SystemMenuList not implemented")
@@ -267,6 +283,24 @@ func _SystemMenuService_SystemMenuRecover_Handler(srv interface{}, ctx context.C
 	return interceptor(ctx, in, info, handler)
 }
 
+func _SystemMenuService_SystemMenuDrop_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SystemMenuDropRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SystemMenuServiceServer).SystemMenuDrop(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: SystemMenuService_SystemMenuDrop_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SystemMenuServiceServer).SystemMenuDrop(ctx, req.(*SystemMenuDropRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _SystemMenuService_SystemMenuList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(SystemMenuListRequest)
 	if err := dec(in); err != nil {
@@ -329,6 +363,10 @@ var SystemMenuService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "SystemMenuRecover",
 			Handler:    _SystemMenuService_SystemMenuRecover_Handler,
+		},
+		{
+			MethodName: "SystemMenuDrop",
+			Handler:    _SystemMenuService_SystemMenuDrop_Handler,
 		},
 		{
 			MethodName: "SystemMenuList",

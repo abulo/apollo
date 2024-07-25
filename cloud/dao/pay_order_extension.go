@@ -4,7 +4,7 @@ import "github.com/abulo/ratel/v3/stores/null"
 
 // PayOrderExtension 支付订单拓展 pay_order_extension
 type PayOrderExtension struct {
-	Id                *int64        `db:"id" json:"id"`                                 //bigint 编号,PRI
+	Id                *int64        `db:"id,-" json:"id"`                               //bigint 编号,PRI
 	No                *string       `db:"no" json:"no"`                                 //varchar 支付订单号
 	OrderId           *int64        `db:"order_id" json:"orderId"`                      //bigint 支付订单编号
 	ChannelId         *int64        `db:"channel_id" json:"channelId"`                  //bigint 渠道编号

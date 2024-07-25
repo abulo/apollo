@@ -6,28 +6,9 @@ import "github.com/abulo/ratel/v3/stores/null"
 // 	Ids null.JSON `json:"ids,omitempty"` // 登录日志编号
 // }
 
-type SystemLoginLogDrop struct {
-	Ids             null.JSON     `json:"ids,omitempty"`             // 日志编号
-	Deleted         *int32        `json:"deleted,omitempty"`         // 删除
-	Username        *string       `json:"username,omitempty"`        // 用户账号
-	BeginLoginTime  null.DateTime `json:"beginLoginTime,omitempty"`  // 开始登录时间
-	FinishLoginTime null.DateTime `json:"finishLoginTime,omitempty"` // 结束登录时间
-	Channel         *string       `json:"channel,omitempty"`         // 渠道
-}
-
 // type SystemOperateLogDelete struct {
 // 	Ids null.JSON `json:"ids,omitempty"` // 操作日志编号
 // }
-
-type SystemOperateLogDrop struct {
-	Ids             null.JSON     `json:"ids,omitempty"`             // 日志编号
-	Deleted         *int32        `json:"deleted,omitempty"`         // 删除
-	Username        *string       `json:"username,omitempty"`        // 用户账号
-	Module          *string       `json:"module,omitempty"`          // 模块名称
-	BeginStartTime  null.DateTime `json:"beginStartTime,omitempty"`  // 开始操作时间
-	FinishStartTime null.DateTime `json:"finishStartTime,omitempty"` // 结束操作时间
-	Result          *int32        `json:"result,omitempty"`          // 结果(0 成功/1 失败)
-}
 
 // type SystemEntryLogDelete struct {
 // 	Ids null.JSON `json:"ids,omitempty"` // 访问日志编号

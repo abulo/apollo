@@ -4,7 +4,7 @@ import "github.com/abulo/ratel/v3/stores/null"
 
 // PayWalletRechargePackage 充值套餐表 pay_wallet_recharge_package
 type PayWalletRechargePackage struct {
-	Id         *int64        `db:"id" json:"id"`                  //bigint 编号,PRI
+	Id         *int64        `db:"id,-" json:"id"`                //bigint 编号,PRI
 	Name       *string       `db:"name" json:"name"`              //varchar 套餐名称
 	PayPrice   *int64        `db:"pay_price" json:"payPrice"`     //bigint 支付金额
 	BonusPrice *int64        `db:"bonus_price" json:"bonusPrice"` //bigint 赠送金额

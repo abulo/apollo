@@ -26,6 +26,7 @@ const (
 	SystemRoleService_SystemRoleDelete_FullMethodName    = "/role.SystemRoleService/SystemRoleDelete"
 	SystemRoleService_SystemRole_FullMethodName          = "/role.SystemRoleService/SystemRole"
 	SystemRoleService_SystemRoleRecover_FullMethodName   = "/role.SystemRoleService/SystemRoleRecover"
+	SystemRoleService_SystemRoleDrop_FullMethodName      = "/role.SystemRoleService/SystemRoleDrop"
 	SystemRoleService_SystemRoleList_FullMethodName      = "/role.SystemRoleService/SystemRoleList"
 	SystemRoleService_SystemRoleListTotal_FullMethodName = "/role.SystemRoleService/SystemRoleListTotal"
 )
@@ -41,6 +42,7 @@ type SystemRoleServiceClient interface {
 	SystemRoleDelete(ctx context.Context, in *SystemRoleDeleteRequest, opts ...grpc.CallOption) (*SystemRoleDeleteResponse, error)
 	SystemRole(ctx context.Context, in *SystemRoleRequest, opts ...grpc.CallOption) (*SystemRoleResponse, error)
 	SystemRoleRecover(ctx context.Context, in *SystemRoleRecoverRequest, opts ...grpc.CallOption) (*SystemRoleRecoverResponse, error)
+	SystemRoleDrop(ctx context.Context, in *SystemRoleDropRequest, opts ...grpc.CallOption) (*SystemRoleDropResponse, error)
 	SystemRoleList(ctx context.Context, in *SystemRoleListRequest, opts ...grpc.CallOption) (*SystemRoleListResponse, error)
 	SystemRoleListTotal(ctx context.Context, in *SystemRoleListTotalRequest, opts ...grpc.CallOption) (*SystemRoleTotalResponse, error)
 }
@@ -103,6 +105,16 @@ func (c *systemRoleServiceClient) SystemRoleRecover(ctx context.Context, in *Sys
 	return out, nil
 }
 
+func (c *systemRoleServiceClient) SystemRoleDrop(ctx context.Context, in *SystemRoleDropRequest, opts ...grpc.CallOption) (*SystemRoleDropResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(SystemRoleDropResponse)
+	err := c.cc.Invoke(ctx, SystemRoleService_SystemRoleDrop_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *systemRoleServiceClient) SystemRoleList(ctx context.Context, in *SystemRoleListRequest, opts ...grpc.CallOption) (*SystemRoleListResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(SystemRoleListResponse)
@@ -134,6 +146,7 @@ type SystemRoleServiceServer interface {
 	SystemRoleDelete(context.Context, *SystemRoleDeleteRequest) (*SystemRoleDeleteResponse, error)
 	SystemRole(context.Context, *SystemRoleRequest) (*SystemRoleResponse, error)
 	SystemRoleRecover(context.Context, *SystemRoleRecoverRequest) (*SystemRoleRecoverResponse, error)
+	SystemRoleDrop(context.Context, *SystemRoleDropRequest) (*SystemRoleDropResponse, error)
 	SystemRoleList(context.Context, *SystemRoleListRequest) (*SystemRoleListResponse, error)
 	SystemRoleListTotal(context.Context, *SystemRoleListTotalRequest) (*SystemRoleTotalResponse, error)
 	mustEmbedUnimplementedSystemRoleServiceServer()
@@ -157,6 +170,9 @@ func (UnimplementedSystemRoleServiceServer) SystemRole(context.Context, *SystemR
 }
 func (UnimplementedSystemRoleServiceServer) SystemRoleRecover(context.Context, *SystemRoleRecoverRequest) (*SystemRoleRecoverResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SystemRoleRecover not implemented")
+}
+func (UnimplementedSystemRoleServiceServer) SystemRoleDrop(context.Context, *SystemRoleDropRequest) (*SystemRoleDropResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SystemRoleDrop not implemented")
 }
 func (UnimplementedSystemRoleServiceServer) SystemRoleList(context.Context, *SystemRoleListRequest) (*SystemRoleListResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SystemRoleList not implemented")
@@ -267,6 +283,24 @@ func _SystemRoleService_SystemRoleRecover_Handler(srv interface{}, ctx context.C
 	return interceptor(ctx, in, info, handler)
 }
 
+func _SystemRoleService_SystemRoleDrop_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SystemRoleDropRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SystemRoleServiceServer).SystemRoleDrop(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: SystemRoleService_SystemRoleDrop_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SystemRoleServiceServer).SystemRoleDrop(ctx, req.(*SystemRoleDropRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _SystemRoleService_SystemRoleList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(SystemRoleListRequest)
 	if err := dec(in); err != nil {
@@ -329,6 +363,10 @@ var SystemRoleService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "SystemRoleRecover",
 			Handler:    _SystemRoleService_SystemRoleRecover_Handler,
+		},
+		{
+			MethodName: "SystemRoleDrop",
+			Handler:    _SystemRoleService_SystemRoleDrop_Handler,
 		},
 		{
 			MethodName: "SystemRoleList",

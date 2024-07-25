@@ -121,6 +121,26 @@ func (srv SrvSystemOperateLogServiceServer) SystemOperateLogRecover(ctx context.
 		Msg:  code.StatusText(code.Success),
 	}, nil
 }
+
+// SystemOperateLogDrop 清理数据
+func (srv SrvSystemOperateLogServiceServer) SystemOperateLogDrop(ctx context.Context, request *SystemOperateLogDropRequest) (*SystemOperateLogDropResponse, error) {
+	id := request.GetId()
+	if id < 1 {
+		return &SystemOperateLogDropResponse{}, status.Error(code.ConvertToGrpc(code.ParamInvalid), code.StatusText(code.ParamInvalid))
+	}
+	_, err := logger.SystemOperateLogDrop(ctx, id)
+	if sql.ResultAccept(err) != nil {
+		globalLogger.Logger.WithFields(logrus.Fields{
+			"req": id,
+			"err": err,
+		}).Error("Sql:操作日志:system_operate_log:SystemOperateLogDrop")
+		return &SystemOperateLogDropResponse{}, status.Error(code.ConvertToGrpc(code.SqlError), err.Error())
+	}
+	return &SystemOperateLogDropResponse{
+		Code: code.Success,
+		Msg:  code.StatusText(code.Success),
+	}, nil
+}
 func (srv SrvSystemOperateLogServiceServer) SystemOperateLogList(ctx context.Context, request *SystemOperateLogListRequest) (*SystemOperateLogListResponse, error) {
 	// 数据库查询条件
 	condition := make(map[string]any)
@@ -258,49 +278,82 @@ func (srv SrvSystemOperateLogServiceServer) SystemOperateLogListTotal(ctx contex
 	}, nil
 }
 
-func (srv SrvSystemOperateLogServiceServer) SystemOperateLogDrop(ctx context.Context, request *SystemOperateLogDropRequest) (*SystemOperateLogDropResponse, error) {
+// SystemOperateLogMultipleDelete 批量删除
+func (srv SrvSystemOperateLogServiceServer) SystemOperateLogMultipleDelete(ctx context.Context, request *SystemOperateLogMultipleRequest) (*SystemOperateLogMultipleResponse, error) {
 	condition := make(map[string]any)
 	// 构造查询条件
-	if request.Ids != nil {
-		req := request.GetIds()
-		var ids []int64
-		if err := json.Unmarshal(req, &ids); err != nil {
-			return &SystemOperateLogDropResponse{}, status.Error(code.ConvertToGrpc(code.ParamInvalid), code.StatusText(code.ParamInvalid))
-		}
-		condition["ids"] = ids
-	}
 	if request.TenantId != nil {
 		condition["tenantId"] = request.GetTenantId()
 	}
-	if request.Deleted != nil {
-		condition["deleted"] = request.GetDeleted()
+	if request.Ids != nil {
+		var ids []int64
+		json.Unmarshal(request.GetIds(), &ids)
+		condition["ids"] = ids
 	}
-	if request.Username != nil {
-		condition["username"] = request.GetUsername()
-	}
-	if request.Module != nil {
-		condition["module"] = request.GetModule()
-	}
-	if request.BeginStartTime != nil {
-		condition["beginStartTime"] = util.Date("Y-m-d H:i:s", util.GrpcTime(request.GetBeginStartTime()))
-	}
-	if request.FinishStartTime != nil {
-		condition["finishStartTime"] = util.Date("Y-m-d H:i:s", util.GrpcTime(request.GetFinishStartTime()))
-	}
-	if request.Result != nil {
-		condition["result"] = request.GetResult()
-	}
-
 	// 获取数据集合
-	_, err := logger.SystemOperateLogDrop(ctx, condition)
+	_, err := logger.SystemOperateLogMultipleDelete(ctx, condition)
 	if sql.ResultAccept(err) != nil {
 		globalLogger.Logger.WithFields(logrus.Fields{
 			"req": condition,
 			"err": err,
-		}).Error("Sql:操作日志:system_operate_log:SystemOperateLogList")
-		return &SystemOperateLogDropResponse{}, status.Error(code.ConvertToGrpc(code.SqlError), err.Error())
+		}).Error("Sql:操作日志:system_operate_log:SystemOperateLogMultipleDelete")
+		return &SystemOperateLogMultipleResponse{}, status.Error(code.ConvertToGrpc(code.SqlError), err.Error())
 	}
-	return &SystemOperateLogDropResponse{
+	return &SystemOperateLogMultipleResponse{
+		Code: code.Success,
+		Msg:  code.StatusText(code.Success),
+	}, nil
+}
+
+// SystemOperateLogMultipleRecover 批量恢复
+func (srv SrvSystemOperateLogServiceServer) SystemOperateLogMultipleRecover(ctx context.Context, request *SystemOperateLogMultipleRequest) (*SystemOperateLogMultipleResponse, error) {
+	condition := make(map[string]any)
+	// 构造查询条件
+	if request.TenantId != nil {
+		condition["tenantId"] = request.GetTenantId()
+	}
+	if request.Ids != nil {
+		var ids []int64
+		json.Unmarshal(request.GetIds(), &ids)
+		condition["ids"] = ids
+	}
+	// 获取数据集合
+	_, err := logger.SystemOperateLogMultipleRecover(ctx, condition)
+	if sql.ResultAccept(err) != nil {
+		globalLogger.Logger.WithFields(logrus.Fields{
+			"req": condition,
+			"err": err,
+		}).Error("Sql:操作日志:system_operate_log:SystemOperateLogMultipleRecover")
+		return &SystemOperateLogMultipleResponse{}, status.Error(code.ConvertToGrpc(code.SqlError), err.Error())
+	}
+	return &SystemOperateLogMultipleResponse{
+		Code: code.Success,
+		Msg:  code.StatusText(code.Success),
+	}, nil
+}
+
+// SystemOperateLogMultipleDrop 批量清理
+func (srv SrvSystemOperateLogServiceServer) SystemOperateLogMultipleDrop(ctx context.Context, request *SystemOperateLogMultipleRequest) (*SystemOperateLogMultipleResponse, error) {
+	condition := make(map[string]any)
+	// 构造查询条件
+	if request.TenantId != nil {
+		condition["tenantId"] = request.GetTenantId()
+	}
+	if request.Ids != nil {
+		var ids []int64
+		json.Unmarshal(request.GetIds(), &ids)
+		condition["ids"] = ids
+	}
+	// 获取数据集合
+	_, err := logger.SystemOperateLogMultipleDrop(ctx, condition)
+	if sql.ResultAccept(err) != nil {
+		globalLogger.Logger.WithFields(logrus.Fields{
+			"req": condition,
+			"err": err,
+		}).Error("Sql:操作日志:system_operate_log:SystemOperateLogMultipleDrop")
+		return &SystemOperateLogMultipleResponse{}, status.Error(code.ConvertToGrpc(code.SqlError), err.Error())
+	}
+	return &SystemOperateLogMultipleResponse{
 		Code: code.Success,
 		Msg:  code.StatusText(code.Success),
 	}, nil

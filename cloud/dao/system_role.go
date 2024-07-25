@@ -4,7 +4,7 @@ import "github.com/abulo/ratel/v3/stores/null"
 
 // SystemRole 系统角色 system_role
 type SystemRole struct {
-	Id            *int64        `db:"id" json:"id"`                         //bigint 角色编号,PRI
+	Id            *int64        `db:"id,-" json:"id"`                       //bigint 角色编号,PRI
 	Name          *string       `db:"name" json:"name"`                     //varchar 角色名称
 	Code          *string       `db:"code" json:"code"`                     //varchar 角色权限字符串
 	Sort          *int32        `db:"sort" json:"sort"`                     //int 显示顺序
@@ -19,4 +19,5 @@ type SystemRole struct {
 	CreateTime    null.DateTime `db:"create_time" json:"createTime"`        //datetime 创建时间
 	Updater       null.String   `db:"updater" json:"updater"`               //varchar 更新者
 	UpdateTime    null.DateTime `db:"update_time" json:"updateTime"`        //datetime 更新时间
+	MenuIds       null.JSON     `db:"menu_ids,-" json:"menuIds"`            //bigint 菜单编号
 }

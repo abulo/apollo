@@ -92,7 +92,7 @@ func SystemMenuList(ctx context.Context, newCtx *app.RequestContext) {
 	}
 	// 执行服务
 	menuRes, menuErr := menuClient.SystemMenuList(ctx, menuRequest)
-	if err != nil {
+	if menuErr != nil {
 		globalLogger.Logger.WithFields(logrus.Fields{
 			"req": menuRequest,
 			"err": menuErr,

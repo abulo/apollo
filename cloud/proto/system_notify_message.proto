@@ -1,4 +1,3 @@
-
 syntax = "proto3";
 // system_notify_message 站内信消息表
 package notify;
@@ -101,6 +100,16 @@ message SystemNotifyMessageRecoverResponse {
 	int64 code = 1;
 	string msg = 2;
 }
+// SystemNotifyMessageDropRequest 清理数据请求
+message SystemNotifyMessageDropRequest {
+	// @inject_tag: db:"id" json:"id"
+	int64 id = 1; //消息
+}
+// SystemNotifyMessageDropResponse 清理数据响应
+message SystemNotifyMessageDropResponse {
+	int64 code = 1;
+	string msg = 2;
+}
 // SystemNotifyMessageListRequest 列表数据
 message SystemNotifyMessageListRequest {
 	
@@ -113,9 +122,9 @@ message SystemNotifyMessageListRequest {
 	// @inject_tag: db:"read_status" json:"readStatus"
 	optional int32 read_status = 4; // 是否已读
 	// @inject_tag: db:"begin_read_time" json:"beginReadTime"
-	google.protobuf.Timestamp begin_read_time = 5; // 阅读开始时间
+	google.protobuf.Timestamp begin_read_time = 5; // 开始阅读时间
 	// @inject_tag: db:"finish_read_time" json:"finishReadTime"
-	google.protobuf.Timestamp finish_read_time = 6; // 阅读结束时间
+	google.protobuf.Timestamp finish_read_time = 6; // 结束阅读时间
 
 	// @inject_tag: db:"pagination" json:"pagination"
 	optional pagination.PaginationRequest pagination = 7; // 分页
@@ -139,10 +148,24 @@ message SystemNotifyMessageListTotalRequest {
 	// @inject_tag: db:"read_status" json:"readStatus"
 	optional int32 read_status = 4; // 是否已读
 	// @inject_tag: db:"begin_read_time" json:"beginReadTime"
-	google.protobuf.Timestamp begin_read_time = 5; // 阅读开始时间
+	google.protobuf.Timestamp begin_read_time = 5; // 开始阅读时间
 	// @inject_tag: db:"finish_read_time" json:"finishReadTime"
-	google.protobuf.Timestamp finish_read_time = 6; // 阅读结束时间
+	google.protobuf.Timestamp finish_read_time = 6; // 结束阅读时间
 
+}
+
+// SystemNotifyMessageMultipleRequest 多选数据请求
+message SystemNotifyMessageMultipleRequest {
+	// @inject_tag: db:"tenant_id" json:"tenantId"
+	optional int64 tenant_id = 1; // 租户
+	// @inject_tag: db:"ids" json:"ids"
+	optional bytes ids = 2; // 主键
+}
+
+// SystemNotifyMessageMultipleResponse 多选数据响应
+message SystemNotifyMessageMultipleResponse {
+	int64 code = 1;
+	string msg = 2;
 }
 
 
@@ -153,6 +176,10 @@ service SystemNotifyMessageService{
 	rpc SystemNotifyMessageDelete(SystemNotifyMessageDeleteRequest) returns (SystemNotifyMessageDeleteResponse);
 	rpc SystemNotifyMessage(SystemNotifyMessageRequest) returns (SystemNotifyMessageResponse);
 	rpc SystemNotifyMessageRecover(SystemNotifyMessageRecoverRequest) returns (SystemNotifyMessageRecoverResponse);
+	rpc SystemNotifyMessageDrop(SystemNotifyMessageDropRequest) returns (SystemNotifyMessageDropResponse);
 	rpc SystemNotifyMessageList(SystemNotifyMessageListRequest) returns (SystemNotifyMessageListResponse);
 	rpc SystemNotifyMessageListTotal(SystemNotifyMessageListTotalRequest) returns (SystemNotifyMessageTotalResponse);
+	rpc SystemNotifyMessageMultipleDelete(SystemNotifyMessageMultipleRequest) returns (SystemNotifyMessageMultipleResponse);
+	rpc SystemNotifyMessageMultipleRecover(SystemNotifyMessageMultipleRequest) returns (SystemNotifyMessageMultipleResponse);
+	rpc SystemNotifyMessageMultipleDrop(SystemNotifyMessageMultipleRequest) returns (SystemNotifyMessageMultipleResponse);
 }

@@ -43,8 +43,7 @@ func SystemInitRoute(handle *xhertz.Server) {
 		auth.GET("/system/user/btn", user.SystemUserBtn)
 		// system_user->用户信息表->密码修改
 		auth.PUT("/system/user/:id/password", user.SystemUserPassword)
-		// system_menu->系统菜单->列表
-		auth.GET("/system/menu", menu.SystemMenuList)
+
 		// system_menu->系统菜单->创建
 		auth.POST("/system/menu", menu.SystemMenuCreate)
 		// system_menu->系统菜单->更新
@@ -55,6 +54,10 @@ func SystemInitRoute(handle *xhertz.Server) {
 		auth.GET("/system/menu/:id/item", menu.SystemMenu)
 		// system_menu->系统菜单->恢复
 		auth.PUT("/system/menu/:id/recover", menu.SystemMenuRecover)
+		// system_menu->系统菜单->清理
+		auth.DELETE("/system/menu/:id/drop", menu.SystemMenuDrop)
+		// system_menu->系统菜单->列表
+		auth.GET("/system/menu", menu.SystemMenuList)
 		// system_menu->系统菜单->精简列表
 		auth.GET("/system/menu/simple", menu.SystemMenuListSimple)
 
@@ -67,43 +70,64 @@ func SystemInitRoute(handle *xhertz.Server) {
 		// system_dict_type->字典类型->单条数据信息查看
 		auth.GET("/system/dict/:id/item", dict.SystemDictType)
 		// system_dict_type->字典类型->所有数据
-		auth.GET("/system/dict/type", dict.SystemDictTypeAll)
+		auth.GET("/system/dict/simple", dict.SystemDictTypeListSimple)
 		// system_dict_type->字典类型->列表
 		auth.GET("/system/dict", dict.SystemDictTypeList)
+
 		// system_dict->字典数据表->创建
-		auth.POST("/system/dict/data", dict.SystemDictCreate)
+		auth.POST("/system/dict/:dictTypeId/data", dict.SystemDictCreate)
 		// system_dict->字典数据表->更新
-		auth.PUT("/system/dict/data/:id/update", dict.SystemDictUpdate)
+		auth.PUT("/system/dict/:dictTypeId/data/:id/update", dict.SystemDictUpdate)
 		// system_dict->字典数据表->删除
-		auth.DELETE("/system/dict/data/:id/delete", dict.SystemDictDelete)
+		auth.DELETE("/system/dict/:dictTypeId/data/:id/delete", dict.SystemDictDelete)
 		// system_dict->字典数据表->单条数据信息查看
-		auth.GET("/system/dict/data/:id/item", dict.SystemDict)
+		auth.GET("/system/dict/:dictTypeId/data/:id/item", dict.SystemDict)
 		// system_dict->字典数据表->列表
-		auth.GET("/system/dict/data", dict.SystemDictList)
-		// system_dict->字典数据表->所有数据
+		auth.GET("/system/dict/:dictTypeId/data", dict.SystemDictList)
+		// system_dict->字典数据表->全部数据
 		auth.GET("/system/dict/all", dict.SystemDictAll)
 
+		// system_login_log->登录日志->创建
+		// auth.POST("/system/logger/login", logger.SystemLoginLogCreate)
+		// system_login_log->登录日志->更新
+		// auth.PUT("/system/logger/login/:id/update", logger.SystemLoginLogUpdate)
 		// system_login_log->登录日志->删除
 		auth.DELETE("/system/logger/login/:id/delete", logger.SystemLoginLogDelete)
 		// system_login_log->登录日志->单条数据信息查看
 		auth.GET("/system/logger/login/:id/item", logger.SystemLoginLog)
 		// system_login_log->登录日志->恢复
 		auth.PUT("/system/logger/login/:id/recover", logger.SystemLoginLogRecover)
+		// system_login_log->登录日志->清理
+		auth.DELETE("/system/logger/login/:id/drop", logger.SystemLoginLogDrop)
 		// system_login_log->登录日志->列表
 		auth.GET("/system/logger/login", logger.SystemLoginLogList)
-		// system_login_log->登录日志->清除
-		auth.POST("/system/logger/login/drop", logger.SystemLoginLogDrop)
+		// system_login_log->登录日志->批量删除
+		auth.PUT("/system/logger/login/delete", logger.SystemLoginLogMultipleDelete)
+		// system_login_log->登录日志->批量恢复
+		auth.PUT("/system/logger/login/recover", logger.SystemLoginLogMultipleRecover)
+		// system_login_log->登录日志->批量清理
+		auth.PUT("/system/logger/login/drop", logger.SystemLoginLogMultipleDrop)
 
+		// system_operate_log->操作日志->创建
+		// auth.POST("/system/logger/operate", logger.SystemOperateLogCreate)
+		// system_operate_log->操作日志->更新
+		// auth.PUT("/system/logger/operate/:id/update", logger.SystemOperateLogUpdate)
 		// system_operate_log->操作日志->删除
 		auth.DELETE("/system/logger/operate/:id/delete", logger.SystemOperateLogDelete)
 		// system_operate_log->操作日志->单条数据信息查看
 		auth.GET("/system/logger/operate/:id/item", logger.SystemOperateLog)
 		// system_operate_log->操作日志->恢复
 		auth.PUT("/system/logger/operate/:id/recover", logger.SystemOperateLogRecover)
+		// system_operate_log->操作日志->清理
+		auth.DELETE("/system/logger/operate/:id/drop", logger.SystemOperateLogDrop)
 		// system_operate_log->操作日志->列表
 		auth.GET("/system/logger/operate", logger.SystemOperateLogList)
-		// system_operate_log->操作日志->清除
-		auth.POST("/system/logger/operate/drop", logger.SystemOperateLogDrop)
+		// system_operate_log->操作日志->批量删除
+		auth.PUT("/system/logger/operate/delete", logger.SystemOperateLogMultipleDelete)
+		// system_operate_log->操作日志->批量恢复
+		auth.PUT("/system/logger/operate/recover", logger.SystemOperateLogMultipleRecover)
+		// system_operate_log->操作日志->批量清理
+		auth.PUT("/system/logger/operate/drop", logger.SystemOperateLogMultipleDrop)
 
 		// system_entry_log -> 访问日志 -> 删除
 		auth.DELETE("/system/logger/entry/:id/delete", logger.SystemEntryLogDelete)
@@ -124,12 +148,15 @@ func SystemInitRoute(handle *xhertz.Server) {
 		auth.GET("/system/tenant/:id/item", tenant.SystemTenant)
 		// system_tenant->租户->恢复
 		auth.PUT("/system/tenant/:id/recover", tenant.SystemTenantRecover)
+		// system_tenant->租户->清理
+		auth.DELETE("/system/tenant/:id/drop", tenant.SystemTenantDrop)
 		// system_tenant->租户->列表
 		auth.GET("/system/tenant", tenant.SystemTenantList)
 		// system_tenant->租户->精简列表
 		auth.GET("/system/tenant/simple", tenant.SystemTenantListSimple)
+
 		// system_tenant->租户->租户用户
-		auth.GET("/system/tenant/:id/user", tenant.SystemUserList)
+		auth.GET("/system/tenant/:id/user", tenant.SystemTenantUserList)
 		// system_tenant->租户->租户菜单
 		auth.GET("/system/tenant/menu", tenant.SystemMenuList)
 		// system_tenant->租户->登录
@@ -145,11 +172,12 @@ func SystemInitRoute(handle *xhertz.Server) {
 		auth.GET("/system/tenant/package/:id/item", tenant.SystemTenantPackage)
 		// system_tenant_package->租户套餐包->恢复
 		auth.PUT("/system/tenant/package/:id/recover", tenant.SystemTenantPackageRecover)
+		// system_tenant_package->租户套餐包->清理
+		auth.DELETE("/system/tenant/package/:id/drop", tenant.SystemTenantPackageDrop)
 		// system_tenant_package->租户套餐包->列表
 		auth.GET("/system/tenant/package", tenant.SystemTenantPackageList)
 		// system_tenant_package->租户套餐包->精简列表
 		auth.GET("/system/tenant/package/simple", tenant.SystemTenantPackageListSimple)
-		//
 
 		// system_dept->部门->创建
 		auth.POST("/system/dept", dept.SystemDeptCreate)
@@ -161,6 +189,8 @@ func SystemInitRoute(handle *xhertz.Server) {
 		auth.GET("/system/dept/:id/item", dept.SystemDept)
 		// system_dept->部门->恢复
 		auth.PUT("/system/dept/:id/recover", dept.SystemDeptRecover)
+		// system_dept->部门->清理
+		auth.DELETE("/system/dept/:id/drop", dept.SystemDeptDrop)
 		// system_dept->部门->列表
 		auth.GET("/system/dept", dept.SystemDeptList)
 		// system_dept->部门->精简列表
@@ -178,6 +208,8 @@ func SystemInitRoute(handle *xhertz.Server) {
 		auth.GET("/system/post/:id/item", post.SystemPost)
 		// system_post->职位->恢复
 		auth.PUT("/system/post/:id/recover", post.SystemPostRecover)
+		// system_post->职位->清理
+		auth.DELETE("/system/post/:id/drop", post.SystemPostDrop)
 		// system_post->职位->列表
 		auth.GET("/system/post", post.SystemPostList)
 		// system_post->职位->精简列表
@@ -193,15 +225,12 @@ func SystemInitRoute(handle *xhertz.Server) {
 		auth.GET("/system/role/:id/item", role.SystemRole)
 		// system_role->系统角色->恢复
 		auth.PUT("/system/role/:id/recover", role.SystemRoleRecover)
+		// system_role->系统角色->清理
+		auth.DELETE("/system/role/:id/drop", role.SystemRoleDrop)
 		// system_role->系统角色->列表
 		auth.GET("/system/role", role.SystemRoleList)
 		// system_role->系统角色->精简列表
 		auth.GET("/system/role/simple", role.SystemRoleListSimple)
-
-		// system_role->系统角色->角色菜单
-		auth.GET("/system/role/:id/menu", role.SystemRoleMenuList)
-		// system_role->系统角色->角色菜单
-		auth.POST("/system/role/:id/menu", role.SystemRoleMenuCreate)
 
 		// system_notice->通知公告表->创建
 		auth.POST("/system/notice", notice.SystemNoticeCreate)
@@ -213,8 +242,12 @@ func SystemInitRoute(handle *xhertz.Server) {
 		auth.GET("/system/notice/:id/item", notice.SystemNotice)
 		// system_notice->通知公告表->恢复
 		auth.PUT("/system/notice/:id/recover", notice.SystemNoticeRecover)
+		// system_notice->通知公告表->清理
+		auth.DELETE("/system/notice/:id/drop", notice.SystemNoticeDrop)
 		// system_notice->通知公告表->列表
 		auth.GET("/system/notice", notice.SystemNoticeList)
+		// system_notice->通知公告表->列表精简
+		auth.GET("/system/notice/simple", notice.SystemNoticeListSimple)
 
 		// system_notify_message->站内信消息表->创建
 		// auth.POST("/system/notify/message", notify.SystemNotifyMessageCreate)
@@ -226,8 +259,16 @@ func SystemInitRoute(handle *xhertz.Server) {
 		auth.GET("/system/notify/message/:id/item", notify.SystemNotifyMessage)
 		// system_notify_message->站内信消息表->恢复
 		auth.PUT("/system/notify/message/:id/recover", notify.SystemNotifyMessageRecover)
+		// system_notify_message->站内信消息表->清理
+		auth.DELETE("/system/notify/message/:id/drop", notify.SystemNotifyMessageDrop)
 		// system_notify_message->站内信消息表->列表
 		auth.GET("/system/notify/message", notify.SystemNotifyMessageList)
+		// system_notify_message->站内信消息表->批量删除
+		auth.PUT("/system/notify/message/delete", notify.SystemNotifyMessageMultipleDelete)
+		// system_notify_message->站内信消息表->批量恢复
+		auth.PUT("/system/notify/message/recover", notify.SystemNotifyMessageMultipleRecover)
+		// system_notify_message->站内信消息表->批量清理
+		auth.PUT("/system/notify/message/drop", notify.SystemNotifyMessageMultipleDrop)
 
 		// system_notify_template->站内信模板表->创建
 		auth.POST("/system/notify/template", notify.SystemNotifyTemplateCreate)
@@ -239,8 +280,12 @@ func SystemInitRoute(handle *xhertz.Server) {
 		auth.GET("/system/notify/template/:id/item", notify.SystemNotifyTemplate)
 		// system_notify_template->站内信模板表->恢复
 		auth.PUT("/system/notify/template/:id/recover", notify.SystemNotifyTemplateRecover)
+		// system_notify_template->站内信模板表->清理
+		auth.DELETE("/system/notify/template/:id/drop", notify.SystemNotifyTemplateDrop)
 		// system_notify_template->站内信模板表->列表
 		auth.GET("/system/notify/template", notify.SystemNotifyTemplateList)
+		// system_notify_template->站内信模板表->精简列表
+		auth.GET("/system/notify/template/simple", notify.SystemNotifyTemplateListSimple)
 
 		// system_mail_account->邮箱账号表->创建
 		auth.POST("/system/mail/account", mail.SystemMailAccountCreate)
@@ -252,6 +297,8 @@ func SystemInitRoute(handle *xhertz.Server) {
 		auth.GET("/system/mail/account/:id/item", mail.SystemMailAccount)
 		// system_mail_account->邮箱账号表->恢复
 		auth.PUT("/system/mail/account/:id/recover", mail.SystemMailAccountRecover)
+		// system_mail_account->邮箱账号表->清理
+		auth.DELETE("/system/mail/account/:id/drop", mail.SystemMailAccountDrop)
 		// system_mail_account->邮箱账号表->列表
 		auth.GET("/system/mail/account", mail.SystemMailAccountList)
 		// system_mail_account->邮箱账号表->精简列表
@@ -267,8 +314,12 @@ func SystemInitRoute(handle *xhertz.Server) {
 		auth.GET("/system/mail/template/:id/item", mail.SystemMailTemplate)
 		// system_mail_template->邮件模版表->恢复
 		auth.PUT("/system/mail/template/:id/recover", mail.SystemMailTemplateRecover)
+		// system_mail_template->邮件模版表->清理
+		auth.DELETE("/system/mail/template/:id/drop", mail.SystemMailTemplateDrop)
 		// system_mail_template->邮件模版表->列表
 		auth.GET("/system/mail/template", mail.SystemMailTemplateList)
+		// system_mail_template->邮件模版表->精简列表
+		auth.GET("/system/mail/template/simple", mail.SystemMailTemplateListSimple)
 
 		// system_mail_log->邮件日志表->创建
 		// auth.POST("/system/mail/log", mail.SystemMailLogCreate)
@@ -280,17 +331,31 @@ func SystemInitRoute(handle *xhertz.Server) {
 		auth.GET("/system/mail/log/:id/item", mail.SystemMailLog)
 		// system_mail_log->邮件日志表->恢复
 		auth.PUT("/system/mail/log/:id/recover", mail.SystemMailLogRecover)
+		// system_mail_log->邮件日志表->清理
+		auth.DELETE("/system/mail/log/:id/drop", mail.SystemMailLogDrop)
 		// system_mail_log->邮件日志表->列表
 		auth.GET("/system/mail/log", mail.SystemMailLogList)
+		// system_mail_log->邮件日志表->批量删除
+		auth.PUT("/system/mail/log/delete", mail.SystemMailLogMultipleDelete)
+		// system_mail_log->邮件日志表->批量恢复
+		auth.PUT("/system/mail/log/recover", mail.SystemMailLogMultipleRecover)
+		// system_mail_log->邮件日志表->批量清理
+		auth.PUT("/system/mail/log/drop", mail.SystemMailLogMultipleDrop)
 
 		// system_file->文件管理->创建
 		auth.POST("/system/file", file.SystemFileCreate)
 		// system_file->文件管理->更新
 		auth.PUT("/system/file/:id/update", file.SystemFileUpdate)
+		// system_file->文件管理->重新上传
+		auth.POST("/system/file/:id/reupload", file.SystemFileReUpload)
 		// system_file->文件管理->删除
 		auth.DELETE("/system/file/:id/delete", file.SystemFileDelete)
 		// system_file->文件管理->单条数据信息查看
 		auth.GET("/system/file/:id/item", file.SystemFile)
+		// system_file->文件管理->恢复
+		auth.PUT("/system/file/:id/recover", file.SystemFileRecover)
+		// system_file->文件管理->清理
+		auth.DELETE("/system/file/:id/drop", file.SystemFileDrop)
 		// system_file->文件管理->列表
 		auth.GET("/system/file", file.SystemFileList)
 

@@ -32,6 +32,12 @@ func SystemFileDao(item *SystemFileObject) *dao.SystemFile {
 	if item != nil && item.FilePath != nil {
 		daoItem.FilePath = item.FilePath // 文件路径
 	}
+	if item != nil && item.UserId != nil {
+		daoItem.UserId = item.UserId // 用户 ID
+	}
+	if item != nil && item.Deleted != nil {
+		daoItem.Deleted = item.Deleted // 是否删除
+	}
 	if item != nil && item.TenantId != nil {
 		daoItem.TenantId = item.TenantId // 租户
 	}
@@ -71,6 +77,12 @@ func SystemFileProto(item dao.SystemFile) *SystemFileObject {
 	}
 	if item.FilePath != nil {
 		res.FilePath = item.FilePath
+	}
+	if item.UserId != nil {
+		res.UserId = item.UserId
+	}
+	if item.Deleted != nil {
+		res.Deleted = item.Deleted
 	}
 	if item.TenantId != nil {
 		res.TenantId = item.TenantId

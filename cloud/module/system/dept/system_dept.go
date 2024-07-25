@@ -74,6 +74,40 @@ func SystemDeptRecover(ctx context.Context, id int64) (res int64, err error) {
 	return
 }
 
+// SystemDeptDrop 清理数据
+func SystemDeptDrop(ctx context.Context, id int64) (res int64, err error) {
+	db := initial.Core.Store.LoadSQL("mysql").Write()
+	deptItem, err := SystemDept(ctx, id)
+	if err != nil {
+		return 0, err
+	}
+	res = 0
+	err = db.Transact(ctx, func(ctx context.Context, session sql.Session) error {
+
+		builder := sql.NewBuilder()
+		query, args, err := builder.Table("`system_user_dept`").Where("`tenant_id`", deptItem.TenantId).Where("`dept_id`", id).Delete()
+		if err != nil {
+			return err
+		}
+		_, err = session.Delete(ctx, query, args...)
+		if err != nil {
+			return err
+		}
+
+		builder = sql.NewBuilder()
+		query, args, err = builder.Table("`system_dept`").Where("`id`", id).Delete()
+		if err != nil {
+			return err
+		}
+		res, err = session.Delete(ctx, query, args...)
+		if err != nil {
+			return err
+		}
+		return nil
+	})
+	return
+}
+
 // SystemDeptList 查询列表数据
 func SystemDeptList(ctx context.Context, condition map[string]any) (res []dao.SystemDept, err error) {
 	db := initial.Core.Store.LoadSQL("mysql").Read()

@@ -74,6 +74,39 @@ func SystemPostRecover(ctx context.Context, id int64) (res int64, err error) {
 	return
 }
 
+// SystemPostDrop 清理数据
+func SystemPostDrop(ctx context.Context, id int64) (res int64, err error) {
+	db := initial.Core.Store.LoadSQL("mysql").Write()
+	postItem, err := SystemPost(ctx, id)
+	if err != nil {
+		return 0, err
+	}
+	res = 0
+	err = db.Transact(ctx, func(ctx context.Context, session sql.Session) error {
+		builder := sql.NewBuilder()
+		query, args, err := builder.Table("`system_user_post`").Where("`tenant_id`", postItem.TenantId).Where("`dept_id`", id).Delete()
+		if err != nil {
+			return err
+		}
+		_, err = session.Delete(ctx, query, args...)
+		if err != nil {
+			return err
+		}
+		builder = sql.NewBuilder()
+		query, args, err = builder.Table("`system_post`").Where("`id`", id).Delete()
+		if err != nil {
+			return err
+		}
+		res, err = session.Delete(ctx, query, args...)
+		if err != nil {
+			return err
+		}
+		return nil
+	})
+
+	return
+}
+
 // SystemPostList 查询列表数据
 func SystemPostList(ctx context.Context, condition map[string]any) (res []dao.SystemPost, err error) {
 	db := initial.Core.Store.LoadSQL("mysql").Read()

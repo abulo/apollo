@@ -4,7 +4,7 @@ import "github.com/abulo/ratel/v3/stores/null"
 
 // SystemNotice 通知公告表 system_notice
 type SystemNotice struct {
-	Id         *int64        `db:"id" json:"id"`                  //bigint 公告ID,PRI
+	Id         *int64        `db:"id,-" json:"id"`                //bigint 公告ID,PRI
 	Title      *string       `db:"title" json:"title"`            //varchar 公告标题
 	Content    *string       `db:"content" json:"content"`        //text 公告内容
 	Type       *int32        `db:"type" json:"type"`              //tinyint 公告类型（1通知 2公告）

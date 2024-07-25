@@ -4,7 +4,7 @@ import "github.com/abulo/ratel/v3/stores/null"
 
 // SystemRoleMenu 系统角色和系统菜单关联表 system_role_menu
 type SystemRoleMenu struct {
-	Id         *int64        `db:"id" json:"id"`                  //bigint 自增编号,PRI
+	Id         *int64        `db:"id,-" json:"id"`                //bigint 自增编号,PRI
 	RoleId     *int64        `db:"role_id" json:"roleId"`         //bigint 角色编号
 	MenuId     *int64        `db:"menu_id" json:"menuId"`         //bigint 菜单编号
 	Deleted    *int32        `db:"deleted" json:"deleted"`        //tinyint 删除

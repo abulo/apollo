@@ -4,7 +4,7 @@ import "github.com/abulo/ratel/v3/stores/null"
 
 // PayWalletTransaction 会员钱包流水表 pay_wallet_transaction
 type PayWalletTransaction struct {
-	Id         *int64        `db:"id" json:"id"`                  //bigint 编号,PRI
+	Id         *int64        `db:"id,-" json:"id"`                //bigint 编号,PRI
 	WalletId   *int64        `db:"wallet_id" json:"walletId"`     //bigint 会员钱包 id
 	BizType    *int32        `db:"biz_type" json:"bizType"`       //tinyint 关联类型
 	BizId      *string       `db:"biz_id" json:"bizId"`           //varchar 关联业务编号

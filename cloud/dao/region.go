@@ -4,7 +4,7 @@ import "github.com/abulo/ratel/v3/stores/null"
 
 // Region 地区表 region
 type Region struct {
-	Id         *int64        `db:"id" json:"id"`                  //bigint 区域编号,PRI
+	Id         *int64        `db:"id,-" json:"id"`                //bigint 区域编号,PRI
 	Name       *string       `db:"name" json:"name"`              //varchar 区域名称
 	ParentId   *int64        `db:"parent_id" json:"parentId"`     //bigint 父级编号
 	Status     *int32        `db:"status" json:"status"`          //tinyint 状态;

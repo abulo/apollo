@@ -195,6 +195,17 @@ message SystemUserPasswordResponse {
 	string msg = 2;
 }
 
+// SystemUserDropRequest 清理数据请求
+message SystemUserDropRequest {
+	// @inject_tag: db:"id" json:"id"
+	int64 id = 1; //租户编号
+}
+// SystemUserDropResponse 清理数据响应
+message SystemUserDropResponse {
+	int64 code = 1;
+	string msg = 2;
+}
+
 
 // SystemUserService 服务
 service SystemUserService{
@@ -208,4 +219,5 @@ service SystemUserService{
 	rpc SystemUserListTotal(SystemUserListTotalRequest) returns (SystemUserTotalResponse);
 	rpc SystemUserPassword(SystemUserPasswordRequest) returns (SystemUserPasswordResponse);
 	rpc SystemUserRoleDataScope(SystemUserRoleDataScopeRequest) returns (SystemUserRoleDataScopeResponse);
+	rpc SystemRoleDrop(SystemUserDropRequest) returns (SystemUserDropResponse);
 }

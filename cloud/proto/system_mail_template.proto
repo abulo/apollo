@@ -1,4 +1,3 @@
-
 syntax = "proto3";
 // system_mail_template 邮件模版表
 package mail;
@@ -97,6 +96,16 @@ message SystemMailTemplateRecoverResponse {
 	int64 code = 1;
 	string msg = 2;
 }
+// SystemMailTemplateDropRequest 清理数据请求
+message SystemMailTemplateDropRequest {
+	// @inject_tag: db:"id" json:"id"
+	int64 id = 1; //编号
+}
+// SystemMailTemplateDropResponse 清理数据响应
+message SystemMailTemplateDropResponse {
+	int64 code = 1;
+	string msg = 2;
+}
 // SystemMailTemplateListRequest 列表数据
 message SystemMailTemplateListRequest {
 	
@@ -149,6 +158,7 @@ service SystemMailTemplateService{
 	rpc SystemMailTemplateDelete(SystemMailTemplateDeleteRequest) returns (SystemMailTemplateDeleteResponse);
 	rpc SystemMailTemplate(SystemMailTemplateRequest) returns (SystemMailTemplateResponse);
 	rpc SystemMailTemplateRecover(SystemMailTemplateRecoverRequest) returns (SystemMailTemplateRecoverResponse);
+	rpc SystemMailTemplateDrop(SystemMailTemplateDropRequest) returns (SystemMailTemplateDropResponse);
 	rpc SystemMailTemplateList(SystemMailTemplateListRequest) returns (SystemMailTemplateListResponse);
 	rpc SystemMailTemplateListTotal(SystemMailTemplateListTotalRequest) returns (SystemMailTemplateTotalResponse);
 }

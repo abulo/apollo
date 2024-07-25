@@ -119,6 +119,26 @@ func (srv SrvSystemMailAccountServiceServer) SystemMailAccountRecover(ctx contex
 		Msg:  code.StatusText(code.Success),
 	}, nil
 }
+
+// SystemMailAccountDrop 清理数据
+func (srv SrvSystemMailAccountServiceServer) SystemMailAccountDrop(ctx context.Context, request *SystemMailAccountDropRequest) (*SystemMailAccountDropResponse, error) {
+	id := request.GetId()
+	if id < 1 {
+		return &SystemMailAccountDropResponse{}, status.Error(code.ConvertToGrpc(code.ParamInvalid), code.StatusText(code.ParamInvalid))
+	}
+	_, err := mail.SystemMailAccountDrop(ctx, id)
+	if sql.ResultAccept(err) != nil {
+		globalLogger.Logger.WithFields(logrus.Fields{
+			"req": id,
+			"err": err,
+		}).Error("Sql:邮箱账号表:system_mail_account:SystemMailAccountDrop")
+		return &SystemMailAccountDropResponse{}, status.Error(code.ConvertToGrpc(code.SqlError), err.Error())
+	}
+	return &SystemMailAccountDropResponse{
+		Code: code.Success,
+		Msg:  code.StatusText(code.Success),
+	}, nil
+}
 func (srv SrvSystemMailAccountServiceServer) SystemMailAccountList(ctx context.Context, request *SystemMailAccountListRequest) (*SystemMailAccountListResponse, error) {
 	// 数据库查询条件
 	condition := make(map[string]any)

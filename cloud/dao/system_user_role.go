@@ -4,7 +4,7 @@ import "github.com/abulo/ratel/v3/stores/null"
 
 // SystemUserRole 系统用户和系统角色关联表 system_user_role
 type SystemUserRole struct {
-	Id         *int64        `db:"id" json:"id"`                  //bigint 自增编号,PRI
+	Id         *int64        `db:"id,-" json:"id"`                //bigint 自增编号,PRI
 	UserId     *int64        `db:"user_id" json:"userId"`         //bigint 用户编号
 	RoleId     *int64        `db:"role_id" json:"roleId"`         //bigint 角色编号
 	Deleted    *int32        `db:"deleted" json:"deleted"`        //tinyint 删除

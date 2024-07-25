@@ -4,7 +4,7 @@ import "github.com/abulo/ratel/v3/stores/null"
 
 // PayNotifyTask 商户支付-任务通知 pay_notify_task
 type PayNotifyTask struct {
-	Id                 *int64          `db:"id" json:"id"`                                   //bigint 任务编号,PRI
+	Id                 *int64          `db:"id,-" json:"id"`                                 //bigint 任务编号,PRI
 	AppId              *int64          `db:"app_id" json:"appId"`                            //bigint 应用编号
 	Type               *int32          `db:"type" json:"type"`                               //tinyint 通知类型
 	DataId             *int64          `db:"data_id" json:"dataId"`                          //bigint 数据编号

@@ -74,6 +74,18 @@ func SystemMailAccountRecover(ctx context.Context, id int64) (res int64, err err
 	return
 }
 
+// SystemMailAccountDrop 清理数据
+func SystemMailAccountDrop(ctx context.Context, id int64) (res int64, err error) {
+	db := initial.Core.Store.LoadSQL("mysql").Write()
+	builder := sql.NewBuilder()
+	query, args, err := builder.Table("`system_mail_account`").Where("`id`", id).Delete()
+	if err != nil {
+		return
+	}
+	res, err = db.Delete(ctx, query, args...)
+	return
+}
+
 // SystemMailAccountList 查询列表数据
 func SystemMailAccountList(ctx context.Context, condition map[string]any) (res []dao.SystemMailAccount, err error) {
 	db := initial.Core.Store.LoadSQL("mysql").Read()

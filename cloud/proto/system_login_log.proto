@@ -1,4 +1,3 @@
-
 syntax = "proto3";
 // system_login_log 登录日志
 package logger;
@@ -20,20 +19,20 @@ message SystemLoginLogObject {
 	google.protobuf.Timestamp login_time = 5; //登录时间
 	// @inject_tag: db:"channel" json:"channel"
 	optional string channel = 6; //渠道
-	// @inject_tag: db:"deleted" json:"deleted"
-	optional int32 deleted = 7; //删除
-	// @inject_tag: db:"tenant_id" json:"tenantId"
-	optional int64 tenant_id = 8; //租户
-	// @inject_tag: db:"creator" json:"creator"
-	optional string creator = 9; //创建人
-	// @inject_tag: db:"create_time" json:"createTime"
-	google.protobuf.Timestamp create_time = 10; //创建时间
-	// @inject_tag: db:"updater" json:"updater"
-	optional string updater = 11; //更新人
-	// @inject_tag: db:"update_time" json:"updateTime"
-	google.protobuf.Timestamp update_time = 12; //更新时间
 	// @inject_tag: db:"user_id" json:"userId"
-	optional int64 user_id = 13; //用户id
+	optional int64 user_id = 7; //
+	// @inject_tag: db:"deleted" json:"deleted"
+	optional int32 deleted = 8; //删除
+	// @inject_tag: db:"tenant_id" json:"tenantId"
+	optional int64 tenant_id = 9; //租户
+	// @inject_tag: db:"creator" json:"creator"
+	optional string creator = 10; //创建人
+	// @inject_tag: db:"create_time" json:"createTime"
+	google.protobuf.Timestamp create_time = 11; //创建时间
+	// @inject_tag: db:"updater" json:"updater"
+	optional string updater = 12; //更新人
+	// @inject_tag: db:"update_time" json:"updateTime"
+	google.protobuf.Timestamp update_time = 13; //更新时间
 }
 // SystemLoginLogTotalResponse 列表数据总量
 message SystemLoginLogTotalResponse {
@@ -93,9 +92,18 @@ message SystemLoginLogRecoverResponse {
 	int64 code = 1;
 	string msg = 2;
 }
+// SystemLoginLogDropRequest 清理数据请求
+message SystemLoginLogDropRequest {
+	// @inject_tag: db:"id" json:"id"
+	int64 id = 1; //主键
+}
+// SystemLoginLogDropResponse 清理数据响应
+message SystemLoginLogDropResponse {
+	int64 code = 1;
+	string msg = 2;
+}
 // SystemLoginLogListRequest 列表数据
 message SystemLoginLogListRequest {
-	
 	// @inject_tag: db:"tenant_id" json:"tenantId"
 	optional int64 tenant_id = 1; // 租户
 	// @inject_tag: db:"deleted" json:"deleted"
@@ -103,20 +111,20 @@ message SystemLoginLogListRequest {
 	// @inject_tag: db:"username" json:"username"
 	optional string username = 3; // 用户账号
 	// @inject_tag: db:"begin_login_time" json:"beginLoginTime"
-	google.protobuf.Timestamp begin_login_time = 4; // 开始登录时间
+	google.protobuf.Timestamp begin_login_time = 4; // 登录时间
 	// @inject_tag: db:"finish_login_time" json:"finishLoginTime"
-	google.protobuf.Timestamp finish_login_time = 5; // 结束登录时间
+	google.protobuf.Timestamp finish_login_time = 5; // 登录时间
 	// @inject_tag: db:"channel" json:"channel"
 	optional string channel = 6; // 渠道
-	// @inject_tag: db:"pagination" json:"pagination"
-	// @inject_tag: db:"data_scope_dept" json:"dataScopeDept"
-	optional bytes data_scope_dept = 7; //数据范围(指定部门数组)
-	// @inject_tag: db:"dept_id" json:"deptId"
-	optional int64 dept_id = 8; // 租户ID
 	// @inject_tag: db:"user_id" json:"userId"
-	optional int64 user_id = 9; // 当前登录的用户 ID
+	optional int64 user_id = 7; // 用户编号
+	// @inject_tag: db:"data_scope_dept" json:"dataScopeDept"
+	optional bytes data_scope_dept = 8; //数据范围(指定部门数组)
+	// @inject_tag: db:"dept_id" json:"deptId"
+	optional int64 dept_id = 9; // 租户ID
 	// @inject_tag: db:"data_scope" json:"dataScope"
 	optional int32 data_scope = 10; //数据范围（1：全部数据权限 2：自定数据权限 3：本部门数据权限 4：本部门及以下数据权限）
+	// @inject_tag: db:"pagination" json:"pagination"
 	optional pagination.PaginationRequest pagination = 11; // 分页
 }
 
@@ -136,41 +144,33 @@ message SystemLoginLogListTotalRequest {
 	// @inject_tag: db:"username" json:"username"
 	optional string username = 3; // 用户账号
 	// @inject_tag: db:"begin_login_time" json:"beginLoginTime"
-	google.protobuf.Timestamp begin_login_time = 4; // 开始登录时间
+	google.protobuf.Timestamp begin_login_time = 4; // 登录时间
 	// @inject_tag: db:"finish_login_time" json:"finishLoginTime"
-	google.protobuf.Timestamp finish_login_time = 5; // 结束登录时间
+	google.protobuf.Timestamp finish_login_time = 5; // 登录时间
 	// @inject_tag: db:"channel" json:"channel"
 	optional string channel = 6; // 渠道
-	// @inject_tag: db:"data_scope_dept" json:"dataScopeDept"
-	optional bytes data_scope_dept = 7; //数据范围(指定部门数组)
-	// @inject_tag: db:"dept_id" json:"deptId"
-	optional int64 dept_id = 8; // 租户ID
 	// @inject_tag: db:"user_id" json:"userId"
-	optional int64 user_id = 9; // 当前登录的用户 ID
+	optional int64 user_id = 7; // 用户编号
+	// @inject_tag: db:"data_scope_dept" json:"dataScopeDept"
+	optional bytes data_scope_dept = 8; //数据范围(指定部门数组)
+	// @inject_tag: db:"dept_id" json:"deptId"
+	optional int64 dept_id = 9; // 租户ID
 	// @inject_tag: db:"data_scope" json:"dataScope"
 	optional int32 data_scope = 10; //数据范围（1：全部数据权限 2：自定数据权限 3：本部门数据权限 4：本部门及以下数据权限）
 
 }
 
-// SystemLoginLogDropRequest 全部删除数据
-message SystemLoginLogDropRequest {
-	// @inject_tag: db:"ids" json:"ids"
-	optional bytes ids = 1; //主键
+
+// SystemLoginLogMultipleRequest 多选数据请求
+message SystemLoginLogMultipleRequest {
 	// @inject_tag: db:"tenant_id" json:"tenantId"
-	optional int64 tenant_id = 2; // 租户
-	// @inject_tag: db:"deleted" json:"deleted"
-	optional int32 deleted = 3; // 删除
-	// @inject_tag: db:"username" json:"username"
-	optional string username = 4; // 用户账号
-	// @inject_tag: db:"begin_login_time" json:"beginLoginTime"
-	google.protobuf.Timestamp begin_login_time = 5; // 开始登录时间
-	// @inject_tag: db:"finish_login_time" json:"finishLoginTime"
-	google.protobuf.Timestamp finish_login_time = 6; // 结束登录时间
-	// @inject_tag: db:"channel" json:"channel"
-	optional string channel = 7; // 渠道
+	optional int64 tenant_id = 1; // 租户
+	// @inject_tag: db:"ids" json:"ids"
+	optional bytes ids = 2; // 主键
 }
-// SystemLoginLogDeleteResponse 删除数据响应
-message SystemLoginLogDropResponse {
+
+// SystemLoginLogMultipleResponse 多选数据响应
+message SystemLoginLogMultipleResponse {
 	int64 code = 1;
 	string msg = 2;
 }
@@ -181,9 +181,12 @@ service SystemLoginLogService{
 	rpc SystemLoginLogCreate(SystemLoginLogCreateRequest) returns (SystemLoginLogCreateResponse);
 	rpc SystemLoginLogUpdate(SystemLoginLogUpdateRequest) returns (SystemLoginLogUpdateResponse);
 	rpc SystemLoginLogDelete(SystemLoginLogDeleteRequest) returns (SystemLoginLogDeleteResponse);
-	rpc SystemLoginLogDrop(SystemLoginLogDropRequest) returns (SystemLoginLogDropResponse);
 	rpc SystemLoginLog(SystemLoginLogRequest) returns (SystemLoginLogResponse);
 	rpc SystemLoginLogRecover(SystemLoginLogRecoverRequest) returns (SystemLoginLogRecoverResponse);
+	rpc SystemLoginLogDrop(SystemLoginLogDropRequest) returns (SystemLoginLogDropResponse);
 	rpc SystemLoginLogList(SystemLoginLogListRequest) returns (SystemLoginLogListResponse);
 	rpc SystemLoginLogListTotal(SystemLoginLogListTotalRequest) returns (SystemLoginLogTotalResponse);
+	rpc SystemLoginLogMultipleDelete(SystemLoginLogMultipleRequest) returns (SystemLoginLogMultipleResponse);
+	rpc SystemLoginLogMultipleRecover(SystemLoginLogMultipleRequest) returns (SystemLoginLogMultipleResponse);
+	rpc SystemLoginLogMultipleDrop(SystemLoginLogMultipleRequest) returns (SystemLoginLogMultipleResponse);
 }

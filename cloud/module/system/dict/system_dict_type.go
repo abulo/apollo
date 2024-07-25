@@ -37,12 +37,25 @@ func SystemDictTypeUpdate(ctx context.Context, id int64, data dao.SystemDictType
 // SystemDictTypeDelete 删除数据
 func SystemDictTypeDelete(ctx context.Context, id int64) (res int64, err error) {
 	db := initial.Core.Store.LoadSQL("mysql").Write()
-	builder := sql.NewBuilder()
-	query, args, err := builder.Table("`system_dict_type`").Where("`id`", id).Delete()
-	if err != nil {
-		return
-	}
-	res, err = db.Delete(ctx, query, args...)
+	res = 0
+	err = db.Transact(ctx, func(ctx context.Context, session sql.Session) error {
+		builder := sql.NewBuilder()
+		query, args, err := builder.Table("`system_dict`").Where("`dict_type_id`", id).Delete()
+		if err != nil {
+			return err
+		}
+		_, err = session.Delete(ctx, query, args...)
+		if err != nil {
+			return err
+		}
+		builder = sql.NewBuilder()
+		query, args, err = builder.Table("`system_dict`").Where("`id`", id).Delete()
+		if err != nil {
+			return err
+		}
+		res, err = db.Delete(ctx, query, args...)
+		return err
+	})
 	return
 }
 

@@ -6,6 +6,8 @@ import (
 	"context"
 
 	"github.com/abulo/ratel/v3/stores/sql"
+	"github.com/abulo/ratel/v3/util"
+	"github.com/pkg/errors"
 	"github.com/spf13/cast"
 )
 
@@ -71,6 +73,18 @@ func SystemMailLogRecover(ctx context.Context, id int64) (res int64, err error) 
 		return
 	}
 	res, err = db.Update(ctx, query, args...)
+	return
+}
+
+// SystemMailLogDrop 清理数据
+func SystemMailLogDrop(ctx context.Context, id int64) (res int64, err error) {
+	db := initial.Core.Store.LoadSQL("mysql").Write()
+	builder := sql.NewBuilder()
+	query, args, err := builder.Table("`system_mail_log`").Where("`id`", id).Delete()
+	if err != nil {
+		return
+	}
+	res, err = db.Delete(ctx, query, args...)
 	return
 }
 
@@ -161,5 +175,81 @@ func SystemMailLogListTotal(ctx context.Context, condition map[string]any) (res 
 		return
 	}
 	res, err = db.Count(ctx, query, args...)
+	return
+}
+
+// SystemMailLogMultipleDelete 批量删除数据
+func SystemMailLogMultipleDelete(ctx context.Context, condition map[string]any) (res int64, err error) {
+	if util.Empty(condition["ids"]) {
+		return 0, errors.New("ids is empty")
+	}
+	db := initial.Core.Store.LoadSQL("mysql").Write()
+	builder := sql.NewBuilder()
+	builder.Table("`system_mail_log`")
+	if val, ok := condition["ids"]; ok {
+		ids := val.([]int64)
+		id := make([]any, 0)
+		for _, v := range ids {
+			id = append(id, v)
+		}
+		builder.In("`id`", id...)
+	}
+	data := make(map[string]any)
+	data["deleted"] = 1
+	query, args, err := builder.Update(data)
+	if err != nil {
+		return
+	}
+	res, err = db.Update(ctx, query, args...)
+	return
+}
+
+// SystemMailLogMultipleRecover 批量恢复数据
+func SystemMailLogMultipleRecover(ctx context.Context, condition map[string]any) (res int64, err error) {
+	if util.Empty(condition["ids"]) {
+		return 0, errors.New("ids is empty")
+	}
+	db := initial.Core.Store.LoadSQL("mysql").Write()
+	builder := sql.NewBuilder()
+	builder.Table("`system_mail_log`")
+	if val, ok := condition["ids"]; ok {
+		ids := val.([]int64)
+		id := make([]any, 0)
+		for _, v := range ids {
+			id = append(id, v)
+		}
+		builder.In("`id`", id...)
+	}
+	data := make(map[string]any)
+	data["deleted"] = 0
+	query, args, err := builder.Update(data)
+	if err != nil {
+		return
+	}
+	res, err = db.Update(ctx, query, args...)
+	return
+}
+
+// SystemMailLogMultipleDrop 批量清理数据
+func SystemMailLogMultipleDrop(ctx context.Context, condition map[string]any) (res int64, err error) {
+	if util.Empty(condition["ids"]) {
+		return 0, errors.New("ids is empty")
+	}
+	db := initial.Core.Store.LoadSQL("mysql").Write()
+	builder := sql.NewBuilder()
+	builder.Table("`system_mail_log`")
+	if val, ok := condition["ids"]; ok {
+		ids := val.([]int64)
+		id := make([]any, 0)
+		for _, v := range ids {
+			id = append(id, v)
+		}
+		builder.In("`id`", id...)
+	}
+	query, args, err := builder.Delete()
+	if err != nil {
+		return
+	}
+	res, err = db.Delete(ctx, query, args...)
 	return
 }

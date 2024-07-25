@@ -119,6 +119,26 @@ func (srv SrvSystemNoticeServiceServer) SystemNoticeRecover(ctx context.Context,
 		Msg:  code.StatusText(code.Success),
 	}, nil
 }
+
+// SystemNoticeDrop 清理数据
+func (srv SrvSystemNoticeServiceServer) SystemNoticeDrop(ctx context.Context, request *SystemNoticeDropRequest) (*SystemNoticeDropResponse, error) {
+	id := request.GetId()
+	if id < 1 {
+		return &SystemNoticeDropResponse{}, status.Error(code.ConvertToGrpc(code.ParamInvalid), code.StatusText(code.ParamInvalid))
+	}
+	_, err := notice.SystemNoticeDrop(ctx, id)
+	if sql.ResultAccept(err) != nil {
+		globalLogger.Logger.WithFields(logrus.Fields{
+			"req": id,
+			"err": err,
+		}).Error("Sql:通知公告表:system_notice:SystemNoticeDrop")
+		return &SystemNoticeDropResponse{}, status.Error(code.ConvertToGrpc(code.SqlError), err.Error())
+	}
+	return &SystemNoticeDropResponse{
+		Code: code.Success,
+		Msg:  code.StatusText(code.Success),
+	}, nil
+}
 func (srv SrvSystemNoticeServiceServer) SystemNoticeList(ctx context.Context, request *SystemNoticeListRequest) (*SystemNoticeListResponse, error) {
 	// 数据库查询条件
 	condition := make(map[string]any)

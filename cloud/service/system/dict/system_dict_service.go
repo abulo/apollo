@@ -103,8 +103,8 @@ func (srv SrvSystemDictServiceServer) SystemDictList(ctx context.Context, reques
 	// 数据库查询条件
 	condition := make(map[string]any)
 	// 构造查询条件
-	if request.DictType != nil {
-		condition["dictType"] = request.GetDictType()
+	if request.DictTypeId != nil {
+		condition["dictTypeId"] = request.GetDictTypeId()
 	}
 	if request.Status != nil {
 		condition["status"] = request.GetStatus()
@@ -155,8 +155,8 @@ func (srv SrvSystemDictServiceServer) SystemDictListTotal(ctx context.Context, r
 	// 数据库查询条件
 	condition := make(map[string]any)
 	// 构造查询条件
-	if request.DictType != nil {
-		condition["dictType"] = request.GetDictType()
+	if request.DictTypeId != nil {
+		condition["dictTypeId"] = request.GetDictTypeId()
 	}
 	if request.Status != nil {
 		condition["status"] = request.GetStatus()

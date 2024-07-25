@@ -1,4 +1,3 @@
-
 syntax = "proto3";
 // system_tenant_package 租户套餐包
 package tenant;
@@ -29,7 +28,6 @@ message SystemTenantPackageObject {
 	// @inject_tag: db:"update_time" json:"updateTime"
 	google.protobuf.Timestamp update_time = 10; //更新时间
 }
-
 // SystemTenantPackageTotalResponse 列表数据总量
 message SystemTenantPackageTotalResponse {
 	int64 code = 1;
@@ -88,6 +86,16 @@ message SystemTenantPackageRecoverResponse {
 	int64 code = 1;
 	string msg = 2;
 }
+// SystemTenantPackageDropRequest 清理数据请求
+message SystemTenantPackageDropRequest {
+	// @inject_tag: db:"id" json:"id"
+	int64 id = 1; //套餐编号
+}
+// SystemTenantPackageDropResponse 清理数据响应
+message SystemTenantPackageDropResponse {
+	int64 code = 1;
+	string msg = 2;
+}
 // SystemTenantPackageListRequest 列表数据
 message SystemTenantPackageListRequest {
 	
@@ -97,9 +105,9 @@ message SystemTenantPackageListRequest {
 	optional int32 status = 2; // 状态（0正常 1停用）
 	// @inject_tag: db:"name" json:"name"
 	optional string name = 3; // 套餐名称
+
 	// @inject_tag: db:"pagination" json:"pagination"
 	optional pagination.PaginationRequest pagination = 4; // 分页
-
 }
 
 // SystemTenantPackageListResponse 数据响应
@@ -108,16 +116,18 @@ message SystemTenantPackageListResponse {
   	string msg = 2;
 	repeated SystemTenantPackageObject data = 3;
 }
-
-// SystemTenantPackageTotalRequest 列表数据
+// SystemTenantPackageListTotalRequest 列表数据
 message SystemTenantPackageListTotalRequest {
+	
 	// @inject_tag: db:"deleted" json:"deleted"
 	optional int32 deleted = 1; // 是否删除(0否 1是)
 	// @inject_tag: db:"status" json:"status"
 	optional int32 status = 2; // 状态（0正常 1停用）
 	// @inject_tag: db:"name" json:"name"
 	optional string name = 3; // 套餐名称
+
 }
+
 
 // SystemTenantPackageService 服务
 service SystemTenantPackageService{
@@ -126,6 +136,7 @@ service SystemTenantPackageService{
 	rpc SystemTenantPackageDelete(SystemTenantPackageDeleteRequest) returns (SystemTenantPackageDeleteResponse);
 	rpc SystemTenantPackage(SystemTenantPackageRequest) returns (SystemTenantPackageResponse);
 	rpc SystemTenantPackageRecover(SystemTenantPackageRecoverRequest) returns (SystemTenantPackageRecoverResponse);
+	rpc SystemTenantPackageDrop(SystemTenantPackageDropRequest) returns (SystemTenantPackageDropResponse);
 	rpc SystemTenantPackageList(SystemTenantPackageListRequest) returns (SystemTenantPackageListResponse);
 	rpc SystemTenantPackageListTotal(SystemTenantPackageListTotalRequest) returns (SystemTenantPackageTotalResponse);
 }

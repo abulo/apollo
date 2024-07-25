@@ -21,13 +21,17 @@ import (
 const _ = grpc.SupportPackageIsVersion8
 
 const (
-	SystemNotifyMessageService_SystemNotifyMessageCreate_FullMethodName    = "/notify.SystemNotifyMessageService/SystemNotifyMessageCreate"
-	SystemNotifyMessageService_SystemNotifyMessageUpdate_FullMethodName    = "/notify.SystemNotifyMessageService/SystemNotifyMessageUpdate"
-	SystemNotifyMessageService_SystemNotifyMessageDelete_FullMethodName    = "/notify.SystemNotifyMessageService/SystemNotifyMessageDelete"
-	SystemNotifyMessageService_SystemNotifyMessage_FullMethodName          = "/notify.SystemNotifyMessageService/SystemNotifyMessage"
-	SystemNotifyMessageService_SystemNotifyMessageRecover_FullMethodName   = "/notify.SystemNotifyMessageService/SystemNotifyMessageRecover"
-	SystemNotifyMessageService_SystemNotifyMessageList_FullMethodName      = "/notify.SystemNotifyMessageService/SystemNotifyMessageList"
-	SystemNotifyMessageService_SystemNotifyMessageListTotal_FullMethodName = "/notify.SystemNotifyMessageService/SystemNotifyMessageListTotal"
+	SystemNotifyMessageService_SystemNotifyMessageCreate_FullMethodName          = "/notify.SystemNotifyMessageService/SystemNotifyMessageCreate"
+	SystemNotifyMessageService_SystemNotifyMessageUpdate_FullMethodName          = "/notify.SystemNotifyMessageService/SystemNotifyMessageUpdate"
+	SystemNotifyMessageService_SystemNotifyMessageDelete_FullMethodName          = "/notify.SystemNotifyMessageService/SystemNotifyMessageDelete"
+	SystemNotifyMessageService_SystemNotifyMessage_FullMethodName                = "/notify.SystemNotifyMessageService/SystemNotifyMessage"
+	SystemNotifyMessageService_SystemNotifyMessageRecover_FullMethodName         = "/notify.SystemNotifyMessageService/SystemNotifyMessageRecover"
+	SystemNotifyMessageService_SystemNotifyMessageDrop_FullMethodName            = "/notify.SystemNotifyMessageService/SystemNotifyMessageDrop"
+	SystemNotifyMessageService_SystemNotifyMessageList_FullMethodName            = "/notify.SystemNotifyMessageService/SystemNotifyMessageList"
+	SystemNotifyMessageService_SystemNotifyMessageListTotal_FullMethodName       = "/notify.SystemNotifyMessageService/SystemNotifyMessageListTotal"
+	SystemNotifyMessageService_SystemNotifyMessageMultipleDelete_FullMethodName  = "/notify.SystemNotifyMessageService/SystemNotifyMessageMultipleDelete"
+	SystemNotifyMessageService_SystemNotifyMessageMultipleRecover_FullMethodName = "/notify.SystemNotifyMessageService/SystemNotifyMessageMultipleRecover"
+	SystemNotifyMessageService_SystemNotifyMessageMultipleDrop_FullMethodName    = "/notify.SystemNotifyMessageService/SystemNotifyMessageMultipleDrop"
 )
 
 // SystemNotifyMessageServiceClient is the client API for SystemNotifyMessageService service.
@@ -41,8 +45,12 @@ type SystemNotifyMessageServiceClient interface {
 	SystemNotifyMessageDelete(ctx context.Context, in *SystemNotifyMessageDeleteRequest, opts ...grpc.CallOption) (*SystemNotifyMessageDeleteResponse, error)
 	SystemNotifyMessage(ctx context.Context, in *SystemNotifyMessageRequest, opts ...grpc.CallOption) (*SystemNotifyMessageResponse, error)
 	SystemNotifyMessageRecover(ctx context.Context, in *SystemNotifyMessageRecoverRequest, opts ...grpc.CallOption) (*SystemNotifyMessageRecoverResponse, error)
+	SystemNotifyMessageDrop(ctx context.Context, in *SystemNotifyMessageDropRequest, opts ...grpc.CallOption) (*SystemNotifyMessageDropResponse, error)
 	SystemNotifyMessageList(ctx context.Context, in *SystemNotifyMessageListRequest, opts ...grpc.CallOption) (*SystemNotifyMessageListResponse, error)
 	SystemNotifyMessageListTotal(ctx context.Context, in *SystemNotifyMessageListTotalRequest, opts ...grpc.CallOption) (*SystemNotifyMessageTotalResponse, error)
+	SystemNotifyMessageMultipleDelete(ctx context.Context, in *SystemNotifyMessageMultipleRequest, opts ...grpc.CallOption) (*SystemNotifyMessageMultipleResponse, error)
+	SystemNotifyMessageMultipleRecover(ctx context.Context, in *SystemNotifyMessageMultipleRequest, opts ...grpc.CallOption) (*SystemNotifyMessageMultipleResponse, error)
+	SystemNotifyMessageMultipleDrop(ctx context.Context, in *SystemNotifyMessageMultipleRequest, opts ...grpc.CallOption) (*SystemNotifyMessageMultipleResponse, error)
 }
 
 type systemNotifyMessageServiceClient struct {
@@ -103,6 +111,16 @@ func (c *systemNotifyMessageServiceClient) SystemNotifyMessageRecover(ctx contex
 	return out, nil
 }
 
+func (c *systemNotifyMessageServiceClient) SystemNotifyMessageDrop(ctx context.Context, in *SystemNotifyMessageDropRequest, opts ...grpc.CallOption) (*SystemNotifyMessageDropResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(SystemNotifyMessageDropResponse)
+	err := c.cc.Invoke(ctx, SystemNotifyMessageService_SystemNotifyMessageDrop_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *systemNotifyMessageServiceClient) SystemNotifyMessageList(ctx context.Context, in *SystemNotifyMessageListRequest, opts ...grpc.CallOption) (*SystemNotifyMessageListResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(SystemNotifyMessageListResponse)
@@ -123,6 +141,36 @@ func (c *systemNotifyMessageServiceClient) SystemNotifyMessageListTotal(ctx cont
 	return out, nil
 }
 
+func (c *systemNotifyMessageServiceClient) SystemNotifyMessageMultipleDelete(ctx context.Context, in *SystemNotifyMessageMultipleRequest, opts ...grpc.CallOption) (*SystemNotifyMessageMultipleResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(SystemNotifyMessageMultipleResponse)
+	err := c.cc.Invoke(ctx, SystemNotifyMessageService_SystemNotifyMessageMultipleDelete_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *systemNotifyMessageServiceClient) SystemNotifyMessageMultipleRecover(ctx context.Context, in *SystemNotifyMessageMultipleRequest, opts ...grpc.CallOption) (*SystemNotifyMessageMultipleResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(SystemNotifyMessageMultipleResponse)
+	err := c.cc.Invoke(ctx, SystemNotifyMessageService_SystemNotifyMessageMultipleRecover_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *systemNotifyMessageServiceClient) SystemNotifyMessageMultipleDrop(ctx context.Context, in *SystemNotifyMessageMultipleRequest, opts ...grpc.CallOption) (*SystemNotifyMessageMultipleResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(SystemNotifyMessageMultipleResponse)
+	err := c.cc.Invoke(ctx, SystemNotifyMessageService_SystemNotifyMessageMultipleDrop_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // SystemNotifyMessageServiceServer is the server API for SystemNotifyMessageService service.
 // All implementations must embed UnimplementedSystemNotifyMessageServiceServer
 // for forward compatibility
@@ -134,8 +182,12 @@ type SystemNotifyMessageServiceServer interface {
 	SystemNotifyMessageDelete(context.Context, *SystemNotifyMessageDeleteRequest) (*SystemNotifyMessageDeleteResponse, error)
 	SystemNotifyMessage(context.Context, *SystemNotifyMessageRequest) (*SystemNotifyMessageResponse, error)
 	SystemNotifyMessageRecover(context.Context, *SystemNotifyMessageRecoverRequest) (*SystemNotifyMessageRecoverResponse, error)
+	SystemNotifyMessageDrop(context.Context, *SystemNotifyMessageDropRequest) (*SystemNotifyMessageDropResponse, error)
 	SystemNotifyMessageList(context.Context, *SystemNotifyMessageListRequest) (*SystemNotifyMessageListResponse, error)
 	SystemNotifyMessageListTotal(context.Context, *SystemNotifyMessageListTotalRequest) (*SystemNotifyMessageTotalResponse, error)
+	SystemNotifyMessageMultipleDelete(context.Context, *SystemNotifyMessageMultipleRequest) (*SystemNotifyMessageMultipleResponse, error)
+	SystemNotifyMessageMultipleRecover(context.Context, *SystemNotifyMessageMultipleRequest) (*SystemNotifyMessageMultipleResponse, error)
+	SystemNotifyMessageMultipleDrop(context.Context, *SystemNotifyMessageMultipleRequest) (*SystemNotifyMessageMultipleResponse, error)
 	mustEmbedUnimplementedSystemNotifyMessageServiceServer()
 }
 
@@ -158,11 +210,23 @@ func (UnimplementedSystemNotifyMessageServiceServer) SystemNotifyMessage(context
 func (UnimplementedSystemNotifyMessageServiceServer) SystemNotifyMessageRecover(context.Context, *SystemNotifyMessageRecoverRequest) (*SystemNotifyMessageRecoverResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SystemNotifyMessageRecover not implemented")
 }
+func (UnimplementedSystemNotifyMessageServiceServer) SystemNotifyMessageDrop(context.Context, *SystemNotifyMessageDropRequest) (*SystemNotifyMessageDropResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SystemNotifyMessageDrop not implemented")
+}
 func (UnimplementedSystemNotifyMessageServiceServer) SystemNotifyMessageList(context.Context, *SystemNotifyMessageListRequest) (*SystemNotifyMessageListResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SystemNotifyMessageList not implemented")
 }
 func (UnimplementedSystemNotifyMessageServiceServer) SystemNotifyMessageListTotal(context.Context, *SystemNotifyMessageListTotalRequest) (*SystemNotifyMessageTotalResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SystemNotifyMessageListTotal not implemented")
+}
+func (UnimplementedSystemNotifyMessageServiceServer) SystemNotifyMessageMultipleDelete(context.Context, *SystemNotifyMessageMultipleRequest) (*SystemNotifyMessageMultipleResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SystemNotifyMessageMultipleDelete not implemented")
+}
+func (UnimplementedSystemNotifyMessageServiceServer) SystemNotifyMessageMultipleRecover(context.Context, *SystemNotifyMessageMultipleRequest) (*SystemNotifyMessageMultipleResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SystemNotifyMessageMultipleRecover not implemented")
+}
+func (UnimplementedSystemNotifyMessageServiceServer) SystemNotifyMessageMultipleDrop(context.Context, *SystemNotifyMessageMultipleRequest) (*SystemNotifyMessageMultipleResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SystemNotifyMessageMultipleDrop not implemented")
 }
 func (UnimplementedSystemNotifyMessageServiceServer) mustEmbedUnimplementedSystemNotifyMessageServiceServer() {
 }
@@ -268,6 +332,24 @@ func _SystemNotifyMessageService_SystemNotifyMessageRecover_Handler(srv interfac
 	return interceptor(ctx, in, info, handler)
 }
 
+func _SystemNotifyMessageService_SystemNotifyMessageDrop_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SystemNotifyMessageDropRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SystemNotifyMessageServiceServer).SystemNotifyMessageDrop(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: SystemNotifyMessageService_SystemNotifyMessageDrop_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SystemNotifyMessageServiceServer).SystemNotifyMessageDrop(ctx, req.(*SystemNotifyMessageDropRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _SystemNotifyMessageService_SystemNotifyMessageList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(SystemNotifyMessageListRequest)
 	if err := dec(in); err != nil {
@@ -304,6 +386,60 @@ func _SystemNotifyMessageService_SystemNotifyMessageListTotal_Handler(srv interf
 	return interceptor(ctx, in, info, handler)
 }
 
+func _SystemNotifyMessageService_SystemNotifyMessageMultipleDelete_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SystemNotifyMessageMultipleRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SystemNotifyMessageServiceServer).SystemNotifyMessageMultipleDelete(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: SystemNotifyMessageService_SystemNotifyMessageMultipleDelete_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SystemNotifyMessageServiceServer).SystemNotifyMessageMultipleDelete(ctx, req.(*SystemNotifyMessageMultipleRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _SystemNotifyMessageService_SystemNotifyMessageMultipleRecover_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SystemNotifyMessageMultipleRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SystemNotifyMessageServiceServer).SystemNotifyMessageMultipleRecover(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: SystemNotifyMessageService_SystemNotifyMessageMultipleRecover_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SystemNotifyMessageServiceServer).SystemNotifyMessageMultipleRecover(ctx, req.(*SystemNotifyMessageMultipleRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _SystemNotifyMessageService_SystemNotifyMessageMultipleDrop_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SystemNotifyMessageMultipleRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SystemNotifyMessageServiceServer).SystemNotifyMessageMultipleDrop(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: SystemNotifyMessageService_SystemNotifyMessageMultipleDrop_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SystemNotifyMessageServiceServer).SystemNotifyMessageMultipleDrop(ctx, req.(*SystemNotifyMessageMultipleRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // SystemNotifyMessageService_ServiceDesc is the grpc.ServiceDesc for SystemNotifyMessageService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -332,12 +468,28 @@ var SystemNotifyMessageService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _SystemNotifyMessageService_SystemNotifyMessageRecover_Handler,
 		},
 		{
+			MethodName: "SystemNotifyMessageDrop",
+			Handler:    _SystemNotifyMessageService_SystemNotifyMessageDrop_Handler,
+		},
+		{
 			MethodName: "SystemNotifyMessageList",
 			Handler:    _SystemNotifyMessageService_SystemNotifyMessageList_Handler,
 		},
 		{
 			MethodName: "SystemNotifyMessageListTotal",
 			Handler:    _SystemNotifyMessageService_SystemNotifyMessageListTotal_Handler,
+		},
+		{
+			MethodName: "SystemNotifyMessageMultipleDelete",
+			Handler:    _SystemNotifyMessageService_SystemNotifyMessageMultipleDelete_Handler,
+		},
+		{
+			MethodName: "SystemNotifyMessageMultipleRecover",
+			Handler:    _SystemNotifyMessageService_SystemNotifyMessageMultipleRecover_Handler,
+		},
+		{
+			MethodName: "SystemNotifyMessageMultipleDrop",
+			Handler:    _SystemNotifyMessageService_SystemNotifyMessageMultipleDrop_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

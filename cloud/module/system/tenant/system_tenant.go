@@ -29,8 +29,9 @@ func SystemTenantCreate(ctx context.Context, data dao.SystemTenant) (res int64, 
 		if err != nil {
 			return err
 		}
+
 		// 插入租户管理员信息
-		var user dao.SystemUserCustom
+		var user dao.SystemUser
 		user.Username = data.Username
 		user.Password = data.Password
 		user.Nickname = null.StringFrom(cast.ToString(data.Name))
@@ -52,6 +53,7 @@ func SystemTenantCreate(ctx context.Context, data dao.SystemTenant) (res int64, 
 		if err != nil {
 			return err
 		}
+
 		// 绑定用户和租户的关系
 		var userTenant dao.SystemUserTenant
 		userTenant.UserId = proto.Int64(userId)
@@ -84,6 +86,7 @@ func SystemTenantCreate(ctx context.Context, data dao.SystemTenant) (res int64, 
 		if err != nil {
 			return err
 		}
+
 		builder = sql.NewBuilder()
 		//需要创建一个部门
 		var dept dao.SystemDept
@@ -123,11 +126,12 @@ func SystemTenantCreate(ctx context.Context, data dao.SystemTenant) (res int64, 
 		if err != nil {
 			return err
 		}
+
 		res = id
 		return nil
 	})
 
-	return res, err
+	return
 }
 
 // SystemTenantUpdate 更新数据
@@ -204,7 +208,7 @@ func SystemTenantUpdate(ctx context.Context, id int64, data dao.SystemTenant) (r
 	builder := sql.NewBuilder()
 	query, args, err := builder.Table("`system_tenant`").Where("`id`", id).Update(data)
 	if err != nil {
-		return 0, err
+		return
 	}
 	res, err = db.Update(ctx, query, args...)
 	return
@@ -228,7 +232,10 @@ func SystemTenantDelete(ctx context.Context, id int64) (res int64, err error) {
 func SystemTenant(ctx context.Context, id int64) (res dao.SystemTenant, err error) {
 	db := initial.Core.Store.LoadSQL("mysql").Read()
 	builder := sql.NewBuilder()
-	query, args, err := builder.Table("`system_tenant`").Where("`id`", id).Row()
+	builder.Table("`system_tenant`")
+	builder.Select("`system_tenant`.*", "`system_user`.username", "`system_user`.password")
+	builder.LeftJoin("`system_user`", "`system_tenant`.user_id = `system_user`.id")
+	query, args, err := builder.Where("`system_tenant`.`id`", id).Row()
 	if err != nil {
 		return
 	}
@@ -250,28 +257,42 @@ func SystemTenantRecover(ctx context.Context, id int64) (res int64, err error) {
 	return
 }
 
+// SystemTenantDrop 清理数据
+func SystemTenantDrop(ctx context.Context, id int64) (res int64, err error) {
+	db := initial.Core.Store.LoadSQL("mysql").Write()
+	builder := sql.NewBuilder()
+	query, args, err := builder.Table("`system_tenant`").Where("`id`", id).Delete()
+	if err != nil {
+		return
+	}
+	res, err = db.Delete(ctx, query, args...)
+	return
+}
+
 // SystemTenantList 查询列表数据
 func SystemTenantList(ctx context.Context, condition map[string]any) (res []dao.SystemTenant, err error) {
 	db := initial.Core.Store.LoadSQL("mysql").Read()
 	builder := sql.NewBuilder()
 	builder.Table("`system_tenant`")
+	builder.Select("`system_tenant`.*", "`system_user`.username", "`system_user`.password")
+	builder.LeftJoin("`system_user`", "`system_tenant`.user_id = `system_user`.id")
 	if val, ok := condition["deleted"]; ok {
-		builder.Where("`deleted`", val)
+		builder.Where("`system_tenant`.`deleted`", val)
 	}
 	if val, ok := condition["status"]; ok {
-		builder.Where("`status`", val)
+		builder.Where("`system_tenant`.`status`", val)
 	}
 	if val, ok := condition["name"]; ok {
-		builder.Like("`name`", "%"+cast.ToString(val)+"%")
+		builder.Like("`system_tenant`.`name`", "%"+cast.ToString(val)+"%")
 	}
 	if val, ok := condition["beginExpireDate"]; ok {
-		builder.GreaterEqual("`expire_date`", val)
+		builder.GreaterEqual("`system_tenant`.`expire_date`", val)
 	}
 	if val, ok := condition["finishExpireDate"]; ok {
-		builder.LessEqual("`expire_date`", val)
+		builder.LessEqual("`system_tenant`.`expire_date`", val)
 	}
-	if val, ok := condition["systemTenantPackageId"]; ok {
-		builder.Where("`system_tenant_package_id`", val)
+	if val, ok := condition["tenantPackageId"]; ok {
+		builder.Where("`system_tenant`.`tenant_package_id`", val)
 	}
 
 	if val, ok := condition["pagination"]; ok {
@@ -281,7 +302,7 @@ func SystemTenantList(ctx context.Context, condition map[string]any) (res []dao.
 			builder.Limit(pagination.GetLimit())
 		}
 	}
-	builder.OrderBy("`id`", sql.DESC)
+	builder.OrderBy("`system_tenant`.`id`", sql.DESC)
 	query, args, err := builder.Rows()
 	if err != nil {
 		return
@@ -310,8 +331,8 @@ func SystemTenantListTotal(ctx context.Context, condition map[string]any) (res i
 	if val, ok := condition["finishExpireDate"]; ok {
 		builder.LessEqual("`expire_date`", val)
 	}
-	if val, ok := condition["systemTenantPackageId"]; ok {
-		builder.Where("`system_tenant_package_id`", val)
+	if val, ok := condition["tenantPackageId"]; ok {
+		builder.Where("`tenant_package_id`", val)
 	}
 
 	query, args, err := builder.Count()

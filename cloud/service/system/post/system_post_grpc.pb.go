@@ -26,6 +26,7 @@ const (
 	SystemPostService_SystemPostDelete_FullMethodName    = "/post.SystemPostService/SystemPostDelete"
 	SystemPostService_SystemPost_FullMethodName          = "/post.SystemPostService/SystemPost"
 	SystemPostService_SystemPostRecover_FullMethodName   = "/post.SystemPostService/SystemPostRecover"
+	SystemPostService_SystemPostDrop_FullMethodName      = "/post.SystemPostService/SystemPostDrop"
 	SystemPostService_SystemPostList_FullMethodName      = "/post.SystemPostService/SystemPostList"
 	SystemPostService_SystemPostListTotal_FullMethodName = "/post.SystemPostService/SystemPostListTotal"
 )
@@ -41,6 +42,7 @@ type SystemPostServiceClient interface {
 	SystemPostDelete(ctx context.Context, in *SystemPostDeleteRequest, opts ...grpc.CallOption) (*SystemPostDeleteResponse, error)
 	SystemPost(ctx context.Context, in *SystemPostRequest, opts ...grpc.CallOption) (*SystemPostResponse, error)
 	SystemPostRecover(ctx context.Context, in *SystemPostRecoverRequest, opts ...grpc.CallOption) (*SystemPostRecoverResponse, error)
+	SystemPostDrop(ctx context.Context, in *SystemPostDropRequest, opts ...grpc.CallOption) (*SystemPostDropResponse, error)
 	SystemPostList(ctx context.Context, in *SystemPostListRequest, opts ...grpc.CallOption) (*SystemPostListResponse, error)
 	SystemPostListTotal(ctx context.Context, in *SystemPostListTotalRequest, opts ...grpc.CallOption) (*SystemPostTotalResponse, error)
 }
@@ -103,6 +105,16 @@ func (c *systemPostServiceClient) SystemPostRecover(ctx context.Context, in *Sys
 	return out, nil
 }
 
+func (c *systemPostServiceClient) SystemPostDrop(ctx context.Context, in *SystemPostDropRequest, opts ...grpc.CallOption) (*SystemPostDropResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(SystemPostDropResponse)
+	err := c.cc.Invoke(ctx, SystemPostService_SystemPostDrop_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *systemPostServiceClient) SystemPostList(ctx context.Context, in *SystemPostListRequest, opts ...grpc.CallOption) (*SystemPostListResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(SystemPostListResponse)
@@ -134,6 +146,7 @@ type SystemPostServiceServer interface {
 	SystemPostDelete(context.Context, *SystemPostDeleteRequest) (*SystemPostDeleteResponse, error)
 	SystemPost(context.Context, *SystemPostRequest) (*SystemPostResponse, error)
 	SystemPostRecover(context.Context, *SystemPostRecoverRequest) (*SystemPostRecoverResponse, error)
+	SystemPostDrop(context.Context, *SystemPostDropRequest) (*SystemPostDropResponse, error)
 	SystemPostList(context.Context, *SystemPostListRequest) (*SystemPostListResponse, error)
 	SystemPostListTotal(context.Context, *SystemPostListTotalRequest) (*SystemPostTotalResponse, error)
 	mustEmbedUnimplementedSystemPostServiceServer()
@@ -157,6 +170,9 @@ func (UnimplementedSystemPostServiceServer) SystemPost(context.Context, *SystemP
 }
 func (UnimplementedSystemPostServiceServer) SystemPostRecover(context.Context, *SystemPostRecoverRequest) (*SystemPostRecoverResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SystemPostRecover not implemented")
+}
+func (UnimplementedSystemPostServiceServer) SystemPostDrop(context.Context, *SystemPostDropRequest) (*SystemPostDropResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SystemPostDrop not implemented")
 }
 func (UnimplementedSystemPostServiceServer) SystemPostList(context.Context, *SystemPostListRequest) (*SystemPostListResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SystemPostList not implemented")
@@ -267,6 +283,24 @@ func _SystemPostService_SystemPostRecover_Handler(srv interface{}, ctx context.C
 	return interceptor(ctx, in, info, handler)
 }
 
+func _SystemPostService_SystemPostDrop_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SystemPostDropRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SystemPostServiceServer).SystemPostDrop(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: SystemPostService_SystemPostDrop_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SystemPostServiceServer).SystemPostDrop(ctx, req.(*SystemPostDropRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _SystemPostService_SystemPostList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(SystemPostListRequest)
 	if err := dec(in); err != nil {
@@ -329,6 +363,10 @@ var SystemPostService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "SystemPostRecover",
 			Handler:    _SystemPostService_SystemPostRecover_Handler,
+		},
+		{
+			MethodName: "SystemPostDrop",
+			Handler:    _SystemPostService_SystemPostDrop_Handler,
 		},
 		{
 			MethodName: "SystemPostList",

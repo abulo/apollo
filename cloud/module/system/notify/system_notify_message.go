@@ -6,6 +6,9 @@ import (
 	"context"
 
 	"github.com/abulo/ratel/v3/stores/sql"
+	"github.com/abulo/ratel/v3/util"
+	"github.com/pkg/errors"
+	"github.com/spf13/cast"
 )
 
 // system_notify_message 站内信消息表
@@ -70,6 +73,18 @@ func SystemNotifyMessageRecover(ctx context.Context, id int64) (res int64, err e
 		return
 	}
 	res, err = db.Update(ctx, query, args...)
+	return
+}
+
+// SystemNotifyMessageDrop 清理数据
+func SystemNotifyMessageDrop(ctx context.Context, id int64) (res int64, err error) {
+	db := initial.Core.Store.LoadSQL("mysql").Write()
+	builder := sql.NewBuilder()
+	query, args, err := builder.Table("`system_notify_message`").Where("`id`", id).Delete()
+	if err != nil {
+		return
+	}
+	res, err = db.Delete(ctx, query, args...)
 	return
 }
 
@@ -142,5 +157,87 @@ func SystemNotifyMessageListTotal(ctx context.Context, condition map[string]any)
 		return
 	}
 	res, err = db.Count(ctx, query, args...)
+	return
+}
+
+// SystemNotifyMessageMultipleDelete 批量删除数据
+func SystemNotifyMessageMultipleDelete(ctx context.Context, condition map[string]any) (res int64, err error) {
+	if util.Empty(condition["ids"]) || util.Empty(condition["tenantId"]) {
+		return 0, errors.New("ids or tenantId is empty")
+	}
+	db := initial.Core.Store.LoadSQL("mysql").Write()
+	builder := sql.NewBuilder()
+	builder.Table("`system_notify_message`")
+	if val, ok := condition["ids"]; ok {
+		ids := val.([]int64)
+		id := make([]any, 0)
+		for _, v := range ids {
+			id = append(id, v)
+		}
+		builder.In("`id`", id...)
+	}
+	tenantId := cast.ToInt64(condition["tenantId"])
+	builder.Where("tenant_id", tenantId)
+	data := make(map[string]any)
+	data["deleted"] = 1
+	query, args, err := builder.Update(data)
+	if err != nil {
+		return
+	}
+	res, err = db.Update(ctx, query, args...)
+	return
+}
+
+// SystemNotifyMessageMultipleRecover 批量恢复数据
+func SystemNotifyMessageMultipleRecover(ctx context.Context, condition map[string]any) (res int64, err error) {
+	if util.Empty(condition["ids"]) || util.Empty(condition["tenantId"]) {
+		return 0, errors.New("ids or tenantId is empty")
+	}
+	db := initial.Core.Store.LoadSQL("mysql").Write()
+	builder := sql.NewBuilder()
+	builder.Table("`system_notify_message`")
+	if val, ok := condition["ids"]; ok {
+		ids := val.([]int64)
+		id := make([]any, 0)
+		for _, v := range ids {
+			id = append(id, v)
+		}
+		builder.In("`id`", id...)
+	}
+	tenantId := cast.ToInt64(condition["tenantId"])
+	builder.Where("tenant_id", tenantId)
+	data := make(map[string]any)
+	data["deleted"] = 0
+	query, args, err := builder.Update(data)
+	if err != nil {
+		return
+	}
+	res, err = db.Update(ctx, query, args...)
+	return
+}
+
+// SystemNotifyMessageMultipleDrop 批量清理数据
+func SystemNotifyMessageMultipleDrop(ctx context.Context, condition map[string]any) (res int64, err error) {
+	if util.Empty(condition["ids"]) || util.Empty(condition["tenantId"]) {
+		return 0, errors.New("ids or tenantId is empty")
+	}
+	db := initial.Core.Store.LoadSQL("mysql").Write()
+	builder := sql.NewBuilder()
+	builder.Table("`system_notify_message`")
+	if val, ok := condition["ids"]; ok {
+		ids := val.([]int64)
+		id := make([]any, 0)
+		for _, v := range ids {
+			id = append(id, v)
+		}
+		builder.In("`id`", id...)
+	}
+	tenantId := cast.ToInt64(condition["tenantId"])
+	builder.Where("tenant_id", tenantId)
+	query, args, err := builder.Delete()
+	if err != nil {
+		return
+	}
+	res, err = db.Delete(ctx, query, args...)
 	return
 }

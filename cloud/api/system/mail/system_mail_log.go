@@ -25,6 +25,32 @@ import (
 )
 
 // system_mail_log 邮件日志表
+// SystemMailLogItem 查询单条数据
+func SystemMailLogItem(ctx context.Context, newCtx *app.RequestContext, id int64) (*mail.SystemMailLogResponse, error) {
+	//判断这个服务能不能链接
+	grpcClient, err := initial.Core.Client.LoadGrpc("grpc").Singleton()
+	if err != nil {
+		globalLogger.Logger.WithFields(logrus.Fields{
+			"err": err,
+		}).Error("Grpc:邮件日志表:system_mail_log:SystemMailLogItem")
+		return nil, status.Error(code.ConvertToGrpc(code.RPCError), code.StatusText(code.RPCError))
+	}
+	//链接服务
+	client := mail.NewSystemMailLogServiceClient(grpcClient)
+	request := &mail.SystemMailLogRequest{}
+	request.Id = id
+	// 执行服务
+	res, err := client.SystemMailLog(ctx, request)
+	if err != nil {
+		globalLogger.Logger.WithFields(logrus.Fields{
+			"req": request,
+			"err": err,
+		}).Error("GrpcCall:邮件日志表:system_mail_log:SystemMailLogItem")
+		return nil, err
+	}
+	return res, nil
+}
+
 // SystemMailLogCreate 创建数据
 func SystemMailLogCreate(ctx context.Context, newCtx *app.RequestContext) {
 	//判断这个服务能不能链接
@@ -51,6 +77,7 @@ func SystemMailLogCreate(ctx context.Context, newCtx *app.RequestContext) {
 		})
 		return
 	}
+	reqInfo.Id = nil
 	reqInfo.Deleted = proto.Int32(0)
 	reqInfo.Creator = null.StringFrom(newCtx.GetString("userName"))
 	reqInfo.CreateTime = null.DateTimeFrom(util.Now())
@@ -77,6 +104,15 @@ func SystemMailLogCreate(ctx context.Context, newCtx *app.RequestContext) {
 
 // SystemMailLogUpdate 更新数据
 func SystemMailLogUpdate(ctx context.Context, newCtx *app.RequestContext) {
+	id := cast.ToInt64(newCtx.Param("id"))
+	if _, err := SystemMailLogItem(ctx, newCtx, id); err != nil {
+		fromError := status.Convert(err)
+		response.JSON(newCtx, consts.StatusOK, utils.H{
+			"code": code.ConvertToHttp(fromError.Code()),
+			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
+		})
+		return
+	}
 	//判断这个服务能不能链接
 	grpcClient, err := initial.Core.Client.LoadGrpc("grpc").Singleton()
 	if err != nil {
@@ -91,7 +127,6 @@ func SystemMailLogUpdate(ctx context.Context, newCtx *app.RequestContext) {
 	}
 	//链接服务
 	client := mail.NewSystemMailLogServiceClient(grpcClient)
-	id := cast.ToInt64(newCtx.Param("id"))
 	request := &mail.SystemMailLogUpdateRequest{}
 	request.Id = id
 	// 数据绑定
@@ -131,6 +166,15 @@ func SystemMailLogUpdate(ctx context.Context, newCtx *app.RequestContext) {
 
 // SystemMailLogDelete 删除数据
 func SystemMailLogDelete(ctx context.Context, newCtx *app.RequestContext) {
+	id := cast.ToInt64(newCtx.Param("id"))
+	if _, err := SystemMailLogItem(ctx, newCtx, id); err != nil {
+		fromError := status.Convert(err)
+		response.JSON(newCtx, consts.StatusOK, utils.H{
+			"code": code.ConvertToHttp(fromError.Code()),
+			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
+		})
+		return
+	}
 	grpcClient, err := initial.Core.Client.LoadGrpc("grpc").Singleton()
 	if err != nil {
 		globalLogger.Logger.WithFields(logrus.Fields{
@@ -144,7 +188,6 @@ func SystemMailLogDelete(ctx context.Context, newCtx *app.RequestContext) {
 	}
 	//链接服务
 	client := mail.NewSystemMailLogServiceClient(grpcClient)
-	id := cast.ToInt64(newCtx.Param("id"))
 	request := &mail.SystemMailLogDeleteRequest{}
 	request.Id = id
 	// 执行服务
@@ -169,30 +212,10 @@ func SystemMailLogDelete(ctx context.Context, newCtx *app.RequestContext) {
 
 // SystemMailLog 查询单条数据
 func SystemMailLog(ctx context.Context, newCtx *app.RequestContext) {
-	//判断这个服务能不能链接
-	grpcClient, err := initial.Core.Client.LoadGrpc("grpc").Singleton()
-	if err != nil {
-		globalLogger.Logger.WithFields(logrus.Fields{
-			"err": err,
-		}).Error("Grpc:邮件日志表:system_mail_log:SystemMailLog")
-		response.JSON(newCtx, consts.StatusOK, utils.H{
-			"code": code.RPCError,
-			"msg":  code.StatusText(code.RPCError),
-		})
-		return
-	}
-	//链接服务
-	client := mail.NewSystemMailLogServiceClient(grpcClient)
 	id := cast.ToInt64(newCtx.Param("id"))
-	request := &mail.SystemMailLogRequest{}
-	request.Id = id
 	// 执行服务
-	res, err := client.SystemMailLog(ctx, request)
+	res, err := SystemMailLogItem(ctx, newCtx, id)
 	if err != nil {
-		globalLogger.Logger.WithFields(logrus.Fields{
-			"req": request,
-			"err": err,
-		}).Error("GrpcCall:邮件日志表:system_mail_log:SystemMailLog")
 		fromError := status.Convert(err)
 		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.ConvertToHttp(fromError.Code()),
@@ -209,6 +232,15 @@ func SystemMailLog(ctx context.Context, newCtx *app.RequestContext) {
 
 // SystemMailLogRecover 恢复数据
 func SystemMailLogRecover(ctx context.Context, newCtx *app.RequestContext) {
+	id := cast.ToInt64(newCtx.Param("id"))
+	if _, err := SystemMailLogItem(ctx, newCtx, id); err != nil {
+		fromError := status.Convert(err)
+		response.JSON(newCtx, consts.StatusOK, utils.H{
+			"code": code.ConvertToHttp(fromError.Code()),
+			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
+		})
+		return
+	}
 	grpcClient, err := initial.Core.Client.LoadGrpc("grpc").Singleton()
 	if err != nil {
 		globalLogger.Logger.WithFields(logrus.Fields{
@@ -222,7 +254,6 @@ func SystemMailLogRecover(ctx context.Context, newCtx *app.RequestContext) {
 	}
 	//链接服务
 	client := mail.NewSystemMailLogServiceClient(grpcClient)
-	id := cast.ToInt64(newCtx.Param("id"))
 	request := &mail.SystemMailLogRecoverRequest{}
 	request.Id = id
 	// 执行服务
@@ -232,6 +263,52 @@ func SystemMailLogRecover(ctx context.Context, newCtx *app.RequestContext) {
 			"req": request,
 			"err": err,
 		}).Error("GrpcCall:邮件日志表:system_mail_log:SystemMailLogRecover")
+		fromError := status.Convert(err)
+		response.JSON(newCtx, consts.StatusOK, utils.H{
+			"code": code.ConvertToHttp(fromError.Code()),
+			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
+		})
+		return
+	}
+	response.JSON(newCtx, consts.StatusOK, utils.H{
+		"code": res.GetCode(),
+		"msg":  res.GetMsg(),
+	})
+}
+
+// SystemMailLogDrop 清理数据
+func SystemMailLogDrop(ctx context.Context, newCtx *app.RequestContext) {
+	id := cast.ToInt64(newCtx.Param("id"))
+	if _, err := SystemMailLogItem(ctx, newCtx, id); err != nil {
+		fromError := status.Convert(err)
+		response.JSON(newCtx, consts.StatusOK, utils.H{
+			"code": code.ConvertToHttp(fromError.Code()),
+			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
+		})
+		return
+	}
+	grpcClient, err := initial.Core.Client.LoadGrpc("grpc").Singleton()
+	if err != nil {
+		globalLogger.Logger.WithFields(logrus.Fields{
+			"err": err,
+		}).Error("Grpc:邮件日志表:system_mail_log:SystemMailLogDrop")
+		response.JSON(newCtx, consts.StatusOK, utils.H{
+			"code": code.RPCError,
+			"msg":  code.StatusText(code.RPCError),
+		})
+		return
+	}
+	//链接服务
+	client := mail.NewSystemMailLogServiceClient(grpcClient)
+	request := &mail.SystemMailLogDropRequest{}
+	request.Id = id
+	// 执行服务
+	res, err := client.SystemMailLogDrop(ctx, request)
+	if err != nil {
+		globalLogger.Logger.WithFields(logrus.Fields{
+			"req": request,
+			"err": err,
+		}).Error("GrpcCall:邮件日志表:system_mail_log:SystemMailLogDrop")
 		fromError := status.Convert(err)
 		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.ConvertToHttp(fromError.Code()),
@@ -357,5 +434,146 @@ func SystemMailLogList(ctx context.Context, newCtx *app.RequestContext) {
 			"pageNum":  paginationRequest.PageNum,
 			"pageSize": paginationRequest.PageSize,
 		},
+	})
+}
+
+// SystemMailLogMultipleDelete 批量删除数据
+func SystemMailLogMultipleDelete(ctx context.Context, newCtx *app.RequestContext) {
+	var reqInfo dao.SystemMailLogMultiple
+	if err := newCtx.BindAndValidate(&reqInfo); err != nil {
+		response.JSON(newCtx, consts.StatusOK, utils.H{
+			"code": code.ParamInvalid,
+			"msg":  code.StatusText(code.ParamInvalid),
+		})
+		return
+	}
+	grpcClient, err := initial.Core.Client.LoadGrpc("grpc").Singleton()
+	if err != nil {
+		globalLogger.Logger.WithFields(logrus.Fields{
+			"err": err,
+		}).Error("Grpc:邮件日志表:system_mail_log:SystemMailLogDrop")
+		response.JSON(newCtx, consts.StatusOK, utils.H{
+			"code": code.RPCError,
+			"msg":  code.StatusText(code.RPCError),
+		})
+		return
+	}
+	//链接服务
+	client := mail.NewSystemMailLogServiceClient(grpcClient)
+	request := &mail.SystemMailLogMultipleRequest{}
+	if reqInfo.Ids.IsValid() {
+		request.Ids = *reqInfo.Ids.Ptr()
+	}
+	// 执行服务
+	res, err := client.SystemMailLogMultipleDelete(ctx, request)
+	if err != nil {
+		globalLogger.Logger.WithFields(logrus.Fields{
+			"req": request,
+			"err": err,
+		}).Error("GrpcCall:邮件日志表:system_mail_log:SystemMailLogMultipleDelete")
+		fromError := status.Convert(err)
+		response.JSON(newCtx, consts.StatusOK, utils.H{
+			"code": code.ConvertToHttp(fromError.Code()),
+			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
+		})
+		return
+	}
+	response.JSON(newCtx, consts.StatusOK, utils.H{
+		"code": res.GetCode(),
+		"msg":  res.GetMsg(),
+	})
+}
+
+// SystemMailLogMultipleRecover 批量恢复数据
+func SystemMailLogMultipleRecover(ctx context.Context, newCtx *app.RequestContext) {
+	var reqInfo dao.SystemMailLogMultiple
+	if err := newCtx.BindAndValidate(&reqInfo); err != nil {
+		response.JSON(newCtx, consts.StatusOK, utils.H{
+			"code": code.ParamInvalid,
+			"msg":  code.StatusText(code.ParamInvalid),
+		})
+		return
+	}
+	grpcClient, err := initial.Core.Client.LoadGrpc("grpc").Singleton()
+	if err != nil {
+		globalLogger.Logger.WithFields(logrus.Fields{
+			"err": err,
+		}).Error("Grpc:邮件日志表:system_mail_log:SystemMailLogDrop")
+		response.JSON(newCtx, consts.StatusOK, utils.H{
+			"code": code.RPCError,
+			"msg":  code.StatusText(code.RPCError),
+		})
+		return
+	}
+	//链接服务
+	client := mail.NewSystemMailLogServiceClient(grpcClient)
+	request := &mail.SystemMailLogMultipleRequest{}
+	if reqInfo.Ids.IsValid() {
+		request.Ids = *reqInfo.Ids.Ptr()
+	}
+	// 执行服务
+	res, err := client.SystemMailLogMultipleRecover(ctx, request)
+	if err != nil {
+		globalLogger.Logger.WithFields(logrus.Fields{
+			"req": request,
+			"err": err,
+		}).Error("GrpcCall:邮件日志表:system_mail_log:SystemMailLogMultipleRecover")
+		fromError := status.Convert(err)
+		response.JSON(newCtx, consts.StatusOK, utils.H{
+			"code": code.ConvertToHttp(fromError.Code()),
+			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
+		})
+		return
+	}
+	response.JSON(newCtx, consts.StatusOK, utils.H{
+		"code": res.GetCode(),
+		"msg":  res.GetMsg(),
+	})
+}
+
+// SystemMailLogMultipleDrop 批量清理数据
+func SystemMailLogMultipleDrop(ctx context.Context, newCtx *app.RequestContext) {
+	var reqInfo dao.SystemMailLogMultiple
+	if err := newCtx.BindAndValidate(&reqInfo); err != nil {
+		response.JSON(newCtx, consts.StatusOK, utils.H{
+			"code": code.ParamInvalid,
+			"msg":  code.StatusText(code.ParamInvalid),
+		})
+		return
+	}
+	grpcClient, err := initial.Core.Client.LoadGrpc("grpc").Singleton()
+	if err != nil {
+		globalLogger.Logger.WithFields(logrus.Fields{
+			"err": err,
+		}).Error("Grpc:邮件日志表:system_mail_log:SystemMailLogDrop")
+		response.JSON(newCtx, consts.StatusOK, utils.H{
+			"code": code.RPCError,
+			"msg":  code.StatusText(code.RPCError),
+		})
+		return
+	}
+	//链接服务
+	client := mail.NewSystemMailLogServiceClient(grpcClient)
+	request := &mail.SystemMailLogMultipleRequest{}
+	if reqInfo.Ids.IsValid() {
+		request.Ids = *reqInfo.Ids.Ptr()
+	}
+	// 执行服务
+	res, err := client.SystemMailLogMultipleDrop(ctx, request)
+	if err != nil {
+		globalLogger.Logger.WithFields(logrus.Fields{
+			"req": request,
+			"err": err,
+		}).Error("GrpcCall:邮件日志表:system_mail_log:SystemMailLogMultipleDrop")
+		fromError := status.Convert(err)
+		response.JSON(newCtx, consts.StatusOK, utils.H{
+			"code": code.ConvertToHttp(fromError.Code()),
+			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
+		})
+		return
+	}
+	response.JSON(newCtx, consts.StatusOK, utils.H{
+		"code": res.GetCode(),
+		"msg":  res.GetMsg(),
 	})
 }

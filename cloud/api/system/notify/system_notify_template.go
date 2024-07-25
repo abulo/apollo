@@ -23,6 +23,32 @@ import (
 )
 
 // system_notify_template 站内信模板表
+// SystemNotifyTemplateItem 查询单条数据
+func SystemNotifyTemplateItem(ctx context.Context, newCtx *app.RequestContext, id int64) (*notify.SystemNotifyTemplateResponse, error) {
+	//判断这个服务能不能链接
+	grpcClient, err := initial.Core.Client.LoadGrpc("grpc").Singleton()
+	if err != nil {
+		globalLogger.Logger.WithFields(logrus.Fields{
+			"err": err,
+		}).Error("Grpc:站内信模板表:system_notify_template:SystemNotifyTemplateItem")
+		return nil, status.Error(code.ConvertToGrpc(code.RPCError), code.StatusText(code.RPCError))
+	}
+	//链接服务
+	client := notify.NewSystemNotifyTemplateServiceClient(grpcClient)
+	request := &notify.SystemNotifyTemplateRequest{}
+	request.Id = id
+	// 执行服务
+	res, err := client.SystemNotifyTemplate(ctx, request)
+	if err != nil {
+		globalLogger.Logger.WithFields(logrus.Fields{
+			"req": request,
+			"err": err,
+		}).Error("GrpcCall:站内信模板表:system_notify_template:SystemNotifyTemplateItem")
+		return nil, err
+	}
+	return res, nil
+}
+
 // SystemNotifyTemplateCreate 创建数据
 func SystemNotifyTemplateCreate(ctx context.Context, newCtx *app.RequestContext) {
 	//判断这个服务能不能链接
@@ -49,6 +75,7 @@ func SystemNotifyTemplateCreate(ctx context.Context, newCtx *app.RequestContext)
 		})
 		return
 	}
+	reqInfo.Id = nil
 	reqInfo.Deleted = proto.Int32(0)
 	reqInfo.Creator = null.StringFrom(newCtx.GetString("userName"))
 	reqInfo.CreateTime = null.DateTimeFrom(util.Now())
@@ -75,6 +102,15 @@ func SystemNotifyTemplateCreate(ctx context.Context, newCtx *app.RequestContext)
 
 // SystemNotifyTemplateUpdate 更新数据
 func SystemNotifyTemplateUpdate(ctx context.Context, newCtx *app.RequestContext) {
+	id := cast.ToInt64(newCtx.Param("id"))
+	if _, err := SystemNotifyTemplateItem(ctx, newCtx, id); err != nil {
+		fromError := status.Convert(err)
+		response.JSON(newCtx, consts.StatusOK, utils.H{
+			"code": code.ConvertToHttp(fromError.Code()),
+			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
+		})
+		return
+	}
 	//判断这个服务能不能链接
 	grpcClient, err := initial.Core.Client.LoadGrpc("grpc").Singleton()
 	if err != nil {
@@ -89,7 +125,6 @@ func SystemNotifyTemplateUpdate(ctx context.Context, newCtx *app.RequestContext)
 	}
 	//链接服务
 	client := notify.NewSystemNotifyTemplateServiceClient(grpcClient)
-	id := cast.ToInt64(newCtx.Param("id"))
 	request := &notify.SystemNotifyTemplateUpdateRequest{}
 	request.Id = id
 	// 数据绑定
@@ -129,6 +164,15 @@ func SystemNotifyTemplateUpdate(ctx context.Context, newCtx *app.RequestContext)
 
 // SystemNotifyTemplateDelete 删除数据
 func SystemNotifyTemplateDelete(ctx context.Context, newCtx *app.RequestContext) {
+	id := cast.ToInt64(newCtx.Param("id"))
+	if _, err := SystemNotifyTemplateItem(ctx, newCtx, id); err != nil {
+		fromError := status.Convert(err)
+		response.JSON(newCtx, consts.StatusOK, utils.H{
+			"code": code.ConvertToHttp(fromError.Code()),
+			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
+		})
+		return
+	}
 	grpcClient, err := initial.Core.Client.LoadGrpc("grpc").Singleton()
 	if err != nil {
 		globalLogger.Logger.WithFields(logrus.Fields{
@@ -142,7 +186,6 @@ func SystemNotifyTemplateDelete(ctx context.Context, newCtx *app.RequestContext)
 	}
 	//链接服务
 	client := notify.NewSystemNotifyTemplateServiceClient(grpcClient)
-	id := cast.ToInt64(newCtx.Param("id"))
 	request := &notify.SystemNotifyTemplateDeleteRequest{}
 	request.Id = id
 	// 执行服务
@@ -167,30 +210,10 @@ func SystemNotifyTemplateDelete(ctx context.Context, newCtx *app.RequestContext)
 
 // SystemNotifyTemplate 查询单条数据
 func SystemNotifyTemplate(ctx context.Context, newCtx *app.RequestContext) {
-	//判断这个服务能不能链接
-	grpcClient, err := initial.Core.Client.LoadGrpc("grpc").Singleton()
-	if err != nil {
-		globalLogger.Logger.WithFields(logrus.Fields{
-			"err": err,
-		}).Error("Grpc:站内信模板表:system_notify_template:SystemNotifyTemplate")
-		response.JSON(newCtx, consts.StatusOK, utils.H{
-			"code": code.RPCError,
-			"msg":  code.StatusText(code.RPCError),
-		})
-		return
-	}
-	//链接服务
-	client := notify.NewSystemNotifyTemplateServiceClient(grpcClient)
 	id := cast.ToInt64(newCtx.Param("id"))
-	request := &notify.SystemNotifyTemplateRequest{}
-	request.Id = id
 	// 执行服务
-	res, err := client.SystemNotifyTemplate(ctx, request)
+	res, err := SystemNotifyTemplateItem(ctx, newCtx, id)
 	if err != nil {
-		globalLogger.Logger.WithFields(logrus.Fields{
-			"req": request,
-			"err": err,
-		}).Error("GrpcCall:站内信模板表:system_notify_template:SystemNotifyTemplate")
 		fromError := status.Convert(err)
 		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.ConvertToHttp(fromError.Code()),
@@ -207,6 +230,15 @@ func SystemNotifyTemplate(ctx context.Context, newCtx *app.RequestContext) {
 
 // SystemNotifyTemplateRecover 恢复数据
 func SystemNotifyTemplateRecover(ctx context.Context, newCtx *app.RequestContext) {
+	id := cast.ToInt64(newCtx.Param("id"))
+	if _, err := SystemNotifyTemplateItem(ctx, newCtx, id); err != nil {
+		fromError := status.Convert(err)
+		response.JSON(newCtx, consts.StatusOK, utils.H{
+			"code": code.ConvertToHttp(fromError.Code()),
+			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
+		})
+		return
+	}
 	grpcClient, err := initial.Core.Client.LoadGrpc("grpc").Singleton()
 	if err != nil {
 		globalLogger.Logger.WithFields(logrus.Fields{
@@ -220,7 +252,6 @@ func SystemNotifyTemplateRecover(ctx context.Context, newCtx *app.RequestContext
 	}
 	//链接服务
 	client := notify.NewSystemNotifyTemplateServiceClient(grpcClient)
-	id := cast.ToInt64(newCtx.Param("id"))
 	request := &notify.SystemNotifyTemplateRecoverRequest{}
 	request.Id = id
 	// 执行服务
@@ -230,6 +261,52 @@ func SystemNotifyTemplateRecover(ctx context.Context, newCtx *app.RequestContext
 			"req": request,
 			"err": err,
 		}).Error("GrpcCall:站内信模板表:system_notify_template:SystemNotifyTemplateRecover")
+		fromError := status.Convert(err)
+		response.JSON(newCtx, consts.StatusOK, utils.H{
+			"code": code.ConvertToHttp(fromError.Code()),
+			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
+		})
+		return
+	}
+	response.JSON(newCtx, consts.StatusOK, utils.H{
+		"code": res.GetCode(),
+		"msg":  res.GetMsg(),
+	})
+}
+
+// SystemNotifyTemplateDrop 清理数据
+func SystemNotifyTemplateDrop(ctx context.Context, newCtx *app.RequestContext) {
+	id := cast.ToInt64(newCtx.Param("id"))
+	if _, err := SystemNotifyTemplateItem(ctx, newCtx, id); err != nil {
+		fromError := status.Convert(err)
+		response.JSON(newCtx, consts.StatusOK, utils.H{
+			"code": code.ConvertToHttp(fromError.Code()),
+			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
+		})
+		return
+	}
+	grpcClient, err := initial.Core.Client.LoadGrpc("grpc").Singleton()
+	if err != nil {
+		globalLogger.Logger.WithFields(logrus.Fields{
+			"err": err,
+		}).Error("Grpc:站内信模板表:system_notify_template:SystemNotifyTemplateDrop")
+		response.JSON(newCtx, consts.StatusOK, utils.H{
+			"code": code.RPCError,
+			"msg":  code.StatusText(code.RPCError),
+		})
+		return
+	}
+	//链接服务
+	client := notify.NewSystemNotifyTemplateServiceClient(grpcClient)
+	request := &notify.SystemNotifyTemplateDropRequest{}
+	request.Id = id
+	// 执行服务
+	res, err := client.SystemNotifyTemplateDrop(ctx, request)
+	if err != nil {
+		globalLogger.Logger.WithFields(logrus.Fields{
+			"req": request,
+			"err": err,
+		}).Error("GrpcCall:站内信模板表:system_notify_template:SystemNotifyTemplateDrop")
 		fromError := status.Convert(err)
 		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.ConvertToHttp(fromError.Code()),
@@ -335,5 +412,67 @@ func SystemNotifyTemplateList(ctx context.Context, newCtx *app.RequestContext) {
 			"pageNum":  paginationRequest.PageNum,
 			"pageSize": paginationRequest.PageSize,
 		},
+	})
+}
+
+// SystemNotifyTemplateListSimple 列表精简数据
+func SystemNotifyTemplateListSimple(ctx context.Context, newCtx *app.RequestContext) {
+	grpcClient, err := initial.Core.Client.LoadGrpc("grpc").Singleton()
+	if err != nil {
+		globalLogger.Logger.WithFields(logrus.Fields{
+			"err": err,
+		}).Error("Grpc:站内信模板表:system_notify_template:SystemNotifyTemplateListSimple")
+		response.JSON(newCtx, consts.StatusOK, utils.H{
+			"code": code.RPCError,
+			"msg":  code.StatusText(code.RPCError),
+		})
+		return
+	}
+	//链接服务
+	client := notify.NewSystemNotifyTemplateServiceClient(grpcClient)
+	// 构造查询条件
+	request := &notify.SystemNotifyTemplateListRequest{}
+
+	request.Deleted = proto.Int32(0) // 删除状态
+	if val, ok := newCtx.GetQuery("deleted"); ok {
+		if cast.ToBool(val) {
+			request.Deleted = nil
+		}
+	}
+	if val, ok := newCtx.GetQuery("status"); ok {
+		request.Status = proto.Int32(cast.ToInt32(val)) // 状态
+	}
+	if val, ok := newCtx.GetQuery("type"); ok {
+		request.Type = proto.Int32(cast.ToInt32(val)) // 类型
+	}
+	if val, ok := newCtx.GetQuery("name"); ok {
+		request.Name = proto.String(val) // 模板名称
+	}
+
+	// 执行服务
+	res, err := client.SystemNotifyTemplateList(ctx, request)
+	if err != nil {
+		globalLogger.Logger.WithFields(logrus.Fields{
+			"req": request,
+			"err": err,
+		}).Error("GrpcCall:站内信模板表:system_notify_template:SystemNotifyTemplateListSimple")
+		fromError := status.Convert(err)
+		response.JSON(newCtx, consts.StatusOK, utils.H{
+			"code": code.ConvertToHttp(fromError.Code()),
+			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
+		})
+		return
+	}
+	var list []*dao.SystemNotifyTemplate
+	if res.GetCode() == code.Success {
+		rpcList := res.GetData()
+		for _, item := range rpcList {
+			list = append(list, notify.SystemNotifyTemplateDao(item))
+		}
+	}
+	response.JSON(newCtx, consts.StatusOK, utils.H{
+		"code": res.GetCode(),
+		"msg":  res.GetMsg(),
+		"data": list,
 	})
 }

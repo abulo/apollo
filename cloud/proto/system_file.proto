@@ -1,4 +1,3 @@
-
 syntax = "proto3";
 // system_file 文件管理
 package file;
@@ -20,16 +19,20 @@ message SystemFileObject {
 	optional int64 file_size = 5; //文件大小
 	// @inject_tag: db:"file_path" json:"filePath"
 	optional string file_path = 6; //文件路径
+	// @inject_tag: db:"user_id" json:"userId"
+	optional int64 user_id = 7; //用户 ID
+	// @inject_tag: db:"deleted" json:"deleted"
+	optional int32 deleted = 8; //是否删除
 	// @inject_tag: db:"tenant_id" json:"tenantId"
-	optional int64 tenant_id = 7; //租户
+	optional int64 tenant_id = 9; //租户
 	// @inject_tag: db:"creator" json:"creator"
-	optional string creator = 8; //创建人
+	optional string creator = 10; //创建人
 	// @inject_tag: db:"create_time" json:"createTime"
-	google.protobuf.Timestamp create_time = 9; //创建时间
+	google.protobuf.Timestamp create_time = 11; //创建时间
 	// @inject_tag: db:"updater" json:"updater"
-	optional string updater = 10; //更新人
+	optional string updater = 12; //更新人
 	// @inject_tag: db:"update_time" json:"updateTime"
-	google.protobuf.Timestamp update_time = 11; //更新时间
+	google.protobuf.Timestamp update_time = 13; //更新时间
 }
 // SystemFileTotalResponse 列表数据总量
 message SystemFileTotalResponse {
@@ -79,17 +82,46 @@ message SystemFileResponse {
 	string msg = 2;
 	SystemFileObject data = 3;
 }
+// SystemFileRecoverRequest 恢复数据请求
+message SystemFileRecoverRequest {
+	// @inject_tag: db:"id" json:"id"
+	int64 id = 1; //编号
+}
+// SystemFileRecoverResponse 删除数据响应
+message SystemFileRecoverResponse {
+	int64 code = 1;
+	string msg = 2;
+}
+// SystemFileDropRequest 清理数据请求
+message SystemFileDropRequest {
+	// @inject_tag: db:"id" json:"id"
+	int64 id = 1; //编号
+}
+// SystemFileDropResponse 清理数据响应
+message SystemFileDropResponse {
+	int64 code = 1;
+	string msg = 2;
+}
 // SystemFileListRequest 列表数据
 message SystemFileListRequest {
-	
 	// @inject_tag: db:"tenant_id" json:"tenantId"
 	optional int64 tenant_id = 1; // 租户
+	// @inject_tag: db:"user_id" json:"userId"
+	optional int64 user_id = 2; // 用户 ID
+	// @inject_tag: db:"deleted" json:"deleted"
+	optional int32 deleted = 3; // 是否删除
 	// @inject_tag: db:"file_type" json:"fileType"
-	optional int32 file_type = 2; // 文件类型
+	optional int32 file_type = 4; // 文件类型
 	// @inject_tag: db:"file_name" json:"fileName"
-	optional string file_name = 3; // 文件名称
+	optional string file_name = 5; // 文件名称
+	// @inject_tag: db:"data_scope_dept" json:"dataScopeDept"
+	optional bytes data_scope_dept = 6; //数据范围(指定部门数组)
+	// @inject_tag: db:"dept_id" json:"deptId"
+	optional int64 dept_id = 7; // 租户ID
+	// @inject_tag: db:"data_scope" json:"dataScope"
+	optional int32 data_scope = 8; //数据范围（1：全部数据权限 2：自定数据权限 3：本部门数据权限 4：本部门及以下数据权限）
 	// @inject_tag: db:"pagination" json:"pagination"
-	optional pagination.PaginationRequest pagination = 4; // 分页
+	optional pagination.PaginationRequest pagination = 9; // 分页
 }
 
 // SystemFileListResponse 数据响应
@@ -102,10 +134,20 @@ message SystemFileListResponse {
 message SystemFileListTotalRequest {
 	// @inject_tag: db:"tenant_id" json:"tenantId"
 	optional int64 tenant_id = 1; // 租户
+	// @inject_tag: db:"user_id" json:"userId"
+	optional int64 user_id = 2; // 用户 ID
+	// @inject_tag: db:"deleted" json:"deleted"
+	optional int32 deleted = 3; // 是否删除
 	// @inject_tag: db:"file_type" json:"fileType"
-	optional int32 file_type = 2; // 文件类型
+	optional int32 file_type = 4; // 文件类型
 	// @inject_tag: db:"file_name" json:"fileName"
-	optional string file_name = 3; // 文件名称
+	optional string file_name = 5; // 文件名称
+	// @inject_tag: db:"data_scope_dept" json:"dataScopeDept"
+	optional bytes data_scope_dept = 6; //数据范围(指定部门数组)
+	// @inject_tag: db:"dept_id" json:"deptId"
+	optional int64 dept_id = 7; // 租户ID
+	// @inject_tag: db:"data_scope" json:"dataScope"
+	optional int32 data_scope = 8; //数据范围（1：全部数据权限 2：自定数据权限 3：本部门数据权限 4：本部门及以下数据权限）
 
 }
 
@@ -116,6 +158,8 @@ service SystemFileService{
 	rpc SystemFileUpdate(SystemFileUpdateRequest) returns (SystemFileUpdateResponse);
 	rpc SystemFileDelete(SystemFileDeleteRequest) returns (SystemFileDeleteResponse);
 	rpc SystemFile(SystemFileRequest) returns (SystemFileResponse);
+	rpc SystemFileRecover(SystemFileRecoverRequest) returns (SystemFileRecoverResponse);
+	rpc SystemFileDrop(SystemFileDropRequest) returns (SystemFileDropResponse);
 	rpc SystemFileList(SystemFileListRequest) returns (SystemFileListResponse);
 	rpc SystemFileListTotal(SystemFileListTotalRequest) returns (SystemFileTotalResponse);
 }

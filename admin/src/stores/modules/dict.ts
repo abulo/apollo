@@ -1,7 +1,7 @@
 import { defineStore } from "pinia";
 import { DictState } from "@/stores/interface";
 import piniaPersistConfig from "@/stores/helper/persist";
-import { getAllSystemDictApi } from "@/api/modules/systemDict";
+import { getSystemDictAllApi } from "@/api/modules/systemDict";
 
 export const useDictStore = defineStore({
   id: "geeker-dict",
@@ -13,7 +13,7 @@ export const useDictStore = defineStore({
   },
   actions: {
     async getDictList() {
-      const { data } = await getAllSystemDictApi();
+      const { data } = await getSystemDictAllApi();
       this.dict = data;
     }
   },

@@ -74,6 +74,18 @@ func SystemNotifyTemplateRecover(ctx context.Context, id int64) (res int64, err 
 	return
 }
 
+// SystemNotifyTemplateDrop 清理数据
+func SystemNotifyTemplateDrop(ctx context.Context, id int64) (res int64, err error) {
+	db := initial.Core.Store.LoadSQL("mysql").Write()
+	builder := sql.NewBuilder()
+	query, args, err := builder.Table("`system_notify_template`").Where("`id`", id).Delete()
+	if err != nil {
+		return
+	}
+	res, err = db.Delete(ctx, query, args...)
+	return
+}
+
 // SystemNotifyTemplateList 查询列表数据
 func SystemNotifyTemplateList(ctx context.Context, condition map[string]any) (res []dao.SystemNotifyTemplate, err error) {
 	db := initial.Core.Store.LoadSQL("mysql").Read()

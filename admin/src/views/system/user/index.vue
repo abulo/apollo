@@ -45,12 +45,12 @@
         </template>
         <!-- 菜单操作 -->
         <template #operation="scope">
-          <el-button v-auth="'user.SystemUserUpdate'" type="primary" link :icon="EditPen" @click="handleUpdate(scope.row)">
-            编辑
+          <el-button type="primary" v-auth="'user.SystemUserShow'" link :icon="View" @click="handleItem(scope.row)">
+            查看
           </el-button>
           <el-dropdown trigger="click">
             <el-button
-              v-auth="['user.SystemUserPassword', 'user.SystemUserDelete', 'user.SystemUserRecover']"
+              v-auth="['user.SystemUserUpdate', 'user.SystemUserPassword', 'user.SystemUserDelete', 'user.SystemUserRecover']"
               type="primary"
               link
               :icon="DArrowRight">
@@ -58,6 +58,9 @@
             </el-button>
             <template #dropdown>
               <el-dropdown-menu>
+                <el-dropdown-item v-auth="'user.SystemUserUpdate'" :icon="EditPen" @click="handleUpdate(scope.row)">
+                  编辑
+                </el-dropdown-item>
                 <el-dropdown-item v-auth="'user.SystemUserPassword'" :icon="Key" @click="handlePassword(scope.row)">
                   重置密码
                 </el-dropdown-item>
@@ -93,32 +96,32 @@
         class="dialog-settings">
         <el-form ref="refSystemUserItemFrom" :model="systemUserItemFrom" :rules="rulesSystemUserItemFrom" label-width="100px">
           <el-form-item label="用户昵称" prop="nickname">
-            <el-input v-model="systemUserItemFrom.nickname" />
+            <el-input v-model="systemUserItemFrom.nickname" :disabled="disabled" />
           </el-form-item>
           <el-form-item label="用户手机" prop="mobile">
-            <el-input v-model="systemUserItemFrom.mobile" />
+            <el-input v-model="systemUserItemFrom.mobile" :disabled="disabled" />
           </el-form-item>
           <el-form-item v-if="systemUserItemFrom.id === undefined" label="用户名" prop="username">
-            <el-input v-model="systemUserItemFrom.username" />
+            <el-input v-model="systemUserItemFrom.username" :disabled="disabled" />
           </el-form-item>
           <el-form-item v-if="systemUserItemFrom.id === undefined" label="用户密码" prop="password">
-            <el-input v-model="systemUserItemFrom.password" show-password type="password" />
+            <el-input v-model="systemUserItemFrom.password" show-password type="password" :disabled="disabled" />
           </el-form-item>
           <el-form-item label="用户状态" prop="status">
             <el-radio-group v-model="systemUserItemFrom.status">
-              <el-radio-button v-for="dict in statusEnum" :key="Number(dict.value)" :value="dict.value">
+              <el-radio-button v-for="dict in statusEnum" :key="Number(dict.value)" :value="dict.value" :disabled="disabled">
                 {{ dict.label }}
               </el-radio-button>
             </el-radio-group>
           </el-form-item>
           <el-form-item label="角色" prop="roleIds">
-            <el-select v-model="systemUserItemFrom.roleIds" multiple placeholder="请选择角色">
-              <el-option v-for="item in roleSelect" :key="item.id" :label="item.name" :value="item.id" />
+            <el-select v-model="systemUserItemFrom.roleIds" multiple placeholder="请选择角色" :disabled="disabled">
+              <el-option v-for="item in roleSelect" :key="item.id" :label="item.name" :value="item.id" :disabled="disabled" />
             </el-select>
           </el-form-item>
           <el-form-item label="职位" prop="postIds">
-            <el-select v-model="systemUserItemFrom.postIds" multiple placeholder="请选择职位">
-              <el-option v-for="item in postSelect" :key="item.id" :label="item.name" :value="item.id" />
+            <el-select v-model="systemUserItemFrom.postIds" multiple placeholder="请选择职位" :disabled="disabled">
+              <el-option v-for="item in postSelect" :key="item.id" :label="item.name" :value="item.id" :disabled="disabled" />
             </el-select>
           </el-form-item>
 
@@ -126,21 +129,16 @@
             <el-card class="cardHeight">
               <template #header>
                 全选/不选:
-                <el-switch v-model="deptNodeAll" active-text="是" inactive-text="否" inline-prompt @change="handleDataNodeAll" />
+                <el-switch v-model="deptNodeAll" active-text="是" inactive-text="否" inline-prompt @change="handleDeptNodeAll" />
                 展开/折叠:
                 <el-switch
                   v-model="deptExpand"
                   active-text="展开"
                   inactive-text="折叠"
                   inline-prompt
-                  @change="handleDataExpand" />
-                关联/不关联:
-                <el-switch
-                  v-model="deptStrictly"
-                  active-text="关联"
-                  inactive-text="不关联"
-                  inline-prompt
-                  @change="handleDataStrictly" />
+                  @change="handleDeptExpand" />
+                父子联动:
+                <el-switch v-model="checkStrictly" active-text="是" inactive-text="否" inline-prompt />
               </template>
               <el-tree
                 ref="deptRef"
@@ -149,12 +147,13 @@
                 :list="systemUserItemFrom.deptIds"
                 empty-text="加载中，请稍候"
                 node-key="id"
-                :check-strictly="deptCheckStrictly"
+                :disabled="disabled"
+                :check-strictly="!checkStrictly"
                 show-checkbox />
             </el-card>
           </el-form-item>
         </el-form>
-        <template #footer>
+        <template #footer v-if="!disabled">
           <span class="dialog-footer">
             <el-button @click="resetForm(refSystemUserItemFrom)">取消</el-button>
             <el-button type="primary" :loading="loading" @click="submitForm(refSystemUserItemFrom)">确定</el-button>
@@ -169,7 +168,7 @@ import { onMounted, ref, reactive } from "vue";
 import { useTimeoutFn } from "@vueuse/core";
 import { ColumnProps, ProTableInstance, SearchProps } from "@/components/ProTable/interface";
 import { DictTag } from "@/components/DictTag";
-import { EditPen, CirclePlus, Delete, DArrowRight, Refresh, CircleCheck, Key } from "@element-plus/icons-vue";
+import { EditPen, CirclePlus, Delete, DArrowRight, Refresh, CircleCheck, Key, View } from "@element-plus/icons-vue";
 import { FormInstance, FormRules, ElMessage, ElMessageBox, ElTree } from "element-plus";
 import ProTable from "@/components/ProTable/index.vue";
 import { SystemUser } from "@/api/interface/systemUser";
@@ -193,7 +192,7 @@ import { getSystemPostListSimpleApi } from "@/api/modules/systemPost";
 import { HasPermission } from "@/utils/permission";
 import { useHandleData, useHandleSet } from "@/hooks/useHandleData";
 import Node from "element-plus/es/components/tree/src/model/node";
-
+const disabled = ref(true);
 const initParam = reactive({ deptId: "" });
 //加载
 const loading = ref(false);
@@ -209,12 +208,11 @@ const deletedEnum = getIntDictOptions("delete");
 const userDeptId = ref<Number[]>([]);
 
 //部门树选项
-const deptOptions = ref<SystemDept.ResSystemDeptList[]>([]);
+const deptOptions = ref<SystemDept.ResSystemDeptItem[]>([]);
 const deptNodeAll = ref(false); // 全选/全不选
 const deptRef = ref<InstanceType<typeof ElTree>>();
 const deptExpand = ref(false); // 展开/折叠
-const deptStrictly = ref(true); // 关联/不关联
-const deptCheckStrictly = ref(true);
+const checkStrictly = ref(true);
 const defaultProps = {
   children: "children",
   label: "name",
@@ -248,9 +246,9 @@ const rulesSystemUserItemFrom = reactive<FormRules>({
   postIds: [{ required: true, message: "用户职位不能为空", trigger: "blur" }]
 });
 
-const deptTree = ref<SystemDept.ResSystemDeptList[]>([]);
+const deptTree = ref<SystemDept.ResSystemDeptItem[]>([]);
 //部门树选项
-const deptSelect = ref<SystemDept.ResSystemDeptList[]>([]);
+const deptSelect = ref<SystemDept.ResSystemDeptItem[]>([]);
 // 职位列表
 const postSelect = ref<SystemPost.ResSystemPostItem[]>([]);
 // 角色列表
@@ -283,12 +281,22 @@ const columns: ColumnProps<SystemUser.ResSystemUserItem>[] = [
     search: deleteSearch,
     width: 100
   },
+  { prop: "creator", label: "创建者" },
+  { prop: "createTime", label: "创建时间" },
+  { prop: "updater", label: "更新者" },
+  { prop: "updateTime", label: "更新时间" },
   {
     prop: "operation",
     label: "操作",
     width: 160,
     fixed: "right",
-    isShow: HasPermission("user.SystemUserPassword", "user.SystemUserDelete", "user.SystemUserUpdate", "user.SystemUserRecover")
+    isShow: HasPermission(
+      "user.SystemUserShow",
+      "user.SystemUserPassword",
+      "user.SystemUserDelete",
+      "user.SystemUserUpdate",
+      "user.SystemUserRecover"
+    )
   }
 ];
 
@@ -310,19 +318,19 @@ const reset = () => {
   deptNodeAll.value = false;
   deptExpand.value = false;
   deptRef.value?.setCheckedNodes([]);
-  deptStrictly.value = true;
-  deptCheckStrictly.value = true;
   userDeptId.value = [];
+  checkStrictly.value = true;
+  disabled.value = true;
 };
 
 /** 全选/全不选 */
-const handleDataNodeAll = () => {
+const handleDeptNodeAll = () => {
   let data = deptNodeAll.value ? deptOptions.value : [];
   deptRef.value!.setCheckedNodes(data as unknown as Node[]);
 };
 
 /** 展开/折叠全部 */
-const handleDataExpand = () => {
+const handleDeptExpand = () => {
   const nodes = deptRef.value?.store.nodesMap;
   for (let node in nodes) {
     if (nodes[node].expanded === deptExpand.value) {
@@ -331,22 +339,16 @@ const handleDataExpand = () => {
     nodes[node].expanded = deptExpand.value;
   }
 };
-// 关联/不关联
-const handleDataStrictly = () => {
-  // let data = [];
-  deptCheckStrictly.value = !deptStrictly.value;
-  // deptRef.value!.setCheckedNodes(data as unknown as Node[]);
-};
-
 // 添加按钮
 const handleAdd = () => {
   reset();
   title.value = "新增用户";
   centerDialogVisible.value = true;
+  disabled.value = false;
 };
 
-const getFlatList = (list: SystemDept.ResSystemDeptList[]) => {
-  let newList: SystemDept.ResSystemDeptList[] = JSON.parse(JSON.stringify(list));
+const getFlatList = (list: SystemDept.ResSystemDeptItem[]) => {
+  let newList: SystemDept.ResSystemDeptItem[] = JSON.parse(JSON.stringify(list));
   return newList.flatMap(item => [item, ...(item.children ? getFlatList(item.children) : [])]);
 };
 
@@ -356,6 +358,9 @@ const handleUpdate = async (row: SystemUser.ResSystemUserItem) => {
   title.value = "编辑用户";
   centerDialogVisible.value = true;
   const { data } = await getSystemUserItemApi(Number(row.id));
+  data.deptIds = data?.deptIds && data.deptIds.filter((item: number) => item !== 0);
+  data.roleIds = data?.roleIds && data.roleIds.filter((item: number) => item !== 0);
+  data.postIds = data?.postIds && data.postIds.filter((item: number) => item !== 0);
   systemUserItemFrom.value = data;
   const deptListData = await getSystemDeptListSimpleApi();
   deptSelect.value = deptListData.data;
@@ -372,13 +377,49 @@ const handleUpdate = async (row: SystemUser.ResSystemUserItem) => {
   }, 200);
 
   const currUserDept = data.deptIds as unknown as Number[];
-  const curDept = getFlatList(deptListData.data) as SystemDept.ResSystemDeptList[];
+  const curDept = getFlatList(deptListData.data) as SystemDept.ResSystemDeptItem[];
   // 遍历 curDept
   curDept.forEach(item => {
     if (!currUserDept.includes(item.id)) {
       userDeptId.value.push(item.id);
     }
   });
+  disabled.value = false;
+};
+
+// 编辑按钮
+const handleItem = async (row: SystemUser.ResSystemUserItem) => {
+  reset();
+  title.value = "查看用户";
+  centerDialogVisible.value = true;
+  const { data } = await getSystemUserItemApi(Number(row.id));
+  data.deptIds = data?.deptIds && data.deptIds.filter((item: number) => item !== 0);
+  data.roleIds = data?.roleIds && data.roleIds.filter((item: number) => item !== 0);
+  data.postIds = data?.postIds && data.postIds.filter((item: number) => item !== 0);
+  systemUserItemFrom.value = data;
+  const deptListData = await getSystemDeptListSimpleApi();
+  deptSelect.value = deptListData.data;
+  const postList = await getSystemPostListSimpleApi();
+  postSelect.value = postList.data;
+  const roleList = await getSystemRoleListSimpleApi();
+  roleSelect.value = roleList.data;
+
+  const dataScopeDept = data.deptIds;
+  useTimeoutFn(() => {
+    dataScopeDept?.forEach((deptId: number) => {
+      deptRef.value?.setChecked(deptId, true, false);
+    });
+  }, 200);
+
+  const currUserDept = data.deptIds as unknown as Number[];
+  const curDept = getFlatList(deptListData.data) as SystemDept.ResSystemDeptItem[];
+  // 遍历 curDept
+  curDept.forEach(item => {
+    if (!currUserDept.includes(item.id)) {
+      userDeptId.value.push(item.id);
+    }
+  });
+  disabled.value = true;
 };
 
 // 删除按钮
@@ -428,7 +469,7 @@ const submitForm = (formEl: FormInstance | undefined) => {
   });
 };
 // 部门树选择
-const deptList = ref<SystemDept.ResSystemDeptList[]>([]);
+const deptList = ref<SystemDept.ResSystemDeptItem[]>([]);
 const getTreeFilter = async () => {
   const { data } = await getSystemDeptListSimpleApi();
   deptList.value = data;

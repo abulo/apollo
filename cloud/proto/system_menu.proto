@@ -1,4 +1,3 @@
-
 syntax = "proto3";
 // system_menu 系统菜单
 package menu;
@@ -113,6 +112,16 @@ message SystemMenuRecoverResponse {
 	int64 code = 1;
 	string msg = 2;
 }
+// SystemMenuDropRequest 清理数据请求
+message SystemMenuDropRequest {
+	// @inject_tag: db:"id" json:"id"
+	int64 id = 1; //菜单编号
+}
+// SystemMenuDropResponse 清理数据响应
+message SystemMenuDropResponse {
+	int64 code = 1;
+	string msg = 2;
+}
 // SystemMenuListRequest 列表数据
 message SystemMenuListRequest {
 	
@@ -153,6 +162,7 @@ service SystemMenuService{
 	rpc SystemMenuDelete(SystemMenuDeleteRequest) returns (SystemMenuDeleteResponse);
 	rpc SystemMenu(SystemMenuRequest) returns (SystemMenuResponse);
 	rpc SystemMenuRecover(SystemMenuRecoverRequest) returns (SystemMenuRecoverResponse);
+	rpc SystemMenuDrop(SystemMenuDropRequest) returns (SystemMenuDropResponse);
 	rpc SystemMenuList(SystemMenuListRequest) returns (SystemMenuListResponse);
 	rpc SystemMenuListTotal(SystemMenuListTotalRequest) returns (SystemMenuTotalResponse);
 }

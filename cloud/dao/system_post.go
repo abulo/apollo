@@ -4,7 +4,7 @@ import "github.com/abulo/ratel/v3/stores/null"
 
 // SystemPost 职位 system_post
 type SystemPost struct {
-	Id         *int64        `db:"id" json:"id"`                  //bigint 职位ID,PRI
+	Id         *int64        `db:"id,-" json:"id"`                //bigint 职位ID,PRI
 	Name       *string       `db:"name" json:"name"`              //varchar 职位名称
 	Sort       *int32        `db:"sort" json:"sort"`              //int 显示顺序
 	Status     *int32        `db:"status" json:"status"`          //tinyint 状态

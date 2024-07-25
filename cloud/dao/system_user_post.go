@@ -4,7 +4,7 @@ import "github.com/abulo/ratel/v3/stores/null"
 
 // SystemUserPost 系统用户职位 system_user_post
 type SystemUserPost struct {
-	Id         *int64        `db:"id" json:"id"`                  //bigint 编号,PRI
+	Id         *int64        `db:"id,-" json:"id"`                //bigint 编号,PRI
 	UserId     *int64        `db:"user_id" json:"userId"`         //bigint 系统用户 ID
 	PostId     *int64        `db:"post_id" json:"postId"`         //bigint 职位 id
 	Deleted    *int32        `db:"deleted" json:"deleted"`        //tinyint 删除

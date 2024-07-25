@@ -26,6 +26,7 @@ const (
 	SystemTenantPackageService_SystemTenantPackageDelete_FullMethodName    = "/tenant.SystemTenantPackageService/SystemTenantPackageDelete"
 	SystemTenantPackageService_SystemTenantPackage_FullMethodName          = "/tenant.SystemTenantPackageService/SystemTenantPackage"
 	SystemTenantPackageService_SystemTenantPackageRecover_FullMethodName   = "/tenant.SystemTenantPackageService/SystemTenantPackageRecover"
+	SystemTenantPackageService_SystemTenantPackageDrop_FullMethodName      = "/tenant.SystemTenantPackageService/SystemTenantPackageDrop"
 	SystemTenantPackageService_SystemTenantPackageList_FullMethodName      = "/tenant.SystemTenantPackageService/SystemTenantPackageList"
 	SystemTenantPackageService_SystemTenantPackageListTotal_FullMethodName = "/tenant.SystemTenantPackageService/SystemTenantPackageListTotal"
 )
@@ -41,6 +42,7 @@ type SystemTenantPackageServiceClient interface {
 	SystemTenantPackageDelete(ctx context.Context, in *SystemTenantPackageDeleteRequest, opts ...grpc.CallOption) (*SystemTenantPackageDeleteResponse, error)
 	SystemTenantPackage(ctx context.Context, in *SystemTenantPackageRequest, opts ...grpc.CallOption) (*SystemTenantPackageResponse, error)
 	SystemTenantPackageRecover(ctx context.Context, in *SystemTenantPackageRecoverRequest, opts ...grpc.CallOption) (*SystemTenantPackageRecoverResponse, error)
+	SystemTenantPackageDrop(ctx context.Context, in *SystemTenantPackageDropRequest, opts ...grpc.CallOption) (*SystemTenantPackageDropResponse, error)
 	SystemTenantPackageList(ctx context.Context, in *SystemTenantPackageListRequest, opts ...grpc.CallOption) (*SystemTenantPackageListResponse, error)
 	SystemTenantPackageListTotal(ctx context.Context, in *SystemTenantPackageListTotalRequest, opts ...grpc.CallOption) (*SystemTenantPackageTotalResponse, error)
 }
@@ -103,6 +105,16 @@ func (c *systemTenantPackageServiceClient) SystemTenantPackageRecover(ctx contex
 	return out, nil
 }
 
+func (c *systemTenantPackageServiceClient) SystemTenantPackageDrop(ctx context.Context, in *SystemTenantPackageDropRequest, opts ...grpc.CallOption) (*SystemTenantPackageDropResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(SystemTenantPackageDropResponse)
+	err := c.cc.Invoke(ctx, SystemTenantPackageService_SystemTenantPackageDrop_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *systemTenantPackageServiceClient) SystemTenantPackageList(ctx context.Context, in *SystemTenantPackageListRequest, opts ...grpc.CallOption) (*SystemTenantPackageListResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(SystemTenantPackageListResponse)
@@ -134,6 +146,7 @@ type SystemTenantPackageServiceServer interface {
 	SystemTenantPackageDelete(context.Context, *SystemTenantPackageDeleteRequest) (*SystemTenantPackageDeleteResponse, error)
 	SystemTenantPackage(context.Context, *SystemTenantPackageRequest) (*SystemTenantPackageResponse, error)
 	SystemTenantPackageRecover(context.Context, *SystemTenantPackageRecoverRequest) (*SystemTenantPackageRecoverResponse, error)
+	SystemTenantPackageDrop(context.Context, *SystemTenantPackageDropRequest) (*SystemTenantPackageDropResponse, error)
 	SystemTenantPackageList(context.Context, *SystemTenantPackageListRequest) (*SystemTenantPackageListResponse, error)
 	SystemTenantPackageListTotal(context.Context, *SystemTenantPackageListTotalRequest) (*SystemTenantPackageTotalResponse, error)
 	mustEmbedUnimplementedSystemTenantPackageServiceServer()
@@ -157,6 +170,9 @@ func (UnimplementedSystemTenantPackageServiceServer) SystemTenantPackage(context
 }
 func (UnimplementedSystemTenantPackageServiceServer) SystemTenantPackageRecover(context.Context, *SystemTenantPackageRecoverRequest) (*SystemTenantPackageRecoverResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SystemTenantPackageRecover not implemented")
+}
+func (UnimplementedSystemTenantPackageServiceServer) SystemTenantPackageDrop(context.Context, *SystemTenantPackageDropRequest) (*SystemTenantPackageDropResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SystemTenantPackageDrop not implemented")
 }
 func (UnimplementedSystemTenantPackageServiceServer) SystemTenantPackageList(context.Context, *SystemTenantPackageListRequest) (*SystemTenantPackageListResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SystemTenantPackageList not implemented")
@@ -268,6 +284,24 @@ func _SystemTenantPackageService_SystemTenantPackageRecover_Handler(srv interfac
 	return interceptor(ctx, in, info, handler)
 }
 
+func _SystemTenantPackageService_SystemTenantPackageDrop_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SystemTenantPackageDropRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SystemTenantPackageServiceServer).SystemTenantPackageDrop(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: SystemTenantPackageService_SystemTenantPackageDrop_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SystemTenantPackageServiceServer).SystemTenantPackageDrop(ctx, req.(*SystemTenantPackageDropRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _SystemTenantPackageService_SystemTenantPackageList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(SystemTenantPackageListRequest)
 	if err := dec(in); err != nil {
@@ -330,6 +364,10 @@ var SystemTenantPackageService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "SystemTenantPackageRecover",
 			Handler:    _SystemTenantPackageService_SystemTenantPackageRecover_Handler,
+		},
+		{
+			MethodName: "SystemTenantPackageDrop",
+			Handler:    _SystemTenantPackageService_SystemTenantPackageDrop_Handler,
 		},
 		{
 			MethodName: "SystemTenantPackageList",

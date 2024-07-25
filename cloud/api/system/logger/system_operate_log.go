@@ -27,20 +27,18 @@ import (
 )
 
 // system_operate_log 操作日志
-
 // SystemOperateLogItem 查询单条数据
-func SystemOperateLogItem(ctx context.Context, newCtx *app.RequestContext) (*logger.SystemOperateLogResponse, error) {
+func SystemOperateLogItem(ctx context.Context, newCtx *app.RequestContext, id int64) (*logger.SystemOperateLogResponse, error) {
 	//判断这个服务能不能链接
 	grpcClient, err := initial.Core.Client.LoadGrpc("grpc").Singleton()
 	if err != nil {
 		globalLogger.Logger.WithFields(logrus.Fields{
 			"err": err,
-		}).Error("Grpc:操作日志:system_operate_log:SystemOperateLog")
+		}).Error("Grpc:操作日志:system_operate_log:SystemOperateLogItem")
 		return nil, status.Error(code.ConvertToGrpc(code.RPCError), code.StatusText(code.RPCError))
 	}
 	//链接服务
 	client := logger.NewSystemOperateLogServiceClient(grpcClient)
-	id := cast.ToInt64(newCtx.Param("id"))
 	request := &logger.SystemOperateLogRequest{}
 	request.Id = id
 	// 执行服务
@@ -49,7 +47,7 @@ func SystemOperateLogItem(ctx context.Context, newCtx *app.RequestContext) (*log
 		globalLogger.Logger.WithFields(logrus.Fields{
 			"req": request,
 			"err": err,
-		}).Error("GrpcCall:操作日志:system_operate_log:SystemOperateLog")
+		}).Error("GrpcCall:操作日志:system_operate_log:SystemOperateLogItem")
 		return nil, err
 	}
 	tenantId := cast.ToInt64(newCtx.GetInt64("tenantId"))
@@ -86,6 +84,7 @@ func SystemOperateLogCreate(ctx context.Context, newCtx *app.RequestContext) {
 		})
 		return
 	}
+	reqInfo.Id = nil
 	reqInfo.Deleted = proto.Int32(0)
 	reqInfo.TenantId = proto.Int64(newCtx.GetInt64("tenantId")) // 租户
 	reqInfo.Creator = null.StringFrom(newCtx.GetString("userName"))
@@ -113,7 +112,8 @@ func SystemOperateLogCreate(ctx context.Context, newCtx *app.RequestContext) {
 
 // SystemOperateLogUpdate 更新数据
 func SystemOperateLogUpdate(ctx context.Context, newCtx *app.RequestContext) {
-	if _, err := SystemOperateLogItem(ctx, newCtx); err != nil {
+	id := cast.ToInt64(newCtx.Param("id"))
+	if _, err := SystemOperateLogItem(ctx, newCtx, id); err != nil {
 		fromError := status.Convert(err)
 		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.ConvertToHttp(fromError.Code()),
@@ -135,7 +135,6 @@ func SystemOperateLogUpdate(ctx context.Context, newCtx *app.RequestContext) {
 	}
 	//链接服务
 	client := logger.NewSystemOperateLogServiceClient(grpcClient)
-	id := cast.ToInt64(newCtx.Param("id"))
 	request := &logger.SystemOperateLogUpdateRequest{}
 	request.Id = id
 	// 数据绑定
@@ -147,6 +146,7 @@ func SystemOperateLogUpdate(ctx context.Context, newCtx *app.RequestContext) {
 		})
 		return
 	}
+	reqInfo.Id = nil
 	reqInfo.TenantId = proto.Int64(newCtx.GetInt64("tenantId")) // 租户
 	reqInfo.Updater = null.StringFrom(newCtx.GetString("userName"))
 	reqInfo.UpdateTime = null.DateTimeFrom(util.Now())
@@ -175,7 +175,8 @@ func SystemOperateLogUpdate(ctx context.Context, newCtx *app.RequestContext) {
 
 // SystemOperateLogDelete 删除数据
 func SystemOperateLogDelete(ctx context.Context, newCtx *app.RequestContext) {
-	if _, err := SystemOperateLogItem(ctx, newCtx); err != nil {
+	id := cast.ToInt64(newCtx.Param("id"))
+	if _, err := SystemOperateLogItem(ctx, newCtx, id); err != nil {
 		fromError := status.Convert(err)
 		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.ConvertToHttp(fromError.Code()),
@@ -196,7 +197,6 @@ func SystemOperateLogDelete(ctx context.Context, newCtx *app.RequestContext) {
 	}
 	//链接服务
 	client := logger.NewSystemOperateLogServiceClient(grpcClient)
-	id := cast.ToInt64(newCtx.Param("id"))
 	request := &logger.SystemOperateLogDeleteRequest{}
 	request.Id = id
 	// 执行服务
@@ -221,7 +221,9 @@ func SystemOperateLogDelete(ctx context.Context, newCtx *app.RequestContext) {
 
 // SystemOperateLog 查询单条数据
 func SystemOperateLog(ctx context.Context, newCtx *app.RequestContext) {
-	res, err := SystemOperateLogItem(ctx, newCtx)
+	id := cast.ToInt64(newCtx.Param("id"))
+	// 执行服务
+	res, err := SystemOperateLogItem(ctx, newCtx, id)
 	if err != nil {
 		fromError := status.Convert(err)
 		response.JSON(newCtx, consts.StatusOK, utils.H{
@@ -239,7 +241,8 @@ func SystemOperateLog(ctx context.Context, newCtx *app.RequestContext) {
 
 // SystemOperateLogRecover 恢复数据
 func SystemOperateLogRecover(ctx context.Context, newCtx *app.RequestContext) {
-	if _, err := SystemOperateLogItem(ctx, newCtx); err != nil {
+	id := cast.ToInt64(newCtx.Param("id"))
+	if _, err := SystemOperateLogItem(ctx, newCtx, id); err != nil {
 		fromError := status.Convert(err)
 		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.ConvertToHttp(fromError.Code()),
@@ -260,7 +263,6 @@ func SystemOperateLogRecover(ctx context.Context, newCtx *app.RequestContext) {
 	}
 	//链接服务
 	client := logger.NewSystemOperateLogServiceClient(grpcClient)
-	id := cast.ToInt64(newCtx.Param("id"))
 	request := &logger.SystemOperateLogRecoverRequest{}
 	request.Id = id
 	// 执行服务
@@ -270,6 +272,52 @@ func SystemOperateLogRecover(ctx context.Context, newCtx *app.RequestContext) {
 			"req": request,
 			"err": err,
 		}).Error("GrpcCall:操作日志:system_operate_log:SystemOperateLogRecover")
+		fromError := status.Convert(err)
+		response.JSON(newCtx, consts.StatusOK, utils.H{
+			"code": code.ConvertToHttp(fromError.Code()),
+			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
+		})
+		return
+	}
+	response.JSON(newCtx, consts.StatusOK, utils.H{
+		"code": res.GetCode(),
+		"msg":  res.GetMsg(),
+	})
+}
+
+// SystemOperateLogDrop 清理数据
+func SystemOperateLogDrop(ctx context.Context, newCtx *app.RequestContext) {
+	id := cast.ToInt64(newCtx.Param("id"))
+	if _, err := SystemOperateLogItem(ctx, newCtx, id); err != nil {
+		fromError := status.Convert(err)
+		response.JSON(newCtx, consts.StatusOK, utils.H{
+			"code": code.ConvertToHttp(fromError.Code()),
+			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
+		})
+		return
+	}
+	grpcClient, err := initial.Core.Client.LoadGrpc("grpc").Singleton()
+	if err != nil {
+		globalLogger.Logger.WithFields(logrus.Fields{
+			"err": err,
+		}).Error("Grpc:操作日志:system_operate_log:SystemOperateLogDrop")
+		response.JSON(newCtx, consts.StatusOK, utils.H{
+			"code": code.RPCError,
+			"msg":  code.StatusText(code.RPCError),
+		})
+		return
+	}
+	//链接服务
+	client := logger.NewSystemOperateLogServiceClient(grpcClient)
+	request := &logger.SystemOperateLogDropRequest{}
+	request.Id = id
+	// 执行服务
+	res, err := client.SystemOperateLogDrop(ctx, request)
+	if err != nil {
+		globalLogger.Logger.WithFields(logrus.Fields{
+			"req": request,
+			"err": err,
+		}).Error("GrpcCall:操作日志:system_operate_log:SystemOperateLogDrop")
 		fromError := status.Convert(err)
 		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.ConvertToHttp(fromError.Code()),
@@ -296,7 +344,6 @@ func SystemOperateLogList(ctx context.Context, newCtx *app.RequestContext) {
 		})
 		return
 	}
-
 	//链接服务
 	clientUser := user.NewSystemUserServiceClient(grpcClient)
 
@@ -340,7 +387,6 @@ func SystemOperateLogList(ctx context.Context, newCtx *app.RequestContext) {
 			requestTotal.Deleted = nil
 		}
 	}
-
 	if val, ok := newCtx.GetQuery("username"); ok {
 		request.Username = proto.String(val)      // 用户账号
 		requestTotal.Username = proto.String(val) // 用户账号
@@ -430,36 +476,16 @@ func SystemOperateLogList(ctx context.Context, newCtx *app.RequestContext) {
 	})
 }
 
-// SystemOperateLogProto 数据绑定
-func SystemOperateLogDropProto(item dao.SystemOperateLogDrop) *logger.SystemOperateLogDropRequest {
-	res := &logger.SystemOperateLogDropRequest{}
-
-	if item.Username != nil {
-		res.Username = item.Username
+// SystemOperateLogMultipleDelete 批量删除数据
+func SystemOperateLogMultipleDelete(ctx context.Context, newCtx *app.RequestContext) {
+	var reqInfo dao.SystemOperateLogMultiple
+	if err := newCtx.BindAndValidate(&reqInfo); err != nil {
+		response.JSON(newCtx, consts.StatusOK, utils.H{
+			"code": code.ParamInvalid,
+			"msg":  code.StatusText(code.ParamInvalid),
+		})
+		return
 	}
-	if item.Module != nil {
-		res.Module = item.Module
-	}
-	if item.Result != nil {
-		res.Result = item.Result
-	}
-	if item.BeginStartTime.IsValid() {
-		res.BeginStartTime = timestamppb.New(*item.BeginStartTime.Ptr())
-	}
-	if item.FinishStartTime.IsValid() {
-		res.FinishStartTime = timestamppb.New(*item.FinishStartTime.Ptr())
-	}
-	if item.Deleted != nil {
-		res.Deleted = item.Deleted
-	}
-	if item.Ids.IsValid() {
-		res.Ids = *item.Ids.Ptr()
-	}
-	return res
-}
-
-// SystemOperateLogDrop 列表数据
-func SystemOperateLogDrop(ctx context.Context, newCtx *app.RequestContext) {
 	grpcClient, err := initial.Core.Client.LoadGrpc("grpc").Singleton()
 	if err != nil {
 		globalLogger.Logger.WithFields(logrus.Fields{
@@ -473,8 +499,34 @@ func SystemOperateLogDrop(ctx context.Context, newCtx *app.RequestContext) {
 	}
 	//链接服务
 	client := logger.NewSystemOperateLogServiceClient(grpcClient)
-	// 构造查询条件
-	var reqInfo dao.SystemOperateLogDrop
+	request := &logger.SystemOperateLogMultipleRequest{}
+	request.TenantId = proto.Int64(newCtx.GetInt64("tenantId")) // 租户
+	if reqInfo.Ids.IsValid() {
+		request.Ids = *reqInfo.Ids.Ptr()
+	}
+	// 执行服务
+	res, err := client.SystemOperateLogMultipleDelete(ctx, request)
+	if err != nil {
+		globalLogger.Logger.WithFields(logrus.Fields{
+			"req": request,
+			"err": err,
+		}).Error("GrpcCall:操作日志:system_operate_log:SystemOperateLogMultipleDelete")
+		fromError := status.Convert(err)
+		response.JSON(newCtx, consts.StatusOK, utils.H{
+			"code": code.ConvertToHttp(fromError.Code()),
+			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
+		})
+		return
+	}
+	response.JSON(newCtx, consts.StatusOK, utils.H{
+		"code": res.GetCode(),
+		"msg":  res.GetMsg(),
+	})
+}
+
+// SystemOperateLogMultipleRecover 批量恢复数据
+func SystemOperateLogMultipleRecover(ctx context.Context, newCtx *app.RequestContext) {
+	var reqInfo dao.SystemOperateLogMultiple
 	if err := newCtx.BindAndValidate(&reqInfo); err != nil {
 		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.ParamInvalid,
@@ -482,15 +534,79 @@ func SystemOperateLogDrop(ctx context.Context, newCtx *app.RequestContext) {
 		})
 		return
 	}
-	request := SystemOperateLogDropProto(reqInfo)
+	grpcClient, err := initial.Core.Client.LoadGrpc("grpc").Singleton()
+	if err != nil {
+		globalLogger.Logger.WithFields(logrus.Fields{
+			"err": err,
+		}).Error("Grpc:操作日志:system_operate_log:SystemOperateLogDrop")
+		response.JSON(newCtx, consts.StatusOK, utils.H{
+			"code": code.RPCError,
+			"msg":  code.StatusText(code.RPCError),
+		})
+		return
+	}
+	//链接服务
+	client := logger.NewSystemOperateLogServiceClient(grpcClient)
+	request := &logger.SystemOperateLogMultipleRequest{}
 	request.TenantId = proto.Int64(newCtx.GetInt64("tenantId")) // 租户
+	if reqInfo.Ids.IsValid() {
+		request.Ids = *reqInfo.Ids.Ptr()
+	}
 	// 执行服务
-	res, err := client.SystemOperateLogDrop(ctx, request)
+	res, err := client.SystemOperateLogMultipleRecover(ctx, request)
 	if err != nil {
 		globalLogger.Logger.WithFields(logrus.Fields{
 			"req": request,
 			"err": err,
-		}).Error("GrpcCall:操作日志:system_operate_log:SystemOperateLogDrop")
+		}).Error("GrpcCall:操作日志:system_operate_log:SystemOperateLogMultipleRecover")
+		fromError := status.Convert(err)
+		response.JSON(newCtx, consts.StatusOK, utils.H{
+			"code": code.ConvertToHttp(fromError.Code()),
+			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
+		})
+		return
+	}
+	response.JSON(newCtx, consts.StatusOK, utils.H{
+		"code": res.GetCode(),
+		"msg":  res.GetMsg(),
+	})
+}
+
+// SystemOperateLogMultipleDrop 批量清理数据
+func SystemOperateLogMultipleDrop(ctx context.Context, newCtx *app.RequestContext) {
+	var reqInfo dao.SystemOperateLogMultiple
+	if err := newCtx.BindAndValidate(&reqInfo); err != nil {
+		response.JSON(newCtx, consts.StatusOK, utils.H{
+			"code": code.ParamInvalid,
+			"msg":  code.StatusText(code.ParamInvalid),
+		})
+		return
+	}
+	grpcClient, err := initial.Core.Client.LoadGrpc("grpc").Singleton()
+	if err != nil {
+		globalLogger.Logger.WithFields(logrus.Fields{
+			"err": err,
+		}).Error("Grpc:操作日志:system_operate_log:SystemOperateLogDrop")
+		response.JSON(newCtx, consts.StatusOK, utils.H{
+			"code": code.RPCError,
+			"msg":  code.StatusText(code.RPCError),
+		})
+		return
+	}
+	//链接服务
+	client := logger.NewSystemOperateLogServiceClient(grpcClient)
+	request := &logger.SystemOperateLogMultipleRequest{}
+	request.TenantId = proto.Int64(newCtx.GetInt64("tenantId")) // 租户
+	if reqInfo.Ids.IsValid() {
+		request.Ids = *reqInfo.Ids.Ptr()
+	}
+	// 执行服务
+	res, err := client.SystemOperateLogMultipleDrop(ctx, request)
+	if err != nil {
+		globalLogger.Logger.WithFields(logrus.Fields{
+			"req": request,
+			"err": err,
+		}).Error("GrpcCall:操作日志:system_operate_log:SystemOperateLogMultipleDrop")
 		fromError := status.Convert(err)
 		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.ConvertToHttp(fromError.Code()),

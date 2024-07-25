@@ -4,7 +4,7 @@ import "github.com/abulo/ratel/v3/stores/null"
 
 // SystemNotifyTemplate 站内信模板表 system_notify_template
 type SystemNotifyTemplate struct {
-	Id         *int64        `db:"id" json:"id"`                  //bigint 主键,PRI
+	Id         *int64        `db:"id,-" json:"id"`                //bigint 主键,PRI
 	Name       *string       `db:"name" json:"name"`              //varchar 模板名称
 	Code       *string       `db:"code" json:"code"`              //varchar 模版编码
 	Nickname   *string       `db:"nickname" json:"nickname"`      //varchar 发送人名称

@@ -119,6 +119,26 @@ func (srv SrvSystemPostServiceServer) SystemPostRecover(ctx context.Context, req
 		Msg:  code.StatusText(code.Success),
 	}, nil
 }
+
+// SystemPostDrop 清理数据
+func (srv SrvSystemPostServiceServer) SystemPostDrop(ctx context.Context, request *SystemPostDropRequest) (*SystemPostDropResponse, error) {
+	id := request.GetId()
+	if id < 1 {
+		return &SystemPostDropResponse{}, status.Error(code.ConvertToGrpc(code.ParamInvalid), code.StatusText(code.ParamInvalid))
+	}
+	_, err := post.SystemPostDrop(ctx, id)
+	if sql.ResultAccept(err) != nil {
+		globalLogger.Logger.WithFields(logrus.Fields{
+			"req": id,
+			"err": err,
+		}).Error("Sql:职位:system_post:SystemPostDrop")
+		return &SystemPostDropResponse{}, status.Error(code.ConvertToGrpc(code.SqlError), err.Error())
+	}
+	return &SystemPostDropResponse{
+		Code: code.Success,
+		Msg:  code.StatusText(code.Success),
+	}, nil
+}
 func (srv SrvSystemPostServiceServer) SystemPostList(ctx context.Context, request *SystemPostListRequest) (*SystemPostListResponse, error) {
 	// 数据库查询条件
 	condition := make(map[string]any)

@@ -119,6 +119,26 @@ func (srv SrvSystemDeptServiceServer) SystemDeptRecover(ctx context.Context, req
 		Msg:  code.StatusText(code.Success),
 	}, nil
 }
+
+// SystemDeptDrop 清理数据
+func (srv SrvSystemDeptServiceServer) SystemDeptDrop(ctx context.Context, request *SystemDeptDropRequest) (*SystemDeptDropResponse, error) {
+	id := request.GetId()
+	if id < 1 {
+		return &SystemDeptDropResponse{}, status.Error(code.ConvertToGrpc(code.ParamInvalid), code.StatusText(code.ParamInvalid))
+	}
+	_, err := dept.SystemDeptDrop(ctx, id)
+	if sql.ResultAccept(err) != nil {
+		globalLogger.Logger.WithFields(logrus.Fields{
+			"req": id,
+			"err": err,
+		}).Error("Sql:部门:system_dept:SystemDeptDrop")
+		return &SystemDeptDropResponse{}, status.Error(code.ConvertToGrpc(code.SqlError), err.Error())
+	}
+	return &SystemDeptDropResponse{
+		Code: code.Success,
+		Msg:  code.StatusText(code.Success),
+	}, nil
+}
 func (srv SrvSystemDeptServiceServer) SystemDeptList(ctx context.Context, request *SystemDeptListRequest) (*SystemDeptListResponse, error) {
 	// 数据库查询条件
 	condition := make(map[string]any)

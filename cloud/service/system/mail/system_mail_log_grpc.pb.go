@@ -21,13 +21,17 @@ import (
 const _ = grpc.SupportPackageIsVersion8
 
 const (
-	SystemMailLogService_SystemMailLogCreate_FullMethodName    = "/mail.SystemMailLogService/SystemMailLogCreate"
-	SystemMailLogService_SystemMailLogUpdate_FullMethodName    = "/mail.SystemMailLogService/SystemMailLogUpdate"
-	SystemMailLogService_SystemMailLogDelete_FullMethodName    = "/mail.SystemMailLogService/SystemMailLogDelete"
-	SystemMailLogService_SystemMailLog_FullMethodName          = "/mail.SystemMailLogService/SystemMailLog"
-	SystemMailLogService_SystemMailLogRecover_FullMethodName   = "/mail.SystemMailLogService/SystemMailLogRecover"
-	SystemMailLogService_SystemMailLogList_FullMethodName      = "/mail.SystemMailLogService/SystemMailLogList"
-	SystemMailLogService_SystemMailLogListTotal_FullMethodName = "/mail.SystemMailLogService/SystemMailLogListTotal"
+	SystemMailLogService_SystemMailLogCreate_FullMethodName          = "/mail.SystemMailLogService/SystemMailLogCreate"
+	SystemMailLogService_SystemMailLogUpdate_FullMethodName          = "/mail.SystemMailLogService/SystemMailLogUpdate"
+	SystemMailLogService_SystemMailLogDelete_FullMethodName          = "/mail.SystemMailLogService/SystemMailLogDelete"
+	SystemMailLogService_SystemMailLog_FullMethodName                = "/mail.SystemMailLogService/SystemMailLog"
+	SystemMailLogService_SystemMailLogRecover_FullMethodName         = "/mail.SystemMailLogService/SystemMailLogRecover"
+	SystemMailLogService_SystemMailLogDrop_FullMethodName            = "/mail.SystemMailLogService/SystemMailLogDrop"
+	SystemMailLogService_SystemMailLogList_FullMethodName            = "/mail.SystemMailLogService/SystemMailLogList"
+	SystemMailLogService_SystemMailLogListTotal_FullMethodName       = "/mail.SystemMailLogService/SystemMailLogListTotal"
+	SystemMailLogService_SystemMailLogMultipleDelete_FullMethodName  = "/mail.SystemMailLogService/SystemMailLogMultipleDelete"
+	SystemMailLogService_SystemMailLogMultipleRecover_FullMethodName = "/mail.SystemMailLogService/SystemMailLogMultipleRecover"
+	SystemMailLogService_SystemMailLogMultipleDrop_FullMethodName    = "/mail.SystemMailLogService/SystemMailLogMultipleDrop"
 )
 
 // SystemMailLogServiceClient is the client API for SystemMailLogService service.
@@ -41,8 +45,12 @@ type SystemMailLogServiceClient interface {
 	SystemMailLogDelete(ctx context.Context, in *SystemMailLogDeleteRequest, opts ...grpc.CallOption) (*SystemMailLogDeleteResponse, error)
 	SystemMailLog(ctx context.Context, in *SystemMailLogRequest, opts ...grpc.CallOption) (*SystemMailLogResponse, error)
 	SystemMailLogRecover(ctx context.Context, in *SystemMailLogRecoverRequest, opts ...grpc.CallOption) (*SystemMailLogRecoverResponse, error)
+	SystemMailLogDrop(ctx context.Context, in *SystemMailLogDropRequest, opts ...grpc.CallOption) (*SystemMailLogDropResponse, error)
 	SystemMailLogList(ctx context.Context, in *SystemMailLogListRequest, opts ...grpc.CallOption) (*SystemMailLogListResponse, error)
 	SystemMailLogListTotal(ctx context.Context, in *SystemMailLogListTotalRequest, opts ...grpc.CallOption) (*SystemMailLogTotalResponse, error)
+	SystemMailLogMultipleDelete(ctx context.Context, in *SystemMailLogMultipleRequest, opts ...grpc.CallOption) (*SystemMailLogMultipleResponse, error)
+	SystemMailLogMultipleRecover(ctx context.Context, in *SystemMailLogMultipleRequest, opts ...grpc.CallOption) (*SystemMailLogMultipleResponse, error)
+	SystemMailLogMultipleDrop(ctx context.Context, in *SystemMailLogMultipleRequest, opts ...grpc.CallOption) (*SystemMailLogMultipleResponse, error)
 }
 
 type systemMailLogServiceClient struct {
@@ -103,6 +111,16 @@ func (c *systemMailLogServiceClient) SystemMailLogRecover(ctx context.Context, i
 	return out, nil
 }
 
+func (c *systemMailLogServiceClient) SystemMailLogDrop(ctx context.Context, in *SystemMailLogDropRequest, opts ...grpc.CallOption) (*SystemMailLogDropResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(SystemMailLogDropResponse)
+	err := c.cc.Invoke(ctx, SystemMailLogService_SystemMailLogDrop_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *systemMailLogServiceClient) SystemMailLogList(ctx context.Context, in *SystemMailLogListRequest, opts ...grpc.CallOption) (*SystemMailLogListResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(SystemMailLogListResponse)
@@ -123,6 +141,36 @@ func (c *systemMailLogServiceClient) SystemMailLogListTotal(ctx context.Context,
 	return out, nil
 }
 
+func (c *systemMailLogServiceClient) SystemMailLogMultipleDelete(ctx context.Context, in *SystemMailLogMultipleRequest, opts ...grpc.CallOption) (*SystemMailLogMultipleResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(SystemMailLogMultipleResponse)
+	err := c.cc.Invoke(ctx, SystemMailLogService_SystemMailLogMultipleDelete_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *systemMailLogServiceClient) SystemMailLogMultipleRecover(ctx context.Context, in *SystemMailLogMultipleRequest, opts ...grpc.CallOption) (*SystemMailLogMultipleResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(SystemMailLogMultipleResponse)
+	err := c.cc.Invoke(ctx, SystemMailLogService_SystemMailLogMultipleRecover_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *systemMailLogServiceClient) SystemMailLogMultipleDrop(ctx context.Context, in *SystemMailLogMultipleRequest, opts ...grpc.CallOption) (*SystemMailLogMultipleResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(SystemMailLogMultipleResponse)
+	err := c.cc.Invoke(ctx, SystemMailLogService_SystemMailLogMultipleDrop_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // SystemMailLogServiceServer is the server API for SystemMailLogService service.
 // All implementations must embed UnimplementedSystemMailLogServiceServer
 // for forward compatibility
@@ -134,8 +182,12 @@ type SystemMailLogServiceServer interface {
 	SystemMailLogDelete(context.Context, *SystemMailLogDeleteRequest) (*SystemMailLogDeleteResponse, error)
 	SystemMailLog(context.Context, *SystemMailLogRequest) (*SystemMailLogResponse, error)
 	SystemMailLogRecover(context.Context, *SystemMailLogRecoverRequest) (*SystemMailLogRecoverResponse, error)
+	SystemMailLogDrop(context.Context, *SystemMailLogDropRequest) (*SystemMailLogDropResponse, error)
 	SystemMailLogList(context.Context, *SystemMailLogListRequest) (*SystemMailLogListResponse, error)
 	SystemMailLogListTotal(context.Context, *SystemMailLogListTotalRequest) (*SystemMailLogTotalResponse, error)
+	SystemMailLogMultipleDelete(context.Context, *SystemMailLogMultipleRequest) (*SystemMailLogMultipleResponse, error)
+	SystemMailLogMultipleRecover(context.Context, *SystemMailLogMultipleRequest) (*SystemMailLogMultipleResponse, error)
+	SystemMailLogMultipleDrop(context.Context, *SystemMailLogMultipleRequest) (*SystemMailLogMultipleResponse, error)
 	mustEmbedUnimplementedSystemMailLogServiceServer()
 }
 
@@ -158,11 +210,23 @@ func (UnimplementedSystemMailLogServiceServer) SystemMailLog(context.Context, *S
 func (UnimplementedSystemMailLogServiceServer) SystemMailLogRecover(context.Context, *SystemMailLogRecoverRequest) (*SystemMailLogRecoverResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SystemMailLogRecover not implemented")
 }
+func (UnimplementedSystemMailLogServiceServer) SystemMailLogDrop(context.Context, *SystemMailLogDropRequest) (*SystemMailLogDropResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SystemMailLogDrop not implemented")
+}
 func (UnimplementedSystemMailLogServiceServer) SystemMailLogList(context.Context, *SystemMailLogListRequest) (*SystemMailLogListResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SystemMailLogList not implemented")
 }
 func (UnimplementedSystemMailLogServiceServer) SystemMailLogListTotal(context.Context, *SystemMailLogListTotalRequest) (*SystemMailLogTotalResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SystemMailLogListTotal not implemented")
+}
+func (UnimplementedSystemMailLogServiceServer) SystemMailLogMultipleDelete(context.Context, *SystemMailLogMultipleRequest) (*SystemMailLogMultipleResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SystemMailLogMultipleDelete not implemented")
+}
+func (UnimplementedSystemMailLogServiceServer) SystemMailLogMultipleRecover(context.Context, *SystemMailLogMultipleRequest) (*SystemMailLogMultipleResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SystemMailLogMultipleRecover not implemented")
+}
+func (UnimplementedSystemMailLogServiceServer) SystemMailLogMultipleDrop(context.Context, *SystemMailLogMultipleRequest) (*SystemMailLogMultipleResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SystemMailLogMultipleDrop not implemented")
 }
 func (UnimplementedSystemMailLogServiceServer) mustEmbedUnimplementedSystemMailLogServiceServer() {}
 
@@ -267,6 +331,24 @@ func _SystemMailLogService_SystemMailLogRecover_Handler(srv interface{}, ctx con
 	return interceptor(ctx, in, info, handler)
 }
 
+func _SystemMailLogService_SystemMailLogDrop_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SystemMailLogDropRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SystemMailLogServiceServer).SystemMailLogDrop(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: SystemMailLogService_SystemMailLogDrop_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SystemMailLogServiceServer).SystemMailLogDrop(ctx, req.(*SystemMailLogDropRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _SystemMailLogService_SystemMailLogList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(SystemMailLogListRequest)
 	if err := dec(in); err != nil {
@@ -303,6 +385,60 @@ func _SystemMailLogService_SystemMailLogListTotal_Handler(srv interface{}, ctx c
 	return interceptor(ctx, in, info, handler)
 }
 
+func _SystemMailLogService_SystemMailLogMultipleDelete_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SystemMailLogMultipleRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SystemMailLogServiceServer).SystemMailLogMultipleDelete(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: SystemMailLogService_SystemMailLogMultipleDelete_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SystemMailLogServiceServer).SystemMailLogMultipleDelete(ctx, req.(*SystemMailLogMultipleRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _SystemMailLogService_SystemMailLogMultipleRecover_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SystemMailLogMultipleRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SystemMailLogServiceServer).SystemMailLogMultipleRecover(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: SystemMailLogService_SystemMailLogMultipleRecover_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SystemMailLogServiceServer).SystemMailLogMultipleRecover(ctx, req.(*SystemMailLogMultipleRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _SystemMailLogService_SystemMailLogMultipleDrop_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SystemMailLogMultipleRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SystemMailLogServiceServer).SystemMailLogMultipleDrop(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: SystemMailLogService_SystemMailLogMultipleDrop_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SystemMailLogServiceServer).SystemMailLogMultipleDrop(ctx, req.(*SystemMailLogMultipleRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // SystemMailLogService_ServiceDesc is the grpc.ServiceDesc for SystemMailLogService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -331,12 +467,28 @@ var SystemMailLogService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _SystemMailLogService_SystemMailLogRecover_Handler,
 		},
 		{
+			MethodName: "SystemMailLogDrop",
+			Handler:    _SystemMailLogService_SystemMailLogDrop_Handler,
+		},
+		{
 			MethodName: "SystemMailLogList",
 			Handler:    _SystemMailLogService_SystemMailLogList_Handler,
 		},
 		{
 			MethodName: "SystemMailLogListTotal",
 			Handler:    _SystemMailLogService_SystemMailLogListTotal_Handler,
+		},
+		{
+			MethodName: "SystemMailLogMultipleDelete",
+			Handler:    _SystemMailLogService_SystemMailLogMultipleDelete_Handler,
+		},
+		{
+			MethodName: "SystemMailLogMultipleRecover",
+			Handler:    _SystemMailLogService_SystemMailLogMultipleRecover_Handler,
+		},
+		{
+			MethodName: "SystemMailLogMultipleDrop",
+			Handler:    _SystemMailLogService_SystemMailLogMultipleDrop_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

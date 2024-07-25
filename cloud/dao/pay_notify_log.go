@@ -4,7 +4,7 @@ import "github.com/abulo/ratel/v3/stores/null"
 
 // PayNotifyLog 支付通知日志 pay_notify_log
 type PayNotifyLog struct {
-	Id          *int64        `db:"id" json:"id"`                    //bigint 日志编号,PRI
+	Id          *int64        `db:"id,-" json:"id"`                  //bigint 日志编号,PRI
 	TaskId      *int64        `db:"task_id" json:"taskId"`           //bigint 通知任务编号
 	NotifyTimes *int32        `db:"notify_times" json:"notifyTimes"` //tinyint 第几次被通知
 	Response    null.JSON     `db:"response" json:"response"`        //json 请求参数

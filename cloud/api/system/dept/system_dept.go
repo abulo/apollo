@@ -143,6 +143,7 @@ func SystemDeptUpdate(ctx context.Context, newCtx *app.RequestContext) {
 		})
 		return
 	}
+	reqInfo.Id = nil
 	reqInfo.TenantId = proto.Int64(newCtx.GetInt64("tenantId")) // 租户
 	reqInfo.Updater = null.StringFrom(newCtx.GetString("userName"))
 	reqInfo.UpdateTime = null.DateTimeFrom(util.Now())
@@ -279,6 +280,53 @@ func SystemDeptRecover(ctx context.Context, newCtx *app.RequestContext) {
 	})
 }
 
+// SystemDeptDrop 清理数据
+func SystemDeptDrop(ctx context.Context, newCtx *app.RequestContext) {
+	if _, err := SystemDeptItem(ctx, newCtx); err != nil {
+		fromError := status.Convert(err)
+		response.JSON(newCtx, consts.StatusOK, utils.H{
+			"code": code.ConvertToHttp(fromError.Code()),
+			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
+		})
+		return
+	}
+	grpcClient, err := initial.Core.Client.LoadGrpc("grpc").Singleton()
+	if err != nil {
+		globalLogger.Logger.WithFields(logrus.Fields{
+			"err": err,
+		}).Error("Grpc:部门:system_dept:SystemDeptDrop")
+		response.JSON(newCtx, consts.StatusOK, utils.H{
+			"code": code.RPCError,
+			"msg":  code.StatusText(code.RPCError),
+		})
+		return
+	}
+	//链接服务
+	client := dept.NewSystemDeptServiceClient(grpcClient)
+	id := cast.ToInt64(newCtx.Param("id"))
+	request := &dept.SystemDeptDropRequest{}
+	request.Id = id
+	// 执行服务
+	res, err := client.SystemDeptDrop(ctx, request)
+	if err != nil {
+		globalLogger.Logger.WithFields(logrus.Fields{
+			"req": request,
+			"err": err,
+		}).Error("GrpcCall:部门:system_dept:SystemDeptDrop")
+		fromError := status.Convert(err)
+		response.JSON(newCtx, consts.StatusOK, utils.H{
+			"code": code.ConvertToHttp(fromError.Code()),
+			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
+		})
+		return
+	}
+	response.JSON(newCtx, consts.StatusOK, utils.H{
+		"code": res.GetCode(),
+		"msg":  res.GetMsg(),
+	})
+}
+
+// SystemDeptListSimple 简单列表数据
 func SystemDeptListSimple(ctx context.Context, newCtx *app.RequestContext) {
 	grpcClient, err := initial.Core.Client.LoadGrpc("grpc").Singleton()
 	if err != nil {
@@ -360,6 +408,7 @@ func SystemDeptListSimple(ctx context.Context, newCtx *app.RequestContext) {
 	})
 }
 
+// SystemDeptListLabel 列表数据
 func SystemDeptListLabel(ctx context.Context, newCtx *app.RequestContext) {
 	grpcClient, err := initial.Core.Client.LoadGrpc("grpc").Singleton()
 	if err != nil {

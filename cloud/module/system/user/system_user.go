@@ -21,27 +21,11 @@ import (
 // SystemUserCreate 创建数据
 func SystemUserCreate(ctx context.Context, data dao.SystemUser) (res int64, err error) {
 
-	// 用户数据
-	var userData dao.SystemUserCustom
-	userData.Id = nil
-	userData.Nickname = data.Nickname
-	userData.Mobile = data.Mobile
-	userData.Username = data.Username
-	userData.Password = data.Password
-	userData.Status = data.Status
-	userData.Deleted = data.Deleted
-	userData.TenantId = data.TenantId
-	userData.Creator = data.Creator
-	userData.CreateTime = data.CreateTime
-	userData.Updater = data.Updater
-	userData.UpdateTime = data.UpdateTime
-
 	db := initial.Core.Store.LoadSQL("mysql").Write()
 	res = 0
 	err = db.Transact(ctx, func(ctx context.Context, session sql.Session) error {
 		builder := sql.NewBuilder()
-
-		query, args, err := builder.Table("`system_user`").Insert(userData)
+		query, args, err := builder.Table("`system_user`").Insert(data)
 		if err != nil {
 			return err
 		}
@@ -49,7 +33,6 @@ func SystemUserCreate(ctx context.Context, data dao.SystemUser) (res int64, err 
 		if err != nil {
 			return err
 		}
-
 		var userDeptList []any
 		var userDeptIds []int64
 		err = json.Unmarshal(data.DeptIds.JSON, &userDeptIds)
@@ -147,26 +130,12 @@ func SystemUserCreate(ctx context.Context, data dao.SystemUser) (res int64, err 
 
 // SystemUserUpdate 更新数据
 func SystemUserUpdate(ctx context.Context, userId int64, data dao.SystemUser) (res int64, err error) {
-	// 用户数据
-	var userData dao.SystemUserCustom
-	userData.Id = nil
-	userData.Nickname = data.Nickname
-	userData.Mobile = data.Mobile
-	userData.Username = nil
-	userData.Password = nil
-	userData.Status = data.Status
-	userData.Deleted = nil
-	userData.TenantId = data.TenantId
-	userData.Creator = data.Creator
-	userData.CreateTime = data.CreateTime
-	userData.Updater = data.Updater
-	userData.UpdateTime = data.UpdateTime
 
 	db := initial.Core.Store.LoadSQL("mysql").Write()
 	res = 0
 	err = db.Transact(ctx, func(ctx context.Context, session sql.Session) error {
 		builder := sql.NewBuilder()
-		query, args, err := builder.Table("`system_user`").Where("`id`", userId).Update(userData)
+		query, args, err := builder.Table("`system_user`").Where("`id`", userId).Update(data)
 		if err != nil {
 			return err
 		}
@@ -347,6 +316,70 @@ func SystemUserRecover(ctx context.Context, id int64) (res int64, err error) {
 		return
 	}
 	res, err = db.Update(ctx, query, args...)
+	return
+}
+
+// SystemUserDrop 恢复数据
+func SystemUserDrop(ctx context.Context, id int64) (res int64, err error) {
+	db := initial.Core.Store.LoadSQL("mysql").Write()
+	userInfo, err := SystemUser(ctx, id)
+	if err != nil {
+		return 0, err
+	}
+	err = db.Transact(ctx, func(ctx context.Context, session sql.Session) error {
+		builder := sql.NewBuilder()
+		data := make(map[string]any)
+		data["tenant_id"] = 0
+		query, args, err := builder.Table("`system_user`").Where("`id`", id).Update(data)
+		if err != nil {
+			return err
+		}
+		res, err = session.Update(ctx, query, args...)
+		if err != nil {
+			return err
+		}
+		builder = sql.NewBuilder()
+		query, args, err = builder.Table("`system_user_role`").Where("`tenant_id`", userInfo.TenantId).Where("`user_id`", userInfo.Id).Delete()
+		if err != nil {
+			return err
+		}
+		_, err = session.Delete(ctx, query, args...)
+		if err != nil {
+			return err
+		}
+
+		builder = sql.NewBuilder()
+		query, args, err = builder.Table("`system_user_post`").Where("`tenant_id`", userInfo.TenantId).Where("`user_id`", userInfo.Id).Delete()
+		if err != nil {
+			return err
+		}
+		_, err = session.Delete(ctx, query, args...)
+		if err != nil {
+			return err
+		}
+
+		builder = sql.NewBuilder()
+		query, args, err = builder.Table("`system_user_dept`").Where("`tenant_id`", userInfo.TenantId).Where("`user_id`", userInfo.Id).Delete()
+		if err != nil {
+			return err
+		}
+		_, err = session.Delete(ctx, query, args...)
+		if err != nil {
+			return err
+		}
+
+		builder = sql.NewBuilder()
+		query, args, err = builder.Table("`system_user_tenant`").Where("`tenant_id`", userInfo.TenantId).Where("`user_id`", userInfo.Id).Delete()
+		if err != nil {
+			return err
+		}
+		_, err = session.Delete(ctx, query, args...)
+		if err != nil {
+			return err
+		}
+
+		return nil
+	})
 	return
 }
 

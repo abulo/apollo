@@ -4,7 +4,7 @@ import "github.com/abulo/ratel/v3/stores/null"
 
 // PayOrder 支付订单 pay_order
 type PayOrder struct {
-	Id              *int64             `db:"id" json:"id"`                             //bigint 支付订单编号,PRI
+	Id              *int64             `db:"id,-" json:"id"`                           //bigint 支付订单编号,PRI
 	AppId           *int64             `db:"app_id" json:"appId"`                      //bigint 应用编号
 	ChannelId       *int64             `db:"channel_id" json:"channelId"`              //bigint 渠道编号
 	ChannelCode     *string            `db:"channel_code" json:"channelCode"`          //varchar 渠道编码

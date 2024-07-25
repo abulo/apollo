@@ -1,4 +1,3 @@
-
 syntax = "proto3";
 // system_mail_account 邮箱账号表
 package mail;
@@ -91,6 +90,16 @@ message SystemMailAccountRecoverResponse {
 	int64 code = 1;
 	string msg = 2;
 }
+// SystemMailAccountDropRequest 清理数据请求
+message SystemMailAccountDropRequest {
+	// @inject_tag: db:"id" json:"id"
+	int64 id = 1; //主键
+}
+// SystemMailAccountDropResponse 清理数据响应
+message SystemMailAccountDropResponse {
+	int64 code = 1;
+	string msg = 2;
+}
 // SystemMailAccountListRequest 列表数据
 message SystemMailAccountListRequest {
 	
@@ -131,6 +140,7 @@ service SystemMailAccountService{
 	rpc SystemMailAccountDelete(SystemMailAccountDeleteRequest) returns (SystemMailAccountDeleteResponse);
 	rpc SystemMailAccount(SystemMailAccountRequest) returns (SystemMailAccountResponse);
 	rpc SystemMailAccountRecover(SystemMailAccountRecoverRequest) returns (SystemMailAccountRecoverResponse);
+	rpc SystemMailAccountDrop(SystemMailAccountDropRequest) returns (SystemMailAccountDropResponse);
 	rpc SystemMailAccountList(SystemMailAccountListRequest) returns (SystemMailAccountListResponse);
 	rpc SystemMailAccountListTotal(SystemMailAccountListTotalRequest) returns (SystemMailAccountTotalResponse);
 }

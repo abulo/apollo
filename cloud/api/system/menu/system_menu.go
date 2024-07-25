@@ -21,6 +21,33 @@ import (
 	"google.golang.org/protobuf/proto"
 )
 
+// system_menu 系统菜单
+// SystemMenuItem 查询单条数据
+func SystemMenuItem(ctx context.Context, newCtx *app.RequestContext, id int64) (*menu.SystemMenuResponse, error) {
+	//判断这个服务能不能链接
+	grpcClient, err := initial.Core.Client.LoadGrpc("grpc").Singleton()
+	if err != nil {
+		globalLogger.Logger.WithFields(logrus.Fields{
+			"err": err,
+		}).Error("Grpc:系统菜单:system_menu:SystemMenuItem")
+		return nil, status.Error(code.ConvertToGrpc(code.RPCError), code.StatusText(code.RPCError))
+	}
+	//链接服务
+	client := menu.NewSystemMenuServiceClient(grpcClient)
+	request := &menu.SystemMenuRequest{}
+	request.Id = id
+	// 执行服务
+	res, err := client.SystemMenu(ctx, request)
+	if err != nil {
+		globalLogger.Logger.WithFields(logrus.Fields{
+			"req": request,
+			"err": err,
+		}).Error("GrpcCall:系统菜单:system_menu:SystemMenuItem")
+		return nil, err
+	}
+	return res, nil
+}
+
 // SystemMenuCreate 创建数据
 func SystemMenuCreate(ctx context.Context, newCtx *app.RequestContext) {
 	//判断这个服务能不能链接
@@ -47,6 +74,8 @@ func SystemMenuCreate(ctx context.Context, newCtx *app.RequestContext) {
 		})
 		return
 	}
+	reqInfo.Id = nil
+	reqInfo.Deleted = proto.Int32(0)
 	reqInfo.Creator = null.StringFrom(newCtx.GetString("userName"))
 	reqInfo.CreateTime = null.DateTimeFrom(util.Now())
 	request.Data = menu.SystemMenuProto(reqInfo)
@@ -72,6 +101,15 @@ func SystemMenuCreate(ctx context.Context, newCtx *app.RequestContext) {
 
 // SystemMenuUpdate 更新数据
 func SystemMenuUpdate(ctx context.Context, newCtx *app.RequestContext) {
+	id := cast.ToInt64(newCtx.Param("id"))
+	if _, err := SystemMenuItem(ctx, newCtx, id); err != nil {
+		fromError := status.Convert(err)
+		response.JSON(newCtx, consts.StatusOK, utils.H{
+			"code": code.ConvertToHttp(fromError.Code()),
+			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
+		})
+		return
+	}
 	//判断这个服务能不能链接
 	grpcClient, err := initial.Core.Client.LoadGrpc("grpc").Singleton()
 	if err != nil {
@@ -86,7 +124,6 @@ func SystemMenuUpdate(ctx context.Context, newCtx *app.RequestContext) {
 	}
 	//链接服务
 	client := menu.NewSystemMenuServiceClient(grpcClient)
-	id := cast.ToInt64(newCtx.Param("id"))
 	request := &menu.SystemMenuUpdateRequest{}
 	request.Id = id
 	// 数据绑定
@@ -101,6 +138,8 @@ func SystemMenuUpdate(ctx context.Context, newCtx *app.RequestContext) {
 	reqInfo.Id = nil
 	reqInfo.Updater = null.StringFrom(newCtx.GetString("userName"))
 	reqInfo.UpdateTime = null.DateTimeFrom(util.Now())
+	reqInfo.Creator = null.StringFromPtr(nil)
+	reqInfo.CreateTime = null.DateTimeFromPtr(nil)
 	request.Data = menu.SystemMenuProto(reqInfo)
 	// 执行服务
 	res, err := client.SystemMenuUpdate(ctx, request)
@@ -124,6 +163,15 @@ func SystemMenuUpdate(ctx context.Context, newCtx *app.RequestContext) {
 
 // SystemMenuDelete 删除数据
 func SystemMenuDelete(ctx context.Context, newCtx *app.RequestContext) {
+	id := cast.ToInt64(newCtx.Param("id"))
+	if _, err := SystemMenuItem(ctx, newCtx, id); err != nil {
+		fromError := status.Convert(err)
+		response.JSON(newCtx, consts.StatusOK, utils.H{
+			"code": code.ConvertToHttp(fromError.Code()),
+			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
+		})
+		return
+	}
 	grpcClient, err := initial.Core.Client.LoadGrpc("grpc").Singleton()
 	if err != nil {
 		globalLogger.Logger.WithFields(logrus.Fields{
@@ -137,7 +185,6 @@ func SystemMenuDelete(ctx context.Context, newCtx *app.RequestContext) {
 	}
 	//链接服务
 	client := menu.NewSystemMenuServiceClient(grpcClient)
-	id := cast.ToInt64(newCtx.Param("id"))
 	request := &menu.SystemMenuDeleteRequest{}
 	request.Id = id
 	// 执行服务
@@ -162,30 +209,10 @@ func SystemMenuDelete(ctx context.Context, newCtx *app.RequestContext) {
 
 // SystemMenu 查询单条数据
 func SystemMenu(ctx context.Context, newCtx *app.RequestContext) {
-	//判断这个服务能不能链接
-	grpcClient, err := initial.Core.Client.LoadGrpc("grpc").Singleton()
-	if err != nil {
-		globalLogger.Logger.WithFields(logrus.Fields{
-			"err": err,
-		}).Error("Grpc:系统菜单:system_menu:SystemMenu")
-		response.JSON(newCtx, consts.StatusOK, utils.H{
-			"code": code.RPCError,
-			"msg":  code.StatusText(code.RPCError),
-		})
-		return
-	}
-	//链接服务
-	client := menu.NewSystemMenuServiceClient(grpcClient)
 	id := cast.ToInt64(newCtx.Param("id"))
-	request := &menu.SystemMenuRequest{}
-	request.Id = id
 	// 执行服务
-	res, err := client.SystemMenu(ctx, request)
+	res, err := SystemMenuItem(ctx, newCtx, id)
 	if err != nil {
-		globalLogger.Logger.WithFields(logrus.Fields{
-			"req": request,
-			"err": err,
-		}).Error("GrpcCall:系统菜单:system_menu:SystemMenu")
 		fromError := status.Convert(err)
 		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.ConvertToHttp(fromError.Code()),
@@ -202,6 +229,15 @@ func SystemMenu(ctx context.Context, newCtx *app.RequestContext) {
 
 // SystemMenuRecover 恢复数据
 func SystemMenuRecover(ctx context.Context, newCtx *app.RequestContext) {
+	id := cast.ToInt64(newCtx.Param("id"))
+	if _, err := SystemMenuItem(ctx, newCtx, id); err != nil {
+		fromError := status.Convert(err)
+		response.JSON(newCtx, consts.StatusOK, utils.H{
+			"code": code.ConvertToHttp(fromError.Code()),
+			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
+		})
+		return
+	}
 	grpcClient, err := initial.Core.Client.LoadGrpc("grpc").Singleton()
 	if err != nil {
 		globalLogger.Logger.WithFields(logrus.Fields{
@@ -215,7 +251,6 @@ func SystemMenuRecover(ctx context.Context, newCtx *app.RequestContext) {
 	}
 	//链接服务
 	client := menu.NewSystemMenuServiceClient(grpcClient)
-	id := cast.ToInt64(newCtx.Param("id"))
 	request := &menu.SystemMenuRecoverRequest{}
 	request.Id = id
 	// 执行服务
@@ -238,8 +273,50 @@ func SystemMenuRecover(ctx context.Context, newCtx *app.RequestContext) {
 	})
 }
 
-func SystemMenuListSimple(ctx context.Context, newCtx *app.RequestContext) {
-	SystemMenuList(ctx, newCtx)
+// SystemMenuDrop 清理数据
+func SystemMenuDrop(ctx context.Context, newCtx *app.RequestContext) {
+	id := cast.ToInt64(newCtx.Param("id"))
+	if _, err := SystemMenuItem(ctx, newCtx, id); err != nil {
+		fromError := status.Convert(err)
+		response.JSON(newCtx, consts.StatusOK, utils.H{
+			"code": code.ConvertToHttp(fromError.Code()),
+			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
+		})
+		return
+	}
+	grpcClient, err := initial.Core.Client.LoadGrpc("grpc").Singleton()
+	if err != nil {
+		globalLogger.Logger.WithFields(logrus.Fields{
+			"err": err,
+		}).Error("Grpc:系统菜单:system_menu:SystemMenuDrop")
+		response.JSON(newCtx, consts.StatusOK, utils.H{
+			"code": code.RPCError,
+			"msg":  code.StatusText(code.RPCError),
+		})
+		return
+	}
+	//链接服务
+	client := menu.NewSystemMenuServiceClient(grpcClient)
+	request := &menu.SystemMenuDropRequest{}
+	request.Id = id
+	// 执行服务
+	res, err := client.SystemMenuDrop(ctx, request)
+	if err != nil {
+		globalLogger.Logger.WithFields(logrus.Fields{
+			"req": request,
+			"err": err,
+		}).Error("GrpcCall:系统菜单:system_menu:SystemMenuDrop")
+		fromError := status.Convert(err)
+		response.JSON(newCtx, consts.StatusOK, utils.H{
+			"code": code.ConvertToHttp(fromError.Code()),
+			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
+		})
+		return
+	}
+	response.JSON(newCtx, consts.StatusOK, utils.H{
+		"code": res.GetCode(),
+		"msg":  res.GetMsg(),
+	})
 }
 
 // SystemMenuList 列表数据
@@ -259,7 +336,7 @@ func SystemMenuList(ctx context.Context, newCtx *app.RequestContext) {
 	client := menu.NewSystemMenuServiceClient(grpcClient)
 	// 构造查询条件
 	request := &menu.SystemMenuListRequest{}
-	// 构造查询条件
+
 	request.Deleted = proto.Int32(0)
 	if val, ok := newCtx.GetQuery("deleted"); ok {
 		if cast.ToBool(val) {
@@ -300,17 +377,10 @@ func SystemMenuList(ctx context.Context, newCtx *app.RequestContext) {
 	})
 }
 
-// SystemMenuTree 树形菜单
-// func SystemMenuTree(list []*dao.SystemMenu, pid int64) []*dao.SystemMenu {
-// 	var tree []*dao.SystemMenu
-// 	for _, item := range list {
-// 		if *item.ParentId == pid {
-// 			item.Children = SystemMenuTree(list, *item.Id)
-// 			tree = append(tree, item)
-// 		}
-// 	}
-// 	return tree
-// }
+// SystemMenuListSimple 列表精简数据
+func SystemMenuListSimple(ctx context.Context, newCtx *app.RequestContext) {
+	SystemMenuList(ctx, newCtx)
+}
 
 func SystemMenuTree(menus []dao.SystemMenu) []*dao.SystemMenu {
 	deptMap := make(map[int64]*dao.SystemMenu)

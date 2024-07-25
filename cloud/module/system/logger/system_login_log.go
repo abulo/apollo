@@ -79,6 +79,18 @@ func SystemLoginLogRecover(ctx context.Context, id int64) (res int64, err error)
 	return
 }
 
+// SystemLoginLogDrop 清理数据
+func SystemLoginLogDrop(ctx context.Context, id int64) (res int64, err error) {
+	db := initial.Core.Store.LoadSQL("mysql").Write()
+	builder := sql.NewBuilder()
+	query, args, err := builder.Table("`system_login_log`").Where("`id`", id).Delete()
+	if err != nil {
+		return
+	}
+	res, err = db.Delete(ctx, query, args...)
+	return
+}
+
 // SystemLoginLogList 查询列表数据
 func SystemLoginLogList(ctx context.Context, condition map[string]any) (res []dao.SystemLoginLog, err error) {
 	if util.Empty(condition["userId"]) || util.Empty(condition["dataScope"]) || util.Empty(condition["dataScopeDept"]) || util.Empty(condition["tenantId"]) {
@@ -182,7 +194,7 @@ func SystemLoginLogList(ctx context.Context, condition map[string]any) (res []da
 		args = append(args, userId)
 	}
 
-	newSql += " GROUP BY newTable.id "
+	newSql += " GROUP BY newTable.id ORDER BY newTable.id DESC "
 	if val, ok := condition["pagination"]; ok {
 		pagination := val.(*sql.Pagination)
 		if pagination != nil {
@@ -312,14 +324,14 @@ func SystemLoginLogListTotal(ctx context.Context, condition map[string]any) (res
 	return
 }
 
-func SystemLoginLogDrop(ctx context.Context, condition map[string]any) (res int64, err error) {
-	data := make(map[string]any)
-	data["deleted"] = 1
+// SystemLoginLogMultipleDelete 批量删除数据
+func SystemLoginLogMultipleDelete(ctx context.Context, condition map[string]any) (res int64, err error) {
+	if util.Empty(condition["ids"]) || util.Empty(condition["tenantId"]) {
+		return 0, errors.New("ids or tenantId is empty")
+	}
 	db := initial.Core.Store.LoadSQL("mysql").Write()
 	builder := sql.NewBuilder()
 	builder.Table("`system_login_log`")
-	var query string
-	var args []any
 	if val, ok := condition["ids"]; ok {
 		ids := val.([]int64)
 		id := make([]any, 0)
@@ -328,28 +340,68 @@ func SystemLoginLogDrop(ctx context.Context, condition map[string]any) (res int6
 		}
 		builder.In("`id`", id...)
 	}
-	if val, ok := condition["tenantId"]; ok {
-		builder.Where("`tenant_id`", val)
-	}
-	if val, ok := condition["deleted"]; ok {
-		builder.Where("`deleted`", val)
-	}
-	if val, ok := condition["username"]; ok {
-		builder.Where("`username`", val)
-	}
-	if val, ok := condition["beginLoginTime"]; ok {
-		builder.GreaterEqual("`login_time`", val)
-	}
-	if val, ok := condition["finishLoginTime"]; ok {
-		builder.LessEqual("`login_time`", val)
-	}
-	if val, ok := condition["channel"]; ok {
-		builder.Where("`channel`", val)
-	}
-	query, args, err = builder.Update(data)
+	tenantId := cast.ToInt64(condition["tenantId"])
+	builder.Where("tenant_id", tenantId)
+	data := make(map[string]any)
+	data["deleted"] = 1
+	query, args, err := builder.Update(data)
 	if err != nil {
 		return
 	}
 	res, err = db.Update(ctx, query, args...)
+	return
+}
+
+// SystemLoginLogMultipleRecover 批量恢复数据
+func SystemLoginLogMultipleRecover(ctx context.Context, condition map[string]any) (res int64, err error) {
+	if util.Empty(condition["ids"]) || util.Empty(condition["tenantId"]) {
+		return 0, errors.New("ids or tenantId is empty")
+	}
+	db := initial.Core.Store.LoadSQL("mysql").Write()
+	builder := sql.NewBuilder()
+	builder.Table("`system_login_log`")
+	if val, ok := condition["ids"]; ok {
+		ids := val.([]int64)
+		id := make([]any, 0)
+		for _, v := range ids {
+			id = append(id, v)
+		}
+		builder.In("`id`", id...)
+	}
+	tenantId := cast.ToInt64(condition["tenantId"])
+	builder.Where("tenant_id", tenantId)
+	data := make(map[string]any)
+	data["deleted"] = 0
+	query, args, err := builder.Update(data)
+	if err != nil {
+		return
+	}
+	res, err = db.Update(ctx, query, args...)
+	return
+}
+
+// SystemLoginLogMultipleDrop 批量清理数据
+func SystemLoginLogMultipleDrop(ctx context.Context, condition map[string]any) (res int64, err error) {
+	if util.Empty(condition["ids"]) || util.Empty(condition["tenantId"]) {
+		return 0, errors.New("ids or tenantId is empty")
+	}
+	db := initial.Core.Store.LoadSQL("mysql").Write()
+	builder := sql.NewBuilder()
+	builder.Table("`system_login_log`")
+	if val, ok := condition["ids"]; ok {
+		ids := val.([]int64)
+		id := make([]any, 0)
+		for _, v := range ids {
+			id = append(id, v)
+		}
+		builder.In("`id`", id...)
+	}
+	tenantId := cast.ToInt64(condition["tenantId"])
+	builder.Where("tenant_id", tenantId)
+	query, args, err := builder.Delete()
+	if err != nil {
+		return
+	}
+	res, err = db.Delete(ctx, query, args...)
 	return
 }

@@ -4,7 +4,7 @@ import "github.com/abulo/ratel/v3/stores/null"
 
 // PayWallet 会员钱包表 pay_wallet
 type PayWallet struct {
-	Id            *int64        `db:"id" json:"id"`                        //bigint 编号,PRI
+	Id            *int64        `db:"id,-" json:"id"`                      //bigint 编号,PRI
 	UserId        *int64        `db:"user_id" json:"userId"`               //bigint 用户编号
 	UserType      *int32        `db:"user_type" json:"userType"`           //tinyint 用户类型
 	Balance       *int64        `db:"balance" json:"balance"`              //bigint 余额，单位分

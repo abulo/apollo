@@ -4,7 +4,7 @@ import "github.com/abulo/ratel/v3/stores/null"
 
 // SystemTenantPackage 租户套餐包 system_tenant_package
 type SystemTenantPackage struct {
-	Id         *int64        `db:"id" json:"id"`                  //bigint 套餐编号,PRI
+	Id         *int64        `db:"id,-" json:"id"`                //bigint 套餐编号,PRI
 	Name       *string       `db:"name" json:"name"`              //varchar 套餐名称
 	Status     *int32        `db:"status" json:"status"`          //tinyint 状态（0正常 1停用）
 	MenuIds    null.JSON     `db:"menu_ids" json:"menuIds"`       //json 目录编号

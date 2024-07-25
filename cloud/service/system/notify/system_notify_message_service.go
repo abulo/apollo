@@ -4,6 +4,7 @@ import (
 	"cloud/code"
 	"cloud/module/system/notify"
 	"context"
+	"encoding/json"
 
 	globalLogger "github.com/abulo/ratel/v3/core/logger"
 	"github.com/abulo/ratel/v3/server/xgrpc"
@@ -120,6 +121,26 @@ func (srv SrvSystemNotifyMessageServiceServer) SystemNotifyMessageRecover(ctx co
 		Msg:  code.StatusText(code.Success),
 	}, nil
 }
+
+// SystemNotifyMessageDrop 清理数据
+func (srv SrvSystemNotifyMessageServiceServer) SystemNotifyMessageDrop(ctx context.Context, request *SystemNotifyMessageDropRequest) (*SystemNotifyMessageDropResponse, error) {
+	id := request.GetId()
+	if id < 1 {
+		return &SystemNotifyMessageDropResponse{}, status.Error(code.ConvertToGrpc(code.ParamInvalid), code.StatusText(code.ParamInvalid))
+	}
+	_, err := notify.SystemNotifyMessageDrop(ctx, id)
+	if sql.ResultAccept(err) != nil {
+		globalLogger.Logger.WithFields(logrus.Fields{
+			"req": id,
+			"err": err,
+		}).Error("Sql:站内信消息表:system_notify_message:SystemNotifyMessageDrop")
+		return &SystemNotifyMessageDropResponse{}, status.Error(code.ConvertToGrpc(code.SqlError), err.Error())
+	}
+	return &SystemNotifyMessageDropResponse{
+		Code: code.Success,
+		Msg:  code.StatusText(code.Success),
+	}, nil
+}
 func (srv SrvSystemNotifyMessageServiceServer) SystemNotifyMessageList(ctx context.Context, request *SystemNotifyMessageListRequest) (*SystemNotifyMessageListResponse, error) {
 	// 数据库查询条件
 	condition := make(map[string]any)
@@ -220,5 +241,86 @@ func (srv SrvSystemNotifyMessageServiceServer) SystemNotifyMessageListTotal(ctx 
 		Code: code.Success,
 		Msg:  code.StatusText(code.Success),
 		Data: total,
+	}, nil
+}
+
+// SystemNotifyMessageMultipleDelete 批量删除
+func (srv SrvSystemNotifyMessageServiceServer) SystemNotifyMessageMultipleDelete(ctx context.Context, request *SystemNotifyMessageMultipleRequest) (*SystemNotifyMessageMultipleResponse, error) {
+	condition := make(map[string]any)
+	// 构造查询条件
+	if request.TenantId != nil {
+		condition["tenantId"] = request.GetTenantId()
+	}
+	if request.Ids != nil {
+		var ids []int64
+		json.Unmarshal(request.GetIds(), &ids)
+		condition["ids"] = ids
+	}
+	// 获取数据集合
+	_, err := notify.SystemNotifyMessageMultipleDelete(ctx, condition)
+	if sql.ResultAccept(err) != nil {
+		globalLogger.Logger.WithFields(logrus.Fields{
+			"req": condition,
+			"err": err,
+		}).Error("Sql:站内信消息表:system_notify_message:SystemNotifyMessageMultipleDelete")
+		return &SystemNotifyMessageMultipleResponse{}, status.Error(code.ConvertToGrpc(code.SqlError), err.Error())
+	}
+	return &SystemNotifyMessageMultipleResponse{
+		Code: code.Success,
+		Msg:  code.StatusText(code.Success),
+	}, nil
+}
+
+// SystemNotifyMessageMultipleRecover 批量恢复
+func (srv SrvSystemNotifyMessageServiceServer) SystemNotifyMessageMultipleRecover(ctx context.Context, request *SystemNotifyMessageMultipleRequest) (*SystemNotifyMessageMultipleResponse, error) {
+	condition := make(map[string]any)
+	// 构造查询条件
+	if request.TenantId != nil {
+		condition["tenantId"] = request.GetTenantId()
+	}
+	if request.Ids != nil {
+		var ids []int64
+		json.Unmarshal(request.GetIds(), &ids)
+		condition["ids"] = ids
+	}
+	// 获取数据集合
+	_, err := notify.SystemNotifyMessageMultipleRecover(ctx, condition)
+	if sql.ResultAccept(err) != nil {
+		globalLogger.Logger.WithFields(logrus.Fields{
+			"req": condition,
+			"err": err,
+		}).Error("Sql:站内信消息表:system_notify_message:SystemNotifyMessageMultipleRecover")
+		return &SystemNotifyMessageMultipleResponse{}, status.Error(code.ConvertToGrpc(code.SqlError), err.Error())
+	}
+	return &SystemNotifyMessageMultipleResponse{
+		Code: code.Success,
+		Msg:  code.StatusText(code.Success),
+	}, nil
+}
+
+// SystemNotifyMessageMultipleDrop 批量清理
+func (srv SrvSystemNotifyMessageServiceServer) SystemNotifyMessageMultipleDrop(ctx context.Context, request *SystemNotifyMessageMultipleRequest) (*SystemNotifyMessageMultipleResponse, error) {
+	condition := make(map[string]any)
+	// 构造查询条件
+	if request.TenantId != nil {
+		condition["tenantId"] = request.GetTenantId()
+	}
+	if request.Ids != nil {
+		var ids []int64
+		json.Unmarshal(request.GetIds(), &ids)
+		condition["ids"] = ids
+	}
+	// 获取数据集合
+	_, err := notify.SystemNotifyMessageMultipleDrop(ctx, condition)
+	if sql.ResultAccept(err) != nil {
+		globalLogger.Logger.WithFields(logrus.Fields{
+			"req": condition,
+			"err": err,
+		}).Error("Sql:站内信消息表:system_notify_message:SystemNotifyMessageMultipleDrop")
+		return &SystemNotifyMessageMultipleResponse{}, status.Error(code.ConvertToGrpc(code.SqlError), err.Error())
+	}
+	return &SystemNotifyMessageMultipleResponse{
+		Code: code.Success,
+		Msg:  code.StatusText(code.Success),
 	}, nil
 }

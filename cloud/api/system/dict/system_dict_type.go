@@ -23,6 +23,32 @@ import (
 )
 
 // system_dict_type 字典类型
+// SystemDictTypeItem 查询单条数据
+func SystemDictTypeItem(ctx context.Context, newCtx *app.RequestContext, id int64) (*dict.SystemDictTypeResponse, error) {
+	//判断这个服务能不能链接
+	grpcClient, err := initial.Core.Client.LoadGrpc("grpc").Singleton()
+	if err != nil {
+		globalLogger.Logger.WithFields(logrus.Fields{
+			"err": err,
+		}).Error("Grpc:字典类型:system_dict_type:SystemDictTypeItem")
+		return nil, status.Error(code.ConvertToGrpc(code.RPCError), code.StatusText(code.RPCError))
+	}
+	//链接服务
+	client := dict.NewSystemDictTypeServiceClient(grpcClient)
+	request := &dict.SystemDictTypeRequest{}
+	request.Id = id
+	// 执行服务
+	res, err := client.SystemDictType(ctx, request)
+	if err != nil {
+		globalLogger.Logger.WithFields(logrus.Fields{
+			"req": request,
+			"err": err,
+		}).Error("GrpcCall:字典类型:system_dict_type:SystemDictTypeItem")
+		return nil, err
+	}
+	return res, nil
+}
+
 // SystemDictTypeCreate 创建数据
 func SystemDictTypeCreate(ctx context.Context, newCtx *app.RequestContext) {
 	//判断这个服务能不能链接
@@ -49,6 +75,7 @@ func SystemDictTypeCreate(ctx context.Context, newCtx *app.RequestContext) {
 		})
 		return
 	}
+	reqInfo.Id = nil
 	reqInfo.Creator = null.StringFrom(newCtx.GetString("userName"))
 	reqInfo.CreateTime = null.DateTimeFrom(util.Now())
 	request.Data = dict.SystemDictTypeProto(reqInfo)
@@ -74,6 +101,15 @@ func SystemDictTypeCreate(ctx context.Context, newCtx *app.RequestContext) {
 
 // SystemDictTypeUpdate 更新数据
 func SystemDictTypeUpdate(ctx context.Context, newCtx *app.RequestContext) {
+	id := cast.ToInt64(newCtx.Param("id"))
+	if _, err := SystemDictTypeItem(ctx, newCtx, id); err != nil {
+		fromError := status.Convert(err)
+		response.JSON(newCtx, consts.StatusOK, utils.H{
+			"code": code.ConvertToHttp(fromError.Code()),
+			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
+		})
+		return
+	}
 	//判断这个服务能不能链接
 	grpcClient, err := initial.Core.Client.LoadGrpc("grpc").Singleton()
 	if err != nil {
@@ -88,7 +124,6 @@ func SystemDictTypeUpdate(ctx context.Context, newCtx *app.RequestContext) {
 	}
 	//链接服务
 	client := dict.NewSystemDictTypeServiceClient(grpcClient)
-	id := cast.ToInt64(newCtx.Param("id"))
 	request := &dict.SystemDictTypeUpdateRequest{}
 	request.Id = id
 	// 数据绑定
@@ -128,6 +163,15 @@ func SystemDictTypeUpdate(ctx context.Context, newCtx *app.RequestContext) {
 
 // SystemDictTypeDelete 删除数据
 func SystemDictTypeDelete(ctx context.Context, newCtx *app.RequestContext) {
+	id := cast.ToInt64(newCtx.Param("id"))
+	if _, err := SystemDictTypeItem(ctx, newCtx, id); err != nil {
+		fromError := status.Convert(err)
+		response.JSON(newCtx, consts.StatusOK, utils.H{
+			"code": code.ConvertToHttp(fromError.Code()),
+			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
+		})
+		return
+	}
 	grpcClient, err := initial.Core.Client.LoadGrpc("grpc").Singleton()
 	if err != nil {
 		globalLogger.Logger.WithFields(logrus.Fields{
@@ -141,7 +185,6 @@ func SystemDictTypeDelete(ctx context.Context, newCtx *app.RequestContext) {
 	}
 	//链接服务
 	client := dict.NewSystemDictTypeServiceClient(grpcClient)
-	id := cast.ToInt64(newCtx.Param("id"))
 	request := &dict.SystemDictTypeDeleteRequest{}
 	request.Id = id
 	// 执行服务
@@ -166,30 +209,10 @@ func SystemDictTypeDelete(ctx context.Context, newCtx *app.RequestContext) {
 
 // SystemDictType 查询单条数据
 func SystemDictType(ctx context.Context, newCtx *app.RequestContext) {
-	//判断这个服务能不能链接
-	grpcClient, err := initial.Core.Client.LoadGrpc("grpc").Singleton()
-	if err != nil {
-		globalLogger.Logger.WithFields(logrus.Fields{
-			"err": err,
-		}).Error("Grpc:字典类型:system_dict_type:SystemDictType")
-		response.JSON(newCtx, consts.StatusOK, utils.H{
-			"code": code.RPCError,
-			"msg":  code.StatusText(code.RPCError),
-		})
-		return
-	}
-	//链接服务
-	client := dict.NewSystemDictTypeServiceClient(grpcClient)
 	id := cast.ToInt64(newCtx.Param("id"))
-	request := &dict.SystemDictTypeRequest{}
-	request.Id = id
 	// 执行服务
-	res, err := client.SystemDictType(ctx, request)
+	res, err := SystemDictTypeItem(ctx, newCtx, id)
 	if err != nil {
-		globalLogger.Logger.WithFields(logrus.Fields{
-			"req": request,
-			"err": err,
-		}).Error("GrpcCall:字典类型:system_dict_type:SystemDictType")
 		fromError := status.Convert(err)
 		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.ConvertToHttp(fromError.Code()),
@@ -291,13 +314,13 @@ func SystemDictTypeList(ctx context.Context, newCtx *app.RequestContext) {
 	})
 }
 
-// SystemDictTypeAll 列表数据
-func SystemDictTypeAll(ctx context.Context, newCtx *app.RequestContext) {
+// SystemDictTypeListSimple 列表精简数据
+func SystemDictTypeListSimple(ctx context.Context, newCtx *app.RequestContext) {
 	grpcClient, err := initial.Core.Client.LoadGrpc("grpc").Singleton()
 	if err != nil {
 		globalLogger.Logger.WithFields(logrus.Fields{
 			"err": err,
-		}).Error("Grpc:字典类型:system_dict_type:SystemDictTypeList")
+		}).Error("Grpc:字典类型:system_dict_type:SystemDictTypeListSimple")
 		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.RPCError,
 			"msg":  code.StatusText(code.RPCError),
@@ -318,13 +341,14 @@ func SystemDictTypeAll(ctx context.Context, newCtx *app.RequestContext) {
 	if val, ok := newCtx.GetQuery("name"); ok {
 		request.Name = proto.String(val) // 字典名称
 	}
+
 	// 执行服务
 	res, err := client.SystemDictTypeList(ctx, request)
 	if err != nil {
 		globalLogger.Logger.WithFields(logrus.Fields{
 			"req": request,
 			"err": err,
-		}).Error("GrpcCall:字典类型:system_dict_type:SystemDictTypeList")
+		}).Error("GrpcCall:字典类型:system_dict_type:SystemDictTypeListSimple")
 		fromError := status.Convert(err)
 		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.ConvertToHttp(fromError.Code()),

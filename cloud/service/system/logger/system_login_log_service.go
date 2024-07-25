@@ -121,6 +121,26 @@ func (srv SrvSystemLoginLogServiceServer) SystemLoginLogRecover(ctx context.Cont
 		Msg:  code.StatusText(code.Success),
 	}, nil
 }
+
+// SystemLoginLogDrop 清理数据
+func (srv SrvSystemLoginLogServiceServer) SystemLoginLogDrop(ctx context.Context, request *SystemLoginLogDropRequest) (*SystemLoginLogDropResponse, error) {
+	id := request.GetId()
+	if id < 1 {
+		return &SystemLoginLogDropResponse{}, status.Error(code.ConvertToGrpc(code.ParamInvalid), code.StatusText(code.ParamInvalid))
+	}
+	_, err := logger.SystemLoginLogDrop(ctx, id)
+	if sql.ResultAccept(err) != nil {
+		globalLogger.Logger.WithFields(logrus.Fields{
+			"req": id,
+			"err": err,
+		}).Error("Sql:登录日志:system_login_log:SystemLoginLogDrop")
+		return &SystemLoginLogDropResponse{}, status.Error(code.ConvertToGrpc(code.SqlError), err.Error())
+	}
+	return &SystemLoginLogDropResponse{
+		Code: code.Success,
+		Msg:  code.StatusText(code.Success),
+	}, nil
+}
 func (srv SrvSystemLoginLogServiceServer) SystemLoginLogList(ctx context.Context, request *SystemLoginLogListRequest) (*SystemLoginLogListResponse, error) {
 	// 数据库查询条件
 	condition := make(map[string]any)
@@ -143,11 +163,11 @@ func (srv SrvSystemLoginLogServiceServer) SystemLoginLogList(ctx context.Context
 	if request.Channel != nil {
 		condition["channel"] = request.GetChannel()
 	}
-	if request.DeptId != nil {
-		condition["deptId"] = request.GetDeptId()
-	}
 	if request.UserId != nil {
 		condition["userId"] = request.GetUserId()
+	}
+	if request.DeptId != nil {
+		condition["deptId"] = request.GetDeptId()
 	}
 	if request.DataScope != nil {
 		condition["dataScope"] = request.GetDataScope()
@@ -221,11 +241,11 @@ func (srv SrvSystemLoginLogServiceServer) SystemLoginLogListTotal(ctx context.Co
 	if request.Channel != nil {
 		condition["channel"] = request.GetChannel()
 	}
-	if request.DeptId != nil {
-		condition["deptId"] = request.GetDeptId()
-	}
 	if request.UserId != nil {
 		condition["userId"] = request.GetUserId()
+	}
+	if request.DeptId != nil {
+		condition["deptId"] = request.GetDeptId()
 	}
 	if request.DataScope != nil {
 		condition["dataScope"] = request.GetDataScope()
@@ -252,46 +272,82 @@ func (srv SrvSystemLoginLogServiceServer) SystemLoginLogListTotal(ctx context.Co
 	}, nil
 }
 
-func (srv SrvSystemLoginLogServiceServer) SystemLoginLogDrop(ctx context.Context, request *SystemLoginLogDropRequest) (*SystemLoginLogDropResponse, error) {
+// SystemLoginLogMultipleDelete 批量删除
+func (srv SrvSystemLoginLogServiceServer) SystemLoginLogMultipleDelete(ctx context.Context, request *SystemLoginLogMultipleRequest) (*SystemLoginLogMultipleResponse, error) {
 	condition := make(map[string]any)
 	// 构造查询条件
-	if request.Ids != nil {
-		req := request.GetIds()
-		var ids []int64
-		if err := json.Unmarshal(req, &ids); err != nil {
-			return &SystemLoginLogDropResponse{}, status.Error(code.ConvertToGrpc(code.ParamInvalid), code.StatusText(code.ParamInvalid))
-		}
-		condition["ids"] = ids
-	}
 	if request.TenantId != nil {
 		condition["tenantId"] = request.GetTenantId()
 	}
-	if request.Deleted != nil {
-		condition["deleted"] = request.GetDeleted()
+	if request.Ids != nil {
+		var ids []int64
+		json.Unmarshal(request.GetIds(), &ids)
+		condition["ids"] = ids
 	}
-	if request.Username != nil {
-		condition["username"] = request.GetUsername()
-	}
-	if request.BeginLoginTime != nil {
-		condition["beginLoginTime"] = util.Date("Y-m-d H:i:s", util.GrpcTime(request.GetBeginLoginTime()))
-	}
-	if request.FinishLoginTime != nil {
-		condition["finishLoginTime"] = util.Date("Y-m-d H:i:s", util.GrpcTime(request.GetFinishLoginTime()))
-	}
-	if request.Channel != nil {
-		condition["channel"] = request.GetChannel()
-	}
-
 	// 获取数据集合
-	_, err := logger.SystemLoginLogDrop(ctx, condition)
+	_, err := logger.SystemLoginLogMultipleDelete(ctx, condition)
 	if sql.ResultAccept(err) != nil {
 		globalLogger.Logger.WithFields(logrus.Fields{
 			"req": condition,
 			"err": err,
-		}).Error("Sql:登录日志:system_login_log:SystemLoginLogList")
-		return &SystemLoginLogDropResponse{}, status.Error(code.ConvertToGrpc(code.SqlError), err.Error())
+		}).Error("Sql:登录日志:system_login_log:SystemLoginLogMultipleDelete")
+		return &SystemLoginLogMultipleResponse{}, status.Error(code.ConvertToGrpc(code.SqlError), err.Error())
 	}
-	return &SystemLoginLogDropResponse{
+	return &SystemLoginLogMultipleResponse{
+		Code: code.Success,
+		Msg:  code.StatusText(code.Success),
+	}, nil
+}
+
+// SystemLoginLogMultipleRecover 批量恢复
+func (srv SrvSystemLoginLogServiceServer) SystemLoginLogMultipleRecover(ctx context.Context, request *SystemLoginLogMultipleRequest) (*SystemLoginLogMultipleResponse, error) {
+	condition := make(map[string]any)
+	// 构造查询条件
+	if request.TenantId != nil {
+		condition["tenantId"] = request.GetTenantId()
+	}
+	if request.Ids != nil {
+		var ids []int64
+		json.Unmarshal(request.GetIds(), &ids)
+		condition["ids"] = ids
+	}
+	// 获取数据集合
+	_, err := logger.SystemLoginLogMultipleRecover(ctx, condition)
+	if sql.ResultAccept(err) != nil {
+		globalLogger.Logger.WithFields(logrus.Fields{
+			"req": condition,
+			"err": err,
+		}).Error("Sql:登录日志:system_login_log:SystemLoginLogMultipleRecover")
+		return &SystemLoginLogMultipleResponse{}, status.Error(code.ConvertToGrpc(code.SqlError), err.Error())
+	}
+	return &SystemLoginLogMultipleResponse{
+		Code: code.Success,
+		Msg:  code.StatusText(code.Success),
+	}, nil
+}
+
+// SystemLoginLogMultipleDrop 批量清理
+func (srv SrvSystemLoginLogServiceServer) SystemLoginLogMultipleDrop(ctx context.Context, request *SystemLoginLogMultipleRequest) (*SystemLoginLogMultipleResponse, error) {
+	condition := make(map[string]any)
+	// 构造查询条件
+	if request.TenantId != nil {
+		condition["tenantId"] = request.GetTenantId()
+	}
+	if request.Ids != nil {
+		var ids []int64
+		json.Unmarshal(request.GetIds(), &ids)
+		condition["ids"] = ids
+	}
+	// 获取数据集合
+	_, err := logger.SystemLoginLogMultipleDrop(ctx, condition)
+	if sql.ResultAccept(err) != nil {
+		globalLogger.Logger.WithFields(logrus.Fields{
+			"req": condition,
+			"err": err,
+		}).Error("Sql:登录日志:system_login_log:SystemLoginLogMultipleDrop")
+		return &SystemLoginLogMultipleResponse{}, status.Error(code.ConvertToGrpc(code.SqlError), err.Error())
+	}
+	return &SystemLoginLogMultipleResponse{
 		Code: code.Success,
 		Msg:  code.StatusText(code.Success),
 	}, nil

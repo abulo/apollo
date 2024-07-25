@@ -26,6 +26,7 @@ const (
 	SystemNoticeService_SystemNoticeDelete_FullMethodName    = "/notice.SystemNoticeService/SystemNoticeDelete"
 	SystemNoticeService_SystemNotice_FullMethodName          = "/notice.SystemNoticeService/SystemNotice"
 	SystemNoticeService_SystemNoticeRecover_FullMethodName   = "/notice.SystemNoticeService/SystemNoticeRecover"
+	SystemNoticeService_SystemNoticeDrop_FullMethodName      = "/notice.SystemNoticeService/SystemNoticeDrop"
 	SystemNoticeService_SystemNoticeList_FullMethodName      = "/notice.SystemNoticeService/SystemNoticeList"
 	SystemNoticeService_SystemNoticeListTotal_FullMethodName = "/notice.SystemNoticeService/SystemNoticeListTotal"
 )
@@ -41,6 +42,7 @@ type SystemNoticeServiceClient interface {
 	SystemNoticeDelete(ctx context.Context, in *SystemNoticeDeleteRequest, opts ...grpc.CallOption) (*SystemNoticeDeleteResponse, error)
 	SystemNotice(ctx context.Context, in *SystemNoticeRequest, opts ...grpc.CallOption) (*SystemNoticeResponse, error)
 	SystemNoticeRecover(ctx context.Context, in *SystemNoticeRecoverRequest, opts ...grpc.CallOption) (*SystemNoticeRecoverResponse, error)
+	SystemNoticeDrop(ctx context.Context, in *SystemNoticeDropRequest, opts ...grpc.CallOption) (*SystemNoticeDropResponse, error)
 	SystemNoticeList(ctx context.Context, in *SystemNoticeListRequest, opts ...grpc.CallOption) (*SystemNoticeListResponse, error)
 	SystemNoticeListTotal(ctx context.Context, in *SystemNoticeListTotalRequest, opts ...grpc.CallOption) (*SystemNoticeTotalResponse, error)
 }
@@ -103,6 +105,16 @@ func (c *systemNoticeServiceClient) SystemNoticeRecover(ctx context.Context, in 
 	return out, nil
 }
 
+func (c *systemNoticeServiceClient) SystemNoticeDrop(ctx context.Context, in *SystemNoticeDropRequest, opts ...grpc.CallOption) (*SystemNoticeDropResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(SystemNoticeDropResponse)
+	err := c.cc.Invoke(ctx, SystemNoticeService_SystemNoticeDrop_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *systemNoticeServiceClient) SystemNoticeList(ctx context.Context, in *SystemNoticeListRequest, opts ...grpc.CallOption) (*SystemNoticeListResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(SystemNoticeListResponse)
@@ -134,6 +146,7 @@ type SystemNoticeServiceServer interface {
 	SystemNoticeDelete(context.Context, *SystemNoticeDeleteRequest) (*SystemNoticeDeleteResponse, error)
 	SystemNotice(context.Context, *SystemNoticeRequest) (*SystemNoticeResponse, error)
 	SystemNoticeRecover(context.Context, *SystemNoticeRecoverRequest) (*SystemNoticeRecoverResponse, error)
+	SystemNoticeDrop(context.Context, *SystemNoticeDropRequest) (*SystemNoticeDropResponse, error)
 	SystemNoticeList(context.Context, *SystemNoticeListRequest) (*SystemNoticeListResponse, error)
 	SystemNoticeListTotal(context.Context, *SystemNoticeListTotalRequest) (*SystemNoticeTotalResponse, error)
 	mustEmbedUnimplementedSystemNoticeServiceServer()
@@ -157,6 +170,9 @@ func (UnimplementedSystemNoticeServiceServer) SystemNotice(context.Context, *Sys
 }
 func (UnimplementedSystemNoticeServiceServer) SystemNoticeRecover(context.Context, *SystemNoticeRecoverRequest) (*SystemNoticeRecoverResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SystemNoticeRecover not implemented")
+}
+func (UnimplementedSystemNoticeServiceServer) SystemNoticeDrop(context.Context, *SystemNoticeDropRequest) (*SystemNoticeDropResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SystemNoticeDrop not implemented")
 }
 func (UnimplementedSystemNoticeServiceServer) SystemNoticeList(context.Context, *SystemNoticeListRequest) (*SystemNoticeListResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SystemNoticeList not implemented")
@@ -267,6 +283,24 @@ func _SystemNoticeService_SystemNoticeRecover_Handler(srv interface{}, ctx conte
 	return interceptor(ctx, in, info, handler)
 }
 
+func _SystemNoticeService_SystemNoticeDrop_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SystemNoticeDropRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SystemNoticeServiceServer).SystemNoticeDrop(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: SystemNoticeService_SystemNoticeDrop_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SystemNoticeServiceServer).SystemNoticeDrop(ctx, req.(*SystemNoticeDropRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _SystemNoticeService_SystemNoticeList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(SystemNoticeListRequest)
 	if err := dec(in); err != nil {
@@ -329,6 +363,10 @@ var SystemNoticeService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "SystemNoticeRecover",
 			Handler:    _SystemNoticeService_SystemNoticeRecover_Handler,
+		},
+		{
+			MethodName: "SystemNoticeDrop",
+			Handler:    _SystemNoticeService_SystemNoticeDrop_Handler,
 		},
 		{
 			MethodName: "SystemNoticeList",

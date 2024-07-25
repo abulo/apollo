@@ -49,7 +49,7 @@ func SystemDictDelete(ctx context.Context, id int64) (res int64, err error) {
 func SystemDict(ctx context.Context, id int64) (res dao.SystemDict, err error) {
 	db := initial.Core.Store.LoadSQL("mysql").Read()
 	builder := sql.NewBuilder()
-	query, args, err := builder.Table("`system_dict`").Where("`id`", id).Row()
+	query, args, err := builder.Table("`system_dict`").Select("`system_dict`.*", "`system_dict_type`.`type` AS dict_type").LeftJoin("`system_dict_type`", "`system_dict`.`dict_type_id` = `system_dict_type`.`id`").Where("`system_dict`.`id`", id).Row()
 	if err != nil {
 		return
 	}
@@ -61,12 +61,12 @@ func SystemDict(ctx context.Context, id int64) (res dao.SystemDict, err error) {
 func SystemDictList(ctx context.Context, condition map[string]any) (res []dao.SystemDict, err error) {
 	db := initial.Core.Store.LoadSQL("mysql").Read()
 	builder := sql.NewBuilder()
-	builder.Table("`system_dict`")
-	if val, ok := condition["dictType"]; ok {
-		builder.Where("`dict_type`", val)
+	builder.Table("`system_dict`").Select("`system_dict`.*", "`system_dict_type`.`type` AS dict_type").LeftJoin("`system_dict_type`", "`system_dict`.`dict_type_id` = `system_dict_type`.`id`")
+	if val, ok := condition["dictTypeId"]; ok {
+		builder.Where("`system_dict`.`dict_type_id`", val)
 	}
 	if val, ok := condition["status"]; ok {
-		builder.Where("`status`", val)
+		builder.Where("`system_dict`.`status`", val)
 	}
 
 	if val, ok := condition["pagination"]; ok {
@@ -76,8 +76,8 @@ func SystemDictList(ctx context.Context, condition map[string]any) (res []dao.Sy
 			builder.Limit(pagination.GetLimit())
 		}
 	}
-	builder.OrderBy("`sort`", sql.ASC)
-	builder.OrderBy("`id`", sql.ASC)
+	builder.OrderBy("`system_dict`.`sort`", sql.ASC)
+	builder.OrderBy("`system_dict`.`id`", sql.DESC)
 	query, args, err := builder.Rows()
 	if err != nil {
 		return
@@ -91,8 +91,8 @@ func SystemDictListTotal(ctx context.Context, condition map[string]any) (res int
 	db := initial.Core.Store.LoadSQL("mysql").Read()
 	builder := sql.NewBuilder()
 	builder.Table("`system_dict`")
-	if val, ok := condition["dictType"]; ok {
-		builder.Where("`dict_type`", val)
+	if val, ok := condition["dictTypeId"]; ok {
+		builder.Where("`dict_type_id`", val)
 	}
 	if val, ok := condition["status"]; ok {
 		builder.Where("`status`", val)

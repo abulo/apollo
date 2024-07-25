@@ -1,4 +1,3 @@
-
 syntax = "proto3";
 // system_mail_log 邮件日志表
 package mail;
@@ -109,6 +108,16 @@ message SystemMailLogRecoverResponse {
 	int64 code = 1;
 	string msg = 2;
 }
+// SystemMailLogDropRequest 清理数据请求
+message SystemMailLogDropRequest {
+	// @inject_tag: db:"id" json:"id"
+	int64 id = 1; //编号
+}
+// SystemMailLogDropResponse 清理数据响应
+message SystemMailLogDropResponse {
+	int64 code = 1;
+	string msg = 2;
+}
 // SystemMailLogListRequest 列表数据
 message SystemMailLogListRequest {
 	
@@ -166,6 +175,19 @@ message SystemMailLogListTotalRequest {
 }
 
 
+// SystemMailLogMultipleRequest 多选数据请求
+message SystemMailLogMultipleRequest {
+	// @inject_tag: db:"ids" json:"ids"
+	optional bytes ids = 1; // 主键
+}
+
+// SystemMailLogMultipleResponse 多选数据响应
+message SystemMailLogMultipleResponse {
+	int64 code = 1;
+	string msg = 2;
+}
+
+
 // SystemMailLogService 服务
 service SystemMailLogService{
 	rpc SystemMailLogCreate(SystemMailLogCreateRequest) returns (SystemMailLogCreateResponse);
@@ -173,6 +195,10 @@ service SystemMailLogService{
 	rpc SystemMailLogDelete(SystemMailLogDeleteRequest) returns (SystemMailLogDeleteResponse);
 	rpc SystemMailLog(SystemMailLogRequest) returns (SystemMailLogResponse);
 	rpc SystemMailLogRecover(SystemMailLogRecoverRequest) returns (SystemMailLogRecoverResponse);
+	rpc SystemMailLogDrop(SystemMailLogDropRequest) returns (SystemMailLogDropResponse);
 	rpc SystemMailLogList(SystemMailLogListRequest) returns (SystemMailLogListResponse);
 	rpc SystemMailLogListTotal(SystemMailLogListTotalRequest) returns (SystemMailLogTotalResponse);
+	rpc SystemMailLogMultipleDelete(SystemMailLogMultipleRequest) returns (SystemMailLogMultipleResponse);
+	rpc SystemMailLogMultipleRecover(SystemMailLogMultipleRequest) returns (SystemMailLogMultipleResponse);
+	rpc SystemMailLogMultipleDrop(SystemMailLogMultipleRequest) returns (SystemMailLogMultipleResponse);
 }

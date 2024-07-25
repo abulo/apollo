@@ -4,7 +4,7 @@ import "github.com/abulo/ratel/v3/stores/null"
 
 // SystemMailAccount 邮箱账号表 system_mail_account
 type SystemMailAccount struct {
-	Id         *int64        `db:"id" json:"id"`                  //bigint 主键,PRI
+	Id         *int64        `db:"id,-" json:"id"`                //bigint 主键,PRI
 	Mail       *string       `db:"mail" json:"mail"`              //varchar 邮箱
 	Username   *string       `db:"username" json:"username"`      //varchar 用户名
 	Password   *string       `db:"password" json:"password"`      //varchar 密码

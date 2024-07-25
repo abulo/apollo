@@ -123,6 +123,26 @@ func (srv SrvSystemUserServiceServer) SystemUserRecover(ctx context.Context, req
 	}, nil
 }
 
+// SystemUserDrop 清理数据
+func (srv SrvSystemUserServiceServer) SystemUserDrop(ctx context.Context, request *SystemUserDropRequest) (*SystemUserDropResponse, error) {
+	id := request.GetId()
+	if id < 1 {
+		return &SystemUserDropResponse{}, status.Error(code.ConvertToGrpc(code.ParamInvalid), code.StatusText(code.ParamInvalid))
+	}
+	_, err := user.SystemUserDrop(ctx, id)
+	if sql.ResultAccept(err) != nil {
+		globalLogger.Logger.WithFields(logrus.Fields{
+			"req": id,
+			"err": err,
+		}).Error("Sql:租户:system_user:SystemUserDrop")
+		return &SystemUserDropResponse{}, status.Error(code.ConvertToGrpc(code.SqlError), err.Error())
+	}
+	return &SystemUserDropResponse{
+		Code: code.Success,
+		Msg:  code.StatusText(code.Success),
+	}, nil
+}
+
 // SystemUserLogin 查询单条数据
 func (srv SrvSystemUserServiceServer) SystemUserLogin(ctx context.Context, request *SystemUserLoginRequest) (*SystemUserLoginResponse, error) {
 	// 数据库查询条件

@@ -26,6 +26,7 @@ const (
 	SystemDeptService_SystemDeptDelete_FullMethodName    = "/dept.SystemDeptService/SystemDeptDelete"
 	SystemDeptService_SystemDept_FullMethodName          = "/dept.SystemDeptService/SystemDept"
 	SystemDeptService_SystemDeptRecover_FullMethodName   = "/dept.SystemDeptService/SystemDeptRecover"
+	SystemDeptService_SystemDeptDrop_FullMethodName      = "/dept.SystemDeptService/SystemDeptDrop"
 	SystemDeptService_SystemDeptList_FullMethodName      = "/dept.SystemDeptService/SystemDeptList"
 	SystemDeptService_SystemDeptListTotal_FullMethodName = "/dept.SystemDeptService/SystemDeptListTotal"
 )
@@ -41,6 +42,7 @@ type SystemDeptServiceClient interface {
 	SystemDeptDelete(ctx context.Context, in *SystemDeptDeleteRequest, opts ...grpc.CallOption) (*SystemDeptDeleteResponse, error)
 	SystemDept(ctx context.Context, in *SystemDeptRequest, opts ...grpc.CallOption) (*SystemDeptResponse, error)
 	SystemDeptRecover(ctx context.Context, in *SystemDeptRecoverRequest, opts ...grpc.CallOption) (*SystemDeptRecoverResponse, error)
+	SystemDeptDrop(ctx context.Context, in *SystemDeptDropRequest, opts ...grpc.CallOption) (*SystemDeptDropResponse, error)
 	SystemDeptList(ctx context.Context, in *SystemDeptListRequest, opts ...grpc.CallOption) (*SystemDeptListResponse, error)
 	SystemDeptListTotal(ctx context.Context, in *SystemDeptListTotalRequest, opts ...grpc.CallOption) (*SystemDeptTotalResponse, error)
 }
@@ -103,6 +105,16 @@ func (c *systemDeptServiceClient) SystemDeptRecover(ctx context.Context, in *Sys
 	return out, nil
 }
 
+func (c *systemDeptServiceClient) SystemDeptDrop(ctx context.Context, in *SystemDeptDropRequest, opts ...grpc.CallOption) (*SystemDeptDropResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(SystemDeptDropResponse)
+	err := c.cc.Invoke(ctx, SystemDeptService_SystemDeptDrop_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *systemDeptServiceClient) SystemDeptList(ctx context.Context, in *SystemDeptListRequest, opts ...grpc.CallOption) (*SystemDeptListResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(SystemDeptListResponse)
@@ -134,6 +146,7 @@ type SystemDeptServiceServer interface {
 	SystemDeptDelete(context.Context, *SystemDeptDeleteRequest) (*SystemDeptDeleteResponse, error)
 	SystemDept(context.Context, *SystemDeptRequest) (*SystemDeptResponse, error)
 	SystemDeptRecover(context.Context, *SystemDeptRecoverRequest) (*SystemDeptRecoverResponse, error)
+	SystemDeptDrop(context.Context, *SystemDeptDropRequest) (*SystemDeptDropResponse, error)
 	SystemDeptList(context.Context, *SystemDeptListRequest) (*SystemDeptListResponse, error)
 	SystemDeptListTotal(context.Context, *SystemDeptListTotalRequest) (*SystemDeptTotalResponse, error)
 	mustEmbedUnimplementedSystemDeptServiceServer()
@@ -157,6 +170,9 @@ func (UnimplementedSystemDeptServiceServer) SystemDept(context.Context, *SystemD
 }
 func (UnimplementedSystemDeptServiceServer) SystemDeptRecover(context.Context, *SystemDeptRecoverRequest) (*SystemDeptRecoverResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SystemDeptRecover not implemented")
+}
+func (UnimplementedSystemDeptServiceServer) SystemDeptDrop(context.Context, *SystemDeptDropRequest) (*SystemDeptDropResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SystemDeptDrop not implemented")
 }
 func (UnimplementedSystemDeptServiceServer) SystemDeptList(context.Context, *SystemDeptListRequest) (*SystemDeptListResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SystemDeptList not implemented")
@@ -267,6 +283,24 @@ func _SystemDeptService_SystemDeptRecover_Handler(srv interface{}, ctx context.C
 	return interceptor(ctx, in, info, handler)
 }
 
+func _SystemDeptService_SystemDeptDrop_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SystemDeptDropRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SystemDeptServiceServer).SystemDeptDrop(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: SystemDeptService_SystemDeptDrop_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SystemDeptServiceServer).SystemDeptDrop(ctx, req.(*SystemDeptDropRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _SystemDeptService_SystemDeptList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(SystemDeptListRequest)
 	if err := dec(in); err != nil {
@@ -329,6 +363,10 @@ var SystemDeptService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "SystemDeptRecover",
 			Handler:    _SystemDeptService_SystemDeptRecover_Handler,
+		},
+		{
+			MethodName: "SystemDeptDrop",
+			Handler:    _SystemDeptService_SystemDeptDrop_Handler,
 		},
 		{
 			MethodName: "SystemDeptList",

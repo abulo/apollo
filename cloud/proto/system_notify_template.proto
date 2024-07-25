@@ -1,4 +1,3 @@
-
 syntax = "proto3";
 // system_notify_template 站内信模板表
 package notify;
@@ -95,6 +94,16 @@ message SystemNotifyTemplateRecoverResponse {
 	int64 code = 1;
 	string msg = 2;
 }
+// SystemNotifyTemplateDropRequest 清理数据请求
+message SystemNotifyTemplateDropRequest {
+	// @inject_tag: db:"id" json:"id"
+	int64 id = 1; //主键
+}
+// SystemNotifyTemplateDropResponse 清理数据响应
+message SystemNotifyTemplateDropResponse {
+	int64 code = 1;
+	string msg = 2;
+}
 // SystemNotifyTemplateListRequest 列表数据
 message SystemNotifyTemplateListRequest {
 	
@@ -139,6 +148,7 @@ service SystemNotifyTemplateService{
 	rpc SystemNotifyTemplateDelete(SystemNotifyTemplateDeleteRequest) returns (SystemNotifyTemplateDeleteResponse);
 	rpc SystemNotifyTemplate(SystemNotifyTemplateRequest) returns (SystemNotifyTemplateResponse);
 	rpc SystemNotifyTemplateRecover(SystemNotifyTemplateRecoverRequest) returns (SystemNotifyTemplateRecoverResponse);
+	rpc SystemNotifyTemplateDrop(SystemNotifyTemplateDropRequest) returns (SystemNotifyTemplateDropResponse);
 	rpc SystemNotifyTemplateList(SystemNotifyTemplateListRequest) returns (SystemNotifyTemplateListResponse);
 	rpc SystemNotifyTemplateListTotal(SystemNotifyTemplateListTotalRequest) returns (SystemNotifyTemplateTotalResponse);
 }

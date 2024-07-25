@@ -26,6 +26,7 @@ const (
 	SystemTenantService_SystemTenantDelete_FullMethodName    = "/tenant.SystemTenantService/SystemTenantDelete"
 	SystemTenantService_SystemTenant_FullMethodName          = "/tenant.SystemTenantService/SystemTenant"
 	SystemTenantService_SystemTenantRecover_FullMethodName   = "/tenant.SystemTenantService/SystemTenantRecover"
+	SystemTenantService_SystemTenantDrop_FullMethodName      = "/tenant.SystemTenantService/SystemTenantDrop"
 	SystemTenantService_SystemTenantList_FullMethodName      = "/tenant.SystemTenantService/SystemTenantList"
 	SystemTenantService_SystemTenantListTotal_FullMethodName = "/tenant.SystemTenantService/SystemTenantListTotal"
 )
@@ -41,6 +42,7 @@ type SystemTenantServiceClient interface {
 	SystemTenantDelete(ctx context.Context, in *SystemTenantDeleteRequest, opts ...grpc.CallOption) (*SystemTenantDeleteResponse, error)
 	SystemTenant(ctx context.Context, in *SystemTenantRequest, opts ...grpc.CallOption) (*SystemTenantResponse, error)
 	SystemTenantRecover(ctx context.Context, in *SystemTenantRecoverRequest, opts ...grpc.CallOption) (*SystemTenantRecoverResponse, error)
+	SystemTenantDrop(ctx context.Context, in *SystemTenantDropRequest, opts ...grpc.CallOption) (*SystemTenantDropResponse, error)
 	SystemTenantList(ctx context.Context, in *SystemTenantListRequest, opts ...grpc.CallOption) (*SystemTenantListResponse, error)
 	SystemTenantListTotal(ctx context.Context, in *SystemTenantListTotalRequest, opts ...grpc.CallOption) (*SystemTenantTotalResponse, error)
 }
@@ -103,6 +105,16 @@ func (c *systemTenantServiceClient) SystemTenantRecover(ctx context.Context, in 
 	return out, nil
 }
 
+func (c *systemTenantServiceClient) SystemTenantDrop(ctx context.Context, in *SystemTenantDropRequest, opts ...grpc.CallOption) (*SystemTenantDropResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(SystemTenantDropResponse)
+	err := c.cc.Invoke(ctx, SystemTenantService_SystemTenantDrop_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *systemTenantServiceClient) SystemTenantList(ctx context.Context, in *SystemTenantListRequest, opts ...grpc.CallOption) (*SystemTenantListResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(SystemTenantListResponse)
@@ -134,6 +146,7 @@ type SystemTenantServiceServer interface {
 	SystemTenantDelete(context.Context, *SystemTenantDeleteRequest) (*SystemTenantDeleteResponse, error)
 	SystemTenant(context.Context, *SystemTenantRequest) (*SystemTenantResponse, error)
 	SystemTenantRecover(context.Context, *SystemTenantRecoverRequest) (*SystemTenantRecoverResponse, error)
+	SystemTenantDrop(context.Context, *SystemTenantDropRequest) (*SystemTenantDropResponse, error)
 	SystemTenantList(context.Context, *SystemTenantListRequest) (*SystemTenantListResponse, error)
 	SystemTenantListTotal(context.Context, *SystemTenantListTotalRequest) (*SystemTenantTotalResponse, error)
 	mustEmbedUnimplementedSystemTenantServiceServer()
@@ -157,6 +170,9 @@ func (UnimplementedSystemTenantServiceServer) SystemTenant(context.Context, *Sys
 }
 func (UnimplementedSystemTenantServiceServer) SystemTenantRecover(context.Context, *SystemTenantRecoverRequest) (*SystemTenantRecoverResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SystemTenantRecover not implemented")
+}
+func (UnimplementedSystemTenantServiceServer) SystemTenantDrop(context.Context, *SystemTenantDropRequest) (*SystemTenantDropResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SystemTenantDrop not implemented")
 }
 func (UnimplementedSystemTenantServiceServer) SystemTenantList(context.Context, *SystemTenantListRequest) (*SystemTenantListResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SystemTenantList not implemented")
@@ -267,6 +283,24 @@ func _SystemTenantService_SystemTenantRecover_Handler(srv interface{}, ctx conte
 	return interceptor(ctx, in, info, handler)
 }
 
+func _SystemTenantService_SystemTenantDrop_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SystemTenantDropRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SystemTenantServiceServer).SystemTenantDrop(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: SystemTenantService_SystemTenantDrop_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SystemTenantServiceServer).SystemTenantDrop(ctx, req.(*SystemTenantDropRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _SystemTenantService_SystemTenantList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(SystemTenantListRequest)
 	if err := dec(in); err != nil {
@@ -329,6 +363,10 @@ var SystemTenantService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "SystemTenantRecover",
 			Handler:    _SystemTenantService_SystemTenantRecover_Handler,
+		},
+		{
+			MethodName: "SystemTenantDrop",
+			Handler:    _SystemTenantService_SystemTenantDrop_Handler,
 		},
 		{
 			MethodName: "SystemTenantList",

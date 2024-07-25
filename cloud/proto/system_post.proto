@@ -1,4 +1,3 @@
-
 syntax = "proto3";
 // system_post 职位
 package post;
@@ -87,6 +86,16 @@ message SystemPostRecoverResponse {
 	int64 code = 1;
 	string msg = 2;
 }
+// SystemPostDropRequest 清理数据请求
+message SystemPostDropRequest {
+	// @inject_tag: db:"id" json:"id"
+	int64 id = 1; //职位ID
+}
+// SystemPostDropResponse 清理数据响应
+message SystemPostDropResponse {
+	int64 code = 1;
+	string msg = 2;
+}
 // SystemPostListRequest 列表数据
 message SystemPostListRequest {
 	
@@ -131,6 +140,7 @@ service SystemPostService{
 	rpc SystemPostDelete(SystemPostDeleteRequest) returns (SystemPostDeleteResponse);
 	rpc SystemPost(SystemPostRequest) returns (SystemPostResponse);
 	rpc SystemPostRecover(SystemPostRecoverRequest) returns (SystemPostRecoverResponse);
+	rpc SystemPostDrop(SystemPostDropRequest) returns (SystemPostDropResponse);
 	rpc SystemPostList(SystemPostListRequest) returns (SystemPostListResponse);
 	rpc SystemPostListTotal(SystemPostListTotalRequest) returns (SystemPostTotalResponse);
 }

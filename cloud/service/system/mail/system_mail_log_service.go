@@ -4,10 +4,12 @@ import (
 	"cloud/code"
 	"cloud/module/system/mail"
 	"context"
+	"encoding/json"
 
 	globalLogger "github.com/abulo/ratel/v3/core/logger"
 	"github.com/abulo/ratel/v3/server/xgrpc"
 	"github.com/abulo/ratel/v3/stores/sql"
+	"github.com/abulo/ratel/v3/util"
 	"github.com/sirupsen/logrus"
 	"google.golang.org/grpc/status"
 )
@@ -119,6 +121,26 @@ func (srv SrvSystemMailLogServiceServer) SystemMailLogRecover(ctx context.Contex
 		Msg:  code.StatusText(code.Success),
 	}, nil
 }
+
+// SystemMailLogDrop 清理数据
+func (srv SrvSystemMailLogServiceServer) SystemMailLogDrop(ctx context.Context, request *SystemMailLogDropRequest) (*SystemMailLogDropResponse, error) {
+	id := request.GetId()
+	if id < 1 {
+		return &SystemMailLogDropResponse{}, status.Error(code.ConvertToGrpc(code.ParamInvalid), code.StatusText(code.ParamInvalid))
+	}
+	_, err := mail.SystemMailLogDrop(ctx, id)
+	if sql.ResultAccept(err) != nil {
+		globalLogger.Logger.WithFields(logrus.Fields{
+			"req": id,
+			"err": err,
+		}).Error("Sql:邮件日志表:system_mail_log:SystemMailLogDrop")
+		return &SystemMailLogDropResponse{}, status.Error(code.ConvertToGrpc(code.SqlError), err.Error())
+	}
+	return &SystemMailLogDropResponse{
+		Code: code.Success,
+		Msg:  code.StatusText(code.Success),
+	}, nil
+}
 func (srv SrvSystemMailLogServiceServer) SystemMailLogList(ctx context.Context, request *SystemMailLogListRequest) (*SystemMailLogListResponse, error) {
 	// 数据库查询条件
 	condition := make(map[string]any)
@@ -130,10 +152,10 @@ func (srv SrvSystemMailLogServiceServer) SystemMailLogList(ctx context.Context, 
 		condition["sendStatus"] = request.GetSendStatus()
 	}
 	if request.BeginSendTime != nil {
-		condition["beginSendTime"] = request.GetBeginSendTime()
+		condition["beginSendTime"] = util.Date("Y-m-d H:i:s", util.GrpcTime(request.GetBeginSendTime()))
 	}
 	if request.FinishSendTime != nil {
-		condition["finishSendTime"] = request.GetFinishSendTime()
+		condition["finishSendTime"] = util.Date("Y-m-d H:i:s", util.GrpcTime(request.GetFinishSendTime()))
 	}
 	if request.TemplateTitle != nil {
 		condition["templateTitle"] = request.GetTemplateTitle()
@@ -203,10 +225,10 @@ func (srv SrvSystemMailLogServiceServer) SystemMailLogListTotal(ctx context.Cont
 		condition["sendStatus"] = request.GetSendStatus()
 	}
 	if request.BeginSendTime != nil {
-		condition["beginSendTime"] = request.GetBeginSendTime()
+		condition["beginSendTime"] = util.Date("Y-m-d H:i:s", util.GrpcTime(request.GetBeginSendTime()))
 	}
 	if request.FinishSendTime != nil {
-		condition["finishSendTime"] = request.GetFinishSendTime()
+		condition["finishSendTime"] = util.Date("Y-m-d H:i:s", util.GrpcTime(request.GetFinishSendTime()))
 	}
 	if request.TemplateTitle != nil {
 		condition["templateTitle"] = request.GetTemplateTitle()
@@ -237,5 +259,74 @@ func (srv SrvSystemMailLogServiceServer) SystemMailLogListTotal(ctx context.Cont
 		Code: code.Success,
 		Msg:  code.StatusText(code.Success),
 		Data: total,
+	}, nil
+}
+
+// SystemMailLogMultipleDelete 批量删除
+func (srv SrvSystemMailLogServiceServer) SystemMailLogMultipleDelete(ctx context.Context, request *SystemMailLogMultipleRequest) (*SystemMailLogMultipleResponse, error) {
+	condition := make(map[string]any)
+	if request.Ids != nil {
+		var ids []int64
+		json.Unmarshal(request.GetIds(), &ids)
+		condition["ids"] = ids
+	}
+	// 获取数据集合
+	_, err := mail.SystemMailLogMultipleDelete(ctx, condition)
+	if sql.ResultAccept(err) != nil {
+		globalLogger.Logger.WithFields(logrus.Fields{
+			"req": condition,
+			"err": err,
+		}).Error("Sql:邮件日志表:system_mail_log:SystemMailLogMultipleDelete")
+		return &SystemMailLogMultipleResponse{}, status.Error(code.ConvertToGrpc(code.SqlError), err.Error())
+	}
+	return &SystemMailLogMultipleResponse{
+		Code: code.Success,
+		Msg:  code.StatusText(code.Success),
+	}, nil
+}
+
+// SystemMailLogMultipleRecover 批量恢复
+func (srv SrvSystemMailLogServiceServer) SystemMailLogMultipleRecover(ctx context.Context, request *SystemMailLogMultipleRequest) (*SystemMailLogMultipleResponse, error) {
+	condition := make(map[string]any)
+	if request.Ids != nil {
+		var ids []int64
+		json.Unmarshal(request.GetIds(), &ids)
+		condition["ids"] = ids
+	}
+	// 获取数据集合
+	_, err := mail.SystemMailLogMultipleRecover(ctx, condition)
+	if sql.ResultAccept(err) != nil {
+		globalLogger.Logger.WithFields(logrus.Fields{
+			"req": condition,
+			"err": err,
+		}).Error("Sql:邮件日志表:system_mail_log:SystemMailLogMultipleRecover")
+		return &SystemMailLogMultipleResponse{}, status.Error(code.ConvertToGrpc(code.SqlError), err.Error())
+	}
+	return &SystemMailLogMultipleResponse{
+		Code: code.Success,
+		Msg:  code.StatusText(code.Success),
+	}, nil
+}
+
+// SystemMailLogMultipleDrop 批量清理
+func (srv SrvSystemMailLogServiceServer) SystemMailLogMultipleDrop(ctx context.Context, request *SystemMailLogMultipleRequest) (*SystemMailLogMultipleResponse, error) {
+	condition := make(map[string]any)
+	if request.Ids != nil {
+		var ids []int64
+		json.Unmarshal(request.GetIds(), &ids)
+		condition["ids"] = ids
+	}
+	// 获取数据集合
+	_, err := mail.SystemMailLogMultipleDrop(ctx, condition)
+	if sql.ResultAccept(err) != nil {
+		globalLogger.Logger.WithFields(logrus.Fields{
+			"req": condition,
+			"err": err,
+		}).Error("Sql:邮件日志表:system_mail_log:SystemMailLogMultipleDrop")
+		return &SystemMailLogMultipleResponse{}, status.Error(code.ConvertToGrpc(code.SqlError), err.Error())
+	}
+	return &SystemMailLogMultipleResponse{
+		Code: code.Success,
+		Msg:  code.StatusText(code.Success),
 	}, nil
 }

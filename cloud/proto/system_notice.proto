@@ -1,4 +1,3 @@
-
 syntax = "proto3";
 // system_notice 通知公告表
 package notice;
@@ -89,6 +88,16 @@ message SystemNoticeRecoverResponse {
 	int64 code = 1;
 	string msg = 2;
 }
+// SystemNoticeDropRequest 清理数据请求
+message SystemNoticeDropRequest {
+	// @inject_tag: db:"id" json:"id"
+	int64 id = 1; //公告ID
+}
+// SystemNoticeDropResponse 清理数据响应
+message SystemNoticeDropResponse {
+	int64 code = 1;
+	string msg = 2;
+}
 // SystemNoticeListRequest 列表数据
 message SystemNoticeListRequest {
 	
@@ -137,6 +146,7 @@ service SystemNoticeService{
 	rpc SystemNoticeDelete(SystemNoticeDeleteRequest) returns (SystemNoticeDeleteResponse);
 	rpc SystemNotice(SystemNoticeRequest) returns (SystemNoticeResponse);
 	rpc SystemNoticeRecover(SystemNoticeRecoverRequest) returns (SystemNoticeRecoverResponse);
+	rpc SystemNoticeDrop(SystemNoticeDropRequest) returns (SystemNoticeDropResponse);
 	rpc SystemNoticeList(SystemNoticeListRequest) returns (SystemNoticeListResponse);
 	rpc SystemNoticeListTotal(SystemNoticeListTotalRequest) returns (SystemNoticeTotalResponse);
 }

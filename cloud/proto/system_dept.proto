@@ -3,8 +3,8 @@ syntax = "proto3";
 // system_dept 部门
 package dept;
 option go_package = "cloud/service/system/dept;dept";
-import "pagination.proto";
 import "google/protobuf/timestamp.proto";
+import "pagination.proto";
 
 // SystemDeptObject 数据对象
 message SystemDeptObject {
@@ -95,8 +95,19 @@ message SystemDeptRecoverResponse {
 	int64 code = 1;
 	string msg = 2;
 }
+// SystemDeptDropRequest 清理数据请求
+message SystemDeptDropRequest {
+	// @inject_tag: db:"id" json:"id"
+	int64 id = 1; //部门ID
+}
+// SystemDeptDropResponse 清理数据响应
+message SystemDeptDropResponse {
+	int64 code = 1;
+	string msg = 2;
+}
 // SystemDeptListRequest 列表数据
 message SystemDeptListRequest {
+	
 	// @inject_tag: db:"tenant_id" json:"tenantId"
 	optional int64 tenant_id = 1; // 租户ID
 	// @inject_tag: db:"deleted" json:"deleted"
@@ -107,6 +118,7 @@ message SystemDeptListRequest {
 	optional int64 parent_id = 4; // 父部门ID
 	// @inject_tag: db:"name" json:"name"
 	optional string name = 5; // 部门名称
+
 	// @inject_tag: db:"pagination" json:"pagination"
 	optional pagination.PaginationRequest pagination = 6; // 分页
 }
@@ -141,6 +153,7 @@ service SystemDeptService{
 	rpc SystemDeptDelete(SystemDeptDeleteRequest) returns (SystemDeptDeleteResponse);
 	rpc SystemDept(SystemDeptRequest) returns (SystemDeptResponse);
 	rpc SystemDeptRecover(SystemDeptRecoverRequest) returns (SystemDeptRecoverResponse);
+	rpc SystemDeptDrop(SystemDeptDropRequest) returns (SystemDeptDropResponse);
 	rpc SystemDeptList(SystemDeptListRequest) returns (SystemDeptListResponse);
 	rpc SystemDeptListTotal(SystemDeptListTotalRequest) returns (SystemDeptTotalResponse);
 }

@@ -4,7 +4,7 @@ import "github.com/abulo/ratel/v3/stores/null"
 
 // PayChannel 支付渠道 pay_channel
 type PayChannel struct {
-	Id         *int64        `db:"id" json:"id"`                  //bigint 商户编号,PRI
+	Id         *int64        `db:"id,-" json:"id"`                //bigint 商户编号,PRI
 	Code       *string       `db:"code" json:"code"`              //varchar 渠道编码
 	Status     *int32        `db:"status" json:"status"`          //tinyint 开启状态
 	Remark     null.String   `db:"remark" json:"remark"`          //varchar 备注

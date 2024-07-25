@@ -4,7 +4,7 @@ import "github.com/abulo/ratel/v3/stores/null"
 
 // PayApp 支付应用信息 pay_app
 type PayApp struct {
-	Id                *int64        `db:"id" json:"id"`                                 //bigint 应用编号,PRI
+	Id                *int64        `db:"id,-" json:"id"`                               //bigint 应用编号,PRI
 	Name              *string       `db:"name" json:"name"`                             //varchar 应用名称
 	Status            *int32        `db:"status" json:"status"`                         //tinyint 开启状态
 	Remark            null.String   `db:"remark" json:"remark"`                         //varchar 备注

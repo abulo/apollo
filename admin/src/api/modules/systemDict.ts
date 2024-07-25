@@ -1,34 +1,29 @@
+// system_dict 字典数据表
 import { ResPage } from "@/api/interface/index";
 import { PORT } from "@/api/config/servicePort";
 import http from "@/api";
 import { SystemDict } from "@/api/interface/systemDict";
-
-// 获取字典列表
-export const getSystemDictListApi = (params?: SystemDict.ReqSystemDictList) => {
-  return http.get<ResPage<SystemDict.ResSystemDictItem>>(PORT + `/system/dict/data`, params);
+// 字典数据表创建数据
+export const addSystemDictApi = (dictTypeId: number, params: SystemDict.ResSystemDictItem) => {
+  return http.post(PORT + `/system/dict/${dictTypeId}/data`, params);
 };
-
-// 获取单个字典
-export const getSystemDictItemApi = (id: number) => {
-  return http.get<SystemDict.ResSystemDictItem>(PORT + `/system/dict/data/${id}/item`);
+// 字典数据表更新数据
+export const updateSystemDictApi = (dictTypeId: number, id: number, params: SystemDict.ResSystemDictItem) => {
+  return http.put(PORT + `/system/dict/${dictTypeId}/data/${id}/update`, params);
 };
-
-// 添加字典
-export const addSystemDictApi = (params: SystemDict.ResSystemDictItem) => {
-  return http.post(PORT + `/system/dict/data`, params);
+// 字典数据表删除数据
+export const deleteSystemDictApi = (dictTypeId: number, id: number) => {
+  return http.delete(PORT + `/system/dict/${dictTypeId}/data/${id}/delete`);
 };
-
-// 修改字典
-export const updateSystemDictApi = (id: number, params: SystemDict.ResSystemDictItem) => {
-  return http.put(PORT + `/system/dict/data/${id}/update`, params);
+// 字典数据表查询单条数据
+export const getSystemDictApi = (dictTypeId: number, id: number) => {
+  return http.get<SystemDict.ResSystemDictItem>(PORT + `/system/dict/${dictTypeId}/data/${id}/item`);
 };
-
-// 删除字典
-export const deleteSystemDictApi = (id: number) => {
-  return http.delete(PORT + `/system/dict/data/${id}/delete`);
+// 字典数据表列表数据
+export const getSystemDictListApi = (dictTypeId: number, params?: SystemDict.ReqSystemDictList) => {
+  return http.get<ResPage<SystemDict.ResSystemDictItem>>(PORT + `/system/dict/${dictTypeId}/data`, params);
 };
-
 // 获取所有字典
-export const getAllSystemDictApi = () => {
+export const getSystemDictAllApi = () => {
   return http.get<SystemDict.Dict>(PORT + `/system/dict/all`);
 };

@@ -26,6 +26,7 @@ const (
 	SystemNotifyTemplateService_SystemNotifyTemplateDelete_FullMethodName    = "/notify.SystemNotifyTemplateService/SystemNotifyTemplateDelete"
 	SystemNotifyTemplateService_SystemNotifyTemplate_FullMethodName          = "/notify.SystemNotifyTemplateService/SystemNotifyTemplate"
 	SystemNotifyTemplateService_SystemNotifyTemplateRecover_FullMethodName   = "/notify.SystemNotifyTemplateService/SystemNotifyTemplateRecover"
+	SystemNotifyTemplateService_SystemNotifyTemplateDrop_FullMethodName      = "/notify.SystemNotifyTemplateService/SystemNotifyTemplateDrop"
 	SystemNotifyTemplateService_SystemNotifyTemplateList_FullMethodName      = "/notify.SystemNotifyTemplateService/SystemNotifyTemplateList"
 	SystemNotifyTemplateService_SystemNotifyTemplateListTotal_FullMethodName = "/notify.SystemNotifyTemplateService/SystemNotifyTemplateListTotal"
 )
@@ -41,6 +42,7 @@ type SystemNotifyTemplateServiceClient interface {
 	SystemNotifyTemplateDelete(ctx context.Context, in *SystemNotifyTemplateDeleteRequest, opts ...grpc.CallOption) (*SystemNotifyTemplateDeleteResponse, error)
 	SystemNotifyTemplate(ctx context.Context, in *SystemNotifyTemplateRequest, opts ...grpc.CallOption) (*SystemNotifyTemplateResponse, error)
 	SystemNotifyTemplateRecover(ctx context.Context, in *SystemNotifyTemplateRecoverRequest, opts ...grpc.CallOption) (*SystemNotifyTemplateRecoverResponse, error)
+	SystemNotifyTemplateDrop(ctx context.Context, in *SystemNotifyTemplateDropRequest, opts ...grpc.CallOption) (*SystemNotifyTemplateDropResponse, error)
 	SystemNotifyTemplateList(ctx context.Context, in *SystemNotifyTemplateListRequest, opts ...grpc.CallOption) (*SystemNotifyTemplateListResponse, error)
 	SystemNotifyTemplateListTotal(ctx context.Context, in *SystemNotifyTemplateListTotalRequest, opts ...grpc.CallOption) (*SystemNotifyTemplateTotalResponse, error)
 }
@@ -103,6 +105,16 @@ func (c *systemNotifyTemplateServiceClient) SystemNotifyTemplateRecover(ctx cont
 	return out, nil
 }
 
+func (c *systemNotifyTemplateServiceClient) SystemNotifyTemplateDrop(ctx context.Context, in *SystemNotifyTemplateDropRequest, opts ...grpc.CallOption) (*SystemNotifyTemplateDropResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(SystemNotifyTemplateDropResponse)
+	err := c.cc.Invoke(ctx, SystemNotifyTemplateService_SystemNotifyTemplateDrop_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *systemNotifyTemplateServiceClient) SystemNotifyTemplateList(ctx context.Context, in *SystemNotifyTemplateListRequest, opts ...grpc.CallOption) (*SystemNotifyTemplateListResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(SystemNotifyTemplateListResponse)
@@ -134,6 +146,7 @@ type SystemNotifyTemplateServiceServer interface {
 	SystemNotifyTemplateDelete(context.Context, *SystemNotifyTemplateDeleteRequest) (*SystemNotifyTemplateDeleteResponse, error)
 	SystemNotifyTemplate(context.Context, *SystemNotifyTemplateRequest) (*SystemNotifyTemplateResponse, error)
 	SystemNotifyTemplateRecover(context.Context, *SystemNotifyTemplateRecoverRequest) (*SystemNotifyTemplateRecoverResponse, error)
+	SystemNotifyTemplateDrop(context.Context, *SystemNotifyTemplateDropRequest) (*SystemNotifyTemplateDropResponse, error)
 	SystemNotifyTemplateList(context.Context, *SystemNotifyTemplateListRequest) (*SystemNotifyTemplateListResponse, error)
 	SystemNotifyTemplateListTotal(context.Context, *SystemNotifyTemplateListTotalRequest) (*SystemNotifyTemplateTotalResponse, error)
 	mustEmbedUnimplementedSystemNotifyTemplateServiceServer()
@@ -157,6 +170,9 @@ func (UnimplementedSystemNotifyTemplateServiceServer) SystemNotifyTemplate(conte
 }
 func (UnimplementedSystemNotifyTemplateServiceServer) SystemNotifyTemplateRecover(context.Context, *SystemNotifyTemplateRecoverRequest) (*SystemNotifyTemplateRecoverResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SystemNotifyTemplateRecover not implemented")
+}
+func (UnimplementedSystemNotifyTemplateServiceServer) SystemNotifyTemplateDrop(context.Context, *SystemNotifyTemplateDropRequest) (*SystemNotifyTemplateDropResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SystemNotifyTemplateDrop not implemented")
 }
 func (UnimplementedSystemNotifyTemplateServiceServer) SystemNotifyTemplateList(context.Context, *SystemNotifyTemplateListRequest) (*SystemNotifyTemplateListResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SystemNotifyTemplateList not implemented")
@@ -268,6 +284,24 @@ func _SystemNotifyTemplateService_SystemNotifyTemplateRecover_Handler(srv interf
 	return interceptor(ctx, in, info, handler)
 }
 
+func _SystemNotifyTemplateService_SystemNotifyTemplateDrop_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SystemNotifyTemplateDropRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SystemNotifyTemplateServiceServer).SystemNotifyTemplateDrop(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: SystemNotifyTemplateService_SystemNotifyTemplateDrop_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SystemNotifyTemplateServiceServer).SystemNotifyTemplateDrop(ctx, req.(*SystemNotifyTemplateDropRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _SystemNotifyTemplateService_SystemNotifyTemplateList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(SystemNotifyTemplateListRequest)
 	if err := dec(in); err != nil {
@@ -330,6 +364,10 @@ var SystemNotifyTemplateService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "SystemNotifyTemplateRecover",
 			Handler:    _SystemNotifyTemplateService_SystemNotifyTemplateRecover_Handler,
+		},
+		{
+			MethodName: "SystemNotifyTemplateDrop",
+			Handler:    _SystemNotifyTemplateService_SystemNotifyTemplateDrop_Handler,
 		},
 		{
 			MethodName: "SystemNotifyTemplateList",

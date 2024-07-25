@@ -4,6 +4,7 @@ import (
 	"cloud/code"
 	"cloud/module/system/file"
 	"context"
+	"encoding/json"
 
 	globalLogger "github.com/abulo/ratel/v3/core/logger"
 	"github.com/abulo/ratel/v3/server/xgrpc"
@@ -99,6 +100,46 @@ func (srv SrvSystemFileServiceServer) SystemFile(ctx context.Context, request *S
 		Data: SystemFileProto(res),
 	}, nil
 }
+
+// SystemFileRecover 恢复数据
+func (srv SrvSystemFileServiceServer) SystemFileRecover(ctx context.Context, request *SystemFileRecoverRequest) (*SystemFileRecoverResponse, error) {
+	id := request.GetId()
+	if id < 1 {
+		return &SystemFileRecoverResponse{}, status.Error(code.ConvertToGrpc(code.ParamInvalid), code.StatusText(code.ParamInvalid))
+	}
+	_, err := file.SystemFileRecover(ctx, id)
+	if sql.ResultAccept(err) != nil {
+		globalLogger.Logger.WithFields(logrus.Fields{
+			"req": id,
+			"err": err,
+		}).Error("Sql:文件管理:system_file:SystemFileRecover")
+		return &SystemFileRecoverResponse{}, status.Error(code.ConvertToGrpc(code.SqlError), err.Error())
+	}
+	return &SystemFileRecoverResponse{
+		Code: code.Success,
+		Msg:  code.StatusText(code.Success),
+	}, nil
+}
+
+// SystemFileDrop 清理数据
+func (srv SrvSystemFileServiceServer) SystemFileDrop(ctx context.Context, request *SystemFileDropRequest) (*SystemFileDropResponse, error) {
+	id := request.GetId()
+	if id < 1 {
+		return &SystemFileDropResponse{}, status.Error(code.ConvertToGrpc(code.ParamInvalid), code.StatusText(code.ParamInvalid))
+	}
+	_, err := file.SystemFileDrop(ctx, id)
+	if sql.ResultAccept(err) != nil {
+		globalLogger.Logger.WithFields(logrus.Fields{
+			"req": id,
+			"err": err,
+		}).Error("Sql:文件管理:system_file:SystemFileDrop")
+		return &SystemFileDropResponse{}, status.Error(code.ConvertToGrpc(code.SqlError), err.Error())
+	}
+	return &SystemFileDropResponse{
+		Code: code.Success,
+		Msg:  code.StatusText(code.Success),
+	}, nil
+}
 func (srv SrvSystemFileServiceServer) SystemFileList(ctx context.Context, request *SystemFileListRequest) (*SystemFileListResponse, error) {
 	// 数据库查询条件
 	condition := make(map[string]any)
@@ -106,11 +147,28 @@ func (srv SrvSystemFileServiceServer) SystemFileList(ctx context.Context, reques
 	if request.TenantId != nil {
 		condition["tenantId"] = request.GetTenantId()
 	}
+	if request.UserId != nil {
+		condition["userId"] = request.GetUserId()
+	}
+	if request.Deleted != nil {
+		condition["deleted"] = request.GetDeleted()
+	}
 	if request.FileType != nil {
 		condition["fileType"] = request.GetFileType()
 	}
 	if request.FileName != nil {
 		condition["fileName"] = request.GetFileName()
+	}
+	if request.DeptId != nil {
+		condition["deptId"] = request.GetDeptId()
+	}
+	if request.DataScope != nil {
+		condition["dataScope"] = request.GetDataScope()
+	}
+	if request.DataScopeDept != nil {
+		var deptIds []int64
+		json.Unmarshal(request.GetDataScopeDept(), &deptIds)
+		condition["dataScopeDept"] = deptIds
 	}
 
 	paginationRequest := request.GetPagination()
@@ -161,11 +219,28 @@ func (srv SrvSystemFileServiceServer) SystemFileListTotal(ctx context.Context, r
 	if request.TenantId != nil {
 		condition["tenantId"] = request.GetTenantId()
 	}
+	if request.UserId != nil {
+		condition["userId"] = request.GetUserId()
+	}
+	if request.Deleted != nil {
+		condition["deleted"] = request.GetDeleted()
+	}
 	if request.FileType != nil {
 		condition["fileType"] = request.GetFileType()
 	}
 	if request.FileName != nil {
 		condition["fileName"] = request.GetFileName()
+	}
+	if request.DeptId != nil {
+		condition["deptId"] = request.GetDeptId()
+	}
+	if request.DataScope != nil {
+		condition["dataScope"] = request.GetDataScope()
+	}
+	if request.DataScopeDept != nil {
+		var deptIds []int64
+		json.Unmarshal(request.GetDataScopeDept(), &deptIds)
+		condition["dataScopeDept"] = deptIds
 	}
 
 	// 获取数据集合

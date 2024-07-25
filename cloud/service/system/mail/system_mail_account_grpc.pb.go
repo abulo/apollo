@@ -26,6 +26,7 @@ const (
 	SystemMailAccountService_SystemMailAccountDelete_FullMethodName    = "/mail.SystemMailAccountService/SystemMailAccountDelete"
 	SystemMailAccountService_SystemMailAccount_FullMethodName          = "/mail.SystemMailAccountService/SystemMailAccount"
 	SystemMailAccountService_SystemMailAccountRecover_FullMethodName   = "/mail.SystemMailAccountService/SystemMailAccountRecover"
+	SystemMailAccountService_SystemMailAccountDrop_FullMethodName      = "/mail.SystemMailAccountService/SystemMailAccountDrop"
 	SystemMailAccountService_SystemMailAccountList_FullMethodName      = "/mail.SystemMailAccountService/SystemMailAccountList"
 	SystemMailAccountService_SystemMailAccountListTotal_FullMethodName = "/mail.SystemMailAccountService/SystemMailAccountListTotal"
 )
@@ -41,6 +42,7 @@ type SystemMailAccountServiceClient interface {
 	SystemMailAccountDelete(ctx context.Context, in *SystemMailAccountDeleteRequest, opts ...grpc.CallOption) (*SystemMailAccountDeleteResponse, error)
 	SystemMailAccount(ctx context.Context, in *SystemMailAccountRequest, opts ...grpc.CallOption) (*SystemMailAccountResponse, error)
 	SystemMailAccountRecover(ctx context.Context, in *SystemMailAccountRecoverRequest, opts ...grpc.CallOption) (*SystemMailAccountRecoverResponse, error)
+	SystemMailAccountDrop(ctx context.Context, in *SystemMailAccountDropRequest, opts ...grpc.CallOption) (*SystemMailAccountDropResponse, error)
 	SystemMailAccountList(ctx context.Context, in *SystemMailAccountListRequest, opts ...grpc.CallOption) (*SystemMailAccountListResponse, error)
 	SystemMailAccountListTotal(ctx context.Context, in *SystemMailAccountListTotalRequest, opts ...grpc.CallOption) (*SystemMailAccountTotalResponse, error)
 }
@@ -103,6 +105,16 @@ func (c *systemMailAccountServiceClient) SystemMailAccountRecover(ctx context.Co
 	return out, nil
 }
 
+func (c *systemMailAccountServiceClient) SystemMailAccountDrop(ctx context.Context, in *SystemMailAccountDropRequest, opts ...grpc.CallOption) (*SystemMailAccountDropResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(SystemMailAccountDropResponse)
+	err := c.cc.Invoke(ctx, SystemMailAccountService_SystemMailAccountDrop_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *systemMailAccountServiceClient) SystemMailAccountList(ctx context.Context, in *SystemMailAccountListRequest, opts ...grpc.CallOption) (*SystemMailAccountListResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(SystemMailAccountListResponse)
@@ -134,6 +146,7 @@ type SystemMailAccountServiceServer interface {
 	SystemMailAccountDelete(context.Context, *SystemMailAccountDeleteRequest) (*SystemMailAccountDeleteResponse, error)
 	SystemMailAccount(context.Context, *SystemMailAccountRequest) (*SystemMailAccountResponse, error)
 	SystemMailAccountRecover(context.Context, *SystemMailAccountRecoverRequest) (*SystemMailAccountRecoverResponse, error)
+	SystemMailAccountDrop(context.Context, *SystemMailAccountDropRequest) (*SystemMailAccountDropResponse, error)
 	SystemMailAccountList(context.Context, *SystemMailAccountListRequest) (*SystemMailAccountListResponse, error)
 	SystemMailAccountListTotal(context.Context, *SystemMailAccountListTotalRequest) (*SystemMailAccountTotalResponse, error)
 	mustEmbedUnimplementedSystemMailAccountServiceServer()
@@ -157,6 +170,9 @@ func (UnimplementedSystemMailAccountServiceServer) SystemMailAccount(context.Con
 }
 func (UnimplementedSystemMailAccountServiceServer) SystemMailAccountRecover(context.Context, *SystemMailAccountRecoverRequest) (*SystemMailAccountRecoverResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SystemMailAccountRecover not implemented")
+}
+func (UnimplementedSystemMailAccountServiceServer) SystemMailAccountDrop(context.Context, *SystemMailAccountDropRequest) (*SystemMailAccountDropResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SystemMailAccountDrop not implemented")
 }
 func (UnimplementedSystemMailAccountServiceServer) SystemMailAccountList(context.Context, *SystemMailAccountListRequest) (*SystemMailAccountListResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SystemMailAccountList not implemented")
@@ -268,6 +284,24 @@ func _SystemMailAccountService_SystemMailAccountRecover_Handler(srv interface{},
 	return interceptor(ctx, in, info, handler)
 }
 
+func _SystemMailAccountService_SystemMailAccountDrop_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SystemMailAccountDropRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SystemMailAccountServiceServer).SystemMailAccountDrop(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: SystemMailAccountService_SystemMailAccountDrop_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SystemMailAccountServiceServer).SystemMailAccountDrop(ctx, req.(*SystemMailAccountDropRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _SystemMailAccountService_SystemMailAccountList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(SystemMailAccountListRequest)
 	if err := dec(in); err != nil {
@@ -330,6 +364,10 @@ var SystemMailAccountService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "SystemMailAccountRecover",
 			Handler:    _SystemMailAccountService_SystemMailAccountRecover_Handler,
+		},
+		{
+			MethodName: "SystemMailAccountDrop",
+			Handler:    _SystemMailAccountService_SystemMailAccountDrop_Handler,
 		},
 		{
 			MethodName: "SystemMailAccountList",

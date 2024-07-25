@@ -74,6 +74,18 @@ func SystemTenantPackageRecover(ctx context.Context, id int64) (res int64, err e
 	return
 }
 
+// SystemTenantPackageDrop 清理数据
+func SystemTenantPackageDrop(ctx context.Context, id int64) (res int64, err error) {
+	db := initial.Core.Store.LoadSQL("mysql").Write()
+	builder := sql.NewBuilder()
+	query, args, err := builder.Table("`system_tenant_package`").Where("`id`", id).Delete()
+	if err != nil {
+		return
+	}
+	res, err = db.Delete(ctx, query, args...)
+	return
+}
+
 // SystemTenantPackageList 查询列表数据
 func SystemTenantPackageList(ctx context.Context, condition map[string]any) (res []dao.SystemTenantPackage, err error) {
 	db := initial.Core.Store.LoadSQL("mysql").Read()
@@ -96,7 +108,6 @@ func SystemTenantPackageList(ctx context.Context, condition map[string]any) (res
 			builder.Limit(pagination.GetLimit())
 		}
 	}
-
 	builder.OrderBy("`id`", sql.DESC)
 	query, args, err := builder.Rows()
 	if err != nil {

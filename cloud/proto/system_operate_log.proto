@@ -1,4 +1,3 @@
-
 syntax = "proto3";
 // system_operate_log 操作日志
 package logger;
@@ -34,20 +33,20 @@ message SystemOperateLogObject {
 	optional string channel = 12; //渠道
 	// @inject_tag: db:"result" json:"result"
 	optional int32 result = 13; //结果(0 成功/1 失败)
-	// @inject_tag: db:"deleted" json:"deleted"
-	optional int32 deleted = 14; //删除
-	// @inject_tag: db:"tenant_id" json:"tenantId"
-	optional int64 tenant_id = 15; //租户
-	// @inject_tag: db:"creator" json:"creator"
-	optional string creator = 16; //创建人
-	// @inject_tag: db:"create_time" json:"createTime"
-	google.protobuf.Timestamp create_time = 17; //创建时间
-	// @inject_tag: db:"updater" json:"updater"
-	optional string updater = 18; //更新人
-	// @inject_tag: db:"update_time" json:"updateTime"
-	google.protobuf.Timestamp update_time = 19; //更新时间
 	// @inject_tag: db:"user_id" json:"userId"
-	optional int64 user_id = 20; //用户id
+	optional int64 user_id = 14; //用户 ID
+	// @inject_tag: db:"deleted" json:"deleted"
+	optional int32 deleted = 15; //删除
+	// @inject_tag: db:"tenant_id" json:"tenantId"
+	optional int64 tenant_id = 16; //租户
+	// @inject_tag: db:"creator" json:"creator"
+	optional string creator = 17; //创建人
+	// @inject_tag: db:"create_time" json:"createTime"
+	google.protobuf.Timestamp create_time = 18; //创建时间
+	// @inject_tag: db:"updater" json:"updater"
+	optional string updater = 19; //更新人
+	// @inject_tag: db:"update_time" json:"updateTime"
+	google.protobuf.Timestamp update_time = 20; //更新时间
 }
 // SystemOperateLogTotalResponse 列表数据总量
 message SystemOperateLogTotalResponse {
@@ -107,8 +106,19 @@ message SystemOperateLogRecoverResponse {
 	int64 code = 1;
 	string msg = 2;
 }
+// SystemOperateLogDropRequest 清理数据请求
+message SystemOperateLogDropRequest {
+	// @inject_tag: db:"id" json:"id"
+	int64 id = 1; //主键
+}
+// SystemOperateLogDropResponse 清理数据响应
+message SystemOperateLogDropResponse {
+	int64 code = 1;
+	string msg = 2;
+}
 // SystemOperateLogListRequest 列表数据
 message SystemOperateLogListRequest {
+	
 	// @inject_tag: db:"tenant_id" json:"tenantId"
 	optional int64 tenant_id = 1; // 租户
 	// @inject_tag: db:"deleted" json:"deleted"
@@ -123,14 +133,14 @@ message SystemOperateLogListRequest {
 	google.protobuf.Timestamp finish_start_time = 6; // 操作开始时间
 	// @inject_tag: db:"result" json:"result"
 	optional int32 result = 7; // 结果(0 成功/1 失败)
-	// @inject_tag: db:"dept_id" json:"deptId"
-	optional int64 dept_id = 8; // 租户ID
 	// @inject_tag: db:"user_id" json:"userId"
-	optional int64 user_id = 9; // 当前登录的用户 ID
-	// @inject_tag: db:"data_scope" json:"dataScope"
-	optional int32 data_scope = 10; //数据范围（1：全部数据权限 2：自定数据权限 3：本部门数据权限 4：本部门及以下数据权限）
+	optional int64 user_id = 8; // 用户 ID
 	// @inject_tag: db:"data_scope_dept" json:"dataScopeDept"
-	optional bytes data_scope_dept = 11; //数据范围(指定部门数组)
+	optional bytes data_scope_dept = 9; //数据范围(指定部门数组)
+	// @inject_tag: db:"dept_id" json:"deptId"
+	optional int64 dept_id = 10; // 租户ID
+	// @inject_tag: db:"data_scope" json:"dataScope"
+	optional int32 data_scope = 11; //数据范围（1：全部数据权限 2：自定数据权限 3：本部门数据权限 4：本部门及以下数据权限）
 	// @inject_tag: db:"pagination" json:"pagination"
 	optional pagination.PaginationRequest pagination = 12; // 分页
 }
@@ -143,6 +153,7 @@ message SystemOperateLogListResponse {
 }
 // SystemOperateLogListTotalRequest 列表数据
 message SystemOperateLogListTotalRequest {
+	
 	// @inject_tag: db:"tenant_id" json:"tenantId"
 	optional int64 tenant_id = 1; // 租户
 	// @inject_tag: db:"deleted" json:"deleted"
@@ -157,42 +168,33 @@ message SystemOperateLogListTotalRequest {
 	google.protobuf.Timestamp finish_start_time = 6; // 操作开始时间
 	// @inject_tag: db:"result" json:"result"
 	optional int32 result = 7; // 结果(0 成功/1 失败)
-	// @inject_tag: db:"dept_id" json:"deptId"
-	optional int64 dept_id = 8; // 租户ID
 	// @inject_tag: db:"user_id" json:"userId"
-	optional int64 user_id = 9; // 当前登录的用户 ID
-	// @inject_tag: db:"data_scope" json:"dataScope"
-	optional int32 data_scope = 10; //数据范围（1：全部数据权限 2：自定数据权限 3：本部门数据权限 4：本部门及以下数据权限）
+	optional int64 user_id = 8; // 用户 ID
 	// @inject_tag: db:"data_scope_dept" json:"dataScopeDept"
-	optional bytes data_scope_dept = 11; //数据范围(指定部门数组)
+	optional bytes data_scope_dept = 9; //数据范围(指定部门数组)
+	// @inject_tag: db:"dept_id" json:"deptId"
+	optional int64 dept_id = 10; // 租户ID
+	// @inject_tag: db:"data_scope" json:"dataScope"
+	optional int32 data_scope = 11; //数据范围（1：全部数据权限 2：自定数据权限 3：本部门数据权限 4：本部门及以下数据权限）
+
 }
 
 
 
-// SystemOperateLogDropRequest 删除数据请求
-message SystemOperateLogDropRequest {
-	// @inject_tag: db:"ids" json:"ids"
-	optional bytes ids = 1; //主键
+// SystemOperateLogMultipleRequest 多选数据请求
+message SystemOperateLogMultipleRequest {
 	// @inject_tag: db:"tenant_id" json:"tenantId"
-	optional int64 tenant_id = 2; // 租户
-	// @inject_tag: db:"deleted" json:"deleted"
-	optional int32 deleted = 3; // 删除
-	// @inject_tag: db:"username" json:"username"
-	optional string username = 4; // 用户账号
-	// @inject_tag: db:"module" json:"module"
-	optional string module = 5; // 模块名称
-	// @inject_tag: db:"begin_start_time" json:"beginStartTime"
-	google.protobuf.Timestamp begin_start_time = 6; // 操作开始时间
-	// @inject_tag: db:"finish_start_time" json:"finishStartTime"
-	google.protobuf.Timestamp finish_start_time = 7; // 操作开始时间
-	// @inject_tag: db:"result" json:"result"
-	optional int32 result = 8; // 结果(0 成功/1 失败)
+	optional int64 tenant_id = 1; // 租户
+	// @inject_tag: db:"ids" json:"ids"
+	optional bytes ids = 2; // 主键
 }
-// SystemOperateLogDropResponse 删除数据响应
-message SystemOperateLogDropResponse {
+
+// SystemOperateLogMultipleResponse 多选数据响应
+message SystemOperateLogMultipleResponse {
 	int64 code = 1;
 	string msg = 2;
 }
+
 
 
 // SystemOperateLogService 服务
@@ -200,9 +202,12 @@ service SystemOperateLogService{
 	rpc SystemOperateLogCreate(SystemOperateLogCreateRequest) returns (SystemOperateLogCreateResponse);
 	rpc SystemOperateLogUpdate(SystemOperateLogUpdateRequest) returns (SystemOperateLogUpdateResponse);
 	rpc SystemOperateLogDelete(SystemOperateLogDeleteRequest) returns (SystemOperateLogDeleteResponse);
-	rpc SystemOperateLogDrop(SystemOperateLogDropRequest) returns (SystemOperateLogDropResponse);
 	rpc SystemOperateLog(SystemOperateLogRequest) returns (SystemOperateLogResponse);
 	rpc SystemOperateLogRecover(SystemOperateLogRecoverRequest) returns (SystemOperateLogRecoverResponse);
+	rpc SystemOperateLogDrop(SystemOperateLogDropRequest) returns (SystemOperateLogDropResponse);
 	rpc SystemOperateLogList(SystemOperateLogListRequest) returns (SystemOperateLogListResponse);
 	rpc SystemOperateLogListTotal(SystemOperateLogListTotalRequest) returns (SystemOperateLogTotalResponse);
+	rpc SystemOperateLogMultipleDelete(SystemOperateLogMultipleRequest) returns (SystemOperateLogMultipleResponse);
+	rpc SystemOperateLogMultipleRecover(SystemOperateLogMultipleRequest) returns (SystemOperateLogMultipleResponse);
+	rpc SystemOperateLogMultipleDrop(SystemOperateLogMultipleRequest) returns (SystemOperateLogMultipleResponse);
 }

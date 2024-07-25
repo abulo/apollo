@@ -23,20 +23,18 @@ import (
 )
 
 // system_role 系统角色
-
 // SystemRoleItem 查询单条数据
-func SystemRoleItem(ctx context.Context, newCtx *app.RequestContext) (*role.SystemRoleResponse, error) {
+func SystemRoleItem(ctx context.Context, newCtx *app.RequestContext, id int64) (*role.SystemRoleResponse, error) {
 	//判断这个服务能不能链接
 	grpcClient, err := initial.Core.Client.LoadGrpc("grpc").Singleton()
 	if err != nil {
 		globalLogger.Logger.WithFields(logrus.Fields{
 			"err": err,
-		}).Error("Grpc:系统角色:system_role:SystemRole")
+		}).Error("Grpc:系统角色:system_role:SystemRoleItem")
 		return nil, status.Error(code.ConvertToGrpc(code.RPCError), code.StatusText(code.RPCError))
 	}
 	//链接服务
 	client := role.NewSystemRoleServiceClient(grpcClient)
-	id := cast.ToInt64(newCtx.Param("id"))
 	request := &role.SystemRoleRequest{}
 	request.Id = id
 	// 执行服务
@@ -45,7 +43,7 @@ func SystemRoleItem(ctx context.Context, newCtx *app.RequestContext) (*role.Syst
 		globalLogger.Logger.WithFields(logrus.Fields{
 			"req": request,
 			"err": err,
-		}).Error("GrpcCall:系统角色:system_role:SystemRole")
+		}).Error("GrpcCall:系统角色:system_role:SystemRoleItem")
 		return nil, err
 	}
 	tenantId := cast.ToInt64(newCtx.GetInt64("tenantId"))
@@ -82,6 +80,7 @@ func SystemRoleCreate(ctx context.Context, newCtx *app.RequestContext) {
 		})
 		return
 	}
+	reqInfo.Id = nil
 	reqInfo.Deleted = proto.Int32(0)
 	reqInfo.TenantId = proto.Int64(newCtx.GetInt64("tenantId")) // 租户
 	reqInfo.Creator = null.StringFrom(newCtx.GetString("userName"))
@@ -109,7 +108,8 @@ func SystemRoleCreate(ctx context.Context, newCtx *app.RequestContext) {
 
 // SystemRoleUpdate 更新数据
 func SystemRoleUpdate(ctx context.Context, newCtx *app.RequestContext) {
-	if _, err := SystemRoleItem(ctx, newCtx); err != nil {
+	id := cast.ToInt64(newCtx.Param("id"))
+	if _, err := SystemRoleItem(ctx, newCtx, id); err != nil {
 		fromError := status.Convert(err)
 		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.ConvertToHttp(fromError.Code()),
@@ -131,7 +131,6 @@ func SystemRoleUpdate(ctx context.Context, newCtx *app.RequestContext) {
 	}
 	//链接服务
 	client := role.NewSystemRoleServiceClient(grpcClient)
-	id := cast.ToInt64(newCtx.Param("id"))
 	request := &role.SystemRoleUpdateRequest{}
 	request.Id = id
 	// 数据绑定
@@ -147,6 +146,8 @@ func SystemRoleUpdate(ctx context.Context, newCtx *app.RequestContext) {
 	reqInfo.TenantId = proto.Int64(newCtx.GetInt64("tenantId")) // 租户
 	reqInfo.Updater = null.StringFrom(newCtx.GetString("userName"))
 	reqInfo.UpdateTime = null.DateTimeFrom(util.Now())
+	reqInfo.Creator = null.StringFromPtr(nil)
+	reqInfo.CreateTime = null.DateTimeFromPtr(nil)
 	request.Data = role.SystemRoleProto(reqInfo)
 	// 执行服务
 	res, err := client.SystemRoleUpdate(ctx, request)
@@ -170,7 +171,8 @@ func SystemRoleUpdate(ctx context.Context, newCtx *app.RequestContext) {
 
 // SystemRoleDelete 删除数据
 func SystemRoleDelete(ctx context.Context, newCtx *app.RequestContext) {
-	if _, err := SystemRoleItem(ctx, newCtx); err != nil {
+	id := cast.ToInt64(newCtx.Param("id"))
+	if _, err := SystemRoleItem(ctx, newCtx, id); err != nil {
 		fromError := status.Convert(err)
 		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.ConvertToHttp(fromError.Code()),
@@ -191,7 +193,6 @@ func SystemRoleDelete(ctx context.Context, newCtx *app.RequestContext) {
 	}
 	//链接服务
 	client := role.NewSystemRoleServiceClient(grpcClient)
-	id := cast.ToInt64(newCtx.Param("id"))
 	request := &role.SystemRoleDeleteRequest{}
 	request.Id = id
 	// 执行服务
@@ -216,7 +217,9 @@ func SystemRoleDelete(ctx context.Context, newCtx *app.RequestContext) {
 
 // SystemRole 查询单条数据
 func SystemRole(ctx context.Context, newCtx *app.RequestContext) {
-	res, err := SystemRoleItem(ctx, newCtx)
+	id := cast.ToInt64(newCtx.Param("id"))
+	// 执行服务
+	res, err := SystemRoleItem(ctx, newCtx, id)
 	if err != nil {
 		fromError := status.Convert(err)
 		response.JSON(newCtx, consts.StatusOK, utils.H{
@@ -234,7 +237,8 @@ func SystemRole(ctx context.Context, newCtx *app.RequestContext) {
 
 // SystemRoleRecover 恢复数据
 func SystemRoleRecover(ctx context.Context, newCtx *app.RequestContext) {
-	if _, err := SystemRoleItem(ctx, newCtx); err != nil {
+	id := cast.ToInt64(newCtx.Param("id"))
+	if _, err := SystemRoleItem(ctx, newCtx, id); err != nil {
 		fromError := status.Convert(err)
 		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.ConvertToHttp(fromError.Code()),
@@ -255,7 +259,6 @@ func SystemRoleRecover(ctx context.Context, newCtx *app.RequestContext) {
 	}
 	//链接服务
 	client := role.NewSystemRoleServiceClient(grpcClient)
-	id := cast.ToInt64(newCtx.Param("id"))
 	request := &role.SystemRoleRecoverRequest{}
 	request.Id = id
 	// 执行服务
@@ -277,12 +280,157 @@ func SystemRoleRecover(ctx context.Context, newCtx *app.RequestContext) {
 		"msg":  res.GetMsg(),
 	})
 }
-func SystemRoleListSimple(ctx context.Context, newCtx *app.RequestContext) {
+
+// SystemRoleDrop 清理数据
+func SystemRoleDrop(ctx context.Context, newCtx *app.RequestContext) {
+	id := cast.ToInt64(newCtx.Param("id"))
+	if _, err := SystemRoleItem(ctx, newCtx, id); err != nil {
+		fromError := status.Convert(err)
+		response.JSON(newCtx, consts.StatusOK, utils.H{
+			"code": code.ConvertToHttp(fromError.Code()),
+			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
+		})
+		return
+	}
+	grpcClient, err := initial.Core.Client.LoadGrpc("grpc").Singleton()
+	if err != nil {
+		globalLogger.Logger.WithFields(logrus.Fields{
+			"err": err,
+		}).Error("Grpc:系统角色:system_role:SystemRoleDrop")
+		response.JSON(newCtx, consts.StatusOK, utils.H{
+			"code": code.RPCError,
+			"msg":  code.StatusText(code.RPCError),
+		})
+		return
+	}
+	//链接服务
+	client := role.NewSystemRoleServiceClient(grpcClient)
+	request := &role.SystemRoleDropRequest{}
+	request.Id = id
+	// 执行服务
+	res, err := client.SystemRoleDrop(ctx, request)
+	if err != nil {
+		globalLogger.Logger.WithFields(logrus.Fields{
+			"req": request,
+			"err": err,
+		}).Error("GrpcCall:系统角色:system_role:SystemRoleDrop")
+		fromError := status.Convert(err)
+		response.JSON(newCtx, consts.StatusOK, utils.H{
+			"code": code.ConvertToHttp(fromError.Code()),
+			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
+		})
+		return
+	}
+	response.JSON(newCtx, consts.StatusOK, utils.H{
+		"code": res.GetCode(),
+		"msg":  res.GetMsg(),
+	})
+}
+
+// SystemRoleList 列表数据
+func SystemRoleList(ctx context.Context, newCtx *app.RequestContext) {
 	grpcClient, err := initial.Core.Client.LoadGrpc("grpc").Singleton()
 	if err != nil {
 		globalLogger.Logger.WithFields(logrus.Fields{
 			"err": err,
 		}).Error("Grpc:系统角色:system_role:SystemRoleList")
+		response.JSON(newCtx, consts.StatusOK, utils.H{
+			"code": code.RPCError,
+			"msg":  code.StatusText(code.RPCError),
+		})
+		return
+	}
+	//链接服务
+	client := role.NewSystemRoleServiceClient(grpcClient)
+	// 构造查询条件
+	request := &role.SystemRoleListRequest{}
+	requestTotal := &role.SystemRoleListTotalRequest{}
+
+	request.TenantId = proto.Int64(newCtx.GetInt64("tenantId"))      // 租户ID
+	requestTotal.TenantId = proto.Int64(newCtx.GetInt64("tenantId")) // 租户ID
+	request.Deleted = proto.Int32(0)                                 // 删除状态
+	requestTotal.Deleted = proto.Int32(0)                            // 删除状态
+	if val, ok := newCtx.GetQuery("deleted"); ok {
+		if cast.ToBool(val) {
+			request.Deleted = nil
+			requestTotal.Deleted = nil
+		}
+	}
+	if val, ok := newCtx.GetQuery("type"); ok {
+		request.Type = proto.Int32(cast.ToInt32(val))      // 角色类型(1内置/2定义)
+		requestTotal.Type = proto.Int32(cast.ToInt32(val)) // 角色类型(1内置/2定义)
+	}
+	if val, ok := newCtx.GetQuery("status"); ok {
+		request.Status = proto.Int32(cast.ToInt32(val))      // 角色状态（0正常 1停用）
+		requestTotal.Status = proto.Int32(cast.ToInt32(val)) // 角色状态（0正常 1停用）
+	}
+	if val, ok := newCtx.GetQuery("name"); ok {
+		request.Name = proto.String(val)      // 角色名称
+		requestTotal.Name = proto.String(val) // 角色名称
+	}
+
+	// 执行服务,获取数据量
+	resTotal, err := client.SystemRoleListTotal(ctx, requestTotal)
+	if err != nil {
+		globalLogger.Logger.WithFields(logrus.Fields{
+			"req": request,
+			"err": err,
+		}).Error("GrpcCall:系统角色:system_role:SystemRoleList")
+		fromError := status.Convert(err)
+		response.JSON(newCtx, consts.StatusOK, utils.H{
+			"code": code.ConvertToHttp(fromError.Code()),
+			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
+		})
+		return
+	}
+	var total int64
+	paginationRequest := &pagination.PaginationRequest{}
+	paginationRequest.PageNum = proto.Int64(cast.ToInt64(newCtx.Query("pageNum")))
+	paginationRequest.PageSize = proto.Int64(cast.ToInt64(newCtx.Query("pageSize")))
+	request.Pagination = paginationRequest
+	if resTotal.GetCode() == code.Success {
+		total = resTotal.GetData()
+	}
+	// 执行服务
+	res, err := client.SystemRoleList(ctx, request)
+	if err != nil {
+		globalLogger.Logger.WithFields(logrus.Fields{
+			"req": request,
+			"err": err,
+		}).Error("GrpcCall:系统角色:system_role:SystemRoleList")
+		fromError := status.Convert(err)
+		response.JSON(newCtx, consts.StatusOK, utils.H{
+			"code": code.ConvertToHttp(fromError.Code()),
+			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
+		})
+		return
+	}
+	var list []*dao.SystemRole
+	if res.GetCode() == code.Success {
+		rpcList := res.GetData()
+		for _, item := range rpcList {
+			list = append(list, role.SystemRoleDao(item))
+		}
+	}
+	response.JSON(newCtx, consts.StatusOK, utils.H{
+		"code": res.GetCode(),
+		"msg":  res.GetMsg(),
+		"data": utils.H{
+			"total":    total,
+			"list":     list,
+			"pageNum":  paginationRequest.PageNum,
+			"pageSize": paginationRequest.PageSize,
+		},
+	})
+}
+
+// SystemRoleListSimple 列表精简数据
+func SystemRoleListSimple(ctx context.Context, newCtx *app.RequestContext) {
+	grpcClient, err := initial.Core.Client.LoadGrpc("grpc").Singleton()
+	if err != nil {
+		globalLogger.Logger.WithFields(logrus.Fields{
+			"err": err,
+		}).Error("Grpc:系统角色:system_role:SystemRoleListSimple")
 		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.RPCError,
 			"msg":  code.StatusText(code.RPCError),
@@ -317,7 +465,7 @@ func SystemRoleListSimple(ctx context.Context, newCtx *app.RequestContext) {
 		globalLogger.Logger.WithFields(logrus.Fields{
 			"req": request,
 			"err": err,
-		}).Error("GrpcCall:系统角色:system_role:SystemRoleList")
+		}).Error("GrpcCall:系统角色:system_role:SystemRoleListSimple")
 		fromError := status.Convert(err)
 		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.ConvertToHttp(fromError.Code()),
@@ -336,103 +484,5 @@ func SystemRoleListSimple(ctx context.Context, newCtx *app.RequestContext) {
 		"code": res.GetCode(),
 		"msg":  res.GetMsg(),
 		"data": list,
-	})
-}
-
-// SystemRoleList 列表数据
-func SystemRoleList(ctx context.Context, newCtx *app.RequestContext) {
-	grpcClient, err := initial.Core.Client.LoadGrpc("grpc").Singleton()
-	if err != nil {
-		globalLogger.Logger.WithFields(logrus.Fields{
-			"err": err,
-		}).Error("Grpc:系统角色:system_role:SystemRoleList")
-		response.JSON(newCtx, consts.StatusOK, utils.H{
-			"code": code.RPCError,
-			"msg":  code.StatusText(code.RPCError),
-		})
-		return
-	}
-	//链接服务
-	client := role.NewSystemRoleServiceClient(grpcClient)
-	// 构造查询条件
-	request := &role.SystemRoleListRequest{}
-	requestTotal := &role.SystemRoleListTotalRequest{}
-
-	request.TenantId = proto.Int64(newCtx.GetInt64("tenantId")) // 租户ID
-	requestTotal.TenantId = proto.Int64(newCtx.GetInt64("tenantId"))
-	request.Deleted = proto.Int32(0) // 删除状态
-	requestTotal.Deleted = proto.Int32(0)
-	if val, ok := newCtx.GetQuery("deleted"); ok {
-		if cast.ToBool(val) {
-			request.Deleted = nil
-			requestTotal.Deleted = nil
-		}
-	}
-	if val, ok := newCtx.GetQuery("type"); ok {
-		request.Type = proto.Int32(cast.ToInt32(val)) // 角色类型(1内置/2定义)
-		requestTotal.Type = proto.Int32(cast.ToInt32(val))
-	}
-	if val, ok := newCtx.GetQuery("status"); ok {
-		request.Status = proto.Int32(cast.ToInt32(val)) // 角色状态（0正常 1停用）
-		requestTotal.Status = proto.Int32(cast.ToInt32(val))
-	}
-	if val, ok := newCtx.GetQuery("name"); ok {
-		request.Name = proto.String(val) // 角色名称
-		requestTotal.Name = proto.String(val)
-	}
-
-	// 执行服务,获取数据量
-	resTotal, err := client.SystemRoleListTotal(ctx, requestTotal)
-	if err != nil {
-		globalLogger.Logger.WithFields(logrus.Fields{
-			"req": request,
-			"err": err,
-		}).Error("GrpcCall:系统角色:system_role:SystemRoleList")
-		fromError := status.Convert(err)
-		response.JSON(newCtx, consts.StatusOK, utils.H{
-			"code": code.ConvertToHttp(fromError.Code()),
-			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
-		})
-		return
-	}
-	var total int64
-	paginationRequest := &pagination.PaginationRequest{}
-	paginationRequest.PageNum = proto.Int64(cast.ToInt64(newCtx.Query("pageNum")))
-	paginationRequest.PageSize = proto.Int64(cast.ToInt64(newCtx.Query("pageSize")))
-	request.Pagination = paginationRequest
-	if resTotal.GetCode() == code.Success {
-		total = resTotal.GetData()
-	}
-
-	// 执行服务
-	res, err := client.SystemRoleList(ctx, request)
-	if err != nil {
-		globalLogger.Logger.WithFields(logrus.Fields{
-			"req": request,
-			"err": err,
-		}).Error("GrpcCall:系统角色:system_role:SystemRoleList")
-		fromError := status.Convert(err)
-		response.JSON(newCtx, consts.StatusOK, utils.H{
-			"code": code.ConvertToHttp(fromError.Code()),
-			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
-		})
-		return
-	}
-	var list []*dao.SystemRole
-	if res.GetCode() == code.Success {
-		rpcList := res.GetData()
-		for _, item := range rpcList {
-			list = append(list, role.SystemRoleDao(item))
-		}
-	}
-	response.JSON(newCtx, consts.StatusOK, utils.H{
-		"code": res.GetCode(),
-		"msg":  res.GetMsg(),
-		"data": utils.H{
-			"total":    total,
-			"list":     list,
-			"pageNum":  paginationRequest.PageNum,
-			"pageSize": paginationRequest.PageSize,
-		},
 	})
 }

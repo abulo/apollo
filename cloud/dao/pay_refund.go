@@ -4,7 +4,7 @@ import "github.com/abulo/ratel/v3/stores/null"
 
 // PayRefund 退款订单 pay_refund
 type PayRefund struct {
-	Id                *int64        `db:"id" json:"id"`                                 //bigint 支付退款编号,PRI
+	Id                *int64        `db:"id,-" json:"id"`                               //bigint 支付退款编号,PRI
 	No                *string       `db:"no" json:"no"`                                 //varchar 退款单号
 	AppId             *int64        `db:"app_id" json:"appId"`                          //bigint 应用编号
 	ChannelId         *int64        `db:"channel_id" json:"channelId"`                  //bigint 渠道编号

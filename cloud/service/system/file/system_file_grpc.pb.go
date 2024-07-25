@@ -25,6 +25,8 @@ const (
 	SystemFileService_SystemFileUpdate_FullMethodName    = "/file.SystemFileService/SystemFileUpdate"
 	SystemFileService_SystemFileDelete_FullMethodName    = "/file.SystemFileService/SystemFileDelete"
 	SystemFileService_SystemFile_FullMethodName          = "/file.SystemFileService/SystemFile"
+	SystemFileService_SystemFileRecover_FullMethodName   = "/file.SystemFileService/SystemFileRecover"
+	SystemFileService_SystemFileDrop_FullMethodName      = "/file.SystemFileService/SystemFileDrop"
 	SystemFileService_SystemFileList_FullMethodName      = "/file.SystemFileService/SystemFileList"
 	SystemFileService_SystemFileListTotal_FullMethodName = "/file.SystemFileService/SystemFileListTotal"
 )
@@ -39,6 +41,8 @@ type SystemFileServiceClient interface {
 	SystemFileUpdate(ctx context.Context, in *SystemFileUpdateRequest, opts ...grpc.CallOption) (*SystemFileUpdateResponse, error)
 	SystemFileDelete(ctx context.Context, in *SystemFileDeleteRequest, opts ...grpc.CallOption) (*SystemFileDeleteResponse, error)
 	SystemFile(ctx context.Context, in *SystemFileRequest, opts ...grpc.CallOption) (*SystemFileResponse, error)
+	SystemFileRecover(ctx context.Context, in *SystemFileRecoverRequest, opts ...grpc.CallOption) (*SystemFileRecoverResponse, error)
+	SystemFileDrop(ctx context.Context, in *SystemFileDropRequest, opts ...grpc.CallOption) (*SystemFileDropResponse, error)
 	SystemFileList(ctx context.Context, in *SystemFileListRequest, opts ...grpc.CallOption) (*SystemFileListResponse, error)
 	SystemFileListTotal(ctx context.Context, in *SystemFileListTotalRequest, opts ...grpc.CallOption) (*SystemFileTotalResponse, error)
 }
@@ -91,6 +95,26 @@ func (c *systemFileServiceClient) SystemFile(ctx context.Context, in *SystemFile
 	return out, nil
 }
 
+func (c *systemFileServiceClient) SystemFileRecover(ctx context.Context, in *SystemFileRecoverRequest, opts ...grpc.CallOption) (*SystemFileRecoverResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(SystemFileRecoverResponse)
+	err := c.cc.Invoke(ctx, SystemFileService_SystemFileRecover_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *systemFileServiceClient) SystemFileDrop(ctx context.Context, in *SystemFileDropRequest, opts ...grpc.CallOption) (*SystemFileDropResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(SystemFileDropResponse)
+	err := c.cc.Invoke(ctx, SystemFileService_SystemFileDrop_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *systemFileServiceClient) SystemFileList(ctx context.Context, in *SystemFileListRequest, opts ...grpc.CallOption) (*SystemFileListResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(SystemFileListResponse)
@@ -121,6 +145,8 @@ type SystemFileServiceServer interface {
 	SystemFileUpdate(context.Context, *SystemFileUpdateRequest) (*SystemFileUpdateResponse, error)
 	SystemFileDelete(context.Context, *SystemFileDeleteRequest) (*SystemFileDeleteResponse, error)
 	SystemFile(context.Context, *SystemFileRequest) (*SystemFileResponse, error)
+	SystemFileRecover(context.Context, *SystemFileRecoverRequest) (*SystemFileRecoverResponse, error)
+	SystemFileDrop(context.Context, *SystemFileDropRequest) (*SystemFileDropResponse, error)
 	SystemFileList(context.Context, *SystemFileListRequest) (*SystemFileListResponse, error)
 	SystemFileListTotal(context.Context, *SystemFileListTotalRequest) (*SystemFileTotalResponse, error)
 	mustEmbedUnimplementedSystemFileServiceServer()
@@ -141,6 +167,12 @@ func (UnimplementedSystemFileServiceServer) SystemFileDelete(context.Context, *S
 }
 func (UnimplementedSystemFileServiceServer) SystemFile(context.Context, *SystemFileRequest) (*SystemFileResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SystemFile not implemented")
+}
+func (UnimplementedSystemFileServiceServer) SystemFileRecover(context.Context, *SystemFileRecoverRequest) (*SystemFileRecoverResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SystemFileRecover not implemented")
+}
+func (UnimplementedSystemFileServiceServer) SystemFileDrop(context.Context, *SystemFileDropRequest) (*SystemFileDropResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SystemFileDrop not implemented")
 }
 func (UnimplementedSystemFileServiceServer) SystemFileList(context.Context, *SystemFileListRequest) (*SystemFileListResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SystemFileList not implemented")
@@ -233,6 +265,42 @@ func _SystemFileService_SystemFile_Handler(srv interface{}, ctx context.Context,
 	return interceptor(ctx, in, info, handler)
 }
 
+func _SystemFileService_SystemFileRecover_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SystemFileRecoverRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SystemFileServiceServer).SystemFileRecover(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: SystemFileService_SystemFileRecover_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SystemFileServiceServer).SystemFileRecover(ctx, req.(*SystemFileRecoverRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _SystemFileService_SystemFileDrop_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SystemFileDropRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SystemFileServiceServer).SystemFileDrop(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: SystemFileService_SystemFileDrop_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SystemFileServiceServer).SystemFileDrop(ctx, req.(*SystemFileDropRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _SystemFileService_SystemFileList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(SystemFileListRequest)
 	if err := dec(in); err != nil {
@@ -291,6 +359,14 @@ var SystemFileService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "SystemFile",
 			Handler:    _SystemFileService_SystemFile_Handler,
+		},
+		{
+			MethodName: "SystemFileRecover",
+			Handler:    _SystemFileService_SystemFileRecover_Handler,
+		},
+		{
+			MethodName: "SystemFileDrop",
+			Handler:    _SystemFileService_SystemFileDrop_Handler,
 		},
 		{
 			MethodName: "SystemFileList",

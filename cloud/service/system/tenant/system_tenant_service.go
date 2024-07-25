@@ -120,6 +120,28 @@ func (srv SrvSystemTenantServiceServer) SystemTenantRecover(ctx context.Context,
 		Msg:  code.StatusText(code.Success),
 	}, nil
 }
+
+// SystemTenantDrop 清理数据
+func (srv SrvSystemTenantServiceServer) SystemTenantDrop(ctx context.Context, request *SystemTenantDropRequest) (*SystemTenantDropResponse, error) {
+	id := request.GetId()
+	if id < 1 {
+		return &SystemTenantDropResponse{}, status.Error(code.ConvertToGrpc(code.ParamInvalid), code.StatusText(code.ParamInvalid))
+	}
+	_, err := tenant.SystemTenantDrop(ctx, id)
+	if sql.ResultAccept(err) != nil {
+		globalLogger.Logger.WithFields(logrus.Fields{
+			"req": id,
+			"err": err,
+		}).Error("Sql:租户:system_tenant:SystemTenantDrop")
+		return &SystemTenantDropResponse{}, status.Error(code.ConvertToGrpc(code.SqlError), err.Error())
+	}
+	return &SystemTenantDropResponse{
+		Code: code.Success,
+		Msg:  code.StatusText(code.Success),
+	}, nil
+}
+
+// SystemTenantList 列表数据
 func (srv SrvSystemTenantServiceServer) SystemTenantList(ctx context.Context, request *SystemTenantListRequest) (*SystemTenantListResponse, error) {
 	// 数据库查询条件
 	condition := make(map[string]any)

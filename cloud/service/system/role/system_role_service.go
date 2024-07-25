@@ -119,6 +119,28 @@ func (srv SrvSystemRoleServiceServer) SystemRoleRecover(ctx context.Context, req
 		Msg:  code.StatusText(code.Success),
 	}, nil
 }
+
+// SystemRoleDrop 清理数据
+func (srv SrvSystemRoleServiceServer) SystemRoleDrop(ctx context.Context, request *SystemRoleDropRequest) (*SystemRoleDropResponse, error) {
+	id := request.GetId()
+	if id < 1 {
+		return &SystemRoleDropResponse{}, status.Error(code.ConvertToGrpc(code.ParamInvalid), code.StatusText(code.ParamInvalid))
+	}
+	_, err := role.SystemRoleDrop(ctx, id)
+	if sql.ResultAccept(err) != nil {
+		globalLogger.Logger.WithFields(logrus.Fields{
+			"req": id,
+			"err": err,
+		}).Error("Sql:系统角色:system_role:SystemRoleDrop")
+		return &SystemRoleDropResponse{}, status.Error(code.ConvertToGrpc(code.SqlError), err.Error())
+	}
+	return &SystemRoleDropResponse{
+		Code: code.Success,
+		Msg:  code.StatusText(code.Success),
+	}, nil
+}
+
+// SystemRoleList 列表数据
 func (srv SrvSystemRoleServiceServer) SystemRoleList(ctx context.Context, request *SystemRoleListRequest) (*SystemRoleListResponse, error) {
 	// 数据库查询条件
 	condition := make(map[string]any)

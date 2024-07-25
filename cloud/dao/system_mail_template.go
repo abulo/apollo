@@ -4,7 +4,7 @@ import "github.com/abulo/ratel/v3/stores/null"
 
 // SystemMailTemplate 邮件模版表 system_mail_template
 type SystemMailTemplate struct {
-	Id         *int64        `db:"id" json:"id"`                  //bigint 编号,PRI
+	Id         *int64        `db:"id,-" json:"id"`                //bigint 编号,PRI
 	Name       *string       `db:"name" json:"name"`              //varchar 模板名称
 	Code       *string       `db:"code" json:"code"`              //varchar 模板编码
 	AccountId  *int64        `db:"account_id" json:"accountId"`   //bigint 发送的邮箱账号编号

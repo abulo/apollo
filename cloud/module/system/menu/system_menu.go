@@ -73,6 +73,40 @@ func SystemMenuRecover(ctx context.Context, id int64) (res int64, err error) {
 	return
 }
 
+// SystemMenuDrop 清理数据
+func SystemMenuDrop(ctx context.Context, id int64) (res int64, err error) {
+	db := initial.Core.Store.LoadSQL("mysql").Write()
+	_, err = SystemMenu(ctx, id)
+	if err != nil {
+		return 0, err
+	}
+	res = 0
+	err = db.Transact(ctx, func(ctx context.Context, session sql.Session) error {
+
+		builder := sql.NewBuilder()
+		query, args, err := builder.Table("`system_role_menu`").Where("menu_id", id).Delete()
+		if err != nil {
+			return err
+		}
+		_, err = session.Delete(ctx, query, args...)
+		if err != nil {
+			return err
+		}
+
+		builder = sql.NewBuilder()
+		query, args, err = builder.Table("`system_menu`").Where("`id`", id).Delete()
+		if err != nil {
+			return err
+		}
+		res, err = session.Delete(ctx, query, args...)
+		if err != nil {
+			return err
+		}
+		return nil
+	})
+	return
+}
+
 // SystemMenuList 查询列表数据
 func SystemMenuList(ctx context.Context, condition map[string]any) (res []dao.SystemMenu, err error) {
 	db := initial.Core.Store.LoadSQL("mysql").Read()

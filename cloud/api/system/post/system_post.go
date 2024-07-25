@@ -23,20 +23,18 @@ import (
 )
 
 // system_post 职位
-
 // SystemPostItem 查询单条数据
-func SystemPostItem(ctx context.Context, newCtx *app.RequestContext) (*post.SystemPostResponse, error) {
+func SystemPostItem(ctx context.Context, newCtx *app.RequestContext, id int64) (*post.SystemPostResponse, error) {
 	//判断这个服务能不能链接
 	grpcClient, err := initial.Core.Client.LoadGrpc("grpc").Singleton()
 	if err != nil {
 		globalLogger.Logger.WithFields(logrus.Fields{
 			"err": err,
-		}).Error("Grpc:职位:system_post:SystemPost")
+		}).Error("Grpc:职位:system_post:SystemPostItem")
 		return nil, status.Error(code.ConvertToGrpc(code.RPCError), code.StatusText(code.RPCError))
 	}
 	//链接服务
 	client := post.NewSystemPostServiceClient(grpcClient)
-	id := cast.ToInt64(newCtx.Param("id"))
 	request := &post.SystemPostRequest{}
 	request.Id = id
 	// 执行服务
@@ -45,7 +43,7 @@ func SystemPostItem(ctx context.Context, newCtx *app.RequestContext) (*post.Syst
 		globalLogger.Logger.WithFields(logrus.Fields{
 			"req": request,
 			"err": err,
-		}).Error("GrpcCall:职位:system_post:SystemPost")
+		}).Error("GrpcCall:职位:system_post:SystemPostItem")
 		return nil, err
 	}
 	tenantId := cast.ToInt64(newCtx.GetInt64("tenantId"))
@@ -82,6 +80,7 @@ func SystemPostCreate(ctx context.Context, newCtx *app.RequestContext) {
 		})
 		return
 	}
+	reqInfo.Id = nil
 	reqInfo.Deleted = proto.Int32(0)
 	reqInfo.TenantId = proto.Int64(newCtx.GetInt64("tenantId")) // 租户
 	reqInfo.Creator = null.StringFrom(newCtx.GetString("userName"))
@@ -109,7 +108,8 @@ func SystemPostCreate(ctx context.Context, newCtx *app.RequestContext) {
 
 // SystemPostUpdate 更新数据
 func SystemPostUpdate(ctx context.Context, newCtx *app.RequestContext) {
-	if _, err := SystemPostItem(ctx, newCtx); err != nil {
+	id := cast.ToInt64(newCtx.Param("id"))
+	if _, err := SystemPostItem(ctx, newCtx, id); err != nil {
 		fromError := status.Convert(err)
 		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.ConvertToHttp(fromError.Code()),
@@ -131,7 +131,6 @@ func SystemPostUpdate(ctx context.Context, newCtx *app.RequestContext) {
 	}
 	//链接服务
 	client := post.NewSystemPostServiceClient(grpcClient)
-	id := cast.ToInt64(newCtx.Param("id"))
 	request := &post.SystemPostUpdateRequest{}
 	request.Id = id
 	// 数据绑定
@@ -172,7 +171,8 @@ func SystemPostUpdate(ctx context.Context, newCtx *app.RequestContext) {
 
 // SystemPostDelete 删除数据
 func SystemPostDelete(ctx context.Context, newCtx *app.RequestContext) {
-	if _, err := SystemPostItem(ctx, newCtx); err != nil {
+	id := cast.ToInt64(newCtx.Param("id"))
+	if _, err := SystemPostItem(ctx, newCtx, id); err != nil {
 		fromError := status.Convert(err)
 		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.ConvertToHttp(fromError.Code()),
@@ -193,7 +193,6 @@ func SystemPostDelete(ctx context.Context, newCtx *app.RequestContext) {
 	}
 	//链接服务
 	client := post.NewSystemPostServiceClient(grpcClient)
-	id := cast.ToInt64(newCtx.Param("id"))
 	request := &post.SystemPostDeleteRequest{}
 	request.Id = id
 	// 执行服务
@@ -218,7 +217,9 @@ func SystemPostDelete(ctx context.Context, newCtx *app.RequestContext) {
 
 // SystemPost 查询单条数据
 func SystemPost(ctx context.Context, newCtx *app.RequestContext) {
-	res, err := SystemPostItem(ctx, newCtx)
+	id := cast.ToInt64(newCtx.Param("id"))
+	// 执行服务
+	res, err := SystemPostItem(ctx, newCtx, id)
 	if err != nil {
 		fromError := status.Convert(err)
 		response.JSON(newCtx, consts.StatusOK, utils.H{
@@ -236,7 +237,8 @@ func SystemPost(ctx context.Context, newCtx *app.RequestContext) {
 
 // SystemPostRecover 恢复数据
 func SystemPostRecover(ctx context.Context, newCtx *app.RequestContext) {
-	if _, err := SystemPostItem(ctx, newCtx); err != nil {
+	id := cast.ToInt64(newCtx.Param("id"))
+	if _, err := SystemPostItem(ctx, newCtx, id); err != nil {
 		fromError := status.Convert(err)
 		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.ConvertToHttp(fromError.Code()),
@@ -257,7 +259,6 @@ func SystemPostRecover(ctx context.Context, newCtx *app.RequestContext) {
 	}
 	//链接服务
 	client := post.NewSystemPostServiceClient(grpcClient)
-	id := cast.ToInt64(newCtx.Param("id"))
 	request := &post.SystemPostRecoverRequest{}
 	request.Id = id
 	// 执行服务
@@ -267,6 +268,52 @@ func SystemPostRecover(ctx context.Context, newCtx *app.RequestContext) {
 			"req": request,
 			"err": err,
 		}).Error("GrpcCall:职位:system_post:SystemPostRecover")
+		fromError := status.Convert(err)
+		response.JSON(newCtx, consts.StatusOK, utils.H{
+			"code": code.ConvertToHttp(fromError.Code()),
+			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
+		})
+		return
+	}
+	response.JSON(newCtx, consts.StatusOK, utils.H{
+		"code": res.GetCode(),
+		"msg":  res.GetMsg(),
+	})
+}
+
+// SystemPostDrop 清理数据
+func SystemPostDrop(ctx context.Context, newCtx *app.RequestContext) {
+	id := cast.ToInt64(newCtx.Param("id"))
+	if _, err := SystemPostItem(ctx, newCtx, id); err != nil {
+		fromError := status.Convert(err)
+		response.JSON(newCtx, consts.StatusOK, utils.H{
+			"code": code.ConvertToHttp(fromError.Code()),
+			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
+		})
+		return
+	}
+	grpcClient, err := initial.Core.Client.LoadGrpc("grpc").Singleton()
+	if err != nil {
+		globalLogger.Logger.WithFields(logrus.Fields{
+			"err": err,
+		}).Error("Grpc:职位:system_post:SystemPostDrop")
+		response.JSON(newCtx, consts.StatusOK, utils.H{
+			"code": code.RPCError,
+			"msg":  code.StatusText(code.RPCError),
+		})
+		return
+	}
+	//链接服务
+	client := post.NewSystemPostServiceClient(grpcClient)
+	request := &post.SystemPostDropRequest{}
+	request.Id = id
+	// 执行服务
+	res, err := client.SystemPostDrop(ctx, request)
+	if err != nil {
+		globalLogger.Logger.WithFields(logrus.Fields{
+			"req": request,
+			"err": err,
+		}).Error("GrpcCall:职位:system_post:SystemPostDrop")
 		fromError := status.Convert(err)
 		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.ConvertToHttp(fromError.Code()),
@@ -298,6 +345,7 @@ func SystemPostList(ctx context.Context, newCtx *app.RequestContext) {
 	// 构造查询条件
 	request := &post.SystemPostListRequest{}
 	requestTotal := &post.SystemPostListTotalRequest{}
+
 	request.TenantId = proto.Int64(newCtx.GetInt64("tenantId"))      // 租户ID
 	requestTotal.TenantId = proto.Int64(newCtx.GetInt64("tenantId")) // 租户ID
 	request.Deleted = proto.Int32(0)                                 // 删除状态
@@ -372,13 +420,13 @@ func SystemPostList(ctx context.Context, newCtx *app.RequestContext) {
 	})
 }
 
-// SystemPostListSimple 精简列表数据
+// SystemPostListSimple 列表精简数据
 func SystemPostListSimple(ctx context.Context, newCtx *app.RequestContext) {
 	grpcClient, err := initial.Core.Client.LoadGrpc("grpc").Singleton()
 	if err != nil {
 		globalLogger.Logger.WithFields(logrus.Fields{
 			"err": err,
-		}).Error("Grpc:职位:system_post:SystemPostList")
+		}).Error("Grpc:职位:system_post:SystemPostListSimple")
 		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.RPCError,
 			"msg":  code.StatusText(code.RPCError),
@@ -389,6 +437,7 @@ func SystemPostListSimple(ctx context.Context, newCtx *app.RequestContext) {
 	client := post.NewSystemPostServiceClient(grpcClient)
 	// 构造查询条件
 	request := &post.SystemPostListRequest{}
+
 	request.TenantId = proto.Int64(newCtx.GetInt64("tenantId")) // 租户ID
 	request.Deleted = proto.Int32(0)                            // 删除状态
 	if val, ok := newCtx.GetQuery("deleted"); ok {
@@ -409,7 +458,7 @@ func SystemPostListSimple(ctx context.Context, newCtx *app.RequestContext) {
 		globalLogger.Logger.WithFields(logrus.Fields{
 			"req": request,
 			"err": err,
-		}).Error("GrpcCall:职位:system_post:SystemPostList")
+		}).Error("GrpcCall:职位:system_post:SystemPostListSimple")
 		fromError := status.Convert(err)
 		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.ConvertToHttp(fromError.Code()),

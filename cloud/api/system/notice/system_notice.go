@@ -23,20 +23,18 @@ import (
 )
 
 // system_notice 通知公告表
-
-// SystemNotice 查询单条数据
-func SystemNoticeItem(ctx context.Context, newCtx *app.RequestContext) (*notice.SystemNoticeResponse, error) {
+// SystemNoticeItem 查询单条数据
+func SystemNoticeItem(ctx context.Context, newCtx *app.RequestContext, id int64) (*notice.SystemNoticeResponse, error) {
 	//判断这个服务能不能链接
 	grpcClient, err := initial.Core.Client.LoadGrpc("grpc").Singleton()
 	if err != nil {
 		globalLogger.Logger.WithFields(logrus.Fields{
 			"err": err,
-		}).Error("Grpc:通知公告表:system_notice:SystemNotice")
+		}).Error("Grpc:通知公告表:system_notice:SystemNoticeItem")
 		return nil, status.Error(code.ConvertToGrpc(code.RPCError), code.StatusText(code.RPCError))
 	}
 	//链接服务
 	client := notice.NewSystemNoticeServiceClient(grpcClient)
-	id := cast.ToInt64(newCtx.Param("id"))
 	request := &notice.SystemNoticeRequest{}
 	request.Id = id
 	// 执行服务
@@ -45,7 +43,7 @@ func SystemNoticeItem(ctx context.Context, newCtx *app.RequestContext) (*notice.
 		globalLogger.Logger.WithFields(logrus.Fields{
 			"req": request,
 			"err": err,
-		}).Error("GrpcCall:通知公告表:system_notice:SystemNotice")
+		}).Error("GrpcCall:通知公告表:system_notice:SystemNoticeItem")
 		return nil, err
 	}
 	tenantId := cast.ToInt64(newCtx.GetInt64("tenantId"))
@@ -82,6 +80,7 @@ func SystemNoticeCreate(ctx context.Context, newCtx *app.RequestContext) {
 		})
 		return
 	}
+	reqInfo.Id = nil
 	reqInfo.Deleted = proto.Int32(0)
 	reqInfo.TenantId = proto.Int64(newCtx.GetInt64("tenantId")) // 租户
 	reqInfo.Creator = null.StringFrom(newCtx.GetString("userName"))
@@ -109,7 +108,8 @@ func SystemNoticeCreate(ctx context.Context, newCtx *app.RequestContext) {
 
 // SystemNoticeUpdate 更新数据
 func SystemNoticeUpdate(ctx context.Context, newCtx *app.RequestContext) {
-	if _, err := SystemNoticeItem(ctx, newCtx); err != nil {
+	id := cast.ToInt64(newCtx.Param("id"))
+	if _, err := SystemNoticeItem(ctx, newCtx, id); err != nil {
 		fromError := status.Convert(err)
 		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.ConvertToHttp(fromError.Code()),
@@ -131,7 +131,6 @@ func SystemNoticeUpdate(ctx context.Context, newCtx *app.RequestContext) {
 	}
 	//链接服务
 	client := notice.NewSystemNoticeServiceClient(grpcClient)
-	id := cast.ToInt64(newCtx.Param("id"))
 	request := &notice.SystemNoticeUpdateRequest{}
 	request.Id = id
 	// 数据绑定
@@ -172,7 +171,8 @@ func SystemNoticeUpdate(ctx context.Context, newCtx *app.RequestContext) {
 
 // SystemNoticeDelete 删除数据
 func SystemNoticeDelete(ctx context.Context, newCtx *app.RequestContext) {
-	if _, err := SystemNoticeItem(ctx, newCtx); err != nil {
+	id := cast.ToInt64(newCtx.Param("id"))
+	if _, err := SystemNoticeItem(ctx, newCtx, id); err != nil {
 		fromError := status.Convert(err)
 		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.ConvertToHttp(fromError.Code()),
@@ -193,7 +193,6 @@ func SystemNoticeDelete(ctx context.Context, newCtx *app.RequestContext) {
 	}
 	//链接服务
 	client := notice.NewSystemNoticeServiceClient(grpcClient)
-	id := cast.ToInt64(newCtx.Param("id"))
 	request := &notice.SystemNoticeDeleteRequest{}
 	request.Id = id
 	// 执行服务
@@ -218,8 +217,9 @@ func SystemNoticeDelete(ctx context.Context, newCtx *app.RequestContext) {
 
 // SystemNotice 查询单条数据
 func SystemNotice(ctx context.Context, newCtx *app.RequestContext) {
-	//判断这个服务能不能链接
-	res, err := SystemNoticeItem(ctx, newCtx)
+	id := cast.ToInt64(newCtx.Param("id"))
+	// 执行服务
+	res, err := SystemNoticeItem(ctx, newCtx, id)
 	if err != nil {
 		fromError := status.Convert(err)
 		response.JSON(newCtx, consts.StatusOK, utils.H{
@@ -237,7 +237,8 @@ func SystemNotice(ctx context.Context, newCtx *app.RequestContext) {
 
 // SystemNoticeRecover 恢复数据
 func SystemNoticeRecover(ctx context.Context, newCtx *app.RequestContext) {
-	if _, err := SystemNoticeItem(ctx, newCtx); err != nil {
+	id := cast.ToInt64(newCtx.Param("id"))
+	if _, err := SystemNoticeItem(ctx, newCtx, id); err != nil {
 		fromError := status.Convert(err)
 		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.ConvertToHttp(fromError.Code()),
@@ -258,7 +259,6 @@ func SystemNoticeRecover(ctx context.Context, newCtx *app.RequestContext) {
 	}
 	//链接服务
 	client := notice.NewSystemNoticeServiceClient(grpcClient)
-	id := cast.ToInt64(newCtx.Param("id"))
 	request := &notice.SystemNoticeRecoverRequest{}
 	request.Id = id
 	// 执行服务
@@ -268,6 +268,52 @@ func SystemNoticeRecover(ctx context.Context, newCtx *app.RequestContext) {
 			"req": request,
 			"err": err,
 		}).Error("GrpcCall:通知公告表:system_notice:SystemNoticeRecover")
+		fromError := status.Convert(err)
+		response.JSON(newCtx, consts.StatusOK, utils.H{
+			"code": code.ConvertToHttp(fromError.Code()),
+			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
+		})
+		return
+	}
+	response.JSON(newCtx, consts.StatusOK, utils.H{
+		"code": res.GetCode(),
+		"msg":  res.GetMsg(),
+	})
+}
+
+// SystemNoticeDrop 清理数据
+func SystemNoticeDrop(ctx context.Context, newCtx *app.RequestContext) {
+	id := cast.ToInt64(newCtx.Param("id"))
+	if _, err := SystemNoticeItem(ctx, newCtx, id); err != nil {
+		fromError := status.Convert(err)
+		response.JSON(newCtx, consts.StatusOK, utils.H{
+			"code": code.ConvertToHttp(fromError.Code()),
+			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
+		})
+		return
+	}
+	grpcClient, err := initial.Core.Client.LoadGrpc("grpc").Singleton()
+	if err != nil {
+		globalLogger.Logger.WithFields(logrus.Fields{
+			"err": err,
+		}).Error("Grpc:通知公告表:system_notice:SystemNoticeDrop")
+		response.JSON(newCtx, consts.StatusOK, utils.H{
+			"code": code.RPCError,
+			"msg":  code.StatusText(code.RPCError),
+		})
+		return
+	}
+	//链接服务
+	client := notice.NewSystemNoticeServiceClient(grpcClient)
+	request := &notice.SystemNoticeDropRequest{}
+	request.Id = id
+	// 执行服务
+	res, err := client.SystemNoticeDrop(ctx, request)
+	if err != nil {
+		globalLogger.Logger.WithFields(logrus.Fields{
+			"req": request,
+			"err": err,
+		}).Error("GrpcCall:通知公告表:system_notice:SystemNoticeDrop")
 		fromError := status.Convert(err)
 		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.ConvertToHttp(fromError.Code()),
@@ -299,6 +345,7 @@ func SystemNoticeList(ctx context.Context, newCtx *app.RequestContext) {
 	// 构造查询条件
 	request := &notice.SystemNoticeListRequest{}
 	requestTotal := &notice.SystemNoticeListTotalRequest{}
+
 	request.TenantId = proto.Int64(newCtx.GetInt64("tenantId")) // 租户ID
 	requestTotal.TenantId = proto.Int64(newCtx.GetInt64("tenantId"))
 	request.Deleted = proto.Int32(0)      // 删除状态
@@ -374,5 +421,68 @@ func SystemNoticeList(ctx context.Context, newCtx *app.RequestContext) {
 			"pageNum":  paginationRequest.PageNum,
 			"pageSize": paginationRequest.PageSize,
 		},
+	})
+}
+
+// SystemNoticeListSimple 列表精简数据
+func SystemNoticeListSimple(ctx context.Context, newCtx *app.RequestContext) {
+	grpcClient, err := initial.Core.Client.LoadGrpc("grpc").Singleton()
+	if err != nil {
+		globalLogger.Logger.WithFields(logrus.Fields{
+			"err": err,
+		}).Error("Grpc:通知公告表:system_notice:SystemNoticeListSimple")
+		response.JSON(newCtx, consts.StatusOK, utils.H{
+			"code": code.RPCError,
+			"msg":  code.StatusText(code.RPCError),
+		})
+		return
+	}
+	//链接服务
+	client := notice.NewSystemNoticeServiceClient(grpcClient)
+	// 构造查询条件
+	request := &notice.SystemNoticeListRequest{}
+
+	request.TenantId = proto.Int64(newCtx.GetInt64("tenantId")) // 租户ID
+	request.Deleted = proto.Int32(0)                            // 删除状态
+	if val, ok := newCtx.GetQuery("deleted"); ok {
+		if cast.ToBool(val) {
+			request.Deleted = nil
+		}
+	}
+	if val, ok := newCtx.GetQuery("status"); ok {
+		request.Status = proto.Int32(cast.ToInt32(val)) // 公告状态（0正常 1关闭）
+	}
+	if val, ok := newCtx.GetQuery("type"); ok {
+		request.Type = proto.Int32(cast.ToInt32(val)) // 公告类型（1通知 2公告）
+	}
+	if val, ok := newCtx.GetQuery("title"); ok {
+		request.Title = proto.String(val) // 公告标题
+	}
+
+	// 执行服务
+	res, err := client.SystemNoticeList(ctx, request)
+	if err != nil {
+		globalLogger.Logger.WithFields(logrus.Fields{
+			"req": request,
+			"err": err,
+		}).Error("GrpcCall:通知公告表:system_notice:SystemNoticeListSimple")
+		fromError := status.Convert(err)
+		response.JSON(newCtx, consts.StatusOK, utils.H{
+			"code": code.ConvertToHttp(fromError.Code()),
+			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
+		})
+		return
+	}
+	var list []*dao.SystemNotice
+	if res.GetCode() == code.Success {
+		rpcList := res.GetData()
+		for _, item := range rpcList {
+			list = append(list, notice.SystemNoticeDao(item))
+		}
+	}
+	response.JSON(newCtx, consts.StatusOK, utils.H{
+		"code": res.GetCode(),
+		"msg":  res.GetMsg(),
+		"data": list,
 	})
 }

@@ -12,7 +12,6 @@ import (
 	"encoding/json"
 
 	globalLogger "github.com/abulo/ratel/v3/core/logger"
-	"github.com/abulo/ratel/v3/util"
 	"github.com/cloudwego/hertz/pkg/app"
 	"github.com/cloudwego/hertz/pkg/common/utils"
 	"github.com/cloudwego/hertz/pkg/protocol/consts"
@@ -22,13 +21,13 @@ import (
 	"google.golang.org/protobuf/proto"
 )
 
-// SystemUserList 列表数据
-func SystemUserList(ctx context.Context, newCtx *app.RequestContext) {
+// SystemTenantUserList 列表数据
+func SystemTenantUserList(ctx context.Context, newCtx *app.RequestContext) {
 	grpcClient, err := initial.Core.Client.LoadGrpc("grpc").Singleton()
 	if err != nil {
 		globalLogger.Logger.WithFields(logrus.Fields{
 			"err": err,
-		}).Error("Grpc:系统用户:system_user:SystemUserList")
+		}).Error("Grpc:系统用户:system_user:SystemTenantUserList")
 		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.RPCError,
 			"msg":  code.StatusText(code.RPCError),
@@ -127,7 +126,7 @@ func SystemUserList(ctx context.Context, newCtx *app.RequestContext) {
 		globalLogger.Logger.WithFields(logrus.Fields{
 			"req": requestTotal,
 			"err": err,
-		}).Error("GrpcCall:系统用户:system_user:SystemUserList")
+		}).Error("GrpcCall:系统用户:system_user:SystemTenantUserList")
 		fromError := status.Convert(err)
 		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.ConvertToHttp(fromError.Code()),
@@ -148,7 +147,7 @@ func SystemUserList(ctx context.Context, newCtx *app.RequestContext) {
 		globalLogger.Logger.WithFields(logrus.Fields{
 			"req": request,
 			"err": err,
-		}).Error("GrpcCall:系统用户:system_user:SystemUserList")
+		}).Error("GrpcCall:系统用户:system_user:SystemTenantUserList")
 		fromError := status.Convert(err)
 		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.ConvertToHttp(fromError.Code()),
@@ -174,56 +173,5 @@ func SystemUserList(ctx context.Context, newCtx *app.RequestContext) {
 			"pageNum":  paginationRequest.PageNum,
 			"pageSize": paginationRequest.PageSize,
 		},
-	})
-}
-
-// SystemUserPassword 更新密码
-func SystemUserPassword(ctx context.Context, newCtx *app.RequestContext) {
-	//判断这个服务能不能链接
-	grpcClient, err := initial.Core.Client.LoadGrpc("grpc").Singleton()
-	if err != nil {
-		globalLogger.Logger.WithFields(logrus.Fields{
-			"err": err,
-		}).Error("Grpc:用户信息表:system_user:SystemUserPassword")
-		response.JSON(newCtx, consts.StatusOK, utils.H{
-			"code": code.RPCError,
-			"msg":  code.StatusText(code.RPCError),
-		})
-		return
-	}
-	//链接服务
-	client := user.NewSystemUserServiceClient(grpcClient)
-	id := cast.ToInt64(newCtx.Param("id"))
-	request := &user.SystemUserPasswordRequest{}
-	request.Id = id
-	// 数据绑定
-	var reqInfo dao.SystemUserPassword
-	if err := newCtx.BindAndValidate(&reqInfo); err != nil {
-		response.JSON(newCtx, consts.StatusOK, utils.H{
-			"code": code.ParamInvalid,
-			"msg":  code.StatusText(code.ParamInvalid),
-		})
-		return
-	}
-	if request.Password != nil {
-		request.Password = proto.String(util.Md5(cast.ToString(reqInfo.Password)))
-	}
-	// 执行服务
-	res, err := client.SystemUserPassword(ctx, request)
-	if err != nil {
-		globalLogger.Logger.WithFields(logrus.Fields{
-			"req": request,
-			"err": err,
-		}).Error("GrpcCall:用户信息表:system_user:SystemUserPassword")
-		fromError := status.Convert(err)
-		response.JSON(newCtx, consts.StatusOK, utils.H{
-			"code": code.ConvertToHttp(fromError.Code()),
-			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
-		})
-		return
-	}
-	response.JSON(newCtx, consts.StatusOK, utils.H{
-		"code": res.GetCode(),
-		"msg":  res.GetMsg(),
 	})
 }

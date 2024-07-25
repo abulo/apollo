@@ -13,7 +13,7 @@
       :row-config="{ height: 45, isHover: true, keyField: 'id', useKey: true }"
       :tree-config="{ transform: true, iconOpen: 'vxe-icon-arrow-down', iconClose: 'vxe-icon-arrow-right', reserve: true }"
       :scroll-y="{ enabled: true }"
-      height="600"
+      height="85%"
       :search-col="12">
       <!-- 表格 header 按钮 -->
       <template #tableHeader>

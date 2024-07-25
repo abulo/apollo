@@ -8,6 +8,8 @@ import (
 	"google.golang.org/protobuf/types/known/timestamppb"
 )
 
+// system_role 系统角色
+
 // SystemRoleDao 数据转换
 func SystemRoleDao(item *SystemRoleObject) *dao.SystemRole {
 	daoItem := &dao.SystemRole{}
@@ -23,6 +25,12 @@ func SystemRoleDao(item *SystemRoleObject) *dao.SystemRole {
 	}
 	if item != nil && item.Sort != nil {
 		daoItem.Sort = item.Sort // 显示顺序
+	}
+	if item != nil && item.DataScope != nil {
+		daoItem.DataScope = item.DataScope // 数据范围（1：全部数据权限 2：自定数据权限 3：本部门数据权限 4：本部门及以下数据权限）
+	}
+	if item != nil && item.DataScopeDept != nil {
+		daoItem.DataScopeDept = null.JSONFrom(item.GetDataScopeDept()) // 数据范围(指定部门数组)
 	}
 	if item != nil && item.Status != nil {
 		daoItem.Status = item.Status // 角色状态（0正常 1停用）
@@ -51,11 +59,8 @@ func SystemRoleDao(item *SystemRoleObject) *dao.SystemRole {
 	if item != nil && item.UpdateTime != nil {
 		daoItem.UpdateTime = null.DateTimeFrom(util.GrpcTime(item.UpdateTime)) // 更新时间
 	}
-	if item != nil && item.DataScopeDept != nil {
-		daoItem.DataScopeDept = null.JSONFrom(item.GetDataScopeDept()) // 数据范围(指定部门数组)
-	}
-	if item != nil && item.DataScope != nil {
-		daoItem.DataScope = item.DataScope // 数据范围（1：全部数据权限 2：自定数据权限 3：本部门数据权限 4：本
+	if item != nil && item.MenuIds != nil {
+		daoItem.MenuIds = null.JSONFrom(item.GetMenuIds()) // 菜单编号
 	}
 
 	return daoItem
@@ -75,6 +80,12 @@ func SystemRoleProto(item dao.SystemRole) *SystemRoleObject {
 	}
 	if item.Sort != nil {
 		res.Sort = item.Sort
+	}
+	if item.DataScope != nil {
+		res.DataScope = item.DataScope
+	}
+	if item.DataScopeDept.IsValid() {
+		res.DataScopeDept = *item.DataScopeDept.Ptr()
 	}
 	if item.Status != nil {
 		res.Status = item.Status
@@ -103,11 +114,8 @@ func SystemRoleProto(item dao.SystemRole) *SystemRoleObject {
 	if item.UpdateTime.IsValid() {
 		res.UpdateTime = timestamppb.New(*item.UpdateTime.Ptr())
 	}
-	if item.DataScopeDept.IsValid() {
-		res.DataScopeDept = *item.DataScopeDept.Ptr()
-	}
-	if item.DataScope != nil {
-		res.DataScope = item.DataScope
+	if item.MenuIds.IsValid() {
+		res.MenuIds = *item.MenuIds.Ptr()
 	}
 
 	return res

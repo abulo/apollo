@@ -26,8 +26,8 @@ func SystemDictDao(item *SystemDictObject) *dao.SystemDict {
 	if item != nil && item.Value != nil {
 		daoItem.Value = item.Value // 字典键值
 	}
-	if item != nil && item.DictType != nil {
-		daoItem.DictType = item.DictType // 字典类型
+	if item != nil && item.DictTypeId != nil {
+		daoItem.DictTypeId = item.DictTypeId // 字段类型 ID;
 	}
 	if item != nil && item.Status != nil {
 		daoItem.Status = item.Status // 状态（0正常 1停用）
@@ -53,7 +53,9 @@ func SystemDictDao(item *SystemDictObject) *dao.SystemDict {
 	if item != nil && item.UpdateTime != nil {
 		daoItem.UpdateTime = null.DateTimeFrom(util.GrpcTime(item.UpdateTime)) // 更新时间
 	}
-
+	if item != nil && item.DictType != nil {
+		daoItem.DictType = null.StringFrom(item.GetDictType())
+	}
 	return daoItem
 }
 
@@ -72,8 +74,8 @@ func SystemDictProto(item dao.SystemDict) *SystemDictObject {
 	if item.Value != nil {
 		res.Value = item.Value
 	}
-	if item.DictType != nil {
-		res.DictType = item.DictType
+	if item.DictTypeId != nil {
+		res.DictTypeId = item.DictTypeId
 	}
 	if item.Status != nil {
 		res.Status = item.Status
@@ -98,6 +100,10 @@ func SystemDictProto(item dao.SystemDict) *SystemDictObject {
 	}
 	if item.UpdateTime.IsValid() {
 		res.UpdateTime = timestamppb.New(*item.UpdateTime.Ptr())
+	}
+
+	if item.DictType.IsValid() {
+		res.DictType = item.DictType.Ptr()
 	}
 
 	return res

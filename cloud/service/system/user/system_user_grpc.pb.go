@@ -31,6 +31,7 @@ const (
 	SystemUserService_SystemUserListTotal_FullMethodName     = "/user.SystemUserService/SystemUserListTotal"
 	SystemUserService_SystemUserPassword_FullMethodName      = "/user.SystemUserService/SystemUserPassword"
 	SystemUserService_SystemUserRoleDataScope_FullMethodName = "/user.SystemUserService/SystemUserRoleDataScope"
+	SystemUserService_SystemRoleDrop_FullMethodName          = "/user.SystemUserService/SystemRoleDrop"
 )
 
 // SystemUserServiceClient is the client API for SystemUserService service.
@@ -49,6 +50,7 @@ type SystemUserServiceClient interface {
 	SystemUserListTotal(ctx context.Context, in *SystemUserListTotalRequest, opts ...grpc.CallOption) (*SystemUserTotalResponse, error)
 	SystemUserPassword(ctx context.Context, in *SystemUserPasswordRequest, opts ...grpc.CallOption) (*SystemUserPasswordResponse, error)
 	SystemUserRoleDataScope(ctx context.Context, in *SystemUserRoleDataScopeRequest, opts ...grpc.CallOption) (*SystemUserRoleDataScopeResponse, error)
+	SystemRoleDrop(ctx context.Context, in *SystemUserDropRequest, opts ...grpc.CallOption) (*SystemUserDropResponse, error)
 }
 
 type systemUserServiceClient struct {
@@ -159,6 +161,16 @@ func (c *systemUserServiceClient) SystemUserRoleDataScope(ctx context.Context, i
 	return out, nil
 }
 
+func (c *systemUserServiceClient) SystemRoleDrop(ctx context.Context, in *SystemUserDropRequest, opts ...grpc.CallOption) (*SystemUserDropResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(SystemUserDropResponse)
+	err := c.cc.Invoke(ctx, SystemUserService_SystemRoleDrop_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // SystemUserServiceServer is the server API for SystemUserService service.
 // All implementations must embed UnimplementedSystemUserServiceServer
 // for forward compatibility
@@ -175,6 +187,7 @@ type SystemUserServiceServer interface {
 	SystemUserListTotal(context.Context, *SystemUserListTotalRequest) (*SystemUserTotalResponse, error)
 	SystemUserPassword(context.Context, *SystemUserPasswordRequest) (*SystemUserPasswordResponse, error)
 	SystemUserRoleDataScope(context.Context, *SystemUserRoleDataScopeRequest) (*SystemUserRoleDataScopeResponse, error)
+	SystemRoleDrop(context.Context, *SystemUserDropRequest) (*SystemUserDropResponse, error)
 	mustEmbedUnimplementedSystemUserServiceServer()
 }
 
@@ -211,6 +224,9 @@ func (UnimplementedSystemUserServiceServer) SystemUserPassword(context.Context, 
 }
 func (UnimplementedSystemUserServiceServer) SystemUserRoleDataScope(context.Context, *SystemUserRoleDataScopeRequest) (*SystemUserRoleDataScopeResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SystemUserRoleDataScope not implemented")
+}
+func (UnimplementedSystemUserServiceServer) SystemRoleDrop(context.Context, *SystemUserDropRequest) (*SystemUserDropResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SystemRoleDrop not implemented")
 }
 func (UnimplementedSystemUserServiceServer) mustEmbedUnimplementedSystemUserServiceServer() {}
 
@@ -405,6 +421,24 @@ func _SystemUserService_SystemUserRoleDataScope_Handler(srv interface{}, ctx con
 	return interceptor(ctx, in, info, handler)
 }
 
+func _SystemUserService_SystemRoleDrop_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SystemUserDropRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SystemUserServiceServer).SystemRoleDrop(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: SystemUserService_SystemRoleDrop_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SystemUserServiceServer).SystemRoleDrop(ctx, req.(*SystemUserDropRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // SystemUserService_ServiceDesc is the grpc.ServiceDesc for SystemUserService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -451,6 +485,10 @@ var SystemUserService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "SystemUserRoleDataScope",
 			Handler:    _SystemUserService_SystemUserRoleDataScope_Handler,
+		},
+		{
+			MethodName: "SystemRoleDrop",
+			Handler:    _SystemUserService_SystemRoleDrop_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

@@ -25,6 +25,32 @@ import (
 )
 
 // system_tenant 租户
+// SystemTenantItem 查询单条数据
+func SystemTenantItem(ctx context.Context, newCtx *app.RequestContext, id int64) (*tenant.SystemTenantResponse, error) {
+	//判断这个服务能不能链接
+	grpcClient, err := initial.Core.Client.LoadGrpc("grpc").Singleton()
+	if err != nil {
+		globalLogger.Logger.WithFields(logrus.Fields{
+			"err": err,
+		}).Error("Grpc:租户:system_tenant:SystemTenantItem")
+		return nil, status.Error(code.ConvertToGrpc(code.RPCError), code.StatusText(code.RPCError))
+	}
+	//链接服务
+	client := tenant.NewSystemTenantServiceClient(grpcClient)
+	request := &tenant.SystemTenantRequest{}
+	request.Id = id
+	// 执行服务
+	res, err := client.SystemTenant(ctx, request)
+	if err != nil {
+		globalLogger.Logger.WithFields(logrus.Fields{
+			"req": request,
+			"err": err,
+		}).Error("GrpcCall:租户:system_tenant:SystemTenantItem")
+		return nil, err
+	}
+	return res, nil
+}
+
 // SystemTenantCreate 创建数据
 func SystemTenantCreate(ctx context.Context, newCtx *app.RequestContext) {
 	//判断这个服务能不能链接
@@ -51,12 +77,10 @@ func SystemTenantCreate(ctx context.Context, newCtx *app.RequestContext) {
 		})
 		return
 	}
+	reqInfo.Id = nil
 	reqInfo.Deleted = proto.Int32(0)
 	reqInfo.Creator = null.StringFrom(newCtx.GetString("userName"))
 	reqInfo.CreateTime = null.DateTimeFrom(util.Now())
-	if reqInfo.Password != nil {
-		reqInfo.Password = proto.String(util.Md5(cast.ToString(reqInfo.Password)))
-	}
 	request.Data = tenant.SystemTenantProto(reqInfo)
 	// 执行服务
 	res, err := client.SystemTenantCreate(ctx, request)
@@ -80,6 +104,15 @@ func SystemTenantCreate(ctx context.Context, newCtx *app.RequestContext) {
 
 // SystemTenantUpdate 更新数据
 func SystemTenantUpdate(ctx context.Context, newCtx *app.RequestContext) {
+	id := cast.ToInt64(newCtx.Param("id"))
+	if _, err := SystemTenantItem(ctx, newCtx, id); err != nil {
+		fromError := status.Convert(err)
+		response.JSON(newCtx, consts.StatusOK, utils.H{
+			"code": code.ConvertToHttp(fromError.Code()),
+			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
+		})
+		return
+	}
 	//判断这个服务能不能链接
 	grpcClient, err := initial.Core.Client.LoadGrpc("grpc").Singleton()
 	if err != nil {
@@ -94,7 +127,6 @@ func SystemTenantUpdate(ctx context.Context, newCtx *app.RequestContext) {
 	}
 	//链接服务
 	client := tenant.NewSystemTenantServiceClient(grpcClient)
-	id := cast.ToInt64(newCtx.Param("id"))
 	request := &tenant.SystemTenantUpdateRequest{}
 	request.Id = id
 	// 数据绑定
@@ -109,6 +141,8 @@ func SystemTenantUpdate(ctx context.Context, newCtx *app.RequestContext) {
 	reqInfo.Id = nil
 	reqInfo.Updater = null.StringFrom(newCtx.GetString("userName"))
 	reqInfo.UpdateTime = null.DateTimeFrom(util.Now())
+	reqInfo.Creator = null.StringFromPtr(nil)
+	reqInfo.CreateTime = null.DateTimeFromPtr(nil)
 	request.Data = tenant.SystemTenantProto(reqInfo)
 	// 执行服务
 	res, err := client.SystemTenantUpdate(ctx, request)
@@ -132,6 +166,15 @@ func SystemTenantUpdate(ctx context.Context, newCtx *app.RequestContext) {
 
 // SystemTenantDelete 删除数据
 func SystemTenantDelete(ctx context.Context, newCtx *app.RequestContext) {
+	id := cast.ToInt64(newCtx.Param("id"))
+	if _, err := SystemTenantItem(ctx, newCtx, id); err != nil {
+		fromError := status.Convert(err)
+		response.JSON(newCtx, consts.StatusOK, utils.H{
+			"code": code.ConvertToHttp(fromError.Code()),
+			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
+		})
+		return
+	}
 	grpcClient, err := initial.Core.Client.LoadGrpc("grpc").Singleton()
 	if err != nil {
 		globalLogger.Logger.WithFields(logrus.Fields{
@@ -145,7 +188,6 @@ func SystemTenantDelete(ctx context.Context, newCtx *app.RequestContext) {
 	}
 	//链接服务
 	client := tenant.NewSystemTenantServiceClient(grpcClient)
-	id := cast.ToInt64(newCtx.Param("id"))
 	request := &tenant.SystemTenantDeleteRequest{}
 	request.Id = id
 	// 执行服务
@@ -170,30 +212,10 @@ func SystemTenantDelete(ctx context.Context, newCtx *app.RequestContext) {
 
 // SystemTenant 查询单条数据
 func SystemTenant(ctx context.Context, newCtx *app.RequestContext) {
-	//判断这个服务能不能链接
-	grpcClient, err := initial.Core.Client.LoadGrpc("grpc").Singleton()
-	if err != nil {
-		globalLogger.Logger.WithFields(logrus.Fields{
-			"err": err,
-		}).Error("Grpc:租户:system_tenant:SystemTenant")
-		response.JSON(newCtx, consts.StatusOK, utils.H{
-			"code": code.RPCError,
-			"msg":  code.StatusText(code.RPCError),
-		})
-		return
-	}
-	//链接服务
-	client := tenant.NewSystemTenantServiceClient(grpcClient)
 	id := cast.ToInt64(newCtx.Param("id"))
-	request := &tenant.SystemTenantRequest{}
-	request.Id = id
 	// 执行服务
-	res, err := client.SystemTenant(ctx, request)
+	res, err := SystemTenantItem(ctx, newCtx, id)
 	if err != nil {
-		globalLogger.Logger.WithFields(logrus.Fields{
-			"req": request,
-			"err": err,
-		}).Error("GrpcCall:租户:system_tenant:SystemTenant")
 		fromError := status.Convert(err)
 		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.ConvertToHttp(fromError.Code()),
@@ -204,12 +226,21 @@ func SystemTenant(ctx context.Context, newCtx *app.RequestContext) {
 	response.JSON(newCtx, consts.StatusOK, utils.H{
 		"code": res.GetCode(),
 		"msg":  res.GetMsg(),
-		"data": tenant.SystemTenantDao(res.GetData()),
+		"data": tenant.SystemTenantSafetyDao(res.GetData()),
 	})
 }
 
 // SystemTenantRecover 恢复数据
 func SystemTenantRecover(ctx context.Context, newCtx *app.RequestContext) {
+	id := cast.ToInt64(newCtx.Param("id"))
+	if _, err := SystemTenantItem(ctx, newCtx, id); err != nil {
+		fromError := status.Convert(err)
+		response.JSON(newCtx, consts.StatusOK, utils.H{
+			"code": code.ConvertToHttp(fromError.Code()),
+			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
+		})
+		return
+	}
 	grpcClient, err := initial.Core.Client.LoadGrpc("grpc").Singleton()
 	if err != nil {
 		globalLogger.Logger.WithFields(logrus.Fields{
@@ -223,7 +254,6 @@ func SystemTenantRecover(ctx context.Context, newCtx *app.RequestContext) {
 	}
 	//链接服务
 	client := tenant.NewSystemTenantServiceClient(grpcClient)
-	id := cast.ToInt64(newCtx.Param("id"))
 	request := &tenant.SystemTenantRecoverRequest{}
 	request.Id = id
 	// 执行服务
@@ -246,9 +276,50 @@ func SystemTenantRecover(ctx context.Context, newCtx *app.RequestContext) {
 	})
 }
 
-// SystemTenantList  精简列表数据
-func SystemTenantListSimple(ctx context.Context, newCtx *app.RequestContext) {
-	SystemTenantList(ctx, newCtx)
+// SystemTenantDrop 清理数据
+func SystemTenantDrop(ctx context.Context, newCtx *app.RequestContext) {
+	id := cast.ToInt64(newCtx.Param("id"))
+	if _, err := SystemTenantItem(ctx, newCtx, id); err != nil {
+		fromError := status.Convert(err)
+		response.JSON(newCtx, consts.StatusOK, utils.H{
+			"code": code.ConvertToHttp(fromError.Code()),
+			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
+		})
+		return
+	}
+	grpcClient, err := initial.Core.Client.LoadGrpc("grpc").Singleton()
+	if err != nil {
+		globalLogger.Logger.WithFields(logrus.Fields{
+			"err": err,
+		}).Error("Grpc:租户:system_tenant:SystemTenantDrop")
+		response.JSON(newCtx, consts.StatusOK, utils.H{
+			"code": code.RPCError,
+			"msg":  code.StatusText(code.RPCError),
+		})
+		return
+	}
+	//链接服务
+	client := tenant.NewSystemTenantServiceClient(grpcClient)
+	request := &tenant.SystemTenantDropRequest{}
+	request.Id = id
+	// 执行服务
+	res, err := client.SystemTenantDrop(ctx, request)
+	if err != nil {
+		globalLogger.Logger.WithFields(logrus.Fields{
+			"req": request,
+			"err": err,
+		}).Error("GrpcCall:租户:system_tenant:SystemTenantDrop")
+		fromError := status.Convert(err)
+		response.JSON(newCtx, consts.StatusOK, utils.H{
+			"code": code.ConvertToHttp(fromError.Code()),
+			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
+		})
+		return
+	}
+	response.JSON(newCtx, consts.StatusOK, utils.H{
+		"code": res.GetCode(),
+		"msg":  res.GetMsg(),
+	})
 }
 
 // SystemTenantList 列表数据
@@ -269,7 +340,6 @@ func SystemTenantList(ctx context.Context, newCtx *app.RequestContext) {
 	// 构造查询条件
 	request := &tenant.SystemTenantListRequest{}
 	requestTotal := &tenant.SystemTenantListTotalRequest{}
-
 	request.Deleted = proto.Int32(0)      // 删除状态
 	requestTotal.Deleted = proto.Int32(0) // 删除状态
 	if val, ok := newCtx.GetQuery("deleted"); ok {
@@ -278,13 +348,13 @@ func SystemTenantList(ctx context.Context, newCtx *app.RequestContext) {
 			requestTotal.Deleted = nil
 		}
 	}
-	if val, ok := newCtx.GetQuery("tenantPackageId"); ok {
-		request.TenantPackageId = proto.Int64(cast.ToInt64(val))      // 套餐编号
-		requestTotal.TenantPackageId = proto.Int64(cast.ToInt64(val)) // 套餐编号
-	}
 	if val, ok := newCtx.GetQuery("status"); ok {
 		request.Status = proto.Int32(cast.ToInt32(val))      // 状态（0正常 1停用）
 		requestTotal.Status = proto.Int32(cast.ToInt32(val)) // 状态（0正常 1停用）
+	}
+	if val, ok := newCtx.GetQuery("name"); ok {
+		request.Name = proto.String(val)      // 租户名称
+		requestTotal.Name = proto.String(val) // 租户名称
 	}
 	if val, ok := newCtx.GetQuery("beginExpireDate"); ok {
 		request.BeginExpireDate = timestamppb.New(cast.ToTimeInDefaultLocation(val, time.Local))      // 过期时间
@@ -293,6 +363,10 @@ func SystemTenantList(ctx context.Context, newCtx *app.RequestContext) {
 	if val, ok := newCtx.GetQuery("finishExpireDate"); ok {
 		request.FinishExpireDate = timestamppb.New(cast.ToTimeInDefaultLocation(val, time.Local))      // 过期时间
 		requestTotal.FinishExpireDate = timestamppb.New(cast.ToTimeInDefaultLocation(val, time.Local)) // 过期时间
+	}
+	if val, ok := newCtx.GetQuery("tenantPackageId"); ok {
+		request.TenantPackageId = proto.Int64(cast.ToInt64(val))      // 套餐编号
+		requestTotal.TenantPackageId = proto.Int64(cast.ToInt64(val)) // 套餐编号
 	}
 
 	// 执行服务,获取数据量
@@ -335,7 +409,7 @@ func SystemTenantList(ctx context.Context, newCtx *app.RequestContext) {
 	if res.GetCode() == code.Success {
 		rpcList := res.GetData()
 		for _, item := range rpcList {
-			list = append(list, tenant.SystemTenantDao(item))
+			list = append(list, tenant.SystemTenantSafetyDao(item))
 		}
 	}
 	response.JSON(newCtx, consts.StatusOK, utils.H{
@@ -348,4 +422,9 @@ func SystemTenantList(ctx context.Context, newCtx *app.RequestContext) {
 			"pageSize": paginationRequest.PageSize,
 		},
 	})
+}
+
+// SystemTenantList  精简列表数据
+func SystemTenantListSimple(ctx context.Context, newCtx *app.RequestContext) {
+	SystemTenantList(ctx, newCtx)
 }

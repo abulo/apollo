@@ -25,20 +25,18 @@ import (
 )
 
 // system_notify_message 站内信消息表
-
 // SystemNotifyMessageItem 查询单条数据
-func SystemNotifyMessageItem(ctx context.Context, newCtx *app.RequestContext) (*notify.SystemNotifyMessageResponse, error) {
+func SystemNotifyMessageItem(ctx context.Context, newCtx *app.RequestContext, id int64) (*notify.SystemNotifyMessageResponse, error) {
 	//判断这个服务能不能链接
 	grpcClient, err := initial.Core.Client.LoadGrpc("grpc").Singleton()
 	if err != nil {
 		globalLogger.Logger.WithFields(logrus.Fields{
 			"err": err,
-		}).Error("Grpc:站内信消息表:system_notify_message:SystemNotifyMessage")
+		}).Error("Grpc:站内信消息表:system_notify_message:SystemNotifyMessageItem")
 		return nil, status.Error(code.ConvertToGrpc(code.RPCError), code.StatusText(code.RPCError))
 	}
 	//链接服务
 	client := notify.NewSystemNotifyMessageServiceClient(grpcClient)
-	id := cast.ToInt64(newCtx.Param("id"))
 	request := &notify.SystemNotifyMessageRequest{}
 	request.Id = id
 	// 执行服务
@@ -47,7 +45,7 @@ func SystemNotifyMessageItem(ctx context.Context, newCtx *app.RequestContext) (*
 		globalLogger.Logger.WithFields(logrus.Fields{
 			"req": request,
 			"err": err,
-		}).Error("GrpcCall:站内信消息表:system_notify_message:SystemNotifyMessage")
+		}).Error("GrpcCall:站内信消息表:system_notify_message:SystemNotifyMessageItem")
 		return nil, err
 	}
 	tenantId := cast.ToInt64(newCtx.GetInt64("tenantId"))
@@ -84,6 +82,7 @@ func SystemNotifyMessageCreate(ctx context.Context, newCtx *app.RequestContext) 
 		})
 		return
 	}
+	reqInfo.Id = nil
 	reqInfo.Deleted = proto.Int32(0)
 	reqInfo.TenantId = proto.Int64(newCtx.GetInt64("tenantId")) // 租户
 	reqInfo.Creator = null.StringFrom(newCtx.GetString("userName"))
@@ -111,7 +110,8 @@ func SystemNotifyMessageCreate(ctx context.Context, newCtx *app.RequestContext) 
 
 // SystemNotifyMessageUpdate 更新数据
 func SystemNotifyMessageUpdate(ctx context.Context, newCtx *app.RequestContext) {
-	if _, err := SystemNotifyMessageItem(ctx, newCtx); err != nil {
+	id := cast.ToInt64(newCtx.Param("id"))
+	if _, err := SystemNotifyMessageItem(ctx, newCtx, id); err != nil {
 		fromError := status.Convert(err)
 		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.ConvertToHttp(fromError.Code()),
@@ -133,7 +133,6 @@ func SystemNotifyMessageUpdate(ctx context.Context, newCtx *app.RequestContext) 
 	}
 	//链接服务
 	client := notify.NewSystemNotifyMessageServiceClient(grpcClient)
-	id := cast.ToInt64(newCtx.Param("id"))
 	request := &notify.SystemNotifyMessageUpdateRequest{}
 	request.Id = id
 	// 数据绑定
@@ -174,7 +173,8 @@ func SystemNotifyMessageUpdate(ctx context.Context, newCtx *app.RequestContext) 
 
 // SystemNotifyMessageDelete 删除数据
 func SystemNotifyMessageDelete(ctx context.Context, newCtx *app.RequestContext) {
-	if _, err := SystemNotifyMessageItem(ctx, newCtx); err != nil {
+	id := cast.ToInt64(newCtx.Param("id"))
+	if _, err := SystemNotifyMessageItem(ctx, newCtx, id); err != nil {
 		fromError := status.Convert(err)
 		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.ConvertToHttp(fromError.Code()),
@@ -195,7 +195,6 @@ func SystemNotifyMessageDelete(ctx context.Context, newCtx *app.RequestContext) 
 	}
 	//链接服务
 	client := notify.NewSystemNotifyMessageServiceClient(grpcClient)
-	id := cast.ToInt64(newCtx.Param("id"))
 	request := &notify.SystemNotifyMessageDeleteRequest{}
 	request.Id = id
 	// 执行服务
@@ -220,7 +219,9 @@ func SystemNotifyMessageDelete(ctx context.Context, newCtx *app.RequestContext) 
 
 // SystemNotifyMessage 查询单条数据
 func SystemNotifyMessage(ctx context.Context, newCtx *app.RequestContext) {
-	res, err := SystemNotifyMessageItem(ctx, newCtx)
+	id := cast.ToInt64(newCtx.Param("id"))
+	// 执行服务
+	res, err := SystemNotifyMessageItem(ctx, newCtx, id)
 	if err != nil {
 		fromError := status.Convert(err)
 		response.JSON(newCtx, consts.StatusOK, utils.H{
@@ -238,7 +239,8 @@ func SystemNotifyMessage(ctx context.Context, newCtx *app.RequestContext) {
 
 // SystemNotifyMessageRecover 恢复数据
 func SystemNotifyMessageRecover(ctx context.Context, newCtx *app.RequestContext) {
-	if _, err := SystemNotifyMessageItem(ctx, newCtx); err != nil {
+	id := cast.ToInt64(newCtx.Param("id"))
+	if _, err := SystemNotifyMessageItem(ctx, newCtx, id); err != nil {
 		fromError := status.Convert(err)
 		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.ConvertToHttp(fromError.Code()),
@@ -259,7 +261,6 @@ func SystemNotifyMessageRecover(ctx context.Context, newCtx *app.RequestContext)
 	}
 	//链接服务
 	client := notify.NewSystemNotifyMessageServiceClient(grpcClient)
-	id := cast.ToInt64(newCtx.Param("id"))
 	request := &notify.SystemNotifyMessageRecoverRequest{}
 	request.Id = id
 	// 执行服务
@@ -269,6 +270,52 @@ func SystemNotifyMessageRecover(ctx context.Context, newCtx *app.RequestContext)
 			"req": request,
 			"err": err,
 		}).Error("GrpcCall:站内信消息表:system_notify_message:SystemNotifyMessageRecover")
+		fromError := status.Convert(err)
+		response.JSON(newCtx, consts.StatusOK, utils.H{
+			"code": code.ConvertToHttp(fromError.Code()),
+			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
+		})
+		return
+	}
+	response.JSON(newCtx, consts.StatusOK, utils.H{
+		"code": res.GetCode(),
+		"msg":  res.GetMsg(),
+	})
+}
+
+// SystemNotifyMessageDrop 清理数据
+func SystemNotifyMessageDrop(ctx context.Context, newCtx *app.RequestContext) {
+	id := cast.ToInt64(newCtx.Param("id"))
+	if _, err := SystemNotifyMessageItem(ctx, newCtx, id); err != nil {
+		fromError := status.Convert(err)
+		response.JSON(newCtx, consts.StatusOK, utils.H{
+			"code": code.ConvertToHttp(fromError.Code()),
+			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
+		})
+		return
+	}
+	grpcClient, err := initial.Core.Client.LoadGrpc("grpc").Singleton()
+	if err != nil {
+		globalLogger.Logger.WithFields(logrus.Fields{
+			"err": err,
+		}).Error("Grpc:站内信消息表:system_notify_message:SystemNotifyMessageDrop")
+		response.JSON(newCtx, consts.StatusOK, utils.H{
+			"code": code.RPCError,
+			"msg":  code.StatusText(code.RPCError),
+		})
+		return
+	}
+	//链接服务
+	client := notify.NewSystemNotifyMessageServiceClient(grpcClient)
+	request := &notify.SystemNotifyMessageDropRequest{}
+	request.Id = id
+	// 执行服务
+	res, err := client.SystemNotifyMessageDrop(ctx, request)
+	if err != nil {
+		globalLogger.Logger.WithFields(logrus.Fields{
+			"req": request,
+			"err": err,
+		}).Error("GrpcCall:站内信消息表:system_notify_message:SystemNotifyMessageDrop")
 		fromError := status.Convert(err)
 		response.JSON(newCtx, consts.StatusOK, utils.H{
 			"code": code.ConvertToHttp(fromError.Code()),
@@ -300,6 +347,7 @@ func SystemNotifyMessageList(ctx context.Context, newCtx *app.RequestContext) {
 	// 构造查询条件
 	request := &notify.SystemNotifyMessageListRequest{}
 	requestTotal := &notify.SystemNotifyMessageListTotalRequest{}
+
 	request.TenantId = proto.Int64(newCtx.GetInt64("tenantId"))      // 租户ID
 	requestTotal.TenantId = proto.Int64(newCtx.GetInt64("tenantId")) // 租户ID
 	request.Deleted = proto.Int32(0)                                 // 删除状态
@@ -379,5 +427,149 @@ func SystemNotifyMessageList(ctx context.Context, newCtx *app.RequestContext) {
 			"pageNum":  paginationRequest.PageNum,
 			"pageSize": paginationRequest.PageSize,
 		},
+	})
+}
+
+// SystemNotifyMessageMultipleDelete 批量删除数据
+func SystemNotifyMessageMultipleDelete(ctx context.Context, newCtx *app.RequestContext) {
+	var reqInfo dao.SystemNotifyMessageMultiple
+	if err := newCtx.BindAndValidate(&reqInfo); err != nil {
+		response.JSON(newCtx, consts.StatusOK, utils.H{
+			"code": code.ParamInvalid,
+			"msg":  code.StatusText(code.ParamInvalid),
+		})
+		return
+	}
+	grpcClient, err := initial.Core.Client.LoadGrpc("grpc").Singleton()
+	if err != nil {
+		globalLogger.Logger.WithFields(logrus.Fields{
+			"err": err,
+		}).Error("Grpc:站内信消息表:system_notify_message:SystemNotifyMessageDrop")
+		response.JSON(newCtx, consts.StatusOK, utils.H{
+			"code": code.RPCError,
+			"msg":  code.StatusText(code.RPCError),
+		})
+		return
+	}
+	//链接服务
+	client := notify.NewSystemNotifyMessageServiceClient(grpcClient)
+	request := &notify.SystemNotifyMessageMultipleRequest{}
+	request.TenantId = proto.Int64(newCtx.GetInt64("tenantId")) // 租户
+	if reqInfo.Ids.IsValid() {
+		request.Ids = *reqInfo.Ids.Ptr()
+	}
+	// 执行服务
+	res, err := client.SystemNotifyMessageMultipleDelete(ctx, request)
+	if err != nil {
+		globalLogger.Logger.WithFields(logrus.Fields{
+			"req": request,
+			"err": err,
+		}).Error("GrpcCall:站内信消息表:system_notify_message:SystemNotifyMessageMultipleDelete")
+		fromError := status.Convert(err)
+		response.JSON(newCtx, consts.StatusOK, utils.H{
+			"code": code.ConvertToHttp(fromError.Code()),
+			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
+		})
+		return
+	}
+	response.JSON(newCtx, consts.StatusOK, utils.H{
+		"code": res.GetCode(),
+		"msg":  res.GetMsg(),
+	})
+}
+
+// SystemNotifyMessageMultipleRecover 批量恢复数据
+func SystemNotifyMessageMultipleRecover(ctx context.Context, newCtx *app.RequestContext) {
+	var reqInfo dao.SystemNotifyMessageMultiple
+	if err := newCtx.BindAndValidate(&reqInfo); err != nil {
+		response.JSON(newCtx, consts.StatusOK, utils.H{
+			"code": code.ParamInvalid,
+			"msg":  code.StatusText(code.ParamInvalid),
+		})
+		return
+	}
+	grpcClient, err := initial.Core.Client.LoadGrpc("grpc").Singleton()
+	if err != nil {
+		globalLogger.Logger.WithFields(logrus.Fields{
+			"err": err,
+		}).Error("Grpc:站内信消息表:system_notify_message:SystemNotifyMessageDrop")
+		response.JSON(newCtx, consts.StatusOK, utils.H{
+			"code": code.RPCError,
+			"msg":  code.StatusText(code.RPCError),
+		})
+		return
+	}
+	//链接服务
+	client := notify.NewSystemNotifyMessageServiceClient(grpcClient)
+	request := &notify.SystemNotifyMessageMultipleRequest{}
+	request.TenantId = proto.Int64(newCtx.GetInt64("tenantId")) // 租户
+	if reqInfo.Ids.IsValid() {
+		request.Ids = *reqInfo.Ids.Ptr()
+	}
+	// 执行服务
+	res, err := client.SystemNotifyMessageMultipleRecover(ctx, request)
+	if err != nil {
+		globalLogger.Logger.WithFields(logrus.Fields{
+			"req": request,
+			"err": err,
+		}).Error("GrpcCall:站内信消息表:system_notify_message:SystemNotifyMessageMultipleRecover")
+		fromError := status.Convert(err)
+		response.JSON(newCtx, consts.StatusOK, utils.H{
+			"code": code.ConvertToHttp(fromError.Code()),
+			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
+		})
+		return
+	}
+	response.JSON(newCtx, consts.StatusOK, utils.H{
+		"code": res.GetCode(),
+		"msg":  res.GetMsg(),
+	})
+}
+
+// SystemNotifyMessageMultipleDrop 批量清理数据
+func SystemNotifyMessageMultipleDrop(ctx context.Context, newCtx *app.RequestContext) {
+	var reqInfo dao.SystemNotifyMessageMultiple
+	if err := newCtx.BindAndValidate(&reqInfo); err != nil {
+		response.JSON(newCtx, consts.StatusOK, utils.H{
+			"code": code.ParamInvalid,
+			"msg":  code.StatusText(code.ParamInvalid),
+		})
+		return
+	}
+	grpcClient, err := initial.Core.Client.LoadGrpc("grpc").Singleton()
+	if err != nil {
+		globalLogger.Logger.WithFields(logrus.Fields{
+			"err": err,
+		}).Error("Grpc:站内信消息表:system_notify_message:SystemNotifyMessageDrop")
+		response.JSON(newCtx, consts.StatusOK, utils.H{
+			"code": code.RPCError,
+			"msg":  code.StatusText(code.RPCError),
+		})
+		return
+	}
+	//链接服务
+	client := notify.NewSystemNotifyMessageServiceClient(grpcClient)
+	request := &notify.SystemNotifyMessageMultipleRequest{}
+	request.TenantId = proto.Int64(newCtx.GetInt64("tenantId")) // 租户
+	if reqInfo.Ids.IsValid() {
+		request.Ids = *reqInfo.Ids.Ptr()
+	}
+	// 执行服务
+	res, err := client.SystemNotifyMessageMultipleDrop(ctx, request)
+	if err != nil {
+		globalLogger.Logger.WithFields(logrus.Fields{
+			"req": request,
+			"err": err,
+		}).Error("GrpcCall:站内信消息表:system_notify_message:SystemNotifyMessageMultipleDrop")
+		fromError := status.Convert(err)
+		response.JSON(newCtx, consts.StatusOK, utils.H{
+			"code": code.ConvertToHttp(fromError.Code()),
+			"msg":  code.StatusText(code.ConvertToHttp(fromError.Code())),
+		})
+		return
+	}
+	response.JSON(newCtx, consts.StatusOK, utils.H{
+		"code": res.GetCode(),
+		"msg":  res.GetMsg(),
 	})
 }

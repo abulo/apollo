@@ -21,14 +21,17 @@ import (
 const _ = grpc.SupportPackageIsVersion8
 
 const (
-	SystemOperateLogService_SystemOperateLogCreate_FullMethodName    = "/logger.SystemOperateLogService/SystemOperateLogCreate"
-	SystemOperateLogService_SystemOperateLogUpdate_FullMethodName    = "/logger.SystemOperateLogService/SystemOperateLogUpdate"
-	SystemOperateLogService_SystemOperateLogDelete_FullMethodName    = "/logger.SystemOperateLogService/SystemOperateLogDelete"
-	SystemOperateLogService_SystemOperateLogDrop_FullMethodName      = "/logger.SystemOperateLogService/SystemOperateLogDrop"
-	SystemOperateLogService_SystemOperateLog_FullMethodName          = "/logger.SystemOperateLogService/SystemOperateLog"
-	SystemOperateLogService_SystemOperateLogRecover_FullMethodName   = "/logger.SystemOperateLogService/SystemOperateLogRecover"
-	SystemOperateLogService_SystemOperateLogList_FullMethodName      = "/logger.SystemOperateLogService/SystemOperateLogList"
-	SystemOperateLogService_SystemOperateLogListTotal_FullMethodName = "/logger.SystemOperateLogService/SystemOperateLogListTotal"
+	SystemOperateLogService_SystemOperateLogCreate_FullMethodName          = "/logger.SystemOperateLogService/SystemOperateLogCreate"
+	SystemOperateLogService_SystemOperateLogUpdate_FullMethodName          = "/logger.SystemOperateLogService/SystemOperateLogUpdate"
+	SystemOperateLogService_SystemOperateLogDelete_FullMethodName          = "/logger.SystemOperateLogService/SystemOperateLogDelete"
+	SystemOperateLogService_SystemOperateLog_FullMethodName                = "/logger.SystemOperateLogService/SystemOperateLog"
+	SystemOperateLogService_SystemOperateLogRecover_FullMethodName         = "/logger.SystemOperateLogService/SystemOperateLogRecover"
+	SystemOperateLogService_SystemOperateLogDrop_FullMethodName            = "/logger.SystemOperateLogService/SystemOperateLogDrop"
+	SystemOperateLogService_SystemOperateLogList_FullMethodName            = "/logger.SystemOperateLogService/SystemOperateLogList"
+	SystemOperateLogService_SystemOperateLogListTotal_FullMethodName       = "/logger.SystemOperateLogService/SystemOperateLogListTotal"
+	SystemOperateLogService_SystemOperateLogMultipleDelete_FullMethodName  = "/logger.SystemOperateLogService/SystemOperateLogMultipleDelete"
+	SystemOperateLogService_SystemOperateLogMultipleRecover_FullMethodName = "/logger.SystemOperateLogService/SystemOperateLogMultipleRecover"
+	SystemOperateLogService_SystemOperateLogMultipleDrop_FullMethodName    = "/logger.SystemOperateLogService/SystemOperateLogMultipleDrop"
 )
 
 // SystemOperateLogServiceClient is the client API for SystemOperateLogService service.
@@ -40,11 +43,14 @@ type SystemOperateLogServiceClient interface {
 	SystemOperateLogCreate(ctx context.Context, in *SystemOperateLogCreateRequest, opts ...grpc.CallOption) (*SystemOperateLogCreateResponse, error)
 	SystemOperateLogUpdate(ctx context.Context, in *SystemOperateLogUpdateRequest, opts ...grpc.CallOption) (*SystemOperateLogUpdateResponse, error)
 	SystemOperateLogDelete(ctx context.Context, in *SystemOperateLogDeleteRequest, opts ...grpc.CallOption) (*SystemOperateLogDeleteResponse, error)
-	SystemOperateLogDrop(ctx context.Context, in *SystemOperateLogDropRequest, opts ...grpc.CallOption) (*SystemOperateLogDropResponse, error)
 	SystemOperateLog(ctx context.Context, in *SystemOperateLogRequest, opts ...grpc.CallOption) (*SystemOperateLogResponse, error)
 	SystemOperateLogRecover(ctx context.Context, in *SystemOperateLogRecoverRequest, opts ...grpc.CallOption) (*SystemOperateLogRecoverResponse, error)
+	SystemOperateLogDrop(ctx context.Context, in *SystemOperateLogDropRequest, opts ...grpc.CallOption) (*SystemOperateLogDropResponse, error)
 	SystemOperateLogList(ctx context.Context, in *SystemOperateLogListRequest, opts ...grpc.CallOption) (*SystemOperateLogListResponse, error)
 	SystemOperateLogListTotal(ctx context.Context, in *SystemOperateLogListTotalRequest, opts ...grpc.CallOption) (*SystemOperateLogTotalResponse, error)
+	SystemOperateLogMultipleDelete(ctx context.Context, in *SystemOperateLogMultipleRequest, opts ...grpc.CallOption) (*SystemOperateLogMultipleResponse, error)
+	SystemOperateLogMultipleRecover(ctx context.Context, in *SystemOperateLogMultipleRequest, opts ...grpc.CallOption) (*SystemOperateLogMultipleResponse, error)
+	SystemOperateLogMultipleDrop(ctx context.Context, in *SystemOperateLogMultipleRequest, opts ...grpc.CallOption) (*SystemOperateLogMultipleResponse, error)
 }
 
 type systemOperateLogServiceClient struct {
@@ -85,16 +91,6 @@ func (c *systemOperateLogServiceClient) SystemOperateLogDelete(ctx context.Conte
 	return out, nil
 }
 
-func (c *systemOperateLogServiceClient) SystemOperateLogDrop(ctx context.Context, in *SystemOperateLogDropRequest, opts ...grpc.CallOption) (*SystemOperateLogDropResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(SystemOperateLogDropResponse)
-	err := c.cc.Invoke(ctx, SystemOperateLogService_SystemOperateLogDrop_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 func (c *systemOperateLogServiceClient) SystemOperateLog(ctx context.Context, in *SystemOperateLogRequest, opts ...grpc.CallOption) (*SystemOperateLogResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(SystemOperateLogResponse)
@@ -109,6 +105,16 @@ func (c *systemOperateLogServiceClient) SystemOperateLogRecover(ctx context.Cont
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(SystemOperateLogRecoverResponse)
 	err := c.cc.Invoke(ctx, SystemOperateLogService_SystemOperateLogRecover_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *systemOperateLogServiceClient) SystemOperateLogDrop(ctx context.Context, in *SystemOperateLogDropRequest, opts ...grpc.CallOption) (*SystemOperateLogDropResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(SystemOperateLogDropResponse)
+	err := c.cc.Invoke(ctx, SystemOperateLogService_SystemOperateLogDrop_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -135,6 +141,36 @@ func (c *systemOperateLogServiceClient) SystemOperateLogListTotal(ctx context.Co
 	return out, nil
 }
 
+func (c *systemOperateLogServiceClient) SystemOperateLogMultipleDelete(ctx context.Context, in *SystemOperateLogMultipleRequest, opts ...grpc.CallOption) (*SystemOperateLogMultipleResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(SystemOperateLogMultipleResponse)
+	err := c.cc.Invoke(ctx, SystemOperateLogService_SystemOperateLogMultipleDelete_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *systemOperateLogServiceClient) SystemOperateLogMultipleRecover(ctx context.Context, in *SystemOperateLogMultipleRequest, opts ...grpc.CallOption) (*SystemOperateLogMultipleResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(SystemOperateLogMultipleResponse)
+	err := c.cc.Invoke(ctx, SystemOperateLogService_SystemOperateLogMultipleRecover_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *systemOperateLogServiceClient) SystemOperateLogMultipleDrop(ctx context.Context, in *SystemOperateLogMultipleRequest, opts ...grpc.CallOption) (*SystemOperateLogMultipleResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(SystemOperateLogMultipleResponse)
+	err := c.cc.Invoke(ctx, SystemOperateLogService_SystemOperateLogMultipleDrop_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // SystemOperateLogServiceServer is the server API for SystemOperateLogService service.
 // All implementations must embed UnimplementedSystemOperateLogServiceServer
 // for forward compatibility
@@ -144,11 +180,14 @@ type SystemOperateLogServiceServer interface {
 	SystemOperateLogCreate(context.Context, *SystemOperateLogCreateRequest) (*SystemOperateLogCreateResponse, error)
 	SystemOperateLogUpdate(context.Context, *SystemOperateLogUpdateRequest) (*SystemOperateLogUpdateResponse, error)
 	SystemOperateLogDelete(context.Context, *SystemOperateLogDeleteRequest) (*SystemOperateLogDeleteResponse, error)
-	SystemOperateLogDrop(context.Context, *SystemOperateLogDropRequest) (*SystemOperateLogDropResponse, error)
 	SystemOperateLog(context.Context, *SystemOperateLogRequest) (*SystemOperateLogResponse, error)
 	SystemOperateLogRecover(context.Context, *SystemOperateLogRecoverRequest) (*SystemOperateLogRecoverResponse, error)
+	SystemOperateLogDrop(context.Context, *SystemOperateLogDropRequest) (*SystemOperateLogDropResponse, error)
 	SystemOperateLogList(context.Context, *SystemOperateLogListRequest) (*SystemOperateLogListResponse, error)
 	SystemOperateLogListTotal(context.Context, *SystemOperateLogListTotalRequest) (*SystemOperateLogTotalResponse, error)
+	SystemOperateLogMultipleDelete(context.Context, *SystemOperateLogMultipleRequest) (*SystemOperateLogMultipleResponse, error)
+	SystemOperateLogMultipleRecover(context.Context, *SystemOperateLogMultipleRequest) (*SystemOperateLogMultipleResponse, error)
+	SystemOperateLogMultipleDrop(context.Context, *SystemOperateLogMultipleRequest) (*SystemOperateLogMultipleResponse, error)
 	mustEmbedUnimplementedSystemOperateLogServiceServer()
 }
 
@@ -165,20 +204,29 @@ func (UnimplementedSystemOperateLogServiceServer) SystemOperateLogUpdate(context
 func (UnimplementedSystemOperateLogServiceServer) SystemOperateLogDelete(context.Context, *SystemOperateLogDeleteRequest) (*SystemOperateLogDeleteResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SystemOperateLogDelete not implemented")
 }
-func (UnimplementedSystemOperateLogServiceServer) SystemOperateLogDrop(context.Context, *SystemOperateLogDropRequest) (*SystemOperateLogDropResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method SystemOperateLogDrop not implemented")
-}
 func (UnimplementedSystemOperateLogServiceServer) SystemOperateLog(context.Context, *SystemOperateLogRequest) (*SystemOperateLogResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SystemOperateLog not implemented")
 }
 func (UnimplementedSystemOperateLogServiceServer) SystemOperateLogRecover(context.Context, *SystemOperateLogRecoverRequest) (*SystemOperateLogRecoverResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SystemOperateLogRecover not implemented")
 }
+func (UnimplementedSystemOperateLogServiceServer) SystemOperateLogDrop(context.Context, *SystemOperateLogDropRequest) (*SystemOperateLogDropResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SystemOperateLogDrop not implemented")
+}
 func (UnimplementedSystemOperateLogServiceServer) SystemOperateLogList(context.Context, *SystemOperateLogListRequest) (*SystemOperateLogListResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SystemOperateLogList not implemented")
 }
 func (UnimplementedSystemOperateLogServiceServer) SystemOperateLogListTotal(context.Context, *SystemOperateLogListTotalRequest) (*SystemOperateLogTotalResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SystemOperateLogListTotal not implemented")
+}
+func (UnimplementedSystemOperateLogServiceServer) SystemOperateLogMultipleDelete(context.Context, *SystemOperateLogMultipleRequest) (*SystemOperateLogMultipleResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SystemOperateLogMultipleDelete not implemented")
+}
+func (UnimplementedSystemOperateLogServiceServer) SystemOperateLogMultipleRecover(context.Context, *SystemOperateLogMultipleRequest) (*SystemOperateLogMultipleResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SystemOperateLogMultipleRecover not implemented")
+}
+func (UnimplementedSystemOperateLogServiceServer) SystemOperateLogMultipleDrop(context.Context, *SystemOperateLogMultipleRequest) (*SystemOperateLogMultipleResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SystemOperateLogMultipleDrop not implemented")
 }
 func (UnimplementedSystemOperateLogServiceServer) mustEmbedUnimplementedSystemOperateLogServiceServer() {
 }
@@ -248,24 +296,6 @@ func _SystemOperateLogService_SystemOperateLogDelete_Handler(srv interface{}, ct
 	return interceptor(ctx, in, info, handler)
 }
 
-func _SystemOperateLogService_SystemOperateLogDrop_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(SystemOperateLogDropRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(SystemOperateLogServiceServer).SystemOperateLogDrop(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: SystemOperateLogService_SystemOperateLogDrop_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(SystemOperateLogServiceServer).SystemOperateLogDrop(ctx, req.(*SystemOperateLogDropRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 func _SystemOperateLogService_SystemOperateLog_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(SystemOperateLogRequest)
 	if err := dec(in); err != nil {
@@ -298,6 +328,24 @@ func _SystemOperateLogService_SystemOperateLogRecover_Handler(srv interface{}, c
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(SystemOperateLogServiceServer).SystemOperateLogRecover(ctx, req.(*SystemOperateLogRecoverRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _SystemOperateLogService_SystemOperateLogDrop_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SystemOperateLogDropRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SystemOperateLogServiceServer).SystemOperateLogDrop(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: SystemOperateLogService_SystemOperateLogDrop_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SystemOperateLogServiceServer).SystemOperateLogDrop(ctx, req.(*SystemOperateLogDropRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -338,6 +386,60 @@ func _SystemOperateLogService_SystemOperateLogListTotal_Handler(srv interface{},
 	return interceptor(ctx, in, info, handler)
 }
 
+func _SystemOperateLogService_SystemOperateLogMultipleDelete_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SystemOperateLogMultipleRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SystemOperateLogServiceServer).SystemOperateLogMultipleDelete(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: SystemOperateLogService_SystemOperateLogMultipleDelete_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SystemOperateLogServiceServer).SystemOperateLogMultipleDelete(ctx, req.(*SystemOperateLogMultipleRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _SystemOperateLogService_SystemOperateLogMultipleRecover_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SystemOperateLogMultipleRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SystemOperateLogServiceServer).SystemOperateLogMultipleRecover(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: SystemOperateLogService_SystemOperateLogMultipleRecover_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SystemOperateLogServiceServer).SystemOperateLogMultipleRecover(ctx, req.(*SystemOperateLogMultipleRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _SystemOperateLogService_SystemOperateLogMultipleDrop_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SystemOperateLogMultipleRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SystemOperateLogServiceServer).SystemOperateLogMultipleDrop(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: SystemOperateLogService_SystemOperateLogMultipleDrop_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SystemOperateLogServiceServer).SystemOperateLogMultipleDrop(ctx, req.(*SystemOperateLogMultipleRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // SystemOperateLogService_ServiceDesc is the grpc.ServiceDesc for SystemOperateLogService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -358,10 +460,6 @@ var SystemOperateLogService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _SystemOperateLogService_SystemOperateLogDelete_Handler,
 		},
 		{
-			MethodName: "SystemOperateLogDrop",
-			Handler:    _SystemOperateLogService_SystemOperateLogDrop_Handler,
-		},
-		{
 			MethodName: "SystemOperateLog",
 			Handler:    _SystemOperateLogService_SystemOperateLog_Handler,
 		},
@@ -370,12 +468,28 @@ var SystemOperateLogService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _SystemOperateLogService_SystemOperateLogRecover_Handler,
 		},
 		{
+			MethodName: "SystemOperateLogDrop",
+			Handler:    _SystemOperateLogService_SystemOperateLogDrop_Handler,
+		},
+		{
 			MethodName: "SystemOperateLogList",
 			Handler:    _SystemOperateLogService_SystemOperateLogList_Handler,
 		},
 		{
 			MethodName: "SystemOperateLogListTotal",
 			Handler:    _SystemOperateLogService_SystemOperateLogListTotal_Handler,
+		},
+		{
+			MethodName: "SystemOperateLogMultipleDelete",
+			Handler:    _SystemOperateLogService_SystemOperateLogMultipleDelete_Handler,
+		},
+		{
+			MethodName: "SystemOperateLogMultipleRecover",
+			Handler:    _SystemOperateLogService_SystemOperateLogMultipleRecover_Handler,
+		},
+		{
+			MethodName: "SystemOperateLogMultipleDrop",
+			Handler:    _SystemOperateLogService_SystemOperateLogMultipleDrop_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
